@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file is NOT compatible with Silverlight-->
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+  <Canvas Name="svg12" Canvas.Left="0" Canvas.Top="0" Width="1000" Height="1000">
+    <Canvas.RenderTransform>
+      <TranslateTransform X="0" Y="0"/>
+    </Canvas.RenderTransform>
+    <Canvas.Resources/>
+    <!--Unknown tag: sodipodi:namedview-->
+    <!--Unknown tag: metadata-->
+    <Canvas Name="g10">
+      <Canvas Name="g8">
+        <Canvas.RenderTransform>
+          <TransformGroup>
+            <ScaleTransform ScaleX="0.100000" ScaleY="-0.100000"/>
+            <TranslateTransform X="0.000000" Y="511.000000"/>
+          </TransformGroup>
+        </Canvas.RenderTransform>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}">
+          <Path.Data>
+            <PathGeometry Figures="M6256.9 4010.7c-112.7-9.2-209.3-23-216.2-29.9c-4.6-4.6-20.7-110.4-32.2-234.6s-36.8-271.4-57.5-326.6c-105.8-289.8-556.6-802.7-903.9-1025.8c-345-225.4-602.6-301.3-1104-333.5c-542.8-32.2-885.5-140.3-1262.7-393.3c-179.4-119.6-460-379.5-607.2-561.2c-82.8-101.2-287.5-420.9-303.6-471.5c-13.8-43.7-41.4-46-841.8-46H100l6.9-1821.6l6.9-1823.8l82.8-172.5c50.6-103.5 128.8-218.5 195.5-285.2c66.7-66.7 181.7-144.9 285.2-195.5l172.5-82.8l4070.9-6.9c3026.7-4.6 4103.1 0 4197.4 18.4c266.8 57.5 526.7 250.7 655.5 487.6c126.5 234.6 126.5 207 126.5 2118.2V588.5h-499.1h-501.4V1007c0 356.5-9.2 457.7-52.9 662.4c-158.7 703.8-453.1 1276.5-878.6 1704.2C7478.2 3865.9 6923.9 4072.8 6256.9 4010.7z M7048.1 2897.6c292.1-174.8 552-524.4 722.2-966c154.1-397.9 220.8-956.8 149.5-1242l-25.3-101.2h-2500l-2497.7 2.3l131.1 121.9c282.9 266.8 503.7 349.6 1053.4 393.3c439.3 36.8 690 92 1000.5 223.1c660.1 280.6 1311 871.7 1642.2 1490.4C6836.5 3031 6831.9 3028.7 7048.1 2897.6z M8934-1608v-1230.5H5001.2H1068.3V-1608v1230.5h3932.9H8934V-1608z" FillRule="NonZero"/>
+          </Path.Data>
+        </Path>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path6" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}">
+          <Path.Data>
+            <PathGeometry Figures="M2563.2-1849.5v-483h2437.9h2437.9v483v483H5001.2H2563.2V-1849.5z" FillRule="NonZero"/>
+          </Path.Data>
+        </Path>
+      </Canvas>
+    </Canvas>
+  </Canvas>
+</Viewbox>

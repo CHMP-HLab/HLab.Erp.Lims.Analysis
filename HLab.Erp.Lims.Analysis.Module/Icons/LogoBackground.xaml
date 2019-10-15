@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file is compatible with Silverlight-->
+<Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="svg3336" Width="59.829323" Height="61.346246">
+  <Canvas.RenderTransform>
+    <TranslateTransform X="0" Y="0"/>
+  </Canvas.RenderTransform>
+  <Canvas.Resources/>
+  <!--Unknown tag: metadata-->
+  <!--Unknown tag: sodipodi:namedview-->
+  <Canvas Name="g3344">
+    <Canvas.RenderTransform>
+      <MatrixTransform Matrix="1.25 0 0 -1.25 -10.076802 71.352497"/>
+    </Canvas.RenderTransform>
+    <Canvas Name="g4715">
+      <Canvas Name="g4717"/>
+      <Canvas Name="g4719">
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4721" Fill="#FFFFFFFF" Data="m 27.988281 10.15625 c -2.44894 -0.09131 -4.627656 0.680156 -6.535156 2.316406 -2.18 1.86875 -3.298672 4.260078 -3.357422 7.173828 -0.0575 2.9125 0.924063 5.546797 2.945313 7.904297 l 3.611328 4.208985 C 29.83454 26.732889 39.31478 25.873345 45.722075 32.863752 L 49.541012 29.662114 36.417965 14.361333 c -2.02125 -2.3575 -4.475782 -3.728281 -7.363281 -4.113281 -0.360938 -0.04828 -0.716558 -0.07875 -1.066403 -0.0918 z m 0.392015 25.798352 c 1.951834 2.300257 5.785724 6.895007 5.785724 6.895007 l 7.245982 -6.293657 C 37.921984 32.33014 31.921128 32.318684 28.380296 35.954602 Z">
+          <Path.RenderTransform>
+            <MatrixTransform Matrix="0.8 0 0 -0.8 0 65.2"/>
+          </Path.RenderTransform>
+        </Path>
+      </Canvas>
+    </Canvas>
+    <Canvas Name="g3538" Opacity="1">
+      <Canvas.RenderTransform>
+        <TranslateTransform X="-0.00180256" Y="0.00120008"/>
+      </Canvas.RenderTransform>
+      <Canvas Name="g3540"/>
+      <Canvas Name="g3546">
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path3552" Fill="#FFB0B0B0" Data="m 27.988281 10.15625 c -2.44894 -0.09131 -4.627656 0.680156 -6.535156 2.316406 -2.18 1.86875 -3.298672 4.260078 -3.357422 7.173828 -0.0575 2.9125 0.924063 5.546797 2.945313 7.904297 l 3.611328 4.208985 c 0.0074 -0.0071 0.01406 -0.01443 0.02148 -0.02148 0.566022 -0.537869 1.174002 -1.003799 1.798828 -1.43164 L 22.80859 26.033208 c -1.465 -1.70875 -2.153906 -3.673984 -2.066406 -5.896484 0.0875 -2.2225 0.942499 -4.027969 2.5625 -5.417969 1.621249 -1.39 3.53414 -1.958281 5.74414 -1.707031 2.21 0.25125 4.046719 1.232656 5.511719 2.941406 l 11.142578 12.990234 -2.21875 1.904297 c 0.548785 0.429608 1.082126 0.888417 1.576172 1.408203 0.220126 0.231596 0.415506 0.476631 0.617187 0.71875 l 3.863282 -3.3125 -13.123047 -15.300781 c -2.02125 -2.3575 -4.475782 -3.728281 -7.363281 -4.113281 -0.360938 -0.04828 -0.716558 -0.07875 -1.066403 -0.0918 z m 2.119141 24.386719 c -0.570971 0.336438 -1.116386 0.734946 -1.617188 1.210937 -0.07662 0.0728 -0.143352 0.15172 -0.216796 0.226563 l 5.892578 6.86914 7.3125 -6.271484 c -0.139394 -0.170349 -0.277599 -0.341776 -0.431641 -0.503906 -0.573708 -0.603612 -1.21624 -1.101501 -1.898437 -1.507813 l -5.197266 4.457032 z">
+          <Path.RenderTransform>
+            <MatrixTransform Matrix="0.8 0 0 -0.8 0 65.2"/>
+          </Path.RenderTransform>
+        </Path>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4727" Fill="#FF83A9DE" Data="m 46.402344 26.001953 c -0.743166 0.36645 -1.417472 0.84528 -2.011719 1.410156 l 1.3125 1.53125 -2.21875 1.904297 c 0.03842 0.03008 0.07502 0.06337 0.113281 0.09375 0.50914 0.401842 1.003196 0.830807 1.462891 1.314453 0.219551 0.230991 0.420036 0.473375 0.621094 0.714844 l 3.859375 -3.308594 z">
+          <Path.RenderTransform>
+            <MatrixTransform Matrix="0.8 0 0 -0.8 0 65.2"/>
+          </Path.RenderTransform>
+        </Path>
+      </Canvas>
+    </Canvas>
+    <Canvas Name="g3526">
+      <Canvas.RenderTransform>
+        <TranslateTransform X="46.5333" Y="38.5417"/>
+      </Canvas.RenderTransform>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path3528" Fill="#FF404040" Data="m 50.003906 25.160156 c -3.375969 0 -6.271382 2.048804 -7.513672 4.970703 0.916611 0.598445 1.784439 1.29818 2.570313 2.125 2.455028 2.582944 3.752251 5.849606 3.927734 9.160157 0.333669 0.04153 0.670691 0.07031 1.015625 0.07031 0.727155 0 1.428592 -0.104779 2.09961 -0.283203 -0.393924 -1.712661 -0.226367 -3.468074 0.558593 -5.058594 1.073396 -2.17725 3.076147 -3.647631 5.400391 -4.066406 -0.600759 -3.916144 -3.97533 -6.917969 -8.058594 -6.917969 z m 8.03125 9.585938 c -2.238822 0.653212 -3.814702 2.854828 -3.496094 5.363281 1.811459 -1.212693 3.103268 -3.132004 3.496094 -5.363281 z">
+        <Path.RenderTransform>
+          <MatrixTransform Matrix="0.8 0 0 -0.8 -46.5333 26.6583"/>
+        </Path.RenderTransform>
+      </Path>
+    </Canvas>
+    <Canvas Name="g3522">
+      <Canvas.RenderTransform>
+        <TranslateTransform X="53.1049" Y="48.5752"/>
+      </Canvas.RenderTransform>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path3524" Fill="#FF404040" Data="M 0 0 C 1.558 0 2.82 -1.262 2.82 -2.819 2.82 -4.377 1.558 -5.64 0 -5.64 c -1.557 0 -2.82 1.263 -2.82 2.821 C -2.82 -1.262 -1.557 0 0 0"/>
+    </Canvas>
+    <Canvas Name="g3530">
+      <Canvas.RenderTransform>
+        <TranslateTransform X="47.5317" Y="28.6492"/>
+      </Canvas.RenderTransform>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path3532" Fill="#FF404040" Data="m 59.416016 34.548828 c -3.8725 0 -6.702657 4.474688 -3.597657 8.523438 1.205 0.9175 2.447657 1.3125 3.597657 1.3125 3.86375 0 6.689921 -4.458125 3.607422 -8.515625 -1.20875 -0.9225 -2.454922 -1.320313 -3.607422 -1.320313 z">
+        <Path.RenderTransform>
+          <MatrixTransform Matrix="0.8 0 0 -0.8 -47.5317 36.5508"/>
+        </Path.RenderTransform>
+      </Path>
+    </Canvas>
+    <Canvas Name="g3534">
+      <Canvas.RenderTransform>
+        <TranslateTransform X="47.5321" Y="39.6461"/>
+      </Canvas.RenderTransform>
+    </Canvas>
+    <Canvas Name="g3554">
+      <Canvas.RenderTransform>
+        <TranslateTransform X="43.5386" Y="30.917"/>
+      </Canvas.RenderTransform>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path3556" Fill="#FF707070" Data="m 0 0 v -13.97 c 0 -2.484 -0.776 -4.595 -2.328 -6.334 -1.553 -1.738 -3.478 -2.608 -5.775 -2.608 -2.297 0 -4.222 0.87 -5.775 2.608 -1.552 1.739 -2.328 3.85 -2.328 6.334 V 0 Z"/>
+    </Canvas>
+    <Canvas Name="g3558">
+      <Canvas.RenderTransform>
+        <TranslateTransform X="22.1595" Y="26.1944"/>
+      </Canvas.RenderTransform>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path3560" Fill="#FF404040" Data="m 34.941406 29.082031 c -3.356376 -0.08533 -6.745392 1.108317 -9.36914 3.601563 -4.618121 4.388109 -5.328985 11.354402 -2.041016 16.535156 l 0.642578 1.009766 -1.199219 -0.0098 c -0.765263 -0.0072 -1.529615 0.267692 -2.130859 0.837891 l -9.8125 9.326171 c -1.2283487 1.167294 -1.2777588 3.089954 -0.109375 4.31836 0.583646 0.614175 1.358519 0.933196 2.138672 0.953125 0.780154 0.01993 1.565535 -0.258172 2.179687 -0.841797 l 9.8125 -9.324219 C 25.654993 54.916032 25.967973 54.166978 26 53.400391 l 0.04883 -1.199219 0.978516 0.693359 c 5.006833 3.547397 12.000206 3.190893 16.617187 -1.197265 5.246136 -4.98514 5.457076 -13.29679 0.470703 -18.542969 -2.493225 -2.623131 -5.817451 -3.986939 -9.173828 -4.072266 z m -0.07422 2.935547 c 2.608474 0.06638 5.192606 1.125088 7.125 3.158203 3.862335 4.065124 3.696467 10.53161 -0.367188 14.396485 -2.033117 1.931727 -4.667334 2.857158 -7.275391 2.791015 -2.608056 -0.06614 -5.190629 -1.123109 -7.123047 -3.15625 -3.864803 -4.066248 -3.701124 -10.534863 0.365235 -14.398437 2.033124 -1.932402 4.666916 -2.85739 7.275391 -2.791016 z">
+        <Path.RenderTransform>
+          <MatrixTransform Matrix="0.8 0 0 -0.8 -22.1595 39.0056"/>
+        </Path.RenderTransform>
+      </Path>
+    </Canvas>
+    <Canvas Name="g3562">
+      <Canvas.RenderTransform>
+        <TranslateTransform X="22.1595" Y="26.1944"/>
+      </Canvas.RenderTransform>
+    </Canvas>
+    <Canvas Name="g4698">
+      <Canvas.RenderTransform>
+        <TranslateTransform X="22.1595" Y="26.1944"/>
+      </Canvas.RenderTransform>
+    </Canvas>
+    <Canvas Name="g4723">
+      <Canvas.RenderTransform>
+        <TranslateTransform X="46.5333" Y="38.5417"/>
+      </Canvas.RenderTransform>
+    </Canvas>
+    <Canvas Name="g4741" Opacity="1">
+      <Canvas.RenderTransform>
+        <TranslateTransform X="46.5333" Y="38.5417"/>
+      </Canvas.RenderTransform>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4743" Fill="#FF606060" Data="m 46.402344 26.001953 c -0.743166 0.36645 -1.417472 0.84528 -2.011719 1.410156 l 1.3125 1.53125 -2.21875 1.904297 c 0.03842 0.03008 0.07502 0.06337 0.113281 0.09375 0.50914 0.401842 1.003196 0.830807 1.462891 1.314453 0.219551 0.230991 0.420036 0.473375 0.621094 0.714844 l 3.859375 -3.308594 z">
+        <Path.RenderTransform>
+          <MatrixTransform Matrix="0.8 0 0 -0.8 -46.5333 26.6583"/>
+        </Path.RenderTransform>
+      </Path>
+    </Canvas>
+  </Canvas>
+</Canvas>

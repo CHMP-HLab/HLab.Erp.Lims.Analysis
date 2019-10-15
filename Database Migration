@@ -1,0 +1,35 @@
+
+ALTER TABLE `pays`
+	CHANGE COLUMN `Nom` `Name` VARCHAR(255) NULL DEFAULT NULL AFTER `ContinentId`;
+RENAME TABLE `pays` TO `Country`;
+ALTER TABLE `Country`
+	ADD COLUMN `IsoA2` CHAR(2) NULL DEFAULT NULL AFTER `Name`,
+	ADD COLUMN `IsoA3` CHAR(3) NULL DEFAULT NULL AFTER `IsoA2`,
+	ADD COLUMN `Iso` SMALLINT UNSIGNED NULL DEFAULT '0' AFTER `IsoA3`,
+	ADD COLUMN `FlagSource` MEDIUMTEXT NULL DEFAULT NULL AFTER `Num`;
+
+
+
+ALTER TABLE `echantillon`
+	ADD COLUMN `ExpirationDayValid` TINYINT NULL DEFAULT 1 AFTER `ClientId`;
+UPDATE echantillon set ExpirationDayValid=0 where Day(DatePeremption)=0;
+UPDATE echantillon set DatePeremption=LAST_DAY(DatePeremption) where Day(DatePeremption)=0;
+
+UPDATE sample set ManufacturingDayValid=0 where Day(ManufacturingDate)=0;
+UPDATE sample set ManufacturingDate=DATE_SUB(ManufacturingDate, INTERVAL DAYOFMONTH(ManufacturingDate)-1 DAY) where Day(ManufacturingDate)=0;
+
+ALTER TABLE `testtype`
+	ADD COLUMN `Icon` VARCHAR(50) NULL DEFAULT NULL AFTER `Categorie`;
+
+
+CREATE TABLE `icon` (
+	`Id` INT(11) NOT NULL AUTO_INCREMENT,
+	`Name` VARCHAR(50) NULL DEFAULT NULL,
+	`Source` MEDIUMTEXT NULL,
+	`Format` VARCHAR(50) NULL DEFAULT NULL,
+	PRIMARY KEY (`Id`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+ROW_FORMAT=COMPRESSED
+;

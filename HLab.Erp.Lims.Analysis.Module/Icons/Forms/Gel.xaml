@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file is NOT compatible with Silverlight-->
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+  <Canvas Name="svg12" Canvas.Left="0" Canvas.Top="0" Width="1000" Height="1000">
+    <Canvas.RenderTransform>
+      <TranslateTransform X="0" Y="0"/>
+    </Canvas.RenderTransform>
+    <Canvas.Resources/>
+    <!--Unknown tag: sodipodi:namedview-->
+    <!--Unknown tag: metadata-->
+    <Canvas Name="g10">
+      <Canvas Name="g8">
+        <Canvas.RenderTransform>
+          <TransformGroup>
+            <ScaleTransform ScaleX="0.100000" ScaleY="-0.100000"/>
+            <TranslateTransform X="0.000000" Y="511.000000"/>
+          </TransformGroup>
+        </Canvas.RenderTransform>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}">
+          <Path.Data>
+            <PathGeometry Figures="M2078.6 4994.8c-72-23.3-154.6-95.3-194.9-173.7c-33.9-67.8-40.2-311.4-8.5-419.4c12.7-40.2 375-1626.9 807.1-3527c430-1898 788-3469.8 794.4-3488.9c10.6-36 101.7-38.1 1523.1-38.1c1421.4 0 1512.5 2.1 1523.1 38.1c6.3 19.1 364.3 1590.8 794.4 3488.9c432.1 1900.1 794.4 3486.8 807.1 3527c10.6 40.2 21.2 141.9 21.2 224.5c0 165.2-38.1 247.8-154.6 334.7l-59.3 44.5l-2895.8 4.2C3442.8 5011.7 2112.5 5005.4 2078.6 4994.8z M3254.3 3372.1c57.2-57.2 101.7-224.5 644-2419.1c319.9-1296.4 582.5-2385.2 582.5-2421.3c0-89-53-182.2-127.1-220.3c-135.6-69.9-326.2-14.8-377.1 108c-48.7 120.8-1169.3 4694.2-1169.3 4774.7c0 86.9 74.1 199.1 156.8 235.1C3046.7 3465.3 3188.6 3435.7 3254.3 3372.1z" FillRule="NonZero"/>
+          </Path.Data>
+        </Path>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path6" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}">
+          <Path.Data>
+            <PathGeometry Figures="M3536-2968c-131.3-78.4-135.6-114.4-135.6-885.4c0-764.7 4.2-788 133.5-883.3c59.3-44.5 82.6-44.5 1440.5-50.8c1542.1-6.3 1474.4-10.6 1576 141.9c48.7 72 48.7 78.4 48.7 790.1c0 792.2-2.1 807.1-133.5 885.5c-65.7 40.3-116.5 42.4-1465.9 42.4C3669.5-2927.8 3599.5-2929.9 3536-2968z" FillRule="NonZero"/>
+          </Path.Data>
+        </Path>
+      </Canvas>
+    </Canvas>
+  </Canvas>
+</Viewbox>

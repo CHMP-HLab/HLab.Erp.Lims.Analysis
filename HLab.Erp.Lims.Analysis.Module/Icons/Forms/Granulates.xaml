@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file is NOT compatible with Silverlight-->
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+  <Canvas Name="svg12" Canvas.Left="0" Canvas.Top="0" Width="1000" Height="1000">
+    <Canvas.RenderTransform>
+      <TranslateTransform X="0" Y="0"/>
+    </Canvas.RenderTransform>
+    <Canvas.Resources/>
+    <!--Unknown tag: sodipodi:namedview-->
+    <!--Unknown tag: metadata-->
+        <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="104.4" Width="196.2" Canvas.Top="46.1" Height="172.8" Name="path4498" Fill="#01323232" StrokeThickness="52.55876923" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}" StrokeMiterLimit="4" Opacity="1"/>
+        <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="505.4" Width="196.2" Canvas.Top="187.9" Height="172.8" Name="path44981" Fill="#01323232" StrokeThickness="52.55876923" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}" StrokeMiterLimit="4" Opacity="1"/>
+        <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="156.2" Width="196.2" Canvas.Top="324.3" Height="172.8" Name="path44985" Fill="#01323232" StrokeThickness="52.55876923" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}" StrokeMiterLimit="4" Opacity="1"/>
+        <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="428.7" Width="196.2" Canvas.Top="500.2" Height="172.8" Name="path449852" Fill="#01323232" StrokeThickness="52.55876923" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}" StrokeMiterLimit="4" Opacity="1"/>
+        <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="148.5" Width="196.2" Canvas.Top="658.2" Height="172.8" Name="path44984" Fill="#01323232" StrokeThickness="52.55876923" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}" StrokeMiterLimit="4" Opacity="1"/>
+        <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="493.9" Width="196.2" Canvas.Top="769.5" Height="172.8" Name="path449842" Fill="#01323232" StrokeThickness="52.55876923" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}" StrokeMiterLimit="4" Opacity="1"/>
+        <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="728" Width="196.2" Canvas.Top="406.9" Height="172.8" Name="path44986" Fill="#01323232" StrokeThickness="52.55876923" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}" StrokeMiterLimit="4" Opacity="1"/>
+  </Canvas>
+</Viewbox>

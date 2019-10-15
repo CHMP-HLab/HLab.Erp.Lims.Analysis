@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file is NOT compatible with Silverlight-->
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+  <Canvas Name="Capa_1" Width="612" Height="612" Canvas.Left="0" Canvas.Top="0">
+    <Canvas.RenderTransform>
+      <TranslateTransform X="0" Y="0"/>
+    </Canvas.RenderTransform>
+    <Canvas.Resources/>
+    <!--Unknown tag: metadata-->
+    <!--Unknown tag: sodipodi:namedview-->
+    <Canvas Name="g4">
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path2" Fill="#000000">
+        <Path.Data>
+          <PathGeometry Figures="M305.016 224.064v252.192l200.778-38.103V315.277c0-5.144 4.48-9.139 9.59-8.553l24.701 3.822   c4.346 0.499 7.627 4.178 7.627 8.553v142.748c0 4.058-2.833 7.564-6.8 8.417l-219.787 47.258   c-10.621 2.283-21.604 2.308-32.235 0.072L71.462 471.859c-3.902-0.82-6.73-4.214-6.834-8.201l-3.756-144.974   c-0.118-4.547 3.322-8.4 7.852-8.798l184.692-16.229c3.203-0.281 5.982-2.325 7.207-5.297l27.824-67.573   C292.037 212.067 305.016 214.635 305.016 224.064z M58.783 141.494L0.825 265.38c-2.832 6.054 2.014 12.885 8.663 12.213   L227.149 255.6c3.076-0.311 5.749-2.247 7.003-5.073l70.035-157.78L65.026 136.675C62.289 137.178 59.963 138.973 58.783 141.494z    M304.188 92.747l74.106 162.712c1.295 2.844 4.029 4.762 7.145 5.013l217.25 17.471c6.547 0.526 11.248-6.178 8.522-12.154   l-56.658-124.212c-1.172-2.569-3.528-4.399-6.308-4.9L304.188 92.747z" FillRule="NonZero"/>
+        </Path.Data>
+      </Path>
+    </Canvas>
+    <Canvas Name="g6"/>
+    <Canvas Name="g8"/>
+    <Canvas Name="g10"/>
+    <Canvas Name="g12"/>
+    <Canvas Name="g14"/>
+    <Canvas Name="g16"/>
+    <Canvas Name="g18"/>
+    <Canvas Name="g20"/>
+    <Canvas Name="g22"/>
+    <Canvas Name="g24"/>
+    <Canvas Name="g26"/>
+    <Canvas Name="g28"/>
+    <Canvas Name="g30"/>
+    <Canvas Name="g32"/>
+    <Canvas Name="g34"/>
+  </Canvas>
+</Viewbox>

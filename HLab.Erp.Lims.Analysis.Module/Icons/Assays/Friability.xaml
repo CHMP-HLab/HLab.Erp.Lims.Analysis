@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file is NOT compatible with Silverlight-->
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+  <Canvas Name="svg5006" Width="60.278095" Height="62.722786">
+    <Canvas.RenderTransform>
+      <TranslateTransform X="0" Y="0"/>
+    </Canvas.RenderTransform>
+    <Canvas.Resources/>
+    <!--Unknown tag: sodipodi:namedview-->
+    <!--Unknown tag: metadata-->
+    <Canvas Name="layer1">
+      <Canvas.RenderTransform>
+        <TranslateTransform X="-75.694954" Y="-120.21469"/>
+      </Canvas.RenderTransform>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path5012" Fill="#FF000000" StrokeThickness="37.79527664" StrokeMiterLimit="7.0999999" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Opacity="1">
+        <Path.Data>
+          <PathGeometry Figures="M 26.029297 158.00391 1.0234375 230.9375 c -4.2016608 12.26314 4.9081217 25.01983 17.8710935 25.02539 H 208.89648 c 12.96627 -2e-4 22.08164 -12.75913 17.87891 -25.02539 l -24.61133 -71.78516 c -7.648 12.06555 -17.71252 22.45567 -29.50976 30.48047 l 9.78515 28.53516 H 45.351562 l 10 -29.16211 C 43.575305 180.81192 33.567226 170.24664 26.029297 158.00391 Z" FillRule="NonZero"/>
+        </Path.Data>
+        <Path.RenderTransform>
+          <MatrixTransform Matrix="0.26458333 0 0 0.26458333 75.698114 115.21396"/>
+        </Path.RenderTransform>
+      </Path>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path5010" Fill="#FF000000" StrokeThickness="18.89763832" StrokeMiterLimit="4" StrokeLineJoin="Round" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat" Opacity="1">
+        <Path.Data>
+          <PathGeometry Figures="m 114.45312 18.900391 c -46.986282 0 -84.869136 37.884805 -84.869136 84.871089 0 46.9863 37.882854 84.87696 84.869136 84.87696 46.9863 0 84.87696 -37.89066 84.87696 -84.87696 0 -19.29671 -6.40045 -37.050467 -17.1875 -51.283199 -0.92228 7.011125 -2.73271 14.005266 -5.3125 20.699219 -7.51836 19.50829 -22.99964 37.41317 -45.18164 42.76562 a 18.788389 18.788389 0 0 1 -17.25782 11.3711 18.788389 18.788389 0 0 1 -18.787104 -18.78906 18.788389 18.788389 0 0 1 18.787104 -18.789066 18.788389 18.788389 0 0 1 11.82032 4.203125 c 13.912 -3.239323 23.8941 -14.462457 29.46289 -28.91211 4.3534 -11.296033 5.08841 -23.962514 2.93359 -33.816406 -12.85303 -7.819858 -27.96268 -12.320312 -44.1543 -12.320312 z" FillRule="NonZero"/>
+        </Path.Data>
+        <Path.RenderTransform>
+          <MatrixTransform Matrix="0.26458333 0 0 0.26458333 75.698114 115.21396"/>
+        </Path.RenderTransform>
+      </Path>
+    </Canvas>
+  </Canvas>
+</Viewbox>

@@ -1,0 +1,321 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>HLab.Erp.Lims.Analysis.Module</RootNamespace>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Page Remove="Icons\Assays\AssayHplc.xaml" />
+    <Page Remove="Icons\Assays\AssayUv.xaml" />
+    <Page Remove="Icons\Assays\CCM.xaml" />
+    <Page Remove="Icons\Assays\Degradation.xaml" />
+    <Page Remove="Icons\Assays\DissolutionHplc.xaml" />
+    <Page Remove="Icons\Assays\DissolutionUv.xaml" />
+    <Page Remove="Icons\Assays\ExtractableVolume.xaml" />
+    <Page Remove="Icons\Assays\Friability.xaml" />
+    <Page Remove="Icons\Assays\Identification.xaml" />
+    <Page Remove="Icons\Assays\pH.xaml" />
+    <Page Remove="Icons\Assays\Sterility.xaml" />
+    <Page Remove="Icons\Assays\Weighting.xaml" />
+    <Page Remove="Icons\Edit.xaml" />
+    <Page Remove="Icons\Forms\Capsule.xaml" />
+    <Page Remove="Icons\Forms\Capsules.xaml" />
+    <Page Remove="Icons\Forms\Cream.xaml" />
+    <Page Remove="Icons\Forms\Gel.xaml" />
+    <Page Remove="Icons\Forms\Granulates.xaml" />
+    <Page Remove="Icons\Forms\Infusion preparation.xaml" />
+    <Page Remove="Icons\Forms\Injection.xaml" />
+    <Page Remove="Icons\Forms\Medical devices.xaml" />
+    <Page Remove="Icons\Forms\Mosquito net.xaml" />
+    <Page Remove="Icons\Forms\Ointment.xaml" />
+    <Page Remove="Icons\Forms\Ophtalmic drops.xaml" />
+    <Page Remove="Icons\Forms\Ophthalmic ointment.xaml" />
+    <Page Remove="Icons\Forms\Oral solution.xaml" />
+    <Page Remove="Icons\Forms\Oral suspension.xaml" />
+    <Page Remove="Icons\Forms\Pessaries.xaml" />
+    <Page Remove="Icons\Forms\powder for oral suspension.xaml" />
+    <Page Remove="Icons\Forms\powder.xaml" />
+    <Page Remove="Icons\Forms\Skin solution.xaml" />
+    <Page Remove="Icons\Forms\Suppository.xaml" />
+    <Page Remove="Icons\Forms\Tablet.xaml" />
+    <Page Remove="Icons\Logo.xaml" />
+    <Page Remove="Icons\LogoBackground.xaml" />
+    <Page Remove="Icons\Results\CheckFailed.xaml" />
+    <Page Remove="Icons\Results\CheckPassed.xaml" />
+    <Page Remove="Icons\Results\Conform.xaml" />
+    <Page Remove="Icons\Results\Gauge.xaml" />
+    <Page Remove="Icons\Results\GaugeKO.xaml" />
+    <Page Remove="Icons\Results\GaugeOK.xaml" />
+    <Page Remove="Icons\Results\NotChecked.xaml" />
+    <Page Remove="Icons\Results\NotConform.xaml" />
+    <Page Remove="Icons\Sample\Barcode.xaml" />
+    <Page Remove="Icons\Sample\Book.xaml" />
+    <Page Remove="Icons\Sample\Drugs.xaml" />
+    <Page Remove="Icons\Sample\Expired.xaml" />
+    <Page Remove="Icons\Sample\Folder.xaml" />
+    <Page Remove="Icons\Sample\PackageOpened.xaml" />
+    <Page Remove="Icons\Sample\Packaging.xaml" />
+    <Page Remove="Icons\Sample\Sampling.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Acl.Wpf\HLab.Erp.Acl.Wpf.csproj" />
+    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Acl\HLab.Erp.Acl.csproj" />
+    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Core.Annotations\HLab.Erp.Core.Annotations.csproj" />
+    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Core.Wpf\HLab.Erp.Core.Wpf.csproj" />
+    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Core\HLab.Erp.Core.csproj" />
+    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Workflows\HLab.Erp.Workflows.csproj" />
+    <ProjectReference Include="..\..\..\HLab\HLab.Mvvm.Wpf\HLab.Mvvm.Wpf.csproj" />
+    <ProjectReference Include="..\Hlab.Erp.Lims.Analysis.Data\HLab.Erp.Lims.Analysis.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Icons\Assays\AssayHplc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Assays\AssayUv.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Assays\CCM.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Assays\Degradation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Assays\DissolutionHplc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Assays\DissolutionUv.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Assays\ExtractableVolume.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Assays\Friability.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Assays\Identification.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Assays\pH.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Assays\Sterility.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Assays\Weighting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Edit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Capsule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Capsules.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Cream.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Gel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Granulates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Infusion preparation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Injection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Medical devices.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Mosquito net.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Ointment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Ophtalmic drops.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Ophthalmic ointment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Oral solution.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Oral suspension.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Pessaries.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\powder for oral suspension.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\powder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Skin solution.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Suppository.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Forms\Tablet.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Logo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\LogoBackground.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Results\CheckFailed.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Results\CheckPassed.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Results\Conform.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Results\Gauge.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Results\GaugeKO.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Results\GaugeOK.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Results\NotChecked.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Results\NotConform.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Sample\Barcode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Sample\Book.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Sample\Drugs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Sample\Expired.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Sample\Folder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Sample\PackageOpened.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Sample\Packaging.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Sample\Sampling.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ProgressView.xaml.cs">
+      <DependentUpon>ProgressView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Resource1.Designer.cs">
+      <DependentUpon>Resource1.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="SampleDetailView.xaml.cs">
+      <DependentUpon>SampleDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="SampleView.xaml.cs">
+      <DependentUpon>SampleView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resource1.resx">
+      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Icons\Results\Running.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ProgressView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="SampleDetailView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="SampleView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+</Project>
