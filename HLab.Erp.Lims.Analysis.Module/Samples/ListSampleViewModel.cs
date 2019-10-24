@@ -38,10 +38,10 @@ namespace HLab.Erp.Lims.Analysis.Module
             Columns
                 .Column("^Ref",  s => s.Ref)
                 .Column("^File",  s => s.FileId.ToString())
-                .Column("",  s => new IconView{Id = s.Customer?.Country?.Icon??"", Width = 30})
+                .Column("",  s => new IconView{Id = s.Customer?.Country?.IconPath??"", Width = 30})
                 .Column("^Customer",  s => s.Customer.Name)
                 .Column("^Product",  s => s.Product.Caption)
-                .Column("^Form", async (s) => await _erp.Icon.GetIcon(s.Product?.Form?.IconName??"",25))
+                .Column("^Form", async (s) => await _erp.Icon.GetIcon(s.Product?.Form?.IconPath??"",25))
                 .Column("^Manufacturer",  s => s.Manufacturer.Name)
                 .Column("^Qty",  s => s.ReceivedQuantity)
                 .Column("^Expiration",  s => s.ExpirationDate?.ToString(s.ExpirationDayValid ? "dd/MM/yyyy" : "MM/yyyy"))
@@ -98,12 +98,12 @@ namespace HLab.Erp.Lims.Analysis.Module
                 List.AddFilter(s => f4.Match(s.ManufacturerId));
                 Filters.Add(f4);
     */
-                List.Update();
+//                List.Update();
             }
 
         }
 
-        public string Title => "Sample";
+        public string Title => "Samples";
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }

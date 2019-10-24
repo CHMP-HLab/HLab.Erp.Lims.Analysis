@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="HLab.Erp.Lims.Analysis.Module.Products.ProductView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products"
+             xmlns:base="clr-namespace:HLab.Base;assembly=HLab.Base.Wpf"
+             xmlns:icons="clr-namespace:HLab.Mvvm.Icons;assembly=HLab.Mvvm.Wpf"
+             xmlns:lang="clr-namespace:HLab.Mvvm.Lang;assembly=HLab.Mvvm.Wpf"
+             xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
+             xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
+             mc:Ignorable="d" 
+             Background="#FF93A03F"
+             d:DataContext="{d:DesignInstance {x:Type local:ProductViewModelDesign}, IsDesignTimeCreatable=True}"             
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="{x:Type base:DetailView}">
+                <Style.Resources>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="IsReadOnly" Value="{Binding Locker.IsReadOnly}"/>
+                    </Style>
+                </Style.Resources>
+            </Style>
+        </Grid.Resources>
+            <base:DetailView>
+                <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
+                    <Grid VerticalAlignment="Center">
+                        <Canvas DockPanel.Dock="Left">
+                            <icons:IconView Id = "Icons/Sample/Drugs" Height="35" Opacity="0.8"/>
+                        </Canvas>
+                        <lang:Localize Id="Product" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                        <icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.IconPath}"/>
+                    </Grid>
+                </Label>
+                <Label HorizontalContentAlignment="Right">
+                    <lang:Localize Id="INN" StringFormat="{}{0} : "/>
+                </Label>
+                <TextBox
+                    TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Inn ,Mode=OneWay}" HorizontalContentAlignment="Center" />
+                <Label HorizontalContentAlignment="Right">
+                    <lang:Localize Id="Dose" StringFormat="{}{0} : "/>
+                </Label>
+                <TextBox
+                    TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Dose ,Mode=OneWay}" HorizontalContentAlignment="Center" />
+                <Label HorizontalContentAlignment="Right">
+                    <lang:Localize Id="Form" StringFormat="{}{0} : "/>
+                </Label>
+                <!--<TextBox
+                    TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Form.Name ,Mode=OneWay}" HorizontalContentAlignment="Center" />-->
+                <ComboBox
+                    mvvm:ViewLocator.ViewClass ="{x:Type annotations:IViewClassListItem}"
+                    ItemsSource="{Binding Forms}" 
+                    SelectedItem="{Binding Model.Form}"/>
+                <Label HorizontalContentAlignment="Right">
+                    <lang:Localize Id="Form" StringFormat="{}{0} : "/>
+                </Label>
+                <!--<TextBox
+                    TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Form.Name ,Mode=OneWay}" HorizontalContentAlignment="Center" />-->
+                <ContentPresenter 
+                    mvvm:ViewLocator.ViewClass ="{x:Type annotations:IViewClassListItem}" 
+                    Content="{Binding Model.Form}"
+                    />
+            </base:DetailView>
+    </Grid>
+</UserControl>

@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Data.Observables;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.SampleAssays;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
-using HLab.Erp.Workflows;
-using HLab.Mvvm;
+using HLab.Mvvm.Annotations;
 using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
 
@@ -23,27 +15,29 @@ namespace HLab.Erp.Lims.Analysis.Module
     {
         public SampleViewModel()
         { }
-        public SampleViewModel(Func<int, ListSampleAssayViewModel> getAssays)
+        [Import] public SampleViewModel(Func<int, ListSampleAssayViewModel> getAssays, ObservableQuery<Packaging> packagings)
         {
             _getAssays = getAssays;
+            Packagings = packagings;
             Packagings.Update();
         }
         public string Title => Model.Customer.Name + "\n" + Model.Product.Caption + "\n" + Model.Ref;
 
-        [Import] public ObservableQuery<Packaging> Packagings { get; }
+        public ObservableQuery<Packaging> Packagings { get; }
 
         [TriggerOn(nameof(Packagings),"Item","Secondary")]
         public IObservableFilter<Packaging> PrimaryPackagingList { get; }
             = H.Filter<Packaging>((e, f) => f
                 .AddFilter(p => p.Secondary == false)
                 .Link(() => e.Packagings));
+
         public IObservableFilter<Packaging> SecondaryPackagingList { get; }
             = H.Filter<Packaging>((e, f) => f
                 .AddFilter(p => p.Secondary == true)
                 .Link(() => e.Packagings)
             );
 
-        [Import]
+        
         private readonly Func<int, ListSampleAssayViewModel> _getAssays;
 
         public ListSampleAssayViewModel Assays => _assays.Get();
@@ -61,8 +55,8 @@ namespace HLab.Erp.Lims.Analysis.Module
                                                        
     }
 
-    class SampleViewModelDesign
+    class SampleViewModelDesign : SampleViewModel, IViewModelDesign
     {
-        public Sample Model { get; } = Sample.DesignModel;
+        public new Sample Model { get; } = Sample.DesignModel;
     }
 }

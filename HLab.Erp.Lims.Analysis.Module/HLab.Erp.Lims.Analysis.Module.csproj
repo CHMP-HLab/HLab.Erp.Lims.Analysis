@@ -43,6 +43,7 @@
     <Page Remove="Icons\Forms\Tablet.xaml" />
     <Page Remove="Icons\Logo.xaml" />
     <Page Remove="Icons\LogoBackground.xaml" />
+    <Page Remove="Icons\result.xaml" />
     <Page Remove="Icons\Results\CheckFailed.xaml" />
     <Page Remove="Icons\Results\CheckPassed.xaml" />
     <Page Remove="Icons\Results\Conform.xaml" />
@@ -62,6 +63,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AvalonEdit" Version="6.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.3.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Acl.Wpf\HLab.Erp.Acl.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Acl\HLab.Erp.Acl.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Core.Annotations\HLab.Erp.Core.Annotations.csproj" />
@@ -69,6 +79,7 @@
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Core\HLab.Erp.Core.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Workflows\HLab.Erp.Workflows.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Mvvm.Wpf\HLab.Mvvm.Wpf.csproj" />
+    <ProjectReference Include="..\..\..\Lib\YAMP.NetCore\YAMP.Core\YAMP.Core.csproj" />
     <ProjectReference Include="..\Hlab.Erp.Lims.Analysis.Data\HLab.Erp.Lims.Analysis.Data.csproj" />
   </ItemGroup>
 
@@ -213,6 +224,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Resource Include="Icons\Result.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
     <Resource Include="Icons\Results\CheckFailed.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -280,6 +294,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="AssayClasses\AssayClassDetailView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ProgressView.xaml.cs">
       <DependentUpon>ProgressView.xaml</DependentUpon>
     </Compile>
@@ -288,10 +305,10 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Update="SampleDetailView.xaml.cs">
+    <Compile Update="Samples\SampleDetailView.xaml.cs">
       <DependentUpon>SampleDetailView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="SampleView.xaml.cs">
+    <Compile Update="Samples\SampleView.xaml.cs">
       <DependentUpon>SampleView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -304,16 +321,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="AssayClasses\AssayClassDetailView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Icons\Results\Running.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ProgressView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="SampleDetailView.xaml">
+    <Page Update="Samples\SampleDetailView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="SampleView.xaml">
+    <Page Update="Samples\SampleView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

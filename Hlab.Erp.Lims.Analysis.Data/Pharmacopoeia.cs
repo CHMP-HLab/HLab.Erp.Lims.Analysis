@@ -7,7 +7,6 @@ using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    [Table("Pharmacopee")]
     public partial class Pharmacopoeia : Entity<Pharmacopoeia>, IListableModel, ILocalCache
     {
         public string NameFr
@@ -64,7 +63,7 @@ namespace HLab.Erp.Lims.Analysis.Data
         
 
         [Ignore]
-        public string IconName => _iconName.Get();
+        public string IconPath => _iconName.Get();
         private readonly IProperty<string> _iconName = H.Property<string>(c => c
             .On(e => e.NameFr)
             .Set(e => "Pharmacopoeia/" + (string.IsNullOrWhiteSpace(e.Abbreviation)?"home_flag":e.Abbreviation))

@@ -104,7 +104,8 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         public byte[] Code
         {
-            get => _code.Get(); set => _code.Set(value);
+            get => _code.Get(); 
+            set => _code.Set(value);
         }
         private readonly IProperty<byte[]> _code = H.Property<byte[]>();
 
@@ -211,10 +212,16 @@ namespace HLab.Erp.Lims.Analysis.Data
 
 
         [Ignore]
-        [TriggerOn(nameof(AssayClass), "IconName")]
-        public string IconName => AssayClass.IconName;
-        //private IProperty<int?> _iconName = H.Property<int?>();
+        public string IconPath => _iconPath.Get();
+        private IProperty<string> _iconPath = H.Property<string>(c => c
+            .OneWayBind(e => e.AssayClass.IconPath)
+        );
 
+        [Ignore]
+        public ObservableQuery<AssayResult> AssayResults => _sampleAssays.Get();
+        private readonly IProperty<ObservableQuery<AssayResult>> _sampleAssays = H.Property<ObservableQuery<AssayResult>>(c => c
+            .Foreign(e => e.SampleAssayId)
+        );
 
         //[Ignore]
         //[Import]

@@ -71,7 +71,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HLab.Notify.PropertyChanged
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HLab.Notify.Annotations", "..\..\HLab\HLab.Notify.Annotations\HLab.Notify.Annotations.csproj", "{37BF6679-185D-44DC-84AE-D93469FE233A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HLab.Erp.Base.Wpf", "..\..\HLab.Erp\HLab.Erp.Base.Wpf\HLab.Erp.Base.Wpf.csproj", "{D2B6434F-2C5D-4A86-A620-3E16F139BD1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HLab.Erp.Base.Wpf", "..\..\HLab.Erp\HLab.Erp.Base.Wpf\HLab.Erp.Base.Wpf.csproj", "{D2B6434F-2C5D-4A86-A620-3E16F139BD1F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YAMP.Core", "..\..\Lib\YAMP.NetCore\YAMP.Core\YAMP.Core.csproj", "{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -662,6 +664,24 @@ Global
 		{D2B6434F-2C5D-4A86-A620-3E16F139BD1F}.ReleaseLocal|x64.Build.0 = Release|Any CPU
 		{D2B6434F-2C5D-4A86-A620-3E16F139BD1F}.ReleaseLocal|x86.ActiveCfg = Release|Any CPU
 		{D2B6434F-2C5D-4A86-A620-3E16F139BD1F}.ReleaseLocal|x86.Build.0 = Release|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.Debug|x64.Build.0 = Debug|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.Debug|x86.Build.0 = Debug|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.Release|x64.ActiveCfg = Release|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.Release|x64.Build.0 = Release|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.Release|x86.ActiveCfg = Release|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.Release|x86.Build.0 = Release|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.ReleaseLocal|Any CPU.ActiveCfg = Release|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.ReleaseLocal|Any CPU.Build.0 = Release|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.ReleaseLocal|x64.ActiveCfg = Release|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.ReleaseLocal|x64.Build.0 = Release|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.ReleaseLocal|x86.ActiveCfg = Release|Any CPU
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149}.ReleaseLocal|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -696,6 +716,7 @@ Global
 		{474E807E-0122-42E0-A6E9-B9B22EE633BE} = {641C3C26-5233-4042-992A-00A7B5062C60}
 		{5F459AAC-F5C1-4602-8B4F-6CB867AD0348} = {DFD6E0AF-B89E-487C-BD62-1BCE8EEAAC5F}
 		{D2B6434F-2C5D-4A86-A620-3E16F139BD1F} = {641C3C26-5233-4042-992A-00A7B5062C60}
+		{AA1EBC9C-1F54-42C7-8713-9693FB9F1149} = {58A67C27-6A48-4C48-BE47-688D0E1375F7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F1A6AF62-36C0-4B04-8949-A5F88CA1ACF3}

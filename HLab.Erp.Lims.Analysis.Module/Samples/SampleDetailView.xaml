@@ -15,6 +15,7 @@
              d:DataContext="{d:DesignInstance {x:Type local:SampleViewModelDesign}, IsDesignTimeCreatable=True}"             
              d:DesignHeight="1200" d:DesignWidth="500"
              mvvm:ViewLocator.ViewClass ="{x:Type annotations:IViewClassDefault}"
+
              >
     <Grid>
         <Grid.Resources>
@@ -50,7 +51,7 @@
                     <icons:IconView Id = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
                 </Canvas>
                 <lang:Localize Id="Record" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                <icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.Icon}"/>
+                <icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.IconPath}"/>
             </Grid>
             </Label>
         <Label HorizontalContentAlignment="Right" >
@@ -80,7 +81,7 @@
         <Label Style="{DynamicResource Separator}" >
             <StackPanel Orientation="Horizontal">
                 <Canvas>
-                    <icons:IconView  Id="{Binding Model.Product.Form.IconName,FallbackValue=icons}" Height="35" Opacity="0.8"/>
+                    <icons:IconView  Id="{Binding Model.Product.Form.IconPath,FallbackValue=icons}" Height="35" Opacity="0.8"/>
                 </Canvas>
                 <lang:Localize Margin="50,0,0,0" Id="Product" />
             </StackPanel>
@@ -239,7 +240,7 @@
             <Label Grid.Column="1">
             <lang:Localize Id="{Binding Model.Manufacturer.Country.Name}"/>
             </Label>
-            <icons:IconView Margin="0,0,15,0" Grid.Column="2" HorizontalAlignment="Right" Height="35" Id="{Binding Model.Manufacturer.Country.Icon}"/>
+            <icons:IconView Margin="0,0,15,0" Grid.Column="2" HorizontalAlignment="Right" Height="35" Id="{Binding Model.Manufacturer.Country.IconPath}"/>
             </Grid>
         <Label HorizontalAlignment="Right">
             <lang:Localize Id="Commercial Name" StringFormat="{}{0} : "/>

@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
+using System.IO.Compression;
+using System.Text;
 using HLab.Erp.Data;
 using HLab.Notify.PropertyChanged;
 using NPoco;
@@ -27,19 +30,25 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         readonly IProperty<string> _version = H.Property<string>(c => c.Default(""));
 
+        [Ignore]
+        public string Xaml
+        {
+            get => _xaml.Get();
+            set => _xaml.Set(value);
+        }
 
-        //[Column]
-        //public string Cs1
-        //{
-        //    get => N.Get(() => ""); set => N.Set(value);
-        //}
+        private readonly IProperty<string> _xaml = H.Property<string>(c => c.Default(""));
+
+        [Ignore]
+        public string CodeBehind
+        {
+            get => _codeBehind.Get();
+            set => _codeBehind.Set(value);
+        }
+
+        private readonly IProperty<string> _codeBehind = H.Property<string>(c => c.Default(""));
 
 
-        //[Column]
-        //public string Xaml1
-        //{
-        //    get => N.Get(() => ""); set => N.Set(value);
-        //}
 
 
         public byte[] Code
@@ -48,7 +57,7 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _code.Set(value);
         }
 
-        readonly IProperty<byte[]> _code = H.Property<byte[]>();
+        private readonly IProperty<byte[]> _code = H.Property<byte[]>();
 
 
         public int? Order
@@ -105,12 +114,17 @@ namespace HLab.Erp.Lims.Analysis.Data
         [Ignore]
         public int? Color => 0;
 
-        public string IconName
+        public string IconPath
         {
-            get => _iconName.Get();
-            set => _iconName.Set(value);
+            get => _iconPath.Get();
+            set => _iconPath.Set(value);
         }
 
-        readonly IProperty<string> _iconName = H.Property<string>();
+        readonly IProperty<string> _iconPath = H.Property<string>();
+
+        public static AssayClass DesignModel => new AssayClass
+        {
+            Name = "Identification",IconPath = "",Version="1.1.0"
+        };
     }
 }

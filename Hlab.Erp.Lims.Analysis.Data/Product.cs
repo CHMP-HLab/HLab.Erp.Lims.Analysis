@@ -55,5 +55,10 @@ namespace HLab.Erp.Lims.Analysis.Data
         private readonly IProperty<Form> _form = H.Property<Form>(c => c
             .Foreign(e => e.FormId)
         );
+
+        public static Product DesignModel => new Product
+        {
+            Inn = "Paracetamol",Dose ="20 mg",Note = "Design time model"
+        };
      }
 }
