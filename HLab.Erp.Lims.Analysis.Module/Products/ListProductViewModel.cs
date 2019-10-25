@@ -11,6 +11,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
 {
     public class ListProductViewModel: EntityListViewModel<ListProductViewModel,Product>, IMvvmContextProvider
     {
+        public string Title => "Products";
+
         private readonly IErpServices _erp;
         [Import] public ListProductViewModel(IErpServices erp) 
         {

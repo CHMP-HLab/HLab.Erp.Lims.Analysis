@@ -23,7 +23,26 @@
                 </Style.Resources>
             </Style>
         </Grid.Resources>
-            <base:DetailView>
+<Grid.RowDefinitions>
+    <RowDefinition Height="Auto"/>
+    <RowDefinition Height="*"/>
+</Grid.RowDefinitions>
+
+
+
+        <base:DetailView Grid.Row="0">
+            <ContentPresenter Height="50" Content="{Binding Locker}" Grid.ColumnSpan="2"/>
+
+            <Label>
+                <lang:Localize Id="Workflow" Margin="50,0,0,0"/>
+            </Label>
+            <ContentPresenter Content="{Binding Workflow}"/>
+
+        </base:DetailView>
+
+
+
+            <base:DetailView Grid.Row="1">
                 <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
                     <Grid VerticalAlignment="Center">
                         <Canvas DockPanel.Dock="Left">
@@ -49,6 +68,7 @@
                 <!--<TextBox
                     TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Form.Name ,Mode=OneWay}" HorizontalContentAlignment="Center" />-->
                 <ComboBox
+                    Background="#40000000"
                     mvvm:ViewLocator.ViewClass ="{x:Type annotations:IViewClassListItem}"
                     ItemsSource="{Binding Forms}" 
                     SelectedItem="{Binding Model.Form}"/>

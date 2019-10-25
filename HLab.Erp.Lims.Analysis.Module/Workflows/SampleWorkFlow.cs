@@ -7,8 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using HLab.Base.Fluent;
 using HLab.Erp.Lims.Analysis.Data;
-using state = HLab.Erp.Workflows.WorkflowState<HLab.Erp.Lims.Analysis.Module.Workflows.SampleWorkflow>;
-using action = HLab.Erp.Workflows.WorkflowActionClass<HLab.Erp.Lims.Analysis.Module.Workflows.SampleWorkflow>;
 using HLab.Erp.Acl;
 using HLab.Notify.PropertyChanged;
 
@@ -43,14 +41,16 @@ namespace HLab.Erp.Lims.Analysis.Module.Workflows
             return t.NotWhen(w => !w.User.HasRight(AnalysisRights.AnalysisSchedule))
                 .WithMessage(w => "Pharmacist or planner needed");
         }
-        public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> SetState<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t, Func<state> getter)
-            where TWf : SampleWorkflow, IWorkflow<TWf>
+        public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> 
+            SetState<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t, Func<Workflow<TWf>.State> getter)
+
+            where TWf : NotifierBase, IWorkflow<TWf>
         {
             return t
                 //.NotWhen(w => !(w as SampleWorkflow).Sample.Lock.Actif)
                 .Action(w =>
                 {
-                    w.Sample.Stage = getter().Name;
+                    w.SetState(getter);
                 });
         }
 
@@ -60,62 +60,56 @@ namespace HLab.Erp.Lims.Analysis.Module.Workflows
     }
 
 
-    public class SampleWorkflow : Workflow<SampleWorkflow>
+    public class SampleWorkflow : Workflow<SampleWorkflow,Sample>
     {
 
 
-        public SampleWorkflow(Sample sample)
+        public SampleWorkflow(Sample sample):base(sample)
         {
-            Sample = sample;
-
             H.Initialize(this);
 
-            State = Reception;
-            Update();
-            sample.PropertyChanged += Sample_PropertyChanged;
+            CurrentState = Reception;
         }
 
-        private void Sample_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        public override void OnSetState(State state)
         {
-            Update();
+            Target.Stage = state.Name;
         }
-
-        public Sample Sample { get; }
 
         //########################################################
         // RECEPTION
 
-        public static state Reception = state.Create(c => c
+        public static State Reception = State.Create(c => c
             .Caption("^Reception entry").Icon("Icons/Sample/PackageOpened")
             .SetState(() => Reception)
         );
 
-        public static state ReceptionClosed = state.Create(c => c
+        public static State ReceptionClosed = State.Create(c => c
             .Caption("Reception check").Icon("ReceptionCheck")
-            .NotWhen(w => w.Sample.CustomerId == null)
+            .NotWhen(w => w.Target.CustomerId == null)
             .WithMessage(w => "Missing customer")
 
-            .NotWhen(w => w.Sample.ProductId == null)
+            .NotWhen(w => w.Target.ProductId == null)
             .WithMessage(w => "Missing Product")
 
-            .NotWhen(w => string.IsNullOrWhiteSpace(w.Sample.Batch))
+            .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.Batch))
             .WithMessage(w => "Missing batch")
 
-            .NotWhen(w => w.Sample.ReceptionDate == null)
+            .NotWhen(w => w.Target.ReceptionDate == null)
             .WithMessage(w => "Missing reception date")
 
-            .NotWhen(w => w.Sample.ReceivedQuantity == null)
+            .NotWhen(w => w.Target.ReceivedQuantity == null)
             .WithMessage(w => "Missing received quantity")
         );
 
-        public static action CloseReception = action.Create(c => c
+        public static Action CloseReception = Action.Create(c => c
             .Caption("Close").Icon("CloseReception")
             .FromState(() => Reception)
             .ToState(() => ReceptionClosed)
             .NeedValidator()
         );
 
-        public static action ValidateReception = action.Create(c => c
+        public static Action ValidateReception = Action.Create(c => c
             .Caption(w => "Check").Icon(w => "ReceptionChecked")
             .FromState(() => ReceptionClosed)
             .ToState(() => Monograph)
@@ -125,34 +119,34 @@ namespace HLab.Erp.Lims.Analysis.Module.Workflows
         //########################################################
         // MONOGRAPH
 
-        public static state Monograph = state.Create(c => c
+        public static State Monograph = State.Create(c => c
             .Caption(w => "Monograph Entry").Icon(w => "Icons/Sample/PackageOpened")
             .WhenStateAllowed(() => ReceptionClosed)
             .SetState(() => Monograph)
         );
 
-        public static action ValidateMonograph = action.Create(c => c
+        public static Action ValidateMonograph = Action.Create(c => c
            .Caption(w => "Validate monograph").Icon(w => "MonographEdit")
            .FromState(() => Monograph)
            .ToState(() => MonographClosed)
            .NeedValidator()
             );
 
-        public static state MonographClosed = state.Create(c => c
+        public static State MonographClosed = State.Create(c => c
             .Caption(w => "Monograph validated").Icon(w => "MonographCheck")
             .SetState(() => MonographClosed)
 
-            .NotWhen(w => w.Sample.PharmacopoeiaId == null)
+            .NotWhen(w => w.Target.PharmacopoeiaId == null)
                 .WithMessage(w => "Missing pharmacopoeia")
 
-            .NotWhen(w => string.IsNullOrWhiteSpace(w.Sample.PharmacopoeiaVersion))
+            .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.PharmacopoeiaVersion))
                 .WithMessage(w => "Missing pharmacopoeia version")
 
-            .NotWhen(w => w.Sample.SampleAssays.Count == 0)
+            .NotWhen(w => w.Target.SampleAssays.Count == 0)
                 .WithMessage(w => "Missing assays")
 
             .NotWhen(w => {
-                foreach (SampleAssay test in w.Sample.SampleAssays)
+                foreach (SampleAssay test in w.Target.SampleAssays)
                     if (test.Stage < 1) return true; // TODO
                 return false;
             }).WithMessage(w => "Some tests Missing specifications")
@@ -160,14 +154,14 @@ namespace HLab.Erp.Lims.Analysis.Module.Workflows
 
         //########################################################
         // PLANNING
-        public static action ValidatePanning = action.Create(c => c
+        public static Action ValidatePanning = Action.Create(c => c
            .Caption(w => "Planifier").Icon(w => "Planning")
            .FromState(() => MonographClosed)
            .ToState(() => Planning)
            .NeedPlanner()
             );
 
-        public static state Planning = state.Create(c => c
+        public static State Planning = State.Create(c => c
             .Caption(w => "Plannification").Icon(w => "PlanningEdit")
             .WhenStateAllowed(() => MonographClosed)
             .SetState(() => Planning)
@@ -175,14 +169,14 @@ namespace HLab.Erp.Lims.Analysis.Module.Workflows
 
         //########################################################
         // PRODUCTION
-        public static action ValidateProduction = action.Create(c => c
+        public static Action ValidateProduction = Action.Create(c => c
            .Caption(w => "Mettre en production").Icon(w => "Production")
            .FromState(() => Planning)
            .ToState(() => Production)
            .NeedPlanner()
             );
 
-        public static state Production = state.Create(c => c
+        public static State Production = State.Create(c => c
             .Caption(w => "En Production").Icon(w => "Production")
             .SetState(()=>Production)
             .WhenStateAllowed(() => Planning)
@@ -191,14 +185,14 @@ namespace HLab.Erp.Lims.Analysis.Module.Workflows
         //########################################################
         // CERTIFICAT
 
-        public static action ValidateCertificate = action.Create( c => c
+        public static Action ValidateCertificate = Action.Create( c => c
             .Caption(w => "Print Certificate").Icon(w => "Certificate")
             .FromState(() => Planning)
             .ToState(() => Production)
             .NeedPlanner()
             );
 
-        public static state Certificate = state.Create(c => c
+        public static State Certificate = State.Create(c => c
             .Caption(w => "Edition du certificate").Icon(w => "Certificate")
             .SetState(()=>Certificate)
             .WhenStateAllowed(() => Planning)
@@ -207,18 +201,18 @@ namespace HLab.Erp.Lims.Analysis.Module.Workflows
         //########################################################
         // CLOSE
 
-        public static action Close = action.Create( c => c
+        public static Action Close = Action.Create( c => c
             .Caption(w => "Close").Icon(w => "Close")
             .FromState(() => Certificate)
             .ToState(() => Closed)
             .NeedPharmacist()
         );
 
-        public static state Closed = state.Create(c => c
+        public static State Closed = State.Create(c => c
             .Caption(w => "Closed").Icon(w => "Closed")
             .SetState(() => Closed)
-            .NotWhen(w => !w.Sample.Invoiced).WithMessage(w => "N'est pas facturé")
-            .NotWhen(w => !w.Sample.Paid).WithMessage(w => "N'est pas payé")
+            .NotWhen(w => !w.Target.Invoiced).WithMessage(w => "N'est pas facturé")
+            .NotWhen(w => !w.Target.Paid).WithMessage(w => "N'est pas payé")
             .WhenStateAllowed(() => Certificate)
         );
     }
