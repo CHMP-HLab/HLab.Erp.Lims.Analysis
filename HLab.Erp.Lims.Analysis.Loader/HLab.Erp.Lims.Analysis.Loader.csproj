@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0490" />
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0531" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,6 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Acl.Wpf\HLab.Erp.Acl.Wpf.csproj" />
+    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Acl\HLab.Erp.Acl.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Base.Wpf\HLab.Erp.Base.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Core.Wpf\HLab.Erp.Core.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Workflows.Wpf\HLab.Erp.Workflows.Wpf.csproj" />

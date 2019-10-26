@@ -14,7 +14,7 @@ namespace HLab.Erp.Lims.Analysis.Data
 
     }
 
-    public class Project : EntityAClTarget<Project>, IAclTarget
+    public class Project : Entity<Project>
     {
 
         public int? ParentId
@@ -38,6 +38,5 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<string> _name = H.Property<string>();
 
-        IAclTarget IAclTarget.Parent => Parent;
     }
 }

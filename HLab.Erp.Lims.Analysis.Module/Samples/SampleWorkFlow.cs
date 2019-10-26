@@ -1,65 +1,8 @@
-﻿using HLab.Erp.Workflows;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HLab.Base.Fluent;
-using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Acl;
-using HLab.Notify.PropertyChanged;
+﻿using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Workflows;
 
-namespace HLab.Erp.Lims.Analysis.Module.Workflows
+namespace HLab.Erp.Lims.Analysis.Module
 {
-    static class AnalysisRights
-    {
-        public static readonly AclRight AnalysisCertificateCreate = new AclRight();
-        public static readonly AclRight AnalysisResultValidate = new AclRight();
-        public static readonly AclRight AnalysisResultEnter = new AclRight();
-        public static readonly AclRight AnalysisSchedule = new AclRight();
-    }
-
-    static class WorkflowAnalysisExtension
-    {
-        public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> NeedPharmacist<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t)
-            where TWf : NotifierBase, IWorkflow<TWf>
-        {
-            return t.NotWhen(w => !w.User.HasRight(AnalysisRights.AnalysisCertificateCreate))
-                .WithMessage(w => "Pharmacist needed");
-        }
-
-        public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> NeedValidator<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t)
-            where TWf : Workflow<TWf>
-        {
-            return t.NotWhen(w => !w.User.HasRight(AnalysisRights.AnalysisResultValidate))
-                .WithMessage(w => "Pharmacist or validator needed");
-        }
-        public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> NeedPlanner<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t)
-            where TWf : NotifierBase, IWorkflow<TWf>
-        {
-            return t.NotWhen(w => !w.User.HasRight(AnalysisRights.AnalysisSchedule))
-                .WithMessage(w => "Pharmacist or planner needed");
-        }
-        public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> 
-            SetState<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t, Func<Workflow<TWf>.State> getter)
-
-            where TWf : NotifierBase, IWorkflow<TWf>
-        {
-            return t
-                //.NotWhen(w => !(w as SampleWorkflow).Sample.Lock.Actif)
-                .Action(w =>
-                {
-                    w.SetState(getter);
-                });
-        }
-
-        //public static TC SetState<TC>(this TC t, state state)
-        //    where TC : IConfigurator<SampleWorkflow>
-        //    => t.SetState<TC>(() => state);
-    }
-
-
     public class SampleWorkflow : Workflow<SampleWorkflow,Sample>
     {
 
@@ -159,7 +102,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Workflows
            .FromState(() => MonographClosed)
            .ToState(() => Planning)
            .NeedPlanner()
-            );
+        );
 
         public static State Planning = State.Create(c => c
             .Caption(w => "Plannification").Icon(w => "PlanningEdit")
@@ -174,7 +117,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Workflows
            .FromState(() => Planning)
            .ToState(() => Production)
            .NeedPlanner()
-            );
+        );
 
         public static State Production = State.Create(c => c
             .Caption(w => "En Production").Icon(w => "Production")
@@ -190,7 +133,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Workflows
             .FromState(() => Planning)
             .ToState(() => Production)
             .NeedPlanner()
-            );
+        );
 
         public static State Certificate = State.Create(c => c
             .Caption(w => "Edition du certificate").Icon(w => "Certificate")

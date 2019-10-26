@@ -3,7 +3,9 @@ using HLab.Base;
 using HLab.Core;
 using HLab.DependencyInjection;
 using HLab.DependencyInjection.Annotations;
+using HLab.Erp.Acl;
 using HLab.Erp.Core;
+using HLab.Erp.Workflows;
 using HLab.Notify;
 using HLab.Notify.PropertyChanged;
 
@@ -25,7 +27,8 @@ namespace HLab.Erp.Lims.Analysis.Loader
             //boot.Container.ExportInitialize<BootLoaderErpWpf>((c, a, o) => o.SetMainViewMode(typeof(ViewModeKiosk)));
 
             NotifyHelper.EventHandlerService =container.Locate<IEventHandlerService>();
-                // new EventHandlerServiceWpf(); boot.
+            // new EventHandlerServiceWpf(); boot.
+
 
             var boot = container.Locate<Bootstrapper>();
 
@@ -39,6 +42,8 @@ namespace HLab.Erp.Lims.Analysis.Loader
             var a1 = boot.LoadDll("HLab.Erp.Workflows.Wpf");
             var f0 = boot.LoadDll("HLab.Erp.Core");
             var g0 = boot.LoadDll("HLab.Erp.Lims.Analysis.Module");
+
+            boot.Configure();
 
             boot.Boot();
         }

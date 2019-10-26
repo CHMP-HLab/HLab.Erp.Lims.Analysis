@@ -5,7 +5,6 @@ using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Data.Observables;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;

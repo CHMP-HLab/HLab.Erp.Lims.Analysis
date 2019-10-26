@@ -1,5 +1,6 @@
 using System;
 using HLab.Base.Extentions;
+using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Base.Data;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
@@ -451,8 +452,11 @@ namespace HLab.Erp.Lims.Analysis.Data
             .Foreign(e => e.ProductId)
         );
 
-        [Ignore]
-        public ObservableQuery<SampleAssay> SampleAssays => _sampleAssays.Get();
+        [Ignore] public ObservableQuery<SampleAssay> SampleAssays => _sampleAssays.Get();
+        //{
+        //    get => _sampleAssays.Get();
+        //}
+
         private readonly IProperty<ObservableQuery<SampleAssay>> _sampleAssays = H.Property<ObservableQuery<SampleAssay>>(c => c
             .Foreign(e => e.SampleId)
         );
