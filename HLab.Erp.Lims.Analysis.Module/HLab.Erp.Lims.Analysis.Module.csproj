@@ -79,7 +79,7 @@
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Core\HLab.Erp.Core.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Workflows\HLab.Erp.Workflows.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Mvvm.Wpf\HLab.Mvvm.Wpf.csproj" />
-    <ProjectReference Include="..\..\..\Lib\YAMP.NetCore\YAMP.Core\YAMP.Core.csproj" />
+    <ProjectReference Include="..\..\..\Lib\YAMP\YAMP.csproj" />
     <ProjectReference Include="..\Hlab.Erp.Lims.Analysis.Data\HLab.Erp.Lims.Analysis.Data.csproj" />
   </ItemGroup>
 
