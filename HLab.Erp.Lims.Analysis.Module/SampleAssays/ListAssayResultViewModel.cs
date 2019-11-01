@@ -52,14 +52,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleAssays
                     return await _erp.Icon.GetIcon("icons/Results/Gauge");
             }
         }
-        protected override async Task OnOpenCommand(AssayResult target)
-        {
-            await Compile(target);
 
-        }
-
-        public ListAssayResultViewModel(int sampleAssayId) 
+        public ListAssayResultViewModel(int sampleAssayId)
         {
+            OpenAction = t => Compile(t);
+
             List.AddFilter(()=>e => e.SampleAssayId == sampleAssayId);
 
 
