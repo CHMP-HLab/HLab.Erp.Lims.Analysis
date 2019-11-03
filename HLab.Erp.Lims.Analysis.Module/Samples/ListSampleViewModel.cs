@@ -4,6 +4,7 @@ using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Core.ViewModels;
+using HLab.Erp.Core.ViewModels.EntityLists;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
@@ -38,17 +39,17 @@ namespace HLab.Erp.Lims.Analysis.Module
             Columns
                 .Column("^Ref",  s => s.Ref)
                 .Column("^File",  s => s.FileId.ToString())
-                .Column("",  s => new IconView{Id = s.Customer?.Country?.IconPath??"", Width = 30})
+                .Column("",  s => new IconView{Id = s.Customer?.Country?.IconPath??"", Width = 30}, s => s.Customer.Country.Name)
                 .Column("^Customer",  s => s.Customer.Name)
                 .Column("^Product",  s => s.Product.Caption)
-                .Column("^Form", async (s) => await _erp.Icon.GetIcon(s.Product?.Form?.IconPath??"",25))
+                .Column("^Form", async (s) => await _erp.Icon.GetIcon(s.Product?.Form?.IconPath??"",25), s => s.Product.Form.Name)
                 .Column("^Manufacturer",  s => s.Manufacturer.Name)
                 .Column("^Qty",  s => s.ReceivedQuantity)
-                .Column("^Expiration",  s => s.ExpirationDate?.ToString(s.ExpirationDayValid ? "dd/MM/yyyy" : "MM/yyyy"))
-                .Column("^Notification",  s => s.NotificationDate?.ToString("dd/MM/yyyy")??"")
+                .Column("^Expiration",  s => s.ExpirationDate?.ToString(s.ExpirationDayValid ? "dd/MM/yyyy" : "MM/yyyy"), s=> s.ExpirationDate)
+                .Column("^Notification",  s => s.NotificationDate?.ToString("dd/MM/yyyy")??"", s => s.NotificationDate)
                 .Column("^Validator",  s => s.Validator)
-                .Column("^Progress",  s => new ProgressViewModel {Value = s.Progress ?? 0})
-                .Column("^State",  async s => s.State != null ? await GetStateIcon(s.State.Value) : "")
+                .Column("^Progress",  s => new ProgressViewModel {Value = s.Progress ?? 0}, s=> s.Progress)
+                .Column("^State",  async s => s.State != null ? await GetStateIcon(s.State.Value) : "", s=> s.State)
                 .Hidden("IsValid",  s => s.Validation != 2);
 
             //List.AddFilter(e => e.State < 3);

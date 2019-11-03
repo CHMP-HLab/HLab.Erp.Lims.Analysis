@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core.ViewModels;
+using HLab.Erp.Core.ViewModels.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Icons;
@@ -59,8 +60,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleAssays
                 .Column("^Specifications", s => s.Specification)
                 .Column("^Result", s => s.Result)
             //.Column("Conformity", s => s.AssayStateId);
-                .Column("^State", async s => await GetIcon(s.AssayStateId??0,25))
-                .Column("^Validation", async s => await GetCheckIcon(s.Validation??0,25))
+                .Column("^State", async s => await GetIcon(s.AssayStateId??0,25), s => s.AssayStateId)
+                .Column("^Validation", async s => await GetCheckIcon(s.Validation??0,25), s => s.Validation)
                 .Hidden("IsValid", s => s.Validation!=2)
                 .Hidden("Group", s => s.AssayClassId);
 

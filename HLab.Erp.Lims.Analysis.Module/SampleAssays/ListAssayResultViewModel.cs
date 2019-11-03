@@ -5,6 +5,7 @@ using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Core.ViewModels;
+using HLab.Erp.Core.ViewModels.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.AssayClasses;
 using HLab.Mvvm.Annotations;
@@ -63,7 +64,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleAssays
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns
                 .Column("", s=> s.Result)
-                .Column("^State",  async s => s.StateId != null ? await GetStateIcon(s.StateId.Value) : "")
+                .Column("^State",  async s => s.StateId != null ? await GetStateIcon(s.StateId.Value) : "", s => s.StateId)
 ;
             //List.AddFilter(e => e.State < 3);
 
