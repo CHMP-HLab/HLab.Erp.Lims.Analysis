@@ -49,7 +49,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleAssays
             List.AddFilter(()=>e => e.SampleId == sampleId);
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns
-                .Column("",s=>_icons.GetIcon(s.AssayClass.IconPath, 25.0))
+                .Column("",async s => await _icons.GetIcon(s.AssayClass.IconPath, 25.0), s => s.AssayClass.Order)
                 .Column("^Assay", s => new StackPanel{
                     VerticalAlignment = VerticalAlignment.Top,
                     Children =
