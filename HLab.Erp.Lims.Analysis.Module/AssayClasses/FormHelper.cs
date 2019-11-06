@@ -45,7 +45,7 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
         }
         public async Task<byte[]> SaveCode()
         {
-            var bytes = Encoding.UTF8.GetBytes(Cs.Trim('\r', '\n') + "\r\n" + Xaml.Trim('\r', '\n'));
+            var bytes = Encoding.UTF8.GetBytes(Cs.Trim('\r', '\n', ' ') + "\r\n" + Xaml.Trim('\r', '\n' , ' '));
             return await BytesToGZip(bytes);
 
         }
@@ -383,11 +383,14 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
 
             try
             {
-                await using var ms = new MemoryStream();
-                await using var bytesSteam = new MemoryStream(bytes);
-                await using var gzStream = new GZipStream(bytesSteam, CompressionMode.Compress);
-                await gzStream.CopyToAsync(ms).ConfigureAwait(false);
-                return ms.ToArray();
+                await using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    await using var gz = new MemoryStream();
+                    await using var zipStream = new GZipStream(gz, CompressionMode.Compress);
+                    await zipStream.WriteAsync(ms.ToArray(), 0, ms.ToArray().Length);
+                    zipStream.Close();
+                    return gz.ToArray();
+                }
             }
             catch { }
 

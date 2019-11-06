@@ -64,7 +64,14 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
         {
             var h = new FormHelper();
 
-            await h.ExtractCode(Model.Code).ConfigureAwait(true);
+            if(Model.Code!=null)
+                await h.ExtractCode(Model.Code).ConfigureAwait(true);
+            else
+            {
+                h.Xaml = "<Grid></Grid>";
+                h.Cs = "class Test\n{\n}";
+            }
+
             Form = await h.LoadForm().ConfigureAwait(true);
 
             Xaml = h.Xaml;

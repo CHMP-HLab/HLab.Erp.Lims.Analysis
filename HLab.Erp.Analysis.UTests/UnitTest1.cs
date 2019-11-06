@@ -12,7 +12,7 @@ namespace HLab.Erp.Analysis.UTests
             var h = new FormHelper();
 
             var xaml = "<Grid></Grid>";
-            var cs = "using system;";
+            var cs = "using system; class test{}  ";
 
             h.Xaml = xaml;
             h.Cs = cs;
@@ -21,8 +21,8 @@ namespace HLab.Erp.Analysis.UTests
 
             await h.ExtractCode(code);
 
-            Assert.Equal(xaml, h.Xaml);
-            Assert.Equal(cs, h.Cs);
+            Assert.Equal(xaml.Trim('\n','\r',' '), h.Xaml.Trim('\n','\r',' '));
+            Assert.Equal(cs.Trim('\n','\r',' '), h.Cs.Trim('\n','\r',' '));
         }
     }
 }
