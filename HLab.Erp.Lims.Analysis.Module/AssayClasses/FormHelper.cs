@@ -43,6 +43,12 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
             Cs  = sCode.Substring(0, index+1);
             Xaml         = sCode.Substring(index+3);
         }
+        public async Task<byte[]> SaveCode()
+        {
+            var bytes = Encoding.UTF8.GetBytes(Cs.Trim('\r', '\n') + "\r\n" + Xaml.Trim('\r', '\n'));
+            return await BytesToGZip(bytes);
+
+        }
 
         public async Task<object> LoadForm(string values)
         {
@@ -369,5 +375,24 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
             }
             return null;
         }
+
+        private static async Task<byte[]> BytesToGZip(byte[] bytes)
+        {
+            if (bytes.Length == 0)
+                return null;
+
+            try
+            {
+                await using var ms = new MemoryStream();
+                await using var bytesSteam = new MemoryStream(bytes);
+                await using var gzStream = new GZipStream(bytesSteam, CompressionMode.Compress);
+                await gzStream.CopyToAsync(ms).ConfigureAwait(false);
+                return ms.ToArray();
+            }
+            catch { }
+
+            return null;
+        }
+
     }
 }

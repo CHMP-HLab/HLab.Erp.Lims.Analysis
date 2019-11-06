@@ -30,26 +30,6 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         readonly IProperty<string> _version = H.Property<string>(c => c.Default(""));
 
-        [Ignore]
-        public string Xaml
-        {
-            get => _xaml.Get();
-            set => _xaml.Set(value);
-        }
-
-        private readonly IProperty<string> _xaml = H.Property<string>(c => c.Default(""));
-
-        [Ignore]
-        public string CodeBehind
-        {
-            get => _codeBehind.Get();
-            set => _codeBehind.Set(value);
-        }
-
-        private readonly IProperty<string> _codeBehind = H.Property<string>(c => c.Default(""));
-
-
-
 
         public byte[] Code
         {

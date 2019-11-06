@@ -13,8 +13,8 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
         public AssayClassViewModelDesign()
         {
             Model = AssayClass.DesignModel;
-            Model.Xaml = "<xml></xml>";
-            Model.CodeBehind = "using HLab.Erp.Acl;\nusing HLab.Erp.Lims.Analysis.Data;\nusing HLab.Mvvm.Annotations;";
+            Xaml = "<xml></xml>";
+            Cs = "using HLab.Erp.Acl;\nusing HLab.Erp.Lims.Analysis.Data;\nusing HLab.Mvvm.Annotations;";
         }
     }
 
@@ -31,9 +31,9 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
         public string Xaml
         {
             get => _xaml.Get();
-            set => Model.Xaml = value;
+            set => _xaml.Set(value);
         }
-        private readonly IProperty<string> _xaml = H.Property<string>(c => c.OneWayBind(e => e.Model.Xaml));
+        private readonly IProperty<string> _xaml = H.Property<string>();
 
         public string XamlMessage
         {
@@ -47,7 +47,7 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
             get => _cs.Get();
             set => _cs.Set(value);
         }
-        private readonly IProperty<string> _cs = H.Property<string>(c => c.OneWayBind(e => e.Model.CodeBehind));
+        private readonly IProperty<string> _cs = H.Property<string>();
 
         public string CsMessage
         {
@@ -67,12 +67,23 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
             await h.ExtractCode(Model.Code).ConfigureAwait(true);
             Form = await h.LoadForm().ConfigureAwait(true);
 
+            Xaml = h.Xaml;
+            Cs = h.Cs;
+
             XamlMessage = h.XamlMessage;
             CsMessage = h.CsMessage;
         }
 
         private IProperty<bool> _init = H.Property<bool>(c => c.On(e => e.Model).Do(async (e, f) =>
-            { 
+            {
+                e.Locker.BeforeSavingAction = async t =>
+                {
+                    var h = new FormHelper();
+                    h.Cs = e.Cs;
+                    h.Xaml = e.Xaml;
+                    t.Code = await h.SaveCode();
+                };
+
                 await e.Compile();
         }));
 

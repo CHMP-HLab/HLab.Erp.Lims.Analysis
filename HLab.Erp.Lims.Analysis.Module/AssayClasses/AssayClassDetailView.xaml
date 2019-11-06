@@ -6,6 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HLab.Erp.Lims.Analysis.Module"
              xmlns:lang="clr-namespace:HLab.Mvvm.Lang;assembly=HLab.Mvvm.Wpf"
+             xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
              xmlns:icons="clr-namespace:HLab.Mvvm.Icons;assembly=HLab.Mvvm.Wpf"
              xmlns:assayClasses="clr-namespace:HLab.Erp.Lims.Analysis.Module.AssayClasses"
              d:DataContext="{d:DesignInstance {x:Type assayClasses:AssayClassViewModelDesign}, IsDesignTimeCreatable=True}"             
@@ -14,7 +15,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <base:DetailView>
-            <ContentPresenter Height="50" Content="{Binding Locker}" Grid.ColumnSpan="2"/>
+            <mvvm:ViewLocator Height="50"  Model="{Binding Locker}" Grid.ColumnSpan="2"/>
+
             <Label>
                 <lang:Localize Id="Workflow" Margin="50,0,0,0"/>
             </Label>
