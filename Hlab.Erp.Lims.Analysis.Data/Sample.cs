@@ -452,12 +452,12 @@ namespace HLab.Erp.Lims.Analysis.Data
             .Foreign(e => e.ProductId)
         );
 
-        [Ignore] public ObservableQuery<SampleAssay> SampleAssays => _sampleAssays.Get();
+        [Ignore] public ObservableQuery<SampleTest> SampleTests => _sampleTests.Get();
         //{
-        //    get => _sampleAssays.Get();
+        //    get => _sampleTests.Get();
         //}
 
-        private readonly IProperty<ObservableQuery<SampleAssay>> _sampleAssays = H.Property<ObservableQuery<SampleAssay>>(c => c
+        private readonly IProperty<ObservableQuery<SampleTest>> _sampleTests = H.Property<ObservableQuery<SampleTest>>(c => c
             .Foreign(e => e.SampleId)
         );
 

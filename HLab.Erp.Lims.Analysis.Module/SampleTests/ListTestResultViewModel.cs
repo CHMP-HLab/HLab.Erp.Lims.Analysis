@@ -7,14 +7,14 @@ using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Core.ViewModels;
 using HLab.Erp.Core.ViewModels.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.AssayClasses;
+using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Icons;
 using HLab.Notify.PropertyChanged;
 
-namespace HLab.Erp.Lims.Analysis.Module.SampleAssays
+namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
-    public class ListAssayResultViewModel : EntityListViewModel<ListAssayResultViewModel,AssayResult>, IMvvmContextProvider
+    public class ListTestResultViewModel : EntityListViewModel<ListTestResultViewModel,SampleTestResult>, IMvvmContextProvider
     {
         [Import]
         private readonly IErpServices _erp;
@@ -24,7 +24,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleAssays
             private set => _form.Set(value);
         }
         private readonly IProperty<object> _form = H.Property<object>();
-        public async Task Compile(AssayResult target)
+        public async Task Compile(SampleTestResult target)
         {
             if (target == null)
             {
@@ -33,7 +33,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleAssays
             }
 
             var h = new FormHelper();
-            await h.ExtractCode(target.SampleAssay.Code).ConfigureAwait(true);
+            await h.ExtractCode(target.SampleTest.Code).ConfigureAwait(true);
             Form = await h.LoadForm(target.Values).ConfigureAwait(true);
             //XamlMessage = h.XamlMessage;
             //CsMessage = h.CsMessage;
@@ -54,11 +54,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleAssays
             }
         }
 
-        public ListAssayResultViewModel(int sampleAssayId)
+        public ListTestResultViewModel(int sampleTestId)
         {
             OpenAction = t => Compile(t);
 
-            List.AddFilter(()=>e => e.SampleAssayId == sampleAssayId);
+            List.AddFilter(()=>e => e.SampleTestId == sampleTestId);
 
 
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();

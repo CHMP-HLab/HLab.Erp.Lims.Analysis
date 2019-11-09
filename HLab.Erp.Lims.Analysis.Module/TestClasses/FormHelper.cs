@@ -15,20 +15,34 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
+using Google.Protobuf.WellKnownTypes;
 using HLab.Base;
 
-namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
+namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
-    public interface IModule
+    public interface ITestForm
     {
         void Connect(int connectionId, object target);
         void Traitement(object sender, RoutedEventArgs e);
+
+        ITestHelper Test {get ;}
+    }
+
+    public class DummyTestForm : UserControl, ITestForm
+    {
+        public ITestHelper Test => null;
+
+        public void Connect(int connectionId, object target)
+        {
+        }
+
+        public void Traitement(object sender, RoutedEventArgs e)
+        {
+        }
     }
 
     public class FormHelper
     {
-        public static event EventHandler ResultChanged;
-
         public string Xaml { get; set; }
         public string Cs { get; set; }
 
@@ -62,7 +76,7 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
             return form;
         }
 
-        public async Task<object> LoadForm()
+        public async Task<ITestForm> LoadForm()
         {
             CsMessage = "";
             XamlMessage = "";
@@ -76,7 +90,7 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
             xmlns:o = ""clr-namespace:HLab.Base;assembly=HLab.Base.Wpf""
             UseLayoutRounding = ""True"" >
                 <UserControl.Resources><ResourceDictionary><ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source = ""pack://application:,,,/HLab.Erp.Lims.Analysis.Module;component/AssayClasses/FormsDictionary.xaml"" />          
+                    <ResourceDictionary Source = ""pack://application:,,,/HLab.Erp.Lims.Analysis.Module;component/TestClasses/FormsDictionary.xaml"" />          
                 </ResourceDictionary.MergedDictionaries></ResourceDictionary></UserControl.Resources >
          
                 <Grid>
@@ -133,7 +147,7 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
                 return null;
             }
 
-            var cs = "using HLab.Erp.Lims.Analysis.Module.AssayClasses;\r\n" + Cs;
+            var cs = "using HLab.Erp.Lims.Analysis.Module.TestClasses;\r\n" + Cs;
 
             if (cs.Contains("using FM;"))
             {
@@ -143,12 +157,19 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
 
             // Ajout des dérivations de classes
             int index = cs.IndexOf("public class",StringComparison.InvariantCulture) + 12;
-            index = cs.IndexOf("\r\n", index,StringComparison.InvariantCulture);
-            cs = cs.Insert(index, " : UserControl, IModule");
+            if (index>-1)
+            {
+                var i = cs.IndexOf("\r\n", index,StringComparison.InvariantCulture);
+                if(i<0) i = cs.IndexOf("\n", index,StringComparison.InvariantCulture);
+                index = i;
+            }
+
+
+            cs = cs.Insert(index, " : UserControl, ITestForm");
 
             // Ajout des déclarations des objects du formulaire à lier à la classe et de la fonction Connect pour la liaison une fois instanciée
             String declarations = "";
-            String connection = "\r\npublic void Connect(int connectionId, object target)\r\n{\r\nswitch (connectionId){\r\n";
+            String connection = "\npublic void Connect(int connectionId, object target)\n{\nswitch (connectionId){\n";
             List<FrameworkElement> elements = new List<FrameworkElement>();
             int n = 0;
             foreach (FrameworkElement fe in FindLogicalChildren<FrameworkElement>(form))
@@ -157,14 +178,14 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
                 {
                     elements.Add(fe);
                     //declarations += "internal " + fe.GetType().Name + " " + fe.Name +";\r\n";
-                    declarations += "public " + fe.GetType().Name + " " + fe.Name + ";\r\n";
+                    declarations += "public " + fe.GetType().Name + " " + fe.Name + ";\n";
                     connection += "case " + n + ": this." + fe.Name + " = ((" + fe.GetType().Name +
-                                  ")(target)); return;\r\n";
+                                  ")(target)); return;\n";
                     n++;
                 }
             }
 
-            declarations += "public AssayLegacyHelper Test = new AssayLegacyHelper();";
+            declarations += "public TestLegacyHelper Test {get;} = new TestLegacyHelper();\nITestHelper ITestForm.Test => Test;\n";
 
             cs = cs.Insert(cs.IndexOf('{', index) + 1, declarations + connection + "}\r\n}\r\n");
 
@@ -172,8 +193,9 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
                 
             if (!compiler.Compile())
             {
+                var testForm = new DummyTestForm { Content = form };
                 CsMessage = compiler.CsMessage;
-                return form;
+                return testForm;
             }
 
             var assemblyLoadContext = new AssemblyLoadContext("LimsForm", true);// SimpleUnloadableAssemblyLoadContext();
@@ -184,20 +206,23 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
                 assembly = assemblyLoadContext.LoadFromStream(asm);
             }
             // Création de l'instance de la classe venant du C#
-            dynamic module = Activator.CreateInstance(assembly.GetTypes()[0]);
-            module.Content = form;
+            ITestForm module = (ITestForm)Activator.CreateInstance(assembly.GetTypes()[0]);
+
+            if(module is UserControl uc)
+                uc.Content = form;
+
+            var checkboxes = new Dictionary<string, List<CheckBox>>();
 
             // Liaisons entre les objets Xaml et C#
             for (int i = 0; i < n; i++)
             {
-                ((IModule)module).Connect(i, elements[i]);
+                module.Connect(i, elements[i]);
 
                 if (elements[i] is TextBox textBox)
                 {
                     textBox.TextChanged += delegate (object sender, TextChangedEventArgs args)
                     {
-                        ((IModule)module).Traitement(sender, null);
-                        ResultChanged?.Invoke(null, null);
+                        module.Traitement(sender, args);
                     };
                 }
 
@@ -205,28 +230,50 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
                 {
                     textBoxEx.DoubleChange += delegate (object sender, RoutedEventArgs args)
                     {
-                       ((IModule)module).Traitement(sender, null);
-                       ResultChanged?.Invoke(null, null);
+                        module.Traitement(sender, args);
                     };
                 }
 
 
                 if (elements[i] is CheckBox checkbox)
                 {
-                    checkbox.PreviewMouseDown += delegate (object sender, MouseButtonEventArgs e)
+                    if(checkbox.Name.Contains("__"))
                     {
-                          e.Handled = true;
-                          ((IModule)module).Traitement(sender, null);
-                          ResultChanged?.Invoke(null, null);
-                    };
+                        var pos = checkbox.Name.LastIndexOf("__");
+                        var name = checkbox.Name.Substring(0, pos);
+
+                        if(!checkboxes.TryGetValue(name,out var chk))
+                        {
+                            chk = new List<CheckBox>();
+                            checkboxes.Add(name,chk);
+                        }
+
+                        chk.Add(checkbox);
+
+                        checkbox.PreviewMouseDown += delegate (object sender, MouseButtonEventArgs e)
+                        {
+                            e.Handled = true;
+                            if (module.Test is TestLegacyHelper test)
+                            {
+                                test.CheckGroupe(sender, chk.ToArray());
+                            }
+
+                            module.Traitement(sender, null);
+                        };
+                    }
+                    else
+                        checkbox.PreviewMouseDown += delegate (object sender, MouseButtonEventArgs e)
+                        {
+                            e.Handled = true;
+                            module.Traitement(sender, null);
+                        };
                 }
 
                 if (elements[i] is Button button)
                 {
                     button.Click += delegate (object sender, RoutedEventArgs args)
                     {
-                        ((IModule)module).Traitement(sender, null);
-                        ResultChanged?.Invoke(null, null);
+                        module.Traitement(sender, null);
                     };
 
                 }
@@ -254,12 +301,23 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
                             values += c.Name + "=" + tb.Text.Replace("■", "") +"■"; // Le séparateur est un ALT + 254
                             break;
                         case CheckBox cb:
-                            values += cb.IsChecked switch
+                            if(cb.Name.Contains("__"))
                             {
-                                null => (c.Name + "=N■"),
-                                false => (c.Name + "=0■"),
-                                true => (c.Name + "=1■")
-                            };
+                                if(cb.IsChecked==true)
+                                {
+                                    values += c.Name.Replace("__", "=")+ "■";
+                                }
+                            }
+                            else
+                            {
+                                values +=
+                                cb.IsChecked switch
+                                {
+                                    null => (c.Name + "=N■"),
+                                    false => (c.Name + "=0■"),
+                                    true => (c.Name + "=1■")
+                                };
+                            }
                             break;
                     }
                 }
@@ -270,7 +328,7 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
 
         public void LoadValues(FrameworkElement form, [NotNull]string values)
         {
-            LoadValues(form, values.Split('■').ToList()); // Le séparateur est un ALT + 254
+            LoadValues(form, values.Split((char)254).ToList()); // Le séparateur est un ALT + 254
         }
 
         public void LoadValues(FrameworkElement form, List<string> values)
@@ -278,6 +336,11 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
             foreach(var c in FindLogicalChildren<Control>(form))
             {
                 var nom = c.Name + "=";
+                if(c.Name.Contains("__") && c is CheckBox chk)
+                {
+                    var idx = c.Name.IndexOf("__");
+                    nom = c.Name.Substring(0,idx)+"=";
+                }
                 foreach(var value in values)
                 {
                     if (value.Length < nom.Length || value.Substring(0, nom.Length) != nom) continue;
@@ -290,6 +353,11 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
                             tb.Text = value.Substring(nom.Length);
                             break;
                         case CheckBox cb:
+                            if(c.Name.Contains("__"))
+                            {
+                                cb.IsChecked = (c.Name == nom.Replace("=", "__") + value.Substring(nom.Length));
+                            }
+                            else
                             cb.IsChecked = value.Substring(nom.Length) switch
                             {
                                 "N" => null,

@@ -85,11 +85,11 @@ namespace HLab.Erp.Lims.Analysis.Module
             .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.PharmacopoeiaVersion))
                 .WithMessage(w => "Missing pharmacopoeia version")
 
-            .NotWhen(w => w.Target.SampleAssays.Count == 0)
-                .WithMessage(w => "Missing assays")
+            .NotWhen(w => w.Target.SampleTests.Count == 0)
+                .WithMessage(w => "Missing tests")
 
             .NotWhen(w => {
-                foreach (SampleAssay test in w.Target.SampleAssays)
+                foreach (SampleTest test in w.Target.SampleTests)
                     if (test.Stage < 1) return true; // TODO
                 return false;
             }).WithMessage(w => "Some tests Missing specifications")

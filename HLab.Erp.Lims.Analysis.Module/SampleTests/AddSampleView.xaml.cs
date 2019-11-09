@@ -11,7 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HLab.Erp.Lims.Analysis.Module.SampleAssays
+namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
     /// <summary>
     /// Logique d'interaction pour AddSampleView.xaml

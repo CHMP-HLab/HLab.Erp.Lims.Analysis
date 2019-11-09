@@ -65,7 +65,7 @@
                                     </Rectangle.RenderTransform>
                                 </Rectangle>
 
-                                <Rectangle Name="coche" Visibility="Collapsed" Width="2" Height="2" Fill="Black" StrokeThickness="0" VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+                                <Rectangle Name="coche" Visibility="Collapsed" Width="2" Height="2" Fill="{DynamicResource MahApps.Brushes.Black}" StrokeThickness="0" VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
                                     <Rectangle.RenderTransform>
                                         <TransformGroup>
                                             <TranslateTransform Y="0.2" X="0.7"/>

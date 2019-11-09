@@ -9,7 +9,7 @@ using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    public partial class AssayClass : Entity<AssayClass>, ILocalCache
+    public partial class TestClass : Entity<TestClass>, ILocalCache
         , IEntityWithIcon
         , IEntityWithColor
     {
@@ -58,7 +58,7 @@ namespace HLab.Erp.Lims.Analysis.Data
         readonly IProperty<sbyte?> _category = H.Property<sbyte?>();
 
         [Ignore]
-        public virtual ICollection<SampleAssay> SampleAssays { get; set; }
+        public virtual ICollection<SampleTest> SampleTests { get; set; }
 
         public int? DurationFirst
         {
@@ -102,7 +102,7 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         readonly IProperty<string> _iconPath = H.Property<string>();
 
-        public static AssayClass DesignModel => new AssayClass
+        public static TestClass DesignModel => new TestClass
         {
             Name = "Identification",IconPath = "",Version="1.1.0"
         };

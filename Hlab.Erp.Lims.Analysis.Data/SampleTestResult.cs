@@ -7,32 +7,32 @@ using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-     public partial class AssayResult : Entity<AssayResult>
+     public partial class SampleTestResult : Entity<SampleTestResult>
 //        , IEntityWithIcon
 //        , IEntityWithColor
     {
         //public int? Color => _color.Get();
-        //private readonly IProperty<int?> _color = H.Property<int?>(c => c.OneWayBind(e => e.SampleAssay.AssayClass.Color));
+        //private readonly IProperty<int?> _color = H.Property<int?>(c => c.OneWayBind(e => e.SampleTest.TestClass.Color));
 
         //public string IconName => _iconName.Get();
-        //private readonly IProperty<string> _iconName = H.Property<string>(c => c.OneWayBind(e => e.SampleAssay.AssayClass.IconName));
+        //private readonly IProperty<string> _iconName = H.Property<string>(c => c.OneWayBind(e => e.SampleTest.TestClass.IconName));
 
-        public int? SampleAssayId
+        public int? SampleTestId
         {
-            get => _sampleAssayId.Get();
-            set => _sampleAssayId.Set(value);
+            get => _sampleTestId.Get();
+            set => _sampleTestId.Set(value);
         }
 
-        private readonly IProperty<int?> _sampleAssayId = H.Property<int?>();
+        private readonly IProperty<int?> _sampleTestId = H.Property<int?>();
 
         [Ignore]
-        public virtual SampleAssay SampleAssay
+        public virtual SampleTest SampleTest
         {
-            get => _sampleAssay.Get();
-            set => SampleAssayId = value?.Id;
+            get => _sampleTest.Get();
+            set => SampleTestId = value?.Id;
         }
 
-        private readonly IProperty<SampleAssay> _sampleAssay = H.Property<SampleAssay>(c => c.Foreign(e => e.SampleAssayId));
+        private readonly IProperty<SampleTest> _sampleTest = H.Property<SampleTest>(c => c.Foreign(e => e.SampleTestId));
 
         public int? UserId
         {

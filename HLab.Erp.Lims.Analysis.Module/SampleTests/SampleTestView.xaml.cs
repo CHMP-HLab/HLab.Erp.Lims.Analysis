@@ -10,15 +10,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using HLab.Erp.Core;
+using HLab.Mvvm.Annotations;
 
-namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
+namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
     /// <summary>
-    /// Logique d'interaction pour FormTemplate.xaml
+    /// Logique d'interaction pour SampleTestView.xaml
     /// </summary>
-    public partial class FormTemplate : UserControl
+    public partial class SampleTestView : UserControl, IView<SampleTestViewModel>, IViewClassDocument
     {
-        public FormTemplate()
+        public SampleTestView()
         {
             InitializeComponent();
         }

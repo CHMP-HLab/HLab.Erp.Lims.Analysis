@@ -8,9 +8,9 @@ using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Icons;
 
-namespace HLab.Erp.Lims.Analysis.Module.SampleAssays
+namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
-    public class ListSampleAssayViewModel : EntityListViewModel<ListSampleAssayViewModel, SampleAssay>, IMvvmContextProvider
+    public class ListSampleTestViewModel : EntityListViewModel<ListSampleTestViewModel, SampleTest>, IMvvmContextProvider
     {
         [Import]
         private readonly IIconService _icons;
@@ -44,26 +44,26 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleAssays
             }
         }
 
-        public ListSampleAssayViewModel(int sampleId)
+        public ListSampleTestViewModel(int sampleId)
         {
             List.AddFilter(()=>e => e.SampleId == sampleId);
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns
-                .Column("",async s => await _icons.GetIcon(s.AssayClass.IconPath, 25.0), s => s.AssayClass.Order)
-                .Column("^Assay", s => new StackPanel{
+                .Column("",async s => await _icons.GetIcon(s.TestClass.IconPath, 25.0), s => s.TestClass.Order)
+                .Column("^Test", s => new StackPanel{
                     VerticalAlignment = VerticalAlignment.Top,
                     Children =
                     {
-                        new TextBlock{Text=s.AssayName,FontWeight = FontWeights.Bold},
+                        new TextBlock{Text=s.TestName,FontWeight = FontWeights.Bold},
                         new TextBlock{Text = s.Description, FontStyle = FontStyles.Italic}
                     }})
                 .Column("^Specifications", s => s.Specification)
                 .Column("^Result", s => s.Result)
-            //.Column("Conformity", s => s.AssayStateId);
-                .Column("^State", async s => await GetIcon(s.AssayStateId??0,25), s => s.AssayStateId)
+            //.Column("Conformity", s => s.TestStateId);
+                .Column("^State", async s => await GetIcon(s.TestStateId??0,25), s => s.TestStateId)
                 .Column("^Validation", async s => await GetCheckIcon(s.Validation??0,25), s => s.Validation)
                 .Hidden("IsValid", s => s.Validation!=2)
-                .Hidden("Group", s => s.AssayClassId);
+                .Hidden("Group", s => s.TestClassId);
 
             List.Update();
         }

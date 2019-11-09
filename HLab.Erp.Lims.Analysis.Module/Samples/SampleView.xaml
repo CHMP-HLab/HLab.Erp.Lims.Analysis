@@ -152,7 +152,7 @@
                 </Rectangle>
 
                 <Grid Grid.Row="2" VerticalAlignment="Top" mvvm:ViewLocator.ViewClass="{x:Type annotations:IViewClassContent}">
-                    <ContentControl Content="{Binding Assays}"/>
+                    <ContentControl Content="{Binding Tests}"/>
                 </Grid>
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Background="#7F000000" Margin="0,56,0,109" Grid.Column="1">
                     <StackPanel x:Name="SP_Test"/>

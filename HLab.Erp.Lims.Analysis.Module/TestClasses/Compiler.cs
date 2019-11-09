@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -8,12 +9,13 @@ using System.Windows;
 using System.Windows.Controls;
 using ControlzEx.Standard;
 using HLab.Base;
+using HLab.Notify.PropertyChanged;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
 using Outils;
 
-namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
+namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
     class Compiler
     {
@@ -60,6 +62,7 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
 
             var parsedSyntaxTree = SyntaxFactory.ParseSyntaxTree(codeString, options);
 
+
             var references = new MetadataReference[]
             {
                 //System.Runtime
@@ -72,12 +75,22 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
                 MetadataReference.CreateFromFile(typeof(TextBox).Assembly.Location),
                 //WindowBase
                 MetadataReference.CreateFromFile(typeof(DependencyObject).Assembly.Location),
-                //FM.NetCore
+                //HLab.Base.Wpf
                 MetadataReference.CreateFromFile(typeof(TextBoxEx).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(IModule).Assembly.Location),
+                //HLab.Erp.Lims.Analysis.Module
+                MetadataReference.CreateFromFile(typeof(ITestForm).Assembly.Location),
+                //System.ObjectModel
+                MetadataReference.CreateFromFile(typeof(INotifyPropertyChanged).Assembly.Location),
+                //HLab.Notify.PropertyChanged
+                MetadataReference.CreateFromFile(typeof(N<>).Assembly.Location),
                 //
                 MetadataReference.CreateFromFile( Assembly.GetExecutingAssembly().Location),
                 //MetadataReference.CreateFromFile(typeof(Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo).Assembly.Location),
+                MetadataReference.CreateFromFile(Assembly.Load("netstandard").Location),
+                MetadataReference.CreateFromFile(Assembly.Load("System.Linq").Location),
+                MetadataReference.CreateFromFile(Assembly.Load("System.Core").Location),
+                MetadataReference.CreateFromFile(Assembly.Load("System.Xaml").Location),
+                MetadataReference.CreateFromFile(Assembly.Load("System.ComponentModel.Primitives").Location)
             };
 
             return CSharpCompilation.Create("Hello.dll",

@@ -3,7 +3,7 @@ using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Data.Observables;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.SampleAssays;
+using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
@@ -14,9 +14,9 @@ namespace HLab.Erp.Lims.Analysis.Module
     {
         public SampleViewModel()
         { }
-        [Import] public SampleViewModel(Func<int, ListSampleAssayViewModel> getAssays, ObservableQuery<Packaging> packagings)
+        [Import] public SampleViewModel(Func<int, ListSampleTestViewModel> getTests, ObservableQuery<Packaging> packagings)
         {
-            _getAssays = getAssays;
+            _getTests = getTests;
             Packagings = packagings;
             Packagings.Update();
         }
@@ -37,12 +37,12 @@ namespace HLab.Erp.Lims.Analysis.Module
             );
 
         
-        private readonly Func<int, ListSampleAssayViewModel> _getAssays;
+        private readonly Func<int, ListSampleTestViewModel> _getTests;
 
-        public ListSampleAssayViewModel Assays => _assays.Get();
-        private readonly IProperty<ListSampleAssayViewModel> _assays = H.Property<ListSampleAssayViewModel>(c => c
+        public ListSampleTestViewModel Tests => _tests.Get();
+        private readonly IProperty<ListSampleTestViewModel> _tests = H.Property<ListSampleTestViewModel>(c => c
             .On(e => e.Model)
-            .Set(e => e._getAssays(e.Model.Id))
+            .Set(e => e._getTests(e.Model.Id))
         );
 
         public SampleWorkflow Workflow => _workflow.Get();

@@ -9,7 +9,7 @@ using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    public partial class SampleAssay : Entity<SampleAssay>
+    public partial class SampleTest : Entity<SampleTest>
         , IEntityWithIcon
         , IEntityWithColor
     {
@@ -21,20 +21,20 @@ namespace HLab.Erp.Lims.Analysis.Data
         private readonly IProperty<int?> _sampleId = H.Property<int?>();
 
 
-        public int? AssayClassId
+        public int? TestClassId
         {
-            get => _assayClassId.Get();
-            set => _assayClassId.Set(value);
+            get => _testClassId.Get();
+            set => _testClassId.Set(value);
         }
-        private readonly IProperty<int?> _assayClassId = H.Property<int?>();
+        private readonly IProperty<int?> _testClassId = H.Property<int?>();
 
 
-        public int? AssayStateId
+        public int? TestStateId
         {
-            get => _assayStateId.Get();
-            set => _assayStateId.Set(value);
+            get => _testStateId.Get();
+            set => _testStateId.Set(value);
         }
-        private readonly IProperty<int?> _assayStateId = H.Property<int?>();
+        private readonly IProperty<int?> _testStateId = H.Property<int?>();
 
 
         public int? UserId
@@ -80,12 +80,12 @@ namespace HLab.Erp.Lims.Analysis.Data
         //}
 
 
-        public string AssayName
+        public string TestName
         {
-            get => _assayName.Get();
-            set => _assayName.Set(value);
+            get => _testName.Get();
+            set => _testName.Set(value);
         }
-        private readonly IProperty<string> _assayName = H.Property<string>(c => c.Default(""));
+        private readonly IProperty<string> _testName = H.Property<string>(c => c.Default(""));
 
 
         public string Version
@@ -194,41 +194,41 @@ namespace HLab.Erp.Lims.Analysis.Data
         private readonly IProperty<Sample> _sample = H.Property<Sample>(c => c.Foreign(e => e.SampleId));
 
         [Ignore]
-        public virtual AssayClass AssayClass
+        public virtual TestClass TestClass
         {
-            set => AssayClassId = value.Id;
-            get => _assayClass.Get();
+            set => TestClassId = value.Id;
+            get => _testClass.Get();
         }
-        private readonly IProperty<AssayClass> _assayClass = H.Property<AssayClass>(c => c
-            .Foreign(e => e.AssayClassId)
+        private readonly IProperty<TestClass> _testClass = H.Property<TestClass>(c => c
+            .Foreign(e => e.TestClassId)
         );
 
         [Ignore]
         public int? Color => _color.Get();
         private readonly IProperty<int?> _color = H.Property<int?>(c => c
-            .On(e => e.AssayClass.Color)
-            .Set(e => e.AssayClass?.Color)
+            .On(e => e.TestClass.Color)
+            .Set(e => e.TestClass?.Color)
         );
 
 
         [Ignore]
         public string IconPath => _iconPath.Get();
         private IProperty<string> _iconPath = H.Property<string>(c => c
-            .OneWayBind(e => e.AssayClass.IconPath)
+            .OneWayBind(e => e.TestClass.IconPath)
         );
 
         [Ignore]
-        public ObservableQuery<AssayResult> AssayResults => _sampleAssays.Get();
-        private readonly IProperty<ObservableQuery<AssayResult>> _sampleAssays = H.Property<ObservableQuery<AssayResult>>(c => c
-            .Foreign(e => e.SampleAssayId)
+        public ObservableQuery<SampleTestResult> Results => _results.Get();
+        private readonly IProperty<ObservableQuery<SampleTestResult>> _results = H.Property<ObservableQuery<SampleTestResult>>(c => c
+            .Foreign(e => e.SampleTestId)
         );
 
         //[Ignore]
         //[Import]
-        //public ObservableQuery<AssayResult> AssayResults
+        //public ObservableQuery<TestResult> TestResults
         //{
-        //    get => N.Get<ObservableQuery<AssayResult>>();
-        //    set => N.Set(value.AddFilter("OneToMany", e => e.SampleAssayId == Id)
+        //    get => N.Get<ObservableQuery<TestResult>>();
+        //    set => N.Set(value.AddFilter("OneToMany", e => e.SampleTestId == Id)
         //        .FluentUpdate());
         //}
     }

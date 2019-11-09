@@ -8,18 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Page Remove="Icons\Assays\AssayHplc.xaml" />
-    <Page Remove="Icons\Assays\AssayUv.xaml" />
-    <Page Remove="Icons\Assays\CCM.xaml" />
-    <Page Remove="Icons\Assays\Degradation.xaml" />
-    <Page Remove="Icons\Assays\DissolutionHplc.xaml" />
-    <Page Remove="Icons\Assays\DissolutionUv.xaml" />
-    <Page Remove="Icons\Assays\ExtractableVolume.xaml" />
-    <Page Remove="Icons\Assays\Friability.xaml" />
-    <Page Remove="Icons\Assays\Identification.xaml" />
-    <Page Remove="Icons\Assays\pH.xaml" />
-    <Page Remove="Icons\Assays\Sterility.xaml" />
-    <Page Remove="Icons\Assays\Weighting.xaml" />
+    <Page Remove="Icons\Tests\AssayHplc.xaml" />
+    <Page Remove="Icons\Tests\AssayUv.xaml" />
+    <Page Remove="Icons\Tests\CCM.xaml" />
+    <Page Remove="Icons\Tests\Degradation.xaml" />
+    <Page Remove="Icons\Tests\DissolutionHplc.xaml" />
+    <Page Remove="Icons\Tests\DissolutionUv.xaml" />
+    <Page Remove="Icons\Tests\ExtractableVolume.xaml" />
+    <Page Remove="Icons\Tests\Friability.xaml" />
+    <Page Remove="Icons\Tests\Identification.xaml" />
+    <Page Remove="Icons\Tests\pH.xaml" />
+    <Page Remove="Icons\Tests\Sterility.xaml" />
+    <Page Remove="Icons\Tests\Weighting.xaml" />
     <Page Remove="Icons\Edit.xaml" />
     <Page Remove="Icons\Forms\Capsule.xaml" />
     <Page Remove="Icons\Forms\Capsules.xaml" />
@@ -80,51 +80,51 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Icons\Assays\AssayHplc.xaml">
+    <Resource Include="Icons\Tests\AssayHplc.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Assays\AssayUv.xaml">
+    <Resource Include="Icons\Tests\AssayUv.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Assays\CCM.xaml">
+    <Resource Include="Icons\Tests\CCM.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Assays\Degradation.xaml">
+    <Resource Include="Icons\Tests\Degradation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Assays\DissolutionHplc.xaml">
+    <Resource Include="Icons\Tests\DissolutionHplc.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Assays\DissolutionUv.xaml">
+    <Resource Include="Icons\Tests\DissolutionUv.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Assays\ExtractableVolume.xaml">
+    <Resource Include="Icons\Tests\ExtractableVolume.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Assays\Friability.xaml">
+    <Resource Include="Icons\Tests\Friability.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Assays\Identification.xaml">
+    <Resource Include="Icons\Tests\Identification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Assays\pH.xaml">
+    <Resource Include="Icons\Tests\pH.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Assays\Sterility.xaml">
+    <Resource Include="Icons\Tests\Sterility.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Assays\Weighting.xaml">
+    <Resource Include="Icons\Tests\Weighting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
@@ -290,7 +290,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="AssayClasses\AssayClassDetailView.xaml.cs">
+    <Compile Update="TestClasses\TestClassDetailView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="ProgressView.xaml.cs">
@@ -317,7 +317,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="AssayClasses\AssayClassDetailView.xaml">
+    <Page Update="TestClasses\TestClassDetailView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Icons\Results\Running.xaml">

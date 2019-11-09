@@ -6,15 +6,15 @@ using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Icons;
 
-namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
+namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
-    class ListAssayClassViewModel : EntityListViewModel<ListAssayClassViewModel,AssayClass>, IMvvmContextProvider
+    class ListTestClassViewModel : EntityListViewModel<ListTestClassViewModel,TestClass>, IMvvmContextProvider
     {
         
         private readonly IErpServices _erp;
 
  
-        [Import] public ListAssayClassViewModel(IErpServices erp) 
+        [Import] public ListTestClassViewModel(IErpServices erp) 
         {
             _erp = erp;
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();

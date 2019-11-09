@@ -4,24 +4,24 @@ using System.Windows.Controls;
 using HLab.Erp.Core;
 using HLab.Mvvm.Annotations;
 
-namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
+namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
     /// <summary>
-    /// Logique d'interaction pour AssayClassView.xaml
+    /// Logique d'interaction pour TestClassView.xaml
     /// </summary>
-    public partial class AssayClassView : UserControl,IView<AssayClassViewModel>, IViewClassDocument
+    public partial class TestClassView : UserControl,IView<TestClassViewModel>, IViewClassDocument
     {
-        public AssayClassView()
+        public TestClassView()
         {
             InitializeComponent();
-            DataContextChanged += AssayClassView_DataContextChanged;
+            DataContextChanged += TestClassView_DataContextChanged;
         }
 
-        private void AssayClassView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void TestClassView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if(e.OldValue is AssayClassViewModel oldVm)
+            if(e.OldValue is TestClassViewModel oldVm)
                 oldVm.PropertyChanged -= Vm_PropertyChanged;
-            if (e.NewValue is AssayClassViewModel vm)
+            if (e.NewValue is TestClassViewModel vm)
             {
                 XamlEditor.Text = vm.Xaml;
                 CodeEditor.Text = vm.Cs;
@@ -32,17 +32,17 @@ namespace HLab.Erp.Lims.Analysis.Module.AssayClasses
         private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             //if (e.PropertyName == "Xaml")
-            //    XamlEditor.Text = ((AssayClassViewModel) DataContext).Xaml;
+            //    XamlEditor.Text = ((TestClassViewModel) DataContext).Xaml;
             //if (e.PropertyName == "Code")
-            //    CodeEditor.Text = ((AssayClassViewModel) DataContext).Code;
+            //    CodeEditor.Text = ((TestClassViewModel) DataContext).Code;
         }
 
         private void TextEditor_OnTextChanged(object sender, EventArgs e)
         {
             if (ReferenceEquals(sender, XamlEditor))
-                ((AssayClassViewModel) DataContext).Xaml = XamlEditor?.Text;
+                ((TestClassViewModel) DataContext).Xaml = XamlEditor?.Text;
             if (ReferenceEquals(sender, CodeEditor))
-                ((AssayClassViewModel) DataContext).Xaml = XamlEditor?.Text;
+                ((TestClassViewModel) DataContext).Cs = CodeEditor?.Text;
         }
     }
 }

@@ -1,4 +1,4 @@
-using HLab.Erp.Lims.Analysis.Module.AssayClasses;
+using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using System;
 using Xunit;
 
