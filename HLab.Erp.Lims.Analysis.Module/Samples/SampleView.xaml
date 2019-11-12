@@ -9,9 +9,10 @@
              xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
              xmlns:lang="clr-namespace:HLab.Mvvm.Lang;assembly=HLab.Mvvm.Wpf"
              xmlns:icons="clr-namespace:HLab.Mvvm.Icons;assembly=HLab.Mvvm.Wpf"
+             xmlns:samples="clr-namespace:HLab.Erp.Lims.Analysis.Module.Samples"
              mc:Ignorable="d" 
              Background="#FF004050"
-             d:DataContext="{d:DesignInstance {x:Type local:SampleViewModel}, IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModel}, IsDesignTimeCreatable=True}"
              d:DesignHeight="1000" d:DesignWidth="1000"
              mvvm:ViewLocator.ViewClass="{x:Type annotations:IViewClassDefault}">
 
@@ -39,15 +40,16 @@
         <Grid Grid.Row="2" >
             <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <local:SampleDetailView Grid.Column="0"/>
 
-            <GridSplitter Width="5" Grid.Column="0" Background="Transparent"/>
+            <GridSplitter Width="5" Grid.Column="1" Background="Transparent"/>
 
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>

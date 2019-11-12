@@ -10,9 +10,13 @@
              xmlns:lang="clr-namespace:HLab.Mvvm.Lang;assembly=HLab.Mvvm.Wpf"
              xmlns:icons="clr-namespace:HLab.Mvvm.Icons;assembly=HLab.Mvvm.Wpf"
              xmlns:views="clr-namespace:HLab.Mvvm.Views;assembly=HLab.Mvvm.Wpf"
+             xmlns:products="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products"
+             xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
+             xmlns:data="clr-namespace:HLab.Erp.Lims.Analysis.Data;assembly=HLab.Erp.Lims.Analysis.Data"
+             xmlns:samples="clr-namespace:HLab.Erp.Lims.Analysis.Module.Samples"
              mc:Ignorable="d" 
              Background="#FF004050"
-             d:DataContext="{d:DesignInstance {x:Type local:SampleViewModelDesign}, IsDesignTimeCreatable=True}"             
+             d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModelDesign}, IsDesignTimeCreatable=True}"             
              d:DesignHeight="1200" d:DesignWidth="500"
              mvvm:ViewLocator.ViewClass ="{x:Type annotations:IViewClassDefault}"
 
@@ -34,12 +38,12 @@
         </Grid.RowDefinitions>
 
         <base:DetailView>
-            <ContentPresenter Height="50" Content="{Binding Locker}" Grid.ColumnSpan="2"/>
+            <mvvm:ViewLocator Height="50" Model="{Binding Locker}" Grid.ColumnSpan="2"/>
 
             <Label>
                 <lang:Localize Id="Workflow" Margin="50,0,0,0"/>
             </Label>
-            <ContentPresenter Content="{Binding Workflow}"/>
+            <mvvm:ViewLocator Model="{Binding Workflow}"/>
 
         </base:DetailView>
 
@@ -91,9 +95,16 @@
         <Label HorizontalContentAlignment="Right">
             <lang:Localize Id="INN" StringFormat="{}{0} : "/>
         </Label>
-        <TextBox
+        <!--<TextBox
             
-            TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Product.Caption ,Mode=OneWay}" HorizontalContentAlignment="Center" />
+            TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Product.Caption ,Mode=OneWay}" HorizontalContentAlignment="Center" />-->
+            <entitySelectors:ForeignView 
+                IsReadOnly="{Binding Locker.IsReadOnly}"
+                Model="{Binding Model.Product}"
+                ModelClass="{x:Type data:Product}" 
+                MvvmContext="{Binding Erp.Mvvm.MainContext}" 
+                ListClass="{x:Type products:ListProductPopupViewModel}">
+            </entitySelectors:ForeignView>
 
         <Label Style="{DynamicResource Separator}" >
             <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
@@ -310,7 +321,7 @@
             AcceptsReturn="True" 
             TextWrapping="Wrap" />
 
-
+<!--
         <Label Style="{DynamicResource SmallSeparator}">
             <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                 <Canvas>
@@ -354,10 +365,10 @@
             </CheckBox>
             <TextBox 
                 
-                Grid.Column="3" Text="{Binding Model.NoticeOther}" HorizontalAlignment="Stretch"/>
+                Grid.Column="3" Text="{Binding Model.N}" HorizontalAlignment="Stretch"/>
         </Grid>
 
-
+-->
 
 
 

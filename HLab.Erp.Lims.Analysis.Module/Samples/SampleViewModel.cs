@@ -1,17 +1,24 @@
 ﻿using System;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
+using HLab.Erp.Core;
 using HLab.Erp.Data.Observables;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.Products;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
 
-namespace HLab.Erp.Lims.Analysis.Module
+namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
     class SampleViewModel : EntityViewModel<SampleViewModel,Sample>
     {
+        public Type ListProductType => typeof(ListProductPopupViewModel);
+
+        [Import]
+        public IErpServices Erp { get; }
+
         public SampleViewModel()
         { }
         [Import] public SampleViewModel(Func<int, ListSampleTestViewModel> getTests, ObservableQuery<Packaging> packagings)
@@ -20,7 +27,7 @@ namespace HLab.Erp.Lims.Analysis.Module
             Packagings = packagings;
             Packagings.Update();
         }
-        public string Title => Model.Customer.Name + "\n" + Model.Product.Caption + "\n" + Model.Ref;
+        public string Title => Model.Customer?.Name??"Nouvel échantillon" + "\n" + Model.Product?.Caption + "\n" + Model.Ref;
 
         public ObservableQuery<Packaging> Packagings { get; }
 

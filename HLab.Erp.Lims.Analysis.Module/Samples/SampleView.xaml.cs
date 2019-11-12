@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using HLab.Erp.Core;
+using HLab.Erp.Lims.Analysis.Module.Samples;
 using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module

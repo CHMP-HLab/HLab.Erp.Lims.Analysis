@@ -1,6 +1,7 @@
 using System;
 using HLab.Base.Extentions;
 using HLab.DependencyInjection.Annotations;
+using HLab.Erp.Acl;
 using HLab.Erp.Base.Data;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
@@ -18,6 +19,19 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _fileId.Set(value);
         }
         private readonly IProperty<string> _fileId = H.Property<string>();
+
+        public int? UserId
+        {
+            get => _user.Id.Get(); 
+            set => _user.Id.Set(value);
+        }
+        [Ignore]
+        public User User
+        {
+            get => _user.Get(); 
+            set => _user.Set(value);
+        }
+        private readonly IForeign<User> _user = H.Foreign<User>(); 
 
         public int? RecordYear
         {
@@ -131,10 +145,6 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<string> _batch = H.Property<string>(c => c.Default(""));
 
-
-        //[Column(TypeName = "date")]
-        //public DateTime? DateFabrication { get; set; }
-
         public DateTime? ExpirationDate
         {
             get => _expirationDate.Get();
@@ -148,6 +158,7 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _expirationDayValid.Set(value);
         }
         private readonly IProperty<bool> _expirationDayValid = H.Property<bool>();
+
         public DateTime? ManufacturingDate
         {
             get => _manufacturingDate.Get();
@@ -377,10 +388,9 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         public int? CustomerId
         {
-            get => _customerId.Get();
-            set => _customerId.Set(value);
+            get => _customer.Id.Get();
+            set => _customer.Id.Set(value);
         }
-        private readonly IProperty<int?> _customerId = H.Property<int?>();
 
         [Ignore]
         public Customer Customer
@@ -388,9 +398,7 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _customer.Get();
             set => CustomerId = value.Id;
         }
-        private readonly IProperty<Customer> _customer = H.Property<Customer>(c => c
-            .Foreign(e => e.CustomerId)
-        );
+        private readonly IForeign<Customer> _customer = H.Foreign<Customer>();
 
 
 
@@ -415,42 +423,32 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         public int? PharmacopoeiaId
         {
-            get => _pharmacopoeiaId.Get();
-            set => _pharmacopoeiaId.Set(value);
+            get => _pharmacopoeia.Id.Get();
+            set => _pharmacopoeia.Id.Set(value);
         }
-        private readonly IProperty<int?> _pharmacopoeiaId = H.Property<int?>();
-
 
         [Ignore]
         public Pharmacopoeia Pharmacopoeia
         {
-            get => _pharmacopoeia.Get();// E.GetForeign<Pharmacopoeia>(() => PharmacopoeiaId);
-            set => PharmacopoeiaId = value.Id;
-            //set => _pharmacopoeia.Set(Context.Db.GetOrAdd(value), () => PharmacopoeiaId = value.Id);
+            get => _pharmacopoeia.Get();
+            set => _pharmacopoeia.Set(value);
         }
-        private readonly IProperty<Pharmacopoeia> _pharmacopoeia = H.Property<Pharmacopoeia>( c => c
-            .Foreign(e => e.PharmacopoeiaId)
-        );
+        private readonly IForeign<Pharmacopoeia> _pharmacopoeia = H.Foreign<Pharmacopoeia>();
 
 
         public int? ProductId
         {
-            get => _productId.Get();
-            set => _productId.Set(value);
+            get => _product.Id.Get();
+            set => _product.Id.Set(value);
         }
-        private readonly IProperty<int?> _productId = H.Property<int?>();
-
 
         [Ignore]
-        public virtual Product Product
+        public Product Product
         {
             get => _product.Get();
-            set => ProductId = value.Id;
-            //set => _product.Set(Context.Db.GetOrAdd(value), ()=>ProductId = value.Id);            
+            set => _product.Set(value);
         }
-        private readonly IProperty<Product> _product = H.Property<Product>( c => c
-            .Foreign(e => e.ProductId)
-        );
+        private readonly IForeign<Product> _product = H.Foreign<Product>( );
 
         [Ignore] public ObservableQuery<SampleTest> SampleTests => _sampleTests.Get();
         //{

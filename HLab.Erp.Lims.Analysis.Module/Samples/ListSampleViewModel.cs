@@ -57,6 +57,7 @@ namespace HLab.Erp.Lims.Analysis.Module
             // Db.Fetch<Customer>();
             using (List.Suspender.Get())
             {
+                
                 Filters.Add(new FilterDateViewModel()
                 {
                     Title = "^Expiration",
@@ -85,6 +86,15 @@ namespace HLab.Erp.Lims.Analysis.Module
                     MaxDate = DateTime.Now.AddYears(10)
                 }.Link(List,s => s.SamplingDate));
 
+                Filters.Add(new FilterTextViewModel()
+                    {
+                        Title = "Product",
+                        Value = ""
+                    }.Link(List, s => s.Product.Caption)
+                );
+                
+
+
     /*            var f3 = new EntityFilterViewModel
                 {
                     Title = "^Customer"
@@ -99,7 +109,6 @@ namespace HLab.Erp.Lims.Analysis.Module
                 List.AddFilter(s => f4.Match(s.ManufacturerId));
                 Filters.Add(f4);
     */
-//                List.Update();
             }
 
         }

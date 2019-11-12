@@ -28,12 +28,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
                 //.Hidden("IsValid",  s => s.Validation != 2)
                 ;
 
-            //List.AddFilter(e => e.State < 3);
-
-            // Db.Fetch<Customer>();
             using (List.Suspender.Get())
             {
-
+                Filters.Add(new FilterTextViewModel{Title = "Inn"}.Link(List,e => e.Inn));
+//                Filters.Add(new FilterTextViewModel{Title = "Dose"}.Link(List,e => e.Dose));
             }
 
         }
