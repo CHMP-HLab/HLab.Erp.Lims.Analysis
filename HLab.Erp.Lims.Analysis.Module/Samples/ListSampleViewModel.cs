@@ -7,6 +7,7 @@ using HLab.Erp.Core.ViewModels;
 using HLab.Erp.Core.ViewModels.EntityLists;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.Products;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Icons;
 
@@ -86,12 +87,12 @@ namespace HLab.Erp.Lims.Analysis.Module
                     MaxDate = DateTime.Now.AddYears(10)
                 }.Link(List,s => s.SamplingDate));
 
-                Filters.Add(new FilterTextViewModel()
-                    {
-                        Title = "Product",
-                        Value = ""
-                    }.Link(List, s => s.Product.Caption)
-                );
+                //Filters.Add(new FilterEntityViewModel<Product>(new ListProductPopupViewModel())
+                //    {
+                //        Title = "Product",
+                //        Filters = {new FilterTextViewModel{Title = "Inn"}}
+                //    }.Link(List, s => s.Product)
+                //);
                 
 
 

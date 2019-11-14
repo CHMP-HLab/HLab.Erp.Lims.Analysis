@@ -96,55 +96,25 @@
                     </GroupBox>
 
                 </Grid>
-                <icons:IconView Id="Icons/Analysis" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40"/>
 
 
 
-                <DockPanel Grid.Row="1">
-                <Label Content="Tests"/>
-                <Button 
-                        DockPanel.Dock="Right"
-                        HorizontalAlignment="Right"
-                        Width="40" 
-                        Tag="Poubelle" 
-                        IsCancel="False" 
-                        Height="40"
-                        Command="{Binding DeleteCommand}">
-                    <lang:Localize Id="Delete"/>
-                </Button>
+                <!--<StackPanel Grid.Row="1">
+                    --><!--<icons:IconView Id="Icons/Analysis" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40"/>--><!--
+                    <Label Content="Tests"/>
 
-                <Button 
-                        Height="40" 
-                        HorizontalAlignment="Right"
-                        DockPanel.Dock="Right" 
-                        Width="40" 
-                        Tag="Importer" 
-                        Command="{Binding ImportCommand}">
-                        <lang:Localize Id="Import"/>
-                </Button>
+                    <Button 
+                            Height="40" 
+                            HorizontalAlignment="Right"
+                            DockPanel.Dock="Right" 
+                            Width="40" 
+                            Tag="Importer" 
+                            Command="{Binding ImportCommand}">
+                            <lang:Localize Id="Import"/>
+                    </Button>
+                </StackPanel>-->
 
-                <Button
-                        HorizontalAlignment="Right"
-                        DockPanel.Dock="Right"
-                        Height="23" 
-                        Width="23" 
-                        Tag="Crayon">
-                    <icons:IconView Id="icons/edit"/>
-                </Button>
-
-                <Button
-                        HorizontalAlignment="Right"
-                        DockPanel.Dock="Right"
-                        Height="23" 
-                        Width="23" 
-                        Tag="Plus" 
-                        Command="{Binding AddTestCommand}">
-                    <icons:IconView Id="icons/new"/>
-                </Button>
-
-                </DockPanel>
-
-                <Rectangle Grid.Row="2" Height="50" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Margin="0,6,0,0" Grid.Column="1">
+                <Rectangle Grid.Row="2" Height="50" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Margin="0,6,0,0">
                     <Rectangle.Fill>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="#7FFFFFFF" Offset="1"/>
@@ -153,12 +123,12 @@
                     </Rectangle.Fill>
                 </Rectangle>
 
-                <Grid Grid.Row="2" VerticalAlignment="Top" mvvm:ViewLocator.ViewClass="{x:Type annotations:IViewClassContent}">
-                    <ContentControl Content="{Binding Tests}"/>
+                <Grid Grid.Row="2" VerticalAlignment="Top">
+                    <mvvm:ViewLocator 
+                        ViewClass="{x:Type annotations:IViewClassContent}"
+                        Model="{Binding Tests}"
+                        />
                 </Grid>
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Background="#7F000000" Margin="0,56,0,109" Grid.Column="1">
-                    <StackPanel x:Name="SP_Test"/>
-                </ScrollViewer>
 
                 <DockPanel Grid.Row="2" Height="80" VerticalAlignment="Bottom">
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right">
@@ -190,7 +160,7 @@
                 </DockPanel>
             </Grid>
 
-            <Grid Grid.Column="2">
+            <!--<Grid Grid.Column="2">
                 <CheckBox
                           Height="23" 
                           HorizontalAlignment="Right" 
@@ -214,7 +184,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-            </Grid>
+            </Grid>-->
         </Grid>
         </Grid>
 </UserControl>

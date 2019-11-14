@@ -7,6 +7,7 @@ using HLab.Mvvm.Icons;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using HLab.Erp.Core.ListFilters;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
@@ -30,6 +31,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
                 .Column("", async (s) => await _erp.Icon.GetIcon(s.Form?.IconPath ?? "", 25), s => s.Form.Name);
             using (List.Suspender.Get())
             {
+                Filters.Add(new FilterTextViewModel{Title = "Inn"}.Link(List,e => e.Inn));
+                Filters.Add(new FilterTextViewModel{Title = "Dose"}.Link(List,e => e.Dose));
 
             }
 

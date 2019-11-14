@@ -118,13 +118,15 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             textblock.Text = Math.Round(valeur, nbDecimales).ToString();
             return valeur;
         }
-        public double EvalueFormule(String formule)
+
+        public double EvalueFormule(string formula) => Evaluate(formula);
+        public double Evaluate(string formula)
         {
             try
             {
                 var parser = new Parser();
 
-                Value result = parser.Evaluate(formule);
+                Value result = parser.Evaluate(formula);
 
 
                 if (result != null)

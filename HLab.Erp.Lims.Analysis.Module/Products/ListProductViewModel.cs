@@ -31,7 +31,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
             using (List.Suspender.Get())
             {
                 Filters.Add(new FilterTextViewModel{Title = "Inn"}.Link(List,e => e.Inn));
-//                Filters.Add(new FilterTextViewModel{Title = "Dose"}.Link(List,e => e.Dose));
+                Filters.Add(new FilterTextViewModel{Title = "Dose"}.Link(List,e => e.Dose));
             }
 
         }
