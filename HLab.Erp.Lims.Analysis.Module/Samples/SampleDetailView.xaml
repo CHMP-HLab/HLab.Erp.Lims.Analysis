@@ -14,6 +14,8 @@
              xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
              xmlns:data="clr-namespace:HLab.Erp.Lims.Analysis.Data;assembly=HLab.Erp.Lims.Analysis.Data"
              xmlns:samples="clr-namespace:HLab.Erp.Lims.Analysis.Module.Samples"
+             xmlns:data1="clr-namespace:HLab.Erp.Base.Data;assembly=HLab.Erp.Base.Data"
+             xmlns:wpf="clr-namespace:HLab.Erp.Base.Wpf;assembly=HLab.Erp.Base.Wpf"
              mc:Ignorable="d" 
              Background="#FF004050"
              d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModelDesign}, IsDesignTimeCreatable=True}"             
@@ -76,11 +78,18 @@
         <Label HorizontalContentAlignment="Right">
             <lang:Localize Id="Customer" StringFormat="{}{0} : " />
         </Label>
-        <TextBox 
+        <!--<TextBox 
             IsReadOnly="{Binding Locker.IsReadOnly}"
             FontSize="20" 
             Text="{Binding Model.Customer.Name,Mode=OneWay}" 
-            HorizontalContentAlignment="Center" />
+            HorizontalContentAlignment="Center" />-->
+        <entitySelectors:ForeignView 
+            IsReadOnly="{Binding Locker.IsReadOnly}"
+            Model="{Binding Model.Customer}"
+            ModelClass="{x:Type data1:Customer}" 
+            MvvmContext="{Binding Erp.Mvvm.MainContext}" 
+            ListClass="{x:Type wpf:ListCustomerViewModel}">
+        </entitySelectors:ForeignView>
 
         <Label Style="{DynamicResource Separator}" >
             <StackPanel Orientation="Horizontal">
