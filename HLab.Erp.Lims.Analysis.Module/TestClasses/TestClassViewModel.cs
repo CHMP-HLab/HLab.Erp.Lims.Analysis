@@ -13,48 +13,17 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         public TestClassViewModelDesign()
         {
             Model = TestClass.DesignModel;
-            Xaml = "<xml></xml>";
-            Cs = "using HLab.Erp.Acl;\nusing HLab.Erp.Lims.Analysis.Data;\nusing HLab.Mvvm.Annotations;";
+            FormHelper.Xaml = "<xml></xml>";
+            FormHelper.Cs = "using HLab.Erp.Acl;\nusing HLab.Erp.Lims.Analysis.Data;\nusing HLab.Mvvm.Annotations;";
         }
     }
 
     public class TestClassViewModel : EntityViewModel<TestClassViewModel, TestClass>
     {
         public string Title => Model.Name;
-        public ITestForm Form
-        {
-            get => _form.Get();
-            set => _form.Set(value);
-        }
-        private readonly IProperty<ITestForm> _form = H.Property<ITestForm>();
+        public FormHelper FormHelper => _formHelper.Get();
+        private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c.Default(new FormHelper()));
 
-        public string Xaml
-        {
-            get => _xaml.Get();
-            set => _xaml.Set(value);
-        }
-        private readonly IProperty<string> _xaml = H.Property<string>();
-
-        public string XamlMessage
-        {
-            get => _xamlMessage.Get();
-            set => _xamlMessage.Set(value);
-        }
-        private readonly IProperty<string> _xamlMessage = H.Property<string>();
-
-        public string Cs
-        {
-            get => _cs.Get();
-            set => _cs.Set(value);
-        }
-        private readonly IProperty<string> _cs = H.Property<string>();
-
-        public string CsMessage
-        {
-            get => _csMessage.Get();
-            set => _csMessage.Set(value);
-        }
-        private readonly IProperty<string> _csMessage = H.Property<string>();
 
 
         public string State
@@ -100,22 +69,18 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         public ICommand TryCommand { get; } = H.Command(c => c.Action(
             async e => await e.Compile()
         ));
+        public ICommand SpecificationModeCommand { get; } = H.Command(c => c.Action(
+            async e => e.FormHelper.Mode = TestFormMode.Specification
+        ));
+        public ICommand CaptureModeCommand { get; } = H.Command(c => c.Action(
+            async e => e.FormHelper.Mode = TestFormMode.Capture
+        ));
 
         public async Task Compile()
         {
+            await FormHelper.LoadForm().ConfigureAwait(true);
 
-            var h = new FormHelper
-            {
-                Xaml = Xaml,
-                Cs = Cs
-            };
-
-            Form = await h.LoadForm().ConfigureAwait(true);
-
-            Model.Code = await h.SaveCode();
-
-            XamlMessage = h.XamlMessage;
-            CsMessage = h.CsMessage;
+            Model.Code = await FormHelper.SaveCode();
         }
 
         //private IProperty<bool> _initLocker = H.Property<bool>(c => c.On(e => e.Locker).Do((e,f)=> {
@@ -133,15 +98,12 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
             if (e.Model.Code != null)
             {
-                var h = new FormHelper();
-                await h.ExtractCode(e.Model.Code).ConfigureAwait(true);
-                e.Xaml = h.Xaml;
-                e.Cs = h.Cs;
+                await e.FormHelper.ExtractCode(e.Model.Code).ConfigureAwait(true);
             }
             else
             {
-                e.Xaml = "<Grid></Grid>";
-                e.Cs = "class Test\n{\n}";
+                e.FormHelper.Xaml = "<Grid></Grid>";
+                e.FormHelper.Cs = "class Test\n{\n}";
             }
 
             await e.Compile();

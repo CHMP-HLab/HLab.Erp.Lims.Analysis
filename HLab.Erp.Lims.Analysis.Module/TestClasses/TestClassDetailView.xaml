@@ -56,22 +56,33 @@
             <Label HorizontalContentAlignment="Right" >
                 <lang:Localize Id="Test Name" StringFormat="{}{0} : " />
             </Label>
-            <TextBox Text="{Binding Form.Test.TestName}" HorizontalContentAlignment="Center" />
+            <TextBox Text="{Binding FormHelper.Form.Test.TestName}" HorizontalContentAlignment="Center" />
 
             <Label HorizontalContentAlignment="Right" >
                 <lang:Localize Id="Description" StringFormat="{}{0} : " />
             </Label>
-            <TextBox Text="{Binding Form.Test.Description}" HorizontalContentAlignment="Center" />
+            <TextBox Text="{Binding FormHelper.Form.Test.Description}" HorizontalContentAlignment="Center" />
 
             <Label HorizontalContentAlignment="Right" >
                 <lang:Localize Id="Result" StringFormat="{}{0} : " />
             </Label>
-            <TextBox Text="{Binding Form.Test.Result}" HorizontalContentAlignment="Center" />
+            <TextBox Text="{Binding FormHelper.Form.Test.Result}" HorizontalContentAlignment="Center" />
+
 
             <Label HorizontalContentAlignment="Right" >
                 <lang:Localize Id="Specifications" StringFormat="{}{0} : " />
             </Label>
-            <TextBox Text="{Binding Form.Test.Specifications}" HorizontalContentAlignment="Center" />
+            <TextBox Text="{Binding FormHelper.Form.Test.Specifications}" HorizontalContentAlignment="Center" />
+
+            <Label HorizontalContentAlignment="Right" >
+                <lang:Localize Id="Conformity" StringFormat="{}{0} : " />
+            </Label>
+            <TextBox Text="{Binding FormHelper.Form.Test.Conformity}" HorizontalContentAlignment="Center" />
+
+            <Label HorizontalContentAlignment="Right" >
+                <lang:Localize Id="State" StringFormat="{}{0} : " />
+            </Label>
+            <TextBox Text="{Binding FormHelper.Form.Test.State}" HorizontalContentAlignment="Center" />
 
             <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
                 <Grid VerticalAlignment="Center">

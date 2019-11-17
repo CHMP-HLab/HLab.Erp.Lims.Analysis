@@ -23,8 +23,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 oldVm.PropertyChanged -= Vm_PropertyChanged;
             if (e.NewValue is TestClassViewModel vm)
             {
-                XamlEditor.Text = vm.Xaml;
-                CodeEditor.Text = vm.Cs;
+                XamlEditor.Text = vm.FormHelper.Xaml;
+                CodeEditor.Text = vm.FormHelper.Cs;
                 vm.PropertyChanged += Vm_PropertyChanged;
             }
         }
@@ -40,9 +40,9 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         private void TextEditor_OnTextChanged(object sender, EventArgs e)
         {
             if (ReferenceEquals(sender, XamlEditor))
-                ((TestClassViewModel) DataContext).Xaml = XamlEditor?.Text;
+                ((TestClassViewModel) DataContext).FormHelper.Xaml = XamlEditor?.Text;
             if (ReferenceEquals(sender, CodeEditor))
-                ((TestClassViewModel) DataContext).Cs = CodeEditor?.Text;
+                ((TestClassViewModel) DataContext).FormHelper.Cs = CodeEditor?.Text;
         }
     }
 }

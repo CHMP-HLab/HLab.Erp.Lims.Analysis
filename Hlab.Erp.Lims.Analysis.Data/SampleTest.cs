@@ -132,6 +132,13 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<string> _conform = H.Property<string>(c => c.Default(""));
 
+        public string Values
+        {
+            get => _values.Get();
+            set => _values.Set(value);
+        }
+
+        private readonly IProperty<string> _values = H.Property<string>(c => c.Default(""));
         public string Result
         {
             get => _result.Get();

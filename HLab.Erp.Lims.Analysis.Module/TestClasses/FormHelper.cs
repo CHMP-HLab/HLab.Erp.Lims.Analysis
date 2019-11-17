@@ -17,15 +17,24 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using Google.Protobuf.WellKnownTypes;
 using HLab.Base;
+using HLab.Notify.PropertyChanged;
+using Enum = Google.Protobuf.WellKnownTypes.Enum;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
+    public enum TestFormMode
+    {
+        Specification,
+        Capture,
+        ReadOnly
+    }
+
     public interface ITestForm
     {
         void Connect(int connectionId, object target);
         void Traitement(object sender, RoutedEventArgs e);
 
-        ITestHelper Test {get ;}
+        ITestHelper Test { get; }
     }
 
     public class DummyTestForm : UserControl, ITestForm
@@ -41,47 +50,75 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
     }
 
-    public class FormHelper
+    public class FormHelper : N<FormHelper>
     {
-        public string Xaml { get; set; }
-        public string Cs { get; set; }
+        public TestFormMode Mode
+        {
+            get => _mode.Get();
+            set
+            {
+                if(_mode.Set(value))
+                    SetFormMode(value);
+            }
+        }
 
-        public string XamlMessage { get; private set; }
-        public string CsMessage { get; private set; }
-        public string Values { get; set; }
+        private readonly IProperty<TestFormMode> _mode = H.Property<TestFormMode>();
+        public string Xaml
+        {
+            get => _xaml.Get();
+            set => _xaml.Set(value);
+        }
+        private readonly IProperty<string> _xaml = H.Property<string>();
+
+        public string XamlMessage
+        {
+            get => _xamlMessage.Get();
+            set => _xamlMessage.Set(value);
+        }
+        private readonly IProperty<string> _xamlMessage = H.Property<string>();
+
+        public string Cs
+        {
+            get => _cs.Get();
+            set => _cs.Set(value);
+        }
+        private readonly IProperty<string> _cs = H.Property<string>();
+
+        public string CsMessage
+        {
+            get => _csMessage.Get();
+            set => _csMessage.Set(value);
+        }
+        private readonly IProperty<string> _csMessage = H.Property<string>();
+
+        public ITestForm Form
+        {
+            get => _form.Get();
+            set => _form.Set(value);
+        }
+        private readonly IProperty<ITestForm> _form = H.Property<ITestForm>();
 
         public async Task ExtractCode(byte[] code)
         {
             var sCode = Encoding.UTF8.GetString(await GzipToBytes(code).ConfigureAwait(false));
-            var index    = sCode.LastIndexOf("}\r\n",StringComparison.InvariantCulture);
-            Cs  = sCode.Substring(0, index+1);
-            Xaml         = sCode.Substring(index+3);
+            var index = sCode.LastIndexOf("}\r\n", StringComparison.InvariantCulture);
+            Cs = sCode.Substring(0, index + 1);
+            Xaml = sCode.Substring(index + 3);
         }
         public async Task<byte[]> SaveCode()
         {
-            var bytes = Encoding.UTF8.GetBytes(Cs.Trim('\r', '\n', ' ') + "\r\n" + Xaml.Trim('\r', '\n' , ' '));
+            var bytes = Encoding.UTF8.GetBytes(Cs.Trim('\r', '\n', ' ') + "\r\n" + Xaml.Trim('\r', '\n', ' '));
             return await BytesToGZip(bytes);
 
         }
 
-        public async Task<object> LoadForm(string values)
-        {
-            return await LoadForm(values.Split('■').ToList()); // Le séparateur est un ALT + 254
-        }
 
-        public async Task<object> LoadForm(List<string> values)
-        {
-            var form = (FrameworkElement)await LoadForm().ConfigureAwait(false);
-            LoadValues(form,values);
-            return form;
-        }
-
-        public async Task<ITestForm> LoadForm()
+        public async Task LoadForm()
         {
             CsMessage = "";
             XamlMessage = "";
 
-            var header = @"
+            const string header = @"
 <UserControl 
             xmlns = ""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
             xmlns:x = ""http://schemas.microsoft.com/winfx/2006/xaml""
@@ -99,10 +136,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 </Grid>
                 </UserControl >
 ";
-/*
-                    <ResourceDictionary Source = ""pack://application:,,,/MahApps.Metro;component/Styles/Themes/light.steel.xaml"" />          
- 
- */
+
             var xaml = header.Replace("<!--Content-->", Xaml, StringComparison.InvariantCulture);
             xaml = ApplyLanguage(xaml);
 
@@ -117,34 +151,30 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 form = (UserControl)XamlReader.Parse(xaml);
                 XamlMessage = "XAML OK";
             }
-            //catch(XamlParseException ee)
-            //{
-            //   ee.LinePosition
-            //}
             catch (Exception ex)
             {
-                int headerLength = LineCount(header.Substring(0, header.IndexOf("<!--Content-->",StringComparison.InvariantCulture)));
+                int headerLength = LineCount(header.Substring(0, header.IndexOf("<!--Content-->", StringComparison.InvariantCulture)));
 
-                XamlMessage = "Error " + Environment.NewLine; 
+                XamlMessage = "Error " + Environment.NewLine;
                 if (ex is XamlParseException parseEx)
-                    XamlMessage += 
-                        ex.GetType().Name 
-                        + Environment.NewLine 
-                        + parseEx.Message 
-                        + " Line " 
+                    XamlMessage +=
+                        ex.GetType().Name
+                        + Environment.NewLine
+                        + parseEx.Message
+                        + " Line "
                         + (parseEx.LineNumber - headerLength) + " , Position " + parseEx.LinePosition + ".";
                 else
                     XamlMessage += "Error XAML :" + Environment.NewLine + ex.Message;
 
                 CsMessage = "Compilation C# impossible car erreur XAML";
-                return null;
+                return;
             }
 
             // Loading C#
             if (String.IsNullOrWhiteSpace(Cs))
             {
                 CsMessage = "Code was empty";
-                return null;
+                return;
             }
 
             var cs = "using HLab.Erp.Lims.Analysis.Module.TestClasses;\r\n" + Cs;
@@ -156,11 +186,11 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             }
 
             // Ajout des dérivations de classes
-            int index = cs.IndexOf("public class",StringComparison.InvariantCulture) + 12;
-            if (index>-1)
+            int index = cs.IndexOf("public class", StringComparison.InvariantCulture) + 12;
+            if (index > -1)
             {
-                var i = cs.IndexOf("\r\n", index,StringComparison.InvariantCulture);
-                if(i<0) i = cs.IndexOf("\n", index,StringComparison.InvariantCulture);
+                var i = cs.IndexOf("\r\n", index, StringComparison.InvariantCulture);
+                if (i < 0) i = cs.IndexOf("\n", index, StringComparison.InvariantCulture);
                 index = i;
             }
 
@@ -168,10 +198,10 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             cs = cs.Insert(index, " : UserControl, ITestForm");
 
             // Ajout des déclarations des objects du formulaire à lier à la classe et de la fonction Connect pour la liaison une fois instanciée
-            String declarations = "";
-            String connection = "\npublic void Connect(int connectionId, object target)\n{\nswitch (connectionId){\n";
-            List<FrameworkElement> elements = new List<FrameworkElement>();
-            int n = 0;
+            string declarations = "";
+            var connection = "\npublic void Connect(int connectionId, object target)\n{\nswitch (connectionId){\n";
+            var elements = new List<FrameworkElement>();
+            var n = 0;
             foreach (FrameworkElement fe in FindLogicalChildren<FrameworkElement>(form))
             {
                 if (!String.IsNullOrEmpty(fe.Name))
@@ -189,13 +219,13 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
             cs = cs.Insert(cs.IndexOf('{', index) + 1, declarations + connection + "}\r\n}\r\n");
 
-            var compiler = new Compiler{SourceCode = cs};
-                
+            var compiler = new Compiler { SourceCode = cs };
+
             if (!compiler.Compile())
             {
-                var testForm = new DummyTestForm { Content = form };
+                Form = new DummyTestForm { Content = form };
                 CsMessage = compiler.CsMessage;
-                return testForm;
+                return;
             }
 
             var assemblyLoadContext = new AssemblyLoadContext("LimsForm", true);// SimpleUnloadableAssemblyLoadContext();
@@ -206,9 +236,9 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 assembly = assemblyLoadContext.LoadFromStream(asm);
             }
             // Création de l'instance de la classe venant du C#
-            ITestForm module = (ITestForm)Activator.CreateInstance(assembly.GetTypes()[0]);
+            var module = (ITestForm)Activator.CreateInstance(assembly.GetTypes()[0]);
 
-            if(module is UserControl uc)
+            if (module is UserControl uc)
                 uc.Content = form;
 
             var checkboxes = new Dictionary<string, List<CheckBox>>();
@@ -218,154 +248,165 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             {
                 module.Connect(i, elements[i]);
 
-                if (elements[i] is TextBox textBox)
+                switch (elements[i])
                 {
-                    textBox.TextChanged += delegate (object sender, TextChangedEventArgs args)
-                    {
-                        module.Traitement(sender, args);
-                    };
-                }
-
-                if (elements[i] is TextBoxEx textBoxEx)
-                {
-                    textBoxEx.DoubleChange += delegate (object sender, RoutedEventArgs args)
-                    {
-                        module.Traitement(sender, args);
-                    };
-                }
-
-
-                if (elements[i] is CheckBox checkbox)
-                {
-                    if(checkbox.Name.Contains("__"))
-                    {
-                        var pos = checkbox.Name.LastIndexOf("__");
-                        var name = checkbox.Name.Substring(0, pos);
-
-                        if(!checkboxes.TryGetValue(name,out var chk))
+                    case TextBoxEx textBoxEx:
+                        textBoxEx.DoubleChange += (sender, args) =>
                         {
-                            chk = new List<CheckBox>();
-                            checkboxes.Add(name,chk);
-                        }
+                            module.Traitement(sender, args);
+                            SetFormMode(Mode);
+                        };
+                        break;
 
-                        chk.Add(checkbox);
-
-                        checkbox.PreviewMouseDown += delegate (object sender, MouseButtonEventArgs e)
+                    case TextBox textBox:
+                        textBox.TextChanged += (sender, args) =>
                         {
-                            e.Handled = true;
-                            if (module.Test is TestLegacyHelper test)
+                            module.Traitement(sender, args);
+                            SetFormMode(Mode);
+                        };
+                        break;
+
+                    case CheckBox checkBox:
+                        if (checkBox.Name.Contains("__") && module.Test is TestLegacyHelper test)
+                        {
+                            var pos = checkBox.Name.LastIndexOf("__", StringComparison.InvariantCulture);
+                            var name = checkBox.Name.Substring(0, pos);
+
+                            if (!checkboxes.TryGetValue(name, out var chk))
                             {
-                                test.CheckGroupe(sender, chk.ToArray());
+                                chk = new List<CheckBox>();
+                                checkboxes.Add(name, chk);
                             }
 
-                            module.Traitement(sender, null);
-                        };
-                    }
-                    else
-                        checkbox.PreviewMouseDown += delegate (object sender, MouseButtonEventArgs e)
+                            chk.Add(checkBox);
+
+                            checkBox.PreviewMouseDown += (sender, args) =>
+                            {
+                                args.Handled = true;
+                                test.CheckGroup(sender, chk.ToArray());
+                                module.Traitement(sender, args);
+                                SetFormMode(Mode);
+                            };
+                        }
+                        else
+                            checkBox.PreviewMouseDown += (sender, args) =>
+                            {
+                                args.Handled = true;
+                                module.Traitement(sender, args);
+                                SetFormMode(Mode);
+                            };
+
+                        break;
+
+                    case Button button:
+                        button.Click += (sender, args) =>
                         {
-                            e.Handled = true;
-                            module.Traitement(sender, null);
+                            module.Traitement(sender, args);
+                            SetFormMode(Mode);
                         };
-                }
-
-                if (elements[i] is Button button)
-                {
-                    button.Click += delegate (object sender, RoutedEventArgs args)
-                    {
-                        module.Traitement(sender, null);
-                    };
+                        break;
 
                 }
+
+
             }
 
             CsMessage = "C# Ok";
-
-            return module;
+            Form = module;
         }
 
 
-        public string GetPackedValues(object form)
+        public string GetPackedValues()
         {
-            if(form is FrameworkElement fe)
+            if (Form is FrameworkElement form)
             {
                 var values = "";
-                foreach(var c in FindLogicalChildren<Control>(fe))
+                foreach (var c in FindLogicalChildren<Control>(form))
                 {
                     switch (c)
                     {
                         case TextBoxEx tbe:
-                            values += c.Name + "=" + tbe.Double +"■";
+                            values += c.Name + "=" + tbe.Double + "■";
                             break;
                         case TextBox tb:
-                            values += c.Name + "=" + tb.Text.Replace("■", "") +"■"; // Le séparateur est un ALT + 254
+                            values += c.Name + "=" + tb.Text.Replace("■", "") + "■"; // Le séparateur est un ALT + 254
                             break;
                         case CheckBox cb:
-                            if(cb.Name.Contains("__"))
+                            if (cb.Name.Contains("__"))
                             {
-                                if(cb.IsChecked==true)
+                                if (cb.IsChecked == true)
                                 {
-                                    values += c.Name.Replace("__", "=")+ "■";
+                                    values += c.Name.Replace("__", "=") + "■";
                                 }
                             }
                             else
                             {
                                 values +=
-                                cb.IsChecked switch
-                                {
-                                    null => (c.Name + "=N■"),
-                                    false => (c.Name + "=0■"),
-                                    true => (c.Name + "=1■")
-                                };
+                                    cb.IsChecked switch
+                                    {
+                                        null => (c.Name + "=N■"),
+                                        false => (c.Name + "=0■"),
+                                        true => (c.Name + "=1■")
+                                    };
                             }
+
                             break;
                     }
                 }
+
                 return values;
             }
+
             return "";
         }
 
-        public void LoadValues(FrameworkElement form, [NotNull]string values)
+        public void LoadValues([NotNull]string values)
         {
-            LoadValues(form, values.Split((char)254).ToList()); // Le séparateur est un ALT + 254
+            LoadValues(values.Split((char)254).ToList()); // Le séparateur est un ALT + 254
         }
 
-        public void LoadValues(FrameworkElement form, List<string> values)
+        public void LoadValues(List<string> values)
         {
-            foreach(var c in FindLogicalChildren<Control>(form))
+            if (Form is FrameworkElement form)
             {
-                var nom = c.Name + "=";
-                if(c.Name.Contains("__") && c is CheckBox chk)
+
+
+                foreach (var c in FindLogicalChildren<Control>(form))
                 {
-                    var idx = c.Name.IndexOf("__");
-                    nom = c.Name.Substring(0,idx)+"=";
-                }
-                foreach(var value in values)
-                {
-                    if (value.Length < nom.Length || value.Substring(0, nom.Length) != nom) continue;
-                    switch (c)
+                    var nom = c.Name + "=";
+                    if (c.Name.Contains("__") && c is CheckBox chk)
                     {
-                        case TextBoxEx tbe:
-                            tbe.Double = CSD(value.Substring(nom.Length));
-                            break;
-                        case TextBox tb:
-                            tb.Text = value.Substring(nom.Length);
-                            break;
-                        case CheckBox cb:
-                            if(c.Name.Contains("__"))
-                            {
-                                cb.IsChecked = (c.Name == nom.Replace("=", "__") + value.Substring(nom.Length));
-                            }
-                            else
-                            cb.IsChecked = value.Substring(nom.Length) switch
-                            {
-                                "N" => null,
-                                "0" => false,
-                                "1" => true,
-                                _ => cb.IsChecked
-                            };
-                            break;
+                        var idx = c.Name.IndexOf("__");
+                        nom = c.Name.Substring(0, idx) + "=";
+                    }
+
+                    foreach (var value in values)
+                    {
+                        if (value.Length < nom.Length || value.Substring(0, nom.Length) != nom) continue;
+                        switch (c)
+                        {
+                            case TextBoxEx tbe:
+                                tbe.Double = CSD(value.Substring(nom.Length));
+                                break;
+                            case TextBox tb:
+                                tb.Text = value.Substring(nom.Length);
+                                break;
+                            case CheckBox cb:
+                                if (c.Name.Contains("__"))
+                                {
+                                    cb.IsChecked = (c.Name == nom.Replace("=", "__") + value.Substring(nom.Length));
+                                }
+                                else
+                                    cb.IsChecked = value.Substring(nom.Length) switch
+                                    {
+                                        "N" => null,
+                                        "0" => false,
+                                        "1" => true,
+                                        _ => cb.IsChecked
+                                    };
+
+                                break;
+                        }
                     }
                 }
             }
@@ -374,12 +415,12 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         // TODO : internationalize
         public static double CSD(string str)
         {
-            str = str.Replace(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator, ".",StringComparison.InvariantCulture);
+            str = str.Replace(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator, ".", StringComparison.InvariantCulture);
             try
             {
-                return Convert.ToDouble(str,CultureInfo.InvariantCulture);
+                return Convert.ToDouble(str, CultureInfo.InvariantCulture);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return 0.0;
             }
@@ -463,6 +504,218 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             catch { }
 
             return null;
+        }
+
+
+        public bool SetFormMode(TestFormMode mode)
+        {
+
+            Brush normalBrush = new SolidColorBrush(Color.FromArgb(0x40, 0xFF, 0xFF, 0xFF));
+            Brush specificationNeededBrush = Brushes.PaleGreen;
+            Brush specificationDoneBrush = Brushes.DarkGreen;
+            Brush mandatoryBrush = Brushes.PaleVioletRed;
+
+            var specificationNeeded = 0;
+            var mandatoryNeeded = 0;
+            var optionalEmpty = 0;
+
+            var specificationDone = 0;
+            var mandatoryDone = 0;
+            var optionalDone = 0;
+
+            if (Form is FrameworkElement form)
+            {
+                foreach (var c in FindLogicalChildren<Control>(form))
+                {
+                    var tag = c.Tag?.ToString()??"";
+
+                    var spec = (tag.Contains("Norme") || tag.Contains("Specification"));
+                    var mandatory = (tag.Contains("Obligatoire") || tag.Contains("Mandatory"));
+
+                    var doneBrush = spec?specificationDoneBrush:normalBrush;
+                    var todoBrush = spec?specificationNeededBrush:mandatory?mandatoryBrush:normalBrush;
+
+                    Action todo;
+                    if (spec) todo = () => specificationNeeded++;
+                    else if(mandatory) todo = () => mandatoryNeeded++;
+                    else todo = () => optionalEmpty++;
+
+                    Action done;
+                    if (spec) done = () => specificationDone++;
+                    else if(mandatory) done = () => mandatoryDone++;
+                    else done = () => optionalDone++;
+
+                    var enabled =
+                        (spec && mode == TestFormMode.Specification)
+                        || (!spec && mode == TestFormMode.Capture);
+
+                    switch (c)
+                    {
+                        // TextBoxEx
+                        case TextBoxEx tb when Math.Abs(tb.Double) > double.Epsilon:
+                            c.Background = doneBrush;
+                            c.IsEnabled = enabled;
+                            done();
+                            break;
+                        case TextBoxEx tb:
+                            c.Background = todoBrush;
+                            c.IsEnabled = enabled;
+                            todo();
+                            break;
+                        // TextBox
+                        case TextBox tb when tb.Text.Length > 0:
+                            c.Background = doneBrush;
+                            c.IsEnabled = enabled;
+                            done();
+                            break;
+                        case TextBox tb:
+                            c.Background = todoBrush;
+                            c.IsEnabled = enabled;
+                            todo();
+                            break;
+                        // TextBox
+                        case CheckBox cb when cb.IsChecked != null:
+                            c.Background = doneBrush;
+                            c.IsEnabled = enabled;
+                            done();
+                            break;
+                        case CheckBox cb:
+                            c.Background = todoBrush;
+                            c.IsEnabled = enabled;
+                            todo();
+                            break;
+                    }
+                }
+
+            }
+
+            if(mandatoryNeeded>0) Form.Test.State = mandatoryDone>0 ? TestState.Running : TestState.NotStarted;
+            if(specificationNeeded>0) Form.Test.State = TestState.NotStarted;
+
+            if(Form.Test.State>TestState.Running)
+            {
+                if (specificationNeeded > 0) Form.Test.State = TestState.NotStarted;
+                if (mandatoryNeeded > 0) Form.Test.State = TestState.Running;
+            }
+
+            return mandatoryNeeded>0 || specificationNeeded>0;
+        }
+
+        public static void CalculEtat(FrameworkElement form, ref DateTime dateDebut, ref DateTime dateFin)
+        {
+            // Détermine comment les champs sont remplis
+            var nbMandatory = 0;
+            var nbMandatoryOK = 0;
+            var nbSpecifications = 0;
+            var nbSpecificationsOK = 0;
+
+            Brush fontTextBox = new SolidColorBrush(Color.FromArgb(207, 255, 255, 255));
+
+
+            foreach (Control c in FindLogicalChildren<Control>(form))
+            {
+                if (c.Tag == null)
+                    continue;
+
+                var tag = c.Tag.ToString();
+
+                if (tag.Contains("Obligatoire") || tag.Contains("Mandatory"))
+                {
+                    nbMandatory++;
+
+                    switch (c)
+                    {
+                        // TextBoxEx
+                        case TextBoxEx tb when Math.Abs(tb.Double) > double.Epsilon:
+                            nbMandatoryOK++;
+                            c.Background = fontTextBox;
+                            break;
+                        // TextBox
+                        case TextBoxEx tb:
+                            c.Background = Brushes.LightBlue;
+                            break;
+                        case TextBox box when box.Text.Length > 0:
+                            nbMandatoryOK++;
+                            box.Background = fontTextBox;
+                            break;
+                        // CheckBox
+                        case TextBox _:
+                            c.Background = Brushes.LightBlue;
+                            break;
+                        case CheckBox box when box.IsChecked != null:
+                            nbMandatoryOK++;
+                            box.Background = Brushes.Transparent;
+                            break;
+                        case CheckBox _:
+                            c.Background = Brushes.LightBlue;
+                            break;
+                    }
+                }
+
+                if (!tag.Contains("Norme")) continue;
+                nbSpecifications++;
+
+                switch (c)
+                {
+                    // TextBoxEx
+                    case TextBoxEx tb when Math.Abs(tb.Double) > double.Epsilon:
+                        nbSpecificationsOK++;
+                        c.Background = fontTextBox;
+                        break;
+                    // TextBox
+                    case TextBoxEx tb:
+                        c.Background = Brushes.PaleGreen;
+                        break;
+                    case TextBox tb when tb.Text.Length > 0:
+                        nbSpecificationsOK++;
+                        c.Background = fontTextBox;
+                        break;
+                    case TextBox tb:
+                        c.Background = Brushes.PaleGreen;
+                        break;
+                }
+            }
+
+
+            TestState state;
+            // Modifie l'état du test en fonction de son avancée
+            if (nbMandatory > 0)
+            {
+                if (nbMandatoryOK == 0)
+                {
+                    if (dateDebut == DateTime.MinValue)
+                        state = TestState.NotStarted;
+                    else
+                        state = TestState.NotStarted;
+                }
+                else if (nbMandatoryOK < nbMandatory)
+                {
+                    state = TestState.Running;
+
+                    // Si il n'y avait pas de date de début, en attribue une
+                    if (dateDebut == DateTime.MinValue)
+                        dateDebut = DateTime.Now;
+
+                }
+
+                // Si le test est terminé et qu'il n'y avait pas de date de fin
+                else if (dateFin == DateTime.MinValue)
+                {
+                    // Si il n'y avait pas de date de début, en attribue une
+                    if (dateDebut == DateTime.MinValue)
+                        dateDebut = DateTime.Now;
+
+                }
+            }
+
+            //// La validation du pharmacien
+            //if(validation != TestValidation.Valide && validation != TestValidation.NonValide && validation != TestValidation.Signed)
+            //{
+            //   if(nbSpecificationsOK < nbSpecifications)
+            //      validation = TestValidation.NonNorme;
+            //   else
+            //      validation = TestValidation.ToSign;
+            //}
         }
 
     }

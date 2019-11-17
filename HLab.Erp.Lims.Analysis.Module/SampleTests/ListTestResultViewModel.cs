@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
@@ -14,7 +15,7 @@ using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
-    public class ListTestResultViewModel : EntityListViewModel<ListTestResultViewModel,SampleTestResult>, IMvvmContextProvider
+    public class ListTestResultViewModel : EntityListViewModel<ListTestResultViewModel, SampleTestResult>, IMvvmContextProvider
     {
         [Import]
         private readonly IErpServices _erp;
@@ -34,14 +35,17 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
             var h = new FormHelper();
             await h.ExtractCode(target.SampleTest.Code).ConfigureAwait(true);
-            Form = await h.LoadForm(target.Values).ConfigureAwait(true);
-            //XamlMessage = h.XamlMessage;
-            //CsMessage = h.CsMessage;
+            await h.LoadForm().ConfigureAwait(true);
+
+            h.LoadValues(target.SampleTest.Values);
+            h.LoadValues(target.Values);
+
+            Form = h.Form;
         }
 
         private async Task<object> GetStateIcon(int state)
         {
-            switch(state)
+            switch (state)
             {
                 case 1:
                     return await _erp.Icon.GetIcon("icons/Results/CheckFailed");
@@ -58,13 +62,13 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         {
             OpenAction = t => Compile(t);
 
-            List.AddFilter(()=>e => e.SampleTestId == sampleTestId);
+            List.AddFilter(() => e => e.SampleTestId == sampleTestId);
 
 
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns
-                .Column("", s=> s.Result)
-                .Column("^State",  async s => s.StateId != null ? await GetStateIcon(s.StateId.Value) : "", s => s.StateId)
+                .Column("", s => s.Result)
+                .Column("^State", async s => s.StateId != null ? await GetStateIcon(s.StateId.Value) : "", s => s.StateId)
 ;
             //List.AddFilter(e => e.State < 3);
 

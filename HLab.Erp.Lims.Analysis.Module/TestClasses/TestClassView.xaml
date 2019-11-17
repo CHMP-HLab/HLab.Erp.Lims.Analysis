@@ -9,7 +9,7 @@
              xmlns:testClasses="clr-namespace:HLab.Erp.Lims.Analysis.Module.TestClasses"
              xmlns:details="clr-namespace:HLab.Erp.Core.Tools.Details;assembly=HLab.Erp.Core.Wpf"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance testClasses:TestClassViewModelDesign}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -20,89 +20,95 @@
         </Grid.ColumnDefinitions>
 
         <mvvm:ViewLocator ViewClass="{x:Type details:IViewClassDetail}"/>
-            <!--<testClasses:TestClassDetailView Grid.Column="0"/>-->
+        <!--<testClasses:TestClassDetailView Grid.Column="0"/>-->
 
         <GridSplitter Grid.Column="1"/>
 
-            <TabControl Grid.Column="2" TabStripPlacement="Bottom">
-                <TabItem Header="xaml">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <!--<WindowsFormsHost>
+        <TabControl Grid.Column="2" TabStripPlacement="Bottom">
+            <TabItem Header="xaml">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <!--<WindowsFormsHost>
                             <fctb1:FastColoredTextBox x:Name="TB_Xaml" Language="HTML" ShowFoldingLines="True" TabLength="3" ChangedLineColor="Yellow" CurrentLineColor="LightBlue" HighlightingRangeType="VisibleRange"/>
                         </WindowsFormsHost>-->
-                        <avalonedit:TextEditor x:Name="XamlEditor"
+                    <avalonedit:TextEditor x:Name="XamlEditor"
                             LineNumbersForeground="Black"
                             ShowLineNumbers="True"
                             Background="#F0FFFFFF"
                             FontSize="12" 
                             SyntaxHighlighting="XML" 
                             TextChanged="TextEditor_OnTextChanged"
-                            IsEnabled="{Binding Locker.IsActive}"
+                            IsReadOnly="{Binding Locker.IsReadOnly}"
                         />
 
-                        <ScrollViewer MaxHeight="200" VerticalScrollBarVisibility="Auto" Grid.Row="1" >
+                    <ScrollViewer MaxHeight="200" VerticalScrollBarVisibility="Auto" Grid.Row="1" >
                         <TextBlock 
-                            Text="{Binding XamlMessage}" 
+                            Text="{Binding FormHelper.XamlMessage}" 
                             Grid.Row="1" Style="{x:Null}" 
                             TextWrapping="Wrap" 
                             Foreground="DarkRed"
                             Background="Silver"
-                            /></ScrollViewer>
-                    </Grid>
+                            />
+                    </ScrollViewer>
+                </Grid>
 
-                </TabItem>
-                <TabItem Header="Code">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <!--<WindowsFormsHost >
+            </TabItem>
+            <TabItem Header="Code">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <!--<WindowsFormsHost >
                             <fctb1:FastColoredTextBox x:Name="TB_CS" Language="CSharp" ShowFoldingLines="True" TabLength="3" ChangedLineColor="Yellow" CurrentLineColor="LightBlue" HighlightingRangeType="VisibleRange"/>
                         </WindowsFormsHost>-->
-                        <!--<TextBox x:Name="TB_CS"></TextBox>-->
-                        <avalonedit:TextEditor 
+                    <!--<TextBox x:Name="TB_CS"></TextBox>-->
+                    <avalonedit:TextEditor 
                             Background="#F0FFFFFF"
                             FontSize="12" 
+                            FontFamily="Consolas"
                             x:Name="CodeEditor" 
                             ShowLineNumbers="True"
                             SyntaxHighlighting="C#"
                             TextChanged="TextEditor_OnTextChanged"
-                            IsEnabled="{Binding Locker.IsActive}"
+                            
+                            IsReadOnly="{Binding Locker.IsReadOnly}"
                             />
-                        <ScrollViewer MaxHeight="200" VerticalScrollBarVisibility="Auto" Grid.Row="1" >
-                            <TextBlock 
+                    <ScrollViewer MaxHeight="200" VerticalScrollBarVisibility="Auto" Grid.Row="1" >
+                        <TextBlock 
                                 
-                                Text="{Binding CsMessage}" 
+                                Text="{Binding FormHelper.CsMessage}" 
                                 Style="{x:Null}" 
                                 TextWrapping="Wrap" 
                                 Foreground="DarkRed"
                                 Background="Silver"
                             />
-                        </ScrollViewer>
-                    </Grid>
-                </TabItem>
-            <TabItem Header="Unit Tests">
-                
+                    </ScrollViewer>
+                </Grid>
             </TabItem>
-            </TabControl>
+            <TabItem Header="Unit Tests">
+
+            </TabItem>
+        </TabControl>
 
         <GridSplitter Grid.Column="3"/>
 
         <Grid Grid.Column="4">
             <Grid.RowDefinitions>
-<RowDefinition Height="Auto"/>
-<RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-<Button Command="{Binding TryCommand}">Try</Button>
-
+            <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding TryCommand}">Try</Button>
+            <Button Command="{Binding SpecificationModeCommand}">Specifications</Button>
+            <Button Command="{Binding CaptureModeCommand}">Capture</Button>
+            </StackPanel>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                <ContentControl  Content="{Binding Form}"/>
+                <ContentControl  Content="{Binding FormHelper.Form}"/>
             </ScrollViewer>
         </Grid>
 
