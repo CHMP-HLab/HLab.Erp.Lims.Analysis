@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
@@ -6,7 +7,7 @@ using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-     public partial class Product : Entity<Product>, ILocalCache
+     public partial class Product : Entity<Product>, ILocalCache, IListableModel
      {
         public string Inn
         {
@@ -38,6 +39,13 @@ namespace HLab.Erp.Lims.Analysis.Data
             .On(e => e.Form)
             .Set(e => e.Inn + " - " + (e.Form?.Caption??"") +  " (" + e.Dose + ")")
         );
+
+        [Ignore]
+        public string IconPath => _iconPath.Get();
+        private readonly IProperty<string> _iconPath = H.Property<string>(c => c
+            .OneWayBind(e => e.Form.IconPath)
+        );
+
 
         public int? FormId
         {
