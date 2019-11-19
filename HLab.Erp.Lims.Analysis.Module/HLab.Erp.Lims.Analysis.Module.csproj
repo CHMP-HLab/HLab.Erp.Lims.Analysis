@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Page Remove="Icons\Entities\Product.xaml" />
+    <Page Remove="Icons\Forms\Drugs.xaml" />
     <Page Remove="Icons\Tests\AssayHplc.xaml" />
     <Page Remove="Icons\Tests\AssayUv.xaml" />
     <Page Remove="Icons\Tests\CCM.xaml" />
@@ -81,6 +83,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Icons\Entities\Product.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
     <Resource Include="Icons\Tests\AssayHplc.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

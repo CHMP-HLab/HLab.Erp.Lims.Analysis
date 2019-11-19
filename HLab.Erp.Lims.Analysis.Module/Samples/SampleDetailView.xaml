@@ -16,6 +16,7 @@
              xmlns:samples="clr-namespace:HLab.Erp.Lims.Analysis.Module.Samples"
              xmlns:data1="clr-namespace:HLab.Erp.Base.Data;assembly=HLab.Erp.Base.Data"
              xmlns:wpf="clr-namespace:HLab.Erp.Base.Wpf;assembly=HLab.Erp.Base.Wpf"
+             xmlns:manufacturers="clr-namespace:HLab.Erp.Lims.Analysis.Module.Manufacturers"
              mc:Ignorable="d" 
              Background="#FF004050"
              d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModelDesign}, IsDesignTimeCreatable=True}"             
@@ -256,7 +257,15 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-            <TextBox Text="{Binding Model.Manufacturer.Name}"/>
+
+            <entitySelectors:ForeignView 
+                IsReadOnly="{Binding Locker.IsReadOnly}"
+                Model="{Binding Model.Manufacturer}"
+                ModelClass="{x:Type data:Manufacturer}" 
+                MvvmContext="{Binding Erp.Mvvm.MainContext}" 
+                ListClass="{x:Type manufacturers:ListManufacturerViewModel}">
+            </entitySelectors:ForeignView>
+
             <Label Grid.Column="1">
             <lang:Localize Id="{Binding Model.Manufacturer.Country.Name}"/>
             </Label>

@@ -23,6 +23,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .Set(e => e._getResults(e.Model.Id))
         );
 
-        public string Title => Model.Sample.Ref + "\n" + Model.TestName + "\n" + Model.Description;
+        public string Title => Model.Sample?.Ref + "\n" + Model.TestName + "\n" + Model.Description;
     }
 }

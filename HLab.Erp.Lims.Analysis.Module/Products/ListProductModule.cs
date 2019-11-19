@@ -6,10 +6,11 @@ using HLab.Core.Annotations;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
 using HLab.Notify.PropertyChanged;
-using H = HLab.Notify.PropertyChanged.NotifyHelper<HLab.Erp.Lims.Analysis.Module.Products.ListProductModule>;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
+    using H = NotifyHelper<ListProductModule>;
+
     public class ListProductModule : IPostBootloader
     {
         private readonly IErpServices _erp;
