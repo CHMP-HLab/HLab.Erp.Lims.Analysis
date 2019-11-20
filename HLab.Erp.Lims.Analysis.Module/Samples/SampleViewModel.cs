@@ -34,12 +34,13 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         [TriggerOn(nameof(Packagings),"Item","Secondary")]
         public IObservableFilter<Packaging> PrimaryPackagingList { get; }
             = H.Filter<Packaging>((e, f) => f
-                .AddFilter(p => p.Secondary == false)
+                .AddFilter(p => !p.Secondary)
                 .Link(() => e.Packagings));
 
+        [TriggerOn(nameof(Packagings),"Item","Secondary")]
         public IObservableFilter<Packaging> SecondaryPackagingList { get; }
             = H.Filter<Packaging>((e, f) => f
-                .AddFilter(p => p.Secondary == true)
+                .AddFilter(p => p.Secondary)
                 .Link(() => e.Packagings)
             );
 

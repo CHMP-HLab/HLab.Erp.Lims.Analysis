@@ -16,5 +16,10 @@ namespace HLab.Erp.Lims.Analysis.Module
         {
             InitializeComponent();
         }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

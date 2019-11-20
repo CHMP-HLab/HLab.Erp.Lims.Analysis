@@ -24,16 +24,19 @@
              mvvm:ViewLocator.ViewClass ="{x:Type annotations:IViewClassDefault}"
 
              >
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.Resources>
-        <Style TargetType="{x:Type base:DetailView}">
-            <Style.Resources>
-                <Style TargetType="{x:Type TextBox}">
+            <Style TargetType="{x:Type base:DetailView}">
+                <Style.Resources>
+                    <Style TargetType="{x:Type TextBox}">
                         <Setter Property="IsReadOnly" Value="{Binding Locker.IsReadOnly}"/>
-                </Style>
-            </Style.Resources>
-        </Style>
-    </Grid.Resources>
+                    </Style>
+                </Style.Resources>
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -53,59 +56,59 @@
         <base:DetailView Grid.Row="1">
 
             <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
-            <Grid VerticalAlignment="Center">
-                <Canvas DockPanel.Dock="Left">
-                    <icons:IconView Id = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
-                </Canvas>
-                <lang:Localize Id="Record" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                <icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.IconPath}"/>
-            </Grid>
+                <Grid VerticalAlignment="Center">
+                    <Canvas DockPanel.Dock="Left">
+                        <icons:IconView Id = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
+                    </Canvas>
+                    <lang:Localize Id="Record" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.IconPath}"/>
+                </Grid>
             </Label>
-        <Label HorizontalContentAlignment="Right" >
-            <lang:Localize Id="Reference" StringFormat="{}{0} : " />
-        </Label>
-        <TextBox Text="{Binding Model.Ref}" HorizontalContentAlignment="Center" />
+            <Label HorizontalContentAlignment="Right" >
+                <lang:Localize Id="Reference" StringFormat="{}{0} : " />
+            </Label>
+            <TextBox Text="{Binding Model.Ref}" HorizontalContentAlignment="Center" />
 
-        <Label HorizontalAlignment="Right">
-            <lang:Localize Id="File" StringFormat="{}{0} : " />
-        </Label>
-        <base:NumTextBox 
+            <Label HorizontalAlignment="Right">
+                <lang:Localize Id="File" StringFormat="{}{0} : " />
+            </Label>
+            <base:NumTextBox 
             IsReadOnly="{Binding Locker.IsReadOnly}"
             Margin="0,0,15,0"
             BorderBrush="#80000000"
             HorizontalContentAlignment="Center" 
             Value="{Binding Model.FileId}"/>
 
-        <Label HorizontalContentAlignment="Right">
-            <lang:Localize Id="Customer" StringFormat="{}{0} : " />
-        </Label>
-        <!--<TextBox 
+            <Label HorizontalContentAlignment="Right">
+                <lang:Localize Id="Customer" StringFormat="{}{0} : " />
+            </Label>
+            <!--<TextBox 
             IsReadOnly="{Binding Locker.IsReadOnly}"
             FontSize="20" 
             Text="{Binding Model.Customer.Name,Mode=OneWay}" 
             HorizontalContentAlignment="Center" />-->
-        <entitySelectors:ForeignView 
+            <entitySelectors:ForeignView 
             IsReadOnly="{Binding Locker.IsReadOnly}"
             Model="{Binding Model.Customer}"
             ModelClass="{x:Type data1:Customer}" 
             MvvmContext="{Binding Erp.Mvvm.MainContext}" 
             ListClass="{x:Type wpf:ListCustomerViewModel}">
-        </entitySelectors:ForeignView>
+            </entitySelectors:ForeignView>
 
-        <Label Style="{DynamicResource Separator}" >
-            <StackPanel Orientation="Horizontal">
-                <Canvas>
-                    <icons:IconView  Id="{Binding Model.Product.Form.IconPath,FallbackValue=icons}" Height="35" Opacity="0.8"/>
-                </Canvas>
-                <lang:Localize Margin="50,0,0,0" Id="Product" />
-            </StackPanel>
-        </Label>
+            <Label Style="{DynamicResource Separator}" >
+                <StackPanel Orientation="Horizontal">
+                    <Canvas>
+                        <icons:IconView  Id="{Binding Model.Product.Form.IconPath,FallbackValue=icons}" Height="35" Opacity="0.8"/>
+                    </Canvas>
+                    <lang:Localize Margin="50,0,0,0" Id="Product" />
+                </StackPanel>
+            </Label>
 
 
-        <Label HorizontalContentAlignment="Right">
-            <lang:Localize Id="INN" StringFormat="{}{0} : "/>
-        </Label>
-        <!--<TextBox
+            <Label HorizontalContentAlignment="Right">
+                <lang:Localize Id="INN" StringFormat="{}{0} : "/>
+            </Label>
+            <!--<TextBox
             
             TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Product.Caption ,Mode=OneWay}" HorizontalContentAlignment="Center" />-->
             <entitySelectors:ForeignView 
@@ -116,20 +119,20 @@
                 ListClass="{x:Type products:ListProductPopupViewModel}">
             </entitySelectors:ForeignView>
 
-        <Label Style="{DynamicResource Separator}" >
-            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-                <Canvas>
-                    <icons:IconView Id="icons/Sample/PackageOpened" Height="35" Opacity="0.8"/>
-                </Canvas>
-                <ContentPresenter Width="50"/>
-                <lang:Localize  Id="Reception"/>
-            </StackPanel>
-        </Label>
+            <Label Style="{DynamicResource Separator}" >
+                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                    <Canvas>
+                        <icons:IconView Id="icons/Sample/PackageOpened" Height="35" Opacity="0.8"/>
+                    </Canvas>
+                    <ContentPresenter Width="50"/>
+                    <lang:Localize  Id="Reception"/>
+                </StackPanel>
+            </Label>
 
 
-        <Label HorizontalAlignment="Right" >
-            <lang:Localize Id="Date" StringFormat="{}{0} : "/>
-        </Label>
+            <Label HorizontalAlignment="Right" >
+                <lang:Localize Id="Date" StringFormat="{}{0} : "/>
+            </Label>
             <base:DateEx
                 IsReadOnly="{Binding Locker.IsReadOnly}"
                         HorizontalAlignment="Left"
@@ -137,27 +140,27 @@
                         DayValid="True"
                         MaxWidth="130"/>
 
-        <Label 
+            <Label 
             Style="{DynamicResource SmallSeparator}">
-            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-                <Canvas>
-                    <icons:IconView  Id="Icons/Sample/Sampling" Height="20" Opacity="0.8"/>
-                </Canvas>
-                <lang:Localize Margin="30,0,0,0"  Id="Sampling"/>
-            </StackPanel>
-        </Label>
+                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                    <Canvas>
+                        <icons:IconView  Id="Icons/Sample/Sampling" Height="20" Opacity="0.8"/>
+                    </Canvas>
+                    <lang:Localize Margin="30,0,0,0"  Id="Sampling"/>
+                </StackPanel>
+            </Label>
 
 
-        <Label HorizontalAlignment="Right">
-            <lang:Localize  Id="Quantity Received" StringFormat="{}{0} : "/>
-        </Label>
-        <Grid Margin="0,0,15,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-                 <base:NumTextBox 
+            <Label HorizontalAlignment="Right">
+                <lang:Localize  Id="Quantity Received" StringFormat="{}{0} : "/>
+            </Label>
+            <Grid Margin="0,0,15,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <base:NumTextBox 
                     
                         MaxValue ="99999"
                         BorderBrush="#80000000"
@@ -166,10 +169,10 @@
                         HorizontalContentAlignment="Center" 
                         VerticalContentAlignment="Center"
                         Value="{Binding Model.ReceivedQuantity}" />
- 
-            <Label HorizontalAlignment="Right" Grid.Column="1">
-                <lang:Localize Id="Date" StringFormat="{}{0} : "/>
-            </Label>
+
+                <Label HorizontalAlignment="Right" Grid.Column="1">
+                    <lang:Localize Id="Date" StringFormat="{}{0} : "/>
+                </Label>
 
                 <base:DateEx  Grid.Column="2"
                     
@@ -177,161 +180,175 @@
                         Width="120"
                         Date ="{Binding Model.SamplingDate}" 
                         DayValid="{Binding Model.SamplingDayValid}"/>
-        </Grid>
+            </Grid>
 
-        <Label HorizontalAlignment="Right">
-            <lang:Localize  Id="Location" StringFormat="{}{0} : "/>
-        </Label>
+            <Label HorizontalAlignment="Right">
+                <lang:Localize  Id="Location" StringFormat="{}{0} : "/>
+            </Label>
 
             <TextBox
                 
                 HorizontalAlignment="Stretch" 
                 Text="{Binding Model.SamplingOrigin}"/>
 
-        <Label Style="{DynamicResource Separator}" >
-            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-                <Canvas>
-                    <icons:IconView Id="Icons/Sample/Barcode" Height="35" Opacity="0.8"/>
-                </Canvas>
-                <ContentControl Width="50"></ContentControl>
-                <lang:Localize  Id="Batch"/>
-            </StackPanel>
-        </Label>
+            <Label Style="{DynamicResource Separator}" >
+                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                    <Canvas>
+                        <icons:IconView Id="Icons/Sample/Barcode" Height="35" Opacity="0.8"/>
+                    </Canvas>
+                    <ContentControl Width="50"></ContentControl>
+                    <lang:Localize  Id="Batch"/>
+                </StackPanel>
+            </Label>
 
 
 
-        <Label HorizontalAlignment="Right">
-            <lang:Localize  Id="N°" StringFormat="{}{0} : "/>
-        </Label>
+            <Label HorizontalAlignment="Right">
+                <lang:Localize  Id="N°" StringFormat="{}{0} : "/>
+            </Label>
             <TextBox  
                 
                 Text="{Binding Model.Batch}"/>
 
 
-        <Label HorizontalAlignment="Right">
-            <lang:Localize  Id="Expiration" StringFormat="{}{0} : "/>
-        </Label>
-        <Grid Margin="0,0,15,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <base:DateEx Date="{Binding Model.ExpirationDate}" DayValid="{Binding Model.ExpirationDayValid}" />
-            <icons:IconView Grid.Column="1" Id="icons/sample/expired" Height="25" Margin="2">
-                <icons:IconView.Style>
-                    <Style TargetType="icons:IconView">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Model.EndOfLife}" Value="True">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Model.EndOfLife}" Value="False">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Model.Expired}" Value="True">
-                                <Setter Property="Background" Value="#D0FF0000"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Model.Expired}" Value="False">
-                                    <Setter Property="Foreground" Value="#D0FF8000"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </icons:IconView.Style>
-            </icons:IconView>
-            <Label Grid.Column="2" HorizontalAlignment="Right">
-                <lang:Localize  Id="Manufacture" StringFormat="{}{0} : "/>
+            <Label HorizontalAlignment="Right">
+                <lang:Localize  Id="Expiration" StringFormat="{}{0} : "/>
             </Label>
-            <base:DateEx 
+            <Grid Margin="0,0,15,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <base:DateEx Date="{Binding Model.ExpirationDate}" DayValid="{Binding Model.ExpirationDayValid}" />
+                <icons:IconView Grid.Column="1" Id="icons/sample/expired" Height="25" Margin="2">
+                    <icons:IconView.Style>
+                        <Style TargetType="icons:IconView">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Model.EndOfLife}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Model.EndOfLife}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Model.Expired}" Value="True">
+                                    <Setter Property="Background" Value="#D0FF0000"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Model.Expired}" Value="False">
+                                    <Setter Property="Foreground" Value="#D0FF8000"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </icons:IconView.Style>
+                </icons:IconView>
+                <Label Grid.Column="2" HorizontalAlignment="Right">
+                    <lang:Localize  Id="Manufacture" StringFormat="{}{0} : "/>
+                </Label>
+                <base:DateEx 
                 Grid.Column="3" 
                 Date="{Binding Model.ManufacturingDate}" 
                 DayValid="{Binding Model.ManufacturingDayValid}"/>
-        </Grid>
+            </Grid>
 
-        <Label HorizontalAlignment="Right">
-            <lang:Localize  Id="Manufacturer" StringFormat="{}{0} : "/>
-        </Label>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+            <Label HorizontalAlignment="Right">
+                <lang:Localize  Id="Manufacturer" StringFormat="{}{0} : "/>
+            </Label>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-            <entitySelectors:ForeignView 
+                <entitySelectors:ForeignView 
                 IsReadOnly="{Binding Locker.IsReadOnly}"
                 Model="{Binding Model.Manufacturer}"
                 ModelClass="{x:Type data:Manufacturer}" 
                 MvvmContext="{Binding Erp.Mvvm.MainContext}" 
                 ListClass="{x:Type manufacturers:ListManufacturerViewModel}">
-            </entitySelectors:ForeignView>
+                </entitySelectors:ForeignView>
 
-            <Label Grid.Column="1">
-            <lang:Localize Id="{Binding Model.Manufacturer.Country.Name}"/>
-            </Label>
-            <icons:IconView Margin="0,0,15,0" Grid.Column="2" HorizontalAlignment="Right" Height="35" Id="{Binding Model.Manufacturer.Country.IconPath}"/>
+                <Label Grid.Column="1">
+                    <lang:Localize Id="{Binding Model.Manufacturer.Country.Name}"/>
+                </Label>
+                <icons:IconView Margin="0,0,15,0" Grid.Column="2" HorizontalAlignment="Right" Height="35" Id="{Binding Model.Manufacturer.Country.IconPath}"/>
             </Grid>
-        <Label HorizontalAlignment="Right">
-            <lang:Localize Id="Commercial Name" StringFormat="{}{0} : "/>
-        </Label>
-        <TextBox 
+            <Label HorizontalAlignment="Right">
+                <lang:Localize Id="Commercial Name" StringFormat="{}{0} : "/>
+            </Label>
+            <TextBox 
             
                     VerticalContentAlignment="Center"
                     Text="{Binding Model.CommercialName}" 
                     HorizontalAlignment="Stretch"/>
 
-        <Label Style="{DynamicResource Separator}" >
-            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-                <Canvas>
-                    <icons:IconView  Id="Icons/Sample/Packaging" Height="35" Opacity="0.8"/>
-                </Canvas>
-                <ContentControl Width="50"></ContentControl>
-                <lang:Localize  Id="Packaging" />
-            </StackPanel>
-        </Label>
+            <Label Style="{DynamicResource Separator}" >
+                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                    <Canvas>
+                        <icons:IconView  Id="Icons/Sample/Packaging" Height="35" Opacity="0.8"/>
+                    </Canvas>
+                    <ContentControl Width="50"></ContentControl>
+                    <lang:Localize  Id="Packaging" />
+                </StackPanel>
+            </Label>
 
-        <Label HorizontalAlignment="Right" VerticalContentAlignment="Center">
-            <lang:Localize Id="Original packaging" StringFormat="{}{0} : "/>
-        </Label>
-        <views:YesNoView 
+            <Label HorizontalAlignment="Right" VerticalContentAlignment="Center">
+                <lang:Localize Id="Original packaging" StringFormat="{}{0} : "/>
+            </Label>
+            <views:YesNoView 
             
             Value="{Binding Model.InOriginalPackaging}"/>
 
-        <Label HorizontalAlignment="Right">
-            <lang:Localize  Id="Primary" StringFormat="{}{0} : "/>
-        </Label>
-        <ComboBox 
+            <Label HorizontalAlignment="Right">
+                <lang:Localize  Id="Primary" StringFormat="{}{0} : "/>
+            </Label>
+            <StackPanel Margin="0,0,15,0">
+                <TextBlock 
+                    VerticalAlignment="Center"
+                    Text="{Binding  Model.PrimaryPackaging}"
+                    Visibility="{Binding Locker.IsReadOnly,Converter={StaticResource BooleanToVisibility}}"
+                    />
+                <ComboBox 
             
+                    Visibility="{Binding Locker.IsActive,Converter={StaticResource BooleanToVisibility}}"
             ItemsSource="{Binding PrimaryPackagingList}" 
             IsReadOnly="{Binding Locker.IsReadOnly}"
-            Margin="0,0,15,0"
             BorderBrush="#80000000"
             IsEditable="True" 
             Text="{Binding Model.PrimaryPackaging}"
             DisplayMemberPath="Name"
             
             />
-        <!---->
-                <Label HorizontalAlignment="Right">
-                    <lang:Localize  Id="Secondary" StringFormat="{}{0} : "/>
-                </Label>
+
+            </StackPanel>
+            <!---->
+            <Label HorizontalAlignment="Right">
+                <lang:Localize  Id="Secondary" StringFormat="{}{0} : "/>
+            </Label>
+            <StackPanel Margin="0,0,15,0">
+                <TextBlock 
+                    Text="{Binding  Model.SecondaryPackaging}"
+                    Visibility="{Binding Locker.IsReadOnly,Converter={StaticResource BooleanToVisibility}}"
+                    />
                 <ComboBox
+                    Visibility="{Binding Locker.IsActive,Converter={StaticResource BooleanToVisibility}}"
                     IsEnabled="{Binding Locker.IsActive}"
-                    IsReadOnly="{Binding Locker.IsReadOnly}"
                     ItemsSource="{Binding SecondaryPackagingList}" 
-                              Margin="0,0,15,0"
+                              
                               BorderBrush="#80000000"
                               IsEditable="True" 
                               Text="{Binding Model.SecondaryPackaging}"
-                              DisplayMemberPath="Name"
+                              DisplayMemberPath="Name" SelectionChanged="ComboBox_SelectionChanged"
                            
                               />
-                              <!---->
+            </StackPanel>
+            <!---->
 
-        <Label HorizontalAlignment="Right">
-            <lang:Localize  Id="Storage Conditions" StringFormat="{}{0} : "/>
-        </Label>
-        <TextBox 
+            <Label HorizontalAlignment="Right">
+                <lang:Localize  Id="Storage Conditions" StringFormat="{}{0} : "/>
+            </Label>
+            <TextBox 
             
             VerticalScrollBarVisibility="Auto" 
             BorderBrush="#80000000"
@@ -339,7 +356,7 @@
             AcceptsReturn="True" 
             TextWrapping="Wrap" />
 
-<!--
+            <!--
         <Label Style="{DynamicResource SmallSeparator}">
             <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                 <Canvas>
@@ -391,7 +408,7 @@
 
 
 
-        <!--<Label Content="{Binding Loc.Organoleptic_properties}" 
+            <!--<Label Content="{Binding Loc.Organoleptic_properties}" 
                            Style="{StaticResource SmallSeparator}" />
                     <Label/>
                     <Label Margin="0,-20,0,0" Style="{StaticResource Separator}" Height="5"/>
@@ -415,21 +432,21 @@
                     </ComboBox>-->
 
 
-    </base:DetailView>
+        </base:DetailView>
         <base:DetailView Grid.Row="2">
-        <Label Style="{DynamicResource Separator}" >
-            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-                <Canvas>
-                    <icons:IconView  Id="Icons/Edit" Height="35" Opacity="0.8"/>
-                </Canvas>
-                <ContentControl Width="50"></ContentControl>
-                <lang:Localize  Id="Note"/>
-            </StackPanel>
-        </Label>
+            <Label Style="{DynamicResource Separator}" >
+                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                    <Canvas>
+                        <icons:IconView  Id="Icons/Edit" Height="35" Opacity="0.8"/>
+                    </Canvas>
+                    <ContentControl Width="50"></ContentControl>
+                    <lang:Localize  Id="Note"/>
+                </StackPanel>
+            </Label>
 
 
-        <TextBox Margin="50,0,15,0"  Grid.ColumnSpan="2"  Text="{Binding Model.Note}" AcceptsReturn="True" TextWrapping="Wrap"/>
-        <Label />
+            <TextBox Margin="50,0,15,0"  Grid.ColumnSpan="2"  Text="{Binding Model.Note}" AcceptsReturn="True" TextWrapping="Wrap"/>
+            <Label />
 
         </base:DetailView>
     </Grid>

@@ -404,21 +404,17 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         public int? ManufacturerId
         {
-            get => _manufacturerId.Get();
-            set => _manufacturerId.Set(value);
+            get => _manufacturer.Id.Get();
+            set => _manufacturer.Id.Set(value);
         }
-        private readonly IProperty<int?> _manufacturerId = H.Property<int?>();
 
         [Ignore]
         public virtual Manufacturer Manufacturer
         {
-            get => _manufacturer.Get(); // E.GetForeign<Manufacturer>(() => ManufacturerId);
-            set => ManufacturerId = value.Id;
-            //set => _manufacturer.Set(Context.Db.GetOrAdd(value), () => ManufacturerId = value.Id);
+            get => _manufacturer.Get();
+            set => _manufacturer.Set(value);
         }
-        private readonly IProperty<Manufacturer> _manufacturer = H.Property<Manufacturer>(c => c
-            .Foreign(e => e.ManufacturerId)
-        );
+        private readonly IForeign<Manufacturer> _manufacturer = H.Foreign<Manufacturer>();
 
 
         public int? PharmacopoeiaId
