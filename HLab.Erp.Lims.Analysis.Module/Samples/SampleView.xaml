@@ -10,6 +10,9 @@
              xmlns:lang="clr-namespace:HLab.Mvvm.Lang;assembly=HLab.Mvvm.Wpf"
              xmlns:icons="clr-namespace:HLab.Mvvm.Icons;assembly=HLab.Mvvm.Wpf"
              xmlns:samples="clr-namespace:HLab.Erp.Lims.Analysis.Module.Samples"
+             xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
+             xmlns:acl="clr-namespace:HLab.Erp.Acl;assembly=HLab.Erp.Acl"
+             xmlns:data="clr-namespace:HLab.Erp.Lims.Analysis.Data;assembly=HLab.Erp.Lims.Analysis.Data"
              mc:Ignorable="d" 
              Background="#FF004050"
              d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModel}, IsDesignTimeCreatable=True}"
@@ -41,7 +44,7 @@
             <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
@@ -63,32 +66,32 @@
 
                             <StackPanel>
                                 <Label>
-                                    <lang:Localize Id="Worksheet"/>
+                                    <lang:Localize Id="{}{Worksheet}"/>
                                 </Label>
                                 <TextBox Text="{Binding Model.Worksheet}" MinWidth="110"/>
                             </StackPanel>
                             <Label/>
                             <StackPanel>
-                                <Label Content="Technicien" HorizontalAlignment="Left"/>
-                                <ComboBox SelectedValuePath="IdUtilisateur" 
-                                          DisplayMemberPath="Utilisateur" 
-                                          SelectedValue="{Binding Model.UserId}"
-                                          MinWidth="180"/>
+                                <Label Content="{}{Technician}" HorizontalAlignment="Left"/>
+                                <entitySelectors:ForeignView
+                                    Model="{Binding Model.User}"
+                                    ModelClass="{x:Type acl:User}"
+                                    />
                             </StackPanel>
                             <Label/>
                             <StackPanel Orientation="Vertical">
                                 <Label>
-                                    <lang:Localize Id="Pharmacopoeia"/>
+                                    <lang:Localize Id="{}{Pharmacopoeia}"/>
                                 </Label>
-                                <ComboBox SelectedValuePath="IdPharmacopee" 
-                                          DisplayMemberPath="NomFrancais" 
-                                          SelectedValue="{Binding IdPharmacopee}" 
-                                          MinWidth="180"/>
+                                <entitySelectors:ForeignView 
+                                    Model="{Binding Model.Pharmacopoeia}"
+                                    ModelClass="{x:Type data:Pharmacopoeia}"
+                                    />
                             </StackPanel>
                             <Label/>
                             <StackPanel>
                                 <Label HorizontalAlignment="Right">
-                                    <lang:Localize Id="Pharmacopoeia version"/>
+                                    <lang:Localize Id="{}{Pharmacopoeia version}"/>
                                 </Label>
                                 <TextBox Text="{Binding Model.PharmacopoeiaVersion}" HorizontalContentAlignment="Right" HorizontalAlignment="Stretch"/>
                             </StackPanel>
@@ -133,14 +136,14 @@
                 <DockPanel Grid.Row="2" Height="80" VerticalAlignment="Bottom">
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right">
                         <RadioButton BorderBrush="#80000000" GroupName="CertificatLangue" IsChecked="True">
-                            <lang:Localize Id="French"/>
+                            <lang:Localize Id="{}{French}"/>
                         </RadioButton>
                         <Label/>
                         <RadioButton BorderBrush="#80000000" GroupName="CertificatLangue">
-                            <lang:Localize Id="English"/>
+                            <lang:Localize Id="{}{English}"/>
                         </RadioButton>
                     </StackPanel>
-                    <Label DockPanel.Dock="Top" Content="Conclusion"/>
+                    <lang:Localize DockPanel.Dock="Top" Id="{}{Conclusion}"/>
                     <TextBlock Width="Auto" DockPanel.Dock="Right" Margin="0,0,5,0" />
                     <TextBox VerticalScrollBarVisibility="Auto" 
                              Text="{Binding Model.Conclusion}" 
@@ -153,8 +156,8 @@
                             Width="80" 
                             Tag="Facture" 
                             IsCancel="False" 
-                            Command="{Binding CertificatCommand}">
-                        <lang:Localize Id="Certificate"/>
+                            Command="{Binding CertificateCommand}">
+                        <lang:Localize Id="{}{Certificate}"/>
                     </Button>
 
                 </DockPanel>

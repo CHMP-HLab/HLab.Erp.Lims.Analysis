@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using HLab.DependencyInjection.Annotations;
+using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ViewModels;
 using HLab.Erp.Core.ViewModels.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
@@ -15,32 +16,33 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         [Import]
         private readonly IIconService _icons;
 
-        private async Task<object> GetIcon(int state,double size)
+        private string GetIcon(int state)
         {
             switch(state)
             {
                 case 1:
-                    return await _icons.GetIcon("icons/Results/Gauge", size).ConfigureAwait(false);
+                    return "icons/Results/Gauge";
                 case 2:
-                    return await _icons.GetIcon("icons/Results/GaugeKo",size).ConfigureAwait(false);
+                    return 
+                        "icons/Results/GaugeKo";
                 case 3:
-                    return await _icons.GetIcon("icons/Results/GaugeOk",size).ConfigureAwait(false);
+                    return "icons/Results/GaugeOk";
                 default:
-                    return await _icons.GetIcon("icons/Results/Gauge",size).ConfigureAwait(false);
+                    return "icons/Results/Gauge";
             }
         }
-        private async Task<object> GetCheckIcon(int state,double size)
+        private string GetCheckIcon(int state)
         {
             switch (state)
             {
                 case 1:
-                    return await _icons.GetIcon("icons/Results/Running",size).ConfigureAwait(false);
+                    return "icons/Results/Running";
                 case 2:
-                    return await _icons.GetIcon("icons/Results/CheckFailed",size).ConfigureAwait(false);
+                    return "icons/Results/CheckFailed";
                 case 3:
-                    return await _icons.GetIcon("icons/Results/CheckPassed",size).ConfigureAwait(false);
+                    return "icons/Results/CheckPassed";
                 default:
-                    return await _icons.GetIcon("icons/Results/Running",size).ConfigureAwait(false);
+                    return "icons/Results/Running";
             }
         }
 
@@ -49,19 +51,19 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             List.AddFilter(()=>e => e.SampleId == sampleId);
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns
-                .Column("",async s => await _icons.GetIcon(s.TestClass.IconPath, 25.0), s => s.TestClass.Order)
-                .Column("^Test", s => new StackPanel{
+                .Icon("", s => s.TestClass.IconPath, s => s.TestClass.Order)
+                .Column("{Test}", s => new StackPanel{
                     VerticalAlignment = VerticalAlignment.Top,
                     Children =
                     {
                         new TextBlock{Text=s.TestName,FontWeight = FontWeights.Bold},
                         new TextBlock{Text = s.Description, FontStyle = FontStyles.Italic}
                     }})
-                .Column("^Specifications", s => s.Specification)
-                .Column("^Result", s => s.Result)
+                .Column("{Specifications}", s => s.Specification)
+                .Column("{Result}", s => s.Result)
             //.Column("Conformity", s => s.TestStateId);
-                .Column("^State", async s => await GetIcon(s.TestStateId??0,25), s => s.TestStateId)
-                .Column("^Validation", async s => await GetCheckIcon(s.Validation??0,25), s => s.Validation)
+                .Icon("{State}", s => GetCheckIcon(s.TestStateId??0), s => s.TestStateId)
+                .Icon("{Validation}", s => GetCheckIcon(s.Validation??0), s => s.Validation)
                 .Hidden("IsValid", s => s.Validation!=2)
                 .Hidden("Group", s => s.TestClassId);
 

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
+using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Core.ViewModels;
 using HLab.Erp.Core.ViewModels.EntityLists;
@@ -18,18 +19,18 @@ namespace HLab.Erp.Lims.Analysis.Module
         
         private readonly IErpServices _erp;
 
-        private async Task<object> GetStateIcon(int state)
+        private string GetStateIcon(int state)
         {
             switch(state)
             {
                 case 1:
-                    return await _erp.Icon.GetIcon("icons/Results/CheckFailed");
+                    return "icons/Results/CheckFailed";
                 case 2:
-                    return await _erp.Icon.GetIcon("icons/Results/GaugeKO");
+                    return "icons/Results/GaugeKO";
                 case 3:
-                    return await _erp.Icon.GetIcon("icons/Results/GaugeOK");
+                    return "icons/Results/GaugeOK";
                 default:
-                    return await _erp.Icon.GetIcon("icons/Results/Gauge");
+                    return "icons/Results/Gauge";
             }
         }
 
@@ -38,19 +39,19 @@ namespace HLab.Erp.Lims.Analysis.Module
             _erp = erp;
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns
-                .Column("^Ref",  s => s.Ref)
-                .Column("^File",  s => s.FileId.ToString())
-                .Column("",  s => new IconView{Id = s.Customer?.Country?.IconPath??"", Width = 30}, s => s.Customer.Country.Name)
-                .Column("^Customer",  s => s.Customer.Name)
-                .Column("^Product",  s => s.Product.Caption)
-                .Column("^Form", async (s) => await _erp.Icon.GetIcon(s.Product?.Form?.IconPath??"",25), s => s.Product.Form.Name)
-                .Column("^Manufacturer",  s => s.Manufacturer.Name)
-                .Column("^Qty",  s => s.ReceivedQuantity)
-                .Column("^Expiration",  s => s.ExpirationDate?.ToString(s.ExpirationDayValid ? "dd/MM/yyyy" : "MM/yyyy"), s=> s.ExpirationDate)
-                .Column("^Notification",  s => s.NotificationDate?.ToString("dd/MM/yyyy")??"", s => s.NotificationDate)
-                .Column("^Validator",  s => s.Validator)
-                .Column("^Progress",  s => new ProgressViewModel {Value = s.Progress ?? 0}, s=> s.Progress)
-                .Column("^State",  async s => s.State != null ? await GetStateIcon(s.State.Value) : "", s=> s.State)
+                .Column("{Ref}",  s => s.Reference)
+                .Column("{File}",  s => s.FileId.ToString())
+                .Icon("",  s => s.Customer?.Country?.IconPath??"", s => s.Customer.Country.Name)
+                .Column("{Customer}",  s => s.Customer.Name)
+                .Column("{Product}",  s => s.Product.Caption)
+                .Icon("{Form}", (s) => s.Product?.Form?.IconPath??"", s => s.Product.Form.Name)
+                .Column("{Manufacturer}",  s => s.Manufacturer.Name)
+                .Column("{Qty}",  s => s.ReceivedQuantity)
+                .Column("{Expiration}",  s => s.ExpirationDate?.ToString(s.ExpirationDayValid ? "dd/MM/yyyy" : "MM/yyyy"), s=> s.ExpirationDate)
+                .Column("{Notification}",  s => s.NotificationDate?.ToString("dd/MM/yyyy")??"", s => s.NotificationDate)
+                .Column("{Validator}",  s => s.Validator)
+                .Column("{Progress}",  s => new ProgressViewModel {Value = s.Progress ?? 0}, s=> s.Progress)
+                .Icon("{State}",  s => s.State != null ? GetStateIcon(s.State.Value) : "", s=> s.State)
                 .Hidden("IsValid",  s => s.Validation != 2);
 
             //List.AddFilter(e => e.State < 3);
@@ -58,31 +59,36 @@ namespace HLab.Erp.Lims.Analysis.Module
             // Db.Fetch<Customer>();
             using (List.Suspender.Get())
             {
+                Filters.Add(new FilterTextDesignViewModel()
+                {
+                    Title = "{Reference}",
+                }.Link(List, s => s.Reference));
+
                 
                 Filters.Add(new FilterDateViewModel()
                 {
-                    Title = "^Expiration",
+                    Title = "{Expiration}",
                     MinDate = DateTime.Now.AddYears(-5),
                     MaxDate = DateTime.Now.AddYears(+5)
                 }.Link(List, s => s.ExpirationDate));
 
                 Filters.Add(new FilterDateViewModel()
                 {
-                    Title = "^Notification",
+                    Title = "{Notification}",
                     MinDate = DateTime.Now.AddYears(-10),
                     MaxDate = DateTime.Now.AddYears(10)
                 }.Link(List,s => s.NotificationDate));
 
                 Filters.Add(new FilterDateViewModel()
                 {
-                    Title = "^Manufacturing",
+                    Title = "{Manufacturing}",
                     MinDate = DateTime.Now.AddYears(-10),
                     MaxDate = DateTime.Now.AddYears(10)
                 }.Link(List,s => s.ManufacturingDate));
 
                 Filters.Add(new FilterDateViewModel()
                 {
-                    Title = "^Sampling",
+                    Title = "{Sampling}",
                     MinDate = DateTime.Now.AddYears(-10),
                     MaxDate = DateTime.Now.AddYears(10)
                 }.Link(List,s => s.SamplingDate));
@@ -114,7 +120,7 @@ namespace HLab.Erp.Lims.Analysis.Module
 
         }
 
-        public string Title => "Samples";
+        public string Title => "{Samples}";
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }

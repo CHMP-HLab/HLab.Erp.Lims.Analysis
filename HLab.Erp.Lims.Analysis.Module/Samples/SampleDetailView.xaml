@@ -47,7 +47,7 @@
             <mvvm:ViewLocator Height="50" Model="{Binding Locker}" Grid.ColumnSpan="2"/>
 
             <Label>
-                <lang:Localize Id="Workflow" Margin="50,0,0,0"/>
+                <lang:Localize Id="{}{Workflow}" Margin="50,0,0,0"/>
             </Label>
             <mvvm:ViewLocator Model="{Binding Workflow}"/>
 
@@ -60,17 +60,17 @@
                     <Canvas DockPanel.Dock="Left">
                         <icons:IconView Id = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
                     </Canvas>
-                    <lang:Localize Id="Record" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <lang:Localize Id="{}{Record}" VerticalAlignment="Center" Margin="50,0,0,0"/>
                     <icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.IconPath}"/>
                 </Grid>
             </Label>
             <Label HorizontalContentAlignment="Right" >
-                <lang:Localize Id="Reference" StringFormat="{}{0} : " />
+                <lang:Localize Id="{}{Reference} :"/>
             </Label>
-            <TextBox Text="{Binding Model.Ref}" HorizontalContentAlignment="Center" />
+            <TextBox Text="{Binding Model.Reference}" HorizontalContentAlignment="Center" />
 
             <Label HorizontalAlignment="Right">
-                <lang:Localize Id="File" StringFormat="{}{0} : " />
+                <lang:Localize Id="{}{File} :"/>
             </Label>
             <base:NumTextBox 
             IsReadOnly="{Binding Locker.IsReadOnly}"
@@ -80,7 +80,7 @@
             Value="{Binding Model.FileId}"/>
 
             <Label HorizontalContentAlignment="Right">
-                <lang:Localize Id="Customer" StringFormat="{}{0} : " />
+                <lang:Localize Id="{}{Customer} :"/>
             </Label>
             <!--<TextBox 
             IsReadOnly="{Binding Locker.IsReadOnly}"
@@ -91,7 +91,6 @@
             IsReadOnly="{Binding Locker.IsReadOnly}"
             Model="{Binding Model.Customer}"
             ModelClass="{x:Type data1:Customer}" 
-            MvvmContext="{Binding Erp.Mvvm.MainContext}" 
             ListClass="{x:Type wpf:ListCustomerViewModel}">
             </entitySelectors:ForeignView>
 
@@ -100,13 +99,13 @@
                     <Canvas>
                         <icons:IconView  Id="{Binding Model.Product.Form.IconPath,FallbackValue=icons}" Height="35" Opacity="0.8"/>
                     </Canvas>
-                    <lang:Localize Margin="50,0,0,0" Id="Product" />
+                    <lang:Localize Margin="50,0,0,0" Id="{}{Product}" />
                 </StackPanel>
             </Label>
 
 
             <Label HorizontalContentAlignment="Right">
-                <lang:Localize Id="INN" StringFormat="{}{0} : "/>
+                <lang:Localize Id="{}{INN} :"/>
             </Label>
             <!--<TextBox
             
@@ -115,7 +114,6 @@
                 IsReadOnly="{Binding Locker.IsReadOnly}"
                 Model="{Binding Model.Product}"
                 ModelClass="{x:Type data:Product}" 
-                MvvmContext="{Binding Erp.Mvvm.MainContext}" 
                 ListClass="{x:Type products:ListProductPopupViewModel}">
             </entitySelectors:ForeignView>
 
@@ -125,13 +123,13 @@
                         <icons:IconView Id="icons/Sample/PackageOpened" Height="35" Opacity="0.8"/>
                     </Canvas>
                     <ContentPresenter Width="50"/>
-                    <lang:Localize  Id="Reception"/>
+                    <lang:Localize  Id="{}{Reception}"/>
                 </StackPanel>
             </Label>
 
 
             <Label HorizontalAlignment="Right" >
-                <lang:Localize Id="Date" StringFormat="{}{0} : "/>
+                <lang:Localize Id="{}{Date} :"/>
             </Label>
             <base:DateEx
                 IsReadOnly="{Binding Locker.IsReadOnly}"
@@ -146,13 +144,13 @@
                     <Canvas>
                         <icons:IconView  Id="Icons/Sample/Sampling" Height="20" Opacity="0.8"/>
                     </Canvas>
-                    <lang:Localize Margin="30,0,0,0"  Id="Sampling"/>
+                    <lang:Localize Margin="30,0,0,0"  Id="{}{Sampling}"/>
                 </StackPanel>
             </Label>
 
 
             <Label HorizontalAlignment="Right">
-                <lang:Localize  Id="Quantity Received" StringFormat="{}{0} : "/>
+                <lang:Localize  Id="{}{Quantity Received} :"/>
             </Label>
             <Grid Margin="0,0,15,0">
                 <Grid.ColumnDefinitions>
@@ -171,7 +169,7 @@
                         Value="{Binding Model.ReceivedQuantity}" />
 
                 <Label HorizontalAlignment="Right" Grid.Column="1">
-                    <lang:Localize Id="Date" StringFormat="{}{0} : "/>
+                    <lang:Localize Id="{}{Date}"/>
                 </Label>
 
                 <base:DateEx  Grid.Column="2"
@@ -183,7 +181,7 @@
             </Grid>
 
             <Label HorizontalAlignment="Right">
-                <lang:Localize  Id="Location" StringFormat="{}{0} : "/>
+                <lang:Localize  Id="{}{Location} :"/>
             </Label>
 
             <TextBox
@@ -197,14 +195,14 @@
                         <icons:IconView Id="Icons/Sample/Barcode" Height="35" Opacity="0.8"/>
                     </Canvas>
                     <ContentControl Width="50"></ContentControl>
-                    <lang:Localize  Id="Batch"/>
+                    <lang:Localize  Id="{}{Batch}"/>
                 </StackPanel>
             </Label>
 
 
 
             <Label HorizontalAlignment="Right">
-                <lang:Localize  Id="N°" StringFormat="{}{0} : "/>
+                <lang:Localize  Id="{}{N°} : "/>
             </Label>
             <TextBox  
                 
@@ -212,7 +210,7 @@
 
 
             <Label HorizontalAlignment="Right">
-                <lang:Localize  Id="Expiration" StringFormat="{}{0} : "/>
+                <lang:Localize  Id="{}{Expiration} : "/>
             </Label>
             <Grid Margin="0,0,15,0">
                 <Grid.ColumnDefinitions>
@@ -252,7 +250,7 @@
             </Grid>
 
             <Label HorizontalAlignment="Right">
-                <lang:Localize  Id="Manufacturer" StringFormat="{}{0} : "/>
+                <lang:Localize  Id="{}{Manufacturer} : "/>
             </Label>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -265,7 +263,6 @@
                 IsReadOnly="{Binding Locker.IsReadOnly}"
                 Model="{Binding Model.Manufacturer}"
                 ModelClass="{x:Type data:Manufacturer}" 
-                MvvmContext="{Binding Erp.Mvvm.MainContext}" 
                 ListClass="{x:Type manufacturers:ListManufacturerViewModel}">
                 </entitySelectors:ForeignView>
 
@@ -275,7 +272,7 @@
                 <icons:IconView Margin="0,0,15,0" Grid.Column="2" HorizontalAlignment="Right" Height="35" Id="{Binding Model.Manufacturer.Country.IconPath}"/>
             </Grid>
             <Label HorizontalAlignment="Right">
-                <lang:Localize Id="Commercial Name" StringFormat="{}{0} : "/>
+                <lang:Localize Id="{}{Commercial Name} : "/>
             </Label>
             <TextBox 
             
@@ -289,19 +286,19 @@
                         <icons:IconView  Id="Icons/Sample/Packaging" Height="35" Opacity="0.8"/>
                     </Canvas>
                     <ContentControl Width="50"></ContentControl>
-                    <lang:Localize  Id="Packaging" />
+                    <lang:Localize  Id="{}{Packaging}" />
                 </StackPanel>
             </Label>
 
             <Label HorizontalAlignment="Right" VerticalContentAlignment="Center">
-                <lang:Localize Id="Original packaging" StringFormat="{}{0} : "/>
+                <lang:Localize Id="{}{Original packaging} : "/>
             </Label>
             <views:YesNoView 
             
             Value="{Binding Model.InOriginalPackaging}"/>
 
             <Label HorizontalAlignment="Right">
-                <lang:Localize  Id="Primary" StringFormat="{}{0} : "/>
+                <lang:Localize  Id="{}{Primary} : "/>
             </Label>
             <StackPanel Margin="0,0,15,0">
                 <TextBlock 
@@ -324,7 +321,7 @@
             </StackPanel>
             <!---->
             <Label HorizontalAlignment="Right">
-                <lang:Localize  Id="Secondary" StringFormat="{}{0} : "/>
+                <lang:Localize  Id="{}{Secondary} : "/>
             </Label>
             <StackPanel Margin="0,0,15,0">
                 <TextBlock 
@@ -346,7 +343,7 @@
             <!---->
 
             <Label HorizontalAlignment="Right">
-                <lang:Localize  Id="Storage Conditions" StringFormat="{}{0} : "/>
+                <lang:Localize  Id="{}{Storage Conditions} : "/>
             </Label>
             <TextBox 
             
@@ -440,7 +437,7 @@
                         <icons:IconView  Id="Icons/Edit" Height="35" Opacity="0.8"/>
                     </Canvas>
                     <ContentControl Width="50"></ContentControl>
-                    <lang:Localize  Id="Note"/>
+                    <lang:Localize  Id="{}{Note}"/>
                 </StackPanel>
             </Label>
 

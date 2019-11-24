@@ -26,7 +26,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
 
         public void Load()
         {
-            _erp.Menu.RegisterMenu("data", "manufacturers", "Manufacturers",
+            _erp.Menu.RegisterMenu("data", "manufacturers", "{Manufacturers}",
                 OpenListManufacturerCommand,
                 _erp.Icon.GetIcon("icons/manufacturer"));
 

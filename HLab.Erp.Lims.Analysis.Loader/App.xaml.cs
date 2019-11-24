@@ -1,11 +1,14 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using HLab.Base;
 using HLab.Core;
 using HLab.DependencyInjection;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Core;
+using HLab.Erp.Lims.Monographs.Loader;
 using HLab.Erp.Workflows;
+using HLab.Mvvm.Annotations;
 using HLab.Notify;
 using HLab.Notify.PropertyChanged;
 
@@ -18,10 +21,12 @@ namespace HLab.Erp.Lims.Analysis.Loader
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            ///MessageBox.Show("Startup");
+
             base.OnStartup(e);
 
             var container = new DependencyInjectionContainer();
-            container.ExportInitialize<OptionsServicesWpf>((c, a, o) => o.SetRegistryPath("CHMP"));
+            container.ExportInitialize<OptionsServicesWpf>((c, a, o) => o.SetRegistryPath("HLab.Erp"));
             container.Configure(c => c.Export<EventHandlerServiceWpf>().As<IEventHandlerService>());
 
             //boot.Container.ExportInitialize<BootLoaderErpWpf>((c, a, o) => o.SetMainViewMode(typeof(ViewModeKiosk)));
@@ -43,9 +48,24 @@ namespace HLab.Erp.Lims.Analysis.Loader
             var f0 = boot.LoadDll("HLab.Erp.Core");
             var g0 = boot.LoadDll("HLab.Erp.Lims.Analysis.Module");
 
-            boot.Configure();
 
-            boot.Boot();
+            try
+            {
+                boot.Configure();
+
+                var loc = container.Locate<ILocalizationService>();
+
+                var test = loc.Localize("fr-fr", "blah {Customer} truc {Product}");
+
+
+
+                boot.Boot();
+            }
+            catch(Exception ex)
+            {
+                var view = new ExceptionView {Exception = ex};
+                view.ShowDialog();
+            }
         }
     }
 }

@@ -19,7 +19,7 @@
             <mvvm:ViewLocator Height="50" Model="{Binding Locker}" Grid.ColumnSpan="2"/>
 
             <Label>
-                <lang:Localize Id="Workflow" Margin="50,0,0,0"/>
+                <lang:Localize Id="{}{Workflow}" Margin="50,0,0,0"/>
             </Label>
             <ContentPresenter Content="{Binding Workflow}"/>
 
@@ -35,12 +35,12 @@
             </Grid></Label>
 
             <Label HorizontalContentAlignment="Right" >
-                <lang:Localize Id="Type" StringFormat="{}{0} : " />
+                <lang:Localize Id="{}{Type}" StringFormat="{}{0} : " />
             </Label>
             <TextBox Text="{Binding Model.Ref}" HorizontalContentAlignment="Center" />
 
             <Label HorizontalContentAlignment="Right" >
-                <lang:Localize Id="Method" StringFormat="{}{0} : " />
+                <lang:Localize Id="{}{Method} : "/>
             </Label>
             <TextBox Text="{Binding Model.Method}" HorizontalContentAlignment="Center" />
 
@@ -49,7 +49,7 @@
                     <Canvas DockPanel.Dock="Left">
                         <icons:IconView Id = "Icons/Result" Height="35" Opacity="0.8"/>
                     </Canvas>
-                    <lang:Localize Id="Results" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <lang:Localize Id="{}{Results}" VerticalAlignment="Center" Margin="50,0,0,0"/>
                     <icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.IconPath}"/>
                 
                 </Grid>
@@ -65,9 +65,7 @@
                     <Canvas DockPanel.Dock="Left">
                         <icons:IconView Id = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
                     </Canvas>
-                    <lang:Localize Id="Documents" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.IconPath}"/>
-                
+                    <lang:Localize Id="{}{Documents}" VerticalAlignment="Center" Margin="50,0,0,0"/>
                 </Grid>
             </Label>
 

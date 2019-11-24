@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Globalization;
+using System.Linq;
+using System.Windows.Input;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Core;
+using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Products;
@@ -9,6 +13,8 @@ using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
+using NPoco;
+using Outils;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
@@ -27,7 +33,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             Packagings = packagings;
             Packagings.Update();
         }
-        public string Title => Model.Customer?.Name??"Nouvel échantillon" + "\n" + Model.Product?.Caption + "\n" + Model.Ref;
+        public string Title => Model.Customer?.Name??"Nouvel échantillon" + "\n" + Model.Product?.Caption + "\n" + Model.Reference;
 
         public ObservableQuery<Packaging> Packagings { get; }
 
@@ -58,6 +64,110 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .On(e => e.Model)
             .Set(vm => new SampleWorkflow(vm.Model))
         );
+
+        public ICommand CertificateCommand { get; } = H.Command(c => c
+            .Action(e => e.PrintCertificate("FR"))
+        );
+
+        [Import]
+        private IDataService _data;
+
+        private void PrintCertificate(String langue, bool apercu = false)
+        {
+            if (Model.Id == -1)
+                return;
+
+            var template = _data.FetchOne<Xaml>(e => e.Name == "Certificate");
+
+            // Prépare l'impression
+            var ip = new Print("Certificate",template.Page, langue);
+
+            ip["NumeroEchantillon"] = Model.Reference;
+            ip["Dci"] = Model.Product.Inn;
+            ip["Nom"] = Model.CommercialName;
+            ip["Dosage"] = Model.Product.Dose;
+            ip["Forme"] = Model.Product.Form.Name;
+
+            String expiry = "";
+            if (Model.ExpirationDate != null)
+            {
+                if (!Model.ExpirationDayValid)
+                    expiry = Model.ExpirationDate?.ToString("");
+                else
+                    expiry = Model.ExpirationDate?.ToString("dd/MM/yyyy");
+            }
+            ip["DatePeremption"] = expiry;
+
+            String dateFabrication = "";
+            if (Model.ManufacturingDate != null)
+            {
+                    if (!Model.ManufacturingDayValid)
+                        dateFabrication = Model.ManufacturingDate?.ToString("");
+                    else
+                        dateFabrication = Model.ManufacturingDate?.ToString("dd/MM/yyyy");
+            }
+            ip["DateFabrication"] = dateFabrication;
+
+
+            ip["Lot"] = Model.Batch;
+            ip["Demandeur"] = JoinNotNull("\n", Model.Customer?.Name, Model.Customer?.Address, Model.Customer?.Country?.Name);
+            ip["Fabricant"] = JoinNotNull("\n", Model.Manufacturer?.Name, Model.Manufacturer?.Address, Model.Manufacturer?.Country?.Name);
+            ip["DateReception"] = Model.ReceptionDate?.ToString("dd/MM/yyyy");
+            ip["DateNotification"] = apercu ? "Aperçu" : Model.NotificationDate?.ToString("dd/MM/yyyy");
+            ip["Pharmacopee"] = Model.Pharmacopoeia.NameFr + " " + Model.PharmacopoeiaVersion;
+            ip["Prelevement"] = Model.SamplingOrigin;
+            ip["Taille"] = Model.ReceivedQuantity.ToString();// + " " + slProduit.String("Forme").ToLower());
+            ip["ConditionnementPrimaire"] = Model.PrimaryPackaging;// + (TB_ConditionnementSecondaire.Text.Length>0 ? " (" + TB_ConditionnementSecondaire.Text + ")":""));
+            ip["ConditionnementSecondaire"] = Model.SecondaryPackaging;
+            ip["Produit"] = Model.Aspect + "\r\n" + Model.Size;
+            ip["Conclusion"] = Model.Conclusion;
+            ip["Validateur"] = apercu ? "Aperçu" : Model.Validator; //MainWindow._UtilisateurPrenom + " " + MainWindow._UtilisateurNom + "\r\n" + MainWindow._UtilisateurFonction);
+
+            // Cache le bandeau d'aperçu
+            if (!apercu)
+                ip.Cache("Apercu");
+
+            // Ajout des tests sur la page
+            String nomTest = "";
+            foreach (var test in Tests.List)
+            {
+                if (test.Validation != 2)
+                {
+                    // Ajoute la ligne pour le nom du test
+                    if (test.TestName != nomTest)
+                    {
+                        nomTest = test.TestName;
+                        ip.AjouteElement("Titre");
+                        ip.Element["Titre"] = " " + nomTest;
+                    }
+
+                    // Les résultats du test
+                    ip.AjouteElement("Test");
+
+                    if (test.EndDate==null || test.EndDate == DateTime.MinValue)
+                        ip.Element["Date"] = "__/ __ /_____";
+                    else if (langue == "US")
+                        ip.Element["Date"] = string.Format(CultureInfo.InvariantCulture, "{0:d}", test.EndDate) + Environment.NewLine;
+                    else
+                        ip.Element["Date"] = string.Format("{0:d}", test.EndDate) + Environment.NewLine;
+
+                    ip.Element["Description"] = test.Description + Environment.NewLine;
+                    //TODO ip.Element["Reference"] = test.Reference + Environment.NewLine;
+                    ip.Element["Norme"] = test.Specification + Environment.NewLine;
+                    ip.Element["Resultat"] = test.Result + Environment.NewLine;
+                    ip.Element["Conforme"] = test.Conform + Environment.NewLine;
+                }
+            }
+            // Impression du certificat d'analyse
+            String numero = Model.Reference;
+            if(ip.Apercu("Certificat_" + numero, null, Print.Langue("{FR=Certificat d'analyse}{US=Certificate of analysis} ", langue) + Model.Reference))
+            {
+                // Log cette impression
+                // TODO : Sql.Log(TypeObjet.Echantillon, IdEchantillon, ip.LogText);
+            }
+
+        }
+        private string JoinNotNull(string separator, params string[] values) => String.Join(separator, values.Where(s => !String.IsNullOrWhiteSpace(s)));
 
                                                        
     }

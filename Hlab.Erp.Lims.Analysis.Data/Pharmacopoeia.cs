@@ -63,8 +63,8 @@ namespace HLab.Erp.Lims.Analysis.Data
         
 
         [Ignore]
-        public string IconPath => _iconName.Get();
-        private readonly IProperty<string> _iconName = H.Property<string>(c => c
+        public string IconPath => _iconPath.Get();
+        private readonly IProperty<string> _iconPath = H.Property<string>(c => c
             .On(e => e.NameFr)
             .Set(e => "Pharmacopoeia/" + (string.IsNullOrWhiteSpace(e.Abbreviation)?"home_flag":e.Abbreviation))
         );

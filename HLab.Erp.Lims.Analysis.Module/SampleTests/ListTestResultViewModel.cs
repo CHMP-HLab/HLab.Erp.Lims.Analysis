@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
+using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Core.ViewModels;
 using HLab.Erp.Core.ViewModels.EntityLists;
@@ -43,18 +44,18 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             Form = h.Form;
         }
 
-        private async Task<object> GetStateIcon(int state)
+        private string GetStateIcon(int state)
         {
             switch (state)
             {
                 case 1:
-                    return await _erp.Icon.GetIcon("icons/Results/CheckFailed");
+                    return "icons/Results/CheckFailed";
                 case 2:
-                    return await _erp.Icon.GetIcon("icons/Results/GaugeKO");
+                    return "icons/Results/GaugeKO";
                 case 3:
-                    return await _erp.Icon.GetIcon("icons/Results/GaugeOK");
+                    return "icons/Results/GaugeOK";
                 default:
-                    return await _erp.Icon.GetIcon("icons/Results/Gauge");
+                    return "icons/Results/Gauge";
             }
         }
 
@@ -68,7 +69,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns
                 .Column("", s => s.Result)
-                .Column("^State", async s => s.StateId != null ? await GetStateIcon(s.StateId.Value) : "", s => s.StateId)
+                .Icon("{State}", s => s.StateId != null ? GetStateIcon(s.StateId.Value) : "", s => s.StateId)
 ;
             //List.AddFilter(e => e.State < 3);
 
@@ -80,7 +81,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         }
 
-        public string Title => "Sample";
+        public string Title => "{Result}";
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }

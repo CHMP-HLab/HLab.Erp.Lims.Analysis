@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
+using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Core.ViewModels.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
@@ -25,7 +26,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns
 //                .Column("Ref",  s => s.Caption)
-                .Column("Name", e => e.Name)
+                .Column("{Name}", e => e.Name)
 //                .Column("Dose",e => e.Dose)
 //                .Column("Form",e => e.Form)
                 .Column("", async (s) => await _erp.Icon.GetIcon(s.Country?.IconPath ?? "", 25), s => s.Country.Name)
@@ -34,7 +35,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
 
             using (List.Suspender.Get())
             {
-                Filters.Add(new FilterTextViewModel {Title = "Name"}.Link(List, e => e.Name));
+                Filters.Add(new FilterTextViewModel {Title = "{Name}"}.Link(List, e => e.Name));
             }
         }
 

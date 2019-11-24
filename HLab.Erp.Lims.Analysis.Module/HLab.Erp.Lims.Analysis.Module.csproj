@@ -7,6 +7,14 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;TRACE WPF</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;TRACE WPF</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <Page Remove="Icons\Entities\Product.xaml" />
     <Page Remove="Icons\Forms\Drugs.xaml" />

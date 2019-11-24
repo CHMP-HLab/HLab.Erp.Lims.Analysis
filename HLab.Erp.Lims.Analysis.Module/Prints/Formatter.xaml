@@ -1,0 +1,28 @@
+﻿<Popup x:Class="HLab.Erp.Lims.Analysis.Module.Prints.Formatter"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Height="85" Width="225" AllowsTransparency="True" PopupAnimation="Fade">
+   <Grid>
+
+      <Rectangle Fill="#DFFFFFFF" RadiusX="9" RadiusY="9" StrokeThickness="0" Margin="5" IsHitTestVisible="False">
+         <Rectangle.Effect>
+            <BlurEffect Radius="10"/>
+         </Rectangle.Effect>
+      </Rectangle>
+
+      <Button x:Name="BT_Gras" HorizontalAlignment="Left" Height="30" Width="30" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold" Click="BT_Gras_Click" Tag="TexteGras" Focusable="False"/>
+      <Button x:Name="BT_Italique" HorizontalAlignment="Left" Height="30" Width="30" Margin="45,10,0,0" VerticalAlignment="Top" FontStyle="Italic" Click="BT_Italique_Click" Tag="TexteItalique" Focusable="False" IsHitTestVisible="True"/>
+      <Button x:Name="BT_Souligne" HorizontalAlignment="Left" Height="30" Width="30" Margin="80,10,0,0" VerticalAlignment="Top" Click="BT_Souligne_Click" Tag="TexteSouligner" Focusable="False"/>
+      <Button x:Name="BT_Barre" HorizontalAlignment="Left" Height="30" Width="30" Margin="115,10,0,0" VerticalAlignment="Top" Click="BT_Barre_Click" Tag="TexteBarrer" Focusable="False"/>
+      <Button x:Name="BT_Indice" HorizontalAlignment="Left" Height="30" Width="30" Margin="150,10,0,0" VerticalAlignment="Top" Tag="Indice" Click="BT_Indice_Click" Focusable="False"/>
+      <Button x:Name="BT_Exposant" HorizontalAlignment="Left" Height="30" Width="30" Margin="185,10,0,0" VerticalAlignment="Top" Tag="Exposant" Click="BT_Exposant_Click" Focusable="False"/>
+
+      <Button x:Name="BT_Gauche" HorizontalAlignment="Left" Height="30" Width="30" Margin="10,45,0,0" VerticalAlignment="Top" Click="BT_Gauche_Click" Tag="AlignementGauche" Focusable="False"/>
+      <Button x:Name="BT_Centre" HorizontalAlignment="Left" Height="30" Width="30" Margin="45,45,0,0" VerticalAlignment="Top" Click="BT_Centre_Click" Tag="AlignementCentre" Focusable="False"/>
+      <Button x:Name="BT_Droite" HorizontalAlignment="Left" Height="30" Width="30" Margin="80,45,0,0" VerticalAlignment="Top" Click="BT_Droite_Click" Tag="AlignementDroite" Focusable="False"/>
+      <Button x:Name="BT_Jutifie" HorizontalAlignment="Left" Height="30" Width="30" Margin="115,45,0,0" VerticalAlignment="Top" Click="BT_Jutifie_Click" Tag="AlignementJustifier" Focusable="False"/>
+      <Button x:Name="BT_IndenteMoins" HorizontalAlignment="Left" Height="30" Width="30" Margin="150,45,0,0" VerticalAlignment="Top" Click="BT_IndenteMoins_Click" Tag="IndenteMoins" Focusable="False"/>
+      <Button x:Name="BT_IndentePlus" HorizontalAlignment="Left" Height="30" Width="30" Margin="185,45,0,0" VerticalAlignment="Top" Click="BT_IndentePlus_Click" Tag="IndentePlus" Focusable="False"/>
+
+   </Grid>
+</Popup>

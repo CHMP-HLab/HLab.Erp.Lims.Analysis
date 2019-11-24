@@ -7,6 +7,7 @@ using HLab.Mvvm.Icons;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
@@ -18,21 +19,19 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
         }
 
         public string Title => "Product";
-        private readonly IErpServices _erp;
         [Import]
-        public ListProductPopupViewModel(IErpServices erp)
+        public ListProductPopupViewModel()
         {
-            _erp = erp;
             Columns
-                .Column("Ref", s => s.Caption)
-                .Column("Inn", e => e.Inn)
-                .Column("Dose", e => e.Dose)
-                .Column("Form", e => e.Form)
-                .Column("", async (s) => await _erp.Icon.GetIcon(s.Form?.IconPath ?? "", 25), s => s.Form.Name);
+                .Column("{Ref}", s => s.Caption)
+                .Column("{Inn}", e => e.Inn)
+                .Column("{Dose}", e => e.Dose)
+                .Column("{Form}", e => e.Form)
+                .Icon("", s => s.Form?.IconPath ?? "",  s => s.Form.Name);
             using (List.Suspender.Get())
             {
-                Filters.Add(new FilterTextViewModel{Title = "Inn"}.Link(List,e => e.Inn));
-                Filters.Add(new FilterTextViewModel{Title = "Dose"}.Link(List,e => e.Dose));
+                Filters.Add(new FilterTextViewModel{Title = "{Inn}"}.Link(List,e => e.Inn));
+                Filters.Add(new FilterTextViewModel{Title = "{Dose}"}.Link(List,e => e.Dose));
 
             }
 

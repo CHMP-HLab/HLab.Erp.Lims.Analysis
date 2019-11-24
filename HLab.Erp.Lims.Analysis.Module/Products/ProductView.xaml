@@ -48,22 +48,22 @@
                         <Canvas DockPanel.Dock="Left">
                             <icons:IconView Id = "Icons/Sample/Drugs" Height="35" Opacity="0.8"/>
                         </Canvas>
-                        <lang:Localize Id="Product" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                        <lang:Localize Id="{}{Product}" VerticalAlignment="Center" Margin="50,0,0,0"/>
                         <icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.IconPath}"/>
                     </Grid>
                 </Label>
                 <Label HorizontalContentAlignment="Right">
-                    <lang:Localize Id="INN" StringFormat="{}{0} : "/>
+                    <lang:Localize Id="{}{INN}" StringFormat="{}{0} : "/>
                 </Label>
                 <TextBox
                     TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Inn ,Mode=OneWay}" HorizontalContentAlignment="Center" />
                 <Label HorizontalContentAlignment="Right">
-                    <lang:Localize Id="Dose" StringFormat="{}{0} : "/>
+                    <lang:Localize Id="{}{Dose}" StringFormat="{}{0} : "/>
                 </Label>
                 <TextBox
                     TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Dose ,Mode=OneWay}" HorizontalContentAlignment="Center" />
                 <Label HorizontalContentAlignment="Right">
-                    <lang:Localize Id="Form" StringFormat="{}{0} : "/>
+                    <lang:Localize Id="{}{Form}" StringFormat="{}{0} : "/>
                 </Label>
                 <!--<TextBox
                     TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Form.Name ,Mode=OneWay}" HorizontalContentAlignment="Center" />-->

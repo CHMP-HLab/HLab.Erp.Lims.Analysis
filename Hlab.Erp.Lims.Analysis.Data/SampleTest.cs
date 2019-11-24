@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Data;
@@ -146,18 +147,20 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<string> _result = H.Property<string>(c => c.Default(""));
 
-        //[Column("DateDebut")]
-        //public DateTime? StartDate
-        //{
-        //    get => N.Get(() => (DateTime?)null); set => N.Set(value);
-        //}
+        public DateTime? StartDate
+        {
+            get => _startDate.Get();
+            set => _startDate.Set(value);
+        }
+        private readonly IProperty<DateTime?> _startDate = H.Property<DateTime?>();
 
 
-        //[Column("DateFin")]
-        //public DateTime? EndDate
-        //{
-        //    get => N.Get(() => (DateTime?)null); set => N.Set(value);
-        //}
+        public DateTime? EndDate
+        {
+            get => _endDate.Get();
+            set => _endDate.Set(value);
+        }
+        private readonly IProperty<DateTime?> _endDate = H.Property<DateTime?>();
 
 
         public bool? ReTest

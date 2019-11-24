@@ -1,6 +1,7 @@
 ﻿using System;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
+using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Core.ViewModels;
 using HLab.Erp.Core.ViewModels.EntityLists;
@@ -14,17 +15,15 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
     {
         public string Title => "Products";
 
-        private readonly IErpServices _erp;
-        [Import] public ListProductViewModel(IErpServices erp) 
+        public ListProductViewModel() 
         {
-            _erp = erp;
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns
-                .Column("Ref",  s => s.Caption)
+                //.Column("Ref",  s => s.Caption)
                 .Column("Inn",e => e.Inn)
                 .Column("Dose",e => e.Dose)
                 .Column("Form",e => e.Form)
-                .Column("", async (s) => await _erp.Icon.GetIcon(s.Form?.IconPath??"",25),s => s.Form.Name)
+                .Icon("", (s) => s.Form?.IconPath??"",s => s.Form.Name)
                 //.Hidden("IsValid",  s => s.Validation != 2)
                 ;
 

@@ -26,7 +26,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
 
         public void Load()
         {
-            _erp.Menu.RegisterMenu("data", "products", "Products",
+            _erp.Menu.RegisterMenu("data", "products", "{Products}",
                 OpenListProductCommand,
                 _erp.Icon.GetIcon("icons/sample/drugs"));
 

@@ -33,86 +33,86 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IForeign<User> _user = H.Foreign<User>(); 
 
-        public int? RecordYear
-        {
-            get => _recordYear.Get();
-            set => _recordYear.Set(value);
-        }
-        private readonly IProperty<int?> _recordYear = H.Property<int?>();
+        //public int? RecordYear
+        //{
+        //    get => _recordYear.Get();
+        //    set => _recordYear.Set(value);
+        //}
+        //private readonly IProperty<int?> _recordYear = H.Property<int?>();
 
 
-        public int? RecordRequestId
-        {
-            get => _recordRequestId.Get();
-            set => _recordRequestId.Set(value);
-        }
-        private readonly IProperty<int?> _recordRequestId = H.Property<int?>();
+        //public int? RecordRequestId
+        //{
+        //    get => _recordRequestId.Get();
+        //    set => _recordRequestId.Set(value);
+        //}
+        //private readonly IProperty<int?> _recordRequestId = H.Property<int?>();
 
-        [Ignore]
-        public string RecordRequest
-        {
-            get => _recordRequest.Get();
-            set
-            {
-                switch (value)
-                {
-                    case "EXT":
-                        RecordRequestId = 0;
-                        break;
-                    case "LEM":
-                        RecordRequestId = 1;
-                        break;
-                    case "PTS":
-                        RecordRequestId = 2;
-                        break;
-                    case "REC":
-                        RecordRequestId = 3;
-                        break;
-                    default:
-                    throw new ArgumentException();
-                }
-            }
-        }
-        private readonly IProperty<string> _recordRequest = H.Property<string>(c => c
-            .On(e => e.RecordRequestId)
-            .Set(e => {
-                switch (e.RecordRequestId)
-                {
-                    case 0: return "EXT";
-                    case 1: return "LEM";
-                    case 2: return "PTS";
-                    case 3: return "REC";
-                    case null: return "???";
-                }
-                throw new ArgumentException();
-            })
-        );
+        //[Ignore]
+        //public string RecordRequest
+        //{
+        //    get => _recordRequest.Get();
+        //    set
+        //    {
+        //        switch (value)
+        //        {
+        //            case "EXT":
+        //                RecordRequestId = 0;
+        //                break;
+        //            case "LEM":
+        //                RecordRequestId = 1;
+        //                break;
+        //            case "PTS":
+        //                RecordRequestId = 2;
+        //                break;
+        //            case "REC":
+        //                RecordRequestId = 3;
+        //                break;
+        //            default:
+        //            throw new ArgumentException();
+        //        }
+        //    }
+        //}
+        //private readonly IProperty<string> _recordRequest = H.Property<string>(c => c
+        //    .On(e => e.RecordRequestId)
+        //    .Set(e => {
+        //        switch (e.RecordRequestId)
+        //        {
+        //            case 0: return "EXT";
+        //            case 1: return "LEM";
+        //            case 2: return "PTS";
+        //            case 3: return "REC";
+        //            case null: return "???";
+        //        }
+        //        throw new ArgumentException();
+        //    })
+        //);
 
-        public string RecordNo
+        public string Reference
         {
-            get => _recordNo.Get();
-            set => _recordNo.Set(value);
+            get => _reference.Get();
+            set => _reference.Set(value);
         }
-        private readonly IProperty<string> _recordNo = H.Property<string>();
+        private readonly IProperty<string> _reference = H.Property<string>();
 
-        [Ignore]
-        public string Ref
-        {
-            get => _ref.Get();
-            set
-            {
-                var parts = value.Split('/');
-                RecordYear = int.Parse(parts[0]);
-                RecordRequest = parts[1];
-                RecordNo = parts[2];
-            }
-        }
-        private readonly IProperty<string> _ref = H.Property<string>(c => c
-            .On(e => e.RecordYear)
-            .On(e => e.RecordRequest)
-            .On(e => e.RecordNo)
-            .Set(e => e.RecordYear + "/" + e.RecordRequest + "/" + ("0000" + e.RecordNo).Right(4))
-        );
+        //[Ignore]
+        //public string Ref
+        //{
+        //    get => _ref.Get();
+        //    set
+        //    {
+        //        var parts = value.Split('/');
+        //        RecordYear = int.Parse(parts[0]);
+        //        RecordRequest = parts[1];
+        //        RecordNo = parts[2];
+        //    }
+        //}
+        //private readonly IProperty<string> _ref = H.Property<string>(c => c
+        //    .On(e => e.RecordYear)
+        //    .On(e => e.RecordRequest)
+        //    .On(e => e.RecordNo)
+        //    .Set(e => e.RecordYear + "/" + e.RecordRequest + "/" + ("0000" + e.RecordNo).Right(4))
+        //);
 
 
         public DateTime? ReceptionDate
@@ -458,8 +458,7 @@ namespace HLab.Erp.Lims.Analysis.Data
         [Ignore]
         public static Sample DesignModel => new Sample
         {
-                RecordYear = 2019,
-                RecordNo = "42",
+                Reference = "0042/11/2019",
                 ReceivedQuantity = 100,
                 ReceptionDate = DateTime.Now,
                 Progress = 50,

@@ -17,6 +17,11 @@
 
   <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0531" />
+    <PackageReference Include="System.Data.Odbc" Version="4.6.0" />
+    <PackageReference Include="System.Data.OleDb" Version="4.6.0" />
+    <PackageReference Include="System.IO.Ports" Version="4.6.0" />
+    <PackageReference Include="System.ServiceModel.Syndication" Version="4.6.0" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +30,7 @@
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Base.Wpf\HLab.Erp.Base.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Core.Wpf\HLab.Erp.Core.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Workflows.Wpf\HLab.Erp.Workflows.Wpf.csproj" />
+    <ProjectReference Include="..\..\..\HLab\HLab.Bugs.Wpf\HLab.Bugs.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Core\HLab.Core.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Notify.Wpf\HLab.Notify.Wpf.csproj" />
     <ProjectReference Include="..\Hlab.Erp.Lims.Analysis.Data\HLab.Erp.Lims.Analysis.Data.csproj" />
