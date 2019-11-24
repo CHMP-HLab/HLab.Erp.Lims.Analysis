@@ -3,6 +3,7 @@ using HLab.Core.Annotations;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Data;
+using HLab.Erp.Lims.Analysis.Module.Samples;
 using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Mvvm;
 using HLab.Notify.PropertyChanged;

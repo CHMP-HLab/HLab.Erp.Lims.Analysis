@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Threading.Tasks;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
-using HLab.Erp.Core.ViewModels;
-using HLab.Erp.Core.ViewModels.EntityLists;
-using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.Products;
 using HLab.Mvvm.Annotations;
-using HLab.Mvvm.Icons;
 
-namespace HLab.Erp.Lims.Analysis.Module
+namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
     class ListSampleViewModel : EntityListViewModel<ListSampleViewModel,Sample>, IMvvmContextProvider
     {
@@ -59,7 +53,7 @@ namespace HLab.Erp.Lims.Analysis.Module
             // Db.Fetch<Customer>();
             using (List.Suspender.Get())
             {
-                Filters.Add(new FilterTextDesignViewModel()
+                Filters.Add(new FilterTextViewModel()
                 {
                     Title = "{Reference}",
                 }.Link(List, s => s.Reference));

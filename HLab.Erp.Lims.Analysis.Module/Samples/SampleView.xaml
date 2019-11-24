@@ -134,6 +134,10 @@
                 </Grid>
 
                 <DockPanel Grid.Row="2" Height="80" VerticalAlignment="Bottom">
+                    <entitySelectors:ForeignView DockPanel.Dock="Top"
+                        ModelClass="{x:Type data:TestClass}"
+                        Command="{Binding AddTestCommand}"
+                        />
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right">
                         <RadioButton BorderBrush="#80000000" GroupName="CertificatLangue" IsChecked="True">
                             <lang:Localize Id="{}{French}"/>
@@ -154,7 +158,6 @@
 
                     <Button
                             Width="80" 
-                            Tag="Facture" 
                             IsCancel="False" 
                             Command="{Binding CertificateCommand}">
                         <lang:Localize Id="{}{Certificate}"/>

@@ -59,6 +59,17 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Set(e => e._getTests(e.Model.Id))
         );
 
+        public ICommand AddTestCommand { get; } = H.Command(c => c
+            .Action((e,t) => e.AddTest(t as TestClass))
+        );
+
+        private void AddTest(TestClass testClass)
+        {
+            if (testClass == null) return;
+
+            _data.Add<SampleTest>(st => { st.TestClass = testClass; });
+        }
+
         public SampleWorkflow Workflow => _workflow.Get();
         private readonly IProperty<SampleWorkflow> _workflow = H.Property<SampleWorkflow>(c => c
             .On(e => e.Model)
