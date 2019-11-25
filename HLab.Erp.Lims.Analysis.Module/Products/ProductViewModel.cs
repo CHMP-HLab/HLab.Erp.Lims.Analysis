@@ -16,6 +16,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
         [Import]
         public ObservableQuery<Form> Forms { get; }
 
+        public string Title => _title.Get();
+        private readonly IProperty<string> _title = H.Property<string>(c => c.OneWayBind(e => e.Model.Caption));
 
         public ProductViewModel()
         {
@@ -26,7 +28,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
             .On(e => e.Model)
             .Set(vm => new ProductWorkflow(vm.Model))
         );
-
     }
     class ProductViewModelDesign : ProductViewModel, IViewModelDesign
     {

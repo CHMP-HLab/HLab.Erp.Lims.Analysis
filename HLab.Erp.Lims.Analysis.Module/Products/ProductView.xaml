@@ -9,6 +9,8 @@
              xmlns:lang="clr-namespace:HLab.Mvvm.Lang;assembly=HLab.Mvvm.Wpf"
              xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
              xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
+             xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
+             xmlns:data="clr-namespace:HLab.Erp.Lims.Analysis.Data;assembly=HLab.Erp.Lims.Analysis.Data"
              mc:Ignorable="d" 
              Background="#FF93A03F"
              d:DataContext="{d:DesignInstance {x:Type local:ProductViewModelDesign}, IsDesignTimeCreatable=True}"             
@@ -31,7 +33,7 @@
 
 
         <base:DetailView Grid.Row="0">
-            <ContentPresenter Height="50" Content="{Binding Locker}" Grid.ColumnSpan="2"/>
+            <mvvm:ViewLocator Height="50" Model="{Binding Locker}" Grid.ColumnSpan="2"/>
 
             <Label>
                 <lang:Localize Id="Workflow" Margin="50,0,0,0"/>
@@ -49,38 +51,32 @@
                             <icons:IconView Id = "Icons/Sample/Drugs" Height="35" Opacity="0.8"/>
                         </Canvas>
                         <lang:Localize Id="{}{Product}" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                        <icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.IconPath}"/>
+                        <!--<icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.IconPath}"/>-->
                     </Grid>
                 </Label>
                 <Label HorizontalContentAlignment="Right">
                     <lang:Localize Id="{}{INN}" StringFormat="{}{0} : "/>
                 </Label>
                 <TextBox
-                    TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Inn ,Mode=OneWay}" HorizontalContentAlignment="Center" />
+                    TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Inn}" HorizontalContentAlignment="Center" />
                 <Label HorizontalContentAlignment="Right">
                     <lang:Localize Id="{}{Dose}" StringFormat="{}{0} : "/>
                 </Label>
                 <TextBox
-                    TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Dose ,Mode=OneWay}" HorizontalContentAlignment="Center" />
+                    TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Dose}" HorizontalContentAlignment="Center" />
                 <Label HorizontalContentAlignment="Right">
                     <lang:Localize Id="{}{Form}" StringFormat="{}{0} : "/>
                 </Label>
                 <!--<TextBox
                     TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Form.Name ,Mode=OneWay}" HorizontalContentAlignment="Center" />-->
-                <ComboBox
-                    Background="#40000000"
-                    mvvm:ViewLocator.ViewClass ="{x:Type annotations:IViewClassListItem}"
-                    ItemsSource="{Binding Forms}" 
-                    SelectedItem="{Binding Model.Form}"/>
-                <Label HorizontalContentAlignment="Right">
-                    <lang:Localize Id="Form" StringFormat="{}{0} : "/>
-                </Label>
+                <entitySelectors:ForeignView
+                    ModelClass="{x:Type data:Form}"
+                    Model ="{Binding Model.Form}"
+                    IsReadOnly="{Binding Locker.IsReadOnly}"
+                    />
+                
                 <!--<TextBox
                     TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Form.Name ,Mode=OneWay}" HorizontalContentAlignment="Center" />-->
-                <ContentPresenter 
-                    mvvm:ViewLocator.ViewClass ="{x:Type annotations:IViewClassListItem}" 
-                    Content="{Binding Model.Form}"
-                    />
             </base:DetailView>
     </Grid>
 </UserControl>
