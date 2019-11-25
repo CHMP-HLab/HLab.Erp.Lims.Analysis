@@ -62,7 +62,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 .Column("{Specifications}", s => s.Specification)
                 .Column("{Result}", s => s.Result)
             //.Column("Conformity", s => s.TestStateId);
-                .Icon("{State}", s => GetCheckIcon(s.TestStateId??0), s => s.TestStateId)
+                .Icon("{State}", s => GetIcon(s.TestStateId??0), s => s.TestStateId)
                 .Icon("{Validation}", s => GetCheckIcon(s.Validation??0), s => s.Validation)
                 .Hidden("IsValid", s => s.Validation!=2)
                 .Hidden("Group", s => s.TestClassId);
