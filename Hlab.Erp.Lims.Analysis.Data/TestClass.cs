@@ -3,13 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
+using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Notify.PropertyChanged;
 using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    public partial class TestClass : Entity<TestClass>, ILocalCache
+    public partial class TestClass : Entity<TestClass>, ILocalCache, IListableModel
         , IEntityWithIcon
         , IEntityWithColor
     {
@@ -93,6 +94,10 @@ namespace HLab.Erp.Lims.Analysis.Data
         //}
         [Ignore]
         public int? Color => 0;
+
+        [Ignore]
+        public string Caption => _caption.Get();
+        private readonly IProperty<string> _caption = H.Property<string>(c => c.OneWayBind(e => e.Name));
 
         public string IconPath
         {

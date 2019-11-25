@@ -67,7 +67,17 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         {
             if (testClass == null) return;
 
-            _data.Add<SampleTest>(st => { st.TestClass = testClass; });
+            var test = _data.Add<SampleTest>(st =>
+            {
+                st.Sample = Model;
+                st.TestClass = testClass;
+                st.Code = testClass.Code;
+                st.Description = "Nouveau test";
+                st.TestName = testClass.Name;
+            });
+
+            if (test != null)
+                Tests.List.Update();
         }
 
         public SampleWorkflow Workflow => _workflow.Get();

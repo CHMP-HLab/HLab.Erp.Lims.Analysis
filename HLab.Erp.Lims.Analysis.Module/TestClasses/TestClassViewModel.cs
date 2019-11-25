@@ -24,8 +24,6 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         public FormHelper FormHelper => _formHelper.Get();
         private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c.Default(new FormHelper()));
 
-
-
         public string State
         {
             get => _state.Get();
@@ -39,6 +37,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             set => _testName.Set(value);
         }
         private readonly IProperty<string> _testName = H.Property<string>();
+
         public string Description
         {
             get => _description.Get();
@@ -59,6 +58,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             set => _specifications.Set(value);
         }
         private readonly IProperty<string> _specifications = H.Property<string>();
+
         public string Result
         {
             get => _result.Get();

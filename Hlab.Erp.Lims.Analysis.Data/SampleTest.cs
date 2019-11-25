@@ -1,10 +1,6 @@
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
-using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
-using HLab.Notify;
-using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
 using NPoco;
 

@@ -20,7 +20,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         public ListTestResultViewModel Results => _results.Get();
         private readonly IProperty<ListTestResultViewModel> _results = H.Property<ListTestResultViewModel>(c => c
             .On(e => e.Model)
-            .Set(e => e._getResults(e.Model.Id))
+            .Set(e =>
+            {
+                var vm =  e._getResults(e.Model.Id);
+                return vm;
+            })
         );
 
         public string Title => Model.Sample?.Reference + "\n" + Model.TestName + "\n" + Model.Description;
