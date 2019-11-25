@@ -8,6 +8,7 @@ using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Core.ViewModels;
 using HLab.Erp.Core.ViewModels.EntityLists;
+using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Mvvm.Annotations;
@@ -59,9 +60,13 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             }
         }
 
+        private int _sampleTestId;
+
         public ListTestResultViewModel(int sampleTestId)
         {
-            OpenAction = t => Compile(t);
+            _sampleTestId = sampleTestId;
+
+            SelectAction = async t => await Compile(t);
 
             List.AddFilter(() => e => e.SampleTestId == sampleTestId);
 
@@ -78,6 +83,23 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             {
 
             }
+
+        }
+
+        [Import] private IDataService _data;
+
+        protected override async Task OnAddCommand(SampleTestResult target)
+        {
+            var result = _data.Add<SampleTestResult>(r =>
+            {
+                r.SampleTestId = _sampleTestId;
+                if(target!=null)
+                {
+                    
+                }
+            });
+            if(result!=null)
+                List.Update();
 
         }
 
