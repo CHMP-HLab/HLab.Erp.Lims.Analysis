@@ -100,6 +100,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         public async Task ExtractCode(byte[] code)
         {
+            if(code==null) return;
+
             var sCode = Encoding.UTF8.GetString(await GzipToBytes(code).ConfigureAwait(false));
             var index = sCode.LastIndexOf("}\r\n", StringComparison.InvariantCulture);
             Cs = sCode.Substring(0, index + 1);
@@ -362,15 +364,13 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         public void LoadValues([NotNull]string values)
         {
-            LoadValues(values.Split((char)254).ToList()); // Le séparateur est un ALT + 254
+            LoadValues(values.Split('■').ToList()); // Le séparateur est un ALT + 254
         }
 
         public void LoadValues(List<string> values)
         {
             if (Form is FrameworkElement form)
             {
-
-
                 foreach (var c in FindLogicalChildren<Control>(form))
                 {
                     var nom = c.Name + "=";
