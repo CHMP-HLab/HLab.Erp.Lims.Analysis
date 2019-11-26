@@ -47,9 +47,9 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _values.Get();
             set => _values.Set(value);
         }
-
         private readonly IProperty<string> _values = H.Property<string>(c => c.Default(""));
 
+        [Ignore]
         public string Result
         {
             get => _result.Get(); set => _result.Set(value);
@@ -77,6 +77,12 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _stateId.Set(value);
         }
         private readonly IProperty<int?> _stateId = H.Property<int?>();
+        public int? Validation
+        {
+            get => _validation.Get();
+            set => _validation.Set(value);
+        }
+        private readonly IProperty<int?> _validation = H.Property<int?>();
 
     }
 }

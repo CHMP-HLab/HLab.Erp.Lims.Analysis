@@ -133,12 +133,14 @@
                         />
                 </Grid>
 
-                <DockPanel Grid.Row="2" Height="80" VerticalAlignment="Bottom">
+                <DockPanel Grid.Row="3" Height="80" VerticalAlignment="Bottom">
                     <entitySelectors:ForeignView DockPanel.Dock="Top"
                         ModelClass="{x:Type data:TestClass}"
                         Command="{Binding AddTestCommand}"
-                        />
-                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right">
+                        >
+                        <lang:Localize Id="{}{Add Test}"/>
+                    </entitySelectors:ForeignView>
+                    <!--<StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right">
                         <RadioButton BorderBrush="#80000000" GroupName="CertificatLangue" IsChecked="True">
                             <lang:Localize Id="{}{French}"/>
                         </RadioButton>
@@ -146,7 +148,7 @@
                         <RadioButton BorderBrush="#80000000" GroupName="CertificatLangue">
                             <lang:Localize Id="{}{English}"/>
                         </RadioButton>
-                    </StackPanel>
+                    </StackPanel>-->
                     <lang:Localize DockPanel.Dock="Top" Id="{}{Conclusion}"/>
                     <TextBlock Width="Auto" DockPanel.Dock="Right" Margin="0,0,5,0" />
                     <TextBox VerticalScrollBarVisibility="Auto" 

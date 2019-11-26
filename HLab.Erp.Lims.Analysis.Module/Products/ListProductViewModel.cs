@@ -13,16 +13,16 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
 {
     public class ListProductViewModel: EntityListViewModel<ListProductViewModel,Product>, IMvvmContextProvider
     {
-        public string Title => "Products";
+        public string Title => "{Products}";
 
         public ListProductViewModel() 
         {
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns
                 //.Column("Ref",  s => s.Caption)
-                .Column("Inn",e => e.Inn)
-                .Column("Dose",e => e.Dose)
-                .Column("Form",e => e.Form)
+                .Column("{Inn}",e => e.Inn)
+                .Column("{Dose}",e => e.Dose)
+                .Column("{Form}",e => e.Form)
                 .Icon("", (s) => s.Form?.IconPath??"",s => s.Form.Name)
                 //.Hidden("IsValid",  s => s.Validation != 2)
                 ;

@@ -60,7 +60,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                         new TextBlock{Text = s.Description, FontStyle = FontStyles.Italic}
                     }})
                 .Column("{Specifications}", s => s.Specification)
-                .Column("{Result}", s => s.Result)
+                .Column("{Result}", s => s.Result?.Result??"", s => s.Result)
             //.Column("Conformity", s => s.TestStateId);
                 .Icon("{State}", s => GetIcon(s.TestStateId??0), s => s.TestStateId)
                 .Icon("{Validation}", s => GetCheckIcon(s.Validation??0), s => s.Validation)

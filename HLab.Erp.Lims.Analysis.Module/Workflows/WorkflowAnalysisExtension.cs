@@ -18,24 +18,26 @@ namespace HLab.Erp.Lims.Analysis.Module
         {
             return t.NotWhen(w => !Acl.IsGranted(
                     AnalysisRights.AnalysisCertificateCreate,
-                    w.User,w.Target).Result)
-                .WithMessage(w => "Pharmacist needed");
+                    w.User,w.Target))
+                .WithMessage(w => "{Pharmacist needed}");
         }
 
         public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> NeedValidator<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t)
             where TWf : Workflow<TWf>
         {
             return t.NotWhen(w => !Acl.IsGranted(AnalysisRights.AnalysisResultValidate
-                ,w.User,w.Target).Result)
+                ,w.User,w.Target))
                 .WithMessage(w => "Pharmacist or validator needed");
         }
+
         public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> NeedPlanner<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t)
             where TWf : NotifierBase, IWorkflow<TWf>
         {
             return t.NotWhen(w => !Acl.IsGranted(AnalysisRights.AnalysisSchedule
-                ,w.User,w.Target).Result)
+                ,w.User,w.Target))
                 .WithMessage(w => "Pharmacist or planner needed");
         }
+
         public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> 
             SetState<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t, Func<Workflow<TWf>.State> getter)
             where TWf : NotifierBase, IWorkflow<TWf>

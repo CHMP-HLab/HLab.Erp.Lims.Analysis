@@ -21,29 +21,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
     {
         [Import]
         private readonly IErpServices _erp;
-        public object Form
-        {
-            get => _form.Get();
-            private set => _form.Set(value);
-        }
-        private readonly IProperty<object> _form = H.Property<object>();
-        public async Task Compile(SampleTestResult target)
-        {
-            if (target == null)
-            {
-                Form = null;
-                return;
-            }
-
-            var h = new FormHelper();
-            await h.ExtractCode(target.SampleTest.Code).ConfigureAwait(true);
-            await h.LoadForm().ConfigureAwait(true);
-
-            h.LoadValues(target.SampleTest.Values);
-            h.LoadValues(target.Values);
-
-            Form = h.Form;
-        }
 
         private string GetStateIcon(int state)
         {
@@ -66,19 +43,22 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         {
             _sampleTestId = sampleTestId;
 
-            SelectAction = async t => await Compile(t);
+            AddAllowed=false;
+            DeleteAllowed=false;
 
             List.AddFilter(() => e => e.SampleTestId == sampleTestId);
 
+            List.OrderBy = e => e.Start;
 
-            // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
-            Columns
-                .Column("", s => s.Result)
+             Columns
+                .Column("{Start}", s => s.Start)
+                .Column("{End}", s => s.End)
+                .Column("{Result}", s => s.Result)
                 .Icon("{State}", s => s.StateId != null ? GetStateIcon(s.StateId.Value) : "", s => s.StateId)
+                .Icon("{Validation}", s => s.Validation != null ? GetStateIcon(s.Validation.Value) : "", s => s.Validation)
+                .Hidden("IsSelected",s => s.Id == s.SampleTest.Result?.Id)
 ;
-            //List.AddFilter(e => e.State < 3);
 
-            // Db.Fetch<Customer>();
             using (List.Suspender.Get())
             {
 

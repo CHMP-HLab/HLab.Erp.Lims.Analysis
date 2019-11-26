@@ -10,6 +10,7 @@ using HLab.Erp.Data.Observables;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Products;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
+using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
@@ -60,6 +61,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         );
 
         public ICommand AddTestCommand { get; } = H.Command(c => c
+            .CanExecute(e => e.Erp.Acl.IsGranted(AnalysisRights.AnalysisAddTest))
             .Action((e,t) => e.AddTest(t as TestClass))
         );
 

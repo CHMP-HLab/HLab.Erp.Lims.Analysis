@@ -317,14 +317,29 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             Form = module;
         }
 
+        public enum TestValueLevel
+        {
+            Test,
+            Result
+        }
 
-        public string GetPackedValues()
+
+        public string GetPackedValues(TestValueLevel level)
         {
             if (Form is FrameworkElement form)
             {
                 var values = "";
                 foreach (var c in FindLogicalChildren<Control>(form))
                 {
+                    var valueLevel = TestValueLevel.Result;
+                    if(c.Tag is string tag)
+                    {
+                        if (tag.Contains("spec") || tag.Contains("norme")) valueLevel = TestValueLevel.Test;
+                    }
+
+
+                    if(valueLevel != level) continue;
+
                     switch (c)
                     {
                         case TextBoxEx tbe:

@@ -136,12 +136,19 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
 
         private readonly IProperty<string> _values = H.Property<string>(c => c.Default(""));
-        public string Result
+        public int? ResultId
+        {
+            get => _result.Id.Get();
+            set => _result.Id.Set(value);
+        }
+
+        [Ignore]
+        public SampleTestResult Result
         {
             get => _result.Get();
             set => _result.Set(value);
         }
-        private readonly IProperty<string> _result = H.Property<string>(c => c.Default(""));
+        private readonly IForeign<SampleTestResult> _result = H.Foreign<SampleTestResult>();
 
         public DateTime? StartDate
         {

@@ -29,15 +29,13 @@
                     <icons:IconView Id = "{Binding Model.TestClass.IconPath}" Height="35" Opacity="0.8"/>
                 </Canvas>
                 <!--<lang:Localize Id="Test" VerticalAlignment="Center" Margin="50,0,0,0"/>-->
-                <Label Content="{Binding Model.TestClass.Name}" Margin="50,0,0,0"/>
-                <icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.IconPath}"/>
-                
+                <lang:Localize Id="{Binding Model.TestClass.Name}" Margin="50,0,0,0"/>
             </Grid></Label>
 
             <Label HorizontalContentAlignment="Right" >
                 <lang:Localize Id="{}{Type}" StringFormat="{}{0} : " />
             </Label>
-            <TextBox Text="{Binding Model.Ref}" HorizontalContentAlignment="Center" />
+            <TextBox Text="{Binding Model.}" HorizontalContentAlignment="Center" />
 
             <Label HorizontalContentAlignment="Right" >
                 <lang:Localize Id="{}{Method} : "/>
@@ -49,16 +47,62 @@
                     <Canvas DockPanel.Dock="Left">
                         <icons:IconView Id = "Icons/Result" Height="35" Opacity="0.8"/>
                     </Canvas>
-                    <lang:Localize Id="{}{Results}" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.IconPath}"/>
-                
+                    <lang:Localize Id="{}{Results}" VerticalAlignment="Center" Margin="50,0,0,0"/>                
                 </Grid>
             </Label>
 
             <Label></Label>
-            <Grid Grid.Row="1" VerticalAlignment="Top" mvvm:ViewLocator.ViewClass="{x:Type annotations:IViewClassContent}">
-                <ContentControl Content="{Binding Results}"/>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Command="{Binding ViewSpecificationsCommand}" HorizontalAlignment="Left">
+                        <lang:Localize Id="{}{Specifications}"/>
+                    </Button>                    
+                    <Button Command="{Binding AddResultCommand}" HorizontalAlignment="Left">
+                        <lang:Localize Id="{}{Add result}"/>
+                    </Button>                    
+                    <Button Command="{Binding RemoveResultCommand}" HorizontalAlignment="Left">
+                        <lang:Localize Id="{}{Remove result}"/>
+                    </Button>                    
+                    <Button Command="{Binding SelectResultCommand}" HorizontalAlignment="Left">
+                        <lang:Localize Id="{}{Select result}"/>
+                    </Button>                    
+                </StackPanel>
+                <Grid VerticalAlignment="Top" mvvm:ViewLocator.ViewClass="{x:Type annotations:IViewClassContent}">
+                    <mvvm:ViewLocator Model="{Binding Results}"/>
+                </Grid>
+            </StackPanel>
+            
+            <Grid Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+            
+                <Label HorizontalContentAlignment="Right" >
+                    <lang:Localize Id="{}{Description} : "/>
+                </Label>
+                <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Description}" Grid.Row="1"/>
+            
+                <Label HorizontalContentAlignment="Center" Grid.Column="1" >
+                    <lang:Localize Id="{}{Result}"/>
+                </Label>
+                <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Result}" Grid.Row="1" Grid.Column="1"/>
+            
+                <Label HorizontalContentAlignment="Center" Grid.Column="2" >
+                    <lang:Localize Id="{}{Conformity}"/>
+                </Label>
+                <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Conform}" Grid.Row="1" Grid.Column="2"/>
+                <Label HorizontalContentAlignment="Center" Grid.Column="3" >
+                    <lang:Localize Id="{}{Conformity}"/>
+                </Label>
+                <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Conform}" Grid.Row="1" Grid.Column="3"/>
             </Grid>
+            
 
             <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
                 <Grid VerticalAlignment="Center">

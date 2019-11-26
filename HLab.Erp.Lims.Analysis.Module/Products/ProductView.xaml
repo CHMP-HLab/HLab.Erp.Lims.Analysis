@@ -70,6 +70,7 @@
                 <!--<TextBox
                     TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Form.Name ,Mode=OneWay}" HorizontalContentAlignment="Center" />-->
                 <entitySelectors:ForeignView
+                    HorizontalAlignment="Left"
                     ModelClass="{x:Type data:Form}"
                     Model ="{Binding Model.Form}"
                     IsReadOnly="{Binding Locker.IsReadOnly}"

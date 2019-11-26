@@ -6,6 +6,7 @@ using HLab.DependencyInjection;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Core;
+using HLab.Erp.Core.ApplicationServices;
 using HLab.Erp.Lims.Monographs.Loader;
 using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
@@ -53,10 +54,8 @@ namespace HLab.Erp.Lims.Analysis.Loader
             {
                 boot.Configure();
 
-                var loc = container.Locate<ILocalizationService>();
-
-                var test = loc.Localize("fr-fr", "blah {Customer} truc {Product}");
-
+                var doc = container.Locate<IDocumentService>();
+                doc.MainViewModel = container.Locate<MainWpfViewModel>();
 
 
                 boot.Boot();
