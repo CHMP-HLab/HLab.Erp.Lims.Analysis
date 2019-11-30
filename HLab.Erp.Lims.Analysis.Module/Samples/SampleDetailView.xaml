@@ -166,7 +166,7 @@
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center" 
                         VerticalContentAlignment="Center"
-                        Value="{Binding Model.ReceivedQuantity}" />
+                        Value="{Binding Model.ReceivedQuantity,Mode=TwoWay}" />
 
                 <Label HorizontalAlignment="Right" Grid.Column="1">
                     <lang:Localize Id="{}{Date}"/>

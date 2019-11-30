@@ -22,6 +22,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
         [Import]
         public ListManufacturerViewModel(IErpServices erp)
         {
+            AddAllowed = true;
+            DeleteAllowed = true;
+
             _erp = erp;
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns

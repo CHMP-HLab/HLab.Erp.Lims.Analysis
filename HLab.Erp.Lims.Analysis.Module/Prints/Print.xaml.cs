@@ -88,7 +88,7 @@ namespace Outils
       {
          set
          {
-            RemplaceChamp(ref _XamlPage, champ, value.ToString());
+            RemplaceChamp(ref _XamlPage, champ, value?.ToString()??"");
          }
       }
 

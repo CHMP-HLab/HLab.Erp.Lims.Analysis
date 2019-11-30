@@ -12,17 +12,19 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
     class ListTestClassViewModel : EntityListViewModel<ListTestClassViewModel,TestClass>, IMvvmContextProvider
     {
         
-        private readonly IErpServices _erp;
+        [Import] private readonly IErpServices _erp;
 
  
-        [Import] public ListTestClassViewModel(IErpServices erp) 
+        public ListTestClassViewModel() 
         {
-            _erp = erp;
+            AddAllowed = true;
+            DeleteAllowed = true;
+
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
-            _ = Columns
+            Columns
                 .Column("", s => new IconView { Id = s.IconPath, Width = 30 })
-                .Column("^Name", s => s.Name)
-                .Column("^Category", s => s.Category.ToString())
+                .Column("{Name}", s => s.Name)
+                .Column("{Category}", s => s.Category.ToString())
                 //.Hidden("IsValid",  s => s.Validation != 2)
                 ;
             using (List.Suspender.Get())
@@ -52,7 +54,6 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
     */
                 List.Update();
             }
-
         }
 
         public string Title => "Sample";

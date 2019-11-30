@@ -30,23 +30,27 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         [Import] public ListSampleViewModel(IErpServices erp) 
         {
+            AddAllowed = true;
+            DeleteAllowed = true;
+
             _erp = erp;
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns
                 .Column("{Ref}",  s => s.Reference)
-                .Column("{File}",  s => s.FileId.ToString())
+                .Column("{File}",  s => s.FileId?.ToString()??"", s => s.FileId)
                 .Icon("",  s => s.Customer?.Country?.IconPath??"", s => s.Customer.Country.Name)
                 .Column("{Customer}",  s => s.Customer.Name)
                 .Column("{Product}",  s => s.Product.Caption)
                 .Icon("{Form}", (s) => s.Product?.Form?.IconPath??"", s => s.Product.Form.Name)
-                .Column("{Manufacturer}",  s => s.Manufacturer.Name)
+                .Column("{Manufacturer}",  s => s.Manufacturer?.Name, s => s.Manufacturer.Name)
                 .Column("{Qty}",  s => s.ReceivedQuantity)
                 .Column("{Expiration}",  s => s.ExpirationDate?.ToString(s.ExpirationDayValid ? "dd/MM/yyyy" : "MM/yyyy"), s=> s.ExpirationDate)
                 .Column("{Notification}",  s => s.NotificationDate?.ToString("dd/MM/yyyy")??"", s => s.NotificationDate)
                 .Column("{Validator}",  s => s.Validator)
                 .Column("{Progress}",  s => new ProgressViewModel {Value = s.Progress ?? 0}, s=> s.Progress)
                 .Icon("{State}",  s => s.State != null ? GetStateIcon(s.State.Value) : "", s=> s.State)
-                .Hidden("IsValid",  s => s.Validation != 2);
+                .Hidden("IsValid",  s => s.Validation != 2)
+                ;
 
             //List.AddFilter(e => e.State < 3);
 
@@ -66,12 +70,12 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                     MaxDate = DateTime.Now.AddYears(+5)
                 }.Link(List, s => s.ExpirationDate));
 
-                Filters.Add(new FilterDateViewModel()
-                {
-                    Title = "{Notification}",
-                    MinDate = DateTime.Now.AddYears(-10),
-                    MaxDate = DateTime.Now.AddYears(10)
-                }.Link(List,s => s.NotificationDate));
+                //Filters.Add(new FilterDateViewModel()
+                //{
+                //    Title = "{Notification}",
+                //    MinDate = DateTime.Now.AddYears(-10),
+                //    MaxDate = DateTime.Now.AddYears(10)
+                //}.Link(List,s => s.NotificationDate));
 
                 Filters.Add(new FilterDateViewModel()
                 {

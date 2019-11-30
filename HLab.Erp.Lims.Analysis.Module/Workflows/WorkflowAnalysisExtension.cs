@@ -13,6 +13,15 @@ namespace HLab.Erp.Lims.Analysis.Module
     {
         [Import]
         public static IAclService Acl { get; set; }
+        public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> NeedRight<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t, AclRight right)
+            where TWf : NotifierBase, IWorkflow<TWf>
+        {
+            return t.When(w => Acl.IsGranted(
+                    right,
+                    w.User,w.Target))
+                .WithMessage(w => "{Not allowed} {need} " + right.Caption);
+        }
+
         public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> NeedPharmacist<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t)
             where TWf : NotifierBase, IWorkflow<TWf>
         {
@@ -27,7 +36,7 @@ namespace HLab.Erp.Lims.Analysis.Module
         {
             return t.NotWhen(w => !Acl.IsGranted(AnalysisRights.AnalysisResultValidate
                 ,w.User,w.Target))
-                .WithMessage(w => "Pharmacist or validator needed");
+                .WithMessage(w => "validator needed");
         }
 
         public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> NeedPlanner<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t)
@@ -35,7 +44,7 @@ namespace HLab.Erp.Lims.Analysis.Module
         {
             return t.NotWhen(w => !Acl.IsGranted(AnalysisRights.AnalysisSchedule
                 ,w.User,w.Target))
-                .WithMessage(w => "Pharmacist or planner needed");
+                .WithMessage(w => "planner needed");
         }
 
         public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> 

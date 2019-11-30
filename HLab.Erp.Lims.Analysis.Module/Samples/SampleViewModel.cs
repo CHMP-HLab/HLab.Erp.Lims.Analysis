@@ -137,7 +137,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             ip["Fabricant"] = JoinNotNull("\n", Model.Manufacturer?.Name, Model.Manufacturer?.Address, Model.Manufacturer?.Country?.Name);
             ip["DateReception"] = Model.ReceptionDate?.ToString("dd/MM/yyyy");
             ip["DateNotification"] = apercu ? "Aperçu" : Model.NotificationDate?.ToString("dd/MM/yyyy");
-            ip["Pharmacopee"] = Model.Pharmacopoeia.NameFr + " " + Model.PharmacopoeiaVersion;
+            ip["Pharmacopee"] = Model.Pharmacopoeia?.NameFr??"" + " " + Model.PharmacopoeiaVersion;
             ip["Prelevement"] = Model.SamplingOrigin;
             ip["Taille"] = Model.ReceivedQuantity.ToString();// + " " + slProduit.String("Forme").ToLower());
             ip["ConditionnementPrimaire"] = Model.PrimaryPackaging;// + (TB_ConditionnementSecondaire.Text.Length>0 ? " (" + TB_ConditionnementSecondaire.Text + ")":""));

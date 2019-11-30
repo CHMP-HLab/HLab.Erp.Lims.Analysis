@@ -12,6 +12,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
     {
         public TestClassViewModelDesign()
         {
+
+
             Model = TestClass.DesignModel;
             FormHelper.Xaml = "<xml></xml>";
             FormHelper.Cs = "using HLab.Erp.Acl;\nusing HLab.Erp.Lims.Analysis.Data;\nusing HLab.Mvvm.Annotations;";
@@ -21,6 +23,12 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
     public class TestClassViewModel : EntityViewModel<TestClassViewModel, TestClass>
     {
         public string Title => Model.Name;
+
+        public TestClassViewModel()
+        {
+
+        }
+
         public FormHelper FormHelper => _formHelper.Get();
         private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c.Default(new FormHelper()));
 

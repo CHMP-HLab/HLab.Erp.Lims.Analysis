@@ -17,6 +17,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using Google.Protobuf.WellKnownTypes;
 using HLab.Base;
+using HLab.Erp.Lims.Analysis.Data;
 using HLab.Notify.PropertyChanged;
 using Enum = Google.Protobuf.WellKnownTypes.Enum;
 
@@ -97,6 +98,12 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             set => _form.Set(value);
         }
         private readonly IProperty<ITestForm> _form = H.Property<ITestForm>();
+        public SampleTestResult Result
+        {
+            get => _result.Get();
+            set => _result.Set(value);
+        }
+        private readonly IProperty<SampleTestResult> _result = H.Property<SampleTestResult>();
 
         public async Task ExtractCode(byte[] code)
         {
@@ -732,6 +739,24 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             //      validation = TestValidation.ToSign;
             //}
         }
+        public Task Load(SampleTestResult result)
+        {
+            return Load(result.SampleTest, result);
+        }
 
+        public async Task Load(SampleTest test, SampleTestResult result = null)
+        {
+            await ExtractCode(test.Code).ConfigureAwait(true);
+            await LoadForm().ConfigureAwait(true);
+            
+            LoadValues(test.Values);
+            if (result!=null) LoadValues(result.Values);
+            test.Values = GetPackedValues(TestValueLevel.Test);
+
+            if(result!=null)
+            result.Values = GetPackedValues(FormHelper.TestValueLevel.Result);
+
+            Form.Traitement(null,null);
+        }
     }
 }

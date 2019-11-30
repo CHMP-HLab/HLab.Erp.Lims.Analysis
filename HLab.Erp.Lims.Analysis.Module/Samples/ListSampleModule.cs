@@ -14,12 +14,12 @@ namespace HLab.Erp.Lims.Analysis.Module
     public class ListSampleModule : IPostBootloader
     {
         
-        private readonly IErpServices _erp;
+        [Import] private readonly IErpServices _erp;
 
-        [Import] public ListSampleModule(IErpServices erp)
+        [Import] public ListSampleModule()
         {
-            _erp = erp;
             H.Initialize(this);
+
         }
 
         public ICommand OpenListSampleCommand { get; } = H.Command(c => c.Action(

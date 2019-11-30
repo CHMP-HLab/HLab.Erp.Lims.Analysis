@@ -32,20 +32,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c.Default(new FormHelper()));
         public async Task LoadResult(SampleTestResult target=null)
         {
-            await FormHelper.ExtractCode(Model.Code).ConfigureAwait(true);
-            await FormHelper.LoadForm().ConfigureAwait(true);
-
-            FormHelper.LoadValues(Model.Values);
-            if (target!=null) FormHelper.LoadValues(target.Values);
-
-            Model.Values = FormHelper.GetPackedValues(FormHelper.TestValueLevel.Test);
-            
-            if(target!=null)
-            target.Values = FormHelper.GetPackedValues(FormHelper.TestValueLevel.Result);
-
-            FormHelper.Form.Traitement(null,null);
-
-            FormHelper.SetFormMode(TestFormMode.ReadOnly);
+            await FormHelper.Load(Model,target);
+            if(target==null)
+                FormHelper.SetFormMode(TestFormMode.Specification);
+            else
+                FormHelper.SetFormMode(TestFormMode.Capture);
         }
 
 
@@ -79,7 +70,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 Model.Result = null;
 
             Model.Result = result;
-            Results.List.Update();
+            //Results.List.Clear();
+            Results.List.Refresh();
         }
 
         private void AddResult(SampleTestResult previous)
