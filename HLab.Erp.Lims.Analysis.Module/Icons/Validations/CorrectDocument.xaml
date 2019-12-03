@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file is NOT compatible with Silverlight-->
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+  <Canvas Name="Layer_1" Canvas.Left="0" Canvas.Top="0" Width="497.6" Height="497.6">
+    <Canvas.RenderTransform>
+      <TranslateTransform X="0" Y="0"/>
+    </Canvas.RenderTransform>
+    <Canvas.Resources/>
+    <!--Unknown tag: metadata-->
+    <!--Unknown tag: sodipodi:namedview-->
+    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path2" Fill="#FFE8EFEE">
+      <Path.Data>
+        <PathGeometry Figures="M52.4 448c-5.6 0-5.6-7.2-5.6-12V23.2c0-4.8 0-7.2 5.6-7.2h344.8c4.8 0 9.6 2.4 9.6 7.2V436  c0 4.8-4.8 12-9.6 12H52.4z" FillRule="NonZero"/>
+      </Path.Data>
+    </Path>
+    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4" Fill="#FF9AA5A4">
+      <Path.Data>
+        <PathGeometry Figures="M390.8 32v400h-328V32H390.8 M397.2 0H52.4C38 0 30.8 9.6 30.8 23.2V436c0 13.6 7.2 28 21.6 28h344.8  c13.6 0 25.6-14.4 25.6-28V23.2C422.8 9.6 410.8 0 397.2 0L397.2 0z" FillRule="NonZero"/>
+      </Path.Data>
+    </Path>
+    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path6" Fill="#FFFFFFFF">
+      <Path.Data>
+        <PathGeometry Figures="M397.2 16H52.4c-5.6 0-5.6 2.4-5.6 7.2V436c0 3.2 0 5.6 1.6 7.2L403.6 17.6  C402 15.2 399.6 16 397.2 16z" FillRule="NonZero"/>
+      </Path.Data>
+    </Path>
+    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path8" Fill="#FFB3BCBB">
+      <Path.Data>
+        <PathGeometry Figures="M414.8 5.6C410 1.6 403.6 0 397.2 0H52.4C38 0 30.8 9.6 30.8 23.2V436c0 8 1.6 13.6 5.6 20l26.4-26.4  V32h328v3.2L414.8 5.6z" FillRule="NonZero"/>
+      </Path.Data>
+    </Path>
+    <Canvas Name="g18">
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path10" Fill="#FFE8EFEE">
+        <Path.Data>
+          <PathGeometry Figures="M134 120h188.8c6.4 0 12-5.6 12-12s-5.6-12-12-12H134c-6.4 0-12 5.6-12 12S127.6 120 134 120z" FillRule="NonZero"/>
+        </Path.Data>
+      </Path>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path12" Fill="#FFE8EFEE">
+        <Path.Data>
+          <PathGeometry Figures="M134 184h108.8c6.4 0 12-5.6 12-12s-4.8-12-11.2-12H134c-6.4 0-12 5.6-12 12S127.6 184 134 184z" FillRule="NonZero"/>
+        </Path.Data>
+      </Path>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path14" Fill="#FFE8EFEE">
+        <Path.Data>
+          <PathGeometry Figures="M322.8 224H134c-6.4 0-12 9.6-12 16s5.6 16 12 16h188.8c6.4 0 12-9.6 12-16S330 224 322.8 224z" FillRule="NonZero"/>
+        </Path.Data>
+      </Path>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path16" Fill="#FFE8EFEE">
+        <Path.Data>
+          <PathGeometry Figures="M243.6 296H134c-6.4 0-12 5.6-12 12s5.6 12 12 12h108.8c6.4 0 12-5.6 12-12   C255.6 301.6 250 296 243.6 296z" FillRule="NonZero"/>
+        </Path.Data>
+      </Path>
+    </Canvas>
+    <Canvas Name="g24">
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path20" Fill="#FFB1BAB9">
+        <Path.Data>
+          <PathGeometry Figures="M130 112h188.8c6.4 0 12-5.6 12-12s-5.6-12-12-12H130c-6.4 0-12 5.6-12 12S123.6 112 130 112z" FillRule="NonZero"/>
+        </Path.Data>
+      </Path>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path22" Fill="#FFB1BAB9">
+        <Path.Data>
+          <PathGeometry Figures="M318.8 224H130c-6.4 0-12 5.6-12 12s5.6 12 12 12h188.8c6.4 0 12-5.6 12-12S326 224 318.8 224z" FillRule="NonZero"/>
+        </Path.Data>
+      </Path>
+    </Canvas>
+    <Canvas Name="g32">
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path26" Fill="#FF9AA5A4">
+        <Path.Data>
+          <PathGeometry Figures="M239.6 288H130c-6.4 0-12 5.6-12 12s5.6 12 12 12h108.8c6.4 0 12-5.6 12-12   C251.6 293.6 246 288 239.6 288z" FillRule="NonZero"/>
+        </Path.Data>
+      </Path>
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path28" Fill="#FF9AA5A4">
+        <Path.Data>
+          <PathGeometry Figures="M239.6 152H130c-6.4 0-12 5.6-12 12s5.6 12 12 12h108.8c6.4 0 12-5.6 12-12   C251.6 157.6 246 152 239.6 152z" FillRule="NonZero"/>
+        </Path.Data>
+      </Path>
+      <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="250.8" Canvas.Top="281.6" Width="216" Height="216" Name="circle30" Fill="#FF9AA5A4" Opacity="0.3"/>
+    </Canvas>
+    <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="237.2" Canvas.Top="281.6" Width="216" Height="216" Name="circle34" Fill="#FF1080DD"/>
+    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path36" Fill="#FF0667B7">
+      <Path.Data>
+        <PathGeometry Figures="M345.2 281.6c60 0 108 48 108 108s-48 108-108 108" FillRule="NonZero"/>
+      </Path.Data>
+    </Path>
+    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path38" Fill="#FF0070CC">
+      <Path.Data>
+        <PathGeometry Figures="M269.2 313.6c42.4-42.4 110.4-42.4 152.8 0s42.4 110.4 0 152.8" FillRule="NonZero"/>
+      </Path.Data>
+    </Path>
+    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path40" Fill="#FF0667B7">
+      <Path.Data>
+        <PathGeometry Figures="m 336.53108 449.00654 -41.97783 -42.81802 c -4.7522 -4.84732 -4.68087 -12.04697 0.16646 -16.79917 l 42.81801 -41.97782 c 4.84733 -4.75221 12.04697 -4.68087 16.79918 0.16645 4.75221 4.84732 4.68087 12.04697 -0.16645 16.79917 l -22.62084 22.17697 85.5958 0.84812 c 6.39968 0.0634 11.94392 5.71862 11.88051 12.1183 -0.0634 6.39969 -5.71862 11.94393 -12.11831 11.88052 l -86.39575 -0.85605 22.17696 22.62084 c 2.3761 2.42366 3.15228 4.83147 3.12058 8.03131 -0.0317 3.19985 -0.85545 5.5918 -3.27911 7.96791 -4.04736 4.76013 -11.24701 4.68879 -15.99921 -0.15853 z" FillRule="NonZero"/>
+      </Path.Data>
+    </Path>
+    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path42" Fill="#FFFFFFFF">
+      <Path.Data>
+        <PathGeometry Figures="M 319.81909 440.04052 277.84127 397.2225 c -4.75221 -4.84732 -4.68087 -12.04697 0.16645 -16.79917 l 42.81802 -41.97783 c 4.84732 -4.7522 12.04697 -4.68087 16.79917 0.16646 4.75221 4.84732 4.67295 12.84693 -0.16645 16.79917 l -22.62877 22.97693 85.5958 0.84812 c 6.39969 0.0634 11.94393 5.71862 11.88052 12.1183 -0.0634 6.39969 -5.71862 11.94393 -12.11831 11.88052 l -85.5958 -0.84812 22.18489 21.82088 c 2.37611 2.42366 3.15229 4.83147 3.12058 8.03131 -0.0317 3.19984 -0.85544 5.5918 -3.2791 7.9679 -4.84733 4.75221 -12.04697 4.68087 -16.79918 -0.16645 z" FillRule="NonZero"/>
+      </Path.Data>
+    </Path>
+    <Canvas Name="g44"/>
+    <Canvas Name="g46"/>
+    <Canvas Name="g48"/>
+    <Canvas Name="g50"/>
+    <Canvas Name="g52"/>
+    <Canvas Name="g54"/>
+    <Canvas Name="g56"/>
+    <Canvas Name="g58"/>
+    <Canvas Name="g60"/>
+    <Canvas Name="g62"/>
+    <Canvas Name="g64"/>
+    <Canvas Name="g66"/>
+    <Canvas Name="g68"/>
+    <Canvas Name="g70"/>
+    <Canvas Name="g72"/>
+  </Canvas>
+</Viewbox>

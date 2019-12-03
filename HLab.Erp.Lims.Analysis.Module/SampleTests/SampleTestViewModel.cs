@@ -5,6 +5,7 @@ using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.Samples;
 using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Mvvm.Annotations;
@@ -30,15 +31,17 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         public FormHelper FormHelper => _formHelper.Get();
         private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c.Default(new FormHelper()));
-        public async Task LoadResult(SampleTestResult target=null)
+        public async Task LoadResultAsync(SampleTestResult target=null)
         {
-            await FormHelper.Load(Model,target);
-            if(target==null)
-                FormHelper.SetFormMode(TestFormMode.Specification);
-            else
-                FormHelper.SetFormMode(TestFormMode.Capture);
+            await FormHelper.Load(Model,target).ConfigureAwait(true);
+            FormHelper.SetFormMode(target == null ? TestFormMode.Specification : TestFormMode.Capture);
         }
 
+        public SampleTestWorkflow Workflow => _workflow.Get();
+        private readonly IProperty<SampleTestWorkflow> _workflow = H.Property<SampleTestWorkflow>(c => c
+            .On(e => e.Model)
+            .Set(vm => new SampleTestWorkflow(vm.Model))
+        );
 
         public ListTestResultViewModel Results => _results.Get();
         private readonly IProperty<ListTestResultViewModel> _results = H.Property<ListTestResultViewModel>(c => c
@@ -46,13 +49,13 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .Set(e =>
             {
                 var vm =  e._getResults(e.Model.Id);
-                vm.SetSelectAction(async r => await e.LoadResult(r as SampleTestResult));
+                vm.SetSelectAction(async r => await e.LoadResultAsync(r as SampleTestResult).ConfigureAwait(false));
                 return vm;
             })
         );
 
         public ICommand ViewSpecificationsCommand {get;} = H.Command(c => c
-            .Action(async e => await e.LoadResult())
+            .Action(async e => await e.LoadResultAsync())
         );
 
         public ICommand AddResultCommand { get; } = H.Command(c => c

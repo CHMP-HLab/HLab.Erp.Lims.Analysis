@@ -78,6 +78,24 @@
     <Page Remove="Icons\Sample\PackageOpened.xaml" />
     <Page Remove="Icons\Sample\Packaging.xaml" />
     <Page Remove="Icons\Sample\Sampling.xaml" />
+    <Page Remove="Icons\Validations\CancelDocument.xaml" />
+    <Page Remove="Icons\Validations\CorrectDocument.xaml" />
+    <Page Remove="Icons\Validations\Document.xaml" />
+    <Page Remove="Icons\Validations\Error.xaml" />
+    <Page Remove="Icons\Validations\Invalidated.xaml" />
+    <Page Remove="Icons\Validations\LockDocument.xaml" />
+    <Page Remove="Icons\Validations\Locked.xaml" />
+    <Page Remove="Icons\Validations\LockedTest.xaml" />
+    <Page Remove="Icons\Validations\NotReceived.xaml" />
+    <Page Remove="Icons\Validations\Open.xaml" />
+    <Page Remove="Icons\Validations\Play.xaml" />
+    <Page Remove="Icons\Validations\Sign.xaml" />
+    <Page Remove="Icons\Validations\SignDocument.xaml" />
+    <Page Remove="Icons\Validations\Stop.xaml" />
+    <Page Remove="Icons\Validations\Validated.xaml" />
+    <Page Remove="Icons\Validations\ValidateDocument.xaml" />
+    <Page Remove="Icons\Workflows\Specifications.xaml" />
+    <Page Remove="Icons\Workflows\SpecificationsSigned.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -308,6 +326,60 @@
     </Resource>
     <Resource Include="Icons\Sample\Sampling.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Validations\CancelDocument.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Validations\CorrectDocument.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Validations\Document.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Validations\Error.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Validations\Invalidated.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Validations\LockDocument.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Validations\Locked.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Validations\LockedTest.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Validations\NotReceived.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Validations\Open.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Validations\Play.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Validations\Sign.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Validations\SignDocument.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Validations\Stop.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Validations\Validated.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Validations\ValidateDocument.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Workflows\Specifications.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Workflows\SpecificationsSigned.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Resource>
   </ItemGroup>

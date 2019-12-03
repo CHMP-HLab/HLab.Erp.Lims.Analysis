@@ -2,16 +2,129 @@
 using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Erp.Workflows;
 
-namespace HLab.Erp.Lims.Analysis.Module
+namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
+    public class SampleTestResultWorkflow : Workflow<SampleTestResultWorkflow, SampleTestResult>
+    {
+        public SampleTestResultWorkflow(SampleTestResult result):base(result)
+        {
+            CurrentState = Running;
+        }
+
+        public static State Running = State.Create(c => c
+            .Caption("{Running}").Icon("Icons/SampleTestResult/Running")
+            .SetState(() => Running)
+        );
+
+        public static Action Sign = Action.Create(c => c
+            .Caption("Sign specifications").Icon("Icons/SampleTest/Sign")
+            .FromState(()=>Running)
+            .ToState(()=>Signed)
+        );
+
+        public static State Signed = State.Create(c => c
+            .Caption("{Signed}").Icon("Icons/SampleTestResult/Signed")
+            .SetState(() => Signed)
+        );
+
+        public static Action Check = Action.Create(c => c
+            .Caption("Check").Icon("Icons/SampleTest/Sign")
+            .FromState(()=>Running)
+            .ToState(()=>Checked)
+        );
+
+        public static State Checked = State.Create(c => c
+            .Caption("{Signed}").Icon("Icons/SampleTestResult/Signed")
+            .SetState(() => Checked)
+        );
+
+        public static Action Validate = Action.Create(c => c
+            .Caption("Sign specifications").Icon("Icons/SampleTest/Sign")
+            .FromState(()=>Running)
+            .ToState(()=>Signed)
+        );
+
+        public static State Validated = State.Create(c => c
+            .Caption("{Signed}").Icon("Icons/SampleTestResult/Signed")
+            .SetState(() => Signed)
+        );
+    }
+
+    public class SampleTestWorkflow : Workflow<SampleTestWorkflow, SampleTest>
+    {
+        public SampleTestWorkflow(SampleTest test):base(test)
+        {
+            CurrentState = Specifications;
+        }
+
+        //########################################################
+        // Specifications
+
+        public static State Specifications = State.Create(c => c
+            .Caption("{Specifications}").Icon("Icons/Workflows/Specifications")
+            .SetState(() => Specifications)
+        );
+
+        public static Action SignSpecifications = Action.Create(c => c
+            .Caption("Sign specifications").Icon("Icons/Workflows/SpecificationsSigned")
+            .FromState(()=>Specifications)
+            .ToState(()=>SignedSpecifications)
+        );
+
+        public static State SignedSpecifications = State.Create(c => c
+            .Caption("{Specifications Signed}").Icon("Icons/Workflows/SpecificationsSigned")
+            .SetState(() => SignedSpecifications)
+        );
+
+        public static Action ValidateSpecifications = Action.Create(c => c
+            .Caption("Sign specifications").Icon("Icons/SampleTest/Validate")
+            .FromState(()=>SignedSpecifications)
+            .ToState(()=>Scheduling)
+        );
+
+        //########################################################
+        // Scheduling
+
+        public static State Scheduling = State.Create(c => c
+            .Caption("{Scheduling}").Icon("Icons/Sample/PackageOpened")
+            .SetState(() => Scheduling)
+        );
+
+        public static Action Production  = Action.Create(c => c
+            .Caption("Production").Icon("Icons/SampleTest/Production")
+            .FromState(()=>Scheduling)
+            .ToState(()=>Running)
+        );
+
+        public static State Running = State.Create(c => c
+            .Caption("{Running}").Icon("Icons/Sample/PackageOpened")
+            .SetState(() => Running)
+        );
+
+        public static Action ValidateResults = Action.Create(c => c
+            .Caption("Validate results").Icon("Icons/SampleTest/Validate")
+            .FromState(()=>SignedSpecifications)
+            .ToState(()=>ValidatedResults)
+        );
+
+        public static Action AskForRetest = Action.Create(c => c
+            .Caption("Ask for retest").Icon("Icons/SampleTest/Validate")
+            .FromState(()=>SignedSpecifications)
+            .ToState(()=>Scheduling)
+        );
+
+        public static State ValidatedResults = State.Create(c => c
+            .Caption("{Validated}").Icon("Icons/Sample/PackageOpened")
+            .SetState(() => ValidatedResults)
+        );
+    }
+
     public class SampleWorkflow : Workflow<SampleWorkflow,Sample>
     {
 
 
         public SampleWorkflow(Sample sample):base(sample)
         {
-            H.Initialize(this);
-
             CurrentState = Reception;
         }
 
@@ -47,7 +160,7 @@ namespace HLab.Erp.Lims.Analysis.Module
         );
 
         public static Action CloseReception = Action.Create(c => c
-            .Caption("Close").Icon("icons/workflow/CloseReception")
+            .Caption("Close").Icon("Icons/Validations/Sign")
             .FromState(() => Reception)
             .ToState(() => ReceptionClosed)
             .NeedRight(AnalysisRights.AnalysisReceptionValidate)
@@ -155,8 +268,8 @@ namespace HLab.Erp.Lims.Analysis.Module
         public static State Closed = State.Create(c => c
             .Caption(w => "Closed").Icon(w => "icons/workflow/Closed")
             .SetState(() => Closed)
-            .NotWhen(w => !w.Target.Invoiced).WithMessage(w => "N'est pas facturé")
-            .NotWhen(w => !w.Target.Paid).WithMessage(w => "N'est pas payé")
+            .When(w => w.Target.Invoiced).WithMessage(w => "N'est pas facturé")
+            .When(w => w.Target.Paid).WithMessage(w => "N'est pas payé")
             .WhenStateAllowed(() => Certificate)
         );
     }

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file is NOT compatible with Silverlight-->
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+    <Canvas Name="Layer_1" Width="229.59997" Height="216" Canvas.Left="0" Canvas.Top="0">
+        <Canvas.RenderTransform>
+            <TranslateTransform X="0" Y="0"/>
+        </Canvas.RenderTransform>
+        <Canvas.Resources/>
+        <!--Unknown tag: metadata-->
+        <!--Unknown tag: sodipodi:namedview-->
+        <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="13.6" Canvas.Top="0" Width="216" Height="216" Name="circle30" Fill="#FF9AA5A4" Opacity="0.3"/>
+        <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0" Canvas.Top="0" Width="216" Height="216" Name="circle34" Fill="#FF1080DD" Visibility="Hidden"/>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path36" Fill="#FF0667B7" Visibility="Hidden">
+            <Path.Data>
+                <PathGeometry Figures="m 107.99999 0 c 60 0 108 48 108 108 0 60 -48 108 -108 108" FillRule="NonZero"/>
+            </Path.Data>
+        </Path>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path38" Fill="#FF0070CC" Visibility="Hidden">
+            <Path.Data>
+                <PathGeometry Figures="m 31.999988 32 c 42.4 -42.4 110.400002 -42.4 152.800002 0 42.4 42.4 42.4 110.4 0 152.8" FillRule="NonZero"/>
+            </Path.Data>
+        </Path>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path40" Fill="#80060606" Visibility="Hidden">
+            <Path.Data>
+                <PathGeometry Figures="m 159.99999 110.4 h -6.4 V 72.8 c 0 -15.2 -12 -26.4 -27.2 -26.4 h -18.4 c -15.200002 0 -28.000002 12 -28.000002 27.2 0 4 3.2 7.2 8 7.2 4 0 8 -2.4 8 -7.2 0 -7.2 5.600002 -12 12.800002 -12 h 18.4 c 7.2 0 11.2 3.2 11.2 10.4 v 38.4 H 75.199988 c -4 0 -8.8 -0.8 -8.8 3.2 v 52.8 c 0 4 4.8 8 8.8 8 h 85.600002 c 4 0 9.6 -4 9.6 -8 v -52.8 c -0.8 -4 -6.4 -3.2 -10.4 -3.2 z" FillRule="NonZero"/>
+            </Path.Data>
+        </Path>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path42" Fill="#FF0667B7" Canvas.Left="10" Canvas.Top="4">
+            <Path.Data>
+                <PathGeometry Figures="m 152.79999 94.4 h -7.2 V 60.8 c 0 -15.2 -11.2 -30.4 -27.2 -30.4 H 99.999988 c -15.2 0 -28 13.6 -28 29.6 0 4 3.2 8.8 8 8.8 4.8 0 8 -4 8 -8.8 0 -7.2 5.6 -13.6 12.800002 -13.6 h 18.4 c 7.2 0 11.2 8 11.2 14.4 V 94.4 H 67.199988 c -4 0 -8.8 3.2 -8.8 7.2 v 48 c 0 4 3.2 8.8 7.2 8.8 h 90.400002 c 4 0 6.4 -3.2 6.4 -7.2 v -49.6 c -0.8 -4 -6.4 -7.2 -9.6 -7.2 z" FillRule="NonZero"/>
+            </Path.Data>
+        </Path>
+        <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="109" Canvas.Top="122" Width="21" Height="20" Name="circle44" Fill="#80FFFFFF"/>
+        <Canvas Name="g46">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="-237.20001" Y="-281.6"/>
+            </Canvas.RenderTransform>
+        </Canvas>
+        <Canvas Name="g48">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="-237.20001" Y="-281.6"/>
+            </Canvas.RenderTransform>
+        </Canvas>
+        <Canvas Name="g50">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="-237.20001" Y="-281.6"/>
+            </Canvas.RenderTransform>
+        </Canvas>
+        <Canvas Name="g52">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="-237.20001" Y="-281.6"/>
+            </Canvas.RenderTransform>
+        </Canvas>
+        <Canvas Name="g54">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="-237.20001" Y="-281.6"/>
+            </Canvas.RenderTransform>
+        </Canvas>
+        <Canvas Name="g56">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="-237.20001" Y="-281.6"/>
+            </Canvas.RenderTransform>
+        </Canvas>
+        <Canvas Name="g58">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="-237.20001" Y="-281.6"/>
+            </Canvas.RenderTransform>
+        </Canvas>
+        <Canvas Name="g60">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="-237.20001" Y="-281.6"/>
+            </Canvas.RenderTransform>
+        </Canvas>
+        <Canvas Name="g62">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="-237.20001" Y="-281.6"/>
+            </Canvas.RenderTransform>
+        </Canvas>
+        <Canvas Name="g64">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="-237.20001" Y="-281.6"/>
+            </Canvas.RenderTransform>
+        </Canvas>
+        <Canvas Name="g66">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="-237.20001" Y="-281.6"/>
+            </Canvas.RenderTransform>
+        </Canvas>
+        <Canvas Name="g68">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="-237.20001" Y="-281.6"/>
+            </Canvas.RenderTransform>
+        </Canvas>
+        <Canvas Name="g70">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="-237.20001" Y="-281.6"/>
+            </Canvas.RenderTransform>
+        </Canvas>
+        <Canvas Name="g72">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="-237.20001" Y="-281.6"/>
+            </Canvas.RenderTransform>
+        </Canvas>
+        <Canvas Name="g74">
+            <Canvas.RenderTransform>
+                <TranslateTransform X="-237.20001" Y="-281.6"/>
+            </Canvas.RenderTransform>
+        </Canvas>
+    </Canvas>
+</Viewbox>

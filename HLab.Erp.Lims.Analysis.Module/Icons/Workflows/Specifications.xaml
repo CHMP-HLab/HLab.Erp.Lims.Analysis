@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file is NOT compatible with Silverlight-->
+<Viewbox 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    Stretch="Uniform">
+  <Canvas Width="16" Height="16">
+    <Canvas.RenderTransform>
+      <TranslateTransform X="0" Y="0"/>
+    </Canvas.RenderTransform>
+    <Canvas.Resources/>
+    <Canvas>
+      <Canvas.RenderTransform>
+        <TranslateTransform X="-78.781453" Y="-105.1916"/>
+      </Canvas.RenderTransform>
+      <Canvas Opacity="1">
+        <Canvas.RenderTransform>
+          <TranslateTransform X="0.3674956" Y="-4.2763124"/>
+        </Canvas.RenderTransform>
+        <Path Fill="#FF000000" StrokeThickness="0.26458332">
+          <Path.Data>
+            <PathGeometry Figures="M 78.781453 120.76786 V 118.892 l 2.58899 -1.4211 -2.583822 -1.4211 v -1.86552 l 4.578532 2.50631 v 1.57613 z" FillRule="NonZero"/>
+          </Path.Data>
+        </Path>
+        <Path Fill="#FF000000" StrokeThickness="0.26458332">
+          <Path.Data>
+            <PathGeometry Figures="m 87.447591 118.46309 h -1.917196 v -0.32556 q 0 -0.64596 0.144694 -0.95085 0.144694 -0.31006 0.5271 -0.48059 l 0.3514 -0.15503 q 0.397908 -0.1757 0.397908 -0.49609 0 -0.18604 -0.129191 -0.31523 -0.129191 -0.12919 -0.315226 -0.12919 -0.506429 0 -0.506429 0.7028 h -1.782837 q 0 -0.94051 0.434082 -1.53479 0.320394 -0.43925 0.831991 -0.69763 0.511596 -0.25838 1.059366 -0.25838 0.971517 0 1.632976 0.64595 0.666626 0.64079 0.666626 1.59164 0 1.17305 -0.950847 1.64847 -0.310058 0.15503 -0.377238 0.26872 -0.06718 0.11369 -0.06718 0.48576 z m -0.925008 0.27388 q 0.506429 0 0.868164 0.36691 0.366902 0.3669 0.366902 0.87333 0 0.50643 -0.361735 0.86299 -0.361735 0.3514 -0.873331 0.3514 -0.532267 0 -0.8785 -0.34106 -0.341064 -0.34623 -0.341064 -0.8785 0 -0.51676 0.356567 -0.87333 0.356568 -0.36174 0.862997 -0.36174 z" FillRule="NonZero"/>
+          </Path.Data>
+        </Path>
+        <Path Fill="#FF000000" StrokeThickness="0.26458332">
+          <Path.Data>
+            <PathGeometry Figures="M 89.695516 120.76786 V 118.892 l 2.588989 -1.4211 -2.583821 -1.4211 v -1.86552 l 4.578531 2.50631 v 1.57613 z" FillRule="NonZero"/>
+          </Path.Data>
+        </Path>
+      </Canvas>
+    </Canvas>
+  </Canvas>
+</Viewbox>
