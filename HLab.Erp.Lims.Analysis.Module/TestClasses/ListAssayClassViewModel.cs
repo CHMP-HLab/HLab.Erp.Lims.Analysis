@@ -22,7 +22,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns
-                .Column("", s => new IconView { Id = s.IconPath, Width = 30 })
+                .Column("", s => new IconView { Path = s.IconPath, Width = 30 })
                 .Column("{Name}", s => s.Name)
                 .Column("{Category}", s => s.Category.ToString())
                 //.Hidden("IsValid",  s => s.Validation != 2)

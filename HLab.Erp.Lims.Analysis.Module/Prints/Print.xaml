@@ -31,12 +31,12 @@
             <Button Content="Précedente" Height="40" Margin="0,10,60,0" x:Name="BT_Precedent" Tag="Precedent" VerticalAlignment="Top" HorizontalAlignment="Right" Width="40" Click="BT_Precedent_Click" />
             <Button Content="Suivante" Height="40" HorizontalAlignment="Right" Margin="0,10,10,0" x:Name="BT_Suivante" Tag="Suivant" VerticalAlignment="Top" Width="40" Click="BT_Suivante_Click" />
 
-            <icons:IconView Id="printer" Grid.Row="1" Opacity="0.1"/>
+            <icons:IconView Path="printer" Grid.Row="1" Opacity="0.1"/>
             <ListBox x:Name="LB_Imprimantes" Background="#3FFFFFFF" BorderThickness="0" HorizontalContentAlignment="Stretch" Grid.Row="1" Margin="0,0,0,100">
                <ListBox.ItemTemplate>
                   <DataTemplate>
                      <Grid HorizontalAlignment="Stretch" Margin="2">
-                         <icons:IconView Height="20" HorizontalAlignment="Left" Margin="0,0,0,0" Width="20" Id="printer" AllowDrop="True" RenderOptions.BitmapScalingMode="Fant"/>
+                         <icons:IconView Height="20" HorizontalAlignment="Left" Margin="0,0,0,0" Width="20" Path="printer" AllowDrop="True" RenderOptions.BitmapScalingMode="Fant"/>
                         <TextBlock Height="20" Margin="25,5,10,0" Text="{Binding Nom}" />
                         <Image Height="20" HorizontalAlignment="Right" Margin="0,0,0,0" Width="20" AllowDrop="True" RenderOptions.BitmapScalingMode="Fant" Source="{Binding Defaut}"/>
                      </Grid>
@@ -51,7 +51,7 @@
             <TextBlock HorizontalAlignment="Left" Margin="10,0,0,79" TextWrapping="Wrap" Text="Sélection à imprimer" VerticalAlignment="Bottom" Grid.Row="1" FontStyle="Italic" Foreground="#7F000000"/>
             <Button Content="Imprimer" Height="80" HorizontalAlignment="Right" Margin="0,0,10,10" x:Name="BT_Imprimer" Tag="Imprimante" VerticalAlignment="Bottom" Width="80" IsDefault="True" Click="BT_Imprimer_Click" Grid.Row="1"/>
 
-            <icons:IconView Id="icons/print/email" Grid.Row="2" Opacity="0.12"/>
+            <icons:IconView Path="icons/print/email" Grid.Row="2" Opacity="0.12"/>
             <ListBox x:Name="LB_Destinataire" Background="#7FFFFFFF" BorderThickness="0" HorizontalContentAlignment="Stretch" Grid.Row="2" Height="80" VerticalAlignment="Top" AllowDrop="True" Drop="LB_PieceJointe_Drop" DragOver="LB_PieceJointe_DragOver">
                <ListBox.ItemTemplate>
                   <DataTemplate>

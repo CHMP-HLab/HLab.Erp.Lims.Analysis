@@ -26,7 +26,7 @@
                 <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
             <Grid VerticalAlignment="Center">
                 <Canvas DockPanel.Dock="Left">
-                    <icons:IconView Id = "{Binding Model.TestClass.IconPath}" Height="35" Opacity="0.8"/>
+                    <icons:IconView Path = "{Binding Model.TestClass.IconPath}" Height="35" Opacity="0.8"/>
                 </Canvas>
                 <!--<lang:Localize Id="Test" VerticalAlignment="Center" Margin="50,0,0,0"/>-->
                 <lang:Localize Id="{Binding Model.TestClass.Name}" Margin="50,0,0,0"/>
@@ -45,7 +45,7 @@
             <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
                 <Grid VerticalAlignment="Center">
                     <Canvas DockPanel.Dock="Left">
-                        <icons:IconView Id = "Icons/Result" Height="35" Opacity="0.8"/>
+                        <icons:IconView Path = "Icons/Result" Height="35" Opacity="0.8"/>
                     </Canvas>
                     <lang:Localize Id="{}{Results}" VerticalAlignment="Center" Margin="50,0,0,0"/>                
                 </Grid>
@@ -107,7 +107,7 @@
             <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
                 <Grid VerticalAlignment="Center">
                     <Canvas DockPanel.Dock="Left">
-                        <icons:IconView Id = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
+                        <icons:IconView Path = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
                     </Canvas>
                     <lang:Localize Id="{}{Documents}" VerticalAlignment="Center" Margin="50,0,0,0"/>
                 </Grid>

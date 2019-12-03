@@ -25,10 +25,10 @@
                 <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
             <Grid VerticalAlignment="Center">
                 <Canvas DockPanel.Dock="Left">
-                    <icons:IconView Id = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
+                    <icons:IconView Path = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
                 </Canvas>
                 <lang:Localize Id="Name" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                <icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.Icon}"/>
+                <icons:IconView HorizontalAlignment="Right" Height="35" Path="{Binding Model.Customer.Country.Icon}"/>
                 
             </Grid></Label>
 
@@ -45,10 +45,10 @@
             <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
                 <Grid VerticalAlignment="Center">
                     <Canvas DockPanel.Dock="Left">
-                        <icons:IconView Id = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
+                        <icons:IconView Path = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
                     </Canvas>
                     <lang:Localize Id="Results" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.Icon}"/>
+                    <icons:IconView HorizontalAlignment="Right" Height="35" Path="{Binding Model.Customer.Country.Icon}"/>
                 
                 </Grid>
             </Label>
@@ -87,10 +87,10 @@
             <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
                 <Grid VerticalAlignment="Center">
                     <Canvas DockPanel.Dock="Left">
-                        <icons:IconView Id = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
+                        <icons:IconView Path = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
                     </Canvas>
                     <lang:Localize Id="Unit Tests" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.Icon}"/>
+                    <icons:IconView HorizontalAlignment="Right" Height="35" Path="{Binding Model.Customer.Country.Icon}"/>
                 
                 </Grid>
             </Label>

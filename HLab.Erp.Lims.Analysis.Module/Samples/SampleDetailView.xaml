@@ -58,10 +58,10 @@
             <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
                 <Grid VerticalAlignment="Center">
                     <Canvas DockPanel.Dock="Left">
-                        <icons:IconView Id = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
+                        <icons:IconView Path = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
                     </Canvas>
                     <lang:Localize Id="{}{Record}" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.IconPath}"/>
+                    <icons:IconView HorizontalAlignment="Right" Height="35" Path="{Binding Model.Customer.Country.IconPath}"/>
                 </Grid>
             </Label>
             <Label HorizontalContentAlignment="Right" >
@@ -97,7 +97,7 @@
             <Label Style="{DynamicResource Separator}" >
                 <StackPanel Orientation="Horizontal">
                     <Canvas>
-                        <icons:IconView  Id="{Binding Model.Product.Form.IconPath,FallbackValue=icons}" Height="35" Opacity="0.8"/>
+                        <icons:IconView  Path="{Binding Model.Product.Form.IconPath,FallbackValue=icons}" Height="35" Opacity="0.8"/>
                     </Canvas>
                     <lang:Localize Margin="50,0,0,0" Id="{}{Product}" />
                 </StackPanel>
@@ -120,7 +120,7 @@
             <Label Style="{DynamicResource Separator}" >
                 <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                     <Canvas>
-                        <icons:IconView Id="icons/Sample/PackageOpened" Height="35" Opacity="0.8"/>
+                        <icons:IconView Path="icons/Sample/PackageOpened" Height="35" Opacity="0.8"/>
                     </Canvas>
                     <ContentPresenter Width="50"/>
                     <lang:Localize  Id="{}{Reception}"/>
@@ -142,7 +142,7 @@
             Style="{DynamicResource SmallSeparator}">
                 <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                     <Canvas>
-                        <icons:IconView  Id="Icons/Sample/Sampling" Height="20" Opacity="0.8"/>
+                        <icons:IconView  Path="Icons/Sample/Sampling" Height="20" Opacity="0.8"/>
                     </Canvas>
                     <lang:Localize Margin="30,0,0,0"  Id="{}{Sampling}"/>
                 </StackPanel>
@@ -192,7 +192,7 @@
             <Label Style="{DynamicResource Separator}" >
                 <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                     <Canvas>
-                        <icons:IconView Id="Icons/Sample/Barcode" Height="35" Opacity="0.8"/>
+                        <icons:IconView Path="Icons/Sample/Barcode" Height="35" Opacity="0.8"/>
                     </Canvas>
                     <ContentControl Width="50"></ContentControl>
                     <lang:Localize  Id="{}{Batch}"/>
@@ -220,7 +220,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <base:DateEx Date="{Binding Model.ExpirationDate}" DayValid="{Binding Model.ExpirationDayValid}" />
-                <icons:IconView Grid.Column="1" Id="icons/sample/expired" Height="25" Margin="2">
+                <icons:IconView Grid.Column="1" Path="icons/sample/expired" Height="25" Margin="2">
                     <icons:IconView.Style>
                         <Style TargetType="icons:IconView">
                             <Style.Triggers>
@@ -269,7 +269,7 @@
                 <Label Grid.Column="1">
                     <lang:Localize Id="{Binding Model.Manufacturer.Country.Name}"/>
                 </Label>
-                <icons:IconView Margin="0,0,15,0" Grid.Column="2" HorizontalAlignment="Right" Height="35" Id="{Binding Model.Manufacturer.Country.IconPath}"/>
+                <icons:IconView Margin="0,0,15,0" Grid.Column="2" HorizontalAlignment="Right" Height="35" Path="{Binding Model.Manufacturer.Country.IconPath}"/>
             </Grid>
             <Label HorizontalAlignment="Right">
                 <lang:Localize Id="{}{Commercial Name} : "/>
@@ -283,7 +283,7 @@
             <Label Style="{DynamicResource Separator}" >
                 <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                     <Canvas>
-                        <icons:IconView  Id="Icons/Sample/Packaging" Height="35" Opacity="0.8"/>
+                        <icons:IconView  Path="Icons/Sample/Packaging" Height="35" Opacity="0.8"/>
                     </Canvas>
                     <ContentControl Width="50"></ContentControl>
                     <lang:Localize  Id="{}{Packaging}" />
@@ -434,7 +434,7 @@
             <Label Style="{DynamicResource Separator}" >
                 <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                     <Canvas>
-                        <icons:IconView  Id="Icons/Edit" Height="35" Opacity="0.8"/>
+                        <icons:IconView  Path="Icons/Edit" Height="35" Opacity="0.8"/>
                     </Canvas>
                     <ContentControl Width="50"></ContentControl>
                     <lang:Localize  Id="{}{Note}"/>
