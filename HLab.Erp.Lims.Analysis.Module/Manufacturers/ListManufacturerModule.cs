@@ -28,7 +28,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
         {
             _erp.Menu.RegisterMenu("data", "manufacturers", "{Manufacturers}",
                 OpenListManufacturerCommand,
-                _erp.Icon.GetIconAsync("icons/manufacturer"));
+                "icons/manufacturer");
 
         }    }
 }

@@ -36,15 +36,15 @@ namespace HLab.Erp.Lims.Analysis.Module
         {
             _erp.Menu.RegisterMenu("data", "samples", "{Samples}",
                 OpenListSampleCommand,
-                _erp.Icon.GetIconAsync("icons/Entities/Sample"));
+                "icons/Entities/Sample");
 
             _erp.Menu.RegisterMenu("tools", "testclasses", "{Test Classes}",
                 OpenListTestClassCommand,
-                _erp.Icon.GetIconAsync("Icons/Entities/TestClass"));
+                "Icons/Entities/TestClass");
 
             _erp.Menu.RegisterMenu("tools", "testcategories", "{Test Categories}",
                 OpenListTestCategoryCommand,
-                _erp.Icon.GetIconAsync("Icons/Entities/TestCategory"));
+                "Icons/Entities/TestCategory");
         }
     }
 }
