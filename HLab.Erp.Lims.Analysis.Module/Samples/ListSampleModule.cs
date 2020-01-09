@@ -28,16 +28,23 @@ namespace HLab.Erp.Lims.Analysis.Module
         public ICommand OpenListTestClassCommand { get; } = H.Command(c => c.Action(
             e => e._erp.Docs.OpenDocument(typeof(ListTestClassViewModel))
         ));
+        public ICommand OpenListTestCategoryCommand { get; } = H.Command(c => c.Action(
+            e => e._erp.Docs.OpenDocument(typeof(ListTestCategoryViewModel))
+        ));
 
         public void Load()
         {
             _erp.Menu.RegisterMenu("data", "samples", "{Samples}",
                 OpenListSampleCommand,
-                _erp.Icon.GetIconAsync("icons/Sample"));
+                _erp.Icon.GetIconAsync("icons/Entities/Sample"));
 
-            _erp.Menu.RegisterMenu("data", "testclasses", "{Test Classes}",
+            _erp.Menu.RegisterMenu("tools", "testclasses", "{Test Classes}",
                 OpenListTestClassCommand,
-                _erp.Icon.GetIconAsync("icons/Sample"));
+                _erp.Icon.GetIconAsync("Icons/Entities/TestClass"));
+
+            _erp.Menu.RegisterMenu("tools", "testcategories", "{Test Categories}",
+                OpenListTestCategoryCommand,
+                _erp.Icon.GetIconAsync("Icons/Entities/TestCategory"));
         }
     }
 }

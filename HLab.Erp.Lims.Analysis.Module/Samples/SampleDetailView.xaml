@@ -17,6 +17,7 @@
              xmlns:data1="clr-namespace:HLab.Erp.Base.Data;assembly=HLab.Erp.Base.Data"
              xmlns:wpf="clr-namespace:HLab.Erp.Base.Wpf;assembly=HLab.Erp.Base.Wpf"
              xmlns:manufacturers="clr-namespace:HLab.Erp.Lims.Analysis.Module.Manufacturers"
+             xmlns:customers="clr-namespace:HLab.Erp.Base.Wpf.Entities.Customers;assembly=HLab.Erp.Base.Wpf"
              mc:Ignorable="d" 
              Background="#FF004050"
              d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModelDesign}, IsDesignTimeCreatable=True}"             
@@ -91,7 +92,7 @@
             IsReadOnly="{Binding Locker.IsReadOnly}"
             Model="{Binding Model.Customer}"
             ModelClass="{x:Type data1:Customer}" 
-            ListClass="{x:Type wpf:ListCustomerViewModel}">
+            ListClass="{x:Type customers:ListCustomerViewModel}">
             </entitySelectors:ForeignView>
 
             <Label Style="{DynamicResource Separator}" >

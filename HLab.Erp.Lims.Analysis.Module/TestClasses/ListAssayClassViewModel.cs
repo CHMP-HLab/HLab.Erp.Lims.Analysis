@@ -9,6 +9,37 @@ using HLab.Mvvm.Icons;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
+    class ListTestCategoryViewModel : EntityListViewModel<ListTestCategoryViewModel,TestCategory>, IMvvmContextProvider
+    {
+        
+        [Import] private readonly IErpServices _erp;
+
+ 
+        public ListTestCategoryViewModel() 
+        {
+            AddAllowed = true;
+            DeleteAllowed = true;
+
+            // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
+            Columns
+                .Column("", s => new IconView { Path = s.IconPath, Width = 30 })
+                .Column("{Name}", s => s.Name)
+                //.Hidden("IsValid",  s => s.Validation != 2)
+                ;
+            using (List.Suspender.Get())
+            {
+
+                List.Update();
+            }
+        }
+
+        public string Title => "{Test categories}";
+        public void ConfigureMvvmContext(IMvvmContext ctx)
+        {
+        }
+    }
+
+
     class ListTestClassViewModel : EntityListViewModel<ListTestClassViewModel,TestClass>, IMvvmContextProvider
     {
         
