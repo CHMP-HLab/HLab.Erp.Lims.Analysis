@@ -8,6 +8,21 @@ using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
+
+    public class TestCategoryViewModelDesign : TestCategoryViewModel, IViewModelDesign
+    {
+        public TestCategoryViewModelDesign()
+        {
+
+
+            Model = TestCategory.DesignModel;
+        }
+    }
+    public class TestCategoryViewModel : EntityViewModel<TestCategoryViewModel, TestCategory>
+    {
+
+    }
+
     public class TestClassViewModelDesign : TestClassViewModel, IViewModelDesign
     {
         public TestClassViewModelDesign()
@@ -19,10 +34,10 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             FormHelper.Cs = "using HLab.Erp.Acl;\nusing HLab.Erp.Lims.Analysis.Data;\nusing HLab.Mvvm.Annotations;";
         }
     }
-
     public class TestClassViewModel : EntityViewModel<TestClassViewModel, TestClass>
     {
-        public string Title => Model.Name;
+        public string Title => _title.Get();
+        private readonly IProperty<string> _title = H.Property<string>(c => c.OneWayBind(e => e.Model.Name));
 
         public TestClassViewModel()
         {

@@ -20,7 +20,7 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _name.Set(value);
         }
 
-        readonly IProperty<string> _name = H.Property<string>(c => c.Default(""));
+        private readonly IProperty<string> _name = H.Property<string>(c => c.Default(""));
 
 
         public string Version
@@ -29,7 +29,7 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _version.Set(value);
         }
 
-        readonly IProperty<string> _version = H.Property<string>(c => c.Default(""));
+        private readonly IProperty<string> _version = H.Property<string>(c => c.Default(""));
 
 
         public byte[] Code
@@ -47,16 +47,21 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _order.Set(value);
         }
 
-        readonly IProperty<int?> _order = H.Property<int?>();
+        private readonly IProperty<int?> _order = H.Property<int?>();
 
 
-        public sbyte? Category
+        public int? CategoryId
+        {
+            get => _category.Id.Get();
+            set => _category.Id.Set(value);
+        }
+        [Ignore]
+        public TestCategory Category
         {
             get => _category.Get();
             set => _category.Set(value);
         }
-
-        readonly IProperty<sbyte?> _category = H.Property<sbyte?>();
+        private readonly IForeign<TestCategory> _category = H.Foreign<TestCategory>();
 
         [Ignore]
         public virtual ICollection<SampleTest> SampleTests { get; set; }
@@ -67,7 +72,7 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _durationFirst.Set(value);
         }
 
-        readonly IProperty<int?> _durationFirst = H.Property<int?>();
+        private readonly IProperty<int?> _durationFirst = H.Property<int?>();
 
         public int? DurationNext
         {
@@ -75,16 +80,15 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _durationNext.Set(value);
         }
 
-        readonly IProperty<int?> _durationNext = H.Property<int?>();
+        private readonly IProperty<int?> _durationNext = H.Property<int?>();
 
-        [System.ComponentModel.DataAnnotations.Schema.Column("DureeAdmin")]
         public int? DurationAdmin
         {
             get => _durationAdmin.Get();
             set => _durationAdmin.Set(value);
         }
 
-        readonly IProperty<int?> _durationAdmin = H.Property<int?>();
+        private readonly IProperty<int?> _durationAdmin = H.Property<int?>();
 
 
         //[Column]
@@ -105,7 +109,7 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _iconPath.Set(value);
         }
 
-        readonly IProperty<string> _iconPath = H.Property<string>();
+        private readonly IProperty<string> _iconPath = H.Property<string>();
 
         public static TestClass DesignModel => new TestClass
         {
