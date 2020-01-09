@@ -37,7 +37,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns
                 .Column("{Ref}",  s => s.Reference)
-                .Column("{File}",  s => s.FileId?.ToString()??"", s => s.FileId)
+                .Column("{FileId}",  s => s.FileId?.ToString()??"", s => s.FileId)
                 .Icon("",  s => s.Customer?.Country?.IconPath??"", s => s.Customer.Country.Name)
                 .Column("{Customer}",  s => s.Customer.Name)
                 .Column("{Product}",  s => s.Product.Caption)
