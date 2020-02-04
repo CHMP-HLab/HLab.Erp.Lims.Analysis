@@ -21,7 +21,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
            H.Initialize(this);
         }
         public ICommand OpenListManufacturerCommand { get; } = H.Command(c => c.Action(
-            e => e._erp.Docs.OpenDocument(typeof(ListManufacturerViewModel))
+            e => e._erp.Docs.OpenDocumentAsync(typeof(ListManufacturerViewModel))
         ));
 
         public void Load()

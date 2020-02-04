@@ -29,7 +29,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             using (List.Suspender.Get())
             {
 
-                List.Update();
+                List.UpdateAsync();
             }
         }
 
@@ -83,7 +83,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 List.AddFilter(s => f4.Match(s.ManufacturerId));
                 Filters.Add(f4);
     */
-                List.Update();
+                List.UpdateAsync();
             }
         }
 

@@ -21,7 +21,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
             H.Initialize(this);
         }
         public ICommand OpenListProductCommand { get; } = H.Command(c => c.Action(
-            e => e._erp.Docs.OpenDocument(typeof(ListProductViewModel))
+            e => e._erp.Docs.OpenDocumentAsync(typeof(ListProductViewModel))
         ));
 
         public void Load()

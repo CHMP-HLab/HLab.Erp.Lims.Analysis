@@ -2,15 +2,12 @@
 using HLab.Core.Annotations;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
-using HLab.Erp.Data;
-using HLab.Erp.Lims.Analysis.Module.Samples;
 using HLab.Erp.Lims.Analysis.Module.TestClasses;
-using HLab.Mvvm;
 using HLab.Notify.PropertyChanged;
-using H = HLab.Notify.PropertyChanged.NotifyHelper<HLab.Erp.Lims.Analysis.Module.ListSampleModule>;
 
-namespace HLab.Erp.Lims.Analysis.Module
+namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
+    using H = NotifyHelper<ListSampleModule>;
     public class ListSampleModule : IPostBootloader
     {
         
@@ -23,13 +20,13 @@ namespace HLab.Erp.Lims.Analysis.Module
         }
 
         public ICommand OpenListSampleCommand { get; } = H.Command(c => c.Action(
-            e => e._erp.Docs.OpenDocument(typeof(ListSampleViewModel))
+            e => e._erp.Docs.OpenDocumentAsync(typeof(ListSampleViewModel))
         ));
         public ICommand OpenListTestClassCommand { get; } = H.Command(c => c.Action(
-            e => e._erp.Docs.OpenDocument(typeof(ListTestClassViewModel))
+            e => e._erp.Docs.OpenDocumentAsync(typeof(ListTestClassViewModel))
         ));
         public ICommand OpenListTestCategoryCommand { get; } = H.Command(c => c.Action(
-            e => e._erp.Docs.OpenDocument(typeof(ListTestCategoryViewModel))
+            e => e._erp.Docs.OpenDocumentAsync(typeof(ListTestCategoryViewModel))
         ));
 
         public void Load()

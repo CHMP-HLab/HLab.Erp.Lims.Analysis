@@ -1,19 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
+﻿using System.Threading.Tasks;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
-using HLab.Erp.Core.ListFilters;
-using HLab.Erp.Core.ViewModels;
-using HLab.Erp.Core.ViewModels.EntityLists;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Mvvm.Annotations;
-using HLab.Mvvm.Icons;
-using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
@@ -68,7 +59,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         [Import] private IDataService _data;
 
-        protected override async Task OnAddCommand(SampleTestResult target)
+        protected override async Task OnAddCommandAsync(SampleTestResult target)
         {
             var result = _data.Add<SampleTestResult>(r =>
             {
@@ -79,7 +70,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 }
             });
             if(result!=null)
-                List.Update();
+                List.UpdateAsync();
 
         }
 

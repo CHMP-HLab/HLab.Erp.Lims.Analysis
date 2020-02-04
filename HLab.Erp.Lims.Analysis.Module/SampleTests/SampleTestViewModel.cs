@@ -74,7 +74,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
             Model.Result = result;
             //Results.List.Clear();
-            Results.List.Refresh();
+            Results.List.RefreshAsync();
         }
 
         private void AddResult(SampleTestResult previous)
@@ -86,7 +86,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             });
 
             if (test != null)
-                Results.List.Update();
+                Results.List.UpdateAsync();
         }
 
         public string Title => Model.Sample?.Reference + "\n" + Model.TestName + "\n" + Model.Description;

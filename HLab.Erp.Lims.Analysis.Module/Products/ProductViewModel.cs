@@ -21,7 +21,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
 
         public ProductViewModel()
         {
-            Forms.Update();
+            Forms.UpdateAsync();
         }
         public ProductWorkflow Workflow => _workflow.Get();
         private readonly IProperty<ProductWorkflow> _workflow = H.Property<ProductWorkflow>(c => c

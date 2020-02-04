@@ -67,7 +67,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 .Hidden("IsValid", s => s.Validation!=2)
                 .Hidden("Group", s => s.TestClassId);
 
-            List.Update();
+            List.UpdateAsync();
         }
 
         public string Title => "Samples";

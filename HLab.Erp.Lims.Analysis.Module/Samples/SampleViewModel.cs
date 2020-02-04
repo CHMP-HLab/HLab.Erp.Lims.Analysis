@@ -32,7 +32,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         {
             _getTests = getTests;
             Packagings = packagings;
-            Packagings.Update();
+            Packagings.UpdateAsync();
         }
         public string Title => Model.Customer?.Name??"Nouvel échantillon" + "\n" + Model.Product?.Caption + "\n" + Model.Reference;
 
@@ -79,7 +79,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             });
 
             if (test != null)
-                Tests.List.Update();
+                Tests.List.UpdateAsync();
         }
 
         public SampleWorkflow Workflow => _workflow.Get();

@@ -32,7 +32,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
                 .Column("{Name}", e => e.Name)
 //                .Column("Dose",e => e.Dose)
 //                .Column("Form",e => e.Form)
-                .Column("", async (s) => await _erp.Icon.GetIcon(s.Country?.IconPath ?? "", 25), s => s.Country.Name)
+                .ColumnAsync("", async (s) => await _erp.Icon.GetIconAsync(s.Country?.IconPath ?? "", 25), s => s.Country.Name)
                 //.Hidden("IsValid",  s => s.Validation != 2)
                 ;
 
