@@ -59,9 +59,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         [Import] private IDataService _data;
 
-        protected override async Task OnAddCommandAsync(SampleTestResult target)
+        protected override async Task OnAddCommandAsync()
         {
-            var result = _data.Add<SampleTestResult>(r =>
+            var target = Selected;
+
+            var result  = await _data.AddAsync<SampleTestResult>(r =>
             {
                 r.SampleTestId = _sampleTestId;
                 if(target!=null)
@@ -70,7 +72,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 }
             });
             if(result!=null)
-                List.UpdateAsync();
+                await List.UpdateAsync();
 
         }
 
