@@ -92,7 +92,7 @@
             IsReadOnly="{Binding Locker.IsReadOnly}"
             Model="{Binding Model.Customer}"
             ModelClass="{x:Type data1:Customer}" 
-            ListClass="{x:Type customers:ListCustomerViewModel}">
+            ListClass="{x:Type customers:CustomersListViewModel}">
             </entitySelectors:ForeignView>
 
             <Label Style="{DynamicResource Separator}" >
