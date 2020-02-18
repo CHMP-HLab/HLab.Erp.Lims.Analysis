@@ -5,7 +5,12 @@ namespace HLab.Erp.Lims.Analysis.Module.Workflows
     public static class AnalysisRights
     {
         //Reception
+        public static readonly AclRight AnalysisReceptionSign = AclRight.Get();
         public static readonly AclRight AnalysisReceptionValidate = AclRight.Get();
+
+        //Monograph
+        public static readonly AclRight AnalysisMonographSign = AclRight.Get();
+        public static readonly AclRight AnalysisMonographValidate = AclRight.Get();
 
         //Analysis
         public static readonly AclRight AnalysisSchedule = AclRight.Get();
@@ -18,8 +23,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Workflows
         public static readonly AclRight AnalysisResultValidate = AclRight.Get();
         public static readonly AclRight AnalysisResultEnter = AclRight.Get();
         public static readonly AclRight AnalysisResultCheck = AclRight.Get();
-
-
 
         //Certificate
         public static readonly AclRight AnalysisCertificateCreate = AclRight.Get();
