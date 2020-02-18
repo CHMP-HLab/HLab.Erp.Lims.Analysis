@@ -11,6 +11,7 @@ using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Products;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
+using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
@@ -25,16 +26,15 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         [Import]
         public IErpServices Erp { get; }
-
-        public SampleViewModel()
-        { }
+        
+        public SampleViewModel() { }
         [Import] public SampleViewModel(Func<int, ListSampleTestViewModel> getTests, ObservableQuery<Packaging> packagings)
         {
             _getTests = getTests;
             Packagings = packagings;
             Packagings.UpdateAsync();
         }
-        public string Title => Model.Customer?.Name??"Nouvel échantillon" + "\n" + Model.Product?.Caption + "\n" + Model.Reference;
+        public string Title => Model.Customer?.Name??"{New sample}" + "\n" + Model.Product?.Caption + "\n" + Model.Reference;
 
         public ObservableQuery<Packaging> Packagings { get; }
 
@@ -50,6 +50,42 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 .AddFilter(p => p.Secondary)
                 .Link(() => e.Packagings)
             );
+
+        public bool IsReadOnly => _isReadOnly.Get();
+        private readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
+            .On(e => e.EditMode)
+            .Set(e => !e.EditMode)
+        );
+        public bool EditMode => _editMode.Get();
+        private readonly IProperty<bool> _editMode = H.Property<bool>(c => c
+            .On(e => e.Locker.IsActive)
+            .On(e => e.Workflow.CurrentState)
+            .NotNull(e => e.Locker)
+            .NotNull(e => e.Workflow)
+            .Set(e => 
+                e.Locker.IsActive 
+                && e.Workflow.CurrentState == SampleWorkflow.Reception
+                && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisReceptionSign)
+                )
+        );
+
+        public bool IsReadOnlyMonograph => _isReadOnlyMonograph.Get();
+        private readonly IProperty<bool> _isReadOnlyMonograph = H.Property<bool>(c => c
+            .On(e => e.MonographMode)
+            .Set(e => !e.MonographMode)
+        );
+        public bool MonographMode => _monographMode.Get();
+        private readonly IProperty<bool> _monographMode = H.Property<bool>(c => c
+            .On(e => e.Locker.IsActive)
+            .On(e => e.Workflow.CurrentState)
+            .NotNull(e => e.Locker)
+            .NotNull(e => e.Workflow)
+            .Set(e => 
+                e.Locker.IsActive 
+                && e.Workflow.CurrentState == SampleWorkflow.Monograph
+                && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisMonographSign)
+                )
+        );
 
         
         private readonly Func<int, ListSampleTestViewModel> _getTests;
@@ -85,7 +121,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public SampleWorkflow Workflow => _workflow.Get();
         private readonly IProperty<SampleWorkflow> _workflow = H.Property<SampleWorkflow>(c => c
             .On(e => e.Model)
-            .Set(vm => new SampleWorkflow(vm.Model))
+            .On(e => e.Locker)
+            .NotNull(e => e.Locker)
+            .Set(vm => new SampleWorkflow(vm.Model,vm.Locker))
         );
 
         public ICommand CertificateCommand { get; } = H.Command(c => c

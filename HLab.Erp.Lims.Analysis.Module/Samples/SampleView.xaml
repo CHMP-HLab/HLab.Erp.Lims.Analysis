@@ -68,12 +68,13 @@
                                 <Label>
                                     <lang:Localize Id="{}{Worksheet}"/>
                                 </Label>
-                                <TextBox Text="{Binding Model.Worksheet}" MinWidth="110"/>
+                                <TextBox IsReadOnly="{Binding IsReadOnlyMonograph}" Text="{Binding Model.Worksheet}" MinWidth="110"/>
                             </StackPanel>
                             <Label/>
                             <StackPanel>
                                 <Label Content="{}{Technician}" HorizontalAlignment="Left"/>
                                 <entitySelectors:ForeignView
+                                    IsReadOnly="{Binding IsReadOnlyMonograph}"
                                     Model="{Binding Model.User}"
                                     ModelClass="{x:Type acl:User}"
                                     />
@@ -84,6 +85,7 @@
                                     <lang:Localize Id="{}{Pharmacopoeia}"/>
                                 </Label>
                                 <entitySelectors:ForeignView 
+                                    IsReadOnly="{Binding IsReadOnlyMonograph}"
                                     Model="{Binding Model.Pharmacopoeia}"
                                     ModelClass="{x:Type data:Pharmacopoeia}"
                                     />
@@ -93,7 +95,11 @@
                                 <Label HorizontalAlignment="Right">
                                     <lang:Localize Id="{}{Pharmacopoeia version}"/>
                                 </Label>
-                                <TextBox Text="{Binding Model.PharmacopoeiaVersion}" HorizontalContentAlignment="Right" HorizontalAlignment="Stretch"/>
+                                <TextBox 
+                                    IsReadOnly="{Binding IsReadOnlyMonograph}"
+                                    Text="{Binding Model.PharmacopoeiaVersion}" 
+                                    HorizontalContentAlignment="Right" 
+                                    HorizontalAlignment="Stretch"/>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -135,6 +141,7 @@
 
                 <DockPanel Grid.Row="3" Height="80" VerticalAlignment="Bottom">
                     <entitySelectors:ForeignView DockPanel.Dock="Top"
+                        IsReadOnly="{Binding IsReadOnlyMonograph}"
                         ModelClass="{x:Type data:TestClass}"
                         Command="{Binding AddTestCommand}"
                         >

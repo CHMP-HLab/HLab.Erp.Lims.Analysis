@@ -189,12 +189,12 @@ namespace HLab.Erp.Lims.Analysis.Data
         private readonly IProperty<int?> _order = H.Property<int?>();
 
         //[LOG 24]\nNom=Etape\nId=0 : Saisie du test\nId=1 : Test normé\nId=2 : A faire\nId=3 : En cours\nId=4 : Validé par le technicien\nId=5 : Données brutes validées\nId=6 : Validé par le pharmacien
-        public int? Stage
+        public string Stage
         {
             get => _stage.Get();
             set => _stage.Set(value);
         }
-        private readonly IProperty<int?> _stage = H.Property<int?>();
+        private readonly IProperty<string> _stage = H.Property<string>();
 
         [Ignore]
         public virtual Sample Sample

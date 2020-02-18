@@ -1,148 +1,60 @@
-﻿using HLab.Erp.Lims.Analysis.Data;
+﻿using System.Linq;
+using HLab.Erp.Acl;
+using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Erp.Workflows;
+using HLab.Notify.PropertyChanged;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
-    public class SampleTestResultWorkflow : Workflow<SampleTestResultWorkflow, SampleTestResult>
-    {
-        public SampleTestResultWorkflow(SampleTestResult result):base(result)
-        {
-            CurrentState = Running;
-        }
-
-        public static State Running = State.Create(c => c
-            .Caption("{Running}").Icon("Icons/SampleTestResult/Running")
-            .SetState(() => Running)
-        );
-
-        public static Action Sign = Action.Create(c => c
-            .Caption("{Sign specifications}").Icon("Icons/SampleTest/Sign")
-            .FromState(()=>Running)
-            .ToState(()=>Signed)
-        );
-
-        public static State Signed = State.Create(c => c
-            .Caption("{Signed}").Icon("Icons/SampleTestResult/Signed")
-            .SetState(() => Signed)
-        );
-
-        public static Action Check = Action.Create(c => c
-            .Caption("{Check}").Icon("Icons/SampleTest/Sign")
-            .FromState(()=>Running)
-            .ToState(()=>Checked)
-        );
-
-        public static State Checked = State.Create(c => c
-            .Caption("{Signed}").Icon("Icons/SampleTestResult/Signed")
-            .SetState(() => Checked)
-        );
-
-        public static Action Validate = Action.Create(c => c
-            .Caption("{Sign specifications}").Icon("Icons/SampleTest/Sign")
-            .FromState(()=>Running)
-            .ToState(()=>Signed)
-        );
-
-        public static State Validated = State.Create(c => c
-            .Caption("{Signed}").Icon("Icons/SampleTestResult/Signed")
-            .SetState(() => Signed)
-        );
-    }
-
-    public class SampleTestWorkflow : Workflow<SampleTestWorkflow, SampleTest>
-    {
-        public SampleTestWorkflow(SampleTest test):base(test)
-        {
-            CurrentState = Specifications;
-        }
-
-        //########################################################
-        // Specifications
-
-        public static State Specifications = State.Create(c => c
-            .Caption("{Specifications}").Icon("Icons/Workflows/Specifications")
-            .SetState(() => Specifications)
-        );
-
-        public static Action SignSpecifications = Action.Create(c => c
-            .Caption("{Sign specifications}").Icon("Icons/Workflows/SpecificationsSigned")
-            .FromState(()=>Specifications)
-            .ToState(()=>SignedSpecifications)
-        );
-
-        public static State SignedSpecifications = State.Create(c => c
-            .Caption("{Specifications Signed}").Icon("Icons/Workflows/SpecificationsSigned")
-            .SetState(() => SignedSpecifications)
-        );
-
-        public static Action ValidateSpecifications = Action.Create(c => c
-            .Caption("{Sign specifications}").Icon("Icons/SampleTest/Validate")
-            .FromState(()=>SignedSpecifications)
-            .ToState(()=>Scheduling)
-        );
-
-        //########################################################
-        // Scheduling
-
-        public static State Scheduling = State.Create(c => c
-            .Caption("{Scheduling}").Icon("Icons/Sample/PackageOpened")
-            .SetState(() => Scheduling)
-        );
-
-        public static Action Production  = Action.Create(c => c
-            .Caption("{Production}").Icon("Icons/SampleTest/Production")
-            .FromState(()=>Scheduling)
-            .ToState(()=>Running)
-        );
-
-        public static State Running = State.Create(c => c
-            .Caption("{Running}").Icon("Icons/Sample/PackageOpened")
-            .SetState(() => Running)
-        );
-
-        public static Action ValidateResults = Action.Create(c => c
-            .Caption("{Validate results}").Icon("Icons/SampleTest/Validate")
-            .FromState(()=>SignedSpecifications)
-            .ToState(()=>ValidatedResults)
-        );
-
-        public static Action AskForRetest = Action.Create(c => c
-            .Caption("{Ask for retest}").Icon("Icons/SampleTest/Validate")
-            .FromState(()=>SignedSpecifications)
-            .ToState(()=>Scheduling)
-        );
-
-        public static State ValidatedResults = State.Create(c => c
-            .Caption("{Validated}").Icon("Icons/Sample/PackageOpened")
-            .SetState(() => ValidatedResults)
-        );
-    }
-
     public class SampleWorkflow : Workflow<SampleWorkflow,Sample>
     {
+        private DataLocker<Sample> _locker;
 
-
-        public SampleWorkflow(Sample sample):base(sample)
+        // ToDo : pourquoi ça s'execute 4 fois à l'ouverture d'un échantillon
+        public SampleWorkflow(Sample sample, DataLocker<Sample> locker):base(sample)
         {
-            CurrentState = Reception;
+            //H.Property<bool>(c => c
+            //    .On(e => e.Target.Stage)
+            //    .Do((a, b) => { a.SetState(a.Target.Stage); }));
+            _locker = locker;
+            SetState(sample.Stage);
         }
 
-        public override void OnSetState(State state)
+        protected override bool OnSetState(State state)
         {
-            Target.Stage = state.Name;
+            if (Target.Stage != state.Name)
+            {
+                var old = Target.Stage;
+                Target.Stage = state.Name;
+                _locker.SaveCommand.Execute(null);
+                if (_locker.IsActive)
+                {
+                    Target.Stage = old;
+                    return false;
+                }
+                return true;
+            }
+
+            return true;
         }
+
+        private IProperty<bool> _ = H.Property<bool>(c => c
+                .On(e => e.Target.Stage)
+                .Do(e => { e.SetState(e.Target.Stage); }));
+
 
         //########################################################
         // RECEPTION
 
-        public static State Reception = State.Create(c => c
-            .Caption("{Reception entry}").Icon("Icons/Sample/PackageOpened")
+        public static State Reception = State.CreateDefault(c => c
+            .Caption("{Reception entry}").Icon("Icons/Sample/PackageOpened").SubIcon("Icons/Validations/Open")
             .SetState(() => Reception)
         );
 
-        public static State ReceptionClosed = State.Create(c => c
-            .Caption("{Reception check}").Icon("Icons/Workflow/ReceptionCheck")
+        public static State ReceptionSigned = State.Create(c => c
+            .Caption("{Reception check}").Icon("Icons/Sample/PackageOpened").SubIcon("Icons/Validations/Sign")
             .NotWhen(w => w.Target.CustomerId == null)
             .WithMessage(w => "{Missing} : {Customer}")
 
@@ -159,18 +71,18 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .WithMessage(w => "{Missing} : {Received quantity}")
         );
 
-        public static Action CloseReception = Action.Create(c => c
-            .Caption("{Close}").Icon("Icons/Validations/Sign")
+        public static Action SignReception = Action.Create(c => c
+            .Caption("{Sign}").Icon("Icons/Validations/Sign")
             .FromState(() => Reception)
-            .ToState(() => ReceptionClosed)
-            .NeedRight(AnalysisRights.AnalysisReceptionValidate)
+            .ToState(() => ReceptionSigned)
+            .NeedRight(AnalysisRights.AnalysisReceptionSign)
         );
 
         public static Action ValidateReception = Action.Create(c => c
             .Caption(w => "{Check}").Icon(w => "icons/workflow/ReceptionChecked")
-            .FromState(() => ReceptionClosed)
+            .FromState(() => ReceptionSigned)
             .ToState(() => Monograph)
-            .NeedValidator()
+            .NeedRight(AnalysisRights.AnalysisReceptionValidate)
         );
 
         //########################################################
@@ -178,7 +90,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public static State Monograph = State.Create(c => c
             .Caption(w => "{Monograph Entry}").Icon(w => "Icons/Sample/PackageOpened")
-            .WhenStateAllowed(() => ReceptionClosed)
+            .WhenStateAllowed(() => ReceptionSigned)
             .SetState(() => Monograph)
         );
 
@@ -186,7 +98,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
            .Caption(w => "{Validate monograph}").Icon(w => "icons/workflow/MonographEdit")
            .FromState(() => Monograph)
            .ToState(() => MonographClosed)
-           .NeedValidator()
+           .NeedRight(AnalysisRights.AnalysisReceptionValidate)
             );
 
         public static State MonographClosed = State.Create(c => c
@@ -204,7 +116,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
             .NotWhen(w => {
                 foreach (SampleTest test in w.Target.SampleTests)
-                    if (test.Stage < 1) return true; // TODO
+                    if (test.Stage != "ValidatedResults") return true; // TODO
                 return false;
             }).WithMessage(w => "{Missing} : {Test specifications}")
         );

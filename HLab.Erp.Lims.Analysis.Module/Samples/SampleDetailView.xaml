@@ -18,6 +18,7 @@
              xmlns:wpf="clr-namespace:HLab.Erp.Base.Wpf;assembly=HLab.Erp.Base.Wpf"
              xmlns:manufacturers="clr-namespace:HLab.Erp.Lims.Analysis.Module.Manufacturers"
              xmlns:customers="clr-namespace:HLab.Erp.Base.Wpf.Entities.Customers;assembly=HLab.Erp.Base.Wpf"
+             xmlns:workflows="clr-namespace:HLab.Erp.Workflows;assembly=HLab.Erp.Workflows.Wpf"
              mc:Ignorable="d" 
              Background="#FF004050"
              d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModelDesign}, IsDesignTimeCreatable=True}"             
@@ -29,32 +30,15 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
     </UserControl.Resources>
     <Grid>
-        <Grid.Resources>
-            <Style TargetType="{x:Type base:DetailView}">
-                <Style.Resources>
-                    <Style TargetType="{x:Type TextBox}">
-                        <Setter Property="IsReadOnly" Value="{Binding Locker.IsReadOnly}"/>
-                    </Style>
-                </Style.Resources>
-            </Style>
-        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <base:DetailView>
-            <mvvm:ViewLocator Height="50" Model="{Binding Locker}" Grid.ColumnSpan="2"/>
+        <workflows:WorkflowLockerView/>
 
-            <Label>
-                <lang:Localize Id="{}{Workflow}" Margin="50,0,0,0"/>
-            </Label>
-            <mvvm:ViewLocator Model="{Binding Workflow}"/>
-
-        </base:DetailView>
-
-        <base:DetailView Grid.Row="1">
+        <base:DetailView Grid.Row="1" IsEnabled="{Binding EditMode}">
 
             <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
                 <Grid VerticalAlignment="Center">
@@ -74,7 +58,7 @@
                 <lang:Localize Id="{}{File} :"/>
             </Label>
             <base:NumTextBox 
-            IsReadOnly="{Binding Locker.IsReadOnly}"
+            IsReadOnly="{Binding IsReadOnly}"
             Margin="0,0,15,0"
             BorderBrush="#80000000"
             HorizontalContentAlignment="Center" 
@@ -89,11 +73,10 @@
             Text="{Binding Model.Customer.Name,Mode=OneWay}" 
             HorizontalContentAlignment="Center" />-->
             <entitySelectors:ForeignView 
-            IsReadOnly="{Binding Locker.IsReadOnly}"
-            Model="{Binding Model.Customer}"
-            ModelClass="{x:Type data1:Customer}" 
-            ListClass="{x:Type customers:CustomersListViewModel}">
-            </entitySelectors:ForeignView>
+                IsReadOnly="{Binding IsReadOnly}"
+                Model="{Binding Model.Customer}"
+                ModelClass="{x:Type data1:Customer}" 
+                ListClass="{x:Type customers:CustomersListViewModel}"/>
 
             <Label Style="{DynamicResource Separator}" >
                 <StackPanel Orientation="Horizontal">
@@ -112,7 +95,7 @@
             
             TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Product.Caption ,Mode=OneWay}" HorizontalContentAlignment="Center" />-->
             <entitySelectors:ForeignView 
-                IsReadOnly="{Binding Locker.IsReadOnly}"
+                IsReadOnly="{Binding IsReadOnly}"
                 Model="{Binding Model.Product}"
                 ModelClass="{x:Type data:Product}" 
                 ListClass="{x:Type products:ListProductPopupViewModel}">
@@ -133,7 +116,7 @@
                 <lang:Localize Id="{}{Date} :"/>
             </Label>
             <base:DateEx
-                IsReadOnly="{Binding Locker.IsReadOnly}"
+                IsReadOnly="{Binding IsReadOnly}"
                         HorizontalAlignment="Left"
                         Date="{Binding Model.ReceptionDate}" 
                         DayValid="True"
@@ -170,7 +153,7 @@
                         Value="{Binding Model.ReceivedQuantity,Mode=TwoWay}" />
 
                 <Label HorizontalAlignment="Right" Grid.Column="1">
-                    <lang:Localize Id="{}{Date}"/>
+                    <lang:Localize Id="{}{Date} :"/>
                 </Label>
 
                 <base:DateEx  Grid.Column="2"
@@ -206,7 +189,6 @@
                 <lang:Localize  Id="{}{N°} : "/>
             </Label>
             <TextBox  
-                
                 Text="{Binding Model.Batch}"/>
 
 
@@ -261,11 +243,10 @@
                 </Grid.ColumnDefinitions>
 
                 <entitySelectors:ForeignView 
-                IsReadOnly="{Binding Locker.IsReadOnly}"
-                Model="{Binding Model.Manufacturer}"
-                ModelClass="{x:Type data:Manufacturer}" 
-                ListClass="{x:Type manufacturers:ListManufacturerViewModel}">
-                </entitySelectors:ForeignView>
+                    IsReadOnly="{Binding IsReadOnly}"
+                    Model="{Binding Model.Manufacturer}"
+                    ModelClass="{x:Type data:Manufacturer}" 
+                    ListClass="{x:Type manufacturers:ListManufacturerViewModel}"/>
 
                 <Label Grid.Column="1">
                     <lang:Localize Id="{Binding Model.Manufacturer.Country.Name}"/>
@@ -276,7 +257,6 @@
                 <lang:Localize Id="{}{Commercial Name} : "/>
             </Label>
             <TextBox 
-            
                     VerticalContentAlignment="Center"
                     Text="{Binding Model.CommercialName}" 
                     HorizontalAlignment="Stretch"/>
@@ -295,8 +275,9 @@
                 <lang:Localize Id="{}{Original packaging} : "/>
             </Label>
             <views:YesNoView 
-            
-            Value="{Binding Model.InOriginalPackaging}"/>
+                IsEnabled="{Binding EditMode}"
+                IsReadOnly="{Binding IsReadOnly}"
+                Value="{Binding Model.InOriginalPackaging}"/>
 
             <Label HorizontalAlignment="Right">
                 <lang:Localize  Id="{}{Primary} : "/>
@@ -305,19 +286,17 @@
                 <TextBlock 
                     VerticalAlignment="Center"
                     Text="{Binding  Model.PrimaryPackaging}"
-                    Visibility="{Binding Locker.IsReadOnly,Converter={StaticResource BooleanToVisibility}}"
+                    Visibility="{Binding IsReadOnly,Converter={StaticResource BooleanToVisibility}}"
                     />
                 <ComboBox 
-            
-                    Visibility="{Binding Locker.IsActive,Converter={StaticResource BooleanToVisibility}}"
-            ItemsSource="{Binding PrimaryPackagingList}" 
-            IsReadOnly="{Binding Locker.IsReadOnly}"
-            BorderBrush="#80000000"
-            IsEditable="True" 
-            Text="{Binding Model.PrimaryPackaging}"
-            DisplayMemberPath="Name"
-            
-            />
+                    Visibility="{Binding EditMode,Converter={StaticResource BooleanToVisibility}}"
+                    ItemsSource="{Binding PrimaryPackagingList}" 
+                    IsReadOnly="{Binding IsReadOnly}"
+                    BorderBrush="#80000000"
+                    IsEditable="True" 
+                    Text="{Binding Model.PrimaryPackaging}"
+                    DisplayMemberPath="Name"
+                />
 
             </StackPanel>
             <!---->
@@ -327,19 +306,19 @@
             <StackPanel Margin="0,0,15,0">
                 <TextBlock 
                     Text="{Binding  Model.SecondaryPackaging}"
-                    Visibility="{Binding Locker.IsReadOnly,Converter={StaticResource BooleanToVisibility}}"
+                    Visibility="{Binding IsReadOnly,Converter={StaticResource BooleanToVisibility}}"
                     />
+
                 <ComboBox
-                    Visibility="{Binding Locker.IsActive,Converter={StaticResource BooleanToVisibility}}"
-                    IsEnabled="{Binding Locker.IsActive}"
+                    Visibility="{Binding EditMode,Converter={StaticResource BooleanToVisibility}}"
+                    IsEnabled="{Binding EditMode}"
                     ItemsSource="{Binding SecondaryPackagingList}" 
-                              
-                              BorderBrush="#80000000"
-                              IsEditable="True" 
-                              Text="{Binding Model.SecondaryPackaging}"
-                              DisplayMemberPath="Name" SelectionChanged="ComboBox_SelectionChanged"
-                           
-                              />
+                    BorderBrush="#80000000"
+                    IsEditable="True" 
+                    Text="{Binding Model.SecondaryPackaging}"
+                    DisplayMemberPath="Name" SelectionChanged="ComboBox_SelectionChanged"
+                    />
+
             </StackPanel>
             <!---->
 
