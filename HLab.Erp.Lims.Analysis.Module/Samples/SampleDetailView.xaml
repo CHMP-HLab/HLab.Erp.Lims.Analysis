@@ -19,6 +19,7 @@
              xmlns:manufacturers="clr-namespace:HLab.Erp.Lims.Analysis.Module.Manufacturers"
              xmlns:customers="clr-namespace:HLab.Erp.Base.Wpf.Entities.Customers;assembly=HLab.Erp.Base.Wpf"
              xmlns:workflows="clr-namespace:HLab.Erp.Workflows;assembly=HLab.Erp.Workflows.Wpf"
+             xmlns:views1="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
              mc:Ignorable="d" 
              Background="#FF004050"
              d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModelDesign}, IsDesignTimeCreatable=True}"             
@@ -38,7 +39,7 @@
 
         <workflows:WorkflowLockerView/>
 
-        <base:DetailView Grid.Row="1" IsEnabled="{Binding EditMode}">
+        <views1:DetailView Grid.Row="1" EditMode="{Binding EditMode}">
 
             <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
                 <Grid VerticalAlignment="Center">
@@ -46,7 +47,6 @@
                         <icons:IconView Path = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
                     </Canvas>
                     <lang:Localize Id="{}{Record}" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <icons:IconView HorizontalAlignment="Right" Height="35" Path="{Binding Model.Customer.Country.IconPath}"/>
                 </Grid>
             </Label>
             <Label HorizontalContentAlignment="Right" >
@@ -55,10 +55,9 @@
             <TextBox Text="{Binding Model.Reference}" HorizontalContentAlignment="Center" />
 
             <Label HorizontalAlignment="Right">
-                <lang:Localize Id="{}{File} :"/>
+                <lang:Localize Id="{}{FileId} :"/>
             </Label>
             <base:NumTextBox 
-            IsReadOnly="{Binding IsReadOnly}"
             Margin="0,0,15,0"
             BorderBrush="#80000000"
             HorizontalContentAlignment="Center" 
@@ -73,7 +72,6 @@
             Text="{Binding Model.Customer.Name,Mode=OneWay}" 
             HorizontalContentAlignment="Center" />-->
             <entitySelectors:ForeignView 
-                IsReadOnly="{Binding IsReadOnly}"
                 Model="{Binding Model.Customer}"
                 ModelClass="{x:Type data1:Customer}" 
                 ListClass="{x:Type customers:CustomersListViewModel}"/>
@@ -95,7 +93,6 @@
             
             TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Product.Caption ,Mode=OneWay}" HorizontalContentAlignment="Center" />-->
             <entitySelectors:ForeignView 
-                IsReadOnly="{Binding IsReadOnly}"
                 Model="{Binding Model.Product}"
                 ModelClass="{x:Type data:Product}" 
                 ListClass="{x:Type products:ListProductPopupViewModel}">
@@ -243,7 +240,6 @@
                 </Grid.ColumnDefinitions>
 
                 <entitySelectors:ForeignView 
-                    IsReadOnly="{Binding IsReadOnly}"
                     Model="{Binding Model.Manufacturer}"
                     ModelClass="{x:Type data:Manufacturer}" 
                     ListClass="{x:Type manufacturers:ListManufacturerViewModel}"/>
@@ -275,8 +271,6 @@
                 <lang:Localize Id="{}{Original packaging} : "/>
             </Label>
             <views:YesNoView 
-                IsEnabled="{Binding EditMode}"
-                IsReadOnly="{Binding IsReadOnly}"
                 Value="{Binding Model.InOriginalPackaging}"/>
 
             <Label HorizontalAlignment="Right">
@@ -409,8 +403,8 @@
                     </ComboBox>-->
 
 
-        </base:DetailView>
-        <base:DetailView Grid.Row="2">
+        </views1:DetailView>
+        <views1:DetailView Grid.Row="2">
             <Label Style="{DynamicResource Separator}" >
                 <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                     <Canvas>
@@ -425,7 +419,7 @@
             <TextBox Margin="50,0,15,0"  Grid.ColumnSpan="2"  Text="{Binding Model.Note}" AcceptsReturn="True" TextWrapping="Wrap"/>
             <Label />
 
-        </base:DetailView>
+        </views1:DetailView>
     </Grid>
 
 </UserControl>

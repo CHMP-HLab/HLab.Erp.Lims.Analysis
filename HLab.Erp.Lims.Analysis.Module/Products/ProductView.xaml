@@ -11,13 +11,14 @@
              xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
              xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
              xmlns:data="clr-namespace:HLab.Erp.Lims.Analysis.Data;assembly=HLab.Erp.Lims.Analysis.Data"
+             xmlns:views="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
              mc:Ignorable="d" 
              Background="#FF93A03F"
              d:DataContext="{d:DesignInstance {x:Type local:ProductViewModelDesign}, IsDesignTimeCreatable=True}"             
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.Resources>
-            <Style TargetType="{x:Type base:DetailView}">
+            <Style TargetType="{x:Type views:DetailView}">
                 <Style.Resources>
                     <Style TargetType="{x:Type TextBox}">
                         <Setter Property="IsReadOnly" Value="{Binding Locker.IsReadOnly}"/>
@@ -32,7 +33,7 @@
 
 
 
-        <base:DetailView Grid.Row="0">
+        <views:DetailView Grid.Row="0">
             <mvvm:ViewLocator Height="50" Model="{Binding Locker}" Grid.ColumnSpan="2"/>
 
             <Label>
@@ -40,11 +41,11 @@
             </Label>
             <ContentPresenter Content="{Binding Workflow}"/>
 
-        </base:DetailView>
+        </views:DetailView>
 
 
 
-            <base:DetailView Grid.Row="1">
+            <views:DetailView Grid.Row="1">
                 <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
                     <Grid VerticalAlignment="Center">
                         <Canvas DockPanel.Dock="Left">
@@ -78,6 +79,6 @@
                 
                 <!--<TextBox
                     TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Form.Name ,Mode=OneWay}" HorizontalContentAlignment="Center" />-->
-            </base:DetailView>
+            </views:DetailView>
     </Grid>
 </UserControl>
