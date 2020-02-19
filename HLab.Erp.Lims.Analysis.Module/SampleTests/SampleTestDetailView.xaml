@@ -25,97 +25,77 @@
 
         <workflows:WorkflowLockerView/>
 
-        <views:DetailView Grid.Row="1">
- 
-                <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
-            <Grid VerticalAlignment="Center">
-                <Canvas DockPanel.Dock="Left">
-                    <icons:IconView Path = "{Binding Model.TestClass.IconPath}" Height="35" Opacity="0.8"/>
-                </Canvas>
-                <!--<lang:Localize Id="Test" VerticalAlignment="Center" Margin="50,0,0,0"/>-->
-                <lang:Localize Id="{Binding Model.TestClass.Name}" Margin="50,0,0,0"/>
-            </Grid></Label>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical">
+                <!-- TEST CLASS -->
+                <views:DetailView Grid.Row="1" IconPath="{Binding Model.TestClass.IconPath}" Text="{Binding Model.TestClass.Name}" >
 
-            <Label HorizontalContentAlignment="Right" >
-                <lang:Localize Id="{}{Type}" StringFormat="{}{0} : " />
-            </Label>
-            <TextBox Text="{Binding Model.TestName}" HorizontalContentAlignment="Center" />
+                    <lang:LocalizedLabel Text="{}{Type} : " />
+                    <TextBox Text="{Binding Model.TestName}" HorizontalContentAlignment="Center" />
 
-            <Label HorizontalContentAlignment="Right" >
-                <lang:Localize Id="{}{Method} : "/>
-            </Label>
-            <TextBox Text="{Binding Model.Method}" HorizontalContentAlignment="Center" />
+                    <lang:LocalizedLabel Text="{}{Method} : " />
+                    <TextBox Text="{Binding Model.Method}" HorizontalContentAlignment="Center" />
 
-            <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
-                <Grid VerticalAlignment="Center">
-                    <Canvas DockPanel.Dock="Left">
-                        <icons:IconView Path = "Icons/Result" Height="35" Opacity="0.8"/>
-                    </Canvas>
-                    <lang:Localize Id="{}{Results}" VerticalAlignment="Center" Margin="50,0,0,0"/>                
-                </Grid>
-            </Label>
+                </views:DetailView>
 
-            <Label></Label>
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button Command="{Binding ViewSpecificationsCommand}" HorizontalAlignment="Left">
-                        <lang:Localize Id="{}{Specifications}"/>
-                    </Button>                    
-                    <Button Command="{Binding AddResultCommand}" HorizontalAlignment="Left">
-                        <lang:Localize Id="{}{Add result}"/>
-                    </Button>                    
-                    <Button Command="{Binding RemoveResultCommand}" HorizontalAlignment="Left">
-                        <lang:Localize Id="{}{Remove result}"/>
-                    </Button>                    
-                    <Button Command="{Binding SelectResultCommand}" HorizontalAlignment="Left">
-                        <lang:Localize Id="{}{Select result}"/>
-                    </Button>                    
-                </StackPanel>
-                <Grid VerticalAlignment="Top" mvvm:ViewLocator.ViewClass="{x:Type annotations:IViewClassContent}">
-                    <mvvm:ViewLocator Model="{Binding Results}"/>
-                </Grid>
+                <!-- RESULTS -->
+                <views:DetailView Text="{}{Results}" IconPath="Icons/Result">
+                    <Label></Label>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Command="{Binding ViewSpecificationsCommand}" HorizontalAlignment="Left">
+                                <lang:Localize Id="{}{Specifications}"/>
+                            </Button>
+                            <Button Command="{Binding AddResultCommand}" HorizontalAlignment="Left">
+                                <lang:Localize Id="{}{Add result}"/>
+                            </Button>
+                            <Button Command="{Binding RemoveResultCommand}" HorizontalAlignment="Left">
+                                <lang:Localize Id="{}{Remove result}"/>
+                            </Button>
+                            <Button Command="{Binding SelectResultCommand}" HorizontalAlignment="Left">
+                                <lang:Localize Id="{}{Select result}"/>
+                            </Button>
+                        </StackPanel>
+                        <Grid VerticalAlignment="Top" mvvm:ViewLocator.ViewClass="{x:Type annotations:IViewClassContent}">
+                            <mvvm:ViewLocator Model="{Binding Results}"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <Grid Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <lang:LocalizedLabel Text="{}{Description} : " HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="0"/>
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Description}" Grid.Row="1" Grid.Column="0"/>
+
+                        <lang:LocalizedLabel Text="{}{Result}" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="1"/>
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Result}" Grid.Row="1" Grid.Column="1"/>
+
+                        <lang:LocalizedLabel Text="{}{Conformity}" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="2" />
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Conform}" Grid.Row="1" Grid.Column="2"/>
+
+
+                        <lang:LocalizedLabel Text="{}{Conformity}" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="3" />
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Conform}" Grid.Row="1" Grid.Column="3"/>
+                    </Grid>
+                </views:DetailView>
+
+                <!-- RESULTS -->
+                <views:DetailView Text="{}{Documents}" IconPath="Icons/Sample/Folder">
+
+                </views:DetailView>
             </StackPanel>
-            
-            <Grid Grid.ColumnSpan="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-            
-                <Label HorizontalContentAlignment="Right" >
-                    <lang:Localize Id="{}{Description} : "/>
-                </Label>
-                <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Description}" Grid.Row="1"/>
-            
-                <Label HorizontalContentAlignment="Center" Grid.Column="1" >
-                    <lang:Localize Id="{}{Result}"/>
-                </Label>
-                <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Result}" Grid.Row="1" Grid.Column="1"/>
-            
-                <Label HorizontalContentAlignment="Center" Grid.Column="2" >
-                    <lang:Localize Id="{}{Conformity}"/>
-                </Label>
-                <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Conform}" Grid.Row="1" Grid.Column="2"/>
-                <Label HorizontalContentAlignment="Center" Grid.Column="3" >
-                    <lang:Localize Id="{}{Conformity}"/>
-                </Label>
-                <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Conform}" Grid.Row="1" Grid.Column="3"/>
-            </Grid>
-            
-
-            <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
-                <Grid VerticalAlignment="Center">
-                    <Canvas DockPanel.Dock="Left">
-                        <icons:IconView Path = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
-                    </Canvas>
-                    <lang:Localize Id="{}{Documents}" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                </Grid>
-            </Label>
+        </ScrollViewer>
+        <!-- RESULTS -->
+        <views:DetailView Grid.Row="2" Text="{}{Note}" IconPath="Icons/Sample/Folder">
 
         </views:DetailView>
     </Grid>
