@@ -39,7 +39,7 @@
 
         <workflows:WorkflowLockerView/>
 
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
 
                 <!-- RECORD -->            
