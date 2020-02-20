@@ -10,34 +10,16 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
     public class SampleWorkflow : Workflow<SampleWorkflow,Sample>
     {
-        private DataLocker<Sample> _locker;
-
         // ToDo : pourquoi ça s'execute 4 fois à l'ouverture d'un échantillon
-        public SampleWorkflow(Sample sample, DataLocker<Sample> locker):base(sample)
+        public SampleWorkflow(Sample sample, DataLocker<Sample> locker):base(sample,locker)
         {
-            //H.Property<bool>(c => c
-            //    .On(e => e.Target.Stage)
-            //    .Do((a, b) => { a.SetState(a.Target.Stage); }));
-            _locker = locker;
             SetState(sample.Stage);
         }
 
-        protected override bool OnSetState(State state)
+        protected override string StateName
         {
-            if (Target.Stage != state.Name)
-            {
-                var old = Target.Stage;
-                Target.Stage = state.Name;
-                _locker.SaveCommand.Execute(null);
-                if (_locker.IsActive)
-                {
-                    Target.Stage = old;
-                    return false;
-                }
-                return true;
-            }
-
-            return true;
+            get => Target.Stage; 
+            set => Target.Stage = value;
         }
 
         private IProperty<bool> _ = H.Property<bool>(c => c

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Markup.Localizer;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
+using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Samples;
@@ -20,11 +22,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
     public class SampleTestViewModel : EntityViewModel<SampleTestViewModel,SampleTest>
     {
-        [Import]
-        private readonly Func<int, ListTestResultViewModel> _getResults;
+        [Import] private readonly Func<int, ListTestResultViewModel> _getResults;
 
-        [Import]
-        public IAclService Acl {get;}
+        [Import] public IErpServices Erp { get; }
 
         [Import]
         private IDataService _data;
@@ -33,14 +33,44 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c.Default(new FormHelper()));
         public async Task LoadResultAsync(SampleTestResult target=null)
         {
-            await FormHelper.Load(Model,target).ConfigureAwait(true);
-            FormHelper.SetFormMode(target == null ? TestFormMode.Specification : TestFormMode.Capture);
+            await FormHelper.LoadAsync(Model,target).ConfigureAwait(true);
+
+            var state = Workflow.CurrentState;
+
+            if (state == SampleTestWorkflow.Specifications)
+            {
+                FormHelper.SetFormMode(TestFormMode.Specification);
+            }
+            else if (state == SampleTestWorkflow.Running)
+            {
+                FormHelper.SetFormMode(TestFormMode.Capture);
+            }
+            else FormHelper.SetFormMode(TestFormMode.ReadOnly);
         }
 
         public SampleTestWorkflow Workflow => _workflow.Get();
         private readonly IProperty<SampleTestWorkflow> _workflow = H.Property<SampleTestWorkflow>(c => c
             .On(e => e.Model)
-            .Set(vm => new SampleTestWorkflow(vm.Model))
+            .On(e => e.Locker)
+            .NotNull(e => e.Locker)
+            .Set(vm => new SampleTestWorkflow(vm.Model,vm.Locker))
+        );
+        public bool IsReadOnly => _isReadOnly.Get();
+        private readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
+            .On(e => e.EditMode)
+            .Set(e => !e.EditMode)
+        );
+        public bool EditMode => _editMode.Get();
+        private readonly IProperty<bool> _editMode = H.Property<bool>(c => c
+            .On(e => e.Locker.IsActive)
+            .On(e => e.Workflow.CurrentState)
+            .NotNull(e => e.Locker)
+            .NotNull(e => e.Workflow)
+            .Set(e => 
+                e.Locker.IsActive 
+                && e.Workflow.CurrentState == SampleTestWorkflow.Specifications
+                && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisMonographSign)
+            )
         );
 
         public ListTestResultViewModel Results => _results.Get();
@@ -54,6 +84,13 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             })
         );
 
+        private readonly IProperty<bool> _ = H.Property<bool>(c => c
+            .On(e => e.Model)
+            .OnNotNull(e => e.Workflow)
+            .OnNotNull(e => e.Results)
+            .Do(async e => await e.LoadResultAsync(e.Results.Selected))
+        );
+
         public ICommand ViewSpecificationsCommand {get;} = H.Command(c => c
             .Action(async e => await e.LoadResultAsync())
         );
@@ -64,17 +101,14 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         );
         public ICommand SelectResultCommand { get; } = H.Command(c => c
             //.CanExecute(e => e.Results.List.Selected.Validation == 3)
-            .Action((e,t) => e.SelectResult(e.Results.Selected))
+            .Action(async (e,t) => await e.SelectResult(e.Results.Selected))
         );
 
-        private void SelectResult(SampleTestResult result)
+        private async Task SelectResult(SampleTestResult result)
         {
-            if (result==null)
-                Model.Result = null;
-
             Model.Result = result;
             //Results.List.Clear();
-            Results.List.RefreshAsync();
+            await Results.List.RefreshAsync();
         }
 
         private void AddResult(SampleTestResult previous)

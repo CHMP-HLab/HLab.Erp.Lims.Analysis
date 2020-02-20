@@ -1,11 +1,12 @@
-﻿using HLab.Erp.Lims.Analysis.Data;
+﻿using HLab.Erp.Acl;
+using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Workflows;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
     public class SampleTestResultWorkflow : Workflow<SampleTestResultWorkflow, SampleTestResult>
     {
-        public SampleTestResultWorkflow(SampleTestResult result):base(result)
+        public SampleTestResultWorkflow(SampleTestResult result,IDataLocker locker):base(result,locker)
         {
             CurrentState = Running;
         }
@@ -47,5 +48,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Caption("{Signed}").Icon("Icons/SampleTestResult/Signed")
             .SetState(() => Signed)
         );
+
+        protected override string StateName { get; set; }
     }
 }

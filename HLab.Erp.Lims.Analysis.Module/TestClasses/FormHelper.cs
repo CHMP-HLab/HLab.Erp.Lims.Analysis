@@ -739,22 +739,25 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             //      validation = TestValidation.ToSign;
             //}
         }
-        public Task Load(SampleTestResult result)
+        public Task LoadAsync(SampleTestResult result)
         {
-            return Load(result.SampleTest, result);
+            return LoadAsync(result.SampleTest, result);
         }
 
-        public async Task Load(SampleTest test, SampleTestResult result = null)
+        public async Task LoadAsync(SampleTest test, SampleTestResult result = null)
         {
             await ExtractCode(test.Code).ConfigureAwait(true);
             await LoadForm().ConfigureAwait(true);
             
             LoadValues(test.Values);
-            if (result!=null) LoadValues(result.Values);
+            
+            if (result!=null) 
+                LoadValues(result.Values);
+            
             test.Values = GetPackedValues(TestValueLevel.Test);
 
             if(result!=null)
-            result.Values = GetPackedValues(FormHelper.TestValueLevel.Result);
+                result.Values = GetPackedValues(TestValueLevel.Result);
 
             Form.Traitement(null,null);
         }

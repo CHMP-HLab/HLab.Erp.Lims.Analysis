@@ -24,8 +24,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
     {
         public Type ListProductType => typeof(ListProductPopupViewModel);
 
-        [Import]
-        public IErpServices Erp { get; }
+        [Import] public IErpServices Erp { get; }
         
         public SampleViewModel() { }
         [Import] public SampleViewModel(Func<int, ListSampleTestViewModel> getTests, ObservableQuery<Packaging> packagings)
@@ -127,6 +126,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         );
 
         public ICommand CertificateCommand { get; } = H.Command(c => c
+                //TODO : use current language
             .Action(e => e.PrintCertificate("FR"))
         );
 

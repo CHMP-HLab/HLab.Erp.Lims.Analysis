@@ -26,7 +26,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
         public ProductWorkflow Workflow => _workflow.Get();
         private readonly IProperty<ProductWorkflow> _workflow = H.Property<ProductWorkflow>(c => c
             .On(e => e.Model)
-            .Set(vm => new ProductWorkflow(vm.Model))
+            .OnNotNull(e => e.Locker)
+            .Set(vm => new ProductWorkflow(vm.Model,vm.Locker))
         );
     }
     class ProductViewModelDesign : ProductViewModel, IViewModelDesign

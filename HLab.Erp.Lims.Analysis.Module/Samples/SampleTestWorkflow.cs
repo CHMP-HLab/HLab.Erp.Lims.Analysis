@@ -1,4 +1,6 @@
-﻿using HLab.Erp.Lims.Analysis.Data;
+﻿using HLab.Erp.Acl;
+using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Erp.Workflows;
 using HLab.Notify.PropertyChanged;
 
@@ -6,17 +8,12 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
     public class SampleTestWorkflow : Workflow<SampleTestWorkflow, SampleTest>
     {
-        public SampleTestWorkflow(SampleTest test):base(test)
+        public SampleTestWorkflow(SampleTest test, IDataLocker locker):base(test,locker)
         {
             SetState(test.Stage);
         }
 
 
-        protected override bool OnSetState(State state)
-        {
-            Target.Stage = state.Name;
-            return true;
-        }
 
         private IProperty<bool> _ = H.Property<bool>(c => c
             .On(e => e.Target.Stage)
@@ -29,7 +26,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         //########################################################
         // Specifications
 
-        public static State Specifications = State.Create(c => c
+        public static State Specifications = State.CreateDefault(c => c
             .Caption("{Specifications}").Icon("Icons/Workflows/Specifications")
             .SetState(() => Specifications)
         );
@@ -42,12 +39,14 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public static State SignedSpecifications = State.Create(c => c
             .Caption("{Specifications Signed}").Icon("Icons/Workflows/SpecificationsSigned")
+            .NeedRight(AnalysisRights.AnalysisMonographSign)
             .SetState(() => SignedSpecifications)
         );
 
         public static Action ValidateSpecifications = Action.Create(c => c
             .Caption("{Sign specifications}").Icon("Icons/SampleTest/Validate")
             .FromState(()=>SignedSpecifications)
+            .NeedRight(AnalysisRights.AnalysisMonographValidate)
             .ToState(()=>Scheduling)
         );
 
@@ -72,7 +71,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public static Action ValidateResults = Action.Create(c => c
             .Caption("{Validate results}").Icon("Icons/SampleTest/Validate")
-            .FromState(()=>SignedSpecifications)
+            .FromState(()=>Running)
             .ToState(()=>ValidatedResults)
         );
 
@@ -86,5 +85,11 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Caption("{Validated}").Icon("Icons/Sample/PackageOpened")
             .SetState(() => ValidatedResults)
         );
+
+        protected override string StateName
+        {
+            get => Target.Stage; 
+            set => Target.Stage = value;
+        }
     }
 }
