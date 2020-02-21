@@ -48,7 +48,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         );
 
         public static Action Correct = Action.Create(c => c
-            .Caption("{Ask for correction}").Icon("Icons/SampleTest/Correction")
+            .Caption("{Correct}").Icon("Icons/SampleTest/Correction")
             .FromState(()=>CorrectionNeeded)
             .ToState(()=>Running)
         );
@@ -74,7 +74,13 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         // VALIDATED
         public static State Validated = State.Create(c => c
             .Caption("{Validated}").Icon("Icons/SampleTestResult/Validated")
-            .SetState(() => Signed)
+            .SetState(() => Validated)
+        );
+
+        public static Action AskForCorrection3 = Action.Create(c => c
+            .Caption("{Ask for correction}").Icon("Icons/SampleTest/Correction")
+            .FromState(()=>Validated)
+            .ToState(()=>CorrectionNeeded).Backward()
         );
 
         protected override string StateName { get; set; }
