@@ -98,6 +98,14 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             set => _form.Set(value);
         }
         private readonly IProperty<ITestForm> _form = H.Property<ITestForm>();
+
+        public SampleTest Test
+        {
+            get => _test.Get();
+            set => _test.Set(value);
+        }
+        private readonly IProperty<SampleTest> _test = H.Property<SampleTest>();
+
         public SampleTestResult Result
         {
             get => _result.Get();
@@ -128,7 +136,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             XamlMessage = "";
 
             const string header = @"
-<UserControl 
+            <UserControl 
             xmlns = ""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
             xmlns:x = ""http://schemas.microsoft.com/winfx/2006/xaml""
             xmlns:mc = ""http://schemas.openxmlformats.org/markup-compatibility/2006""
@@ -143,11 +151,11 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 <Grid.LayoutTransform><ScaleTransform ScaleX=""{Binding Scale,FallbackValue=4}"" ScaleY=""{Binding Scale,FallbackValue=4}""/></Grid.LayoutTransform>
                 <!--Content-->
                 </Grid>
-                </UserControl >
-";
+            </UserControl >
+            ";
 
             var xaml = header.Replace("<!--Content-->", Xaml, StringComparison.InvariantCulture);
-            xaml = ApplyLanguage(xaml);
+            xaml = await ApplyLanguage(xaml);
 
             // for theme compatibility
             xaml = xaml
@@ -211,15 +219,90 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             var connection = "\npublic void Connect(int connectionId, object target)\n{\nswitch (connectionId){\n";
             var elements = new List<FrameworkElement>();
             var n = 0;
+
+            _getSpecPackedValues = null;
+            _getPackedValues = null;
+
+            _setValue.Clear();
+
             foreach (FrameworkElement fe in FindLogicalChildren<FrameworkElement>(form))
             {
                 if (!String.IsNullOrEmpty(fe.Name))
                 {
                     elements.Add(fe);
-                    //declarations += "internal " + fe.GetType().Name + " " + fe.Name +";\r\n";
                     declarations += "public " + fe.GetType().Name + " " + fe.Name + ";\n";
-                    connection += "case " + n + ": this." + fe.Name + " = ((" + fe.GetType().Name +
-                                  ")(target)); return;\n";
+                    connection += "case " + n + ": this." + fe.Name + " = ((" + fe.GetType().Name + ")(target)); return;\n";
+
+                    if (fe is Control c)
+                    {
+                        var isSpec = false;
+                        if(fe.Tag is string tag)
+                        {
+                            tag = tag.ToLower();
+                            if (tag.Contains("spec") || tag.Contains("norme") ) isSpec = true;
+                        }
+
+                        Action<StringBuilder> getValues=null;
+
+                        switch (c)
+                        {
+                            case TextBoxEx tbe:
+                                getValues += sb =>
+                                {
+                                    sb.Append(c.Name).Append("=").Append(tbe.Double).Append("■");// Le séparateur est un ALT + 254
+                                };
+                                _setValue.Add(c.Name,s => tbe.Double = CSD(s));
+                                break;
+
+                            case TextBox tb:
+                                getValues += sb =>
+                                {
+                                    sb.Append(c.Name).Append("=").Append(tb.Text.Replace("■", "")).Append("■");
+                                };
+                                _setValue.Add(c.Name,s => tb.Text = s);
+                                break;
+                            case CheckBox cb:
+                                var idx = cb.Name.IndexOf("__", StringComparison.Ordinal);
+                                if (idx>=0)
+                                {
+                                    var cbValue = c.Name.Replace("__", "=") + "■";
+                                    getValues += sb =>
+                                    {
+                                        if (cb.IsChecked == true) sb.Append(cbValue);
+                                    };
+
+                                    var name = cb.Name.Substring(0, idx);
+                                    var thisValue = cb.Name.Substring(idx + 2);
+
+                                    void Setter(string s) => cb.IsChecked = (thisValue == s);
+
+                                    if (_setValue.TryGetValue(name, out var oldSetter))
+                                    {
+                                        oldSetter += Setter;
+                                    }
+                                    else _setValue.Add(name,Setter);
+                                }
+                                else
+                                {
+                                    getValues += sb =>
+                                    {
+                                        sb.Append(c.Name);
+                                        sb.Append(cb.IsChecked switch
+                                        {
+                                            null => "=N■",
+                                            false => "=0■",
+                                            true => "=1■",
+                                        });
+                                    };
+                                }
+
+                                break;
+                        }
+
+                        if (isSpec) _getSpecPackedValues += getValues;
+                        else _getPackedValues += getValues;
+                    }
+
                     n++;
                 }
             }
@@ -289,10 +372,11 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
                             chk.Add(checkBox);
 
+                            var t = test;
                             checkBox.PreviewMouseDown += (sender, args) =>
                             {
                                 args.Handled = true;
-                                test.CheckGroup(sender, chk.ToArray());
+                                t.CheckGroup(sender, chk.ToArray());
                                 module.Traitement(sender, args);
                                 SetFormMode(Mode);
                             };
@@ -331,107 +415,88 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
 
 
-        public string GetPackedValues(TestValueLevel level)
+        private Action<StringBuilder> _getSpecPackedValues;
+        private Action<StringBuilder> _getPackedValues;
+
+        public string GetPackedValues()
         {
-            if (Form is FrameworkElement form)
-            {
-                var values = "";
-                foreach (var c in FindLogicalChildren<Control>(form))
-                {
-                    var valueLevel = TestValueLevel.Result;
-                    if(c.Tag is string tag)
-                    {
-                        if (tag.Contains("spec") || tag.Contains("norme")) valueLevel = TestValueLevel.Test;
-                    }
+            if (_getPackedValues == null) return "";
 
+            var sb = new StringBuilder();
+            _getPackedValues(sb);
+            return sb.ToString();
+        }
+        public string GetSpecPackedValues()
+        {
+            if (_getSpecPackedValues == null) return "";
 
-                    if(valueLevel != level) continue;
-
-                    switch (c)
-                    {
-                        case TextBoxEx tbe:
-                            values += c.Name + "=" + tbe.Double + "■";
-                            break;
-                        case TextBox tb:
-                            values += c.Name + "=" + tb.Text.Replace("■", "") + "■"; // Le séparateur est un ALT + 254
-                            break;
-                        case CheckBox cb:
-                            if (cb.Name.Contains("__"))
-                            {
-                                if (cb.IsChecked == true)
-                                {
-                                    values += c.Name.Replace("__", "=") + "■";
-                                }
-                            }
-                            else
-                            {
-                                values +=
-                                    cb.IsChecked switch
-                                    {
-                                        null => (c.Name + "=N■"),
-                                        false => (c.Name + "=0■"),
-                                        true => (c.Name + "=1■")
-                                    };
-                            }
-
-                            break;
-                    }
-                }
-
-                return values;
-            }
-
-            return "";
+            var sb = new StringBuilder();
+            _getSpecPackedValues(sb);
+            return sb.ToString();
         }
 
         public void LoadValues([NotNull]string values)
         {
-            LoadValues(values.Split('■').ToList()); // Le séparateur est un ALT + 254
+            var dict = new Dictionary<string, string>();
+
+            foreach (var value in values.Split('■'))// Le séparateur est un ALT + 254
+            {
+                var v = value.Split("=");
+                if (v.Length > 1)
+                {
+                    dict.Add(v[0],v[1]);
+                }
+                else if (v.Length == 1)
+                {
+                    dict.Add(v[0],"");
+                }
+
+            }
+
+            LoadValues(dict);
         }
 
-        public void LoadValues(List<string> values)
+
+        private readonly Dictionary<string,Action<string>> _setValue = new Dictionary<string, Action<string>>(); 
+
+        public void LoadValues(Dictionary<string,string> values)
         {
-            if (Form is FrameworkElement form)
+            if (!(Form is FrameworkElement form)) return;
+
+            foreach (var c in FindLogicalChildren<Control>(form))
             {
-                foreach (var c in FindLogicalChildren<Control>(form))
-                {
-                    var nom = c.Name + "=";
-                    if (c.Name.Contains("__") && c is CheckBox chk)
-                    {
-                        var idx = c.Name.IndexOf("__");
-                        nom = c.Name.Substring(0, idx) + "=";
-                    }
+                var name = c.Name;
+                var idx = name.IndexOf("__", StringComparison.Ordinal);
+                var isBool = idx >= 0;
+                if (isBool && c is CheckBox chk) name = name.Substring(0, idx);
 
-                    foreach (var value in values)
+                if(values.TryGetValue(name,out var value))
+                    switch (c)
                     {
-                        if (value.Length < nom.Length || value.Substring(0, nom.Length) != nom) continue;
-                        switch (c)
-                        {
-                            case TextBoxEx tbe:
-                                tbe.Double = CSD(value.Substring(nom.Length));
-                                break;
-                            case TextBox tb:
-                                tb.Text = value.Substring(nom.Length);
-                                break;
-                            case CheckBox cb:
-                                if (c.Name.Contains("__"))
+                        case TextBoxEx tbe:
+                            tbe.Double = CSD(value);
+                            break;
+                        case TextBox tb:
+                            tb.Text = value;
+                            break;
+                        case CheckBox cb:
+                            if (isBool)
+                            {
+                                cb.IsChecked = (c.Name == name + "__" + value);
+                            }
+                            else
+                                cb.IsChecked = value switch
                                 {
-                                    cb.IsChecked = (c.Name == nom.Replace("=", "__") + value.Substring(nom.Length));
-                                }
-                                else
-                                    cb.IsChecked = value.Substring(nom.Length) switch
-                                    {
-                                        "N" => null,
-                                        "0" => false,
-                                        "1" => true,
-                                        _ => cb.IsChecked
-                                    };
+                                    "N" => null,
+                                    "0" => false,
+                                    "1" => true,
+                                    _ => cb.IsChecked
+                                };
 
-                                break;
-                        }
+                            break;
                     }
-                }
             }
+
         }
 
         // TODO : internationalize
@@ -449,13 +514,13 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
 
 
-        public static string ApplyLanguage(String text, string language = "")
+        public static async Task<string> ApplyLanguage(String text, string language = "")
         {
             // Choix de la langue
             if (language == "en")
-                return Regex.Replace(Regex.Replace(text, @"\{FR=[\s|!-\|~-■]*}", ""), @"\{US=([\s|!-\|~-■]*)}", "$1"); // En anglais
+                return await Task.Run(()=> Regex.Replace(Regex.Replace(text, @"\{FR=[\s|!-\|~-■]*}", ""), @"\{US=([\s|!-\|~-■]*)}", "$1")); // En anglais
 
-            return Regex.Replace(Regex.Replace(text, @"\{US=[\s|!-\|~-■]*}", ""), @"\{FR=([\s|!-\|~-■]*)}", "$1"); // En français
+            return await Task.Run(()=> Regex.Replace(Regex.Replace(text, @"\{US=[\s|!-\|~-■]*}", ""), @"\{FR=([\s|!-\|~-■]*)}", "$1")); // En français
         }
         public static int LineCount(string text)
         {
@@ -514,14 +579,12 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
             try
             {
-                await using (MemoryStream ms = new MemoryStream(bytes))
-                {
-                    await using var gz = new MemoryStream();
-                    await using var zipStream = new GZipStream(gz, CompressionMode.Compress);
-                    await zipStream.WriteAsync(ms.ToArray(), 0, ms.ToArray().Length);
-                    zipStream.Close();
-                    return gz.ToArray();
-                }
+                await using var ms = new MemoryStream(bytes);
+                await using var gz = new MemoryStream();
+                await using var zipStream = new GZipStream(gz, CompressionMode.Compress);
+                await zipStream.WriteAsync(ms.ToArray(), 0, ms.ToArray().Length);
+                zipStream.Close();
+                return gz.ToArray();
             }
             catch { }
 
@@ -529,13 +592,18 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
 
 
-        public bool SetFormMode(TestFormMode mode)
-        {
+        private static readonly Brush _normalBrush = new SolidColorBrush(Color.FromArgb(0x40, 0xFF, 0xFF, 0xFF));
+        private static readonly Brush _specificationNeededBrush = Brushes.PaleGreen;
+        private static readonly Brush _specificationDoneBrush = Brushes.DarkGreen;
+        private static readonly Brush _mandatoryBrush = Brushes.PaleVioletRed;
 
-            Brush normalBrush = new SolidColorBrush(Color.FromArgb(0x40, 0xFF, 0xFF, 0xFF));
-            Brush specificationNeededBrush = Brushes.PaleGreen;
-            Brush specificationDoneBrush = Brushes.DarkGreen;
-            Brush mandatoryBrush = Brushes.PaleVioletRed;
+
+        private bool SetFormMode(TestFormMode mode)
+        {
+            var isSpecMode = (mode == TestFormMode.Specification);
+            var isCaptureMode = (mode == TestFormMode.Capture);
+            var isReadMode = (mode == TestFormMode.ReadOnly);
+
 
             var specificationNeeded = 0;
             var mandatoryNeeded = 0;
@@ -545,17 +613,21 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             var mandatoryDone = 0;
             var optionalDone = 0;
 
+            var mandatoryBrush = isSpecMode ? _normalBrush : _mandatoryBrush;
+
+
             if (Form is FrameworkElement form)
             {
                 foreach (var c in FindLogicalChildren<Control>(form))
                 {
-                    var tag = c.Tag?.ToString()??"";
+                    var tag = c.Tag?.ToString().ToLower()??"";
 
-                    var spec = (tag.Contains("Norme") || tag.Contains("Specification"));
-                    var mandatory = (tag.Contains("Obligatoire") || tag.Contains("Mandatory"));
+                    var spec = (tag.Contains("norme") || tag.Contains("spec"));
+                    var mandatory = (tag.Contains("obligatoire") || tag.Contains("mandatory"));
 
-                    var doneBrush = spec?specificationDoneBrush:normalBrush;
-                    var todoBrush = spec?specificationNeededBrush:mandatory?mandatoryBrush:normalBrush;
+                    var doneBrush = spec?_specificationDoneBrush:_normalBrush;;
+                    var todoBrush = spec?_specificationNeededBrush:mandatory?mandatoryBrush:_normalBrush;
+
 
                     Action todo;
                     if (spec) todo = () => specificationNeeded++;
@@ -568,8 +640,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                     else done = () => optionalDone++;
 
                     var enabled =
-                        (spec && mode == TestFormMode.Specification)
-                        || (!spec && mode == TestFormMode.Capture);
+                        (spec && isSpecMode)
+                        || (!spec && isCaptureMode);
 
                     switch (c)
                     {
@@ -610,6 +682,9 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 }
 
             }
+
+            if (isSpecMode) Test.Values = GetSpecPackedValues();
+            if (isCaptureMode && Result!=null) Result.Values = GetPackedValues();
 
             if(mandatoryNeeded>0) Form.Test.State = mandatoryDone>0 ? TestState.Running : TestState.NotStarted;
             if(specificationNeeded>0) Form.Test.State = TestState.NotStarted;
@@ -746,6 +821,9 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         public async Task LoadAsync(SampleTest test, SampleTestResult result = null)
         {
+            Test = test;
+            Result = result;
+
             await ExtractCode(test.Code).ConfigureAwait(true);
             await LoadForm().ConfigureAwait(true);
             
@@ -754,10 +832,10 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             if (result!=null) 
                 LoadValues(result.Values);
             
-            test.Values = GetPackedValues(TestValueLevel.Test);
+            test.Values = GetSpecPackedValues();
 
             if(result!=null)
-                result.Values = GetPackedValues(TestValueLevel.Result);
+                result.Values = GetPackedValues();
 
             Form.Traitement(null,null);
         }

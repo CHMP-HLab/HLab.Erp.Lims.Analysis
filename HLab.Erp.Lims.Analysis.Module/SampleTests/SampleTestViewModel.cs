@@ -30,7 +30,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         private IDataService _data;
 
         public FormHelper FormHelper => _formHelper.Get();
-        private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c.Default(new FormHelper()));
+        private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c
+            .Default(new FormHelper()));
+
         public async Task LoadResultAsync(SampleTestResult target=null)
         {
             await FormHelper.LoadAsync(Model,target).ConfigureAwait(true);
@@ -39,13 +41,14 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
             if (state == SampleTestWorkflow.Specifications)
             {
-                FormHelper.SetFormMode(TestFormMode.Specification);
+                FormHelper.Mode = TestFormMode.Specification;
             }
             else if (state == SampleTestWorkflow.Running)
             {
-                FormHelper.SetFormMode(TestFormMode.Capture);
+                FormHelper.Mode = TestFormMode.Capture;
             }
-            else FormHelper.SetFormMode(TestFormMode.ReadOnly);
+            else 
+                FormHelper.Mode = TestFormMode.ReadOnly;
         }
 
         public SampleTestWorkflow Workflow => _workflow.Get();
