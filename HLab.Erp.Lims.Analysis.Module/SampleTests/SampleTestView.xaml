@@ -19,12 +19,18 @@
 </Grid.ColumnDefinitions>
 
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
             <!--<Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>-->
         <!--<local:SampleTestDetailView/>-->
             <mvvm:ViewLocator ViewClass="{x:Type details:IViewClassDetail}" Model="{Binding}"/>
+
+            <mvvm:ViewLocator ViewClass="{x:Type details:IViewClassDetail}"  Grid.Row="1" Model="{Binding Results.Selected}"/>
 
         <!--<Grid Grid.Row="1" VerticalAlignment="Top" mvvm:ViewLocator.ViewClass="{x:Type annotations:IViewClassContent}">
             <ContentControl Content="{Binding Results}"/>
@@ -34,9 +40,16 @@
 
         <GridSplitter Grid.Column="1"/>
 
-        <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
-            <ContentControl Content="{Binding FormHelper.Form}" IsEnabled="{Binding Locker.IsActive}"/>
-        </ScrollViewer>
+        <Grid Grid.Column="2" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--<mvvm:ViewLocator Model="{Binding Results.Selected}" MinHeight="50"/>-->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <ContentControl Content="{Binding FormHelper.Form}" IsEnabled="{Binding Locker.IsActive}"/>
+            </ScrollViewer>
+        </Grid>
             
     </Grid>
 </UserControl>

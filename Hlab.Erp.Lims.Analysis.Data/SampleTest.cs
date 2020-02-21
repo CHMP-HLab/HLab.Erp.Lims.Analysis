@@ -134,8 +134,8 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _values.Get();
             set => _values.Set(value);
         }
-
         private readonly IProperty<string> _values = H.Property<string>(c => c.Default(""));
+
         public int? ResultId
         {
             get => _result.Id.Get();
