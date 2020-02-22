@@ -68,7 +68,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         public static Action Validate = Action.Create(c => c
             .Caption("{Validate}").Icon("Icons/SampleTest/Sign")
             .FromState(()=>Checked)
-            .ToState(()=>Signed)
+            .ToState(()=>Validated)
         );
 
         // VALIDATED
@@ -83,6 +83,10 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             .ToState(()=>CorrectionNeeded).Backward()
         );
 
-        protected override string StateName { get; set; }
+        protected override string StateName
+        {
+            get => Target.Stage; 
+            set => Target.Stage = value;
+        }
     }
 }

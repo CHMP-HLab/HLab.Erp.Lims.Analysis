@@ -8,6 +8,7 @@ using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Samples;
+using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
 using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Mvvm.Annotations;
@@ -20,7 +21,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
     }
 
-    public class SampleTestViewModel : EntityViewModel<SampleTestViewModel,SampleTest>
+    public class SampleTestViewModel : EntityViewModel<SampleTestViewModel,SampleTest>, IMvvmContextProvider
     {
         [Import] private readonly Func<int, ListTestResultViewModel> _getResults;
 
@@ -127,5 +128,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         }
 
         public string Title => Model.Sample?.Reference + "\n" + Model.TestName + "\n" + Model.Description;
+        public void ConfigureMvvmContext(IMvvmContext ctx)
+        {
+            ctx.AddCreator<SampleTestResultViewModel>(vm => vm.Parent = this);
+        }
     }
 }

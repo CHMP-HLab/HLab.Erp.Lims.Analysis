@@ -50,7 +50,12 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             )
         );
 
-
+        public SampleTestViewModel Parent
+        {
+            get => _parent.Get();
+            set => _parent.Set(value);
+        }
+        private readonly IProperty<SampleTestViewModel> _parent = H.Property<SampleTestViewModel>();
 
         //public string Title => Model.Sample?.Reference + "\n" + Model.TestName + "\n" + Model.Description;
     }

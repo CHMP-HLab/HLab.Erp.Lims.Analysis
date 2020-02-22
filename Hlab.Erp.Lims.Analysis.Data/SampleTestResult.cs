@@ -83,6 +83,12 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _validation.Set(value);
         }
         private readonly IProperty<int?> _validation = H.Property<int?>();
+        public string Stage
+        {
+            get => _stage.Get();
+            set => _stage.Set(value);
+        }
+        private readonly IProperty<string> _stage = H.Property<string>();
 
     }
 }
