@@ -89,6 +89,12 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _stage.Set(value);
         }
         private readonly IProperty<string> _stage = H.Property<string>();
+        public string Name
+        {
+            get => _name.Get();
+            set => _name.Set(value);
+        }
+        private readonly IProperty<string> _name = H.Property<string>();
 
     }
 }

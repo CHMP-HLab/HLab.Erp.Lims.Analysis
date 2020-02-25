@@ -40,14 +40,10 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
             var state = Workflow.CurrentState;
 
-            if (state == SampleTestWorkflow.Specifications)
-            {
+            if (state == SampleTestWorkflow.Specifications) 
                 FormHelper.Mode = TestFormMode.Specification;
-            }
-            else if (state == SampleTestWorkflow.Running)
-            {
+            else if (state == SampleTestWorkflow.Running) 
                 FormHelper.Mode = TestFormMode.Capture;
-            }
             else 
                 FormHelper.Mode = TestFormMode.ReadOnly;
         }
@@ -75,6 +71,24 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 && e.Workflow.CurrentState == SampleTestWorkflow.Specifications
                 && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisMonographSign)
             )
+        );
+        public bool ResultMode => _resultMode.Get();
+        private IProperty<bool> _resultMode = H.Property<bool>(c => c
+            .On(e => e.Locker.IsActive)
+            .On(e => e.Workflow.CurrentState)
+            .NotNull(e => e.Locker)
+            .NotNull(e => e.Workflow)
+            .Set(e => 
+                e.Locker.IsActive 
+                && e.Workflow.CurrentState == SampleTestWorkflow.Running
+                && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisResultEnter)
+            )
+        );
+        public bool FormHelperIsActive => _formHelperIsActive.Get();
+        private IProperty<bool> _formHelperIsActive = H.Property<bool>(c => c
+        .On(e => e.EditMode)
+        .On(e => e.ResultMode)
+        .Set(e => e.EditMode || e.ResultMode)
         );
 
         public ListTestResultViewModel Results => _results.Get();
@@ -126,7 +140,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             if (test != null)
                 Results.List.UpdateAsync();
         }
-
+        
+        
         public string Title => Model.Sample?.Reference + "\n" + Model.TestName + "\n" + Model.Description;
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {

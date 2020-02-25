@@ -56,7 +56,29 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             set => _parent.Set(value);
         }
         private readonly IProperty<SampleTestViewModel> _parent = H.Property<SampleTestViewModel>();
+        public FormHelper FormHelper => _formHelper.Get();
+        private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c
+            .Default(new FormHelper()));
 
-        //public string Title => Model.Sample?.Reference + "\n" + Model.TestName + "\n" + Model.Description;
+        private readonly IProperty<bool> _ = H.Property<bool>(c => c
+            .On(e => e.Model)
+            .OnNotNull(e => e.Workflow)
+            .Do(async e => await e.LoadResultAsync())
+        );
+
+
+        public async Task LoadResultAsync()
+        {
+            await FormHelper.LoadAsync(Model).ConfigureAwait(true);
+
+            var state = Workflow.CurrentState;
+
+            if (state == SampleTestResultWorkflow.Running) 
+                FormHelper.Mode = TestFormMode.Capture;
+            else 
+                FormHelper.Mode = TestFormMode.ReadOnly;
+        }
+
+        public string Title => Model.SampleTest.Sample?.Reference + "\n" + Model.SampleTest.TestName + "\n" + Model.SampleTest.Description+ "\n" + Model.Name;
     }
 }

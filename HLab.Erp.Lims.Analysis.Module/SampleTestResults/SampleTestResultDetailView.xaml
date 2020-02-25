@@ -30,6 +30,9 @@
             <StackPanel Orientation="Vertical">
                 <views:DetailView Grid.Row="1" IconPath="{Binding Model.SampleTest.TestClass.IconPath}" Text="{Binding Model.SampleTest.TestClass.Name}" >
 
+                    <lang:LocalizedLabel Text="{}{Name} : " HorizontalContentAlignment="Right" />
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Name}" />
+
                     <lang:LocalizedLabel Text="{}{Start} : " HorizontalContentAlignment="Right" />
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Start}" />
 
