@@ -72,7 +72,7 @@
                             </StackPanel>
                             <Label/>
                             <StackPanel>
-                                <Label Content="{}{Technician}" HorizontalAlignment="Left"/>
+                                <lang:LocalizedLabel Text="{}{Technician}"/>
                                 <entitySelectors:ForeignView
                                     IsReadOnly="{Binding IsReadOnlyMonograph}"
                                     Model="{Binding Model.User}"
@@ -81,9 +81,7 @@
                             </StackPanel>
                             <Label/>
                             <StackPanel Orientation="Vertical">
-                                <Label>
-                                    <lang:Localize Id="{}{Pharmacopoeia}"/>
-                                </Label>
+                                <lang:LocalizedLabel Text="{}{Pharmacopoeia}"/>
                                 <entitySelectors:ForeignView 
                                     IsReadOnly="{Binding IsReadOnlyMonograph}"
                                     Model="{Binding Model.Pharmacopoeia}"
@@ -92,21 +90,29 @@
                             </StackPanel>
                             <Label/>
                             <StackPanel>
-                                <Label HorizontalAlignment="Right">
-                                    <lang:Localize Id="{}{Pharmacopoeia version}"/>
-                                </Label>
+                                <lang:LocalizedLabel Text="{}{Pharmacopoeia version}"/>
                                 <TextBox 
                                     IsReadOnly="{Binding IsReadOnlyMonograph}"
                                     Text="{Binding Model.PharmacopoeiaVersion}" 
                                     HorizontalContentAlignment="Right" 
                                     HorizontalAlignment="Stretch"/>
+                                
+                            </StackPanel>
+                            <StackPanel>
+                                <lang:LocalizedLabel Text="{}{Add}"/>
+                                <entitySelectors:ForeignView DockPanel.Dock="Top"
+                                    IsReadOnly="{Binding IsReadOnlyMonograph}"
+                                    ModelClass="{x:Type data:TestClass}"
+                                    Command="{Binding AddTestCommand}"
+                                    >
+                                    <lang:Localize Id="{}{Add Test}"/>
+                                </entitySelectors:ForeignView>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
 
                 </Grid>
-
-
+            
 
                 <!--<StackPanel Grid.Row="1">
                     --><!--<icons:IconView Id="Icons/Analysis" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40"/>--><!--
@@ -123,30 +129,22 @@
                     </Button>
                 </StackPanel>-->
 
-                <Rectangle Grid.Row="2" Height="50" Stroke="Black" StrokeThickness="0" VerticalAlignment="Top" Margin="0,6,0,0">
-                    <Rectangle.Fill>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#7FFFFFFF" Offset="1"/>
-                            <GradientStop Color="#00D6E7D1"/>
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
 
                 <Grid Grid.Row="2" VerticalAlignment="Top">
                     <mvvm:ViewLocator 
+                        Foreground="White"
                         ViewClass="{x:Type annotations:IViewClassContent}"
                         Model="{Binding Tests}"
                         />
                 </Grid>
 
-                <DockPanel Grid.Row="3" Height="80" VerticalAlignment="Bottom">
-                    <entitySelectors:ForeignView DockPanel.Dock="Top"
-                        IsReadOnly="{Binding IsReadOnlyMonograph}"
-                        ModelClass="{x:Type data:TestClass}"
-                        Command="{Binding AddTestCommand}"
-                        >
-                        <lang:Localize Id="{}{Add Test}"/>
-                    </entitySelectors:ForeignView>
+                <Grid Grid.Column="2" Grid.Row="3" Height="80" VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                    
+                    
                     <!--<StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right">
                         <RadioButton BorderBrush="#80000000" GroupName="CertificatLangue" IsChecked="True">
                             <lang:Localize Id="{}{French}"/>
@@ -156,25 +154,29 @@
                             <lang:Localize Id="{}{English}"/>
                         </RadioButton>
                     </StackPanel>-->
-                    <lang:Localize DockPanel.Dock="Top" Id="{}{Conclusion}"/>
-                    <TextBlock Width="Auto" DockPanel.Dock="Right" Margin="0,0,5,0" />
-                    <TextBox VerticalScrollBarVisibility="Auto" 
-                             Text="{Binding Model.Conclusion}" 
-                             AcceptsReturn="True" 
-                             TextWrapping="Wrap" 
-                             DockPanel.Dock="Left" 
-                             Height="80" Margin="0,0,5,0" />
-
+                    
+                    <StackPanel>
+                        <lang:LocalizedLabel Foreground="White" DockPanel.Dock="Top" Text="{}{Conclusion}"/>
+                    
+                        <TextBox VerticalScrollBarVisibility="Auto" 
+                                 Text="{Binding Model.Conclusion}" 
+                                 AcceptsReturn="True" 
+                                 TextWrapping="Wrap" 
+                                 DockPanel.Dock="Left" 
+                                 HorizontalAlignment="Stretch"
+                                 HorizontalContentAlignment="Stretch"
+                                 Margin="0,0,5,0" VerticalAlignment="Stretch"/>
+                    </StackPanel>
                     <Button
+                        Grid.Column="1"
                             Width="80" 
                             IsCancel="False" 
                             Command="{Binding CertificateCommand}">
                         <lang:Localize Id="{}{Certificate}"/>
                     </Button>
 
-                </DockPanel>
+                </Grid>
             </Grid>
-
             <!--<Grid Grid.Column="2">
                 <CheckBox
                           Height="23" 

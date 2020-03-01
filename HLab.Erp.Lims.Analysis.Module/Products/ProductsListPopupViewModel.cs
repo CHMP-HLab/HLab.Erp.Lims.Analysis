@@ -12,15 +12,15 @@ using HLab.Erp.Core.ListFilters;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
-    public class ListProductPopupViewModel : EntityListViewModel<ListProductPopupViewModel, Product>, IMvvmContextProvider
+    public class ProductsListPopupViewModel : EntityListViewModel<ProductsListPopupViewModel, Product>, IMvvmContextProvider
     {
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }
 
-        public string Title => "Product";
+        public string Title => "{Products}";
         [Import]
-        public ListProductPopupViewModel()
+        public ProductsListPopupViewModel()
         {
             Columns
                 .Column("{Ref}", s => s.Caption)

@@ -11,11 +11,9 @@ using HLab.Mvvm.Icons;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
-    public class ListProductViewModel: EntityListViewModel<ListProductViewModel,Product>, IMvvmContextProvider
+    public class ProductsListViewModel: EntityListViewModel<ProductsListViewModel,Product>, IMvvmContextProvider
     {
-        public string Title => "{Products}";
-
-        public ListProductViewModel() 
+        public ProductsListViewModel() 
         {
             AddAllowed = true;
             DeleteAllowed = true;
@@ -34,7 +32,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
                 Filters.Add(new FilterTextViewModel{Title = "{Inn}"}.Link(List,e => e.Inn));
                 Filters.Add(new FilterTextViewModel{Title = "{Dose}"}.Link(List,e => e.Dose));
             }
-
         }
 
         public void ConfigureMvvmContext(IMvvmContext ctx)

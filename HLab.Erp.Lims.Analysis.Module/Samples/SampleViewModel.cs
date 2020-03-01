@@ -22,7 +22,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
     class SampleViewModel : EntityViewModel<SampleViewModel,Sample>
     {
-        public Type ListProductType => typeof(ListProductPopupViewModel);
+        public Type ListProductType => typeof(ProductsListPopupViewModel);
 
         [Import] public IErpServices Erp { get; }
         
@@ -33,8 +33,19 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             Packagings = packagings;
             Packagings.UpdateAsync();
         }
-        public string Title => Model.Customer?.Name??"{New sample}" + "\n" + Model.Product?.Caption + "\n" + Model.Reference;
-
+        public override string Title => _title.Get();
+        private IProperty<string> _title = H.Property<string>(c => c
+            .On(e => e.Model.Reference)
+            .NotNull(e => e.Model)
+            .Set(e => e.Model.Reference??"{New sample}")
+        );
+        public string SubTitle => Model.Customer?.Name??"{New sample}" + "\n" + Model.Product?.Caption + "\n" + Model.Reference;
+        private IProperty<string> _subTitle = H.Property<string>(c => c
+            .On(e => e.Model.Customer.Name)
+            .On(e => e.Model.Product.Caption)
+            .NotNull(e => e.Model)
+            .Set(e => e.Model.Customer?.Name??"{Customer}" + "\n" + e.Model.Product?.Caption??"{Product}")
+        );
         public ObservableQuery<Packaging> Packagings { get; }
 
         [TriggerOn(nameof(Packagings),"Item","Secondary")]
@@ -121,6 +132,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         private readonly IProperty<SampleWorkflow> _workflow = H.Property<SampleWorkflow>(c => c
             .On(e => e.Model)
             .On(e => e.Locker)
+            .NotNull(e => e.Model)
             .NotNull(e => e.Locker)
             .Set(vm => new SampleWorkflow(vm.Model,vm.Locker))
         );

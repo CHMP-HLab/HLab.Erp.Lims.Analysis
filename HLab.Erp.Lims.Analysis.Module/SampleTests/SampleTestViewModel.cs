@@ -114,9 +114,32 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         );
 
         public ICommand AddResultCommand { get; } = H.Command(c => c
-            //.CanExecute(e => e.Acl.IsGranted(AnalysisRights.AnalysisAddResult))
+            .CanExecute(e => e._addResultCanExecute())
             .Action((e,t) => e.AddResult(e.Results.Selected))
         );
+        public ICommand DeleteResultCommand { get; } = H.Command(c => c
+            .CanExecute(e => e._deleteResultCanExecute())
+            .Action((e,t) => e.DeleteResult(e.Results.Selected))
+        );
+
+        private bool _addResultCanExecute()
+        {
+            if(!Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
+            if(Workflow.CurrentState != SampleTestWorkflow.Running) return false;
+
+            return true;
+        }
+
+        private bool _deleteResultCanExecute()
+        {
+            if(!Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
+            if(Workflow.CurrentState != SampleTestWorkflow.Running) return false;
+            if(Results.Selected == null) return false;
+            if(Results.Selected.Stage!="Running") return false;
+            if(Model.Result.Id == Results.Selected.Id) return false;
+            return true;
+        }
+
         public ICommand SelectResultCommand { get; } = H.Command(c => c
             //.CanExecute(e => e.Results.List.Selected.Validation == 3)
             .Action(async (e,t) => await e.SelectResult(e.Results.Selected))
@@ -131,8 +154,22 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         private void AddResult(SampleTestResult previous)
         {
+            int i = 0;
+
+            foreach (var r in Results.List)
+            {
+                var n = r.Name??"";
+                if (n.StartsWith("R")) n = n.Substring(1);
+
+                if(int.TryParse(n, out var v))
+                {
+                    i = Math.Max(i,v);
+                }
+            }            
+            
             var test = _data.Add<SampleTestResult>(r =>
             {
+                r.Name = string.Format("R{0}",i+1);
                 r.SampleTest = Model;
                 r.UserId = Model.UserId;
             });
@@ -140,9 +177,30 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             if (test != null)
                 Results.List.UpdateAsync();
         }
+
+        private void DeleteResult(SampleTestResult result)
+        {
+            if(_deleteResultCanExecute())
+            {
+                _data.Delete(result);
+
+            }
+        }
         
         
-        public string Title => Model.Sample?.Reference + "\n" + Model.TestName + "\n" + Model.Description;
+        public override string Title => _title.Get();
+        private IProperty<string> _title = H.Property<string>(c => c
+            .On(e => e.Model.Sample.Reference)
+            .Set(e => e.Model.Sample?.Reference)
+        );
+
+        public string SubTitle => _subTitle.Get();
+        private IProperty<string> _subTitle = H.Property<string>(c => c
+            .On(e => e.Model.TestName)
+            .On(e => e.Model.Description)
+            .Set(e => e.Model.TestName + "\n" + e.Model.Description)
+        );
+
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
             ctx.AddCreator<SampleTestResultViewModel>(vm => vm.Parent = this);

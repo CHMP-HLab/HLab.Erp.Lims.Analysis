@@ -13,7 +13,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
 {
     using H = NotifyHelper<ProductsDataModule>;
 
-    public class ProductsDataModule : ErpDataModule<ProductsDataModule,ListProductViewModel>
+    public class ProductsDataModule : ErpDataModule<ProductsDataModule,ProductsListViewModel>
     {
 
     }

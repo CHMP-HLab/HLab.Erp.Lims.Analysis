@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
@@ -42,6 +43,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             List.OrderBy = e => e.Start;
 
              Columns
+                .Column("{Name}", s => s.Name)
                 .Column("{Start}", s => s.Start)
                 .Column("{End}", s => s.End)
                 .Column("{Result}", s => s.Result)
@@ -63,8 +65,23 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         {
             var target = Selected;
 
+            int i = 0;
+
+            foreach (var r in List)
+            {
+                var n = r.Name;
+                if (n.StartsWith("R")) n = n.Substring(1);
+
+                if(int.TryParse(n, out var v))
+                {
+                    i = Math.Max(i,v);
+                }
+            }
+
+
             var result  = await _data.AddAsync<SampleTestResult>(r =>
             {
+                r.Name = string.Format("R{0}",i+1);
                 r.SampleTestId = _sampleTestId;
                 if(target!=null)
                 {

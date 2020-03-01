@@ -28,6 +28,14 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             }
         }
 
+        private string GetStateIcon(string name)
+        {
+            var n = SampleWorkflow.Reception; // TODO : this is a hack to force top level static constructor
+
+            var state = SampleWorkflow.StateFromName(name);
+            return state?.GetIconPath(null);
+        }
+
         [Import] public ListSampleViewModel(IErpServices erp) 
         {
             AddAllowed = true;
@@ -39,8 +47,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 .Column("{Ref}",  s => s.Reference)
                 .Column("{FileId}",  s => s.FileId?.ToString()??"", s => s.FileId)
                 .Icon("",  s => s.Customer?.Country?.IconPath??"", s => s.Customer.Country.Name)
-                .Column("{Customer}",  s => s.Customer.Name)
-                .Column("{Product}",  s => s.Product.Caption)
+                .Column("{Customer}",  s => s.Customer?.Name, s => s.Customer.Name)
+                .Column("{Product}",  s => s.Product?.Caption, s => s.Product.Caption)
                 .Icon("{Form}", (s) => s.Product?.Form?.IconPath??"", s => s.Product.Form.Name)
                 .Column("{Manufacturer}",  s => s.Manufacturer?.Name, s => s.Manufacturer.Name)
                 .Column("{Qty}",  s => s.ReceivedQuantity)
@@ -48,7 +56,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 .Column("{Notification}",  s => s.NotificationDate?.ToString("dd/MM/yyyy")??"", s => s.NotificationDate)
                 .Column("{Validator}",  s => s.Validator)
                 .Column("{Progress}",  s => new ProgressViewModel {Value = s.Progress ?? 0}, s=> s.Progress)
-                .Icon("{State}",  s => s.State != null ? GetStateIcon(s.State.Value) : "", s=> s.State)
+                .Icon("{Stage}",  s => s.Stage != null ? GetStateIcon(s.Stage) : "", s=> s.Stage)
+//                .Icon("{State}",  s => s.State != null ? GetStateIcon(s.State.Value) : "", s=> s.State)
                 .Hidden("IsValid",  s => s.Validation != 2)
                 ;
 

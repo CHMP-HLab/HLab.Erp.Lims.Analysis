@@ -79,6 +79,17 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
                 FormHelper.Mode = TestFormMode.ReadOnly;
         }
 
-        public string Title => Model.SampleTest.Sample?.Reference + "\n" + Model.SampleTest.TestName + "\n" + Model.SampleTest.Description+ "\n" + Model.Name;
+        public override string Title => _title.Get();
+        private IProperty<string> _title = H.Property<string>(c => c
+            .On(e => e.Model.SampleTest.Sample.Reference)
+            .On(e => e.Model.Name)
+            .Set(e => e.Model.SampleTest.Sample?.Reference + " - " + e.Model.Name)
+            );
+        public string SubTitle => _subTitle.Get();
+        private IProperty<string> _subTitle = H.Property<string>(c => c
+            .On(e => e.Model.SampleTest.TestName)
+            .On(e => e.Model.SampleTest.Description)
+            .Set(e => e.Model.SampleTest.TestName + "\n" + e.Model.SampleTest.Description)
+            );
     }
 }

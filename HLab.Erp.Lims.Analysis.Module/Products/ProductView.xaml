@@ -17,68 +17,32 @@
              d:DataContext="{d:DesignInstance {x:Type local:ProductViewModelDesign}, IsDesignTimeCreatable=True}"             
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid.Resources>
-            <Style TargetType="{x:Type views:DetailView}">
-                <Style.Resources>
-                    <Style TargetType="{x:Type TextBox}">
-                        <Setter Property="IsReadOnly" Value="{Binding Locker.IsReadOnly}"/>
-                    </Style>
-                </Style.Resources>
-            </Style>
-        </Grid.Resources>
 <Grid.RowDefinitions>
     <RowDefinition Height="Auto"/>
     <RowDefinition Height="*"/>
+    <RowDefinition Height="Auto"/>
 </Grid.RowDefinitions>
 
+<mvvm:ViewLocator Height="50" Model="{Binding Locker}"/>
 
-
-        <views:DetailView Grid.Row="0">
-            <mvvm:ViewLocator Height="50" Model="{Binding Locker}" Grid.ColumnSpan="2"/>
-
-            <Label>
-                <lang:Localize Id="Workflow" Margin="50,0,0,0"/>
-            </Label>
-            <ContentPresenter Content="{Binding Workflow}"/>
-
-        </views:DetailView>
-
-
-
-            <views:DetailView Grid.Row="1">
-                <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
-                    <Grid VerticalAlignment="Center">
-                        <Canvas DockPanel.Dock="Left">
-                            <icons:IconView Path = "Icons/Sample/Drugs" Height="35" Opacity="0.8"/>
-                        </Canvas>
-                        <lang:Localize Id="{}{Product}" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                        <!--<icons:IconView HorizontalAlignment="Right" Height="35" Id="{Binding Model.Customer.Country.IconPath}"/>-->
-                    </Grid>
-                </Label>
-                <Label HorizontalContentAlignment="Right">
-                    <lang:Localize Id="{}{INN}" StringFormat="{}{0} : "/>
-                </Label>
-                <TextBox
-                    TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Inn}" HorizontalContentAlignment="Center" />
-                <Label HorizontalContentAlignment="Right">
-                    <lang:Localize Id="{}{Dose}" StringFormat="{}{0} : "/>
-                </Label>
-                <TextBox
-                    TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Dose}" HorizontalContentAlignment="Center" />
-                <Label HorizontalContentAlignment="Right">
-                    <lang:Localize Id="{}{Form}" StringFormat="{}{0} : "/>
-                </Label>
-                <!--<TextBox
-                    TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Form.Name ,Mode=OneWay}" HorizontalContentAlignment="Center" />-->
-                <entitySelectors:ForeignView
+            <views:DetailView 
+                Grid.Row="1" 
+                Text="{}{Product}" 
+                IconPath="Icons/Sample/Drugs"
+                EditMode="{Binding Locker.IsActive}">
+                
+            <lang:LocalizedLabel Text="{}{INN} : "/>
+            <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Inn}" HorizontalContentAlignment="Center" />
+                
+            <lang:LocalizedLabel Text="{}{Dose} : "/>
+            <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Dose}" HorizontalContentAlignment="Center" />
+                
+            <lang:LocalizedLabel Text="{}{Form} : "/>
+            <entitySelectors:ForeignView
                     HorizontalAlignment="Left"
                     ModelClass="{x:Type data:Form}"
                     Model ="{Binding Model.Form}"
-                    IsReadOnly="{Binding Locker.IsReadOnly}"
                     />
-                
-                <!--<TextBox
-                    TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Form.Name ,Mode=OneWay}" HorizontalContentAlignment="Center" />-->
             </views:DetailView>
     </Grid>
 </UserControl>

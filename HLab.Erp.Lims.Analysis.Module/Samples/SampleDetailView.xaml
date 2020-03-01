@@ -63,22 +63,21 @@
                 </views1:DetailView>
 
                 <!-- PRODUCT -->            
-                <views1:DetailView IconPath="{Binding Model.Product.Form.IconPath,FallbackValue=icons}" Text="{}{Product}">
+                <views1:DetailView EditMode="{Binding EditMode}" IconPath="{Binding Model.Product.Form.IconPath,FallbackValue=icons}" Text="{}{Product}">
 
                     <lang:LocalizedLabel Text="{}{INN} : "/>
                         <entitySelectors:ForeignView 
                         Model="{Binding Model.Product}"
                         ModelClass="{x:Type data:Product}" 
-                        ListClass="{x:Type products:ListProductPopupViewModel}"/>
+                        ListClass="{x:Type products:ProductsListPopupViewModel}"/>
 
                 </views1:DetailView>
 
                 <!-- RECEPTION -->            
-                <views1:DetailView IconPath="icons/Sample/PackageOpened" Text="{}{Reception}">
+                <views1:DetailView EditMode="{Binding EditMode}" IconPath="icons/Sample/PackageOpened" Text="{}{Reception}">
 
                     <lang:LocalizedLabel Text="{}{Date} :" />
                     <base:DateEx
-                            IsReadOnly="{Binding IsReadOnly}"
                             HorizontalAlignment="Left"
                             Date="{Binding Model.ReceptionDate}" 
                             DayValid="True"
@@ -131,7 +130,7 @@
                 </views1:DetailView>
 
                 <!-- LOT -->            
-                <views1:DetailView IconPath="Icons/Sample/Barcode" Text="{}{Batch}">
+                <views1:DetailView EditMode="{Binding EditMode}" IconPath="Icons/Sample/Barcode" Text="{}{Batch}">
 
                     <lang:LocalizedLabel Text="{}{N°} : "/>
                     <TextBox  
@@ -204,7 +203,7 @@
                 </views1:DetailView>
 
                 <!-- PACKAGING -->            
-                <views1:DetailView IconPath="Icons/Sample/Packaging" Text="{}{Packaging}">
+                <views1:DetailView EditMode="{Binding EditMode}" IconPath="Icons/Sample/Packaging" Text="{}{Packaging}">
 
                     <lang:LocalizedLabel Text="{}{Original packaging} : " VerticalContentAlignment="Center"/>
                     <views:YesNoView Value="{Binding Model.InOriginalPackaging}"/>
@@ -336,7 +335,7 @@
         </ScrollViewer>
 
         <!-- NOTE -->
-        <views1:DetailView Grid.Row="2" IconPath="Icons/Edit" Text="{}{Note}">
+        <views1:DetailView Grid.Row="2" EditMode="{Binding Locked.IsActive}" IconPath="Icons/Edit" Text="{}{Note}">
 
             <TextBox Margin="50,0,15,0"  Grid.ColumnSpan="2"  Text="{Binding Model.Note}" AcceptsReturn="True" TextWrapping="Wrap"/>
             <Label />
