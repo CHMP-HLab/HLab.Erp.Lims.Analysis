@@ -120,8 +120,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 st.Sample = Model;
                 st.TestClass = testClass;
                 st.Code = testClass.Code;
-                st.Description = "Nouveau test";
+                st.Description = "";
                 st.TestName = testClass.Name;
+                st.Stage = SampleWorkflow.DefaultState.Name;
             });
 
             if (test != null)

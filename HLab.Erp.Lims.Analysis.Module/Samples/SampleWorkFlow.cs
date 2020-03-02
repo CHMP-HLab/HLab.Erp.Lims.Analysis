@@ -44,7 +44,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .WithMessage(w => "{Missing} : {Product}")
 
             .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.Batch))
-            .WithMessage(w => "{Missing} : {batch}")
+            .WithMessage(w => "{Missing} : {Batch No}")
+
+            .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.Reference))
+            .WithMessage(w => "{Missing} : {Reference}")
 
             .NotWhen(w => w.Target.ReceptionDate == null)
             .WithMessage(w => "{Missing} : {Reception date}")

@@ -335,7 +335,7 @@
         </ScrollViewer>
 
         <!-- NOTE -->
-        <views1:DetailView Grid.Row="2" EditMode="{Binding Locked.IsActive}" IconPath="Icons/Edit" Text="{}{Note}">
+        <views1:DetailView Grid.Row="2" EditMode="{Binding Locker.IsActive}" IconPath="Icons/Edit" Text="{}{Note}">
 
             <TextBox Margin="50,0,15,0"  Grid.ColumnSpan="2"  Text="{Binding Model.Note}" AcceptsReturn="True" TextWrapping="Wrap"/>
             <Label />
