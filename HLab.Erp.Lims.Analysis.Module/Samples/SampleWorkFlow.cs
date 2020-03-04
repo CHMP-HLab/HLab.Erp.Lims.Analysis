@@ -35,6 +35,13 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .SetState(() => Reception)
         );
 
+        public static Action SignReception = Action.Create(c => c
+            .Caption("{Sign}").Icon("Icons/Validations/Sign")
+            .FromState(() => Reception)
+            .ToState(() => ReceptionSigned)
+            .NeedRight(()=>AnalysisRights.AnalysisReceptionSign)
+        );
+
         public static State ReceptionSigned = State.Create(c => c
             .Caption("{Reception check}").Icon("Icons/Sample/PackageOpened").SubIcon("Icons/Validations/Sign")
             .NotWhen(w => w.Target.CustomerId == null)
@@ -54,20 +61,16 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
             .NotWhen(w => w.Target.ReceivedQuantity == null)
             .WithMessage(w => "{Missing} : {Received quantity}")
+
+            .SetState(() => ReceptionSigned)
         );
 
-        public static Action SignReception = Action.Create(c => c
-            .Caption("{Sign}").Icon("Icons/Validations/Sign")
-            .FromState(() => Reception)
-            .ToState(() => ReceptionSigned)
-            .NeedRight(AnalysisRights.AnalysisReceptionSign)
-        );
 
         public static Action ValidateReception = Action.Create(c => c
             .Caption(w => "{Check}").Icon(w => "icons/workflow/ReceptionChecked")
             .FromState(() => ReceptionSigned)
             .ToState(() => Monograph)
-            .NeedRight(AnalysisRights.AnalysisReceptionValidate)
+            .NeedRight(()=>AnalysisRights.AnalysisReceptionValidate)
         );
 
         //########################################################
@@ -75,7 +78,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public static State Monograph = State.Create(c => c
             .Caption(w => "{Monograph Entry}").Icon(w => "Icons/Sample/PackageOpened")
-            .WhenStateAllowed(() => ReceptionSigned)
+//            .WhenStateAllowed(() => ReceptionSigned)
             .SetState(() => Monograph)
         );
 
@@ -83,7 +86,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
            .Caption(w => "{Validate monograph}").Icon(w => "icons/workflow/MonographEdit")
            .FromState(() => Monograph)
            .ToState(() => MonographClosed)
-           .NeedRight(AnalysisRights.AnalysisReceptionValidate)
+           .NeedRight(()=>AnalysisRights.AnalysisReceptionValidate)
             );
 
         public static State MonographClosed = State.Create(c => c
@@ -112,7 +115,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
            .Caption(w => "{Schedule}").Icon(w => "icons/workflow/Planning")
            .FromState(() => MonographClosed)
            .ToState(() => Planning)
-           .NeedRight(AnalysisRights.AnalysisSchedule)
+           .NeedRight(()=>AnalysisRights.AnalysisSchedule)
         );
 
         public static State Planning = State.Create(c => c
@@ -127,7 +130,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
            .Caption(w => "{Put into production}").Icon(w => "icons/workflow/Production")
            .FromState(() => Planning)
            .ToState(() => Production)
-           .NeedRight(AnalysisRights.AnalysisSchedule)
+           .NeedRight(()=>AnalysisRights.AnalysisSchedule)
         );
 
         public static State Production = State.Create(c => c
@@ -143,7 +146,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Caption(w => "{Print Certificate}").Icon(w => "icons/workflow/Certificate")
             .FromState(() => Planning)
             .ToState(() => Production)
-            .NeedRight(AnalysisRights.AnalysisSchedule)
+            .NeedRight(()=>AnalysisRights.AnalysisSchedule)
         );
 
         public static State Certificate = State.Create(c => c

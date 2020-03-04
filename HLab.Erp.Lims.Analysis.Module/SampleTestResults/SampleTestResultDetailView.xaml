@@ -28,10 +28,13 @@
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
-                <views:DetailView Grid.Row="1" IconPath="{Binding Model.SampleTest.TestClass.IconPath}" Text="{Binding Model.SampleTest.TestClass.Name}" >
+                <views:DetailView
+                                  EditMode="{Binding Locker.IsActive}"
+                                  IconPath="{Binding Model.SampleTest.TestClass.IconPath}" 
+                                  Text="{Binding Model.SampleTest.TestClass.Name}" >
 
                     <lang:LocalizedLabel Text="{}{Name} : " HorizontalContentAlignment="Right" />
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Name}" />
+                    <TextBlock FontSize="16" HorizontalAlignment="Left" Text="{Binding Model.Name}" />
 
                     <lang:LocalizedLabel Text="{}{Start} : " HorizontalContentAlignment="Right" />
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Start}" />
@@ -39,15 +42,26 @@
                     <lang:LocalizedLabel Text="{}{End} : " HorizontalContentAlignment="Right"/>
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Model.End}"/>
 
-                    <lang:LocalizedLabel Text="{}{Result}" HorizontalContentAlignment="Center"/>
+                    <lang:LocalizedLabel Text="{}{Specification} : " HorizontalContentAlignment="Right"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Model.SampleTest.Specification}"/>
+                    
+                    <lang:LocalizedLabel Text="{}{Result} : " HorizontalContentAlignment="Right"/>
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Result}"/>
 
+                    <lang:LocalizedLabel Text="{}{Conformity} : " HorizontalAlignment="Right"/>
+                    <StackPanel Orientation="Horizontal">
+                        <icons:IconView Path="{Binding ConformityIconPath}" MaxHeight="25"/>
+                        <lang:Localize Id="{Binding Conformity}" VerticalAlignment="Center"/>
+                    </StackPanel>
                 </views:DetailView>
 
             </StackPanel>
         </ScrollViewer>
-        <views:DetailView Grid.Row="2" Text="{}{Note}" IconPath="Icons/Sample/Folder">
-
+        <views:DetailView 
+            Grid.Row="2" 
+            Text="{}{Note}" 
+            IconPath="Icons/Sample/Folder"
+            EditMode="{Binding Locker.IsActive}">
         </views:DetailView>
     </Grid>
 </UserControl>

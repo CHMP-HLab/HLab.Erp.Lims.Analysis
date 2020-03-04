@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
@@ -12,14 +11,11 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
-using Google.Protobuf.WellKnownTypes;
 using HLab.Base;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Notify.PropertyChanged;
-using Enum = Google.Protobuf.WellKnownTypes.Enum;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
@@ -111,7 +107,37 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             get => _result.Get();
             set => _result.Set(value);
         }
-        private readonly IProperty<SampleTestResult> _result = H.Property<SampleTestResult>();
+        private readonly IProperty<SampleTestResult> _result = H.Property<SampleTestResult>(c => c
+            .On(e => e.Form.Test.Result)
+            .NotNull(e => e.Result)
+            .NotNull(e => e.Form.Test.Result)
+                .Do(e => e.Result.Result = e.Form.Test.Result)
+
+            .On(e => e.Form.Test.State)
+            .NotNull(e => e.Result)
+            .NotNull(e => e.Form.Test.State)
+                .Do(e => e.Result.StateId = (int)e.Form.Test.State)
+
+            .On(e => e.Form.Test.Specifications)
+            .NotNull(e => e.Test)
+            .NotNull(e => e.Form.Test.Specifications)
+                .Do(e => e.Test.Specification = e.Form.Test.Specifications)
+
+            .On(e => e.Form.Test.TestName)
+            .NotNull(e => e.Test)
+            .NotNull(e => e.Form.Test.TestName)
+                .Do(e => e.Test.TestName = e.Form.Test.TestName)
+
+            .On(e => e.Form.Test.Description)
+            .NotNull(e => e.Test)
+            .NotNull(e => e.Form.Test.Description)
+                .Do(e => e.Test.Description = e.Form.Test.Description)
+
+            .On(e => e.Form.Test.Conformity)
+            .NotNull(e => e.Test)
+            .NotNull(e => e.Form.Test.Conformity)
+                .Do(e => e.Test.Conform = e.Form.Test.Conformity)
+            );
 
         public async Task ExtractCode(byte[] code)
         {
@@ -194,7 +220,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 return;
             }
 
-            var cs = "using HLab.Erp.Lims.Analysis.Module.TestClasses;\r\n" + Cs;
+            var cs = "using System.ComponentModel;\nusing HLab.Erp.Lims.Analysis.Module.TestClasses;\nusing HLab.Notify.PropertyChanged;\n" + Cs;
 
             if (cs.Contains("using FM;"))
             {
@@ -202,8 +228,18 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 CsMessage += "using FM is obsolete !\r\n";
             }
 
+            int index = cs.IndexOf("public class", StringComparison.InvariantCulture)+12;
+            int idx2 = cs.IndexOf("\r\n",index);
+            if(idx2<0) idx2 = cs.IndexOf("\n",index);
+
+            var classname = cs.Substring(index,idx2-index);
+
+            index = cs.IndexOf("public class", StringComparison.InvariantCulture);
+            cs = cs.Insert(index, string.Format("using H = NotifyHelper<{0}>;\n",classname));
+
+
             // Ajout des dérivations de classes
-            int index = cs.IndexOf("public class", StringComparison.InvariantCulture) + 12;
+            index = cs.IndexOf("public class", StringComparison.InvariantCulture) + 12;
             if (index > -1)
             {
                 var i = cs.IndexOf("\r\n", index, StringComparison.InvariantCulture);
@@ -212,7 +248,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             }
 
 
-            cs = cs.Insert(index, " : UserControl, ITestForm");
+            cs = cs.Insert(index, " : UserControl, ITestForm, INotifyPropertyChanged");
 
             // Ajout des déclarations des objects du formulaire à lier à la classe et de la fonction Connect pour la liaison une fois instanciée
             string declarations = "";
@@ -306,9 +342,9 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                     n++;
                 }
             }
-
-            declarations += "public TestLegacyHelper Test {get;} = new TestLegacyHelper();\nITestHelper ITestForm.Test => Test;\n";
-
+            declarations += "public event PropertyChangedEventHandler PropertyChanged;";
+            declarations += "public TestLegacyHelper Test => _test.Get();\nprivate IProperty<TestLegacyHelper> _test = H.Property<TestLegacyHelper>(c => c.Set(e => new TestLegacyHelper()));\nITestHelper ITestForm.Test => Test;\n";
+            declarations += "public " + classname + "(){H.Initialize(this,a => PropertyChanged?.Invoke(this,a));}";
             cs = cs.Insert(cs.IndexOf('{', index) + 1, declarations + connection + "}\r\n}\r\n");
 
             var compiler = new Compiler { SourceCode = cs };
@@ -651,28 +687,33 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                             c.IsEnabled = enabled;
                             done();
                             break;
+
                         case TextBoxEx tb:
                             c.Background = todoBrush;
                             c.IsEnabled = enabled;
                             todo();
                             break;
+
                         // TextBox
                         case TextBox tb when tb.Text.Length > 0:
                             c.Background = doneBrush;
                             c.IsEnabled = enabled;
                             done();
                             break;
+
                         case TextBox tb:
                             c.Background = todoBrush;
                             c.IsEnabled = enabled;
                             todo();
                             break;
+
                         // TextBox
                         case CheckBox cb when cb.IsChecked != null:
                             c.Background = doneBrush;
                             c.IsEnabled = enabled;
                             done();
                             break;
+
                         case CheckBox cb:
                             c.Background = todoBrush;
                             c.IsEnabled = enabled;
@@ -683,8 +724,11 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
             }
 
-            if (isSpecMode) Test.Values = GetSpecPackedValues();
-            if (isCaptureMode && Result!=null) Result.Values = GetPackedValues();
+            if (isSpecMode && Test!=null) 
+                Test.Values = GetSpecPackedValues();
+
+            if (isCaptureMode && Result!=null) 
+                Result.Values = GetPackedValues();
 
             if(mandatoryNeeded>0) Form.Test.State = mandatoryDone>0 ? TestState.Running : TestState.NotStarted;
             if(specificationNeeded>0) Form.Test.State = TestState.NotStarted;
@@ -727,22 +771,27 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                             nbMandatoryOK++;
                             c.Background = fontTextBox;
                             break;
+
                         // TextBox
                         case TextBoxEx tb:
                             c.Background = Brushes.LightBlue;
                             break;
+
                         case TextBox box when box.Text.Length > 0:
                             nbMandatoryOK++;
                             box.Background = fontTextBox;
                             break;
+
                         // CheckBox
                         case TextBox _:
                             c.Background = Brushes.LightBlue;
                             break;
+
                         case CheckBox box when box.IsChecked != null:
                             nbMandatoryOK++;
                             box.Background = Brushes.Transparent;
                             break;
+
                         case CheckBox _:
                             c.Background = Brushes.LightBlue;
                             break;
@@ -759,14 +808,17 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                         nbSpecificationsOK++;
                         c.Background = fontTextBox;
                         break;
+
                     // TextBox
                     case TextBoxEx tb:
                         c.Background = Brushes.PaleGreen;
                         break;
+
                     case TextBox tb when tb.Text.Length > 0:
                         nbSpecificationsOK++;
                         c.Background = fontTextBox;
                         break;
+
                     case TextBox tb:
                         c.Background = Brushes.PaleGreen;
                         break;

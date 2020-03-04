@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Markup.Localizer;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Core;
@@ -55,11 +54,13 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .NotNull(e => e.Locker)
             .Set(vm => new SampleTestWorkflow(vm.Model,vm.Locker))
         );
+
         public bool IsReadOnly => _isReadOnly.Get();
         private readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
             .On(e => e.EditMode)
             .Set(e => !e.EditMode)
         );
+
         public bool EditMode => _editMode.Get();
         private readonly IProperty<bool> _editMode = H.Property<bool>(c => c
             .On(e => e.Locker.IsActive)
@@ -72,6 +73,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisMonographSign)
             )
         );
+
         public bool ResultMode => _resultMode.Get();
         private IProperty<bool> _resultMode = H.Property<bool>(c => c
             .On(e => e.Locker.IsActive)
@@ -184,6 +186,36 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             {
                 _data.Delete(result);
 
+            }
+        }
+
+        public ITestHelper TestHelper => _testHelper.Get();
+        private readonly IProperty<ITestHelper> _testHelper = H.Property<ITestHelper>(c => c
+            .On(e => e.FormHelper.Form.Test)
+            .NotNull(e => e.FormHelper?.Form)
+            .Do((e,f) => {
+                f.Set(e.FormHelper.Form.Test);
+                e.TestHelper.PropertyChanged += e.TestHelper_PropertyChanged;
+                })
+        );
+
+        private void TestHelper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (Model==null) return;
+            switch(e.PropertyName)
+            {
+                case "Result":
+                    if(TestHelper?.Description!=null)
+                        Model.Description = TestHelper.Description;
+                    break;
+                case "State":
+                    if(TestHelper?.Specifications!=null)
+                        Model.Specification = TestHelper.Specifications;
+                    break;
+                case "Conformity":
+                    if(TestHelper?.Conformity!=null)
+                        Model.Conform = TestHelper.Conformity;
+                    break;
             }
         }
         

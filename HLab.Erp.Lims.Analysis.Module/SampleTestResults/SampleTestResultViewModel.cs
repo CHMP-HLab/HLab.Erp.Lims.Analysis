@@ -17,7 +17,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 {
     public class SampleTestResultViewModelDesign : SampleTestResultViewModel, IViewModelDesign
     {
-
     }
 
     public class SampleTestResultViewModel : EntityViewModel<SampleTestResultViewModel,SampleTestResult>
@@ -50,6 +49,42 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             )
         );
 
+
+        public string Conformity => _conformity.Get();
+        private IProperty<string> _conformity = H.Property<string>(c => c
+            .On(e => e.Model.StateId)
+        .Set(e =>
+            {
+                switch(e.Model.StateId)
+                {
+                    case -1 : return "{Undefined}";
+                    case 0 : return "{Not Started}";
+                    case 1 : return "{Running}";
+                    case 2 : return "{Not Conform}";
+                    case 3 : return "{Conform}";
+                    case 4 : return "{Not Valid}";
+                    default: return "{error}";
+                } 
+            }            
+        ));
+        public string ConformityIconPath => _conformityIconPath.Get();
+        private IProperty<string> _conformityIconPath = H.Property<string>(c => c
+            .On(e => e.Model.StateId)
+        .Set(e =>
+            {
+                switch(e.Model.StateId)
+                {
+                    case -1 : return "Icons/Validations/Error";
+                    case 0 : return "Icons/Results/NotChecked";
+                    case 1 : return "Icons/Results/Running";
+                    case 2 : return "Icons/Results/GaugeKO";
+                    case 3 : return "Icons/Results/GaugeOK";
+                    case 4 : return "Icons/Results/Invalidated";
+                    default: return "Icons/Validations/Error";
+                } 
+            }            
+        ));
+
         public SampleTestViewModel Parent
         {
             get => _parent.Get();
@@ -66,6 +101,31 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             .Do(async e => await e.LoadResultAsync())
         );
 
+        public ITestHelper TestHelper => _testHelper.Get();
+        private readonly IProperty<ITestHelper> _testHelper = H.Property<ITestHelper>(c => c
+            .On(e => e.FormHelper.Form.Test)
+            .NotNull(e => e.FormHelper?.Form)
+            .Do((e,f) => {
+                f.Set(e.FormHelper.Form.Test);
+                e.TestHelper.PropertyChanged += e.TestHelper_PropertyChanged;
+                })
+        );
+
+        private void TestHelper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (Model==null) return;
+            switch(e.PropertyName)
+            {
+                case "Result":
+                    if(TestHelper?.Result!=null)
+                        Model.Result = TestHelper.Result;
+                    break;
+                case "State":
+                    if(TestHelper.State!=null)
+                        Model.StateId = (int)TestHelper.State;
+                    break;
+            }
+        }
 
         public async Task LoadResultAsync()
         {
