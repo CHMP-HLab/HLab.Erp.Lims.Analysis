@@ -13,13 +13,13 @@ namespace HLab.Erp.Lims.Analysis.Module
     {
         [Import]
         public static IAclService Acl { get; set; }
-        public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> NeedRight<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t, AclRight right)
+        public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> NeedRight<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t, Func<AclRight> right)
             where TWf : NotifierBase, IWorkflow<TWf>
         {
             return t.When(w => Acl.IsGranted(
-                    right,
+                    right(),
                     w.User,w.Target))
-                .WithMessage(w => "{Not allowed} {need} " + right.Caption);
+                .WithMessage(w => "{Not allowed} {need} " + right().Caption);
         }
 
         public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> NeedPharmacist<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t)
