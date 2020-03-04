@@ -8,7 +8,7 @@ using HLab.Notify.PropertyChanged;
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
     using H = NotifyHelper<ListSampleModule>;
-    public class ListSampleModule : IPostBootloader
+    public class ListSampleModule : IBootloader //postboot
     {
         
         [Import] private readonly IErpServices _erp;

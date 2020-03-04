@@ -11,7 +11,7 @@ using HLab.Notify.PropertyChanged;
 namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
 {
     using H = NotifyHelper<ListManufacturerModule>;
-    class ListManufacturerModule : IPostBootloader
+    class ListManufacturerModule : IBootloader //postboot
     {
         private readonly IErpServices _erp;
 
