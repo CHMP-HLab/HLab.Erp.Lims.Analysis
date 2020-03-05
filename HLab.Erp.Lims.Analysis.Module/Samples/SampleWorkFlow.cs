@@ -84,9 +84,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public static Action ValidateMonograph = Action.Create(c => c
            .Caption(w => "{Validate monograph}").Icon(w => "icons/workflow/MonographEdit")
+           .NeedRight(()=>AnalysisRights.AnalysisReceptionValidate)
            .FromState(() => Monograph)
            .ToState(() => MonographClosed)
-           .NeedRight(()=>AnalysisRights.AnalysisReceptionValidate)
             );
 
         public static State MonographClosed = State.Create(c => c
