@@ -10,17 +10,11 @@ using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
 {
-    using H = NotifyHelper<ListManufacturerModule>;
-    class ListManufacturerModule : IBootloader //postboot
+    class ListManufacturerModule : N<ListManufacturerModule>, IBootloader //postboot
     {
-        private readonly IErpServices _erp;
+        [Import] private readonly IErpServices _erp;
 
-        [Import] public ListManufacturerModule(IErpServices erp)
-        {
-            _erp = erp;
-           H.Initialize(this);
-        }
-        public ICommand OpenListManufacturerCommand { get; } = H.Command(c => c.Action(
+       public ICommand OpenListManufacturerCommand { get; } = H.Command(c => c.Action(
             e => e._erp.Docs.OpenDocumentAsync(typeof(ListManufacturerViewModel))
         ));
 
