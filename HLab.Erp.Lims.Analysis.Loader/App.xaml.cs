@@ -49,22 +49,25 @@ namespace HLab.Erp.Lims.Analysis.Loader
             var f0 = boot.LoadDll("HLab.Erp.Core");
             var g0 = boot.LoadDll("HLab.Erp.Lims.Analysis.Module");
 
-
+#if !DEBUG
             try
             {
-                boot.Configure();
+#endif
+            boot.Configure();
 
                 var doc = container.Locate<IDocumentService>();
                 doc.MainViewModel = container.Locate<MainWpfViewModel>();
 
 
                 boot.Boot();
+#if !DEBUG
             }
             catch(Exception ex)
             {
                 var view = new ExceptionView {Exception = ex};
                 view.ShowDialog();
             }
+#endif
         }
     }
 }
