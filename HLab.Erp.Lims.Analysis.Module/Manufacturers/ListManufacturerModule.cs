@@ -24,11 +24,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
             e => e._erp.Docs.OpenDocumentAsync(typeof(ListManufacturerViewModel))
         ));
 
-        public void Load()
-        {
-            _erp.Menu.RegisterMenu("data/manufacturers", "{Manufacturers}",
+        public bool Load() => _erp.Menu.RegisterMenu("data/manufacturers", "{Manufacturers}",
                 OpenListManufacturerCommand,
                 "icons/manufacturer");
 
-        }    }
+        }    
 }

@@ -29,19 +29,31 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             e => e._erp.Docs.OpenDocumentAsync(typeof(ListTestCategoryViewModel))
         ));
 
-        public void Load()
+
+        int step = 0;
+        public bool Load()
         {
-            _erp.Menu.RegisterMenu("data/samples", "{Samples}",
-                OpenListSampleCommand,
-                "icons/Entities/Sample");
-
-            _erp.Menu.RegisterMenu("tools/testclasses", "{Test Classes}",
-                OpenListTestClassCommand,
-                "Icons/Entities/TestClass");
-
-            _erp.Menu.RegisterMenu("tools/testcategories", "{Test Categories}",
-                OpenListTestCategoryCommand,
-                "Icons/Entities/TestCategory");
+            if(step<1)
+            {
+                if(!_erp.Menu.RegisterMenu("data/samples", "{Samples}",
+                    OpenListSampleCommand,
+                    "icons/Entities/Sample")) return false;
+                step = 1;
+            }
+            if(step<2)
+            {
+                if(!_erp.Menu.RegisterMenu("tools/testclasses", "{Test Classes}",
+                    OpenListTestClassCommand,
+                    "Icons/Entities/TestClass"))return false;
+                step = 2;
+            }
+            if(step<3)
+            {
+                if(!_erp.Menu.RegisterMenu("tools/testcategories", "{Test Categories}",
+                    OpenListTestCategoryCommand,
+                    "Icons/Entities/TestCategory"))return false;
+            }
+            return true;
         }
     }
 }
