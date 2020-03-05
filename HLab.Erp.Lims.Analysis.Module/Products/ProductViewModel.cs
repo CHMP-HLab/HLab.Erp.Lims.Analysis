@@ -7,7 +7,6 @@ using HLab.Erp.Data.Observables;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
-using Xceed.Wpf.AvalonDock.Controls;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
