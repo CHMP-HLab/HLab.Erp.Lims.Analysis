@@ -10,7 +10,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
     public class SampleWorkflow : Workflow<SampleWorkflow,Sample>
     {
-        // ToDo : pourquoi ça s'execute 4 fois à l'ouverture d'un échantillon
         public SampleWorkflow(Sample sample, DataLocker<Sample> locker):base(sample,locker)
         {
             SetState(sample.Stage);
