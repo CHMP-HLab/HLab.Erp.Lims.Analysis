@@ -31,15 +31,15 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public void Load()
         {
-            _erp.Menu.RegisterMenu("data", "samples", "{Samples}",
+            _erp.Menu.RegisterMenu("data/samples", "{Samples}",
                 OpenListSampleCommand,
                 "icons/Entities/Sample");
 
-            _erp.Menu.RegisterMenu("tools", "testclasses", "{Test Classes}",
+            _erp.Menu.RegisterMenu("tools/testclasses", "{Test Classes}",
                 OpenListTestClassCommand,
                 "Icons/Entities/TestClass");
 
-            _erp.Menu.RegisterMenu("tools", "testcategories", "{Test Categories}",
+            _erp.Menu.RegisterMenu("tools/testcategories", "{Test Categories}",
                 OpenListTestCategoryCommand,
                 "Icons/Entities/TestCategory");
         }
