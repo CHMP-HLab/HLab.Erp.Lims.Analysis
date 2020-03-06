@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
+using HLab.Erp.Data.Observables;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Erp.Workflows;
@@ -12,8 +14,18 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
     {
         public SampleWorkflow(Sample sample, DataLocker<Sample> locker):base(sample,locker)
         {
+            int id = sample.Id;
+            //sample.SampleTests.UpdateAsync();
+            SampleTests.AddFilter(() => e => e.SampleId == id);
+                
+            var task = SampleTests.UpdateAsync();
             SetState(sample.Stage);
+
+            task.GetAwaiter().OnCompleted(Update);
         }
+
+        [Import]
+        private ObservableQuery<SampleTest> SampleTests;
 
         protected override string StateName
         {
@@ -98,12 +110,12 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.PharmacopoeiaVersion))
                 .WithMessage(w => "{Missing} : {Pharmacopoeia version}")
 
-            .NotWhen(w => w.Target.SampleTests.Count == 0)
+            .NotWhen(w => w.SampleTests.Count == 0)
                 .WithMessage(w => "{Missing} : {Tests}")
 
             .NotWhen(w => {
-                foreach (SampleTest test in w.Target.SampleTests)
-                    if (test.Stage != "ValidatedResults") return true; // TODO
+                foreach (SampleTest test in w.SampleTests)
+                    if (test.Stage == SampleTestWorkflow.Specifications.Name) return true; // TODO
                 return false;
             }).WithMessage(w => "{Missing} : {Test specifications}")
         );

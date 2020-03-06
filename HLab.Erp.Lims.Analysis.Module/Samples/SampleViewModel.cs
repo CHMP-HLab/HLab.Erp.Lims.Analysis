@@ -135,8 +135,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .On(e => e.Locker)
             .NotNull(e => e.Model)
             .NotNull(e => e.Locker)
-            .Set(vm => new SampleWorkflow(vm.Model,vm.Locker))
+            .Set(vm => vm._getSampleWorkflow(vm.Model,vm.Locker))
         );
+
+        [Import] private Func<Sample,DataLocker<Sample>,SampleWorkflow> _getSampleWorkflow;
 
         public ICommand CertificateCommand { get; } = H.Command(c => c
                 //TODO : use current language
