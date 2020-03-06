@@ -43,6 +43,30 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .SetState(() => SignedSpecifications)
         );
 
+        //Request correction
+        public static Action RequestSpecificationsCorrection = Action.Create(c => c
+            .Caption("{Request correction}").Icon("Icons/Workflows/Correction")
+            .FromState(()=>SignedSpecifications)
+            .NeedRight(()=>AnalysisRights.AnalysisMonographValidate)
+            .ToState(()=> CorrectionNeeded)
+            .Backward()
+        );
+
+        public static State CorrectionNeeded = State.Create(c => c
+            .Caption("{Specifications Signed}").Icon("Icons/Workflows/Specifications").SubIcon("Icons/Workflows/Sign")
+            .NeedRight(()=>AnalysisRights.AnalysisMonographSign)
+            .SetState(() => CorrectionNeeded)
+        );
+
+        public static Action Correction = Action.Create(c => c
+            .Caption("{Request correction}").Icon("Icons/Workflows/Correction")
+            .FromState(()=>CorrectionNeeded)
+            //.NeedRight(()=>AnalysisRights.AnalysisMonographValidate)
+            .ToState(()=> Specifications)
+            .Backward()
+        );
+
+
         public static Action ValidateSpecifications = Action.Create(c => c
             .Caption("{Schedule}").Icon("Icons/SampleTest/Validate")
             .FromState(()=>SignedSpecifications)
@@ -50,13 +74,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .ToState(()=>Scheduling)
         );
 
-        public static Action RequestSpecificationsCorrection = Action.Create(c => c
-            .Caption("{Request correction}").Icon("Icons/Workflows/Correction")
-            .FromState(()=>SignedSpecifications)
-            .NeedRight(()=>AnalysisRights.AnalysisMonographValidate)
-            .ToState(()=>Scheduling)
-            .Backward()
-        );
 
         //########################################################
         // Scheduling

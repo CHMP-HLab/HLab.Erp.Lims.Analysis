@@ -78,7 +78,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
 
         public static Action ValidateReception = Action.Create(c => c
-            .Caption(w => "{Check}").Icon(w => "icons/workflow/ReceptionChecked")
+            .Caption(w => "{Validate}").Icon(w => "icons/workflow/ReceptionChecked")
             .FromState(() => ReceptionSigned)
             .ToState(() => Monograph)
             .NeedRight(()=>AnalysisRights.AnalysisReceptionValidate)
@@ -120,14 +120,15 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             }).WithMessage(w => "{Missing} : {Test specifications}")
         );
 
-        //########################################################
-        // PLANNING
         public static Action ValidatePlanning = Action.Create(c => c
            .Caption(w => "{Schedule}").Icon(w => "icons/workflow/Planning")
            .FromState(() => MonographClosed)
            .ToState(() => Planning)
            .NeedRight(()=>AnalysisRights.AnalysisSchedule)
         );
+
+        //########################################################
+        // PLANNING
 
         public static State Planning = State.Create(c => c
             .Caption(w => "{Scheduling}").Icon(w => "icons/workflow/PlanningEdit")
@@ -145,7 +146,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         );
 
         public static State Production = State.Create(c => c
-            .Caption(w => "{Production}").Icon(w => "icons/workflow/Production")
+            .Caption(w => "{Production}").Icon(w => "icons/results/Running")
             .SetState(()=>Production)
             .WhenStateAllowed(() => Planning)
         );
