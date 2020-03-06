@@ -730,8 +730,16 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             if (isCaptureMode && Result!=null) 
                 Result.Values = GetPackedValues();
 
-            if(mandatoryNeeded>0) Form.Test.State = mandatoryDone>0 ? TestState.Running : TestState.NotStarted;
-            if(specificationNeeded>0) Form.Test.State = TestState.NotStarted;
+            if (mandatoryNeeded > 0)
+            {
+                Form.Test.State = mandatoryDone > 0 ? TestState.Running : TestState.NotStarted;
+            }
+            if (specificationNeeded > 0)
+            {
+                Form.Test.State = TestState.NotStarted;
+                Form.Test.SpecificationsDone = false;
+            }
+            else Form.Test.SpecificationsDone = true;
 
             if(Form.Test.State>TestState.Running)
             {

@@ -195,6 +195,12 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _stage.Set(value);
         }
         private readonly IProperty<string> _stage = H.Property<string>();
+        public bool SpecificationsDone
+        {
+            get => _specificationsDone.Get();
+            set => _specificationsDone.Set(value);
+        }
+        private readonly IProperty<bool> _specificationsDone = H.Property<bool>();
 
         [Ignore]
         public virtual Sample Sample

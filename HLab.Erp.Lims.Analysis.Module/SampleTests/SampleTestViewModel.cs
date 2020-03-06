@@ -204,11 +204,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             if (Model==null) return;
             switch(e.PropertyName)
             {
-                case "Result":
+                case "Description":
                     if(TestHelper?.Description!=null)
                         Model.Description = TestHelper.Description;
                     break;
-                case "State":
+                case "Specifications":
                     if(TestHelper?.Specifications!=null)
                         Model.Specification = TestHelper.Specifications;
                     break;
@@ -216,9 +216,14 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     if(TestHelper?.Conformity!=null)
                         Model.Conform = TestHelper.Conformity;
                     break;
+                case "SpecificationsDone":
+                    Model.SpecificationsDone = TestHelper.SpecificationsDone;
+                    if(TestHelper?.SpecificationsDone != null)
+                        if(TestHelper.State>TestState)
+
+                    break;
             }
         }
-        
         
         public override string Title => _title.Get();
         private IProperty<string> _title = H.Property<string>(c => c

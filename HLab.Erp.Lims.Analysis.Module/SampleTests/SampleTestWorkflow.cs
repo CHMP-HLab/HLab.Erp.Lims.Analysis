@@ -28,7 +28,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public static State Specifications = State.CreateDefault(c => c
             .Caption("{Specifications}").Icon("Icons/Workflows/Specifications")
-            .SetState(() => Specifications)
+//            .SetState(() => Specifications)
         );
 
         public static Action SignSpecifications = Action.Create(c => c
