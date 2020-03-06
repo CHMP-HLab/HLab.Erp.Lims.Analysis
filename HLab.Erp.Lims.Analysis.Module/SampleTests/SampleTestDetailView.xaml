@@ -32,6 +32,9 @@
 
                     <lang:LocalizedLabel Text="{}{Name} : " />
                     <TextBox Text="{Binding Model.TestName}" HorizontalContentAlignment="Center" />
+                    
+                    <lang:LocalizedLabel Text="{}{Specifications} : " />
+                    <TextBox Text="{Binding Model.Specification}" HorizontalContentAlignment="Center" />
 
                     <lang:LocalizedLabel Text="{}{Description} : " />
                     <TextBox Text="{Binding Model.Description}" HorizontalContentAlignment="Center" />
