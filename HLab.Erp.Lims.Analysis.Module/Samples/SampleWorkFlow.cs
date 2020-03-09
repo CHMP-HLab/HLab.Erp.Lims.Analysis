@@ -166,7 +166,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         );
 
         public static Action ValidateProduction = Action.Create(c => c
-           .Caption(w => "{Put into production}").Icon(w => "icons/workflow/Production")
+           .Caption(w => "{Put into production}").Icon(w => "Icons/Workflows/Production")
            .FromState(() => Planning)
            .ToState(() => Production)
            .NeedRight(()=>AnalysisRights.AnalysisSchedule)
@@ -176,7 +176,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         //########################################################
         // PRODUCTION
         public static State Production = State.Create(c => c
-            .Caption(w => "{Production}").Icon(w => "icons/results/Running")
+            .Caption(w => "{Production}").Icon(w => "Icons/Workflows/Production")
             .SetState(()=>Production)
             .WhenStateAllowed(() => Planning)
         );

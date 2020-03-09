@@ -15,12 +15,12 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
         // RUNNING
         public static State Running = State.CreateDefault(c => c
-            .Caption("{Running}").Icon("Icons/SampleTestResult/Running")
+            .Caption("{Running}").Icon("Icons/Workflows/Production")
             .SetState(() => Running)
         );
 
         public static Action Sign = Action.Create(c => c
-            .Caption("{Sign}").Icon("Icons/SampleTest/Sign")
+            .Caption("{Sign}").Icon("Icons/Workflows/Sign")
             .FromState(()=>Running)
             .ToState(()=>Signed)
         );
@@ -28,25 +28,23 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         // SIGNED
         public static State Signed = State.Create(c => c
             .Caption("{Signed}").Icon("Icons/SampleTestResult/Signed")
-            .SetState(() => Signed)
         );
 
         public static Action Check = Action.Create(c => c
-            .Caption("{Check}").Icon("Icons/SampleTest/Sign")
+            .Caption("{Check}").Icon("Icons/Result/CheckPassed")
             .FromState(()=>Signed)
             .ToState(()=>Checked)
         );
 
         public static Action AskForCorrection = Action.Create(c => c
             .Caption("{Ask for correction}").Icon("Icons/SampleTest/Correction")
-            .FromState(()=>Signed)
-            .ToState(()=>CorrectionNeeded).Backward()
+            .FromState(() => Signed, ()=>Checked)
+            .ToState(() => CorrectionNeeded).Backward()
         );
 
         // ERROR
         public static State CorrectionNeeded = State.Create(c => c
             .Caption("{Correction Needed}").Icon("Icons/Workflows/Correct")
-            .SetState(() => CorrectionNeeded)
         );
 
         public static Action Correct = Action.Create(c => c
@@ -57,13 +55,13 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
         // CHECKED
         public static State Checked = State.Create(c => c
-            .Caption("{Checked}").Icon("Icons/SampleTestResult/Signed")
+            .Caption("{Checked}").Icon("Icons/Results/CheckPassed")
             .SetState(() => Checked)
         );
 
         public static Action AskForCorrection2 = Action.Create(c => c
             .Caption("{Ask for correction}").Icon("Icons/SampleTest/Correction")
-            .FromState(()=>Checked)
+            .FromState()
             .ToState(()=>CorrectionNeeded).Backward()
         );
 

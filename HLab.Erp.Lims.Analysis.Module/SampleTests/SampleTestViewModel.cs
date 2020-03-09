@@ -52,8 +52,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .On(e => e.Model)
             .On(e => e.Locker)
             .NotNull(e => e.Locker)
-            .Set(vm => new SampleTestWorkflow(vm.Model,vm.Locker))
+            .Set(vm => vm._getSampleTestWorkflow(vm.Model,vm.Locker))
         );
+        [Import] private Func<SampleTest, DataLocker<SampleTest>, SampleTestWorkflow> _getSampleTestWorkflow;
 
         public bool IsReadOnly => _isReadOnly.Get();
         private readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
