@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using HLab.Base.Fluent;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
@@ -21,6 +22,19 @@ namespace HLab.Erp.Lims.Analysis.Module
                     w.User,w.Target))
                 .WithMessage(w => "{Not allowed} {need} " + right().Caption);
         }
+        public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> NeedAnyRight<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t, params Func<AclRight>[] rights)
+            where TWf : NotifierBase, IWorkflow<TWf> => t.When(w =>
+                                                                  {
+                                                                      foreach (var right in rights)
+                                                                          if (Acl.IsGranted(right(), w.User, w.Target)) return true;
+                                                                      return false;
+                                                                  })
+            .WithMessage(w =>
+            {
+                var s = new StringBuilder("{Not allowed} {need} ");
+                foreach (var right in rights) s.Append(right().Caption).Append(" ");
+                return  s.ToString();
+            });
 
         public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> NeedPharmacist<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t)
             where TWf : NotifierBase, IWorkflow<TWf>
