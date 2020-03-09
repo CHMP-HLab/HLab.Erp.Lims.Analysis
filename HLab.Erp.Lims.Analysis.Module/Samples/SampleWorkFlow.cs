@@ -40,7 +40,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         // RECEPTION
 
         public static State Reception = State.CreateDefault(c => c
-            .Caption("{Reception entry}").Icon("Icons/Sample/PackageOpened")
+            .Caption("{Reception entry}").Icon("Icons/Sample/PackageOpened|Icons/Validations/Edit")
             .SetState(() => Reception)
         );
 
@@ -55,7 +55,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         // RECEPTION CHECK
 
         public static State ReceptionCheck = State.Create(c => c
-            .Caption("{Reception check}").Icon("Icons/Sample/PackageOpened")
+            .Caption("{Reception check}").Icon("Icons/Sample/PackageOpened|Icons/Validations/Sign")
 
             .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.Reference))
             .WithMessage(w => "{Missing} : {Reference}")
@@ -113,12 +113,12 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         // MONOGRAPH
 
         public static State Monograph = State.Create(c => c
-            .Caption(w => "{Monograph Entry}").Icon(w => "Icons/Workflows/Monograph")
+            .Caption(w => "{Monograph Entry}").Icon(w => "Icons/Workflows/Monograph|Icons/Validations/Edit")
             .WhenStateAllowed(() => ReceptionCheck)
         );
 
         public static Action ValidateMonograph = Action.Create(c => c
-           .Caption(w => "{Validate monograph}").Icon(w => "Icons/Workflows/Monograph")
+           .Caption(w => "{Validate monograph}").Icon(w => "Icons/Workflows/Monograph|Icons/Validations/Validated")
            .NeedRight(()=>AnalysisRights.AnalysisReceptionValidate)
            .FromState(() => Monograph)
            .ToState(() => MonographClosed)
@@ -150,7 +150,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         );
 
         public static Action ValidatePlanning = Action.Create(c => c
-           .Caption(w => "{Schedule}").Icon(w => "icons/workflow/Planning")
+           .Caption(w => "{Schedule}").Icon(w => "Icons/Workflows/Planning|Icons/Validations/Validated")
            .FromState(() => MonographClosed)
            .ToState(() => Planning)
            .NeedRight(()=>AnalysisRights.AnalysisSchedule)
@@ -160,13 +160,11 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         // PLANNING
 
         public static State Planning = State.Create(c => c
-            .Caption(w => "{Scheduling}").Icon(w => "icons/workflow/PlanningEdit")
+            .Caption(w => "{Scheduling}").Icon(w => "icons/Workflows/Planning|Icons/Validations/Edit")
             .WhenStateAllowed(() => MonographClosed)
             .SetState(() => Planning)
         );
 
-        //########################################################
-        // PRODUCTION
         public static Action ValidateProduction = Action.Create(c => c
            .Caption(w => "{Put into production}").Icon(w => "icons/workflow/Production")
            .FromState(() => Planning)
@@ -174,6 +172,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
            .NeedRight(()=>AnalysisRights.AnalysisSchedule)
         );
 
+
+        //########################################################
+        // PRODUCTION
         public static State Production = State.Create(c => c
             .Caption(w => "{Production}").Icon(w => "icons/results/Running")
             .SetState(()=>Production)
@@ -184,14 +185,14 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         // CERTIFICAT
 
         public static Action ValidateCertificate = Action.Create( c => c
-            .Caption(w => "{Print Certificate}").Icon(w => "icons/workflow/Certificate")
+            .Caption(w => "{Print Certificate}").Icon(w => "Icons/Workflows/Certificate")
             .FromState(() => Planning)
             .ToState(() => Production)
             .NeedRight(()=>AnalysisRights.AnalysisSchedule)
         );
 
         public static State Certificate = State.Create(c => c
-            .Caption(w => "{Edit certificate}").Icon(w => "icons/workflow/Certificate")
+            .Caption(w => "{Edit certificate}").Icon(w => "Icons/Workflows/Certificate")
             .SetState(()=>Certificate)
             .WhenStateAllowed(() => Planning)
         );
@@ -200,14 +201,14 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         // CLOSE
 
         public static Action Close = Action.Create( c => c
-            .Caption(w => "{Close}").Icon(w => "icons/workflow/Close")
+            .Caption(w => "{Close}").Icon(w => "Icons/Workflows/Close")
             .FromState(() => Certificate)
             .ToState(() => Closed)
             .NeedPharmacist()
         );
 
         public static State Closed = State.Create(c => c
-            .Caption(w => "{Closed}").Icon(w => "icons/workflow/Closed")
+            .Caption(w => "{Closed}").Icon(w => "Icons/Workflows/Closed")
             .SetState(() => Closed)
             .When(w => w.Target.Invoiced).WithMessage(w => "{Not billed}")
             .When(w => w.Target.Paid).WithMessage(w => "{Not Payed}")

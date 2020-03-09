@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <None Remove="Icons\Workflows\Correct.svg" />
+    <None Remove="Icons\Workflows\Edit.svg" />
     <None Remove="Icons\Workflows\Monograph.svg" />
     <None Remove="Icons\Workflows\Pause.svg" />
     <None Remove="Icons\Workflows\Planning.svg" />
@@ -382,6 +383,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Resource>
     <Resource Include="Icons\Workflows\Correct.svg" />
+    <Resource Include="Icons\Validations\Edit.svg" />
     <Resource Include="Icons\Workflows\Monograph.svg" />
     <Resource Include="Icons\Workflows\Pause.svg" />
     <Resource Include="Icons\Workflows\Planning.svg" />
