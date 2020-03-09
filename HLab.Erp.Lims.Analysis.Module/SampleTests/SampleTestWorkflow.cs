@@ -89,14 +89,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         );
 
 
-        public static Action ValidateSpecifications = Action.Create(c => c
-            .Caption("{Schedule}").Icon("Icons/SampleTest/Validate")
-            .FromState(()=>SignedSpecifications)
-            .NeedRight(()=>AnalysisRights.AnalysisMonographValidate)
-            .ToState(()=>Scheduling)
-        );
-
-
         //########################################################
         // Scheduling
 
