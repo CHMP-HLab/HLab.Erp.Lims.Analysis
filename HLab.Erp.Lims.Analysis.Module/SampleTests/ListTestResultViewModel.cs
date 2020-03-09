@@ -5,6 +5,7 @@ using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
 using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
@@ -30,6 +31,16 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         }
 
         private int _sampleTestId;
+        private string GetStateIcon(string name)
+        {
+            var state = SampleTestResultWorkflow.StateFromName(name);
+            return state?.GetIconPath(null);
+        }
+        private string GetStateCaption(string name)
+        {
+            var state = SampleTestResultWorkflow.StateFromName(name);
+            return state?.GetCaption(null);
+        }
 
         public ListTestResultViewModel(int sampleTestId)
         {
@@ -48,7 +59,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 .Column("{End}", s => s.End)
                 .Column("{Result}", s => s.Result)
                 .Icon("{State}", s => s.StateId != null ? GetStateIcon(s.StateId.Value) : "", s => s.StateId)
-                .Icon("{Validation}", s => s.Validation != null ? GetStateIcon(s.Validation.Value) : "", s => s.Validation)
+                .Icon("{Stage}", s => GetStateIcon(s.Stage), s => s.Stage)
+                .Localize("{Stage}", s => GetStateCaption(s.Stage), s => s.Stage)
                 .Hidden("IsSelected",s => s.Id == s.SampleTest.Result?.Id)
 ;
 

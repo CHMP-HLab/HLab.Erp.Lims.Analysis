@@ -20,14 +20,14 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         );
 
         public static Action Sign = Action.Create(c => c
-            .Caption("{Sign}").Icon("Icons/Workflows/Sign")
+            .Caption("{Sign}").Icon("Icons/Validations/Sign")
             .FromState(()=>Running)
             .ToState(()=>Signed)
         );
 
         // SIGNED
         public static State Signed = State.Create(c => c
-            .Caption("{Signed}").Icon("Icons/SampleTestResult/Signed")
+            .Caption("{Signed}").Icon("Icons/Validations/Sign")
             .When(w=>w.Target.MandatoryDone)
         );
 
@@ -38,7 +38,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         );
 
         public static Action AskForCorrection = Action.Create(c => c
-            .Caption("{Ask for correction}").Icon("Icons/SampleTest/Correction")
+            .Caption("{Ask for correction}").Icon("Icons/Workflows/Correct")
             .FromState(() => Signed, ()=>Checked)
             .ToState(() => CorrectionNeeded).Backward()
         );
@@ -61,7 +61,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         );
 
         public static Action AskForCorrection2 = Action.Create(c => c
-            .Caption("{Ask for correction}").Icon("Icons/SampleTest/Correction")
+            .Caption("{Ask for correction}").Icon("Icons/Workflows/Correct")
             .FromState()
             .ToState(()=>CorrectionNeeded).Backward()
         );

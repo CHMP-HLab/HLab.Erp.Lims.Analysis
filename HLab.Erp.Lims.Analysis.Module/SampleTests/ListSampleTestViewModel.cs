@@ -49,21 +49,19 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         }
         private string GetStateIcon(string name)
         {
-            var n = SampleTestWorkflow.Specifications; // TODO : this is a hack to force top level static constructor
-
             var state = SampleTestWorkflow.StateFromName(name);
             return state?.GetIconPath(null);
         }
         private string GetStateCaption(string name)
         {
-            var n = SampleTestWorkflow.Specifications; // TODO : this is a hack to force top level static constructor
-
             var state = SampleTestWorkflow.StateFromName(name);
             return state?.GetCaption(null);
         }
 
         public ListSampleTestViewModel(int sampleId)
         {
+            var n = SampleTestWorkflow.Specifications; // TODO : this is a hack to force top level static constructor
+
             List.AddFilter(()=>e => e.SampleId == sampleId);
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns
