@@ -31,21 +31,19 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         private string GetStateIcon(string name)
         {
-            var n = SampleWorkflow.Reception; // TODO : this is a hack to force top level static constructor
-
             var state = SampleWorkflow.StateFromName(name);
             return state?.GetIconPath(null);
         }
         private string GetStateCaption(string name)
         {
-            var n = SampleWorkflow.Reception; // TODO : this is a hack to force top level static constructor
-
             var state = SampleWorkflow.StateFromName(name);
             return state?.GetCaption(null);
         }
 
         [Import] public ListSampleViewModel(IErpServices erp) 
         {
+            var n = SampleWorkflow.Reception; // TODO : this is a hack to force top level static constructor
+
             AddAllowed = true;
             DeleteAllowed = true;
 
@@ -70,9 +68,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 .Hidden("IsValid",  s => s.Validation != 2)
                 ;
 
-            //List.AddFilter(e => e.State < 3);
 
-            // Db.Fetch<Customer>();
             using (List.Suspender.Get())
             {
                 Filters.Add(new FilterTextViewModel()
@@ -136,7 +132,12 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         }
 
-        public string Title => "{Samples}";
+        protected override void ConfigureEntity(Sample sample)
+        {
+             sample.Stage = SampleWorkflow.DefaultState.Name;
+        }
+
+        public override string Title => "{Samples}";
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }
