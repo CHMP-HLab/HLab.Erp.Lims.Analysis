@@ -28,6 +28,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         // SIGNED
         public static State Signed = State.Create(c => c
             .Caption("{Signed}").Icon("Icons/SampleTestResult/Signed")
+            .When(w=>w.Target.MandatoryDone)
         );
 
         public static Action Check = Action.Create(c => c

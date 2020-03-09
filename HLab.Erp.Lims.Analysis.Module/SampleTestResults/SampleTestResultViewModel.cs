@@ -121,8 +121,10 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
                         Model.Result = TestHelper.Result;
                     break;
                 case "State":
-                    if(TestHelper.State!=null)
                         Model.StateId = (int)TestHelper.State;
+                    break;
+                case "MandatoryDone":
+                    Model.MandatoryDone = TestHelper.MandatoryDone;
                     break;
             }
         }

@@ -733,7 +733,10 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             if (mandatoryNeeded > 0)
             {
                 Form.Test.State = mandatoryDone > 0 ? TestState.Running : TestState.NotStarted;
+                Form.Test.MandatoryDone = false;
             }
+            else Form.Test.MandatoryDone = true;
+
             if (specificationNeeded > 0)
             {
                 Form.Test.State = TestState.NotStarted;

@@ -46,6 +46,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         string Description { get; set; }
         string Result { get; set; }
         bool SpecificationsDone { get; set; }
+        bool MandatoryDone { get; set; }
     }
 
     public class TestLegacyHelper : N<TestLegacyHelper>, ITestHelper
