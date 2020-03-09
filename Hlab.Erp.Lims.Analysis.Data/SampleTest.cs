@@ -150,6 +150,13 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IForeign<SampleTestResult> _result = H.Foreign<SampleTestResult>();
 
+        public DateTime? ScheduledDate
+        {
+            get => _scheduledDate.Get();
+            set => _scheduledDate.Set(value);
+        }
+        private readonly IProperty<DateTime?> _scheduledDate = H.Property<DateTime?>();
+
         public DateTime? StartDate
         {
             get => _startDate.Get();

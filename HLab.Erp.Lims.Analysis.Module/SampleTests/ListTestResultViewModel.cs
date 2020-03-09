@@ -61,7 +61,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         [Import] private IDataService _data;
 
-        protected override async Task OnAddCommandAsync()
+        protected override async Task AddEntityAsync()
         {
             var target = Selected;
 

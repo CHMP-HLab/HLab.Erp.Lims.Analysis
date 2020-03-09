@@ -1,5 +1,7 @@
 ﻿using HLab.Erp.Acl;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.Samples;
+using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Erp.Workflows;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
@@ -43,13 +45,13 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
         // ERROR
         public static State CorrectionNeeded = State.Create(c => c
-            .Caption("{Correction Needed}").Icon("Icons/SampleTestResult/Error")
+            .Caption("{Correction Needed}").Icon("Icons/Workflows/Correct")
             .SetState(() => CorrectionNeeded)
         );
 
         public static Action Correct = Action.Create(c => c
-            .Caption("{Correct}").Icon("Icons/SampleTest/Correction")
-            .FromState(()=>CorrectionNeeded)
+            .Caption("{Correct}").Icon("Icons/Workflows/Correct")
+            .FromState(()=>CorrectionNeeded,()=>Signed)
             .ToState(()=>Running)
         );
 
@@ -66,9 +68,17 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         );
 
         public static Action Validate = Action.Create(c => c
-            .Caption("{Validate}").Icon("Icons/SampleTest/Sign")
+            .Caption("{Validate}").Icon("Icons/Validations/Validated")
             .FromState(()=>Checked)
             .ToState(()=>Validated)
+            .NeedRight(()=>AnalysisRights.AnalysisResultValidate)
+        );
+
+        public static Action Invalidate = Action.Create(c => c
+            .Caption("{Invalidate}").Icon("Icons/Validations/Invalidated")
+            .FromState(()=>Checked,()=>Validated)
+            .ToState(()=>Invalidated)
+            .NeedRight(()=>AnalysisRights.AnalysisResultValidate)
         );
 
         // VALIDATED
@@ -79,9 +89,18 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
         public static Action AskForCorrection3 = Action.Create(c => c
             .Caption("{Ask for correction}").Icon("Icons/SampleTest/Correction")
-            .FromState(()=>Validated)
+            .FromState(()=>Validated,()=>Invalidated)
+            .When(w => w.Target.SampleTest.Stage == SampleTestWorkflow.Running.Name)
             .ToState(()=>CorrectionNeeded).Backward()
+            .NeedRight(()=>AnalysisRights.AnalysisResultValidate)
         );
+
+        // INVALIDATED
+        public static State Invalidated = State.Create(c => c
+            .Caption("{Validated}").Icon("Icons/SampleTestResult/Validated")
+            .SetState(() => Validated)
+        );
+
 
         protected override string StateName
         {

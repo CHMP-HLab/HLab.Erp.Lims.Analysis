@@ -30,11 +30,21 @@
                 <!-- TEST CLASS -->
                 <views:DetailView Grid.Row="1" IconPath="{Binding Model.TestClass.IconPath}" Text="{Binding Model.TestClass.Name}" >
 
-                    <lang:LocalizedLabel Text="{}{Type} : " />
+                    <lang:LocalizedLabel Text="{}{Name} : " />
                     <TextBox Text="{Binding Model.TestName}" HorizontalContentAlignment="Center" />
+
+                    <lang:LocalizedLabel Text="{}{Description} : " />
+                    <TextBox Text="{Binding Model.Description}" HorizontalContentAlignment="Center" />
 
                     <lang:LocalizedLabel Text="{}{Method} : " />
                     <TextBox Text="{Binding Model.Method}" HorizontalContentAlignment="Center" />
+                    
+                    <lang:LocalizedLabel Text="{}{Scheduling} :" />
+                    <base:DateEx
+                            HorizontalAlignment="Left"
+                            Date="{Binding Model.ScheduledDate}" 
+                            DayValid="True"
+                            MaxWidth="130"/>
 
                 </views:DetailView>
 

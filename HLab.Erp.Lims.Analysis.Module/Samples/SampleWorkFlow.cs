@@ -15,7 +15,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public SampleWorkflow(Sample sample, DataLocker<Sample> locker):base(sample,locker)
         {
             int id = sample.Id;
-            //sample.SampleTests.UpdateAsync();
             SampleTests.AddFilter(() => e => e.SampleId == id);
                 
             var task = SampleTests.UpdateAsync();
@@ -24,8 +23,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             task.GetAwaiter().OnCompleted(Update);
         }
 
-        [Import]
-        private ObservableQuery<SampleTest> SampleTests;
+        [Import] private ObservableQuery<SampleTest> SampleTests;
 
         protected override string StateName
         {
@@ -42,30 +40,31 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         // RECEPTION
 
         public static State Reception = State.CreateDefault(c => c
-            .Caption("{Reception entry}").Icon("Icons/Sample/PackageOpened").SubIcon("Icons/Validations/Open")
+            .Caption("{Reception entry}").Icon("Icons/Sample/PackageOpened")
             .SetState(() => Reception)
         );
 
         public static Action SignReception = Action.Create(c => c
             .Caption("{Sign}").Icon("Icons/Validations/Sign")
             .FromState(() => Reception)
-            .ToState(() => ReceptionSigned)
+            .ToState(() => ReceptionCheck)
             .NeedRight(()=>AnalysisRights.AnalysisReceptionSign)
         );
 
-        public static State ReceptionSigned = State.Create(c => c
-            .Caption("{Reception check}").Icon("Icons/Sample/PackageOpened").SubIcon("Icons/Validations/Sign")
+        //########################################################
+        // RECEPTION CHECK
+
+        public static State ReceptionCheck = State.Create(c => c
+            .Caption("{Reception check}").Icon("Icons/Sample/PackageOpened")
+
+            .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.Reference))
+            .WithMessage(w => "{Missing} : {Reference}")
+
             .NotWhen(w => w.Target.CustomerId == null)
             .WithMessage(w => "{Missing} : {Customer}")
 
             .NotWhen(w => w.Target.ProductId == null)
             .WithMessage(w => "{Missing} : {Product}")
-
-            .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.Batch))
-            .WithMessage(w => "{Missing} : {Batch No}")
-
-            .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.Reference))
-            .WithMessage(w => "{Missing} : {Reference}")
 
             .NotWhen(w => w.Target.ReceptionDate == null)
             .WithMessage(w => "{Missing} : {Reception date}")
@@ -73,36 +72,63 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .NotWhen(w => w.Target.ReceivedQuantity == null)
             .WithMessage(w => "{Missing} : {Received quantity}")
 
-            .SetState(() => ReceptionSigned)
+            .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.Batch))
+            .WithMessage(w => "{Missing} : {Batch No}")
+
+            .SetState(() => ReceptionCheck)
         );
 
 
         public static Action ValidateReception = Action.Create(c => c
-            .Caption(w => "{Validate}").Icon(w => "icons/workflow/ReceptionChecked")
-            .FromState(() => ReceptionSigned)
+            .Caption(w => "{Validate}").Icon(w => "Icons/Workflows/ReceptionChecked")
+            .FromState(() => ReceptionCheck)
             .ToState(() => Monograph)
             .NeedRight(()=>AnalysisRights.AnalysisReceptionValidate)
+        );
+
+        public static Action ReceptionAskForCorrection = Action.Create(c => c
+            .Caption(w => "{Ask for correction}").Icon(w => "Icons/Workflows/Correct")
+            .FromState(() => ReceptionCheck)
+            .ToState(() => ReceptionCorrectionAsked)
+            .NeedRight(()=>AnalysisRights.AnalysisReceptionValidate)
+            .Backward()
+        );
+
+        //########################################################
+        // RECEPTION CORRECTION
+
+        public static State ReceptionCorrectionAsked = State.Create(c => c
+            .Caption(w => "{Reception correction asked}").Icon(w => "Icons/Workflows/Correct")
+        );
+
+        public static Action CorrectReception = Action.Create(c => c
+           .Caption(w => "{Correct reception}").Icon(w => "Icons/Workflows/Correct")
+           .FromState(() => ReceptionCorrectionAsked,()=>ReceptionCheck,()=>Monograph)
+           .ToState(() => Reception)
+           .NeedRight(()=>AnalysisRights.AnalysisReceptionSign)
+           .Backward()
         );
 
         //########################################################
         // MONOGRAPH
 
         public static State Monograph = State.Create(c => c
-            .Caption(w => "{Monograph Entry}").Icon(w => "Icons/Sample/PackageOpened")
-//            .WhenStateAllowed(() => ReceptionSigned)
-            .SetState(() => Monograph)
+            .Caption(w => "{Monograph Entry}").Icon(w => "Icons/Workflows/Monograph")
+            .WhenStateAllowed(() => ReceptionCheck)
         );
 
         public static Action ValidateMonograph = Action.Create(c => c
-           .Caption(w => "{Validate monograph}").Icon(w => "icons/workflow/MonographEdit")
+           .Caption(w => "{Validate monograph}").Icon(w => "Icons/Workflows/Monograph")
            .NeedRight(()=>AnalysisRights.AnalysisReceptionValidate)
            .FromState(() => Monograph)
            .ToState(() => MonographClosed)
             );
 
+        //########################################################
+        // MONOGRAPH VALIDATED
+
         public static State MonographClosed = State.Create(c => c
-            .Caption(w => "{Monograph validated}").Icon(w => "icons/workflow/MonographCheck")
-            .SetState(() => MonographClosed)
+            .Caption(w => "{Monograph validated}").Icon(w => "Icons/Workflows/Monograph|Icons/Validations/Validated")
 
             .NotWhen(w => w.Target.PharmacopoeiaId == null)
                 .WithMessage(w => "{Missing} : {Pharmacopoeia}")
@@ -113,10 +139,13 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .NotWhen(w => w.SampleTests.Count == 0)
                 .WithMessage(w => "{Missing} : {Tests}")
 
-            .NotWhen(w => {
+            .When(w => {
                 foreach (SampleTest test in w.SampleTests)
-                    if (test.Stage == SampleTestWorkflow.Specifications.Name) return true; // TODO
-                return false;
+                {
+                    if (test.Stage == SampleTestWorkflow.Specifications.Name) return false; 
+                    if (test.Stage == SampleTestWorkflow.SignedSpecifications.Name) return false;
+                }
+                return true;
             }).WithMessage(w => "{Missing} : {Test specifications}")
         );
 

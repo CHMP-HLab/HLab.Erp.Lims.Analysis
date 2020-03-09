@@ -24,6 +24,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Icons\Workflows\Correct.svg" />
+    <None Remove="Icons\Workflows\Monograph.svg" />
+    <None Remove="Icons\Workflows\Pause.svg" />
+    <None Remove="Icons\Workflows\Planning.svg" />
+    <None Remove="Icons\Workflows\Production.svg" />
+    <None Remove="Icons\Workflows\Schedule.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Remove="Icons\Forms\Drugs.xaml" />
     <Page Remove="Icons\Tests\AssayHplc.xaml" />
     <Page Remove="Icons\Tests\AssayUv.xaml" />
@@ -372,6 +381,12 @@
     <Resource Include="Icons\Validations\ValidateDocument.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Resource Include="Icons\Workflows\Correct.svg" />
+    <Resource Include="Icons\Workflows\Monograph.svg" />
+    <Resource Include="Icons\Workflows\Pause.svg" />
+    <Resource Include="Icons\Workflows\Planning.svg" />
+    <Resource Include="Icons\Workflows\Production.svg" />
+    <Resource Include="Icons\Workflows\Schedule.svg" />
     <Resource Include="Icons\Workflows\Specifications.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Resource>

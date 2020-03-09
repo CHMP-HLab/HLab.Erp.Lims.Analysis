@@ -80,7 +80,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             //.Column("Conformity", s => s.TestStateId);
                 .Icon("{Stage}", s => GetStateIcon(s.Stage), s => s.Stage)
                 .Localize("{Stage}", s=>GetStateCaption(s.Stage), s=>s.Stage)
-                .Icon("{Validation}", s => GetCheckIcon(s.Validation??0), s => s.Validation)
                 .Hidden("IsValid", s => s.Validation!=2)
                 .Hidden("Group", s => s.TestClassId);
 

@@ -218,9 +218,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     break;
                 case "SpecificationsDone":
                     Model.SpecificationsDone = TestHelper.SpecificationsDone;
-                    if(TestHelper?.SpecificationsDone != null)
-                        if(TestHelper.State>TestState)
-
                     break;
             }
         }

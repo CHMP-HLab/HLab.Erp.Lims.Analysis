@@ -46,14 +46,14 @@
                 <views1:DetailView Grid.Row="1" EditMode="{Binding EditMode}" Text="{}{Record}" IconPath = "Icons/Sample/Folder">
 
                     <lang:LocalizedLabel Text="{}{Reference} : "/>
-                    <TextBox Text="{Binding Model.Reference}" HorizontalContentAlignment="Center" />
+                    <TextBox Text="{Binding Model.Reference, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
 
                     <lang:LocalizedLabel Text="{}{FileId} : "/>
                     <base:NumTextBox 
                         Margin="0,0,15,0"
                         BorderBrush="#80000000"
                         HorizontalContentAlignment="Center" 
-                        Value="{Binding Model.FileId}"/>
+                        Value="{Binding Model.FileId, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <lang:LocalizedLabel Text="{}{Customer} : "/>
                     <entitySelectors:ForeignView 
@@ -108,7 +108,7 @@
                             HorizontalAlignment="Left"
                             HorizontalContentAlignment="Center" 
                             VerticalContentAlignment="Center"
-                            Value="{Binding Model.ReceivedQuantity,Mode=TwoWay}" />
+                            Value="{Binding Model.ReceivedQuantity,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                         <Label HorizontalAlignment="Right" Grid.Column="1">
                             <lang:Localize Id="{}{Date} :"/>
@@ -118,7 +118,7 @@
                         
                             HorizontalAlignment="Left"
                             Width="120"
-                            Date ="{Binding Model.SamplingDate}" 
+                            Date ="{Binding Model.SamplingDate, UpdateSourceTrigger=PropertyChanged}" 
                             DayValid="{Binding Model.SamplingDayValid}"/>
                     </Grid>
 
@@ -126,7 +126,7 @@
 
                     <TextBox
                         HorizontalAlignment="Stretch" 
-                        Text="{Binding Model.SamplingOrigin}"/>
+                        Text="{Binding Model.SamplingOrigin, UpdateSourceTrigger=PropertyChanged}"/>
                 </views1:DetailView>
 
                 <!-- LOT -->            
@@ -134,7 +134,7 @@
 
                     <lang:LocalizedLabel Text="{}{N°} : "/>
                     <TextBox  
-                    Text="{Binding Model.Batch}"/>
+                    Text="{Binding Model.Batch, UpdateSourceTrigger=PropertyChanged}"/>
 
 
                     <lang:LocalizedLabel Text="{}{Expiration} : "/>
@@ -171,7 +171,7 @@
                         </Label>
                         <base:DateEx 
                     Grid.Column="3" 
-                    Date="{Binding Model.ManufacturingDate}" 
+                    Date="{Binding Model.ManufacturingDate, UpdateSourceTrigger=PropertyChanged}" 
                     DayValid="{Binding Model.ManufacturingDayValid}"/>
                     </Grid>
 
@@ -197,7 +197,7 @@
                     <lang:LocalizedLabel Text="{}{Commercial Name} : "/>
                     <TextBox 
                         VerticalContentAlignment="Center"
-                        Text="{Binding Model.CommercialName}" 
+                        Text="{Binding Model.CommercialName, UpdateSourceTrigger=PropertyChanged}" 
                         HorizontalAlignment="Stretch"/>
 
                 </views1:DetailView>
@@ -212,7 +212,7 @@
                     <StackPanel Margin="0,0,15,0">
                         <TextBlock 
                             VerticalAlignment="Center"
-                            Text="{Binding  Model.PrimaryPackaging}"
+                            Text="{Binding  Model.PrimaryPackaging, UpdateSourceTrigger=PropertyChanged}"
                             Visibility="{Binding IsReadOnly,Converter={StaticResource BooleanToVisibility}}"
                             />
                         <ComboBox 
@@ -221,7 +221,7 @@
                             IsReadOnly="{Binding IsReadOnly}"
                             BorderBrush="#80000000"
                             IsEditable="True" 
-                            Text="{Binding Model.PrimaryPackaging}"
+                            Text="{Binding Model.PrimaryPackaging, UpdateSourceTrigger=PropertyChanged}"
                             DisplayMemberPath="Name"
                             />
 
@@ -230,7 +230,7 @@
                     <lang:LocalizedLabel  Text="{}{Secondary} : "/>
                     <StackPanel Margin="0,0,15,0">
                         <TextBlock 
-                            Text="{Binding  Model.SecondaryPackaging}"
+                            Text="{Binding  Model.SecondaryPackaging, UpdateSourceTrigger=PropertyChanged}"
                             Visibility="{Binding IsReadOnly,Converter={StaticResource BooleanToVisibility}}"
                             />
 
@@ -240,7 +240,7 @@
                             ItemsSource="{Binding SecondaryPackagingList}" 
                             BorderBrush="#80000000"
                             IsEditable="True" 
-                            Text="{Binding Model.SecondaryPackaging}"
+                            Text="{Binding Model.SecondaryPackaging, UpdateSourceTrigger=PropertyChanged}"
                             DisplayMemberPath="Name" SelectionChanged="ComboBox_SelectionChanged"
                             />
                     </StackPanel>
@@ -250,7 +250,7 @@
                     <TextBox 
                         VerticalScrollBarVisibility="Auto" 
                         BorderBrush="#80000000"
-                        Text="{Binding Model.StorageConditions}" 
+                        Text="{Binding Model.StorageConditions, UpdateSourceTrigger=PropertyChanged}" 
                         AcceptsReturn="True" 
                         TextWrapping="Wrap" />
 
@@ -337,7 +337,7 @@
         <!-- NOTE -->
         <views1:DetailView Grid.Row="2" EditMode="{Binding Locker.IsActive}" IconPath="Icons/Edit" Text="{}{Note}">
 
-            <TextBox Margin="50,0,15,0"  Grid.ColumnSpan="2"  Text="{Binding Model.Note}" AcceptsReturn="True" TextWrapping="Wrap"/>
+            <TextBox Margin="50,0,15,0"  Grid.ColumnSpan="2"  Text="{Binding Model.Note, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap"/>
             <Label />
 
         </views1:DetailView>
