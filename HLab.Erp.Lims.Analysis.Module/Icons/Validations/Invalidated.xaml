@@ -96,6 +96,6 @@
       </Canvas.RenderTransform>
     </Canvas>
     <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="54.829468" Canvas.Top="99.956886" Width="116.92661" Height="28.776155" Name="rect8477" Fill="#FFBA0404" StrokeThickness="14.24440765" StrokeMiterLimit="4" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-    <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="49.536682" Canvas.Top="93.611916" Width="116.92661" Height="28.776155" Name="rect847" Fill="#FFFFFFFF" StrokeThickness="14.24440765" StrokeMiterLimit="4" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+    <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="49.536682" Canvas.Top="93.611916" Width="116.92661" Height="28.776155" Name="rect847" Fill="#FFFEFEFE" StrokeThickness="14.24440765" StrokeMiterLimit="4" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
   </Canvas>
 </Viewbox>
