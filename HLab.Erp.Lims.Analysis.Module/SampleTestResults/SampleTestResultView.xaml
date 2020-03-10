@@ -19,10 +19,6 @@
 </Grid.ColumnDefinitions>
 
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
             <!--<Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>

@@ -21,6 +21,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
     public class SampleTestResultViewModel : EntityViewModel<SampleTestResultViewModel,SampleTestResult>
     {
+        public SampleTestResultViewModel()
+        { }
+
         [Import] private Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> _getWorkflow;
         [Import] public IErpServices Erp { get; }
 
@@ -96,7 +99,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             .Default(new FormHelper()));
 
         private readonly IProperty<bool> _ = H.Property<bool>(c => c
-            .On(e => e.Model)
+            .On(e => e.Model.Stage)
             .OnNotNull(e => e.Workflow)
             .Do(async e => await e.LoadResultAsync())
         );

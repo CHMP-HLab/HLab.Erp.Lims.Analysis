@@ -37,20 +37,21 @@
                     <TextBlock FontSize="16" HorizontalAlignment="Left" Text="{Binding Model.Name}" />
 
                     <lang:LocalizedLabel Text="{}{Start} : " HorizontalContentAlignment="Right" />
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Start}" />
+                    <TextBlock HorizontalAlignment="Left" Text="{Binding Model.Start}" />
 
                     <lang:LocalizedLabel Text="{}{End} : " HorizontalContentAlignment="Right"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding Model.End}"/>
+                    <TextBlock HorizontalAlignment="Left" Text="{Binding Model.End}"/>
 
                     <lang:LocalizedLabel Text="{}{Specification} : " HorizontalContentAlignment="Right"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding Model.SampleTest.Specification}"/>
+                    <TextBlock HorizontalAlignment="Left" Text="{Binding Model.SampleTest.Specification}"/>
                     
                     <lang:LocalizedLabel Text="{}{Result} : " HorizontalContentAlignment="Right"/>
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding Model.Result}"/>
+                    <TextBlock HorizontalAlignment="Left" Text="{Binding Model.Result}"/>
 
                     <lang:LocalizedLabel Text="{}{Conformity} : " HorizontalAlignment="Right"/>
                     <StackPanel Orientation="Horizontal">
                         <icons:IconView Path="{Binding ConformityIconPath}" MaxHeight="25"/>
+                        <Label/>
                         <lang:Localize Id="{Binding Conformity}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </views:DetailView>
@@ -62,6 +63,8 @@
             Text="{}{Note}" 
             IconPath="Icons/Sample/Folder"
             EditMode="{Binding Locker.IsActive}">
+            <TextBox Margin="50,0,15,0"  Grid.ColumnSpan="2"  Text="{Binding Model.Note, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap"/>
+            <Label />
         </views:DetailView>
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using HLab.Erp.Acl;
+﻿using System;
+using HLab.Erp.Acl;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Samples;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
@@ -10,19 +11,23 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
     {
         public SampleTestResultWorkflow(SampleTestResult result,IDataLocker locker):base(result,locker)
         {
-            CurrentState = Running;
+            SetState(result.Stage);
         }
 
         // RUNNING
         public static State Running = State.CreateDefault(c => c
             .Caption("{Running}").Icon("Icons/Workflows/Production")
-            .SetState(() => Running)
+            .Action(w =>
+            {
+                if(w.Target.Start==null) w.Target.Start = DateTime.Now;
+            })
         );
 
         public static Action Sign = Action.Create(c => c
             .Caption("{Sign}").Icon("Icons/Validations/Sign")
             .FromState(()=>Running)
             .ToState(()=>Signed)
+            .Action(w => w.Target.End = DateTime.Now)
         );
 
         // SIGNED
@@ -57,13 +62,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         // CHECKED
         public static State Checked = State.Create(c => c
             .Caption("{Checked}").Icon("Icons/Results/CheckPassed")
-            .SetState(() => Checked)
-        );
-
-        public static Action AskForCorrection2 = Action.Create(c => c
-            .Caption("{Ask for correction}").Icon("Icons/Workflows/Correct")
-            .FromState()
-            .ToState(()=>CorrectionNeeded).Backward()
         );
 
         public static Action Validate = Action.Create(c => c
@@ -82,12 +80,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
         // VALIDATED
         public static State Validated = State.Create(c => c
-            .Caption("{Validated}").Icon("Icons/SampleTestResult/Validated")
-            .SetState(() => Validated)
+            .Caption("{Validated}").Icon("Icons/Validations/Validated")
         );
 
         public static Action AskForCorrection3 = Action.Create(c => c
-            .Caption("{Ask for correction}").Icon("Icons/SampleTest/Correction")
+            .Caption("{Ask for correction}").Icon("Icons/Workflows/Correct")
             .FromState(()=>Validated,()=>Invalidated)
             .When(w => w.Target.SampleTest.Stage == SampleTestWorkflow.Running.Name)
             .ToState(()=>CorrectionNeeded).Backward()
@@ -96,8 +93,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
         // INVALIDATED
         public static State Invalidated = State.Create(c => c
-            .Caption("{Validated}").Icon("Icons/SampleTestResult/Validated")
-            .SetState(() => Validated)
+            .Caption("{Invalidated}").Icon("Icons/Validations/Validated")
         );
 
 
