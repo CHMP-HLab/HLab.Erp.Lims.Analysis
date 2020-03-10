@@ -6,3 +6,6 @@ ALTER TABLE public."SampleTest"
 
 ALTER TABLE public."SampleTestResult"
     ADD COLUMN "MandatoryDone" boolean;
+
+ALTER TABLE public."SampleTestResult"
+    ADD COLUMN "Note" text;
