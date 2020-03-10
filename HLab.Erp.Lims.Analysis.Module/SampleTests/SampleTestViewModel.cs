@@ -41,8 +41,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
             if (state == SampleTestWorkflow.Specifications) 
                 FormHelper.Mode = TestFormMode.Specification;
-            else if (state == SampleTestWorkflow.Running) 
-                FormHelper.Mode = TestFormMode.Capture;
+            //else if (state == SampleTestWorkflow.Running) 
+            //    FormHelper.Mode = TestFormMode.Capture;
             else 
                 FormHelper.Mode = TestFormMode.ReadOnly;
         }
@@ -72,6 +72,18 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 e.Locker.IsActive 
                 && e.Workflow.CurrentState == SampleTestWorkflow.Specifications
                 && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisMonographSign)
+            )
+        );
+        public bool ScheduleEditMode => _scheduleEditMode.Get();
+        private readonly IProperty<bool> _scheduleEditMode = H.Property<bool>(c => c
+            .On(e => e.Locker.IsActive)
+            .On(e => e.Workflow.CurrentState)
+            .NotNull(e => e.Locker)
+            .NotNull(e => e.Workflow)
+            .Set(e => 
+                e.Locker.IsActive 
+                && e.Workflow.CurrentState == SampleTestWorkflow.Scheduling
+                && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisSchedule)
             )
         );
 
@@ -109,7 +121,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .On(e => e.Model)
             .OnNotNull(e => e.Workflow)
             .OnNotNull(e => e.Results)
-            .Do(async e => await e.LoadResultAsync(e.Results.Selected))
+            .Do(async e => await e.LoadResultAsync(e.Results.Selected??e.Model.Result))
         );
 
         public ICommand ViewSpecificationsCommand {get;} = H.Command(c => c

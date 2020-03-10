@@ -24,8 +24,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         }
 
         [Import] private ObservableQuery<SampleTestResult> TestResults;
-
-
         private IProperty<bool> _ = H.Property<bool>(c => c
             .On(e => e.Target.Stage)
             .Do((a, b) =>
