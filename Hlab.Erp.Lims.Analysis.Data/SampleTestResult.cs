@@ -102,5 +102,11 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _mandatoryDone.Set(value);
         }
         private readonly IProperty<bool> _mandatoryDone = H.Property<bool>();
+        public string Note
+        {
+            get => _note.Get();
+            set => _note.Set(value);
+        }
+        private readonly IProperty<string> _note = H.Property<string>();
     }
 }

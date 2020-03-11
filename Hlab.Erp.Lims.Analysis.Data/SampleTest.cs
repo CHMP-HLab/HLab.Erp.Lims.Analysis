@@ -51,8 +51,12 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<int?> _purposeId = H.Property<int?>();
 
-
-        public string Note { get; set; }
+        public string Note
+        {
+            get => _note.Get();
+            set => _note.Set(value);
+        }
+        private readonly IProperty<string> _note = H.Property<string>();
 
         public int? Validation
         {
