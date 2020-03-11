@@ -6,6 +6,7 @@ using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
+using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
@@ -66,12 +67,10 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
             using (List.Suspender.Get())
             {
-
+                DeleteAllowed = true;
             }
 
         }
-
-        [Import] private IDataService _data;
 
         protected override async Task AddEntityAsync()
         {
@@ -91,7 +90,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             }
 
 
-            var result  = await _data.AddAsync<SampleTestResult>(r =>
+            var result  = await _erp.Data.AddAsync<SampleTestResult>(r =>
             {
                 r.Name = string.Format("R{0}",i+1);
                 r.SampleTestId = _sampleTestId;
@@ -104,8 +103,15 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 await List.UpdateAsync();
 
         }
+        protected override bool CanExecuteDelete()
+        {
+            if(Selected==null) return false;
+            if (Selected.Stage != SampleTestResultWorkflow.Running.Name) return false;
+            if(!_erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
+            return true;
+        }
 
-        public string Title => "{Result}";
+        public override string Title => "{Results}";
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }
