@@ -33,22 +33,22 @@
                                   IconPath="{Binding Model.SampleTest.TestClass.IconPath}" 
                                   Text="{Binding Model.SampleTest.TestClass.Name}" >
 
-                    <lang:LocalizedLabel Text="{}{Name} : " HorizontalContentAlignment="Right" />
-                    <TextBlock FontSize="16" HorizontalAlignment="Left" Text="{Binding Model.Name}" />
+                    <lang:LocalizedLabel Text="{}{Name} : " HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBlock FontSize="16" HorizontalAlignment="Left" Text="{Binding Model.Name}" VerticalAlignment="Center" />
 
-                    <lang:LocalizedLabel Text="{}{Start} : " HorizontalContentAlignment="Right" />
-                    <TextBlock HorizontalAlignment="Left" Text="{Binding Model.Start}" />
+                    <lang:LocalizedLabel Text="{}{Start} : " HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBlock HorizontalAlignment="Left" Text="{Binding Model.Start}" VerticalAlignment="Center"/>
 
-                    <lang:LocalizedLabel Text="{}{End} : " HorizontalContentAlignment="Right"/>
+                    <lang:LocalizedLabel Text="{}{End} : " HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
                     <TextBlock HorizontalAlignment="Left" Text="{Binding Model.End}"/>
 
-                    <lang:LocalizedLabel Text="{}{Specification} : " HorizontalContentAlignment="Right"/>
-                    <TextBlock HorizontalAlignment="Left" Text="{Binding Model.SampleTest.Specification}"/>
+                    <lang:LocalizedLabel Text="{}{Specification} : " HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBlock HorizontalAlignment="Left" Text="{Binding Model.SampleTest.Specification}" VerticalAlignment="Center"/>
                     
-                    <lang:LocalizedLabel Text="{}{Result} : " HorizontalContentAlignment="Right"/>
-                    <TextBlock HorizontalAlignment="Left" Text="{Binding Model.Result}"/>
+                    <lang:LocalizedLabel Text="{}{Result} : " HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBlock HorizontalAlignment="Left" Text="{Binding Model.Result}" VerticalAlignment="Center"/>
 
-                    <lang:LocalizedLabel Text="{}{Conformity} : " HorizontalAlignment="Right"/>
+                    <lang:LocalizedLabel Text="{}{Conformity} : " HorizontalAlignment="Right" VerticalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal">
                         <icons:IconView Path="{Binding ConformityIconPath}" MaxHeight="25"/>
                         <Label/>
@@ -61,7 +61,7 @@
         <views:DetailView 
             Grid.Row="2" 
             Text="{}{Note}" 
-            IconPath="Icons/Sample/Folder"
+            IconPath="Icons/Edit"
             EditMode="{Binding Locker.IsActive}">
             <TextBox Margin="50,0,15,0"  Grid.ColumnSpan="2"  Text="{Binding Model.Note, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap"/>
             <Label />

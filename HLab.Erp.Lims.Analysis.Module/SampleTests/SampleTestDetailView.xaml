@@ -34,28 +34,28 @@
                     Text="{Binding Model.TestClass.Name}"
                     EditMode="{Binding EditMode}">
 
-                    <lang:LocalizedLabel Text="{}{OOS} : " />
-                    <TextBlock Text="{Binding Model.OosNo}"/>
+                    <lang:LocalizedLabel Text="{}{OOS} : " VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Model.OosNo}" VerticalAlignment="Center"/>
                     
-                    <lang:LocalizedLabel Text="{}{Name} : " />
-                    <TextBlock Text="{Binding Model.TestName}"/>
+                    <lang:LocalizedLabel Text="{}{Name} : " VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Model.TestName}" VerticalAlignment="Center"/>
                     
-                    <lang:LocalizedLabel Text="{}{Specifications} : " />
-                    <TextBlock Text="{Binding Model.Specification}"/>
+                    <lang:LocalizedLabel Text="{}{Specifications} : "  VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Model.Specification}" VerticalAlignment="Center"/>
 
-                    <lang:LocalizedLabel Text="{}{Description} : " />
-                    <TextBlock Text="{Binding Model.Description}"/>
+                    <lang:LocalizedLabel Text="{}{Description} : "  VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Model.Description}" VerticalAlignment="Center"/>
 
                     <!--<lang:LocalizedLabel Text="{}{Method} : " />
                     <TextBox Text="{Binding Model.Method}"/>-->
                 </views:DetailView>
                 <views:DetailView 
-                    IconPath="{Binding Model.TestClass.IconPath}" 
-                    Text="{Binding Model.TestClass.Name}"
+                    IconPath="Icons/Workflows/Schedule" 
+                    Text="{}{Scheduling}"
                     EditMode="{Binding ScheduleEditMode}">
 
                     
-                    <lang:LocalizedLabel Text="{}{Scheduling} :" />
+                    <lang:LocalizedLabel Text="{}{Date} :" />
                     <base:DateEx
                             HorizontalAlignment="Left"
                             Date="{Binding Model.ScheduledDate}" 
