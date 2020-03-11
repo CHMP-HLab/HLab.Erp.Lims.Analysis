@@ -45,8 +45,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         string TestName { get; set; }
         string Description { get; set; }
         string Result { get; set; }
-        bool SpecificationsDone { get; set; }
-        bool MandatoryDone { get; set; }
+        //bool SpecificationsDone { get; set; }
+        //bool MandatoryDone { get; set; }
     }
 
     public class TestLegacyHelper : N<TestLegacyHelper>, ITestHelper
@@ -129,18 +129,18 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
         private IProperty<string> _result = H.Property<string>();
 
-        public bool SpecificationsDone
-        {
-            get => _specificationsDone.Get();
-            set => _specificationsDone.Set(value);
-        }
-        private IProperty<bool> _specificationsDone = H.Property<bool>();
-        public bool MandatoryDone
-        {
-            get => _mandatoryDone.Get();
-            set => _mandatoryDone.Set(value);
-        }
-        private IProperty<bool> _mandatoryDone = H.Property<bool>();
+        //public bool SpecificationsDone
+        //{
+        //    get => _specificationsDone.Get();
+        //    set => _specificationsDone.Set(value);
+        //}
+        //private IProperty<bool> _specificationsDone = H.Property<bool>();
+        //public bool MandatoryDone
+        //{
+        //    get => _mandatoryDone.Get();
+        //    set => _mandatoryDone.Set(value);
+        //}
+        //private IProperty<bool> _mandatoryDone = H.Property<bool>();
 
         public double Calcul(TextBlock block, double value, int decimals = 2) =>
             Compute(block, value, decimals);

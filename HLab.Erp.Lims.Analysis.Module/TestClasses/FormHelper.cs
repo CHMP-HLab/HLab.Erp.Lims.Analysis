@@ -724,25 +724,28 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
             }
 
-            if (isSpecMode && Test!=null) 
+            if (isSpecMode && Test != null)
+            {
                 Test.Values = GetSpecPackedValues();
+                if (specificationNeeded > 0)
+                {
+                    Form.Test.State = TestState.NotStarted;
+                    Test.SpecificationsDone = false;
+                }
+                else Test.SpecificationsDone = true;
+            }
 
-            if (isCaptureMode && Result!=null) 
+            if (isCaptureMode && Result != null)
+            {
                 Result.Values = GetPackedValues();
-
-            if (mandatoryNeeded > 0)
-            {
-                Form.Test.State = mandatoryDone > 0 ? TestState.Running : TestState.NotStarted;
-                Form.Test.MandatoryDone = false;
+                if (mandatoryNeeded > 0)
+                {
+                    Form.Test.State = mandatoryDone > 0 ? TestState.Running : TestState.NotStarted;
+                    Result.MandatoryDone = false;
+                }
+                else Result.MandatoryDone = true;
             }
-            else Form.Test.MandatoryDone = true;
 
-            if (specificationNeeded > 0)
-            {
-                Form.Test.State = TestState.NotStarted;
-                Form.Test.SpecificationsDone = false;
-            }
-            else Form.Test.SpecificationsDone = true;
 
             if(Form.Test.State>TestState.Running)
             {
@@ -884,21 +887,20 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         public async Task LoadAsync(SampleTest test, SampleTestResult result = null)
         {
-            Test = test;
-            Result = result;
-
-            await ExtractCode(test.Code).ConfigureAwait(true);
-            await LoadForm().ConfigureAwait(true);
-            
-            LoadValues(test.Values);
-            
-            if (result!=null) 
-                LoadValues(result.Values);
-            
-            test.Values = GetSpecPackedValues();
-
-            if(result!=null)
-                result.Values = GetPackedValues();
+            if (!ReferenceEquals(Test,test))
+            {
+                if (Test != null) throw new Exception("Test should be null or same");
+                Test = test;
+                await ExtractCode(test.Code).ConfigureAwait(true);
+                await LoadForm().ConfigureAwait(true);
+                LoadValues(test.Values);
+            }
+            if (!ReferenceEquals(Result, result))
+            {
+                Result = result;
+                if (result!=null) 
+                    LoadValues(result.Values);
+            }
 
             Form.Traitement(null,null);
         }

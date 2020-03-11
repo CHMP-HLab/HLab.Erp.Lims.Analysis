@@ -91,12 +91,12 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         // Scheduling
 
         public static State Scheduling = State.Create(c => c
-            .Caption("{Scheduling}").Icon("Icons/Workflows/planning")
+            .Caption("{Scheduling}").Icon("Icons/Workflows/Planning")
         );
 
         public static Action Schedule  = Action.Create(c => c
-            .Caption("{Schedule}").Icon("Icons/Workflows/Schedule")
-            .FromState(()=>Scheduling,()=>Scheduled)
+            .Caption("{Schedule}").Icon("Icons/Workflows/Planning")
+            .FromState(()=>Scheduling)
             .When(w=>w.Target.ScheduledDate!=null && w.Target.ScheduledDate>=DateTime.Now)
             .ToState(()=>Scheduled)
         );
@@ -105,7 +105,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         // Scheduled
 
         public static State Scheduled = State.Create(c => c
-            .Caption("{Scheduled}").Icon("Icons/Workflows/Schedule")
+            .Caption("{Scheduled}").Icon("Icons/Workflows/Planning")
             .When(w=>w.Target.ScheduledDate!=null)
         );
 
@@ -116,9 +116,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         );
 
         public static Action Unschedule  = Action.Create(c => c
-            .Caption("{Unschedule}").Icon("Icons/Sample/Unschedule")
+            .Caption("{Unschedule}").Icon("Icons/Workflows/Planning")
             .FromState(()=>Scheduled)
             .ToState(()=>Scheduling)
+            .Backward()
         );
 
         //########################################################

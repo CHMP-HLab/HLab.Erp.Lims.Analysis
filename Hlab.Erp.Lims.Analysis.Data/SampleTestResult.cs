@@ -49,7 +49,6 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<string> _values = H.Property<string>(c => c.Default(""));
 
-        [Ignore]
         public string Result
         {
             get => _result.Get(); set => _result.Set(value);

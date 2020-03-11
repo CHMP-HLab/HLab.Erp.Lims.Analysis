@@ -31,7 +31,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         public FormHelper FormHelper => _formHelper.Get();
         private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c
-            .Default(new FormHelper()));
+            .Set(e => e._getFormHelper()));
+
+        [Import] private Func<FormHelper> _getFormHelper;
 
         public async Task LoadResultAsync(SampleTestResult target=null)
         {
@@ -229,9 +231,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     if(TestHelper?.Conformity!=null)
                         Model.Conform = TestHelper.Conformity;
                     break;
-                case "SpecificationsDone":
-                    Model.SpecificationsDone = TestHelper.SpecificationsDone;
-                    break;
+                //case "SpecificationsDone":
+                //    Model.SpecificationsDone = TestHelper.SpecificationsDone;
+                //    break;
             }
         }
         

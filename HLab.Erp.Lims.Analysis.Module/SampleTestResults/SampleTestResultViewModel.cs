@@ -96,10 +96,14 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         private readonly IProperty<SampleTestViewModel> _parent = H.Property<SampleTestViewModel>();
         public FormHelper FormHelper => _formHelper.Get();
         private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c
-            .Default(new FormHelper()));
+            .Set(e => e._getFormHelper()));
+
+        [Import] private Func<FormHelper> _getFormHelper;
 
         private readonly IProperty<bool> _ = H.Property<bool>(c => c
             .On(e => e.Model.Stage)
+//            .On(e => e.Model.Values)
+            .On(e => e.EditMode)
             .OnNotNull(e => e.Workflow)
             .Do(async e => await e.LoadResultAsync())
         );
@@ -126,9 +130,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
                 case "State":
                         Model.StateId = (int)TestHelper.State;
                     break;
-                case "MandatoryDone":
-                    Model.MandatoryDone = TestHelper.MandatoryDone;
-                    break;
+                //case "MandatoryDone":
+                //    Model.MandatoryDone = TestHelper.MandatoryDone;
+                //    break;
             }
         }
 
