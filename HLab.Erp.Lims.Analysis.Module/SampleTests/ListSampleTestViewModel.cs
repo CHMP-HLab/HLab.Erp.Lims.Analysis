@@ -2,11 +2,13 @@
 using System.Windows;
 using System.Windows.Controls;
 using HLab.DependencyInjection.Annotations;
+using HLab.Erp.Acl;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ViewModels;
 using HLab.Erp.Core.ViewModels.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Samples;
+using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Icons;
 using HLab.Mvvm.Lang;
@@ -15,8 +17,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
     public class ListSampleTestViewModel : EntityListViewModel<ListSampleTestViewModel, SampleTest>, IMvvmContextProvider
     {
-        [Import]
-        private readonly IIconService _icons;
+        [Import] private readonly IIconService _icons;
+        [Import] private readonly IAclService _acl;
 
         private string GetIcon(int state)
         {
@@ -82,9 +84,19 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 .Hidden("Group", s => s.TestClassId);
 
             List.UpdateAsync();
+
+            DeleteAllowed = true;
         }
 
-        public string Title => "Samples";
+        protected override bool CanExecuteDelete()
+        {
+            if(Selected==null) return false;
+            if (Selected.Stage != SampleTestWorkflow.Specifications.Name) return false;
+            if(!_acl.IsGranted(AnalysisRights.AnalysisAddTest)) return false;
+            return true;
+        }
+
+        public override string Title => "Samples";
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }
