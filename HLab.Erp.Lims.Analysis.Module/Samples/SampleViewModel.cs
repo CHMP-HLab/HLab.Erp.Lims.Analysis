@@ -107,9 +107,17 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         );
 
         public ICommand AddTestCommand { get; } = H.Command(c => c
-            .CanExecute(e => e.Erp.Acl.IsGranted(AnalysisRights.AnalysisAddTest))
+            .CanExecute(e => e.CanExecuteAddTest())
             .Action((e,t) => e.AddTest(t as TestClass))
+            .On(e => e.Model.Stage).CheckCanExecute()
         );
+
+        private bool CanExecuteAddTest()
+        {
+            if(!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddTest)) return false;
+            if(Model.Stage != SampleWorkflow.Monograph.Name) return false;
+            return true;
+        }
 
         private void AddTest(TestClass testClass)
         {
@@ -122,7 +130,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 st.Code = testClass.Code;
                 st.Description = "";
                 st.TestName = testClass.Name;
-                st.Stage = SampleWorkflow.DefaultState.Name;
+                st.Stage = SampleTestWorkflow.DefaultState.Name;
             });
 
             if (test != null)
