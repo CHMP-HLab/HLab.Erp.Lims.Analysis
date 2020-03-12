@@ -21,6 +21,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
     public enum TestFormMode
     {
+        NotSet = 0,
         Specification,
         Capture,
         ReadOnly
@@ -629,9 +630,10 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
 
         private static readonly Brush _normalBrush = new SolidColorBrush(Color.FromArgb(0x40, 0xFF, 0xFF, 0xFF));
-        private static readonly Brush _specificationNeededBrush = Brushes.PaleGreen;
+        private static readonly Brush _specificationNeededBrush = Brushes.MediumSpringGreen;
         private static readonly Brush _specificationDoneBrush = Brushes.DarkGreen;
         private static readonly Brush _mandatoryBrush = Brushes.PaleVioletRed;
+        private static readonly Brush _hiddenBrush = Brushes.Black;
 
 
         private bool SetFormMode(TestFormMode mode)
@@ -649,20 +651,24 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             var mandatoryDone = 0;
             var optionalDone = 0;
 
-            var mandatoryBrush = isSpecMode ? _normalBrush : _mandatoryBrush;
-
 
             if (Form is FrameworkElement form)
             {
                 foreach (var c in FindLogicalChildren<Control>(form))
                 {
-                    var tag = c.Tag?.ToString().ToLower()??"";
+                    var spec = IsSpec(c);
+                    var mandatory = IsMandatory(c);
 
-                    var spec = (tag.Contains("norme") || tag.Contains("spec"));
-                    var mandatory = (tag.Contains("obligatoire") || tag.Contains("mandatory"));
+                    var doneBrush = 
+                        isSpecMode
+                        ?spec?_specificationDoneBrush:_hiddenBrush
+                        :spec?_specificationDoneBrush:_normalBrush                        
+                        ;
 
-                    var doneBrush = spec?_specificationDoneBrush:_normalBrush;;
-                    var todoBrush = spec?_specificationNeededBrush:mandatory?mandatoryBrush:_normalBrush;
+                    var todoBrush = 
+                        isSpecMode
+                        ?spec?_specificationNeededBrush:_hiddenBrush
+                        :mandatory?_mandatoryBrush:_normalBrush;
 
 
                     Action todo;
@@ -756,6 +762,24 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             return mandatoryNeeded>0 || specificationNeeded>0;
         }
 
+
+        private static bool IsMandatory(Control c)
+        {
+            if(c.Tag==null) return false;
+            var tag = c.Tag.ToString().ToLower();
+            if(tag.Contains("mand")) return true;
+            if (tag.Contains("obli")) return true;
+            return false;
+        }
+        private static bool IsSpec(Control c)
+        {
+            if(c.Tag==null) return false;
+            var tag = c.Tag.ToString().ToLower();
+            if(tag.Contains("spec")) return true;
+            if (tag.Contains("norme")) return true;
+            return false;
+        }
+
         public static void CalculEtat(FrameworkElement form, ref DateTime dateDebut, ref DateTime dateFin)
         {
             // Détermine comment les champs sont remplis
@@ -774,7 +798,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
                 var tag = c.Tag.ToString();
 
-                if (tag.Contains("Obligatoire") || tag.Contains("Mandatory"))
+                if (IsMandatory(c))
                 {
                     nbMandatory++;
 
@@ -812,7 +836,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                     }
                 }
 
-                if (!tag.Contains("Norme")) continue;
+                if (!IsSpec(c)) continue;
                 nbSpecifications++;
 
                 switch (c)
@@ -893,12 +917,13 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 Test = test;
                 await ExtractCode(test.Code).ConfigureAwait(true);
                 await LoadForm().ConfigureAwait(true);
-                LoadValues(test.Values);
+                if(test?.Values!=null)
+                    LoadValues(test.Values);
             }
             if (!ReferenceEquals(Result, result))
             {
                 Result = result;
-                if (result!=null) 
+                if (result?.Values!=null ) 
                     LoadValues(result.Values);
             }
 
