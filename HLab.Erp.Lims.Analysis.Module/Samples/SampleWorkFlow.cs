@@ -57,25 +57,23 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public static State ReceptionCheck = State.Create(c => c
             .Caption("{Reception check}").Icon("Icons/Sample/PackageOpened|Icons/Validations/Sign")
 
-            .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.Reference))
-            .WithMessage(w => "{Missing} : {Reference}")
-
-            .NotWhen(w => w.Target.CustomerId == null)
-            .WithMessage(w => "{Missing} : {Customer}")
-
-            .NotWhen(w => w.Target.ProductId == null)
-            .WithMessage(w => "{Missing} : {Product}")
-
-            .NotWhen(w => w.Target.ReceptionDate == null)
-            .WithMessage(w => "{Missing} : {Reception date}")
+            .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.Batch))
+            .WithMessage(w => "{Missing} : {Batch No}")
 
             .NotWhen(w => w.Target.ReceivedQuantity == null)
             .WithMessage(w => "{Missing} : {Received quantity}")
 
-            .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.Batch))
-            .WithMessage(w => "{Missing} : {Batch No}")
+            .NotWhen(w => w.Target.ReceptionDate == null)
+            .WithMessage(w => "{Missing} : {Reception date}")
 
-            .SetState(() => ReceptionCheck)
+            .NotWhen(w => w.Target.ProductId == null)
+            .WithMessage(w => "{Missing} : {Product}")
+
+            .NotWhen(w => w.Target.CustomerId == null)
+            .WithMessage(w => "{Missing} : {Customer}")
+
+            .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.Reference))
+            .WithMessage(w => "{Missing} : {Reference}")
         );
 
 
@@ -146,7 +144,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                     if (test.Stage == SampleTestWorkflow.SignedSpecifications.Name) return false;
                 }
                 return true;
-            }).WithMessage(w => "{Missing} : {Test specifications}")
+            })
+                .WithMessage(w => "{Missing} : {Test specifications}")
         );
 
         public static Action ValidatePlanning = Action.Create(c => c
@@ -162,7 +161,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public static State Planning = State.Create(c => c
             .Caption(w => "{Scheduling}").Icon(w => "icons/Workflows/Planning|Icons/Validations/Edit")
             .WhenStateAllowed(() => MonographClosed)
-            .SetState(() => Planning)
         );
 
         public static Action ValidateProduction = Action.Create(c => c
@@ -177,8 +175,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         // PRODUCTION
         public static State Production = State.Create(c => c
             .Caption(w => "{Production}").Icon(w => "Icons/Workflows/Production")
-            .SetState(()=>Production)
-            .WhenStateAllowed(() => Planning)
+            .WhenStateAllowed(() => MonographClosed)
         );
 
         //########################################################
@@ -186,15 +183,21 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public static Action ValidateCertificate = Action.Create( c => c
             .Caption(w => "{Print Certificate}").Icon(w => "Icons/Workflows/Certificate")
-            .FromState(() => Planning)
-            .ToState(() => Production)
+            .FromState(() => Production)
+            .ToState(() => Certificate)
             .NeedRight(()=>AnalysisRights.AnalysisSchedule)
         );
 
         public static State Certificate = State.Create(c => c
-            .Caption(w => "{Edit certificate}").Icon(w => "Icons/Workflows/Certificate")
-            .SetState(()=>Certificate)
-            .WhenStateAllowed(() => Planning)
+            .Caption(w => "{Print certificate}").Icon(w => "Icons/Workflows/Certificate")
+            .WhenStateAllowed(()=>MonographClosed)
+            .When(w => {
+                foreach (SampleTest test in w.SampleTests)
+                {
+                    if (test.Stage != SampleTestWorkflow.ValidatedResults.Name) return false; 
+                }
+                return true;
+            })
         );
 
         //########################################################
