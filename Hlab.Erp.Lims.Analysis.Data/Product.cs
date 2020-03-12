@@ -9,13 +9,19 @@ namespace HLab.Erp.Lims.Analysis.Data
 {
      public partial class Product : Entity<Product>, ILocalCache, IListableModel
      {
+        public string Complement
+        {
+            get => _complement.Get();
+            set => _complement.Set(value);
+        }
+        private readonly IProperty<string> _complement = H.Property<string>(c => c.Default(""));
+
         public string Inn
         {
             get => _inn.Get();
             set => _inn.Set(value);
         }
         private readonly IProperty<string> _inn = H.Property<string>(c => c.Default(""));
-
 
         public string Dose
         {

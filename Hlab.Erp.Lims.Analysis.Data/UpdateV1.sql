@@ -70,3 +70,6 @@ INSERT INTO public."ProductCategory" (
  returning "Id";
 
 update "Product" Set "CategoryId"=1 WHERE ISNULL "CategoryId";
+
+ALTER TABLE public."Product"
+    ADD COLUMN "Complement" text;
