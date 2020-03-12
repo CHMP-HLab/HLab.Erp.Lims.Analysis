@@ -20,7 +20,7 @@ using Outils;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
-    class SampleViewModel : EntityViewModel<SampleViewModel,Sample>
+    public class SampleViewModel : EntityViewModel<SampleViewModel,Sample>
     {
         public Type ListProductType => typeof(ProductsListPopupViewModel);
 
@@ -256,7 +256,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                                                        
     }
 
-    class SampleViewModelDesign : SampleViewModel, IViewModelDesign
+    public class SampleViewModelDesign : SampleViewModel, IViewModelDesign
     {
         public new Sample Model { get; } = Sample.DesignModel;
     }

@@ -2,6 +2,7 @@
 using HLab.Core.Annotations;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
+using HLab.Erp.Lims.Analysis.Module.Products;
 using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Notify.PropertyChanged;
 
@@ -26,7 +27,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             e => e._erp.Docs.OpenDocumentAsync(typeof(ListTestClassViewModel))
         ));
         public ICommand OpenListTestCategoryCommand { get; } = H.Command(c => c.Action(
-            e => e._erp.Docs.OpenDocumentAsync(typeof(ListTestCategoryViewModel))
+            e => e._erp.Docs.OpenDocumentAsync(typeof(ProductCategoriesListViewModel))
         ));
 
 

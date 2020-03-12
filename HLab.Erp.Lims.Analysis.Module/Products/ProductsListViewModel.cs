@@ -20,6 +20,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns
                 //.Column("Ref",  s => s.Caption)
+                .Column("{Category}",e => e.Category?.Name,e => e.Category.Name)
                 .Column("{Inn}",e => e.Inn)
                 .Column("{Dose}",e => e.Dose)
                 .Column("{Form}",e => e.Form)

@@ -1,26 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using HLab.DependencyInjection.Annotations;
+﻿using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
-using HLab.Erp.Core.ViewModels.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.Products;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Icons;
 
 namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
 {
-    class ListManufacturerViewModel: EntityListViewModel<ListManufacturerViewModel,Manufacturer>, IMvvmContextProvider
+    public class ManufacturersListViewModel: EntityListViewModel<ManufacturersListViewModel,Manufacturer>, IMvvmContextProvider
     {
-        public string Title => "Manufacturers";
-
         private readonly IErpServices _erp;
 
         [Import]
-        public ListManufacturerViewModel(IErpServices erp)
+        public ManufacturersListViewModel(IErpServices erp)
         {
             AddAllowed = true;
             DeleteAllowed = true;

@@ -12,6 +12,7 @@
              xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
              xmlns:data="clr-namespace:HLab.Erp.Lims.Analysis.Data;assembly=HLab.Erp.Lims.Analysis.Data"
              xmlns:views="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
+             xmlns:products="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products"
              mc:Ignorable="d" 
              Background="#FF93A03F"
              d:DataContext="{d:DesignInstance {x:Type local:ProductViewModelDesign}, IsDesignTimeCreatable=True}"             
@@ -30,6 +31,13 @@
                 Text="{}{Product}" 
                 IconPath="Icons/Sample/Drugs"
                 EditMode="{Binding Locker.IsActive}">
+                
+                    <lang:LocalizedLabel Text="{}{Category} : "/>
+                    <entitySelectors:ForeignView 
+                        HorizontalAlignment="Left"
+                        Model="{Binding Model.Category}"
+                        ModelClass="{x:Type data:ProductCategory}" 
+                        ListClass="{x:Type products:ProductCategoriesListViewModel}"/>
                 
             <lang:LocalizedLabel Text="{}{INN} : "/>
             <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Inn}" HorizontalContentAlignment="Center" />

@@ -15,7 +15,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
         [Import] private readonly IErpServices _erp;
 
        public ICommand OpenListManufacturerCommand { get; } = H.Command(c => c.Action(
-            e => e._erp.Docs.OpenDocumentAsync(typeof(ListManufacturerViewModel))
+            e => e._erp.Docs.OpenDocumentAsync(typeof(ManufacturersListViewModel))
         ));
 
         public bool Load() => _erp.Menu.RegisterMenu("data/manufacturers", "{Manufacturers}",

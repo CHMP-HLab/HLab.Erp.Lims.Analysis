@@ -184,9 +184,9 @@
                         </Grid.ColumnDefinitions>
 
                         <entitySelectors:ForeignView 
-                        Model="{Binding Model.Manufacturer}"
-                        ModelClass="{x:Type data:Manufacturer}" 
-                        ListClass="{x:Type manufacturers:ListManufacturerViewModel}"/>
+                            Model="{Binding Model.Manufacturer}"
+                            ModelClass="{x:Type data:Manufacturer}" 
+                            ListClass="{x:Type manufacturers:ManufacturersListViewModel}"/>
 
                         <Label Grid.Column="1">
                             <lang:Localize Id="{Binding Model.Manufacturer.Country.Name}"/>

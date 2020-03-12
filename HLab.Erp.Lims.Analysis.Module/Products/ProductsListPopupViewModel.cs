@@ -18,7 +18,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
         {
         }
 
-        public string Title => "{Products}";
+        public override string Title => "{Products}";
         [Import]
         public ProductsListPopupViewModel()
         {

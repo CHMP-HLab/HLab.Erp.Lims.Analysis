@@ -63,6 +63,19 @@ namespace HLab.Erp.Lims.Analysis.Data
         private readonly IProperty<Form> _form = H.Property<Form>(c => c
             .Foreign(e => e.FormId)
         );
+        public int? CategoryId
+        {
+            get => _category.Id.Get();
+            set => _category.Id.Set(value);
+        }
+        [Ignore]
+        public ProductCategory Category
+        {
+            get => _category.Get();
+            set => _category.Set(value);
+        }
+        private readonly IForeign<ProductCategory> _category = H.Foreign<ProductCategory>();
+
 
         public static Product DesignModel => new Product
         {

@@ -24,6 +24,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Icons\Sample\Consumable.svg" />
     <None Remove="Icons\Workflows\Correct.svg" />
     <None Remove="Icons\Workflows\Edit.svg" />
     <None Remove="Icons\Workflows\Monograph.svg" />
@@ -127,6 +128,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Icons\Sample\Consumable.svg" />
     <Resource Include="Icons\Tests\AssayHplc.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

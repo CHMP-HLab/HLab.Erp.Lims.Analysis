@@ -1,11 +1,11 @@
-using HLab.Erp.Core;
+﻿using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Notify.PropertyChanged;
 using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    public class TestCategory : Entity<TestCategory>, ILocalCache, IListableModel
+    public class ProductCategory : Entity<ProductCategory>, ILocalCache, IListableModel
     {
         public static TestCategory DesignModel => new TestCategory
         {

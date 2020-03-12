@@ -36,7 +36,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
     }
     public class TestClassViewModel : EntityViewModel<TestClassViewModel, TestClass>
     {
-        public string Title => _title.Get();
+        public override string Title => _title.Get();
         private readonly IProperty<string> _title = H.Property<string>(c => c.OneWayBind(e => e.Model.Name));
 
         public TestClassViewModel()
