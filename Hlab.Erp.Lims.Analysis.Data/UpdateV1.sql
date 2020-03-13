@@ -73,3 +73,6 @@ update "Product" Set "CategoryId"=1 WHERE ISNULL "CategoryId";
 
 ALTER TABLE public."Product"
     ADD COLUMN "Complement" text;
+
+ALTER TABLE public."SampleTestResult"
+    ADD COLUMN "Conformity" text;
