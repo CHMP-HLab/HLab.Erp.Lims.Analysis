@@ -55,6 +55,12 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
 
         readonly IProperty<string> _result = H.Property<string>(c => c.Default(""));
+        public string Conformity
+        {
+            get => _conformity.Get(); set => _conformity.Set(value);
+        }
+
+        readonly IProperty<string> _conformity = H.Property<string>(c => c.Default(""));
 
         public DateTime? Start
         {

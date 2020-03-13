@@ -148,9 +148,25 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         [Import] private Func<Sample,DataLocker<Sample>,SampleWorkflow> _getSampleWorkflow;
 
+        [Import] private IAclService _acl;
+
         public ICommand CertificateCommand { get; } = H.Command(c => c
-//            .CanExecute(e => e._
-            .Action(e => e.PrintCertificate("FR"))
+            //.CanExecute(e => e._acl.IsGranted(AnalysisRights.AnalysisCertificateCreate))
+            .Action(e =>
+            {
+                var preview = true;
+                if (e._acl.IsGranted(AnalysisRights.AnalysisCertificateCreate)
+                    && 
+                    (e.Model.Stage == SampleWorkflow.Closed.Name || e.Model.Stage == SampleWorkflow.Certificate.Name))
+                    preview = false;
+                e.PrintCertificate("FR");
+            }).CheckCanExecute()
+        );
+        public ICommand PreviewCertificateCommand { get; } = H.Command(c => c
+            .Action(e =>
+            {
+                e.PrintCertificate("FR", true);
+            })
         );
 
         [Import]
@@ -215,7 +231,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             String nomTest = "";
             foreach (var test in Tests.List)
             {
-                if (test.Validation != 2)
+                if (test.Stage != SampleTestWorkflow.InvalidatedResults.Name)
                 {
                     // Ajoute la ligne pour le nom du test
                     if (test.TestName != nomTest)
@@ -238,8 +254,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                     ip.Element["Description"] = test.Description + Environment.NewLine;
                     //TODO ip.Element["Reference"] = test.Reference + Environment.NewLine;
                     ip.Element["Norme"] = test.Specification + Environment.NewLine;
-                    ip.Element["Resultat"] = test.Result + Environment.NewLine;
-                    ip.Element["Conforme"] = test.Conform + Environment.NewLine;
+                    ip.Element["Resultat"] = test.Result.Result + Environment.NewLine;
+                    ip.Element["Conforme"] = test.Result.Conformity + Environment.NewLine;
                 }
             }
             // Impression du certificat d'analyse

@@ -127,6 +127,10 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
                     if(TestHelper?.Result!=null)
                         Model.Result = TestHelper.Result;
                     break;
+                case "Conformity":
+                    if(TestHelper?.Result!=null)
+                        Model.Conformity = TestHelper.Conformity;
+                    break;
                 case "State":
                         Model.StateId = (int)TestHelper.State;
                     break;
