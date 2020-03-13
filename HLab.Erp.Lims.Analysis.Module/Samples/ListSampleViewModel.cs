@@ -9,14 +9,14 @@ using HLab.Mvvm.Lang;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
-    class ListSampleViewModel : EntityListViewModel<ListSampleViewModel,Sample>, IMvvmContextProvider
+    class ListSampleViewModel : EntityListViewModel<ListSampleViewModel, Sample>, IMvvmContextProvider
     {
-        
+
         private readonly IErpServices _erp;
 
         private string GetStateIcon(int state)
         {
-            switch(state)
+            switch (state)
             {
                 case 1:
                     return "icons/Results/CheckFailed";
@@ -40,7 +40,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             return state?.GetCaption(null);
         }
 
-        [Import] public ListSampleViewModel(IErpServices erp) 
+        [Import] public ListSampleViewModel(IErpServices erp)
         {
             var n = SampleWorkflow.Reception; // TODO : this is a hack to force top level static constructor
 
@@ -64,9 +64,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 .Column("{Progress}", s => new ProgressViewModel { Value = s.Progress ?? 0 }, s => s.Progress)
                 .Icon("", s => s.Stage != null ? GetStateIcon(s.Stage) : "", s => s.Stage)
                 //                .Column("{Stage}",  s => new Localize { Id = GetStateCaption(s.Stage) })
-                .ColumnAsync("{Stage}", async s => await _erp.Localization.LocalizeAsync(GetStateCaption(s.Stage)),s => s.Stage)
+                .Localize("{Stage}", s => GetStateCaption(s.Stage), s => s.Stage)
 //                .Icon("{State}",  s => s.State != null ? GetStateIcon(s.State.Value) : "", s=> s.State)
-                .Hidden("IsValid",  s => s.Stage != SampleWorkflow.Invalidated.Name)
+//                .Hidden("IsValid",  s => s.Stage != SampleWorkflow.Invalidated.Name)
                 ;
 
 

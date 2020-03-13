@@ -44,6 +44,9 @@
                 
             <lang:LocalizedLabel Text="{}{Dose} : "/>
             <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Dose}" HorizontalContentAlignment="Center" />
+
+            <lang:LocalizedLabel Text="{}{Complement} : "/>
+            <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Complement}" HorizontalContentAlignment="Center" />
                 
             <lang:LocalizedLabel Text="{}{Form} : "/>
             <entitySelectors:ForeignView
