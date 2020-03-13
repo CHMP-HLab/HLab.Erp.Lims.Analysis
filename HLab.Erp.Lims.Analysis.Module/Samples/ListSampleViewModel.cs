@@ -66,7 +66,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 //                .Column("{Stage}",  s => new Localize { Id = GetStateCaption(s.Stage) })
                 .ColumnAsync("{Stage}", async s => await _erp.Localization.LocalizeAsync(GetStateCaption(s.Stage)),s => s.Stage)
 //                .Icon("{State}",  s => s.State != null ? GetStateIcon(s.State.Value) : "", s=> s.State)
-                .Hidden("IsValid",  s => s.Validation != 2)
+                .Hidden("IsValid",  s => s.Stage != SampleWorkflow.Invalidated.Name)
                 ;
 
 

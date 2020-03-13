@@ -192,6 +192,17 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 })
         );
 
+        public static Action InvalidateSample = Action.Create( c => c
+            .Caption(w => "{Invalidated}").Icon(w => "Icons/Validations/Invalidated")
+            .FromState(() => Production)
+            .ToState(() => Invalidated)
+            .NeedRight(()=>AnalysisRights.AnalysisCertificateCreate)
+            .Action(w=>{
+                w.Target.Validator = w.User?.Caption;
+                w.Target.ValidatorId = w.User?.Id;
+                })
+        );
+
         public static State Certificate = State.Create(c => c
             .Caption(w => "{Print certificate}").Icon(w => "Icons/Workflows/Certificate")
             .WhenStateAllowed(()=>MonographClosed)
@@ -208,6 +219,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 return validated>0;
             })
             .WithMessage(w=>"{Some tests not validated yet}")
+        );
+
+        public static State Invalidated = State.Create(c => c
+            .Caption(w => "{Invalidated}").Icon(w => "Icons/Validations/Invalidated")
         );
 
         //########################################################

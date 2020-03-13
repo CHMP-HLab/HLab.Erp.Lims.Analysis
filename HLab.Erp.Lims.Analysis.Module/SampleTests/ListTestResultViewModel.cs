@@ -63,6 +63,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 .Icon("{Stage}", s => GetStateIcon(s.Stage), s => s.Stage)
                 .Localize("{Stage}", s => GetStateCaption(s.Stage), s => s.Stage)
                 .Hidden("IsSelected",s => s.Id == s.SampleTest.Result?.Id)
+                .Hidden("IsValid", s => s.Stage != SampleTestResultWorkflow.Invalidated.Name)
 ;
 
             using (List.Suspender.Get())

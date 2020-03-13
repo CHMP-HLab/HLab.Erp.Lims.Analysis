@@ -80,7 +80,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             //.Column("Conformity", s => s.TestStateId);
                 .Icon("{Stage}", s => GetStateIcon(s.Stage), s => s.Stage)
                 .Localize("{Stage}", s=>GetStateCaption(s.Stage), s=>s.Stage)
-                .Hidden("IsValid", s => s.Validation!=2)
+                .Hidden("IsValid", s => s.Stage != SampleTestWorkflow.InvalidatedResults.Name)
                 .Hidden("Group", s => s.TestClassId);
 
             List.UpdateAsync();
