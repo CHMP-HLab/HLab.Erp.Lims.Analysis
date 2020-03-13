@@ -149,7 +149,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         [Import] private Func<Sample,DataLocker<Sample>,SampleWorkflow> _getSampleWorkflow;
 
         public ICommand CertificateCommand { get; } = H.Command(c => c
-                //TODO : use current language
+//            .CanExecute(e => e._
             .Action(e => e.PrintCertificate("FR"))
         );
 

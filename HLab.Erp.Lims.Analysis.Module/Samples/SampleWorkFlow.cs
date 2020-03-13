@@ -185,19 +185,29 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Caption(w => "{Print Certificate}").Icon(w => "Icons/Workflows/Certificate")
             .FromState(() => Production)
             .ToState(() => Certificate)
-            .NeedRight(()=>AnalysisRights.AnalysisSchedule)
+            .NeedRight(()=>AnalysisRights.AnalysisCertificateCreate)
+            .Action(w=>{
+                w.Target.Validator = w.User?.Caption;
+                w.Target.ValidatorId = w.User?.Id;
+                })
         );
 
         public static State Certificate = State.Create(c => c
             .Caption(w => "{Print certificate}").Icon(w => "Icons/Workflows/Certificate")
             .WhenStateAllowed(()=>MonographClosed)
             .When(w => {
+                var validated = 0;
+                var invalidated = 0;
                 foreach (SampleTest test in w.SampleTests)
                 {
-                    if (test.Stage != SampleTestWorkflow.ValidatedResults.Name) return false; 
+                    if (test.Stage == SampleTestWorkflow.ValidatedResults.Name) validated++; 
+                    else if (test.Stage == SampleTestWorkflow.InvalidatedResults.Name) invalidated++; 
+                    else return false;
                 }
-                return true;
+
+                return validated>0;
             })
+            .WithMessage(w=>"{Some tests not validated yet}")
         );
 
         //########################################################
@@ -213,8 +223,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public static State Closed = State.Create(c => c
             .Caption(w => "{Closed}").Icon(w => "Icons/Workflows/Closed")
             .SetState(() => Closed)
-            .When(w => w.Target.Invoiced).WithMessage(w => "{Not billed}")
-            .When(w => w.Target.Paid).WithMessage(w => "{Not Payed}")
+            //.When(w => w.Target.Invoiced).WithMessage(w => "{Not billed}")
+            //.When(w => w.Target.Paid).WithMessage(w => "{Not Payed}")
             .WhenStateAllowed(() => Certificate)
         );
     }

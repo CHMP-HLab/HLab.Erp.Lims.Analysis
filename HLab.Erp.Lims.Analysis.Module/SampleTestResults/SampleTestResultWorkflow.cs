@@ -93,7 +93,12 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
         // INVALIDATED
         public static State Invalidated = State.Create(c => c
-            .Caption("{Invalidated}").Icon("Icons/Validations/Validated")
+            .Caption("{Invalidated}").Icon("Icons/Validations/Invalidated")
+        .Action(w =>
+        {
+            if(w.Target.SampleTest.ResultId == w.Target.Id)
+                w.Target.SampleTest.Result = null;
+        })
         );
 
 

@@ -133,10 +133,15 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         public ICommand AddResultCommand { get; } = H.Command(c => c
             .CanExecute(e => e._addResultCanExecute())
             .Action((e,t) => e.AddResult(e.Results.Selected))
+            .On(e => e.Workflow.CurrentState).CheckCanExecute()
         );
         public ICommand DeleteResultCommand { get; } = H.Command(c => c
             .CanExecute(e => e._deleteResultCanExecute())
             .Action((e,t) => e.DeleteResult(e.Results.Selected))
+            .On(e => e.Workflow.CurrentState)
+            .On(e => e.Results.Selected.Stage)
+            .On(e => e.Model.Result)
+            .CheckCanExecute()
         );
 
         private bool _addResultCanExecute()
@@ -149,24 +154,29 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         private bool _deleteResultCanExecute()
         {
+            if(Workflow==null) return false;
+            if(Results?.Selected==null) return false;
             if(!Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
             if(Workflow.CurrentState != SampleTestWorkflow.Running) return false;
-            if(Results.Selected == null) return false;
             if(Results.Selected.Stage!="Running") return false;
+            if(Model.Result==null) return true;
             if(Model.Result.Id == Results.Selected.Id) return false;
             return true;
         }
 
         public ICommand SelectResultCommand { get; } = H.Command(c => c
-            //.CanExecute(e => e.Results.List.Selected.Validation == 3)
+            .CanExecute(e => e.Results?.List?.Selected?.Stage == SampleTestResultWorkflow.Validated.Name)
             .Action(async (e,t) => await e.SelectResult(e.Results.Selected))
+            .On(e => e.Results.List.Selected).CheckCanExecute()
         );
 
         private async Task SelectResult(SampleTestResult result)
         {
-            Model.Result = result;
-            //Results.List.Clear();
-            await Results.List.RefreshAsync();
+            if(result.Stage == SampleTestResultWorkflow.Validated.Name)
+            {
+                Model.Result = result;
+                await Results.List.RefreshAsync();
+            }
         }
 
         private void AddResult(SampleTestResult previous)

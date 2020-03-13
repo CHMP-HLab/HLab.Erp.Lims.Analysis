@@ -51,7 +51,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         //########################################################
         public static State SignedSpecifications = State.Create(c => c
             .Caption("{Specifications Signed}").Icon("Icons/Workflows/Specifications").SubIcon("Icons/Workflows/Sign")
-            .NotWhen(e => !e.Target.SpecificationsDone)
+            .When(e => e.Target.SpecificationsDone)
+            .WithMessage(w=>"{Missing} : {Specification}")
             .NeedRight(()=>AnalysisRights.AnalysisMonographSign)
         );
 
@@ -97,7 +98,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public static Action Schedule  = Action.Create(c => c
             .Caption("{Schedule}").Icon("Icons/Workflows/Planning")
             .FromState(()=>Scheduling)
-            .When(w=>w.Target.ScheduledDate!=null && w.Target.ScheduledDate>=DateTime.Now)
             .ToState(()=>Scheduled)
         );
 
@@ -107,11 +107,14 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public static State Scheduled = State.Create(c => c
             .Caption("{Scheduled}").Icon("Icons/Workflows/Planning")
             .When(w=>w.Target.ScheduledDate!=null)
+            .WithMessage(w=>"{Missing} : {Schedule Date}")
         );
 
         public static Action ToProduction  = Action.Create(c => c
             .Caption("{To Production}").Icon("Icons/Workflows/Production")
             .FromState(()=>Scheduling,()=>Scheduled)
+            .When(w => w.Target.Sample.Stage == SampleWorkflow.Production.Name)
+            .WithMessage(w=>"{Sample not in production}")
             .ToState(()=>Running)
         );
 
@@ -139,18 +142,18 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public static Action ValidateResults = Action.Create(c => c
             .Caption("{Validate results}").Icon("Icons/Validations/Validated")
             .FromState(()=>Running)
-            .When(w =>
-            {
-                foreach(var result in w.TestResults)
-                {
-                    if(result.Stage!=SampleTestResultWorkflow.Validated.Name)
-                    { 
-                        return false;
-                    }
-                }
-                return true;
-            })
             .ToState(()=>ValidatedResults)
+            .When(w => w.Target.Stage == SampleWorkflow.Production.Name)
+            .WithMessage(w=>"{Sample not in production}")
+            .NeedRight(()=>AnalysisRights.AnalysisResultValidate)
+        );
+        public static Action InalidateResults = Action.Create(c => c
+            .Caption("{Invalidate results}").Icon("Icons/Validations/Invalidated")
+            .FromState(()=>Running,()=>ValidatedResults)
+            .ToState(()=>InvalidatedResults)
+            .When(w => w.Target.Stage == SampleWorkflow.Production.Name)
+            .WithMessage(w=>"{Sample not in production}")
+            .NeedRight(()=>AnalysisRights.AnalysisResultValidate)
         );
 
 
@@ -159,6 +162,25 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public static State ValidatedResults = State.Create(c => c
             .Caption("{Validated}").Icon("Icons/Validations/Validated")
+            .When(w =>
+            {
+                var validated = 0;
+                var invalidated = 0;
+                foreach(var result in w.TestResults)
+                {
+                    if(result.Stage==SampleTestResultWorkflow.Validated.Name) validated++;
+                    else if(result.Stage==SampleTestResultWorkflow.Validated.Name) invalidated++;
+                    else return false;
+                }
+                return (validated>0);
+            })
+            .WithMessage(w=>"Some results not validated yet")
+            .NotWhen(w => w.Target.Result == null)
+            .WithMessage(w=>"No selected result")
+        );
+
+        public static State InvalidatedResults = State.Create(c => c
+            .Caption("{Invalidated}").Icon("Icons/Validations/Invalidated")
         );
 
         protected override string StateName
