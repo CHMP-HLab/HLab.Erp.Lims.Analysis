@@ -143,15 +143,15 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Caption("{Validate results}").Icon("Icons/Validations/Validated")
             .FromState(()=>Running)
             .ToState(()=>ValidatedResults)
-            .When(w => w.Target.Stage == SampleWorkflow.Production.Name)
+            .When(w => w.Target.Sample.Stage == SampleWorkflow.Production.Name)
             .WithMessage(w=>"{Sample not in production}")
             .NeedRight(()=>AnalysisRights.AnalysisResultValidate)
         );
-        public static Action InalidateResults = Action.Create(c => c
+        public static Action InvalidateResults = Action.Create(c => c
             .Caption("{Invalidate results}").Icon("Icons/Validations/Invalidated")
             .FromState(()=>Running,()=>ValidatedResults)
             .ToState(()=>InvalidatedResults)
-            .When(w => w.Target.Stage == SampleWorkflow.Production.Name)
+            .When(w => w.Target.Sample.Stage == SampleWorkflow.Production.Name)
             .WithMessage(w=>"{Sample not in production}")
             .NeedRight(()=>AnalysisRights.AnalysisResultValidate)
         );
@@ -169,7 +169,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 foreach(var result in w.TestResults)
                 {
                     if(result.Stage==SampleTestResultWorkflow.Validated.Name) validated++;
-                    else if(result.Stage==SampleTestResultWorkflow.Validated.Name) invalidated++;
+                    else if(result.Stage==SampleTestResultWorkflow.Invalidated.Name) invalidated++;
                     else return false;
                 }
                 return (validated>0);
