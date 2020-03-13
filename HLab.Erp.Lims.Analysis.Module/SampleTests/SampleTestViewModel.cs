@@ -165,9 +165,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         }
 
         public ICommand SelectResultCommand { get; } = H.Command(c => c
-            .CanExecute(e => e.Results?.List?.Selected?.Stage == SampleTestResultWorkflow.Validated.Name)
+//            .CanExecute(e => e.Results?.List?.Selected?.Stage == SampleTestResultWorkflow.Validated.Name)
             .Action(async (e,t) => await e.SelectResult(e.Results.Selected))
-            .On(e => e.Results.List.Selected).CheckCanExecute()
+// TODO            .On(e => e.Results.List.Selected).CheckCanExecute()
         );
 
         private async Task SelectResult(SampleTestResult result)
@@ -229,6 +229,10 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             if (Model==null) return;
             switch(e.PropertyName)
             {
+                case "TestName":
+                    if(TestHelper?.TestName!=null)
+                        Model.TestName = TestHelper.TestName;
+                    break;
                 case "Description":
                     if(TestHelper?.Description!=null)
                         Model.Description = TestHelper.Description;
@@ -237,10 +241,10 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     if(TestHelper?.Specifications!=null)
                         Model.Specification = TestHelper.Specifications;
                     break;
-                case "Conformity":
-                    if(TestHelper?.Conformity!=null)
-                        Model.Conform = TestHelper.Conformity;
-                    break;
+                //case "Conformity":
+                //    if(TestHelper?.Conformity!=null)
+                //        Model.Conform = TestHelper.Conformity;
+                //    break;
                 //case "SpecificationsDone":
                 //    Model.SpecificationsDone = TestHelper.SpecificationsDone;
                 //    break;
