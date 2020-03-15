@@ -254,8 +254,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                     ip.Element["Description"] = test.Description + Environment.NewLine;
                     //TODO ip.Element["Reference"] = test.Reference + Environment.NewLine;
                     ip.Element["Norme"] = test.Specification + Environment.NewLine;
-                    ip.Element["Resultat"] = test.Result.Result + Environment.NewLine;
-                    ip.Element["Conforme"] = test.Result.Conformity + Environment.NewLine;
+                    ip.Element["Resultat"] = test.Result?.Result??"" + Environment.NewLine;
+                    ip.Element["Conforme"] = test.Result?.Conformity??"" + Environment.NewLine;
                 }
             }
             // Impression du certificat d'analyse
