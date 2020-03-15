@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Data.Observables;
@@ -17,10 +18,13 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             int id = sample.Id;
             SampleTests.AddFilter(() => e => e.SampleId == id);
                 
-            var task = SampleTests.UpdateAsync();
+            var task = UpdateChildsAsync();
             SetState(sample.Stage);
-
-            task.GetAwaiter().OnCompleted(Update);
+        }
+        public async Task UpdateChildsAsync()
+        {
+            await SampleTests.UpdateAsync();
+            Update();
         }
 
         [Import] private ObservableQuery<SampleTest> SampleTests;
@@ -32,8 +36,19 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         }
 
         private IProperty<bool> _ = H.Property<bool>(c => c
-                .On(e => e.Target.Stage)
-                .Do(e => { e.SetState(e.Target.Stage); }));
+
+            .On(e => e.Target.Stage)
+            .Do((a, b) =>
+            {
+                a.SetState(a.Target.Stage);
+            })
+
+            .On(e => e.Locker.IsActive)
+            .Do(async (a, b) =>
+            {
+                await a.UpdateChildsAsync();
+            })
+        );
 
 
         //########################################################
