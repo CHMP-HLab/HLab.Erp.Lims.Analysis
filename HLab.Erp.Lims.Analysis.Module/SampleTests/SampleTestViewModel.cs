@@ -165,9 +165,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         }
 
         public ICommand SelectResultCommand { get; } = H.Command(c => c
-//            .CanExecute(e => e.Results?.List?.Selected?.Stage == SampleTestResultWorkflow.Validated.Name)
+            .CanExecute(e => e.Results?.Selected?.Stage == SampleTestResultWorkflow.Validated.Name)
             .Action(async (e,t) => await e.SelectResult(e.Results.Selected))
-// TODO            .On(e => e.Results.List.Selected).CheckCanExecute()
+            .On(e => e.Results.Selected).CheckCanExecute()
         );
 
         private async Task SelectResult(SampleTestResult result)
