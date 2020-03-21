@@ -123,10 +123,25 @@
                     </Grid>
 
                     <lang:LocalizedLabel Text="{}{Location} : "/>
+                    <StackPanel Margin="0,0,15,0" VerticalAlignment="Center">
+                        <TextBlock 
+                            VerticalAlignment="Center"
+                            Text="{Binding  Model.SamplingOrigin, UpdateSourceTrigger=PropertyChanged}"
+                            Visibility="{Binding IsReadOnly,Converter={StaticResource BooleanToVisibility}}"
+                        />
+                        <ComboBox 
+                            Visibility="{Binding EditMode,Converter={StaticResource BooleanToVisibility}}"
+                            ItemsSource="{Binding Origins}" 
+                            IsReadOnly="{Binding IsReadOnly}"
+                            BorderBrush="#80000000"
+                            IsEditable="True" 
+                            Text="{Binding Model.SamplingOrigin, UpdateSourceTrigger=PropertyChanged}"
+                        />
+                    </StackPanel>
 
-                    <TextBox
+                    <!--<TextBox
                         HorizontalAlignment="Stretch" 
-                        Text="{Binding Model.SamplingOrigin, UpdateSourceTrigger=PropertyChanged}"/>
+                        Text="{Binding Model.SamplingOrigin, UpdateSourceTrigger=PropertyChanged}"/>-->
                 </views1:DetailView>
 
                 <!-- LOT -->            

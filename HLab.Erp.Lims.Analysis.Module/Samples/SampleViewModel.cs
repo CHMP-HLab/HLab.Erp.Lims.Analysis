@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Input;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
+using HLab.Erp.Base.Data;
 using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
@@ -34,7 +38,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             Packagings.UpdateAsync();
         }
         public override string Title => _title.Get();
-        private IProperty<string> _title = H.Property<string>(c => c
+        private readonly IProperty<string> _title = H.Property<string>(c => c
             .On(e => e.Model.Reference)
             .NotNull(e => e.Model)
             .Set(e => e.Model.Reference??"{New sample}")
@@ -115,8 +119,21 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         private bool CanExecuteAddTest()
         {
             if(!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddTest)) return false;
-            if(Model.Stage != SampleWorkflow.Monograph.Name) return false;
-            return true;
+            return Workflow?.CurrentState == SampleWorkflow.Monograph;
+        }
+
+        public List<string> Origins => _origins.Get();
+
+        private readonly IProperty<List<string>> _origins = H.Property<List<string>>(c => c
+            .On(e => e.Model.Customer)
+            .Set(e => e.GetOrigins())
+        );
+
+        private async Task<List<string>> GetOrigins()
+        {
+            var list =  await Erp.Data.SelectDistinctAsync<Sample, string>(s => s.CustomerId == Model.CustomerId && !string.IsNullOrWhiteSpace(s.SamplingOrigin),
+                s => s.SamplingOrigin).ToListAsync();
+            return list;
         }
 
         private void AddTest(TestClass testClass)
