@@ -69,10 +69,13 @@ INSERT INTO public."ProductCategory" (
 '2'::integer, 'Consommable Médical'::text, 'Icons/Sample/Consummables'::text)
  returning "Id";
 
-update "Product" Set "CategoryId"=1 WHERE ISNULL "CategoryId";
+update "Product" Set "CategoryId"=1 WHERE "CategoryId" ISNULL;
 
 ALTER TABLE public."Product"
     ADD COLUMN "Complement" text;
 
 ALTER TABLE public."SampleTestResult"
     ADD COLUMN "Conformity" text;
+
+ALTER TABLE public."User"
+    ADD COLUMN "Domain" text;	
