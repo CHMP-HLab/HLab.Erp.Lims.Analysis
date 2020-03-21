@@ -106,6 +106,15 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                     MaxDate = DateTime.Now.AddYears(10)
                 }.Link(List,s => s.SamplingDate));
 
+                Filters.Add(new FilterTextViewModel()
+                {
+                    Title = "{Origin}",
+                }.Link(List,s => s.SamplingOrigin));
+
+                Filters.Add(new FilterTextViewModel()
+                {
+                    Title = "{Commercial Name}",
+                }.Link(List,s => s.CommercialName));
                 //Filters.Add(new FilterEntityViewModel<Product>(new ListProductPopupViewModel())
                 //    {
                 //        Title = "Product",
