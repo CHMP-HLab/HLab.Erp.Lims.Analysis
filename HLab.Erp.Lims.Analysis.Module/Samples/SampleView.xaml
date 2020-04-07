@@ -66,7 +66,7 @@
                             <Label>
                                 <lang:Localize Id="{}{Worksheet}"/>
                             </Label>
-                            <TextBox IsReadOnly="{Binding IsReadOnlyMonograph}" Text="{Binding Model.Worksheet}" MinWidth="110"/>
+                            <TextBox IsReadOnly="{Binding IsReadOnlyMonograph}" Text="{Binding Model.Worksheet, UpdateSourceTrigger=PropertyChanged}" MinWidth="110"/>
                         </StackPanel>
                         <Label/>
                         <StackPanel>
@@ -90,7 +90,7 @@
                         <StackPanel>
                             <lang:LocalizedLabel Text="{}{Pharmacopoeia version}"/>
                             <TextBox
-                                    Text="{Binding Model.PharmacopoeiaVersion}" 
+                                    Text="{Binding Model.PharmacopoeiaVersion, UpdateSourceTrigger=PropertyChanged}" 
                                     HorizontalContentAlignment="Right" 
                                     HorizontalAlignment="Stretch"/>
 
