@@ -18,10 +18,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             int id = sample.Id;
             SampleTests.AddFilter(() => e => e.SampleId == id);
                 
-            var task = UpdateChildsAsync();
+            var task = UpdateChildrenAsync();
             SetState(sample.Stage);
         }
-        public async Task UpdateChildsAsync()
+        public async Task UpdateChildrenAsync()
         {
             await SampleTests.UpdateAsync();
             Update();
@@ -46,7 +46,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .On(e => e.Locker.IsActive)
             .Do(async (a, b) =>
             {
-                await a.UpdateChildsAsync();
+                await a.UpdateChildrenAsync();
             })
         );
 
