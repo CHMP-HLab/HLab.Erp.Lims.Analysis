@@ -158,7 +158,7 @@
                         <lang:LocalizedLabel Foreground="White" DockPanel.Dock="Top" Text="{}{Conclusion}"/>
 
                         <TextBox VerticalScrollBarVisibility="Auto" 
-                                 Text="{Binding Model.Conclusion}" 
+                                 Text="{Binding Model.Conclusion, UpdateSourceTrigger=PropertyChanged}" 
                                  AcceptsReturn="True" 
                                  TextWrapping="Wrap" 
                                  DockPanel.Dock="Left" 
