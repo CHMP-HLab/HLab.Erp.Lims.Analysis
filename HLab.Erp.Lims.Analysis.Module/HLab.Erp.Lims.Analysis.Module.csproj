@@ -109,7 +109,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AvalonEdit" Version="6.0.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.5.0" />
   </ItemGroup>
 
@@ -125,6 +124,12 @@
     <ProjectReference Include="..\..\..\HLab\HLab.Mvvm.Wpf\HLab.Mvvm.Wpf.csproj" />
     <ProjectReference Include="..\..\..\Lib\YAMP\YAMP.csproj" />
     <ProjectReference Include="..\Hlab.Erp.Lims.Analysis.Data\HLab.Erp.Lims.Analysis.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ICSharpCode.AvalonEdit">
+      <HintPath>C:\Users\mathieu.AD\.nuget\packages\avalonedit\6.0.0\lib\netcoreapp3.0\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

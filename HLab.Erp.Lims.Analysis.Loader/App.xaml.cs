@@ -48,6 +48,7 @@ namespace HLab.Erp.Lims.Analysis.Loader
             var a1 = boot.LoadDll("HLab.Erp.Workflows.Wpf");
             var f0 = boot.LoadDll("HLab.Erp.Core");
             var g0 = boot.LoadDll("HLab.Erp.Lims.Analysis.Module");
+            var g1 = boot.LoadDll("HLab.Erp.Lims.Monographs.Module");
 
 #if !DEBUG
             try

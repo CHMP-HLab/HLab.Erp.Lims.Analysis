@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="3.8.1" />
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0748" />
     <PackageReference Include="System.Data.Odbc" Version="4.7.0" />
     <PackageReference Include="System.Data.OleDb" Version="4.7.0" />
@@ -34,6 +35,8 @@
     <ProjectReference Include="..\..\..\HLab\HLab.Bugs.Wpf\HLab.Bugs.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Core\HLab.Core.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Notify.Wpf\HLab.Notify.Wpf.csproj" />
+    <ProjectReference Include="..\..\HLab.Erp.Lims.Monographs\HLab.Erp.Lims.Monographs.Data\HLab.Erp.Lims.Monographs.Data.csproj" />
+    <ProjectReference Include="..\..\HLab.Erp.Lims.Monographs\HLab.Erp.Lims.Monographs.Module\HLab.Erp.Lims.Monographs.Module.csproj" />
     <ProjectReference Include="..\Hlab.Erp.Lims.Analysis.Data\HLab.Erp.Lims.Analysis.Data.csproj" />
     <ProjectReference Include="..\HLab.Erp.Lims.Analysis.Module\HLab.Erp.Lims.Analysis.Module.csproj" />
   </ItemGroup>
