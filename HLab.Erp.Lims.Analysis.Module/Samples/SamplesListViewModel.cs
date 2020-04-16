@@ -9,7 +9,7 @@ using HLab.Mvvm.Lang;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
-    class ListSampleViewModel : EntityListViewModel<ListSampleViewModel, Sample>, IMvvmContextProvider
+    class SamplesListViewModel : EntityListViewModel<SamplesListViewModel, Sample>, IMvvmContextProvider
     {
 
         private readonly IErpServices _erp;
@@ -40,7 +40,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             return state?.GetCaption(null);
         }
 
-        [Import] public ListSampleViewModel(IErpServices erp)
+        [Import] public SamplesListViewModel(IErpServices erp)
         {
             var n = SampleWorkflow.Reception; // TODO : this is a hack to force top level static constructor
 
@@ -147,7 +147,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
              sample.Stage = SampleWorkflow.DefaultState.Name;
         }
 
-        public override string Title => "{Samples}";
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }
