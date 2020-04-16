@@ -21,7 +21,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         }
 
         public ICommand OpenListSampleCommand { get; } = H.Command(c => c.Action(
-            e => e._erp.Docs.OpenDocumentAsync(typeof(ListSampleViewModel))
+            e => e._erp.Docs.OpenDocumentAsync(typeof(SamplesListViewModel))
         ));
         public ICommand OpenListTestClassCommand { get; } = H.Command(c => c.Action(
             e => e._erp.Docs.OpenDocumentAsync(typeof(ListTestClassViewModel))
@@ -31,30 +31,19 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         ));
 
 
-        int step = 0;
-        public bool Load()
+        public void Load(IBootContext b)
         {
-            if(step<1)
-            {
-                if(!_erp.Menu.RegisterMenu("data/samples", "{Samples}",
+                _erp.Menu.RegisterMenu("data/samples", "{Samples}",
                     OpenListSampleCommand,
-                    "icons/Entities/Sample")) return false;
-                step = 1;
-            }
-            if(step<2)
-            {
-                if(!_erp.Menu.RegisterMenu("tools/testclasses", "{Test Classes}",
+                    "Icons/Entities/Sample");
+ 
+                _erp.Menu.RegisterMenu("tools/testclasses", "{Test Classes}",
                     OpenListTestClassCommand,
-                    "Icons/Entities/TestClass"))return false;
-                step = 2;
-            }
-            if(step<3)
-            {
-                if(!_erp.Menu.RegisterMenu("tools/testcategories", "{Test Categories}",
+                    "Icons/Entities/TestClass");
+
+                _erp.Menu.RegisterMenu("tools/testcategories", "{Test Categories}",
                     OpenListTestCategoryCommand,
-                    "Icons/Entities/TestCategory"))return false;
-            }
-            return true;
+                    "Icons/Entities/TestCategory");
         }
     }
 }
