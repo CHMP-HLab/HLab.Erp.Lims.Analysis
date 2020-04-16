@@ -24,6 +24,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Icons\Entities\Sample.svg" />
+    <None Remove="Icons\Entities\TestCategory.svg" />
+    <None Remove="Icons\Entities\TestClass.svg" />
     <None Remove="Icons\Sample\Consumable.svg" />
     <None Remove="Icons\Workflows\Correct.svg" />
     <None Remove="Icons\Workflows\Edit.svg" />
@@ -133,6 +136,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Icons\Entities\TestCategory.svg" />
+    <Resource Include="Icons\Entities\TestClass.svg" />
+    <Resource Include="Icons\Entities\Sample.svg" />
     <Resource Include="Icons\Sample\Consumable.svg" />
     <Resource Include="Icons\Tests\AssayHplc.xaml">
       <SubType>Designer</SubType>
