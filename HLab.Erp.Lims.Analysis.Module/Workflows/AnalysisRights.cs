@@ -6,7 +6,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Workflows
     {
         //Reception
         public static readonly AclRight AnalysisReceptionSign = AclRight.Get();
-        public static readonly AclRight AnalysisReceptionValidate = AclRight.Get();
+        public static readonly AclRight AnalysisReceptionCheck = AclRight.Get();
 
         //Monograph
         public static readonly AclRight AnalysisMonographSign = AclRight.Get();
