@@ -182,7 +182,7 @@
                             </icons:IconView.Style>
                         </icons:IconView>
                         <Label Grid.Column="2" HorizontalAlignment="Right">
-                            <lang:Localize  Id="Manufacture" StringFormat="{}{0} : "/>
+                            <lang:Localize  Id="{}{Manufacture} : "/>
                         </Label>
                         <base:DateEx 
                     Grid.Column="3" 
