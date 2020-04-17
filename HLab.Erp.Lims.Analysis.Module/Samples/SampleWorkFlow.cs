@@ -74,36 +74,42 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
             .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.Batch))
             .WithMessage(w => "{Missing} : {Batch No}")
+            .HighlightField(w => w.Target.Batch)
 
             .NotWhen(w => w.Target.ReceivedQuantity == null)
             .WithMessage(w => "{Missing} : {Received quantity}")
+            .HighlightField(w => w.Target.ReceivedQuantity)
 
             .NotWhen(w => w.Target.ReceptionDate == null)
             .WithMessage(w => "{Missing} : {Reception date}")
+            .HighlightField(w => w.Target.ReceptionDate)
 
             .NotWhen(w => w.Target.ProductId == null)
             .WithMessage(w => "{Missing} : {Product}")
+            .HighlightField(w => w.Target.Product)
 
             .NotWhen(w => w.Target.CustomerId == null)
             .WithMessage(w => "{Missing} : {Customer}")
+            .HighlightField(w => w.Target.Customer)
 
             .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.Reference))
             .WithMessage(w => "{Missing} : {Reference}")
+            .HighlightField(w => w.Target.Reference)
         );
 
 
-        public static Action ValidateReception = Action.Create(c => c
-            .Caption(w => "{Validate}").Icon(w => "Icons/Workflows/ReceptionChecked")
+        public static Action CheckReception = Action.Create(c => c
+            .Caption(w => "{Check}").Icon(w => "Icons/Workflows/Check")
             .FromState(() => ReceptionCheck)
             .ToState(() => Monograph)
-            .NeedRight(()=>AnalysisRights.AnalysisReceptionValidate)
+            .NeedRight(()=>AnalysisRights.AnalysisReceptionCheck)
         );
 
         public static Action ReceptionAskForCorrection = Action.Create(c => c
             .Caption(w => "{Ask for correction}").Icon(w => "Icons/Workflows/Correct")
             .FromState(() => ReceptionCheck)
             .ToState(() => ReceptionCorrectionAsked)
-            .NeedRight(()=>AnalysisRights.AnalysisReceptionValidate)
+            .NeedRight(()=>AnalysisRights.AnalysisReceptionCheck)
             .Backward()
         );
 
@@ -132,7 +138,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public static Action ValidateMonograph = Action.Create(c => c
            .Caption(w => "{Validate monograph}").Icon(w => "Icons/Workflows/Monograph|Icons/Validations/Validated")
-           .NeedRight(()=>AnalysisRights.AnalysisReceptionValidate)
+           .NeedRight(()=>AnalysisRights.AnalysisReceptionCheck)
            .FromState(() => Monograph)
            .ToState(() => MonographClosed)
             );
@@ -145,12 +151,15 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
             .NotWhen(w => w.Target.PharmacopoeiaId == null)
                 .WithMessage(w => "{Missing} : {Pharmacopoeia}")
+                .HighlightField(w => w.Target.Pharmacopoeia)
 
             .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.PharmacopoeiaVersion))
                 .WithMessage(w => "{Missing} : {Pharmacopoeia version}")
+                .HighlightField(w => w.Target.PharmacopoeiaVersion)
 
             .NotWhen(w => w.SampleTests.Count == 0)
                 .WithMessage(w => "{Missing} : {Tests}")
+//                .HighlightField(w => w.Target.Pharmacopoeia)
 
             .When(w => {
                 foreach (SampleTest test in w.SampleTests)

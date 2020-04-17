@@ -28,6 +28,7 @@
     <None Remove="Icons\Entities\TestCategory.svg" />
     <None Remove="Icons\Entities\TestClass.svg" />
     <None Remove="Icons\Sample\Consumable.svg" />
+    <None Remove="Icons\Workflows\Check.svg" />
     <None Remove="Icons\Workflows\Correct.svg" />
     <None Remove="Icons\Workflows\Edit.svg" />
     <None Remove="Icons\Workflows\Monograph.svg" />
@@ -395,6 +396,7 @@
     <Resource Include="Icons\Validations\ValidateDocument.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Resource Include="Icons\Workflows\Check.svg" />
     <Resource Include="Icons\Workflows\Correct.svg" />
     <Resource Include="Icons\Validations\Edit.svg" />
     <Resource Include="Icons\Workflows\Monograph.svg" />
