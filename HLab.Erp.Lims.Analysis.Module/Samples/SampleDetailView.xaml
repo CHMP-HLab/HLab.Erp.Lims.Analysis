@@ -43,7 +43,7 @@
             <StackPanel Orientation="Vertical">
 
                 <!-- RECORD -->            
-                <views1:DetailView Grid.Row="1" EditMode="{Binding EditMode}" Text="{}{Record}" IconPath = "Icons/Sample/Folder">
+                <views1:DetailView EditMode="{Binding EditMode}" Text="{}{Record}" IconPath = "Icons/Sample/Folder">
 
                     <lang:LocalizedLabel Text="{}{Reference} : "/>
                     <TextBox Text="{Binding Model.Reference, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
@@ -160,7 +160,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <base:DateEx Date="{Binding Model.ExpirationDate}" DayValid="{Binding Model.ExpirationDayValid}" />
+                        <base:DateEx Date="{Binding Model.ExpirationDate}" DayValid="{Binding Model.ExpirationDayValid}" EmptyDayAllowed="True"/>
                         <icons:IconView Grid.Column="1" Path="icons/sample/expired" Height="25" Margin="2">
                             <icons:IconView.Style>
                                 <Style TargetType="icons:IconView">
@@ -187,7 +187,7 @@
                         <base:DateEx 
                     Grid.Column="3" 
                     Date="{Binding Model.ManufacturingDate, UpdateSourceTrigger=PropertyChanged}" 
-                    DayValid="{Binding Model.ManufacturingDayValid}"/>
+                    DayValid="{Binding Model.ManufacturingDayValid}" EmptyDayAllowed="True"/>
                     </Grid>
 
                     <lang:LocalizedLabel  Text="{}{Manufacturer} : "/>

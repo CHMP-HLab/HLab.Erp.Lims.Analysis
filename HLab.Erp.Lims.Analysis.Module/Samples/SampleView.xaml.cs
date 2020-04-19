@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using HLab.Base;
@@ -14,6 +15,7 @@ using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Extensions;
 using HLab.Mvvm.Lang;
 using HLab.Mvvm.Views;
+using Microsoft.Xaml.Behaviors.Layout;
 
 namespace HLab.Erp.Lims.Analysis.Module
 {
@@ -31,27 +33,25 @@ namespace HLab.Erp.Lims.Analysis.Module
 
         private void SampleView_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
-            if(this.TryGetViewModel(out var vm))
+            if (!this.TryGetViewModel(out var vm)) return;
+            if (vm.Workflow.Highlights is INotifyCollectionChanged c)
             {
-                if (vm.Workflow.Highlights is INotifyCollectionChanged c)
+                c.CollectionChanged += (target, arg) =>
                 {
-                    c.CollectionChanged += (target, arg) =>
+                    switch (arg.Action)
                     {
-                        switch (arg.Action)
-                        {
-                            case NotifyCollectionChangedAction.Add:
-                                foreach (var item in arg.NewItems)
-                                {
-                                    if(item is string s)
-                                        Highlight(this,s);
-                                }
-                                break;
-                            case NotifyCollectionChangedAction.Reset:
-                                Highlight(this,null);
-                                break;
-                        }
-                    };
-                }
+                        case NotifyCollectionChangedAction.Add:
+                            foreach (var item in arg.NewItems)
+                            {
+                                if(item is string s)
+                                    Highlight(this,s);
+                            }
+                            break;
+                        case NotifyCollectionChangedAction.Reset:
+                            Highlight(this,null);
+                            break;
+                    }
+                };
             }
         }
 
@@ -62,10 +62,11 @@ namespace HLab.Erp.Lims.Analysis.Module
             switch (e)
             {
                 case IMandatoryNotFilled fw:
-                    Highlight(fw,name);
+                    HighlightUI(fw as UIElement, name);
                     break;
+
                 case TextBox tb:
-                    Highlight(tb,name);
+                    HighlightUI(tb,name);
                     break;
 
                 case Panel p:
@@ -79,7 +80,7 @@ namespace HLab.Erp.Lims.Analysis.Module
                     Highlight(contentControl.Content,name);
                     break;
                 case Popup popup:
-                    Highlight(popup.Child,name);
+                    HighlightUI(popup.Child,name);
                     break;
                 case ComboBox comboBox:
                     Highlight(comboBox,name);
@@ -97,25 +98,53 @@ namespace HLab.Erp.Lims.Analysis.Module
             }
         }
 
-        private void Highlight(TextBox tb, string name)
+        private static void RemoveHighlightUI(UIElement ct)
+        {
+            var al = AdornerLayer.GetAdornerLayer(ct);
+            var ads = al?.GetAdorners(ct);
+            if (ads == null) return;
+            foreach (var ad in ads)
+            {
+                if (!(ad is AdornerContainer ac)) continue;
+                if (ac.Child is MandatoryAdorner) al.Remove(ac);
+            }
+        }
+
+        private static void HighlightUI(UIElement ui, string name)
         {
             if(string.IsNullOrWhiteSpace(name))
             {
-                tb.BorderThickness = new Thickness(0);
-                tb.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                RemoveHighlightUI(ui);
+                return;
             }
 
-            var binding = BindingOperations.GetBinding(tb, TextBox.TextProperty);
-            if (binding != null)
+            var binding = BindingOperations.GetBinding(ui, BindingProperty(ui));
+            if (binding == null) return;
+
+            var bName = binding.Path.Path.Split('.').Last();
+            if (bName != name) return;
+
+            var al = AdornerLayer.GetAdornerLayer(ui);
+            var c = new AdornerContainer(ui)
             {
-                var bName = binding.Path.Path.Split('.').Last();
-                if (bName == name)
-                {
-                    tb.BorderThickness = new Thickness(1);
-                    tb.BorderBrush = new SolidColorBrush(Colors.Red);
-                }
-            }
+                IsHitTestVisible = false,
+                Child = new MandatoryAdorner()
+            };
+            al?.Add(c);
         }
+
+        private static DependencyProperty BindingProperty(UIElement ui)
+        {
+            return ui switch
+            {
+                NumTextBox ntb => NumTextBox.ValueProperty,
+                TextBox tb => TextBox.TextProperty,
+                IMandatoryNotFilled mnf => mnf.MandatoryProperty,
+                Selector cb => Selector.SelectedValueProperty,
+                _ => null
+            };
+        }
+
         private void Highlight(ComboBox cb, string name)
         {
             //var binding = BindingOperations.GetBinding(cb, ComboBox.SelectedItemProperty);
