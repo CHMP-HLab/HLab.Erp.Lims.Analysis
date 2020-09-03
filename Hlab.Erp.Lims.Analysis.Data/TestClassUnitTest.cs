@@ -6,8 +6,11 @@ using System.Text;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    class TestClassUnitTest : Entity<TestClassUnitTest>
+    using H = HD<TestClassUnitTest>;
+    class TestClassUnitTest : Entity
     {
+        public TestClassUnitTest() => H.Initialize(this);
+
         public string Name
         {
             get => _name.Get();

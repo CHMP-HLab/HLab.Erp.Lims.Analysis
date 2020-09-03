@@ -4,8 +4,12 @@ using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    public class Packaging : Entity<Packaging>, ILocalCache
+    using H = HD<Packaging>;
+
+    public class Packaging : Entity, ILocalCache
     {
+        public Packaging() => H.Initialize(this);
+
         public bool Secondary
         {
             get => _secondary.Get();

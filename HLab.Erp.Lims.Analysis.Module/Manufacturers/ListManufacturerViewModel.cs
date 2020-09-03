@@ -8,7 +8,7 @@ using HLab.Mvvm.Icons;
 
 namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
 {
-    public class ManufacturersListViewModel: EntityListViewModel<ManufacturersListViewModel,Manufacturer>, IMvvmContextProvider
+    public class ManufacturersListViewModel: EntityListViewModel<Manufacturer>, IMvvmContextProvider
     {
         private readonly IErpServices _erp;
 

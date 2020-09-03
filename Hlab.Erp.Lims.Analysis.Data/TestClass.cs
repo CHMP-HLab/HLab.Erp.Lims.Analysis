@@ -10,10 +10,14 @@ using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    public partial class TestClass : Entity<TestClass>, ILocalCache, IListableModel
+    using H = HD<TestClass>;
+
+    public partial class TestClass : Entity, ILocalCache, IListableModel
         , IEntityWithIcon
         , IEntityWithColor
     {
+        public TestClass() => H.Initialize(this);
+
         public string Name
         {
             get => _name.Get();

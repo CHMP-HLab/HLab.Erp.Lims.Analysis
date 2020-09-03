@@ -12,6 +12,7 @@ using HLab.Erp.Core;
 using HLab.Erp.Core.EntitySelectors;
 using HLab.Erp.Lims.Analysis.Module.Samples;
 using HLab.Mvvm.Annotations;
+using HLab.Mvvm.Application;
 using HLab.Mvvm.Extensions;
 using HLab.Mvvm.Lang;
 using HLab.Mvvm.Views;

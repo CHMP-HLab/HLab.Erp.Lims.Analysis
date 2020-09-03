@@ -8,17 +8,15 @@ using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
-    using H = NotifyHelper<ListSampleModule>;
-    public class ListSampleModule : IBootloader //postboot
+    using H = H<ListSampleModule>;
+
+    public class ListSampleModule : NotifierBase, IBootloader //postboot
     {
         
         [Import] private readonly IErpServices _erp;
 
-        [Import] public ListSampleModule()
-        {
-            H.Initialize(this);
+        public ListSampleModule() => H.Initialize(this);
 
-        }
 
         public ICommand OpenListSampleCommand { get; } = H.Command(c => c.Action(
             e => e._erp.Docs.OpenDocumentAsync(typeof(SamplesListViewModel))

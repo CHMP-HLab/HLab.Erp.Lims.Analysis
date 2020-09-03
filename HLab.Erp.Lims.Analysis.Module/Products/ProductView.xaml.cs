@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using HLab.Erp.Core;
 using HLab.Erp.Core.Tools.Details;
 using HLab.Mvvm.Annotations;
+using HLab.Mvvm.Application;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {

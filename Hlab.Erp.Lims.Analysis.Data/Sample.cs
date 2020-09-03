@@ -1,6 +1,4 @@
 using System;
-using HLab.Base.Extentions;
-using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Base.Data;
 using HLab.Erp.Data;
@@ -10,8 +8,10 @@ using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    public partial class Sample : Entity<Sample>
+    using H = HD<Sample>;
+    public partial class Sample : Entity
     {
+        public Sample() => H.Initialize(this);
 
         public string FileId
         {

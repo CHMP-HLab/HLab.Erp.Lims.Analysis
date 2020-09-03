@@ -12,7 +12,7 @@ using HLab.Erp.Core.ListFilters;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
-    public class ProductsListPopupViewModel : EntityListViewModel<ProductsListPopupViewModel, Product>, IMvvmContextProvider
+    public class ProductsListPopupViewModel : EntityListViewModel<Product>, IMvvmContextProvider
     {
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {

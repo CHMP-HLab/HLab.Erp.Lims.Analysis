@@ -7,8 +7,12 @@ using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    public partial class Pharmacopoeia : Entity<Pharmacopoeia>, IListableModel, ILocalCache
+    using H = HD<Pharmacopoeia>;
+
+    public partial class Pharmacopoeia : Entity, IListableModel, ILocalCache
     {
+        public Pharmacopoeia() => H.Initialize(this);
+
         public string NameFr
         {
             get => _nameFr.Get();

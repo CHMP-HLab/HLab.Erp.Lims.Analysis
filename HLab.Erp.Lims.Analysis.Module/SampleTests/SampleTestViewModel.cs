@@ -15,13 +15,18 @@ using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
+
+    using H = H<SampleTestViewModel>;
+
     public class SampleTestViewModelDesign : SampleTestViewModel, IViewModelDesign
     {
 
     }
 
-    public class SampleTestViewModel : EntityViewModel<SampleTestViewModel,SampleTest>, IMvvmContextProvider
+    public class SampleTestViewModel : EntityViewModel<SampleTest>, IMvvmContextProvider
     {
+        public SampleTestViewModel() => H.Initialize(this);
+
         [Import] private readonly Func<int, ListTestResultViewModel> _getResults;
 
         [Import] public IErpServices Erp { get; }

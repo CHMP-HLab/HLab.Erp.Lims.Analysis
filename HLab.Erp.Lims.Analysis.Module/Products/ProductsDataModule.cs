@@ -11,9 +11,9 @@ using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
-    using H = NotifyHelper<ProductsDataModule>;
+    using H = H<ProductsDataModule>;
 
-    public class ProductsDataModule : ErpDataModule<ProductsDataModule,ProductsListViewModel>
+    public class ProductsDataModule : ErpDataModule<ProductsListViewModel>
     {
 
     }

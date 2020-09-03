@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -10,20 +12,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using HLab.Erp.Core;
+using HLab.DependencyInjection.Annotations;
 using HLab.Mvvm.Annotations;
-using HLab.Mvvm.Application;
+using HLab.Network;
 
-namespace HLab.Erp.Lims.Analysis.Module.SampleTests
+namespace HLab.Erp.Data.Wpf
 {
     /// <summary>
-    /// Logique d'interaction pour SampleTestView.xaml
+    /// Logique d'interaction pour DatabaseConfig.xaml
     /// </summary>
-    public partial class SampleTestView : UserControl, IView<SampleTestViewModel>, IViewClassDocument
+    public partial class DatabaseConfigView : UserControl, IView<ViewModeDefault,ConnectionData>, IViewClassDefault
     {
-        public SampleTestView()
+         [Import] public IPScanner PostgresqlServers { get; }
+
+        public DatabaseConfigView()
         {
             InitializeComponent();
+
+            PostgresqlServers.Scan(5432);
         }
     }
 }

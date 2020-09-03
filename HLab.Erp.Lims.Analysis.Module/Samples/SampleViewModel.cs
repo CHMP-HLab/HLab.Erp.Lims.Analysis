@@ -24,13 +24,18 @@ using Outils;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
-    public class SampleViewModel : EntityViewModel<SampleViewModel,Sample>
+    using H = H<SampleViewModel>;
+
+    public class SampleViewModel : EntityViewModel<Sample>
     {
+
+
         public Type ListProductType => typeof(ProductsListPopupViewModel);
 
         [Import] public IErpServices Erp { get; }
-        
-        public SampleViewModel() { }
+
+        public SampleViewModel() => H.Initialize(this);
+
         [Import] public SampleViewModel(Func<int, ListSampleTestViewModel> getTests, ObservableQuery<Packaging> packagings)
         {
             _getTests = getTests;
@@ -54,15 +59,16 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         [TriggerOn(nameof(Packagings),"Item","Secondary")]
         public IObservableFilter<Packaging> PrimaryPackagingList { get; }
-            = H.Filter<Packaging>((e, f) => f
+            = H.Filter<Packaging>(c => c
                 .AddFilter(p => !p.Secondary)
-                .Link(() => e.Packagings));
+                .Link(e => e.Packagings)
+            );
 
         [TriggerOn(nameof(Packagings),"Item","Secondary")]
         public IObservableFilter<Packaging> SecondaryPackagingList { get; }
-            = H.Filter<Packaging>((e, f) => f
+            = H.Filter<Packaging>(c => c
                 .AddFilter(p => p.Secondary)
-                .Link(() => e.Packagings)
+                .Link(e => e.Packagings)
             );
 
         public bool IsReadOnly => _isReadOnly.Get();

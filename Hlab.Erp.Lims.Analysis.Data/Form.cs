@@ -1,16 +1,16 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Threading.Tasks;
 using HLab.Erp.Core;
 using HLab.Erp.Data;
-using HLab.Mvvm.Annotations;
-using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
 using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    public partial class Form : Entity<Form>, IListableModel, ILocalCache
+    using H = H<Form>;
+
+    public partial class Form : Entity, IListableModel, ILocalCache
     {
+        public Form() => H.Initialize(this);
+
         public override string ToString() => Name;
 
 

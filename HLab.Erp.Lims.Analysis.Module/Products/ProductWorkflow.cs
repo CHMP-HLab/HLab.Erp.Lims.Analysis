@@ -8,8 +8,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
     {
         public ProductWorkflow(Product product,IDataLocker locker):base(product,locker)
         {
-            H.Initialize(this);
-
             CurrentState = Created;
             Update();
         }

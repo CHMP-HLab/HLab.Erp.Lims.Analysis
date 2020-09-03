@@ -10,8 +10,11 @@ using HLab.Erp.Core.ApplicationServices;
 using HLab.Erp.Lims.Monographs.Loader;
 using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
+using HLab.Mvvm.Application.Wpf;
 using HLab.Notify;
 using HLab.Notify.PropertyChanged;
+using HLab.Notify.Wpf;
+using HLab.Options;
 
 namespace HLab.Erp.Lims.Analysis.Loader
 {
@@ -27,7 +30,7 @@ namespace HLab.Erp.Lims.Analysis.Loader
             base.OnStartup(e);
 
             var container = new DependencyInjectionContainer();
-            container.ExportInitialize<OptionsServicesWpf>((c, a, o) => o.SetRegistryPath("HLab.Erp"));
+            container.ExportInitialize<OptionsServices>((c, a, o) => o.OptionsPath = "HLab.Erp");
             container.Configure(c => c.Export<EventHandlerServiceWpf>().As<IEventHandlerService>());
 
             //boot.Container.ExportInitialize<BootLoaderErpWpf>((c, a, o) => o.SetMainViewMode(typeof(ViewModeKiosk)));
@@ -39,14 +42,15 @@ namespace HLab.Erp.Lims.Analysis.Loader
             var boot = container.Locate<Bootstrapper>();
 
 
-            var a0 = boot.LoadDll("HLab.Erp.Core.Wpf");
+            //var a0 = boot.LoadDll("HLab.Erp.Core.Wpf");
             var a2 = boot.LoadDll("HLab.Erp.Base.Wpf");
-            var b0 = boot.LoadDll("HLab.Mvvm");
-            var c0 = boot.LoadDll("HLab.Mvvm.Wpf");
-            var d0 = boot.LoadDll("HLab.Erp.Data");
+            //  var b0 = boot.LoadDll("HLab.Mvvm");
+            //  var c0 = boot.LoadDll("HLab.Mvvm.Wpf");
+            //  var d0 = boot.LoadDll("HLab.Erp.Data");
+            var d1 = boot.LoadDll("HLab.Erp.Data.Wpf");
             var e0 = boot.LoadDll("HLab.Erp.Acl.Wpf");
             var a1 = boot.LoadDll("HLab.Erp.Workflows.Wpf");
-            var f0 = boot.LoadDll("HLab.Erp.Core");
+            //  var f0 = boot.LoadDll("HLab.Erp.Core");
             var g0 = boot.LoadDll("HLab.Erp.Lims.Analysis.Module");
             var g1 = boot.LoadDll("HLab.Erp.Lims.Monographs.Module");
 

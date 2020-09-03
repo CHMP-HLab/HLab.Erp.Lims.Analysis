@@ -7,7 +7,7 @@ using HLab.Mvvm.Icons;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
-    class TestCategoriesListViewModel : EntityListViewModel<TestCategoriesListViewModel,TestCategory>, IMvvmContextProvider
+    class TestCategoriesListViewModel : EntityListViewModel<TestCategory>, IMvvmContextProvider
     {
         
         [Import] private readonly IErpServices _erp;

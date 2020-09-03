@@ -9,7 +9,7 @@ using HLab.Mvvm.Lang;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
-    class SamplesListViewModel : EntityListViewModel<SamplesListViewModel, Sample>, IMvvmContextProvider
+    class SamplesListViewModel : EntityListViewModel<Sample>, IMvvmContextProvider
     {
 
         private readonly IErpServices _erp;

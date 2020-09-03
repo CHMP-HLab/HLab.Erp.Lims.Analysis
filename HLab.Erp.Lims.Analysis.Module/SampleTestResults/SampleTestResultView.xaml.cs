@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using HLab.Erp.Core;
 using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
 using HLab.Mvvm.Annotations;
+using HLab.Mvvm.Application;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {

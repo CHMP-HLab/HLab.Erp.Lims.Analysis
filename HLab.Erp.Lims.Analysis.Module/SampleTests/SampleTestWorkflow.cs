@@ -20,6 +20,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 
             var task =  UpdateChildsAsync();
             SetState(test.Stage);
+            
+            H<SampleTestWorkflow>.Initialize(this);
         }
 
         public async Task UpdateChildsAsync()
@@ -29,7 +31,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         }
 
         [Import] private ObservableQuery<SampleTestResult> TestResults;
-        private IProperty<bool> _ = H.Property<bool>(c => c
+        private IProperty<bool> _ = H<SampleTestWorkflow>.Property<bool>(c => c
 
             .On(e => e.Target.Stage)
             .Do((a, b) =>

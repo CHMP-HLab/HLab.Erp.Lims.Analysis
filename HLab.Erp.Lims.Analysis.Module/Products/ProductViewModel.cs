@@ -10,8 +10,12 @@ using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
-    class ProductViewModel: EntityViewModel<ProductViewModel,Product>
+    using H = H<ProductViewModel>;
+
+    class ProductViewModel: EntityViewModel<Product>
     {
+        public ProductViewModel() => H.Initialize(this);
+
         public override string Title => _title.Get();
         private readonly IProperty<string> _title = H.Property<string>(c => c
         .On(e => e.Model.Inn)

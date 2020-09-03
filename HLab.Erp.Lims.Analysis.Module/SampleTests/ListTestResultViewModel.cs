@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
-using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
@@ -11,7 +10,7 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
-    public class ListTestResultViewModel : EntityListViewModel<ListTestResultViewModel, SampleTestResult>, IMvvmContextProvider
+    public class ListTestResultViewModel : EntityListViewModel<SampleTestResult>, IMvvmContextProvider
     {
         [Import]
         private readonly IErpServices _erp;

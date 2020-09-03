@@ -6,10 +6,14 @@ using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    public partial class SampleTest : Entity<SampleTest>
+    using H = HD<SampleTest>;
+    public partial class SampleTest : Entity
         , IEntityWithIcon
         , IEntityWithColor
     {
+
+        public SampleTest() => H.Initialize(this);
+
         public int? SampleId
         {
             get => _sampleId.Get();

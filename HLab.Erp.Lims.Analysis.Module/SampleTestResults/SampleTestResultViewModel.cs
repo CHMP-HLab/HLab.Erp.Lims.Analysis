@@ -15,14 +15,15 @@ using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 {
+    using H = H<SampleTestResultViewModel>;
+
     public class SampleTestResultViewModelDesign : SampleTestResultViewModel, IViewModelDesign
     {
     }
 
-    public class SampleTestResultViewModel : EntityViewModel<SampleTestResultViewModel,SampleTestResult>
+    public class SampleTestResultViewModel : EntityViewModel<SampleTestResult>
     {
-        public SampleTestResultViewModel()
-        { }
+        public SampleTestResultViewModel() => H.Initialize(this);
 
         [Import] private Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> _getWorkflow;
         [Import] public IErpServices Erp { get; }

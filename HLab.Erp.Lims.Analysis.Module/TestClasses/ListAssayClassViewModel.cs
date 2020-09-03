@@ -11,7 +11,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
 
 
-    class ListTestClassViewModel : EntityListViewModel<ListTestClassViewModel,TestClass>, IMvvmContextProvider
+    class ListTestClassViewModel : EntityListViewModel<TestClass>, IMvvmContextProvider
     {
         
         [Import] private readonly IErpServices _erp;

@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using HLab.Erp.Acl;
-using HLab.Erp.Data;
+﻿using HLab.Erp.Data;
 using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    public abstract class EntityAClTarget<T> : Entity<T>
-    where T : EntityAClTarget<T>
+    using H = HD<Project>;
+    public class Project : Entity
     {
-        public string AclTargetId => nameof(T) + "_" + Id;
-
-    }
-
-    public class Project : Entity<Project>
-    {
+        public Project() => H.Initialize(this);
 
         public int? ParentId
         {

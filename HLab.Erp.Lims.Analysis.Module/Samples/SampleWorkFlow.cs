@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Data.Observables;
@@ -7,10 +6,11 @@ using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Erp.Workflows;
 using HLab.Notify.PropertyChanged;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
+
+
     public class SampleWorkflow : Workflow<SampleWorkflow,Sample>
     {
         public SampleWorkflow(Sample sample, DataLocker<Sample> locker):base(sample,locker)
@@ -20,6 +20,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 
             var task = UpdateChildrenAsync();
             SetState(sample.Stage);
+
+            H<SampleWorkflow>.Initialize(this);
         }
         public async Task UpdateChildrenAsync()
         {
@@ -35,7 +37,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             set => Target.Stage = value;
         }
 
-        private IProperty<bool> _ = H.Property<bool>(c => c
+        private IProperty<bool> _ = H<SampleWorkflow>.Property<bool>(c => c
 
             .On(e => e.Target.Stage)
             .Do((a, b) =>

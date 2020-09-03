@@ -5,7 +5,9 @@ using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    public class ProductCategory : Entity<ProductCategory>, ILocalCache, IListableModel
+    using H = HD<ProductCategory>;
+
+    public class ProductCategory : Entity, ILocalCache, IListableModel
     {
         public static TestCategory DesignModel => new TestCategory
         {

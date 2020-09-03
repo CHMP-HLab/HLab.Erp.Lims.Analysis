@@ -11,6 +11,6 @@ using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
 {
-    public class ManufacturersDataModule : ErpDataModule<ManufacturersDataModule,ManufacturersListViewModel>
+    public class ManufacturersDataModule : ErpDataModule<ManufacturersListViewModel>
     { }
 }

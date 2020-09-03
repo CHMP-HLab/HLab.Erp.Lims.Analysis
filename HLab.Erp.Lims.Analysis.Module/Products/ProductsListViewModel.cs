@@ -11,7 +11,7 @@ using HLab.Mvvm.Icons;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
-    public class ProductsListViewModel: EntityListViewModel<ProductsListViewModel,Product>, IMvvmContextProvider
+    public class ProductsListViewModel: EntityListViewModel<Product>, IMvvmContextProvider
     {
         public ProductsListViewModel() 
         {

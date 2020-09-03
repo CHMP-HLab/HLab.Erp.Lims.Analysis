@@ -7,7 +7,7 @@ using HLab.Mvvm.Icons;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
-    public class ProductCategoriesListViewModel : EntityListViewModel<ProductCategoriesListViewModel, ProductCategory>, IMvvmContextProvider
+    public class ProductCategoriesListViewModel : EntityListViewModel<ProductCategory>, IMvvmContextProvider
     {
 
         [Import] private readonly IErpServices _erp;

@@ -1,14 +1,16 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using HLab.Erp.Core;
 using HLab.Erp.Data;
-using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
 using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-     public partial class Product : Entity<Product>, ILocalCache, IListableModel
-     {
+    using H = HD<Product>;
+
+    public partial class Product : Entity, ILocalCache, IListableModel
+    {
+        public Product() => H.Initialize(this);
+
         public string Complement
         {
             get => _complement.Get();
@@ -55,20 +57,18 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         public int? FormId
         {
-            get => _formId.Get();
-            set => _formId.Set(value);
+            get => _form.Id.Get();
+            set => _form.Id.Set(value);
         }
-        private readonly IProperty<int?> _formId = H.Property<int?>();
 
         [Ignore]
         public Form Form
         {
-            set => FormId = value.Id;
+            set => _form.Set(value);
             get => _form.Get();
         }
-        private readonly IProperty<Form> _form = H.Property<Form>(c => c
-            .Foreign(e => e.FormId)
-        );
+        private readonly IForeign<Form> _form = H.Foreign<Form>();
+
         public int? CategoryId
         {
             get => _category.Id.Get();

@@ -3,13 +3,15 @@ using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module
 {
-    class ProgressViewModel : ViewModel<ProgressViewModel>
+    class ProgressViewModel : ViewModel
     {
+        public ProgressViewModel() => H<ProgressViewModel>.Initialize(this);
+
         public double Value
         {
             get => _value.Get();
             set => _value.Set(value);
         }
-        private IProperty<double> _value = H.Property<double>();
+        private readonly IProperty<double> _value = H<ProgressViewModel>.Property<double>();
     }
 }

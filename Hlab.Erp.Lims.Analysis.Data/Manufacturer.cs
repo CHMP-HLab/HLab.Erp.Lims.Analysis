@@ -6,8 +6,11 @@ using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    public partial class Manufacturer : Corporation<Manufacturer>, ILocalCache, IListableModel
+    using H = HD<Manufacturer>;
+
+    public partial class Manufacturer : Corporation, ILocalCache, IListableModel
     {
+        public Manufacturer() => H.Initialize(this);
 
         [Ignore]
         public string Caption => _caption.Get();

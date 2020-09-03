@@ -7,10 +7,15 @@ using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-     public partial class SampleTestResult : Entity<SampleTestResult>
+    
+    using H = HD<SampleTestResult>;
+     public partial class SampleTestResult : Entity
 //        , IEntityWithIcon
 //        , IEntityWithColor
-    {
+     {
+         public SampleTestResult() => H.Initialize(this);
+
+
         //public int? Color => _color.Get();
         //private readonly IProperty<int?> _color = H.Property<int?>(c => c.OneWayBind(e => e.SampleTest.TestClass.Color));
 
