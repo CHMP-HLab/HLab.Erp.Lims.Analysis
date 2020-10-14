@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+	  <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>LogoChmp.ico</ApplicationIcon>
     <Platforms>AnyCPU;x86;x64</Platforms>
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.1.1" />
+    <PackageReference Include="MahApps.Metro" Version="2.2.0" />
     <PackageReference Include="System.Data.Odbc" Version="5.0.0-preview.4.20251.6" />
     <PackageReference Include="System.Data.OleDb" Version="5.0.0-preview.4.20251.6" />
     <PackageReference Include="System.IO.Ports" Version="5.0.0-preview.4.20251.6" />
@@ -38,8 +38,6 @@
     <ProjectReference Include="..\..\..\HLab\HLab.Notify.Wpf\HLab.Notify.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Options.Wpf\HLab.Options.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Options\HLab.Options.csproj" />
-    <ProjectReference Include="..\..\HLab.Erp.Lims.Monographs\HLab.Erp.Lims.Monographs.Data\HLab.Erp.Lims.Monographs.Data.csproj" />
-    <ProjectReference Include="..\..\HLab.Erp.Lims.Monographs\HLab.Erp.Lims.Monographs.Module\HLab.Erp.Lims.Monographs.Module.csproj" />
     <ProjectReference Include="..\HLab.Erp.Data.Wpf\HLab.Erp.Data.Wpf.csproj" />
     <ProjectReference Include="..\Hlab.Erp.Lims.Analysis.Data\HLab.Erp.Lims.Analysis.Data.csproj" />
     <ProjectReference Include="..\HLab.Erp.Lims.Analysis.Module\HLab.Erp.Lims.Analysis.Module.csproj" />

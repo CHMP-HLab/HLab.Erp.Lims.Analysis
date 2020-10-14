@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using HLab.Core.Annotations;
 using HLab.DependencyInjection.Annotations;
 using HLab.Mvvm.Annotations;
-using HLab.Mvvm.Views;
 
 namespace HLab.Erp.Data.Wpf
 {
@@ -21,15 +15,22 @@ namespace HLab.Erp.Data.Wpf
 
     public class Bootloader : IBootloader
     {
-        [Import] private IDataService _data;
-        [Import] private IMvvmService _mvvm;
+        private readonly IDataService _data;
+        private readonly IMvvmService _mvvm;
+
+        [Import] public Bootloader(IDataService data, IMvvmService mvvm)
+        {
+            _data = data;
+            _mvvm = mvvm;
+        }
+
         public void Load(IBootContext bootstrapper)
         {
-            if (_mvvm.ServiceState != ServiceState.Available)
-            {
-                bootstrapper.Requeue();
-                return;
-            }
+            //if (_mvvm.ServiceState != ServiceState.Available)
+            //{
+            //    bootstrapper.Requeue();
+            //    return;
+            //}
 
 
             _data.SetConfigureAction(() =>

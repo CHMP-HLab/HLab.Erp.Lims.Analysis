@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+	  <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <RootNamespace>HLab.Erp.Lims.Analysis.Module</RootNamespace>
     <Platforms>AnyCPU;x64;x86</Platforms>
@@ -117,7 +117,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="4.3.1" />
+    <PackageReference Include="ControlzEx" Version="4.3.2" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.7.0-1.final" />
   </ItemGroup>
 
