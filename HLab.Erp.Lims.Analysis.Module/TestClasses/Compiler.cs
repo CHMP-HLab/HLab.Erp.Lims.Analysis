@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using ControlzEx.Standard;
 using HLab.Base;
 using HLab.Notify.PropertyChanged;
+using HLab.Notify.Wpf;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
@@ -33,13 +34,13 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
                 if (!result.Success)
                 {
-                    CsMessage = "Compilation done with error.";
+                    CsMessage = "Compilation failed.";
 
                     var failures = result.Diagnostics.Where(diagnostic => diagnostic.IsWarningAsError || diagnostic.Severity == DiagnosticSeverity.Error);
 
                     foreach (var diagnostic in failures)
                     {
-                        CsMessage += "\n" + String.Format("{0}: {1}", diagnostic.Id, diagnostic.GetMessage());
+                        CsMessage += $"\n{diagnostic.Id}: {diagnostic.GetMessage()}";
                     }
 
                     return false;
@@ -82,10 +83,13 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 //System.ObjectModel
                 MetadataReference.CreateFromFile(typeof(INotifyPropertyChanged).Assembly.Location),
                 //HLab.Notify.PropertyChanged
-                MetadataReference.CreateFromFile(typeof(N<>).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(NotifierBase).Assembly.Location),
+                //HLab.Notify.PropertyChanged
+                MetadataReference.CreateFromFile(typeof(UserControlNotifier).Assembly.Location),
                 //
                 MetadataReference.CreateFromFile( Assembly.GetExecutingAssembly().Location),
                 //MetadataReference.CreateFromFile(typeof(Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo).Assembly.Location),
+                MetadataReference.CreateFromFile(Assembly.Load("System.Runtime").Location),
                 MetadataReference.CreateFromFile(Assembly.Load("netstandard").Location),
                 MetadataReference.CreateFromFile(Assembly.Load("System.Linq").Location),
                 MetadataReference.CreateFromFile(Assembly.Load("System.Core").Location),

@@ -39,6 +39,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         [Import] public SampleViewModel(Func<int, ListSampleTestViewModel> getTests, ObservableQuery<Packaging> packagings)
         {
             _getTests = getTests;
+            H.Initialize(this);
             Packagings = packagings;
             Packagings.UpdateAsync();
         }
@@ -162,11 +163,16 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public SampleWorkflow Workflow => _workflow.Get();
         private readonly IProperty<SampleWorkflow> _workflow = H.Property<SampleWorkflow>(c => c
+            .Set(vm =>
+            {
+                if (vm.Model == null || vm.Locker == null) return null;
+                return vm._getSampleWorkflow(vm.Model, vm.Locker);
+            })
             .On(e => e.Model)
             .On(e => e.Locker)
             .NotNull(e => e.Model)
             .NotNull(e => e.Locker)
-            .Set(vm => vm._getSampleWorkflow(vm.Model,vm.Locker))
+            .Update()
         );
 
         [Import] private Func<Sample,DataLocker<Sample>,SampleWorkflow> _getSampleWorkflow;

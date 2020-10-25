@@ -20,6 +20,7 @@
              xmlns:customers="clr-namespace:HLab.Erp.Base.Wpf.Entities.Customers;assembly=HLab.Erp.Base.Wpf"
              xmlns:workflows="clr-namespace:HLab.Erp.Workflows;assembly=HLab.Erp.Workflows.Wpf"
              xmlns:views1="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
+             xmlns:wpf1="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
              mc:Ignorable="d" 
              Background="#FF004050"
              d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModelDesign}, IsDesignTimeCreatable=True}"             
@@ -77,7 +78,7 @@
                 <views1:DetailView EditMode="{Binding EditMode}" IconPath="icons/Sample/PackageOpened" Text="{}{Reception}">
 
                     <lang:LocalizedLabel Text="{}{Date} :" />
-                    <base:DateEx
+                    <wpf1:DateEx
                             HorizontalAlignment="Left"
                             Date="{Binding Model.ReceptionDate}" 
                             DayValid="True"
@@ -114,7 +115,7 @@
                             <lang:Localize Id="{}{Date} :"/>
                         </Label>
 
-                        <base:DateEx  Grid.Column="2"
+                        <wpf1:DateEx  Grid.Column="2"
                         
                             HorizontalAlignment="Left"
                             Width="120"
@@ -160,7 +161,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <base:DateEx Date="{Binding Model.ExpirationDate}" DayValid="{Binding Model.ExpirationDayValid}" EmptyDayAllowed="True"/>
+                        <wpf1:DateEx Date="{Binding Model.ExpirationDate}" DayValid="{Binding Model.ExpirationDayValid}" EmptyDayAllowed="True"/>
                         <icons:IconView Grid.Column="1" Path="icons/sample/expired" Height="25" Margin="2">
                             <icons:IconView.Style>
                                 <Style TargetType="icons:IconView">
@@ -184,7 +185,7 @@
                         <Label Grid.Column="2" HorizontalAlignment="Right">
                             <lang:Localize  Id="{}{Manufacture} : "/>
                         </Label>
-                        <base:DateEx 
+                        <wpf1:DateEx 
                     Grid.Column="3" 
                     Date="{Binding Model.ManufacturingDate, UpdateSourceTrigger=PropertyChanged}" 
                     DayValid="{Binding Model.ManufacturingDayValid}" EmptyDayAllowed="True"/>

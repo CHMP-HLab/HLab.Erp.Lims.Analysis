@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using HLab.DependencyInjection.Annotations;
 using HLab.Mvvm.Annotations;
 using HLab.Network;
@@ -8,15 +9,31 @@ namespace HLab.Erp.Data.Wpf
     /// <summary>
     /// Logique d'interaction pour DatabaseConfig.xaml
     /// </summary>
-    public partial class DatabaseConfigView : UserControl, IView<ViewModeDefault,ConnectionData>, IViewClassDefault
+    public partial class DatabaseConfigView : UserControl, IView<ConnectionDataViewModel>
     {
-         [Import] public IPScanner PostgresqlServers { get; }
 
         public DatabaseConfigView()
         {
             InitializeComponent();
+        }
 
-            PostgresqlServers.Scan(5432);
+        private void CbServer_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+        }
+
+        private void OkButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var window = Window.GetWindow(this);
+            window.DialogResult = true;
+            window?.Close();
+
+        }
+        private void CancelButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var window = Window.GetWindow(this);
+            window.DialogResult = false;
+            window?.Close();
+
         }
     }
 }

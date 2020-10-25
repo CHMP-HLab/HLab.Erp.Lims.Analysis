@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,6 +20,8 @@ using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
+    using H = H<FormHelper>;
+
     public enum TestFormMode
     {
         NotSet = 0,
@@ -48,8 +51,11 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
     }
 
-    public class FormHelper : N<FormHelper>
+    public class FormHelper : NotifierBase
     {
+        public FormHelper() => H.Initialize(this);
+
+
         public TestFormMode Mode
         {
             get => _mode.Get();
@@ -121,22 +127,22 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
             .On(e => e.Form.Test.Specifications)
             .NotNull(e => e.Test)
-            .NotNull(e => e.Form.Test.Specifications)
+            .NotNull(e => e.Form.Test?.Specifications)
                 .Do(e => e.Test.Specification = e.Form.Test.Specifications)
 
             .On(e => e.Form.Test.TestName)
             .NotNull(e => e.Test)
-            .NotNull(e => e.Form.Test.TestName)
+            .NotNull(e => e.Form.Test?.TestName)
                 .Do(e => e.Test.TestName = e.Form.Test.TestName)
 
             .On(e => e.Form.Test.Description)
             .NotNull(e => e.Test)
-            .NotNull(e => e.Form.Test.Description)
+            .NotNull(e => e.Form.Test?.Description)
                 .Do(e => e.Test.Description = e.Form.Test.Description)
 
             .On(e => e.Form.Test.Conformity)
             .NotNull(e => e.Test)
-            .NotNull(e => e.Form.Test.Conformity)
+            .NotNull(e => e.Form.Test?.Conformity)
                 .Do(e => e.Test.Conform = e.Form.Test.Conformity)
             );
 
@@ -221,7 +227,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 return;
             }
 
-            var cs = "using System.ComponentModel;\nusing HLab.Erp.Lims.Analysis.Module.TestClasses;\nusing HLab.Notify.PropertyChanged;\n" + Cs;
+            var cs = "using System.Runtime;\nusing System.ComponentModel;\nusing HLab.Erp.Lims.Analysis.Module.TestClasses;\nusing HLab.Notify.PropertyChanged;\nusing HLab.Notify.Wpf;\n" + Cs;
 
             if (cs.Contains("using FM;"))
             {
@@ -236,7 +242,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             var classname = cs.Substring(index,idx2-index);
 
             index = cs.IndexOf("public class", StringComparison.InvariantCulture);
-            cs = cs.Insert(index, string.Format("using H = NotifyHelper<{0}>;\n",classname));
+            cs = cs.Insert(index, $"using H = H<{classname}>;\n");
 
 
             // Ajout des dérivations de classes
@@ -249,7 +255,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             }
 
 
-            cs = cs.Insert(index, " : UserControl, ITestForm, INotifyPropertyChanged");
+            cs = cs.Insert(index, " : UserControlNotifier, ITestForm");
 
             // Ajout des déclarations des objects du formulaire à lier à la classe et de la fonction Connect pour la liaison une fois instanciée
             string declarations = "";
@@ -343,9 +349,9 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                     n++;
                 }
             }
-            declarations += "public event PropertyChangedEventHandler PropertyChanged;";
+            //declarations += "public event PropertyChangedEventHandler PropertyChanged;";
             declarations += "public TestLegacyHelper Test => _test.Get();\nprivate IProperty<TestLegacyHelper> _test = H.Property<TestLegacyHelper>(c => c.Set(e => new TestLegacyHelper()));\nITestHelper ITestForm.Test => Test;\n";
-            declarations += "public " + classname + "(){H.Initialize(this,a => PropertyChanged?.Invoke(this,a));}";
+            declarations += "public " + classname + "() => H.Initialize(this);";
             cs = cs.Insert(cs.IndexOf('{', index) + 1, declarations + connection + "}\r\n}\r\n");
 
             var compiler = new Compiler { SourceCode = cs };
@@ -746,14 +752,15 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 Result.Values = GetPackedValues();
                 if (mandatoryNeeded > 0)
                 {
-                    Form.Test.State = mandatoryDone > 0 ? TestState.Running : TestState.NotStarted;
+                    if(Form.Test!=null)
+                        Form.Test.State = mandatoryDone > 0 ? TestState.Running : TestState.NotStarted;
                     Result.MandatoryDone = false;
                 }
                 else Result.MandatoryDone = true;
             }
 
 
-            if(Form.Test.State>TestState.Running)
+            if(Form.Test !=null && Form.Test.State>TestState.Running)
             {
                 if (specificationNeeded > 0) Form.Test.State = TestState.NotStarted;
                 if (mandatoryNeeded > 0) Form.Test.State = TestState.Running;
@@ -908,26 +915,35 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         {
             return LoadAsync(result.SampleTest, result);
         }
-
+        private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
         public async Task LoadAsync(SampleTest test, SampleTestResult result = null)
         {
-            if (!ReferenceEquals(Test,test))
+            await _lock.WaitAsync();
+            try
             {
-                if (Test != null) throw new Exception("Test should be null or same");
-                Test = test;
-                await ExtractCode(test.Code).ConfigureAwait(true);
-                await LoadForm().ConfigureAwait(true);
-                if(test?.Values!=null)
-                    LoadValues(test.Values);
-            }
-            if (!ReferenceEquals(Result, result))
-            {
-                Result = result;
-                if (result?.Values!=null ) 
-                    LoadValues(result.Values);
-            }
+                if (!ReferenceEquals(Test, test))
+                {
+                    if (Test != null) throw new Exception("Test should be null or same");
+                    Test = test;
+                    await ExtractCode(test.Code).ConfigureAwait(true);
+                    await LoadForm().ConfigureAwait(true);
+                    if (test?.Values != null)
+                        LoadValues(test.Values);
+                }
 
-            Form.Traitement(null,null);
+                if (!ReferenceEquals(Result, result))
+                {
+                    Result = result;
+                    if (result?.Values != null)
+                        LoadValues(result.Values);
+                }
+
+                Form?.Traitement(null, null);
+            }
+            finally
+            {
+                _lock.Release();
+            }
         }
     }
 }

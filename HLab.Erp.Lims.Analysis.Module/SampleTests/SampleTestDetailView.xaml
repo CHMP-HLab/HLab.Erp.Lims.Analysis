@@ -12,6 +12,7 @@
              xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
              xmlns:workflows="clr-namespace:HLab.Erp.Workflows;assembly=HLab.Erp.Workflows.Wpf"
              xmlns:views="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
+             xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
              Background="#FF005040"
              d:DataContext="{d:DesignInstance {x:Type sampleTests:SampleTestViewModelDesign}, IsDesignTimeCreatable=True}"             
              mc:Ignorable="d" 
@@ -56,7 +57,7 @@
 
                     
                     <lang:LocalizedLabel Text="{}{Date} :" />
-                    <base:DateEx
+                    <wpf:DateEx
                             HorizontalAlignment="Left"
                             Date="{Binding Model.ScheduledDate}" 
                             DayValid="True"

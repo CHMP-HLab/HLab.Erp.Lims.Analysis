@@ -16,6 +16,8 @@ namespace HLab.Erp.Lims.Analysis.Data
             IconPath = "Icons/Default"
         };
 
+        public ProductCategory() => H.Initialize(this);
+
         public string Name
         {
             get => _name.Get();

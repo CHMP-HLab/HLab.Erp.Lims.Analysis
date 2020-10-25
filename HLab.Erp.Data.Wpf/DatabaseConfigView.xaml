@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:HLab.Erp.Data.Wpf"
              xmlns:lang="clr-namespace:HLab.Mvvm.Lang;assembly=HLab.Mvvm.Wpf"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance {x:Type local:ConnectionData}}"
+             d:DataContext="{d:DesignInstance {x:Type local:ConnectionDataViewModel}}"
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <Grid>
@@ -19,24 +19,42 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-            <!--<lang:LocalizedLabel Grid.Column="0" Grid.Row="0" Text="{}{Server|fr=Serveur}"/>-->
-            <Label Grid.Column="0" Grid.Row="0" Content="Server"/>
-            <ComboBox Grid.Column="1" Grid.Row="0" Text="{Binding Server}" ItemsSource="{Binding RelativeSource=
-                {RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, 
-                Path=PostgresqlServers.FoundServers}"/>
-                
-            <!--<lang:LocalizedLabel Grid.Column="0" Grid.Row="1" Text="{}{Database}"/>-->
-            <Label Grid.Column="0" Grid.Row="1" Content="Database"/>
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Database}"/>
-                
             <!--<lang:LocalizedLabel Grid.Column="0" Grid.Row="2" Text="{}{User Name}"/>-->
-            <Label Grid.Column="0" Grid.Row="2" Content="User Name"/>
-            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding UserName}"/>
+            <Label Grid.Column="0" Grid.Row="0" Content="User Name"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Model.UserName}"/>
                 
             <!--<lang:LocalizedLabel Grid.Column="0" Grid.Row="3" Text="{}{Password}"/>-->
-            <Label Grid.Column="0" Grid.Row="3" Content="Password"/>
-            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Password}"/>
+            <Label Grid.Column="0" Grid.Row="1" Content="Password"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Model.Password}"/>
+            <!--<lang:LocalizedLabel Grid.Column="0" Grid.Row="0" Text="{}{Server|fr=Serveur}"/>-->
+            <Label Grid.Column="0" Grid.Row="2" Content="Server"/>
+            <ComboBox 
+                IsEditable="True"
+                Grid.Column="1" Grid.Row="2" 
+                Text="{Binding Server}" 
+                ItemsSource="{Binding Servers}"
+                />
+                
+            <!--<lang:LocalizedLabel Grid.Column="0" Grid.Row="1" Text="{}{Database}"/>-->
+            <Label Grid.Column="0" Grid.Row="3" Content="Database"/>
+            <ComboBox 
+                IsEditable="True"
+                Grid.Column="1" Grid.Row="3" 
+                Text="{Binding Model.Database}"
+                ItemsSource="{Binding Databases}"
+            />
+            <Grid Grid.Column="1" Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Click="OkButton_OnClick">Ok</Button>
+                <Button Grid.Column="1" Click="CancelButton_OnClick">Cancel</Button>
+
+            </Grid>
+
         </Grid>
     </StackPanel>
 </UserControl>

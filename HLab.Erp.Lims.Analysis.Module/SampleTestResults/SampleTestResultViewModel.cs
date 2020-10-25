@@ -112,7 +112,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         public ITestHelper TestHelper => _testHelper.Get();
         private readonly IProperty<ITestHelper> _testHelper = H.Property<ITestHelper>(c => c
             .On(e => e.FormHelper.Form.Test)
-            .NotNull(e => e.FormHelper?.Form)
+            .NotNull(e => e.FormHelper?.Form?.Test)
             .Do((e,f) => {
                 f.Set(e.FormHelper.Form.Test);
                 e.TestHelper.PropertyChanged += e.TestHelper_PropertyChanged;

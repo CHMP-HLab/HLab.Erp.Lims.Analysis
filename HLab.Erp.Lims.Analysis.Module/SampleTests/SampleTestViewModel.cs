@@ -124,7 +124,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             })
         );
 
-        private readonly IProperty<bool> _ = H.Property<bool>(c => c
+        private readonly ITrigger _trigger = H.Trigger(c => c
             .On(e => e.Model)
             .OnNotNull(e => e.Workflow)
             .OnNotNull(e => e.Results)
@@ -222,7 +222,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         public ITestHelper TestHelper => _testHelper.Get();
         private readonly IProperty<ITestHelper> _testHelper = H.Property<ITestHelper>(c => c
             .On(e => e.FormHelper.Form.Test)
-            .NotNull(e => e.FormHelper?.Form)
+            .NotNull(e => e.FormHelper?.Form?.Test)
             .Do((e,f) => {
                 f.Set(e.FormHelper.Form.Test);
                 e.TestHelper.PropertyChanged += e.TestHelper_PropertyChanged;

@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Data.Annotations\HLab.Erp.Data.Annotations.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Mvvm.Annotations\HLab.Mvvm.Annotations.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Mvvm.Wpf\HLab.Mvvm.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Network\HLab.Network.csproj" />

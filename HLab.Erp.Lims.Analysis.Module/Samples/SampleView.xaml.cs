@@ -5,20 +5,15 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Media;
 using System.Windows.Shapes;
 using HLab.Base;
-using HLab.Erp.Core;
-using HLab.Erp.Core.EntitySelectors;
-using HLab.Erp.Lims.Analysis.Module.Samples;
+using HLab.Base.Wpf;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Application;
-using HLab.Mvvm.Extensions;
-using HLab.Mvvm.Lang;
 using HLab.Mvvm.Views;
 using Microsoft.Xaml.Behaviors.Layout;
 
-namespace HLab.Erp.Lims.Analysis.Module
+namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
     /// <summary>
     /// Logique d'interaction pour SampleView.xaml

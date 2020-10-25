@@ -43,6 +43,8 @@ namespace HLab.Erp.Lims.Analysis.Loader
 
 
             //var a0 = boot.LoadDll("HLab.Erp.Core.Wpf");
+            var a01 = boot.LoadDll("HLab.Options.Wpf");
+            var a3 = boot.LoadDll("HLab.Notify.Wpf");
             var a2 = boot.LoadDll("HLab.Erp.Base.Wpf");
             //  var b0 = boot.LoadDll("HLab.Mvvm");
             //  var c0 = boot.LoadDll("HLab.Mvvm.Wpf");
@@ -50,10 +52,9 @@ namespace HLab.Erp.Lims.Analysis.Loader
             var d1 = boot.LoadDll("HLab.Erp.Data.Wpf");
             var e0 = boot.LoadDll("HLab.Erp.Acl.Wpf");
             var a1 = boot.LoadDll("HLab.Erp.Workflows.Wpf");
-            //  var f0 = boot.LoadDll("HLab.Erp.Core");
             var g0 = boot.LoadDll("HLab.Erp.Lims.Analysis.Module");
             //var g1 = boot.LoadDll("HLab.Erp.Lims.Monographs.Module");
-
+            
 #if !DEBUG
             try
             {
