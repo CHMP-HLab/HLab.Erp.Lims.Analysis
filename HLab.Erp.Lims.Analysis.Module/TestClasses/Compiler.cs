@@ -22,7 +22,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
     {
         public string SourceCode { get; set; }
         public string CsMessage { get; private set; }
-        public byte[] Compiled { get; private set; }
+        public object Module { get; private set; }
 
         public bool Compile()
         {
@@ -50,7 +50,16 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
                 peStream.Seek(0, SeekOrigin.Begin);
 
-                Compiled = peStream.ToArray();
+                var compiled = peStream.ToArray();
+                var assemblyLoadContext = new AssemblyLoadContext("LimsForm", true);// SimpleUnloadableAssemblyLoadContext();
+
+                Assembly assembly;
+                using (var asm = new MemoryStream(compiled))
+                {
+                    assembly = assemblyLoadContext.LoadFromStream(asm);
+                }
+
+                Module = Activator.CreateInstance(assembly.GetTypes()[0]);
 
                 return true;
             }

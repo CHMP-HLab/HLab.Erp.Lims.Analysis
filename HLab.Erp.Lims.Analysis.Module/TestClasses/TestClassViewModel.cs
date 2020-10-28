@@ -98,9 +98,17 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         public async Task Compile()
         {
+            var specs = FormHelper.GetSpecPackedValues();
+            var values = FormHelper.GetPackedValues();
+
             await FormHelper.LoadForm().ConfigureAwait(true);
 
             Model.Code = await FormHelper.SaveCode();
+
+            FormHelper.LoadValues(specs);
+            FormHelper.LoadValues(values);
+
+            FormHelper.Form.Traitement(null,null);
         }
 
         //private IProperty<bool> _initLocker = H.Property<bool>(c => c.On(e => e.Locker).Do((e,f)=> {
@@ -113,7 +121,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         //    };
         //}));
 
-        private IProperty<bool> _init = H.Property<bool>(c => c.On(e => e.Model).Do(async (e, f) =>
+        private ITrigger _init = H.Trigger(c => c.On(e => e.Model).Do(async (e, f) =>
         {
 
             if (e.Model.Code != null)

@@ -42,6 +42,7 @@
                             SyntaxHighlighting="XML" 
                             TextChanged="TextEditor_OnTextChanged"
                             IsReadOnly="{Binding Locker.IsReadOnly}"
+                             
                         />
 
                     <ScrollViewer MaxHeight="200" VerticalScrollBarVisibility="Auto" Grid.Row="1" >

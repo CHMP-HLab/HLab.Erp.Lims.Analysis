@@ -133,19 +133,6 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
         private readonly IProperty<string> _result = H.Property<string>();
 
-        //public bool SpecificationsDone
-        //{
-        //    get => _specificationsDone.Get();
-        //    set => _specificationsDone.Set(value);
-        //}
-        //private IProperty<bool> _specificationsDone = H.Property<bool>();
-        //public bool MandatoryDone
-        //{
-        //    get => _mandatoryDone.Get();
-        //    set => _mandatoryDone.Set(value);
-        //}
-        //private IProperty<bool> _mandatoryDone = H.Property<bool>();
-
         public double Calcul(TextBlock block, double value, int decimals = 2) =>
             Compute(block, value, decimals);
         public double Compute(TextBlock block, double value, int decimals = 2)

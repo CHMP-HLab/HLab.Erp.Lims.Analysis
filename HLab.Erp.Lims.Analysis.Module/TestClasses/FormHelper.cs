@@ -80,6 +80,18 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             set => _xamlMessage.Set(value);
         }
         private readonly IProperty<string> _xamlMessage = H.Property<string>();
+        public int XamlErrorLine
+        {
+            get => _xamlErrorLine.Get();
+            set => _xamlErrorLine.Set(value);
+        }
+        private readonly IProperty<int> _xamlErrorLine = H.Property<int>();
+        public int XamlErrorPos
+        {
+            get => _xamlErrorPos.Get();
+            set => _xamlErrorPos.Set(value);
+        }
+        private readonly IProperty<int> _xamlErrorPos = H.Property<int>();
 
         public string Cs
         {
@@ -94,6 +106,18 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             set => _csMessage.Set(value);
         }
         private readonly IProperty<string> _csMessage = H.Property<string>();
+        public int CsErrorLine
+        {
+            get => _csErrorLine.Get();
+            set => _csErrorLine.Set(value);
+        }
+        private readonly IProperty<int> _csErrorLine = H.Property<int>();
+        public int CsErrorPos
+        {
+            get => _csErrorPos.Get();
+            set => _csErrorPos.Set(value);
+        }
+        private readonly IProperty<int> _csErrorPos = H.Property<int>();
 
         public ITestForm Form
         {
@@ -200,19 +224,27 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             {
                 form = (UserControl)XamlReader.Parse(xaml);
                 XamlMessage = "XAML OK";
+                XamlErrorLine = -1;
+                XamlErrorPos = -1;
             }
             catch (Exception ex)
             {
-                int headerLength = LineCount(header.Substring(0, header.IndexOf("<!--Content-->", StringComparison.InvariantCulture)));
+                var headerLength = LineCount(header.Substring(0, header.IndexOf("<!--Content-->", StringComparison.InvariantCulture)))-1;
 
                 XamlMessage = "Error " + Environment.NewLine;
                 if (ex is XamlParseException parseEx)
-                    XamlMessage +=
-                        ex.GetType().Name
-                        + Environment.NewLine
-                        + parseEx.Message
-                        + " Line "
-                        + (parseEx.LineNumber - headerLength) + " , Position " + parseEx.LinePosition + ".";
+                {
+                    XamlErrorLine = parseEx.LineNumber - headerLength;
+                    XamlErrorPos = parseEx.LinePosition;
+
+                    var oldPos = $"Line {parseEx.LineNumber}, position {parseEx.LinePosition}.";
+                    var newPos = $"Line {XamlErrorLine}, position {XamlErrorPos}.";
+
+                        XamlMessage +=
+                            ex.GetType().Name
+                            + Environment.NewLine
+                            + parseEx.Message.Replace(oldPos, newPos);
+                }
                 else
                     XamlMessage += "Error XAML :" + Environment.NewLine + ex.Message;
 
@@ -363,15 +395,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 return;
             }
 
-            var assemblyLoadContext = new AssemblyLoadContext("LimsForm", true);// SimpleUnloadableAssemblyLoadContext();
-
-            Assembly assembly;
-            using (var asm = new MemoryStream(compiler.Compiled))
-            {
-                assembly = assemblyLoadContext.LoadFromStream(asm);
-            }
-            // Création de l'instance de la classe venant du C#
-            var module = (ITestForm)Activator.CreateInstance(assembly.GetTypes()[0]);
+            var module = (ITestForm) compiler.Module;
 
             if (module is UserControl uc)
                 uc.Content = form;
