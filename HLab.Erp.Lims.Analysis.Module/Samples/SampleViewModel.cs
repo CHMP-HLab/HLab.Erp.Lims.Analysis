@@ -24,6 +24,8 @@ using Outils;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
+
+
     using H = H<SampleViewModel>;
 
     public class SampleViewModel : EntityViewModel<Sample>

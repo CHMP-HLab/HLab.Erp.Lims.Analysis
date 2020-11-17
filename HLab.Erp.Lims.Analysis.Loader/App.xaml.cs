@@ -12,6 +12,7 @@ using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Application.Wpf;
 using HLab.Notify;
+using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
 using HLab.Notify.Wpf;
 using HLab.Options;

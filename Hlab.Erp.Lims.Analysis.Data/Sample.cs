@@ -462,6 +462,7 @@ namespace HLab.Erp.Lims.Analysis.Data
                 ReceivedQuantity = 100,
                 ReceptionDate = DateTime.Now,
                 Progress = 50,
+                User = User.DesignModel
 
         };
 

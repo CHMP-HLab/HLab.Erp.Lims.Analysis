@@ -15,7 +15,7 @@
              xmlns:data="clr-namespace:HLab.Erp.Lims.Analysis.Data;assembly=HLab.Erp.Lims.Analysis.Data"
              mc:Ignorable="d" 
              Background="#FF004050"
-             d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModel}, IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModelDesign}, IsDesignTimeCreatable=True}"
              d:DesignHeight="1000" d:DesignWidth="1000"
              mvvm:ViewLocator.ViewClass="{x:Type annotations:IViewClassDefault}">
 
