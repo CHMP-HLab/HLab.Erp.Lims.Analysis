@@ -5,6 +5,7 @@
     <UseWPF>true</UseWPF>
     <RootNamespace>HLab.Erp.Lims.Analysis.Module</RootNamespace>
     <Platforms>AnyCPU;x64;x86</Platforms>
+    <Configurations>Debug;Release;DebugRelease</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -132,6 +133,7 @@
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Workflows\HLab.Erp.Workflows.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Mvvm.Wpf\HLab.Mvvm.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Notify.Wpf\HLab.Notify.Wpf.csproj" />
+    <ProjectReference Include="..\..\..\Lib\PDFsharp\PDFSharp.csproj" />
     <ProjectReference Include="..\..\..\Lib\YAMP\YAMP.csproj" />
     <ProjectReference Include="..\Hlab.Erp.Lims.Analysis.Data\HLab.Erp.Lims.Analysis.Data.csproj" />
   </ItemGroup>

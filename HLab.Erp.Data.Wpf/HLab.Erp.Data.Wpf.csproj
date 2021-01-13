@@ -4,7 +4,12 @@
     <OutputType>Library</OutputType>
 	  <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>AnyCPU;x64;x86</Platforms>
+    <Configurations>Debug;Release;DebugRelease</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugRelease|x64'">
+    <Optimize>false</Optimize>
   </PropertyGroup>
 
   <ItemGroup>

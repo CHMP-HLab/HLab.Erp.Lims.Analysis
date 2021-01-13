@@ -6,6 +6,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>LogoChmp.ico</ApplicationIcon>
     <Platforms>AnyCPU;x86;x64</Platforms>
+    <Configurations>Debug;Release;DebugRelease</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
