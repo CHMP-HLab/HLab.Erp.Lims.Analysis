@@ -167,8 +167,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             return double.NaN;
         }
 
-        public void CheckGroupe(object sender, params CheckBox[] group) => CheckGroup(sender, group);
-        public void CheckGroup(object sender, params CheckBox[] group)
+        public static void CheckGroupe(object sender, params CheckBox[] group) => CheckGroup(sender, group);
+        public static void CheckGroup(object sender, params CheckBox[] group)
         {
             if (!group.Contains(sender)) return;
 

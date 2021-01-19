@@ -5,11 +5,16 @@ using HLab.Core;
 using HLab.DependencyInjection;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
+using HLab.Erp.Base.Data;
+using HLab.Erp.Base.Wpf.Entities.Customers;
 using HLab.Erp.Core;
 using HLab.Erp.Core.ApplicationServices;
+using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.Manufacturers;
 using HLab.Erp.Lims.Monographs.Loader;
 using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
+using HLab.Mvvm.Application;
 using HLab.Mvvm.Application.Wpf;
 using HLab.Notify;
 using HLab.Notify.Annotations;
@@ -61,6 +66,12 @@ namespace HLab.Erp.Lims.Analysis.Loader
             {
 #endif
                 boot.Configure();
+
+                var mvvm = container.Locate<IMvvmService>();
+
+                mvvm.Register(typeof(Customer),typeof(CustomerViewModel),typeof(IViewClassDocument),typeof(ViewModeDefault));
+                mvvm.Register(typeof(Manufacturer),typeof(ManufacturerViewModel),typeof(IViewClassDocument),typeof(ViewModeDefault));
+                mvvm.Register();
 
                 var doc = container.Locate<IDocumentService>();
                 doc.MainViewModel = container.Locate<MainWpfViewModel>();

@@ -17,10 +17,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         // RUNNING
         public static State Running = State.CreateDefault(c => c
             .Caption("{Running}").Icon("Icons/Workflows/Production")
-            .Action(w =>
-            {
-                if(w.Target.Start==null) w.Target.Start = DateTime.Now;
-            })
+            .Action(w => { w.Target.Start ??= DateTime.Now; })
         );
 
         public static Action Sign = Action.Create(c => c
@@ -94,11 +91,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         // INVALIDATED
         public static State Invalidated = State.Create(c => c
             .Caption("{Invalidated}").Icon("Icons/Validations/Invalidated")
-        .Action(w =>
-        {
-            if(w.Target.SampleTest.ResultId == w.Target.Id)
-                w.Target.SampleTest.Result = null;
-        })
+            .Action(w =>
+            {
+                if(w.Target.SampleTest.ResultId == w.Target.Id)
+                    w.Target.SampleTest.Result = null;
+            })
         );
 
 

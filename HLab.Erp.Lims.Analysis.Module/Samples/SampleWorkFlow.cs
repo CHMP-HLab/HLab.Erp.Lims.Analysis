@@ -15,13 +15,13 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
     {
         public SampleWorkflow(Sample sample, DataLocker<Sample> locker):base(sample,locker)
         {
-            int id = sample.Id;
+            var id = sample.Id;
             SampleTests.AddFilter(() => e => e.SampleId == id);
+
+            H<SampleWorkflow>.Initialize(this);
                 
             var task = UpdateChildrenAsync();
             SetState(sample.Stage);
-
-            H<SampleWorkflow>.Initialize(this);
         }
         public async Task UpdateChildrenAsync()
         {
@@ -40,15 +40,15 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         private IProperty<bool> _ = H<SampleWorkflow>.Property<bool>(c => c
 
             .On(e => e.Target.Stage)
-            .Do((a, b) =>
+            .Do((a,p) =>
             {
                 a.SetState(a.Target.Stage);
             })
 
             .On(e => e.Locker.IsActive)
-            .Do(async (a, b) =>
+            .Do(async (swf,p) =>
             {
-                await a.UpdateChildrenAsync();
+                await swf.UpdateChildrenAsync();
             })
         );
 
@@ -97,6 +97,13 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.Reference))
             .WithMessage(w => "{Missing} : {Reference}")
             .HighlightField(w => w.Target.Reference)
+
+            .NotWhen(w => 
+                w.Target.ExpirationDate!=null 
+                && w.Target.ManufacturingDate!=null 
+                && w.Target.ExpirationDate < w.Target.ManufacturingDate)
+            .WithMessage(w => "{Expiry and Manufacturing dates mismatch}")
+            .HighlightField(w => w.Target.ExpirationDate).HighlightField(w=>w.Target.ManufacturingDate)
         );
 
 

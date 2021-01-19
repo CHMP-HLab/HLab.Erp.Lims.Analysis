@@ -12,6 +12,7 @@ using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Erp.Lims.Analysis.Module.Products;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
@@ -36,27 +37,34 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         [Import] public IErpServices Erp { get; }
 
-        public SampleViewModel() => H.Initialize(this);
+        public SampleViewModel()
+        {
+            H.Initialize(this);
+        }
 
-        [Import] public SampleViewModel(Func<int, ListSampleTestViewModel> getTests, ObservableQuery<Packaging> packagings)
+        [Import] public SampleViewModel(Func<int, ListSampleTestViewModel> getTests, ObservableQuery<Packaging> packagings, Func<int, ListSampleFormViewModel> getForms, Func<ListFormClassViewModel> getFormClasses)
         {
             _getTests = getTests;
             H.Initialize(this);
             Packagings = packagings;
+            _getForms = getForms;
+            _getFormClasses = getFormClasses;
             Packagings.UpdateAsync();
         }
         public override string Title => _title.Get();
         private readonly IProperty<string> _title = H.Property<string>(c => c
+            .Set(e => e.Model?.Reference??"{New sample}")
             .On(e => e.Model.Reference)
             .NotNull(e => e.Model)
-            .Set(e => e.Model.Reference??"{New sample}")
+            .Update()
         );
         public string SubTitle => Model.Customer?.Name??"{New sample}" + "\n" + Model.Product?.Caption + "\n" + Model.Reference;
         private IProperty<string> _subTitle = H.Property<string>(c => c
+            .Set(e => e.Model?.Customer?.Name??"{Customer}" + "\n" + e.Model.Product?.Caption??"{Product}")
             .On(e => e.Model.Customer.Name)
             .On(e => e.Model.Product.Caption)
             .NotNull(e => e.Model)
-            .Set(e => e.Model.Customer?.Name??"{Customer}" + "\n" + e.Model.Product?.Caption??"{Product}")
+            .Update()
         );
         public ObservableQuery<Packaging> Packagings { get; }
 
@@ -76,47 +84,76 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public bool IsReadOnly => _isReadOnly.Get();
         private readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
-            .On(e => e.EditMode)
             .Set(e => !e.EditMode)
+            .On(e => e.EditMode)
+            .Update()
         );
+
         public bool EditMode => _editMode.Get();
         private readonly IProperty<bool> _editMode = H.Property<bool>(c => c
+            .Set(e =>
+            {
+                if (e.Locker == null) return false;
+                if(e.Workflow==null) return false;
+
+                return e.Locker.IsActive
+                       && e.Workflow.CurrentState == SampleWorkflow.Reception
+                       && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisReceptionSign);
+            })
             .On(e => e.Locker.IsActive)
             .On(e => e.Workflow.CurrentState)
             .NotNull(e => e.Locker)
             .NotNull(e => e.Workflow)
-            .Set(e => 
-                e.Locker.IsActive 
-                && e.Workflow.CurrentState == SampleWorkflow.Reception
-                && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisReceptionSign)
-                )
+            .Update()
         );
 
         public bool IsReadOnlyMonograph => _isReadOnlyMonograph.Get();
         private readonly IProperty<bool> _isReadOnlyMonograph = H.Property<bool>(c => c
-            .On(e => e.MonographMode)
             .Set(e => !e.MonographMode)
+            .On(e => e.MonographMode)
+            .Update()
         );
         public bool MonographMode => _monographMode.Get();
         private readonly IProperty<bool> _monographMode = H.Property<bool>(c => c
+            .Set(e =>
+            {
+                if (e.Locker==null) return false;
+                if (e.Workflow == null) return false;
+                return e.Locker.IsActive
+                       && e.Workflow.CurrentState == SampleWorkflow.Monograph
+                       && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisMonographSign);
+            })
             .On(e => e.Locker.IsActive)
             .On(e => e.Workflow.CurrentState)
             .NotNull(e => e.Locker)
             .NotNull(e => e.Workflow)
-            .Set(e => 
-                e.Locker.IsActive 
-                && e.Workflow.CurrentState == SampleWorkflow.Monograph
-                && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisMonographSign)
-                )
+            .Update()
         );
 
         
         private readonly Func<int, ListSampleTestViewModel> _getTests;
+        private readonly Func<int, ListSampleFormViewModel> _getForms;
+        private readonly Func<ListFormClassViewModel> _getFormClasses;
 
         public ListSampleTestViewModel Tests => _tests.Get();
         private readonly IProperty<ListSampleTestViewModel> _tests = H.Property<ListSampleTestViewModel>(c => c
             .On(e => e.Model)
             .Set(e => e._getTests(e.Model.Id))
+        );
+        public ListSampleFormViewModel Forms => _forms.Get();
+        private readonly IProperty<ListSampleFormViewModel> _forms = H.Property<ListSampleFormViewModel>(c => c
+            .On(e => e.Model)
+            .Set(e =>
+            {
+                var f = e._getForms(e.Model.Id);
+                return f;
+
+            })
+        );
+        public ListFormClassViewModel FormClasses => _formClasses.Get();
+        private readonly IProperty<ListFormClassViewModel> _formClasses = H.Property<ListFormClassViewModel>(c => c
+            .On(e => e.Model)
+            .Set(e => e._getFormClasses())
         );
 
         public ICommand AddTestCommand { get; } = H.Command(c => c
@@ -124,11 +161,26 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Action((e,t) => e.AddTest(t as TestClass))
             .On(e => e.Model.Stage).CheckCanExecute()
         );
+        public ICommand AddFormCommand { get; } = H.Command(c => c
+            .CanExecute(e => e.CanExecuteAddForm())
+            .Action((e,t) => e.AddForm(t as FormClass))
+            .On(e => e.Model.Stage).CheckCanExecute()
+        );
+        public ICommand AddOneFormCommand { get; } = H.Command(c => c
+            .CanExecute(e => e.CanExecuteAddForm())
+            .Action((e,t) => e.AddForms())
+            .On(e => e.Model.Stage).CheckCanExecute()
+        );
 
         private bool CanExecuteAddTest()
         {
             if(!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddTest)) return false;
             return Workflow?.CurrentState == SampleWorkflow.Monograph;
+        }
+        private bool CanExecuteAddForm()
+        {
+            if(!Erp.Acl.IsGranted(AnalysisRights.AnalysisReceptionSign)) return false;
+            return Workflow?.CurrentState == SampleWorkflow.Reception;
         }
 
         public List<string> Origins => _origins.Get();
@@ -161,6 +213,32 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
             if (test != null)
                 Tests.List.UpdateAsync();
+        
+        }
+
+        private void AddForms()
+        {
+            Forms.List.FluentUpdateAsync();
+            FormClasses.List.FluentUpdateAsync();
+            foreach (var formClass in FormClasses.List)
+            {
+                if(!Forms.List.Any(e => ReferenceEquals(e.FormClass,formClass)))
+                    AddForm(formClass);
+            }
+        }
+
+        private void AddForm(FormClass formClass)
+        {
+            if (formClass == null) return;
+
+            var form = _data.Add<SampleForm>(st =>
+            {
+                st.Sample = Model;
+                st.FormClass = formClass;
+            });
+
+            if (form != null)
+                Forms.List.UpdateAsync();
         }
 
         public SampleWorkflow Workflow => _workflow.Get();
@@ -214,10 +292,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             var ip = new Print("Certificate",template.Page, langue);
 
             ip["NumeroEchantillon"] = Model.Reference;
-            ip["Dci"] = Model.Product.Inn;
+            ip["Dci"] = Model.Product?.Inn;
             ip["Nom"] = Model.CommercialName;
-            ip["Dosage"] = Model.Product.Dose;
-            ip["Forme"] = Model.Product.Form.Name;
+            ip["Dosage"] = Model.Product?.Dose;
+            ip["Forme"] = Model.Product?.Form.Name;
 
             String expiry = "";
             if (Model.ExpirationDate != null)

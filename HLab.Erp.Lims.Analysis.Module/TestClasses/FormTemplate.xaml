@@ -18,7 +18,7 @@
     UseLayoutRounding = "True" >
          
     <UserControl.Resources>
-        <ResourceDictionary Source = "FormsDictionary.xaml" />          
+        <ResourceDictionary Source = "FormClasses/FormsDictionary.xaml" />          
     </UserControl.Resources >
     <Grid>
         <Grid.LayoutTransform><ScaleTransform ScaleX="{Binding Scale,FallbackValue=1}" ScaleY="{Binding Scale,FallbackValue=1}"/></Grid.LayoutTransform>

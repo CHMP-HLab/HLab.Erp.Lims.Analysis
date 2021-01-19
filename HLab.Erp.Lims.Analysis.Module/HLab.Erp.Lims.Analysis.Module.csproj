@@ -6,6 +6,7 @@
     <RootNamespace>HLab.Erp.Lims.Analysis.Module</RootNamespace>
     <Platforms>AnyCPU;x64;x86</Platforms>
     <Configurations>Debug;Release;DebugRelease</Configurations>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -118,7 +119,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="4.3.2" />
+    <PackageReference Include="ControlzEx" Version="4.4.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.7.0" />
   </ItemGroup>
 
@@ -424,7 +425,7 @@
     <Compile Update="TestClasses\TestCategoryDetailView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="TestClasses\TestClassDetailView.xaml.cs">
+    <Compile Update="FormClasses\FormClassDetailView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="ProgressView.xaml.cs">
@@ -441,6 +442,9 @@
     <Compile Update="Samples\SampleView.xaml.cs">
       <DependentUpon>SampleView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="TestClasses\TestClassDetailView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -451,13 +455,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="FormClasses\FormClassView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="FormClasses\SampleFormDetailView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="FormClasses\SampleFormView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Icons\Entities\Product.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="TestClasses\TestCategoryDetailView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="TestClasses\TestClassDetailView.xaml">
+    <Page Update="FormClasses\FormClassDetailView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Icons\Results\Running.xaml">
@@ -470,6 +483,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Samples\SampleView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TestClasses\TestClassDetailView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

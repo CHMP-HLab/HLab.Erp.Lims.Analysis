@@ -7,16 +7,17 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 using System.Windows;
 using System.Windows.Controls;
-using ControlzEx.Standard;
 using HLab.Base;
+using HLab.Erp.Forms.Annotations;
+using HLab.Erp.Lims.Analysis.Module.TestClasses;
+using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
 using HLab.Notify.Wpf;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
-using Outils;
 
-namespace HLab.Erp.Lims.Analysis.Module.TestClasses
+namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
     class Compiler
     {
@@ -51,7 +52,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 peStream.Seek(0, SeekOrigin.Begin);
 
                 var compiled = peStream.ToArray();
-                var assemblyLoadContext = new AssemblyLoadContext("LimsForm", true);// SimpleUnloadableAssemblyLoadContext();
+                var assemblyLoadContext = new AssemblyLoadContext("HLab.RuntimeCompiled", true);
 
                 Assembly assembly;
                 using (var asm = new MemoryStream(compiled))
@@ -88,9 +89,11 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 //HLab.Base.Wpf
                 MetadataReference.CreateFromFile(typeof(TextBoxEx).Assembly.Location),
                 //HLab.Erp.Lims.Analysis.Module
-                MetadataReference.CreateFromFile(typeof(ITestForm).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(IFormTarget).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(IForm).Assembly.Location),
                 //System.ObjectModel
                 MetadataReference.CreateFromFile(typeof(INotifyPropertyChanged).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(INotifyPropertyChangedWithHelper).Assembly.Location),
                 //HLab.Notify.PropertyChanged
                 MetadataReference.CreateFromFile(typeof(NotifierBase).Assembly.Location),
                 //HLab.Notify.PropertyChanged
@@ -103,10 +106,10 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 MetadataReference.CreateFromFile(Assembly.Load("System.Linq").Location),
                 MetadataReference.CreateFromFile(Assembly.Load("System.Core").Location),
                 MetadataReference.CreateFromFile(Assembly.Load("System.Xaml").Location),
-                MetadataReference.CreateFromFile(Assembly.Load("System.ComponentModel.Primitives").Location)
+                MetadataReference.CreateFromFile(Assembly.Load("System.ComponentModel.Primitives").Location),
             };
 
-            return CSharpCompilation.Create("Hello.dll",
+            return CSharpCompilation.Create("HLab.RuntimeCompiled.dll",
                 new[] { parsedSyntaxTree },
                 references: references,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
@@ -130,22 +133,20 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static WeakReference LoadAndExecute(byte[] compiledAssembly, string[] args)
         {
-            using (var asm = new MemoryStream(compiledAssembly))
-            {
-                var assemblyLoadContext = new AssemblyLoadContext("LimsForm",true);// SimpleUnloadableAssemblyLoadContext();
+            using var asm = new MemoryStream(compiledAssembly);
+            var assemblyLoadContext = new AssemblyLoadContext("HLab.RuntimeCompiled",true);// SimpleUnloadableAssemblyLoadContext();
 
-                var assembly = assemblyLoadContext.LoadFromStream(asm);
+            var assembly = assemblyLoadContext.LoadFromStream(asm);
 
-                var entry = assembly.EntryPoint;
+            var entry = assembly.EntryPoint;
 
-                _ = entry != null && entry.GetParameters().Length > 0
-                    ? entry.Invoke(null, new object[] { args })
-                    : entry.Invoke(null, null);
+            _ = entry != null && entry.GetParameters().Length > 0
+                ? entry.Invoke(null, new object[] { args })
+                : entry.Invoke(null, null);
 
-                assemblyLoadContext.Unload();
+            assemblyLoadContext.Unload();
 
-                return new WeakReference(assemblyLoadContext);
-            }
+            return new WeakReference(assemblyLoadContext);
         }
     }
 }

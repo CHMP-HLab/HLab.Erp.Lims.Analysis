@@ -57,18 +57,18 @@
                         <BulletDecorator.Bullet>
                             <Grid>
                                 <TextBlock Text="{TemplateBinding CheckBox.Content}" Margin="4,0,0,0"/>
-                                <Rectangle Width="3" Height="3" Stroke="{DynamicResource MahApps.Brushes.Black}" StrokeThickness="0.25" VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5" Fill="{TemplateBinding Background}">
+                                <Rectangle Width="3" Height="3" Stroke="White" StrokeThickness="0.25" VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5" Fill="{TemplateBinding Background}">
                                     <Rectangle.RenderTransform>
                                         <TransformGroup>
-                                            <TranslateTransform Y="0.7" X="0.2"/>
+                                            <TranslateTransform Y="0" X="0"/>
                                         </TransformGroup>
                                     </Rectangle.RenderTransform>
                                 </Rectangle>
 
-                                <Rectangle Name="coche" Visibility="Collapsed" Width="2" Height="2" Fill="{DynamicResource MahApps.Brushes.Black}" StrokeThickness="0" VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+                                <Rectangle Name="coche" Visibility="Collapsed" Width="2" Height="2" Fill="White" StrokeThickness="0" VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
                                     <Rectangle.RenderTransform>
                                         <TransformGroup>
-                                            <TranslateTransform Y="0.2" X="0.7"/>
+                                            <TranslateTransform Y="0" X="0.5"/>
                                         </TransformGroup>
                                     </Rectangle.RenderTransform>
                                 </Rectangle>

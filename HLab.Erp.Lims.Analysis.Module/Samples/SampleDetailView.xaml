@@ -56,6 +56,15 @@
                         HorizontalContentAlignment="Center" 
                         Value="{Binding Model.FileId, UpdateSourceTrigger=PropertyChanged}"/>
 
+                    <lang:LocalizedLabel Text="{}{Customer Reference} : "/>
+                    <TextBox 
+                        Margin="0,0,15,0"
+                        BorderBrush="#80000000"
+                        HorizontalContentAlignment="Center" 
+                        Text="{Binding Model.CustomerReference, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+
                     <lang:LocalizedLabel Text="{}{Customer} : "/>
                     <entitySelectors:ForeignView 
                         Model="{Binding Model.Customer}"
@@ -63,14 +72,23 @@
                         ListClass="{x:Type customers:CustomersListViewModel}"/>
                 </views1:DetailView>
 
+                <samples:SampleCustomView/>
+
                 <!-- PRODUCT -->            
                 <views1:DetailView EditMode="{Binding EditMode}" IconPath="{Binding Model.Product.Form.IconPath,FallbackValue=icons}" Text="{}{Product}">
 
                     <lang:LocalizedLabel Text="{}{INN} : "/>
-                        <entitySelectors:ForeignView 
+                    <entitySelectors:ForeignView 
                         Model="{Binding Model.Product}"
                         ModelClass="{x:Type data:Product}" 
                         ListClass="{x:Type products:ProductsListPopupViewModel}"/>
+
+                    <lang:LocalizedLabel Text="{}{Commercial Name} : "/>
+                    <TextBox 
+                        VerticalContentAlignment="Center"
+                        Text="{Binding Model.CommercialName, UpdateSourceTrigger=PropertyChanged}" 
+                        HorizontalAlignment="Stretch"/>
+
 
                 </views1:DetailView>
 
@@ -145,7 +163,7 @@
                         Text="{Binding Model.SamplingOrigin, UpdateSourceTrigger=PropertyChanged}"/>-->
                 </views1:DetailView>
 
-                <!-- LOT -->            
+                <!-- Batch -->            
                 <views1:DetailView EditMode="{Binding EditMode}" IconPath="Icons/Sample/Barcode" Text="{}{Batch}">
 
                     <lang:LocalizedLabel Text="{}{N°} : "/>
@@ -210,13 +228,30 @@
                         <icons:IconView Margin="0,0,15,0" Grid.Column="2" HorizontalAlignment="Right" Height="35" Path="{Binding Model.Manufacturer.Country.IconPath}"/>
                     </Grid>
 
-                    <lang:LocalizedLabel Text="{}{Commercial Name} : "/>
-                    <TextBox 
-                        VerticalContentAlignment="Center"
-                        Text="{Binding Model.CommercialName, UpdateSourceTrigger=PropertyChanged}" 
-                        HorizontalAlignment="Stretch"/>
 
                 </views1:DetailView>
+
+                <views1:DetailView EditMode="{Binding EditMode}" IconPath="Icons/Sample/Packaging" Text="{}{Forms}">
+<Label/><Button Command="{Binding AddOneFormCommand}"/>
+                    <!--<StackPanel>
+                        <lang:LocalizedLabel Text="{}{Add}"/>
+                        <entitySelectors:ForeignView DockPanel.Dock="Top"
+                                                     IsReadOnly="{Binding IsReadOnly}"
+                                                     ModelClass="{x:Type data:FormClass}"
+                                                     Command="{Binding AddFormCommand}"
+                        >
+                            <lang:Localize Id="{}{Add Form}"/>
+                        </entitySelectors:ForeignView>
+                    </StackPanel>-->
+<Label/>
+
+                    <mvvm:ViewLocator 
+                        Foreground="White"
+                        ViewClass="{x:Type annotations:IViewClassContent}"
+                        Model="{Binding Forms}"
+                    />
+                </views1:DetailView>
+
 
                 <!-- PACKAGING -->            
                 <views1:DetailView EditMode="{Binding EditMode}" IconPath="Icons/Sample/Packaging" Text="{}{Packaging}">

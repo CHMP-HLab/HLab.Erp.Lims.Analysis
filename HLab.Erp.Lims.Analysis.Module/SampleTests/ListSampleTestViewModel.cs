@@ -14,7 +14,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
     {
         [Import] private readonly IAclService _acl;
 
-        private string GetIcon(int state)
+        private string GetIcon(int? state)
         {
             switch(state)
             {
@@ -70,8 +70,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                         new TextBlock{Text = s.Description, FontStyle = FontStyles.Italic}
                     }})
                 .Column("{Specifications}", s => s.Specification)
-                .Column("{Result}", s => s.Result?.Result??"", s => s.Result)
-            //.Column("Conformity", s => s.TestStateId);
+                .Column("{Result}", s => s.Result?.Result??"", s => s.Result?.Result??"")
+                .Icon("Conformity", s => GetIcon(s.Result?.StateId), s => s.Result?.StateId)
                 .Icon("{Stage}", s => GetStateIcon(s.Stage), s => s.Stage)
                 .Localize("{Stage}", s=>GetStateCaption(s.Stage), s=>s.Stage)
                 .Hidden("IsValid", s => s.Stage != SampleTestWorkflow.InvalidatedResults.Name)

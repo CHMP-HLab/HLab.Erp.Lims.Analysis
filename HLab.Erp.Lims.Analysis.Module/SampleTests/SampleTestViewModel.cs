@@ -107,7 +107,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             )
         );
         public bool FormHelperIsActive => _formHelperIsActive.Get();
-        private IProperty<bool> _formHelperIsActive = H.Property<bool>(c => c
+        private readonly IProperty<bool> _formHelperIsActive = H.Property<bool>(c => c
         .On(e => e.EditMode)
         .On(e => e.ResultMode)
         .Set(e => e.EditMode || e.ResultMode)
@@ -115,13 +115,15 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         public ListTestResultViewModel Results => _results.Get();
         private readonly IProperty<ListTestResultViewModel> _results = H.Property<ListTestResultViewModel>(c => c
-            .On(e => e.Model)
             .Set(e =>
             {
+                if (e.Model == null) return null;
                 var vm =  e._getResults(e.Model.Id);
                 vm.SetSelectAction(async r => await e.LoadResultAsync(r as SampleTestResult).ConfigureAwait(false));
                 return vm;
             })
+            .On(e => e.Model)
+            .Update()
         );
 
         private readonly ITrigger _trigger = H.Trigger(c => c
@@ -170,9 +172,13 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         }
 
         public ICommand SelectResultCommand { get; } = H.Command(c => c
-            .CanExecute(e => e.Results?.Selected?.Stage == SampleTestResultWorkflow.Validated.Name)
+            .CanExecute(e => 
+                e.Results?.Selected?.Stage == SampleTestResultWorkflow.Validated.Name
+                && e.Model.Stage == SampleWorkflow.Production.Name
+                && e.Locker.IsActive
+                )
             .Action(async (e,t) => await e.SelectResult(e.Results.Selected))
-            .On(e => e.Results.Selected).CheckCanExecute()
+            .On(e => e.Results.Selected.Stage).CheckCanExecute()
         );
 
         private async Task SelectResult(SampleTestResult result)
@@ -267,6 +273,26 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .On(e => e.Model.TestName)
             .On(e => e.Model.Description)
             .Set(e => e.Model.TestName + "\n" + e.Model.Description)
+        );
+        public string ConformityIconPath => _conformityIconPath.Get();
+
+        private readonly IProperty<string> _conformityIconPath = H.Property<string>(c => c
+            .Set(e =>
+            {
+                if (e.Model.Result == null) return "Icons/Results/NotChecked";
+                switch(e.Model.Result.StateId)
+                {
+                    case -1 : return "Icons/Validations/Error";
+                    case 0 : return "Icons/Results/NotChecked";
+                    case 1 : return "Icons/Results/Running";
+                    case 2 : return "Icons/Results/GaugeKO";
+                    case 3 : return "Icons/Results/GaugeOK";
+                    case 4 : return "Icons/Results/Invalidated";
+                    default: return "Icons/Validations/Error";
+                } 
+            }   )         
+            .On(e => e.Model.Result.StateId)
+            .Update()
         );
 
         public void ConfigureMvvmContext(IMvvmContext ctx)

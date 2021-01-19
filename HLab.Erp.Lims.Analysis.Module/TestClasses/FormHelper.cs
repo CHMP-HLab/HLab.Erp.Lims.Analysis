@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
@@ -16,6 +17,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using HLab.Base;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
@@ -138,7 +140,10 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             get => _result.Get();
             set => _result.Set(value);
         }
-        private readonly IProperty<SampleTestResult> _result = H.Property<SampleTestResult>(c => c
+
+        private readonly IProperty<SampleTestResult> _result = H.Property<SampleTestResult>();
+
+        private readonly ITrigger _ = H.Trigger(c => c
             .On(e => e.Form.Test.Result)
             .NotNull(e => e.Result)
             .NotNull(e => e.Form.Test.Result)
@@ -201,7 +206,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             xmlns:o = ""clr-namespace:HLab.Base;assembly=HLab.Base.Wpf""
             UseLayoutRounding = ""True"" >
                 <UserControl.Resources><ResourceDictionary><ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source = ""pack://application:,,,/HLab.Erp.Lims.Analysis.Module;component/TestClasses/FormsDictionary.xaml"" />          
+                    <ResourceDictionary Source = ""pack://application:,,,/HLab.Erp.Lims.Analysis.Module;component/FormClasses/FormsDictionary.xaml"" />          
                 </ResourceDictionary.MergedDictionaries></ResourceDictionary></UserControl.Resources >
          
                 <Grid>
@@ -274,7 +279,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             var classname = cs.Substring(index,idx2-index);
 
             index = cs.IndexOf("public class", StringComparison.InvariantCulture);
-            cs = cs.Insert(index, $"using H = H<{classname}>;\n");
+            if(index > -1)
+                cs = cs.Insert(index, $"using H = H<{classname}>;\n");
 
 
             // Ajout des dérivations de classes
@@ -426,7 +432,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                         break;
 
                     case CheckBox checkBox:
-                        if (checkBox.Name.Contains("__") && module.Test is TestLegacyHelper test)
+                        if (checkBox.Name.Contains("__"))
                         {
                             var pos = checkBox.Name.LastIndexOf("__", StringComparison.InvariantCulture);
                             var name = checkBox.Name.Substring(0, pos);
@@ -439,11 +445,10 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
                             chk.Add(checkBox);
 
-                            var t = test;
                             checkBox.PreviewMouseDown += (sender, args) =>
                             {
                                 args.Handled = true;
-                                t.CheckGroup(sender, chk.ToArray());
+                                TestLegacyHelper.CheckGroup(sender, chk.ToArray());
                                 module.Traitement(sender, args);
                                 SetFormMode(Mode);
                             };
@@ -467,8 +472,6 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                         break;
 
                 }
-
-
             }
 
             CsMessage = "C# Ok";
@@ -511,11 +514,11 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 var v = value.Split("=");
                 if (v.Length > 1)
                 {
-                    dict.Add(v[0],v[1]);
+                    dict.TryAdd(v[0],v[1]);
                 }
                 else if (v.Length == 1)
                 {
-                    dict.Add(v[0],"");
+                    dict.TryAdd(v[0],"");
                 }
 
             }
@@ -563,7 +566,6 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                             break;
                     }
             }
-
         }
 
         // TODO : internationalize
@@ -591,7 +593,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
         public static int LineCount(string text)
         {
-            var size = text?.Length ?? 0;
+            if (text == null) return 0;
+            var size = text.Length;
             var nb = size == 0 ? 0 : 1;
             for (var i = 0; i < size; i++)
                 if (text[i] == '\n')
@@ -743,7 +746,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                             todo();
                             break;
 
-                        // TextBox
+                        // CheckBox
                         case CheckBox cb when cb.IsChecked != null:
                             c.Background = doneBrush;
                             c.IsEnabled = enabled;
@@ -765,7 +768,9 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 Test.Values = GetSpecPackedValues();
                 if (specificationNeeded > 0)
                 {
-                    Form.Test.State = TestState.NotStarted;
+                    if(Form.Test!=null)
+                        Form.Test.State = TestState.NotStarted;
+
                     Test.SpecificationsDone = false;
                 }
                 else Test.SpecificationsDone = true;
@@ -788,6 +793,28 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             {
                 if (specificationNeeded > 0) Form.Test.State = TestState.NotStarted;
                 if (mandatoryNeeded > 0) Form.Test.State = TestState.Running;
+            }
+
+            if (Result != null)
+            {
+                if (Mode == TestFormMode.Capture)
+                {
+                    Result.Conformity = Form.Test.Conformity;
+                    Result.Result = Form.Test.Result;
+                    Result.StateId = (int)Form.Test.State;
+                }
+            }
+            else
+            {
+                if (Test != null)
+                {
+                    if (Mode == TestFormMode.Specification)
+                    {
+                        Test.TestName = Form.Test.TestName;
+                        Test.Description = Form.Test.Description;
+                        Test.Specification = Form.Test.Specifications;
+                    }
+                }
             }
 
             return mandatoryNeeded>0 || specificationNeeded>0;

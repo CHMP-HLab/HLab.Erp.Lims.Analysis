@@ -66,9 +66,9 @@ namespace HLab.Erp.Lims.Analysis.Module
             where TWf : NotifierBase, IWorkflow<TWf>
         {
             return t
-                .Action(w =>
+                .Action(async w =>
                 {
-                    w.SetState(getter);
+                    await w.SetStateAsync(getter);
                 });
         }
     }

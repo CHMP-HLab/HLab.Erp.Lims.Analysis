@@ -27,22 +27,31 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
     {
         public TestClassViewModelDesign()
         {
-
-
             Model = TestClass.DesignModel;
             FormHelper.Xaml = "<xml></xml>";
             FormHelper.Cs = "using HLab.Erp.Acl;\nusing HLab.Erp.Lims.Analysis.Data;\nusing HLab.Mvvm.Annotations;";
         }
     }
+
     public class TestClassViewModel : EntityViewModel<TestClass>
     {
         public override string Title => _title.Get();
         private readonly IProperty<string> _title = H.Property<string>(c => c.OneWayBind(e => e.Model.Name));
 
-        public TestClassViewModel() => H.Initialize(this);
+        public override string IconPath => Model.IconPath;
 
-        public FormHelper FormHelper => _formHelper.Get();
-        private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c.Default(new FormHelper()));
+        public TestClassViewModel()
+        {
+            H.Initialize(this);
+            FormHelper = new FormHelper();
+        }
+
+        public FormHelper FormHelper
+        {
+            get => _formHelper.Get();
+            set => _formHelper.Set(value);
+        }
+        private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>();
 
         public string State
         {
@@ -90,10 +99,10 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             async e => await e.Compile()
         ));
         public ICommand SpecificationModeCommand { get; } = H.Command(c => c.Action(
-            async e => e.FormHelper.Mode = TestFormMode.Specification
+            e => e.FormHelper.Mode = TestFormMode.Specification
         ));
         public ICommand CaptureModeCommand { get; } = H.Command(c => c.Action(
-            async e => e.FormHelper.Mode = TestFormMode.Capture
+             e => e.FormHelper.Mode = TestFormMode.Capture
         ));
 
         public async Task Compile()
@@ -123,7 +132,6 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         private ITrigger _init = H.Trigger(c => c.On(e => e.Model).Do(async (e, f) =>
         {
-
             if (e.Model.Code != null)
             {
                 await e.FormHelper.ExtractCode(e.Model.Code).ConfigureAwait(true);
@@ -131,7 +139,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             else
             {
                 e.FormHelper.Xaml = "<Grid></Grid>";
-                e.FormHelper.Cs = "class Test\n{\n}";
+                e.FormHelper.Cs = "public class Test\n{\n}";
             }
 
             await e.Compile();

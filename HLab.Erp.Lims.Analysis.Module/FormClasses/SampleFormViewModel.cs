@@ -1,46 +1,36 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Core;
-using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Samples;
+using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
+using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
 
-namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
+namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
-    using H = H<SampleTestResultViewModel>;
+    using H = H<SampleFormViewModel>;
 
-    public class SampleTestResultViewModelDesign : SampleTestResultViewModel, IViewModelDesign
+    public class SampleFormViewModelDesign : SampleFormViewModel, IViewModelDesign
     {
     }
 
-    public class SampleTestResultViewModel : EntityViewModel<SampleTestResult>
+    public class SampleFormViewModel : EntityViewModel<SampleForm>
     {
-        public SampleTestResultViewModel()
+        public SampleFormViewModel()
         {
             H.Initialize(this);
             FormHelper = new FormHelper();
         }
 
-        [Import] private Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> _getWorkflow;
         [Import] public IErpServices Erp { get; set; }
 
-        public SampleTestResultWorkflow Workflow => _workflow.Get();
-
-        private readonly IProperty<SampleTestResultWorkflow> _workflow = H.Property<SampleTestResultWorkflow>(c => c
-            .Set(e => e.Locker!=null ? e._getWorkflow(e.Model,e.Locker):null)
-            .On(e => e.Model)
-            .On(e => e.Locker)
-            .NotNull(e => e.Locker)
-            .Update()
-        );
         public bool IsReadOnly => _isReadOnly.Get();
 
         private readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
@@ -54,14 +44,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             .Set(e => 
                 e.Locker != null 
                 && e.Locker.IsActive 
-                && e.Workflow != null
-                && e.Workflow.CurrentState == SampleTestResultWorkflow.Running
+                && e.Model.Sample.Stage == SampleWorkflow.Reception.Name
                 && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisResultEnter)
             )
             .On(e => e.Locker.IsActive)
-            .On(e => e.Workflow.CurrentState)
             .NotNull(e => e.Locker)
-            .NotNull(e => e.Workflow)
             .Update()
         );
 
@@ -71,7 +58,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         private readonly IProperty<string> _conformity = H.Property<string>(c => c
             .Set(e =>
                 {
-                    switch(e.Model.StateId)
+                    switch((int)e.Model.State)
                     {
                         case -1 : return "{Undefined}";
                         case 0 : return "{Not Started}";
@@ -83,7 +70,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
                     } 
                 }            
             )
-            .On(e => e.Model.StateId)
+            .On(e => e.Model.State)
             .Update()
         );
 
@@ -92,7 +79,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         private readonly IProperty<string> _conformityIconPath = H.Property<string>(c => c
             .Set(e =>
                 {
-                    switch(e.Model.StateId)
+                    switch((int)e.Model.State)
                     {
                         case -1 : return "Icons/Validations/Error";
                         case 0 : return "Icons/Results/NotChecked";
@@ -103,16 +90,16 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
                         default: return "Icons/Validations/Error";
                     } 
                 }   )         
-            .On(e => e.Model.StateId)
+            .On(e => e.Model.State)
             .Update()
         );
 
-        public SampleTestViewModel Parent
+        public SampleViewModel Parent
         {
             get => _parent.Get();
             set => _parent.Set(value);
         }
-        private readonly IProperty<SampleTestViewModel> _parent = H.Property<SampleTestViewModel>();
+        private readonly IProperty<SampleViewModel> _parent = H.Property<SampleViewModel>();
 
         public FormHelper FormHelper
         {
@@ -122,11 +109,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>();
 
         private readonly ITrigger _ = H.Trigger(c => c
-            .On(e => e.Model.Stage)
+            .On(e => e.Model.Sample.Stage)
 //            .On(e => e.Model.Values)
             .On(e => e.EditMode)
-            .OnNotNull(e => e.Workflow)
-            .Do(async e => await e.LoadResultAsync())
+            .NotNull(e => e.Model)
+            .Do(async e => await e.LoadAsync())
         );
 
         //public ITestHelper TestHelper => _testHelper.Get();
@@ -163,27 +150,32 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         //        //    break;
         //    }
         //}
-        public async Task LoadResultAsync()
+        public async Task LoadAsync()
         {
-            await FormHelper.LoadAsync(Model).ConfigureAwait(true);
+            await FormHelper.LoadCodeAsync(Model.FormClass.Code).ConfigureAwait(true);
 
-            FormHelper.Mode = Workflow.CurrentState == SampleTestResultWorkflow.Running ? TestFormMode.Capture : TestFormMode.ReadOnly;
+            await FormHelper.LoadFormAsync(Model).ConfigureAwait(true);
+
+            FormHelper.Mode = Model.Sample.Stage == SampleWorkflow.Reception.Name ? FormMode.Capture : FormMode.ReadOnly;
+
+            FormHelper.LoadValues(Model.SpecValues);
+            FormHelper.LoadValues(Model.Values);
         }
 
         public override string Title => _title.Get();
         private readonly IProperty<string> _title = H.Property<string>(c => c
-            .Set(e => e.Model.SampleTest.Sample?.Reference + " - " + e.Model.Name)
-            .On(e => e.Model.SampleTest.Sample.Reference)
-            .On(e => e.Model.Name)
+            .Set(e => e.Model.Sample?.Reference + " - " + e.Model.FormClass.Name)
+            .On(e => e.Model.Sample.Reference)
+            .On(e => e.Model.FormClass.Name)
             .Update()
             );
 
-        public string SubTitle => _subTitle.Get();
-        private readonly IProperty<string> _subTitle = H.Property<string>(c => c
-            .Set(e => e.Model.SampleTest.TestName + "\n" + e.Model.SampleTest.Description)
-            .On(e => e.Model.SampleTest.TestName)
-            .On(e => e.Model.SampleTest.Description)
-            .Update()
-            );
+        //public string SubTitle => _subTitle.Get();
+        //private readonly IProperty<string> _subTitle = H.Property<string>(c => c
+        //    .Set(e => e.Model.SampleTest.TestName + "\n" + e.Model.SampleTest.Description)
+        //    .On(e => e.Model.SampleTest.TestName)
+        //    .On(e => e.Model.SampleTest.Description)
+        //    .Update()
+        //    );
     }
 }

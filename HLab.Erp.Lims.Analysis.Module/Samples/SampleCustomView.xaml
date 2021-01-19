@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="HLab.Erp.Lims.Analysis.Module.Samples.SampleCustomView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HLab.Erp.Lims.Analysis.Module.Samples"
+             xmlns:views="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
+             xmlns:lang="clr-namespace:HLab.Mvvm.Lang;assembly=HLab.Mvvm.Wpf"
+             xmlns:base="clr-namespace:HLab.Base;assembly=HLab.Base.Wpf"
+             xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
+             xmlns:data1="clr-namespace:HLab.Erp.Base.Data;assembly=HLab.Erp.Base.Data"
+             xmlns:customers="clr-namespace:HLab.Erp.Base.Wpf.Entities.Customers;assembly=HLab.Erp.Base.Wpf"
+             xmlns:views1="clr-namespace:HLab.Mvvm.Views;assembly=HLab.Mvvm.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <!-- RECORD -->            
+    <views:DetailView EditMode="{Binding EditMode}" Text="Conformité de l'échantillon réceptionné" IconPath = "Icons/Sample/Folder">
+
+        <lang:LocalizedLabel Text="{}{Technical CD} : "/>
+        <views1:YesNoView AllowNa="True" String="{Binding Model.TechnicalCD, Mode =TwoWay, UpdateSourceTrigger=PropertyChanged}"></views1:YesNoView>
+
+        <lang:LocalizedLabel Text="{}{Sufficient quantity} : "/>
+        <views1:YesNoView Value="{Binding Model.SufficientQuantity, UpdateSourceTrigger=PropertyChanged}"></views1:YesNoView>
+
+        <lang:LocalizedLabel Text="{}{Anomaly detected} : "/>
+        <views1:YesNoView AllowNa="False" Value="{Binding Model.AnomalyDetected, UpdateSourceTrigger=PropertyChanged}"></views1:YesNoView>
+
+        <lang:LocalizedLabel Text="{}{Received sample} : "/>
+        <views1:YesNoView AllowNa="False" Value="{Binding Model.ReceivedSample, UpdateSourceTrigger=PropertyChanged}"></views1:YesNoView>
+
+    </views:DetailView>
+
+</UserControl>

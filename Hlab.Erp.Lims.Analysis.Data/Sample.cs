@@ -95,6 +95,13 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<string> _reference = H.Property<string>();
 
+        public string CustomerReference
+        {
+            get => _customerReference.Get();
+            set => _customerReference.Set(value);
+        }
+        private readonly IProperty<string> _customerReference = H.Property<string>();
+
         //[Ignore]
         //public string Ref
         //{
@@ -528,6 +535,35 @@ namespace HLab.Erp.Lims.Analysis.Data
                 if (e.ExpirationDate == null) return false;
                 return DateTime.Now > e.ExpirationDate.Value.Subtract(new TimeSpan(e.Life.Ticks / 3));
             }));
+
+
+        // Custom part
+
+        public string TechnicalCD
+        {
+            get => _technicalCD.Get();
+            set => _technicalCD.Set(value);
+        }
+        private readonly IProperty<string> _technicalCD = H.Property<string>();
+
+        public bool SufficientQuantity
+        {
+            get => _sufficientQuantity.Get();
+            set => _sufficientQuantity.Set(value);
+        }
+        private readonly IProperty<bool> _sufficientQuantity = H.Property<bool>();
+        public bool AnomalyDetected
+        {
+            get => _anomalyDetected.Get();
+            set => _anomalyDetected.Set(value);
+        }
+        private readonly IProperty<bool> _anomalyDetected = H.Property<bool>();
+        public bool ReceivedSample
+        {
+            get => _receivedSample.Get();
+            set => _receivedSample.Set(value);
+        }
+        private readonly IProperty<bool> _receivedSample = H.Property<bool>();
 
     }
 }

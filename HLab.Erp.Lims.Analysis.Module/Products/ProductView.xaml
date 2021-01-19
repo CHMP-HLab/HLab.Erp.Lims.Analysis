@@ -55,5 +55,7 @@
                     Model ="{Binding Model.Form}"
                     />
             </views:DetailView>
+
+<TextBlock FontWeight="Bold"></TextBlock>
     </Grid>
 </UserControl>

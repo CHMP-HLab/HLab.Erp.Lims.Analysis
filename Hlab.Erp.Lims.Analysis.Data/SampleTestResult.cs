@@ -56,30 +56,32 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         public string Result
         {
-            get => _result.Get(); set => _result.Set(value);
+            get => _result.Get(); 
+            set => _result.Set(value);
         }
+        private readonly IProperty<string> _result = H.Property<string>(c => c.Default(""));
 
-        readonly IProperty<string> _result = H.Property<string>(c => c.Default(""));
         public string Conformity
         {
-            get => _conformity.Get(); set => _conformity.Set(value);
+            get => _conformity.Get(); 
+            set => _conformity.Set(value);
         }
-
-        readonly IProperty<string> _conformity = H.Property<string>(c => c.Default(""));
+        private readonly IProperty<string> _conformity = H.Property<string>(c => c.Default(""));
 
         public DateTime? Start
         {
             get => _start.Get(); 
             set => _start.Set(value);
         }
-        readonly IProperty<DateTime?> _start = H.Property<DateTime?>();
+        private readonly IProperty<DateTime?> _start = H.Property<DateTime?>();
 
         public DateTime? End
         {
             get => _end.Get(); 
             set => _end.Set(value);
         }
-        readonly IProperty<DateTime?> _end = H.Property<DateTime?>();
+
+        private readonly IProperty<DateTime?> _end = H.Property<DateTime?>();
 
         public int? StateId
         {
@@ -118,5 +120,5 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _note.Set(value);
         }
         private readonly IProperty<string> _note = H.Property<string>();
-    }
+     }
 }
