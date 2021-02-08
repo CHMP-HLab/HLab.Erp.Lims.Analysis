@@ -3,6 +3,7 @@ using HLab.Mvvm.Annotations;
 using System.Windows.Controls;
 using HLab.Erp.Core.Tools.Details;
 using HLab.Erp.Lims.Analysis.Module.Samples;
+using HLab.Base.Wpf;
 
 namespace HLab.Erp.Lims.Analysis.Module
 {

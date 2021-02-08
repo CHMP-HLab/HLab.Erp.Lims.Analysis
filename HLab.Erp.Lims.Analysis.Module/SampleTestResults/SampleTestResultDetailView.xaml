@@ -12,12 +12,12 @@
              xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
              xmlns:workflows="clr-namespace:HLab.Erp.Workflows;assembly=HLab.Erp.Workflows.Wpf"
              xmlns:views="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
-             xmlns:sampleTestResults="clr-namespace:HLab.Erp.Lims.Analysis.Module.SampleTestResults"
-             Background="#FF402800"
+             xmlns:sampleTestResults="clr-namespace:HLab.Erp.Lims.Analysis.Module.SampleTestResults" xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
+             Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
              d:DataContext="{d:DesignInstance {x:Type sampleTestResults:SampleTestResultViewModelDesign}, IsDesignTimeCreatable=True}"             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Background="{DynamicResource MahApps.Brushes.Accent3}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -26,7 +26,7 @@
 
         <workflows:WorkflowLockerView/>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+        <wpf:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
                 <views:DetailView
                                   EditMode="{Binding Locker.IsActive}"
@@ -50,15 +50,36 @@
 
                     <lang:LocalizedLabel Text="{}{Conformity} : " HorizontalAlignment="Right" VerticalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal">
-                        <icons:IconView Path="{Binding ConformityIconPath}" MaxHeight="25"/>
+                        <icons:IconView Foreground="White" Path="{Binding ConformityIconPath}" MaxHeight="25"/>
                         <Label/>
                         <lang:Localize Id="{Binding Conformity}" VerticalAlignment="Center"/>
                     </StackPanel>
                     <lang:LocalizedLabel Text="{}{Conformity} : " HorizontalAlignment="Right" VerticalAlignment="Center"/>
                </views:DetailView>
+                
+                <!-- DOCUMENTS -->
+                <views:DetailView Text="{}{Documents}" IconPath="Icons/Sample/Folder" EditMode="{Binding EditMode}">
+                    <Label></Label>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Command="{Binding AddDocumentCommand}" HorizontalAlignment="Left">
+                                <lang:Localize Id="{}{Add document}"/>
+                            </Button>
+                            <Button Command="{Binding DeleteDocumentCommand}" HorizontalAlignment="Left">
+                                <lang:Localize Id="{}{Remove document}"/>
+                            </Button>
+                            <Button Command="{Binding OpenDocumentCommand}" HorizontalAlignment="Left">
+                                <lang:Localize Id="{}{Open document}"/>
+                            </Button>
+                        </StackPanel>
+                        <Grid VerticalAlignment="Top" mvvm:ViewLocator.ViewClass="{x:Type annotations:IViewClassContent}">
+                            <mvvm:ViewLocator Model="{Binding LinkedDocuments}"/>
+                        </Grid>
+                    </StackPanel>
+                </views:DetailView>
 
             </StackPanel>
-        </ScrollViewer>
+        </wpf:ScrollViewerEx>
         <views:DetailView 
             Grid.Row="2" 
             Text="{}{Note}" 

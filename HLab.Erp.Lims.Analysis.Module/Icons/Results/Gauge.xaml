@@ -13,8 +13,8 @@
         <TranslateTransform X="0" Y="0"/>
       </Canvas.RenderTransform>
       <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left=".5" Canvas.Top=".5" Width="15" Height="15" Fill="#FF004080" StrokeThickness="0"/>
-      <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0.5" Canvas.Top="0.5" Width="15" Height="15" Name="path25" StrokeThickness="1" Stroke="#FF000000" StrokeMiterLimit="4"/>
-      <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="6" Canvas.Top="6" Width="4" Height="4" Name="path27" Fill="#FF000000" StrokeThickness="0"/>
+      <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0.5" Canvas.Top="0.5" Width="15" Height="15" Name="path25" StrokeThickness="1" Stroke="#FFFEFEFE" StrokeMiterLimit="4"/>
+      <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="6" Canvas.Top="6" Width="4" Height="4" Name="path27" Fill="#FFFEFEFE" StrokeThickness="0"/>
     </Canvas>
   </Canvas>
 </Viewbox>

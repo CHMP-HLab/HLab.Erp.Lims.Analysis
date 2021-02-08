@@ -35,12 +35,12 @@
       <Canvas.RenderTransform>
         <TranslateTransform X="-237.20001" Y="-281.6"/>
       </Canvas.RenderTransform>
-      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path46" Fill="#FFFFFFFF">
+      <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path46" Fill="#FFFEFEFE">
         <Path.Data>
           <PathGeometry Figures="m 359.6 409.6 c 0 8 -6.4 14.4 -14.4 14.4 v 0 c -8 0 -14.4 -6.4 -14.4 -14.4 v -70.4 c 0 -8 6.4 -14.4 14.4 -14.4 v 0 c 8 0 14.4 6.4 14.4 14.4 z" FillRule="NonZero"/>
         </Path.Data>
       </Path>
-      <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="336.4" Canvas.Top="437.6" Width="17.6" Height="17.6" Name="circle48" Fill="#FFFFFFFF"/>
+      <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="336.4" Canvas.Top="437.6" Width="17.6" Height="17.6" Name="circle48" Fill="#FFFEFEFE"/>
     </Canvas>
     <Canvas Name="g52">
       <Canvas.RenderTransform>

@@ -7,7 +7,7 @@
              xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
              xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
              xmlns:testClasses="clr-namespace:HLab.Erp.Lims.Analysis.Module.TestClasses"
-             xmlns:details="clr-namespace:HLab.Erp.Core.Tools.Details;assembly=HLab.Erp.Core.Wpf"
+             xmlns:details="clr-namespace:HLab.Erp.Core.Tools.Details;assembly=HLab.Erp.Core.Wpf" xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance testClasses:TestClassViewModelDesign}">
     <Grid>
@@ -45,7 +45,7 @@
                              
                         />
 
-                    <ScrollViewer MaxHeight="200" VerticalScrollBarVisibility="Auto" Grid.Row="1" >
+                    <wpf:ScrollViewerEx MaxHeight="200" VerticalScrollBarVisibility="Auto" Grid.Row="1" >
                         <TextBlock 
                             Text="{Binding FormHelper.XamlMessage}" 
                             Grid.Row="1" Style="{x:Null}" 
@@ -53,7 +53,7 @@
                             Foreground="DarkRed"
                             Background="Silver"
                             />
-                    </ScrollViewer>
+                    </wpf:ScrollViewerEx>
                 </Grid>
 
             </TabItem>
@@ -78,7 +78,7 @@
                             
                             IsReadOnly="{Binding Locker.IsReadOnly}"
                             />
-                    <ScrollViewer MaxHeight="200" VerticalScrollBarVisibility="Auto" Grid.Row="1" >
+                    <wpf:ScrollViewerEx MaxHeight="200" VerticalScrollBarVisibility="Auto" Grid.Row="1" >
                         <TextBlock 
                                 
                                 Text="{Binding FormHelper.CsMessage}" 
@@ -87,7 +87,7 @@
                                 Foreground="DarkRed"
                                 Background="Silver"
                             />
-                    </ScrollViewer>
+                    </wpf:ScrollViewerEx>
                 </Grid>
             </TabItem>
             <TabItem Header="Unit Tests">
@@ -108,9 +108,9 @@
             <Button Command="{Binding SpecificationModeCommand}">Specifications</Button>
             <Button Command="{Binding CaptureModeCommand}">Capture</Button>
             </StackPanel>
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <wpf:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
                 <ContentControl  Content="{Binding FormHelper.Form}"/>
-            </ScrollViewer>
+            </wpf:ScrollViewerEx>
         </Grid>
 
     </Grid>

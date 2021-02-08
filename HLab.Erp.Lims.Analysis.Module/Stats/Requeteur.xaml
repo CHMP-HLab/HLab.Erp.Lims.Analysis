@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="Outils.Requeteur"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1280">
+    <Grid>
+      <Grid Height="56" Margin="10,52,492,0" VerticalAlignment="Top">
+         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+         </Grid.ColumnDefinitions>
+         <TextBox x:Name="TB_Parametre1" Height="23" Margin="0,5,0,0" VerticalAlignment="Top"/>
+         <TextBox x:Name="TB_Parametre3" Height="23" VerticalAlignment="Bottom"/>
+         <TextBox x:Name="TB_Parametre2" Height="23" Margin="0,5,0,0" VerticalAlignment="Top" Grid.Column="2"/>
+         <TextBox x:Name="TB_Parametre4" Height="23" VerticalAlignment="Bottom" Grid.Column="2"/>
+      </Grid>
+      <Label Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="0,89,110,0" x:Name="L_NbResultats" VerticalAlignment="Top" VerticalContentAlignment="Bottom" Width="60" Opacity="0.5" />
+      <TextBox Tag="RECHERCHE" Text="{Binding Recherche, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="26" Margin="0,93,10,0" x:Name="TB_Recherche" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" />
+      <CheckBox Content="Requête" Height="40" Margin="0,33,10,0" x:Name="CK_VoirRequete" Tag="Crayon" VerticalAlignment="Top" Width="40" HorizontalAlignment="Right" Checked="CK_VoirRequete_Checked" Unchecked="CK_VoirRequete_Checked"/>
+      <Button Content="Imprimer" Height="80" Margin="0,29,255,0" x:Name="BT_Imprimer"  Tag="Imprimante" VerticalAlignment="Top" Width="74" HorizontalAlignment="Right" Click="BT_Imprimer_Click"/>
+      <Button Content="Exporter" Height="80" Margin="0,29,334,0" x:Name="BT_Excel"  Tag="Excel" VerticalAlignment="Top" Width="74" HorizontalAlignment="Right" Click="BT_Excel_Click"/>
+      <Button Content="Executer" Height="80" Margin="0,29,413,0" x:Name="BT_Executer"  Tag="Lecture" VerticalAlignment="Top" Width="74" HorizontalAlignment="Right" Click="BT_Executer_Click"/>
+
+      <DockPanel Margin="0,114,0,0">
+         <Grid x:Name="G_Requete" Height="300" DockPanel.Dock="Bottom" >
+            <TextBlock Text="Libellés des paramètres" FontStyle="Italic" Foreground="#7F000000" VerticalAlignment="Top" Margin="0,42,0,0" TextAlignment="Center" />
+            <TextBlock Text="Requête" FontStyle="Italic" Foreground="#7F000000" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,76,0,0" />
+            <TextBox x:Name="TB_Requeteur" FontFamily="Consolas" Margin="0,92,0,0" Background="#CFFFFFFF" AcceptsReturn="True" TextWrapping="Wrap"/>
+            <!--<RichTextBox x:Name="RTB_Requeteur" TextChanged="RTB_Requeteur_TextChanged" FontFamily="Consolas" Margin="0,92,0,0" Background="#CFFFFFFF">
+               <RichTextBox.Resources>
+                  <Style TargetType="{x:Type Paragraph}">
+                     <Setter Property="Margin" Value="0"/>
+                  </Style>
+               </RichTextBox.Resources>
+               <FlowDocument/>
+            </RichTextBox>-->
+            <Button Content="Nouvelle" Height="40" Margin="0,10,60,0" x:Name="BT_Nouveau"  Tag="Bebe" VerticalAlignment="Top" Width="40" HorizontalAlignment="Right" Click="BT_Nouveau_Click"/>
+            <Button Content="Enregister" Height="40" Margin="0,10,110,0" x:Name="BT_Enregistrer"  Tag="Valider" VerticalAlignment="Top" Width="40" HorizontalAlignment="Right" Click="BT_Enregistrer_Click"/>
+            <Button Content="Supprimer" Height="40" Margin="0,10,10,0" x:Name="BT_Supprimer"  Tag="Poubelle" VerticalAlignment="Top" Width="40" HorizontalAlignment="Right"/>
+            <TextBox Margin="10,18,160,0" x:Name="TB_Libelle" VerticalScrollBarVisibility="Auto" Height="23" VerticalAlignment="Top" AcceptsReturn="True" Tag="Intitulé de la requête" />
+            <Grid Margin="0,57,0,0" VerticalAlignment="Top">
+               <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="*"/>
+               </Grid.ColumnDefinitions>
+               <TextBox x:Name="TB_LibelleParametre1" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="10,0" TextChanged="TB_LibelleParametre1_TextChanged"/>
+               <TextBox x:Name="TB_LibelleParametre2" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="10,0" TextChanged="TB_LibelleParametre2_TextChanged" Grid.Column="1"/>
+               <TextBox x:Name="TB_LibelleParametre3" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="10,0" TextChanged="TB_LibelleParametre3_TextChanged" Grid.Column="2"/>
+               <TextBox x:Name="TB_LibelleParametre4" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="10,0" TextChanged="TB_LibelleParametre4_TextChanged" Grid.Column="3"/>
+            </Grid>
+         </Grid>
+         <DataGrid x:Name="DG_Resultats" DockPanel.Dock="Top" ItemsSource="{Binding}" HeadersVisibility="Column" RowHeight="23" MouseLeave="DG_Resultats_MouseLeave" MouseDoubleClick="DG_Resultats_MouseDoubleClick">
+            <DataGrid.Resources>
+               <Style TargetType="{x:Type DataGridCell}">
+                  <EventSetter Event="UIElement.MouseMove" Handler="DG_Resultats_CellMouseMove" />
+               </Style>
+            </DataGrid.Resources>
+         </DataGrid>
+      </DockPanel>
+      <Popup x:Name="Pop_Cellule" AllowsTransparency="True" Placement="RelativePoint" PlacementTarget="{Binding ElementName=DG_Resultats}">
+         <TextBox x:Name="TB_Cellule" Background="#FFECE1BE"/>
+      </Popup>
+   </Grid>
+</UserControl>

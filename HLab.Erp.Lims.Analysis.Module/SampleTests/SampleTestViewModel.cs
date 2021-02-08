@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using HLab.DependencyInjection.Annotations;
@@ -27,7 +29,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
     {
         public SampleTestViewModel() => H.Initialize(this);
 
-        [Import] private readonly Func<int, ListTestResultViewModel> _getResults;
+        [Import] private readonly Func<SampleTest, ListTestResultViewModel> _getResults;
 
         [Import] public IErpServices Erp { get; }
 
@@ -56,35 +58,37 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         public SampleTestWorkflow Workflow => _workflow.Get();
         private readonly IProperty<SampleTestWorkflow> _workflow = H.Property<SampleTestWorkflow>(c => c
-            .On(e => e.Model)
-            .On(e => e.Locker)
             .NotNull(e => e.Locker)
             .Set(vm => vm._getSampleTestWorkflow(vm.Model,vm.Locker))
+            .On(e => e.Model)
+            .On(e => e.Locker)
+            .Update()
         );
+
         [Import] private Func<SampleTest, DataLocker<SampleTest>, SampleTestWorkflow> _getSampleTestWorkflow;
 
         public bool IsReadOnly => _isReadOnly.Get();
         private readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
-            .On(e => e.EditMode)
             .Set(e => !e.EditMode)
+            .On(e => e.EditMode).Update()
         );
 
         public bool EditMode => _editMode.Get();
         private readonly IProperty<bool> _editMode = H.Property<bool>(c => c
-            .On(e => e.Locker.IsActive)
-            .On(e => e.Workflow.CurrentState)
             .NotNull(e => e.Locker)
             .NotNull(e => e.Workflow)
-            .Set(e => 
-                e.Locker.IsActive 
-                && e.Workflow.CurrentState == SampleTestWorkflow.Specifications
-                && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisMonographSign)
-            )
+            .Set(e => {
+                e.FormHelper.SetFormMode(e.FormHelper.Mode);
+                return e.Locker.IsActive
+                                && e.Workflow.CurrentState == SampleTestWorkflow.Specifications
+                                && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisMonographSign);
+            })
+            .On(e => e.Locker.IsActive)
+            .On(e => e.Workflow.CurrentState)
+            .Update()
         );
         public bool ScheduleEditMode => _scheduleEditMode.Get();
         private readonly IProperty<bool> _scheduleEditMode = H.Property<bool>(c => c
-            .On(e => e.Locker.IsActive)
-            .On(e => e.Workflow.CurrentState)
             .NotNull(e => e.Locker)
             .NotNull(e => e.Workflow)
             .Set(e => 
@@ -92,34 +96,51 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 && e.Workflow.CurrentState == SampleTestWorkflow.Scheduling
                 && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisSchedule)
             )
+            .On(e => e.Locker.IsActive)
+            .On(e => e.Workflow.CurrentState).Update()
         );
 
         public bool ResultMode => _resultMode.Get();
         private IProperty<bool> _resultMode = H.Property<bool>(c => c
-            .On(e => e.Locker.IsActive)
-            .On(e => e.Workflow.CurrentState)
             .NotNull(e => e.Locker)
             .NotNull(e => e.Workflow)
             .Set(e => 
                 e.Locker.IsActive 
                 && e.Workflow.CurrentState == SampleTestWorkflow.Running
-                && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisResultEnter)
-            )
+                && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisResultEnter))
+            .On(e => e.Locker.IsActive)
+            .On(e => e.Workflow.CurrentState)
+        .Update()
+         
         );
         public bool FormHelperIsActive => _formHelperIsActive.Get();
         private readonly IProperty<bool> _formHelperIsActive = H.Property<bool>(c => c
-        .On(e => e.EditMode)
-        .On(e => e.ResultMode)
         .Set(e => e.EditMode || e.ResultMode)
+        .On(e => e.EditMode)
+        .On(e => e.ResultMode).Update()
         );
 
+
+        // RESULTS
         public ListTestResultViewModel Results => _results.Get();
         private readonly IProperty<ListTestResultViewModel> _results = H.Property<ListTestResultViewModel>(c => c
+            .NotNull(e => e.Model)
             .Set(e =>
             {
-                if (e.Model == null) return null;
-                var vm =  e._getResults(e.Model.Id);
-                vm.SetSelectAction(async r => await e.LoadResultAsync(r as SampleTestResult).ConfigureAwait(false));
+                var vm =  e._getResults(e.Model);
+                vm.SetSelectAction(async r =>
+                {
+                    await e.LoadResultAsync(r as SampleTestResult).ConfigureAwait(false);
+                    if (e.SelectResultCommand is CommandPropertyHolder nc) nc.CheckCanExecute();
+                });
+
+                SampleTestResult selected = null;
+                foreach(var result in vm.List)
+                {
+                    if(selected==null) selected = result;
+                    if(result == e.Model.Result) selected = result;
+                }
+                vm.Selected = selected;
                 return vm;
             })
             .On(e => e.Model)
@@ -130,6 +151,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .On(e => e.Model)
             .OnNotNull(e => e.Workflow)
             .OnNotNull(e => e.Results)
+            .On(e => e.Locker.IsActive)
             .Do(async e => await e.LoadResultAsync(e.Results.Selected??e.Model.Result))
         );
 
@@ -147,6 +169,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .Action((e,t) => e.DeleteResult(e.Results.Selected))
             .On(e => e.Workflow.CurrentState)
             .On(e => e.Results.Selected.Stage)
+            .On(e => e.Results.Selected)
             .On(e => e.Model.Result)
             .CheckCanExecute()
         );
@@ -165,20 +188,34 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             if(Results?.Selected==null) return false;
             if(!Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
             if(Workflow.CurrentState != SampleTestWorkflow.Running) return false;
-            if(Results.Selected.Stage!="Running") return false;
+            if(Results.Selected.Stage!=null && Results.Selected.Stage != SampleTestResultWorkflow.Running.Name) return false;
             if(Model.Result==null) return true;
             if(Model.Result.Id == Results.Selected.Id) return false;
             return true;
         }
 
+
+        //TODO : probleme here where button not always available where conditions are ok
         public ICommand SelectResultCommand { get; } = H.Command(c => c
             .CanExecute(e => 
                 e.Results?.Selected?.Stage == SampleTestResultWorkflow.Validated.Name
-                && e.Model.Stage == SampleWorkflow.Production.Name
+                && e.Model.Stage == SampleTestWorkflow.Running.Name
                 && e.Locker.IsActive
                 )
-            .Action(async (e,t) => await e.SelectResult(e.Results.Selected))
-            .On(e => e.Results.Selected.Stage).CheckCanExecute()
+            .Action(async (e, t) =>
+            {
+                if(
+                    e.Results?.Selected?.Stage == SampleTestResultWorkflow.Validated.Name
+                    && e.Model.Stage == SampleTestWorkflow.Running.Name
+                    && e.Locker.IsActive)
+                await e.SelectResult(e.Results.Selected);
+            })
+            .On(e => e.Results.Selected.Stage)
+            .On(e => e.Results.Selected)
+            .On(e => e.Model.Stage)
+            .On(e => e.Locker.IsActive)
+        
+        .CheckCanExecute()
         );
 
         private async Task SelectResult(SampleTestResult result)
@@ -225,6 +262,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             }
         }
 
+
+        /// <summary>
+        /// ///////////////////////////////////////////////////////////////////////////
+        /// </summary>
+
         public ITestHelper TestHelper => _testHelper.Get();
         private readonly IProperty<ITestHelper> _testHelper = H.Property<ITestHelper>(c => c
             .On(e => e.FormHelper.Form.Test)
@@ -264,15 +306,17 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         
         public override string Title => _title.Get();
         private IProperty<string> _title = H.Property<string>(c => c
-            .On(e => e.Model.Sample.Reference)
             .Set(e => e.Model.Sample?.Reference)
+            .On(e => e.Model.Sample.Reference)
+        .Update()
         );
 
         public string SubTitle => _subTitle.Get();
         private IProperty<string> _subTitle = H.Property<string>(c => c
+            .Set(e => e.Model.TestName + "\n" + e.Model.Description)
             .On(e => e.Model.TestName)
             .On(e => e.Model.Description)
-            .Set(e => e.Model.TestName + "\n" + e.Model.Description)
+        .Update()
         );
         public string ConformityIconPath => _conformityIconPath.Get();
 

@@ -22,16 +22,15 @@
              xmlns:views1="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
              xmlns:wpf1="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
              mc:Ignorable="d" 
-             Background="#FF004050"
              d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModelDesign}, IsDesignTimeCreatable=True}"             
              d:DesignHeight="1200" d:DesignWidth="500"
              mvvm:ViewLocator.ViewClass ="{x:Type annotations:IViewClassDefault}"
-
+             Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
              >
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
     </UserControl.Resources>
-    <Grid>
+    <Grid Background="{DynamicResource MahApps.Brushes.Accent4}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -40,9 +39,17 @@
 
         <workflows:WorkflowLockerView/>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+        <wpf1:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
-
+                <!--<views1:DetailView EditMode="{Binding EditMode}" Text="{}{Audit}" IconPath = "Icons/Sample/Folder">-->
+                    <Expander Header="Audit" Grid.ColumnSpan="2">
+                    <mvvm:ViewLocator 
+                        Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                        ViewClass="{x:Type annotations:IViewClassContent}"
+                        Model="{Binding AuditTrail}"
+                    />
+                    </Expander>
+                <!--</views1:DetailView>-->
                 <!-- RECORD -->            
                 <views1:DetailView EditMode="{Binding EditMode}" Text="{}{Record}" IconPath = "Icons/Sample/Folder">
 
@@ -63,7 +70,24 @@
                         HorizontalContentAlignment="Center" 
                         Text="{Binding Model.CustomerReference, UpdateSourceTrigger=PropertyChanged}"/>
 
-
+                    <lang:LocalizedLabel Text="{}{Motivation} : "/>
+                    <StackPanel Margin="0,0,15,0">
+                        <TextBlock 
+                            VerticalAlignment="Center"
+                            Text="{Binding  Model.Motivation, UpdateSourceTrigger=PropertyChanged}"
+                            Visibility="{Binding IsReadOnly,Converter={StaticResource BooleanToVisibility}}"
+                            />
+                        <ComboBox 
+                            Visibility="{Binding EditMode,Converter={StaticResource BooleanToVisibility}}"
+                            IsEnabled="{Binding EditMode}"
+                            Margin="0,0,15,0"
+                            BorderBrush="#80000000"
+                            HorizontalContentAlignment="Center" 
+                            Text="{Binding Model.Motivation, UpdateSourceTrigger=PropertyChanged}">
+                            <ComboBoxItem>Routine</ComboBoxItem>
+                            <ComboBoxItem>Enregistrement</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
 
                     <lang:LocalizedLabel Text="{}{Customer} : "/>
                     <entitySelectors:ForeignView 
@@ -383,7 +407,7 @@
 
                 </views1:DetailView>
             </StackPanel>
-        </ScrollViewer>
+        </wpf1:ScrollViewerEx>
 
         <!-- NOTE -->
         <views1:DetailView Grid.Row="2" EditMode="{Binding Locker.IsActive}" IconPath="Icons/Edit" Text="{}{Note}">

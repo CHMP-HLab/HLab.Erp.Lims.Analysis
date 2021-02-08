@@ -1,0 +1,227 @@
+﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      Title="CertificatAnalyse" Width="210" Height="297">
+    <Page.Resources>
+        <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="3"/>
+            <Setter Property="UseLayoutRounding" Value="True"/>
+            <Setter Property="FontFamily" Value="Times New Roman"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <TextBlock FontFamily="Times New Roman" Text="APERÇU" Foreground="#FFF0F0F0" Tag="Apercu" FontSize="50" FontWeight="Bold" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Padding="0,0,0,10">
+            <TextBlock.LayoutTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="-55"/>
+                </TransformGroup>
+            </TextBlock.LayoutTransform>
+        </TextBlock>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <!-- Entête -->
+                <RowDefinition Height="Auto"/>
+                <!-- Infos -->
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Entête -->
+            <Grid Margin="0,39,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="Images/LogoChmp2016.png" Stretch="Fill" Width="65" Height="17.29" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,10,0,0" />
+                <!--<Image Source="Images/LogoChmp.png" Stretch="Fill" Width="65" Height="27.52" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,10,0,0" />-->
+                <StackPanel Margin="21,32,0,0">
+                    <TextBlock Text="4, voie militaire des Gravances"/>
+                    <TextBlock Text="63100 CLERMONT-FERRAND"/>
+                    <TextBlock Text="FRANCE"/>
+                </StackPanel>
+
+                <Grid VerticalAlignment="Top" Height="13" Margin="8,45,5,0">
+                    <Rectangle Stroke="Black" StrokeThickness="0.25" />
+                    <TextBlock TextWrapping="Wrap" Text="Dates" FontWeight="Bold" Margin="1,0,0,0" />
+
+                    <StackPanel Margin="10,4,0,0">
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock TextWrapping="Wrap" Text="{}{FR=Réception}{US=Reception} : " />
+                            <TextBlock TextWrapping="Wrap" Text="{}{DateReception}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock TextWrapping="Wrap" Text="Notification : " />
+                            <TextBlock TextWrapping="Wrap" Text="{}{DateNotification}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel Grid.Column="1">
+                    <Grid VerticalAlignment="Top" Height="9" Margin="0,10,8,3">
+                        <Rectangle Stroke="Black" StrokeThickness="0.25" Fill="Gainsboro" Margin="14,-51,-14,51" />
+                        <TextBlock TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold" FontSize="4" TextAlignment="Center" Margin="0,-34,0,0" ><Run Language="fr-fr" Text="RAPPORT D'ESSAI"/><Run Text=" N° {NumeroEchantillon}"/></TextBlock>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{}{FR=DCI}{US=INN} : " FontWeight="Bold" />
+                        <TextBlock Text="{}{Dci}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{}{FR=Nom}{US=Name} : " FontWeight="Bold" />
+                        <TextBlock Text="{}{Nom}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{}{FR=Dosage}{US=Strenght} : " FontWeight="Bold" />
+                        <TextBlock Text="{}{Dosage}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{}{FR=Forme}{US=Form} : " FontWeight="Bold" />
+                        <TextBlock Text="{}{Forme}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{}{FR=Lot N°}{US=Batch number} : " FontWeight="Bold" />
+                        <TextBlock Text="{}{Lot}" />
+                        <!--</StackPanel>
+                        <StackPanel Orientation="Horizontal">-->
+                        <TextBlock Text="{}{FR= Péremption}{US=Expiry} : " FontWeight="Bold" />
+                        <TextBlock Text="{}{DatePeremption}" />
+                        <!--</StackPanel>
+                        <StackPanel Orientation="Horizontal">-->
+                        <TextBlock Text="{}{FR= Fabrication}{US=Manufacture} : " FontWeight="Bold" />
+                        <TextBlock Text="{}{DateFabrication}" />
+                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{}{FR=Demandeur}{US=Applicant} : " FontWeight="Bold" />
+                            <TextBlock Text="{}{Demandeur}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Grid.Column="1">
+                            <TextBlock Text="{}{FR=Fabricant}{US=Manufacturer} : " FontWeight="Bold" />
+                            <TextBlock Text="{}{Fabricant}" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+
+
+            </Grid>
+
+            <!-- Infos -->
+            <Grid Grid.Row="1">
+                <Grid Tag="PremierePageUniquement">
+                    <StackPanel Margin="8,3,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontWeight="Bold" FontStyle="Italic">{FR=Pharmacopée prise en référence}{US=Reference pharmacopoeia}&#160;:&#160;</TextBlock>
+                            <TextBlock>{Pharmacopee}</TextBlock>
+                        </StackPanel>
+                        <Line Margin="0,1,0,1" VerticalAlignment="Top" Stroke="Black" StrokeThickness="0.25" X2="194.0"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontWeight="Bold" >{FR=Prélèvement}{US=Sample}&#160;:&#160;</TextBlock>
+                            <TextBlock TextWrapping="Wrap" TextAlignment="Justify">{Prelevement}</TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontWeight="Bold">{FR=Quantité reçue}{US=Size}&#160;:&#160;</TextBlock>
+                            <TextBlock TextWrapping="Wrap" TextAlignment="Justify">{Taille} {FR=unités}{US=units}</TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontWeight="Bold">
+                                {FR=Conditionnement primaire}{US=Primary packaging}&#160;:&#160;
+                            </TextBlock>
+                            <TextBlock Text="{}{ConditionnementPrimaire} " TextWrapping="Wrap" TextAlignment="Justify"/>
+                            <TextBlock Text="{}{FR=Secondaire}{US=secondary} : " FontWeight="Bold" />
+                            <TextBlock Text="{}{ConditionnementSecondaire}" TextWrapping="Wrap" TextAlignment="Justify"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{}{FR=Produit}{US=Product} : " FontWeight="Bold" />
+                            <TextBlock Text="{}{Produit}" TextWrapping="Wrap" TextAlignment="Justify"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+            <!-- Tableau -->
+            <Grid Grid.Row="2" Margin="8,0,8,0">
+                <DockPanel>
+                    <Grid DockPanel.Dock="Top" Tag="PremierePageUniquement">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="59"/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="35"/>
+                            <ColumnDefinition Width="35"/>
+                            <ColumnDefinition Width="25"/>
+                        </Grid.ColumnDefinitions>
+                        <!--<TextBlock Grid.Column="0" Text="{}{FR=Date}{US=Date}" HorizontalAlignment="Center" FontWeight="Bold" FontSize="3.5" />-->
+                        <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Text="{}{FR=Tests}{US=Assays}" HorizontalAlignment="Left" FontWeight="Bold" FontSize="3.5" />
+                        <TextBlock Grid.Column="2" Text="{}{FR=Références}{US=References}" HorizontalAlignment="Center"  FontWeight="Bold" FontSize="3.5" />
+                        <TextBlock Grid.Column="3"  Text="{}{FR=Spécifications}{US=Specifications}" HorizontalAlignment="Center" FontWeight="Bold" TextAlignment="Center" FontSize="3.5" />
+                        <TextBlock Grid.Column="4" Grid.ColumnSpan="2" Text="{}{FR=Résultats}{US=Results}" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="3.5" />
+                        <Line Grid.ColumnSpan="6" Margin="0,5,0,0" VerticalAlignment="Top" Stroke="Black" StrokeThickness="0.25" X2="194"/>
+
+                    </Grid>
+
+                    <StackPanel Name="PanelContenu">
+                        <!--Detail.Start-->
+                        <TextBlock Name="Titre" Height="5" Text="{}{Titre}" Background="#FFDCDCDC" FontWeight="Bold" FontSize="3.5"/>
+
+                        <StackPanel Name="Test" Orientation="Horizontal">
+                            <TextBlock Text="{}{Date}" Width="19" Margin="1,0,0,0" TextAlignment="Left" HorizontalAlignment="Left"/>
+                            <TextBlock Text="{}{Description}" Width="48" Margin="1,0,0,0" TextWrapping="Wrap" TextAlignment="Left" HorizontalAlignment="Left"/>
+                            <TextBlock Text="{}{Reference}" Width="29" Margin="1,0,0,0" TextAlignment="Left" HorizontalAlignment="Left"/>
+                            <TextBlock Text="{}{Norme}" Width="34" Margin="1,0,0,0" TextAlignment="Center" HorizontalAlignment="Left"/>
+                            <TextBlock Text="{}{Resultat}" Width="34" Margin="1,0,0,0" TextAlignment="Center" HorizontalAlignment="Left"/>
+                            <TextBlock Text="{}{Conforme}" Width="24" Margin="1,0,0,0" TextAlignment="Center" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                        <!--Detail-->
+                        <!--Detail.End-->
+                        <!--Detail-->
+                    </StackPanel>
+                </DockPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="59"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="25"/>
+                    </Grid.ColumnDefinitions>
+                    <!--<Line Grid.Column="1" Stroke="Black" StrokeThickness="0.25" Y1="10" Y2="200"/>-->
+                    <Line Grid.Column="2" Stroke="Black" StrokeThickness="0.25" Y2="200"/>
+                    <Line Grid.Column="3" Stroke="Black" StrokeThickness="0.25" Y2="200"/>
+                    <Line Grid.Column="4" Stroke="Black" StrokeThickness="0.25" Y2="200"/>
+                    <Line Grid.Column="5" Stroke="Black" StrokeThickness="0.25" Y1="5" Y2="200"/>
+
+                </Grid>
+
+
+                <Rectangle StrokeThickness="0.25" Stroke="Black" />
+            </Grid>
+
+            <!-- Pied -->
+            <Grid Grid.Row="3">
+                <Grid Tag="DernierePageUniquement">
+                    <StackPanel>
+                        <Border Margin="8,2,8,0" BorderThickness="0.25" CornerRadius="0" BorderBrush="Black" >
+                            <Grid>
+                                <TextBlock Text="Conclusion : " HorizontalAlignment="Left" Margin="2,0,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+                                <TextBlock Text="{}{Conclusion}" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Justify"/>
+                            </Grid>
+                        </Border>
+                        <TextBlock Text="{}{Validateur}" HorizontalAlignment="Center" Margin="0,5,0,15" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center"/>
+                        <Border MinHeight="12"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <TextBlock HorizontalAlignment="Right" Margin="0,0,8,8" Text="Page {Page} / {NbPages}" VerticalAlignment="Bottom" />
+
+    </Grid>
+</Page>

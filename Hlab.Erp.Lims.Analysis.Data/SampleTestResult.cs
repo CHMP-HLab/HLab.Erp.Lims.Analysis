@@ -83,6 +83,15 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         private readonly IProperty<DateTime?> _end = H.Property<DateTime?>();
 
+
+        //case -1 : Error";
+        //case 0  : NotChecked";
+        //case 1  : Running";
+        //case 2  : Conform;
+        //case 3  : NotConform";
+        //case 4  : Invalidated";
+        //default : Error";
+
         public int? StateId
         {
             get => _stateId.Get();

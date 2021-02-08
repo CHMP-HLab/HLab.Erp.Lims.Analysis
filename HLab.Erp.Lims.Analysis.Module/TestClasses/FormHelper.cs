@@ -16,6 +16,7 @@ using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
 using HLab.Base;
+using HLab.Base.Wpf;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Notify.PropertyChanged;
@@ -221,8 +222,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
             // for theme compatibility
             xaml = xaml
-                .Replace("\"Black\"", "\"{DynamicResource MahApps.Brushes.Black}\"")
-                .Replace("\"White\"", "\"{DynamicResource MahApps.Brushes.White}\"")
+                .Replace("\"Black\"", "\"{DynamicResource MahApps.Brushes.ThemeForeground}\"")
+                .Replace("\"White\"", "\"{DynamicResource MahApps.Brushes.ThemeBackground}\"")
                 ;
             UserControl form;
             try
@@ -264,7 +265,19 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 return;
             }
 
-            var cs = "using System.Runtime;\nusing System.ComponentModel;\nusing HLab.Erp.Lims.Analysis.Module.TestClasses;\nusing HLab.Notify.PropertyChanged;\nusing HLab.Notify.Wpf;\n" + Cs;
+            var cs = @$"
+                using System.Runtime;
+                using System.ComponentModel;
+                using HLab.Erp.Lims.Analysis.Module.TestClasses;
+                using HLab.Notify.PropertyChanged;
+                using HLab.Notify.Annotations;
+                using HLab.Notify.Wpf; 
+                {Cs}
+            ";
+
+            cs = cs
+                .Replace("Test.CheckGroupe","TestLegacyHelper.CheckGroup")
+                .Replace("Test.CheckGroup","TestLegacyHelper.CheckGroup");
 
             if (cs.Contains("using FM;"))
             {
@@ -273,8 +286,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             }
 
             int index = cs.IndexOf("public class", StringComparison.InvariantCulture)+12;
-            int idx2 = cs.IndexOf("\r\n",index);
-            if(idx2<0) idx2 = cs.IndexOf("\n",index);
+            var idx2 = EndOfLine(cs,index);
 
             var classname = cs.Substring(index,idx2-index);
 
@@ -287,9 +299,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             index = cs.IndexOf("public class", StringComparison.InvariantCulture) + 12;
             if (index > -1)
             {
-                var i = cs.IndexOf("\r\n", index, StringComparison.InvariantCulture);
-                if (i < 0) i = cs.IndexOf("\n", index, StringComparison.InvariantCulture);
-                index = i;
+                index = EndOfLine(cs,index);
             }
 
 
@@ -388,8 +398,13 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 }
             }
             //declarations += "public event PropertyChangedEventHandler PropertyChanged;";
-            declarations += "public TestLegacyHelper Test => _test.Get();\nprivate IProperty<TestLegacyHelper> _test = H.Property<TestLegacyHelper>(c => c.Set(e => new TestLegacyHelper()));\nITestHelper ITestForm.Test => Test;\n";
-            declarations += "public " + classname + "() => H.Initialize(this);";
+            declarations += @"
+                public TestLegacyHelper Test => _test.Get();
+                private IProperty<TestLegacyHelper> _test = H.Property<TestLegacyHelper>(c => c
+                    .Set(e => new TestLegacyHelper()));
+                ITestHelper ITestForm.Test => Test;";
+
+            declarations += $"public {classname}() => H<{classname}>.Initialize(this);";
             cs = cs.Insert(cs.IndexOf('{', index) + 1, declarations + connection + "}\r\n}\r\n");
 
             var compiler = new Compiler { SourceCode = cs };
@@ -426,6 +441,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                     case TextBox textBox:
                         textBox.TextChanged += (sender, args) =>
                         {
+                            textBox.ApplySymbols();
                             module.Traitement(sender, args);
                             SetFormMode(Mode);
                         };
@@ -478,6 +494,15 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             Form = module;
         }
 
+        private static int EndOfLine(string s,int index)
+        {
+            var idx1 = s.IndexOf("\n",index, StringComparison.InvariantCulture);
+            var idx2 = s.IndexOf("\r\n",index, StringComparison.InvariantCulture);
+            if(idx1<0) return idx2;
+            if(idx2<0) return idx1;
+            return Math.Min(idx1,idx2);
+        }
+
         public enum TestValueLevel
         {
             Test,
@@ -524,6 +549,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             }
 
             LoadValues(dict);
+
+            SetFormMode(Mode);
         }
 
 
@@ -669,7 +696,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         private static readonly Brush _hiddenBrush = Brushes.Black;
 
 
-        private bool SetFormMode(TestFormMode mode)
+        public bool SetFormMode(TestFormMode mode)
         {
             var isSpecMode = (mode == TestFormMode.Specification);
             var isCaptureMode = (mode == TestFormMode.Capture);
@@ -684,6 +711,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             var mandatoryDone = 0;
             var optionalDone = 0;
 
+            if(Form == null) return false;
 
             if (Form is FrameworkElement form)
             {
@@ -760,7 +788,6 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                             break;
                     }
                 }
-
             }
 
             if (isSpecMode && Test != null)
@@ -797,7 +824,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
             if (Result != null)
             {
-                if (Mode == TestFormMode.Capture)
+                if (Mode == TestFormMode.Capture && Form.Test!=null)
                 {
                     Result.Conformity = Form.Test.Conformity;
                     Result.Result = Form.Test.Result;
@@ -808,7 +835,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             {
                 if (Test != null)
                 {
-                    if (Mode == TestFormMode.Specification)
+                    if (Mode == TestFormMode.Specification && Form.Test!=null)
                     {
                         Test.TestName = Form.Test.TestName;
                         Test.Description = Form.Test.Description;
@@ -982,7 +1009,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                         LoadValues(test.Values);
                 }
 
-                if (!ReferenceEquals(Result, result))
+                //if (!ReferenceEquals(Result, result))
                 {
                     Result = result;
                     if (result?.Values != null)

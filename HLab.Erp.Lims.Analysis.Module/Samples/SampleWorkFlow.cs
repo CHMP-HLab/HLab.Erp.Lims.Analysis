@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Data.Observables;
@@ -66,6 +67,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .FromState(() => Reception)
             .ToState(() => ReceptionCheck)
             .NeedRight(()=>AnalysisRights.AnalysisReceptionSign)
+            .Sign()
         );
 
         //########################################################
@@ -112,6 +114,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .FromState(() => ReceptionCheck)
             .ToState(() => Monograph)
             .NeedRight(()=>AnalysisRights.AnalysisReceptionCheck)
+            .Sign()
         );
 
         public static Action ReceptionAskForCorrection = Action.Create(c => c
@@ -120,13 +123,16 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .ToState(() => ReceptionCorrectionAsked)
             .NeedRight(()=>AnalysisRights.AnalysisReceptionCheck)
             .Backward()
+            .Sign()
+            .Motivate()
         );
 
         //########################################################
         // RECEPTION CORRECTION
 
         public static State ReceptionCorrectionAsked = State.Create(c => c
-            .Caption(w => "{Reception correction asked}").Icon(w => "Icons/Workflows/Correct")
+            .Caption(w => "{Reception correction asked}")
+            .Icon(w => "Icons/Workflows/Correct")
         );
 
         public static Action CorrectReception = Action.Create(c => c
@@ -135,6 +141,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
            .ToState(() => Reception)
            .NeedRight(()=>AnalysisRights.AnalysisReceptionSign)
            .Backward()
+           .Sign()
+           .Motivate()
         );
 
         //########################################################
@@ -150,6 +158,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
            .NeedRight(()=>AnalysisRights.AnalysisReceptionCheck)
            .FromState(() => Monograph)
            .ToState(() => MonographClosed)
+            .Sign()
             );
 
         //########################################################
@@ -217,23 +226,24 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public static Action ValidateCertificate = Action.Create( c => c
             .Caption(w => "{Print Certificate}").Icon(w => "Icons/Workflows/Certificate")
             .FromState(() => Production)
+            .Action(w=>{
+                w.Target.NotificationDate = DateTime.Today;
+                w.Target.Validator = WorkflowAnalysisExtension.Acl.Connection.User;
+                })
             .ToState(() => Certificate)
             .NeedRight(()=>AnalysisRights.AnalysisCertificateCreate)
-            .Action(w=>{
-                w.Target.Validator = w.User?.Caption;
-                w.Target.ValidatorId = w.User?.Id;
-                })
+            .Sign()
         );
 
         public static Action InvalidateSample = Action.Create( c => c
             .Caption(w => "{Invalidated}").Icon(w => "Icons/Validations/Invalidated")
             .FromState(() => Production)
+            .Action(w=>{
+                w.Target.Validator = WorkflowAnalysisExtension.Acl.Connection.User;
+                })
             .ToState(() => Invalidated)
             .NeedRight(()=>AnalysisRights.AnalysisCertificateCreate)
-            .Action(w=>{
-                w.Target.Validator = w.User?.Caption;
-                w.Target.ValidatorId = w.User?.Id;
-                })
+            .Sign().Motivate()
         );
 
         public static State Certificate = State.Create(c => c
@@ -242,7 +252,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .When(w => {
                 var validated = 0;
                 var invalidated = 0;
-                foreach (SampleTest test in w.SampleTests)
+                foreach (SampleTest test in w.SampleTests) 
                 {
                     if (test.Stage == SampleTestWorkflow.ValidatedResults.Name) validated++; 
                     else if (test.Stage == SampleTestWorkflow.InvalidatedResults.Name) invalidated++; 
@@ -266,6 +276,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .FromState(() => Certificate)
             .ToState(() => Closed)
             .NeedPharmacist()
+            .Sign()
         );
 
         public static State Closed = State.Create(c => c

@@ -621,8 +621,8 @@ namespace Outils
          Page page = (Page)XamlReader.Parse(xaml);
 
          // Applique les redimensionnement pour connaitre les tailles
-         page.Measure(new Size(page.Width, page.Height));
-         page.Arrange(new Rect(new Point(0, 0), new Size(page.Width, page.Height)));
+         page.Measure(new Size(210, 297));
+         page.Arrange(new Rect(new Point(0, 0), new Size(210, 297)));
 
          return page;
       }

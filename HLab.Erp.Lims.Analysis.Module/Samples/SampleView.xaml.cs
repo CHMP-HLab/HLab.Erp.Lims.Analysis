@@ -25,6 +25,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             InitializeComponent();
 
             DataContextChanged += SampleView_DataContextChanged;
+            this.SetMouseWheel();
         }
 
         private void SampleView_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)

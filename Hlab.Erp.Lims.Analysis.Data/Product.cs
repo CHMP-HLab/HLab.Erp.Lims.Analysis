@@ -51,7 +51,8 @@ namespace HLab.Erp.Lims.Analysis.Data
         [Ignore]
         public string IconPath => _iconPath.Get();
         private readonly IProperty<string> _iconPath = H.Property<string>(c => c
-            .OneWayBind(e => e.Form.IconPath)
+        .Set(e => e.Form?.IconPath)
+            .On(e => e.Form.IconPath).Update()
         );
 
 

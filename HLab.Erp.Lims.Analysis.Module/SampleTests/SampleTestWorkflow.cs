@@ -72,7 +72,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public static Action RequestSpecificationsCorrection = Action.Create(c => c
             .Caption("{Request correction}").Icon("Icons/Workflows/Correct")
-            .FromState(()=>SignedSpecifications)
+            .FromState(()=>SignedSpecifications, ()=>Scheduled, ()=>Scheduling, ()=>Running)
             .NeedRight(()=>AnalysisRights.AnalysisMonographValidate)
             .ToState(()=> CorrectionNeeded)
             .Backward()
@@ -95,7 +95,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public static Action Correction = Action.Create(c => c
             .Caption("{Correct}").Icon("Icons/Workflows/Correct")
-            .FromState(()=>CorrectionNeeded,()=>SignedSpecifications)
+            .FromState(()=>CorrectionNeeded,()=>SignedSpecifications, ()=>Scheduling, ()=>Scheduled,()=>Running)
             .NeedRight(()=>AnalysisRights.AnalysisMonographValidate)
             .ToState(()=> Specifications)
             .Backward()
@@ -156,7 +156,23 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public static Action ValidateResults = Action.Create(c => c
             .Caption("{Validate results}").Icon("Icons/Validations/Validated")
             .FromState(()=>Running)
+            .Action(w =>
+            {
+                if (w.Target.Result == null)
+                {
+                    foreach (var result in w.TestResults)
+                    {
+                        if (result.Stage == SampleTestResultWorkflow.Validated.Name)
+                        {
+                            w.Target.Result = result;
+                            break;
+                        }
+                    }
+                }
+            })
             .ToState(()=>ValidatedResults)
+            .WhenStateAllowed(()=>ValidatedResults)    
+        //Todo : reuse toState
             .When(w => w.Target.Sample.Stage == SampleWorkflow.Production.Name)
             .WithMessage(w=>"{Sample not in production}")
             .NeedRight(()=>AnalysisRights.AnalysisResultValidate)
@@ -189,7 +205,20 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 return (validated>0);
             })
             .WithMessage(w=>"Some results not validated yet")
-            .NotWhen(w => w.Target.Result == null)
+            .When(w =>
+            {
+                if(w.Target.Result != null) return true;
+
+                var validated = 0;
+                var invalidated = 0;
+                foreach(var result in w.TestResults)
+                {
+                    if(result.Stage==SampleTestResultWorkflow.Validated.Name) validated++;
+                    else if(result.Stage==SampleTestResultWorkflow.Invalidated.Name) invalidated++;
+                    else return false;
+                }
+                return (validated==1);
+            })
             .WithMessage(w=>"No selected result")
         );
 
@@ -202,5 +231,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             get => Target.Stage; 
             set => Target.Stage = value;
         }
+
     }
 }

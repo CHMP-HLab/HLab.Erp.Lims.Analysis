@@ -23,8 +23,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         public static Action Sign = Action.Create(c => c
             .Caption("{Sign}").Icon("Icons/Validations/Sign")
             .FromState(()=>Running)
-            .ToState(()=>Signed)
             .Action(w => w.Target.End = DateTime.Now)
+            .ToState(()=>Signed)
         );
 
         // SIGNED
@@ -36,6 +36,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         public static Action Check = Action.Create(c => c
             .Caption("{Check}").Icon("Icons/Result/CheckPassed")
             .FromState(()=>Signed)
+            .Action(w=> w.Target.End ??= DateTime.Now)
             .ToState(()=>Checked)
         );
 

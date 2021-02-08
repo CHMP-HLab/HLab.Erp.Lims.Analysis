@@ -4,7 +4,7 @@
         xmlns:Outils="clr-namespace:Outils"
         xmlns:base="clr-namespace:HLab.Base;assembly=HLab.Base.Wpf"
         xmlns:prints="clr-namespace:HLab.Erp.Lims.Analysis.Module.Prints"
-        xmlns:icons="clr-namespace:HLab.Mvvm.Icons;assembly=HLab.Mvvm.Wpf"
+        xmlns:icons="clr-namespace:HLab.Mvvm.Icons;assembly=HLab.Mvvm.Wpf" xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
         Title="Impression" Width="1000" Height="1000" Background="#FFC7B67D" WindowStartupLocation="CenterOwner">
    <Grid x:Name="G_Font" SizeChanged="G_Font_SizeChanged">
       <Grid.ColumnDefinitions>
@@ -12,9 +12,9 @@
          <ColumnDefinition Width="660"/>
       </Grid.ColumnDefinitions>
 
-      <ScrollViewer VerticalScrollBarVisibility="Auto" Background="White" Grid.Column="1" >
+      <wpf:ScrollViewerEx VerticalScrollBarVisibility="Auto" Background="White" Grid.Column="1" >
          <Frame x:Name="F_Apercu" NavigationUIVisibility="Hidden"/>
-      </ScrollViewer>
+      </wpf:ScrollViewerEx>
 
       <DockPanel x:Name="DP_Panneau">
          <Grid DockPanel.Dock="Bottom">

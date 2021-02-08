@@ -203,6 +203,30 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<int?> _order = H.Property<int?>();
 
+
+        public string PharmacopoeiaVersion
+        {
+            get => _pharmacopoeiaVersion.Get();
+            set => _pharmacopoeiaVersion.Set(value);
+        }
+        private readonly IProperty<string> _pharmacopoeiaVersion = H.Property<string>(c => c.Default(""));
+
+        public int? PharmacopoeiaId
+        {
+            get => _pharmacopoeia.Id.Get();
+            set => _pharmacopoeia.Id.Set(value);
+        }
+
+        [Ignore]
+        public Pharmacopoeia Pharmacopoeia
+        {
+            get => _pharmacopoeia.Get();
+            set => _pharmacopoeia.Set(value);
+        }
+        private readonly IForeign<Pharmacopoeia> _pharmacopoeia = H.Foreign<Pharmacopoeia>();
+
+
+
         //[LOG 24]\nNom=Etape\nId=0 : Saisie du test\nId=1 : Test normé\nId=2 : A faire\nId=3 : En cours\nId=4 : Validé par le technicien\nId=5 : Données brutes validées\nId=6 : Validé par le pharmacien
         public string Stage
         {

@@ -18,7 +18,6 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         public ListSampleFormViewModel(int sampleId)
         {
             List.AddFilter(()=>e => e.SampleId == sampleId);
-            // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns
                 .Icon("", s => s.FormClass.IconPath, s => s.FormClass.Name)
                 .Column("{Name}", s => s.FormClass.Name);

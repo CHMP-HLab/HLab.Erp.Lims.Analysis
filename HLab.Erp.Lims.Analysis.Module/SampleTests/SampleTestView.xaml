@@ -6,10 +6,11 @@
              xmlns:local="clr-namespace:HLab.Erp.Lims.Analysis.Module.SampleTests"
              xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
              xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
-             xmlns:details="clr-namespace:HLab.Erp.Core.Tools.Details;assembly=HLab.Erp.Core.Wpf"
+             xmlns:details="clr-namespace:HLab.Erp.Core.Tools.Details;assembly=HLab.Erp.Core.Wpf" xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             d:DataContext="{d:DesignInstance {x:Type local:SampleTestViewModelDesign}, IsDesignTimeCreatable=True}"             
+             d:DataContext="{d:DesignInstance {x:Type local:SampleTestViewModelDesign}, IsDesignTimeCreatable=True}"      
+             Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
              >
     <Grid>
 <Grid.ColumnDefinitions>
@@ -18,7 +19,7 @@
     <ColumnDefinition Width="2*"/>
 </Grid.ColumnDefinitions>
 
-        <Grid>
+        <Grid Background="{DynamicResource MahApps.Brushes.Accent4}">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <!--<RowDefinition/>-->
@@ -40,15 +41,15 @@
 
         <GridSplitter Grid.Column="1"/>
 
-        <Grid Grid.Column="2" >
+        <Grid Grid.Column="2"  Background="{DynamicResource MahApps.Brushes.Accent4}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <!--<mvvm:ViewLocator Model="{Binding Results.Selected}" MinHeight="50"/>-->
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <wpf:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
                 <ContentControl Content="{Binding FormHelper.Form}" IsEnabled="{Binding FormHelperIsActive}"/>
-            </ScrollViewer>
+            </wpf:ScrollViewerEx>
         </Grid>
             
     </Grid>

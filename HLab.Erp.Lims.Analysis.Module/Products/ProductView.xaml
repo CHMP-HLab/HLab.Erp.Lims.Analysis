@@ -56,6 +56,5 @@
                     />
             </views:DetailView>
 
-<TextBlock FontWeight="Bold"></TextBlock>
     </Grid>
 </UserControl>

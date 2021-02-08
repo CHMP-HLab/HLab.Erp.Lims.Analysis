@@ -94,6 +94,12 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _reference.Set(value);
         }
         private readonly IProperty<string> _reference = H.Property<string>();
+        public string Motivation
+        {
+            get => _motivation.Get();
+            set => _motivation.Set(value);
+        }
+        private readonly IProperty<string> _motivation = H.Property<string>();
 
         public string CustomerReference
         {
@@ -101,6 +107,12 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _customerReference.Set(value);
         }
         private readonly IProperty<string> _customerReference = H.Property<string>();
+        public string ReportReference
+        {
+            get => _reportReference.Get();
+            set => _reportReference.Set(value);
+        }
+        private readonly IProperty<string> _reportReference = H.Property<string>();
 
         //[Ignore]
         //public string Ref
@@ -330,18 +342,25 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         public int? ValidatorId
         {
-            get => _validatorId.Get();
-            set => _validatorId.Set(value);
+            get => _validator.Id.Get();
+            set => _validator.Id.Set(value);
         }
-        private readonly IProperty<int?> _validatorId = H.Property<int?>();
 
 
-        public string Validator
+        //public string Validator
+        //{
+        //    get => _validator.Get();
+        //    set => _validator.Set(value);
+        //}
+        //private readonly IProperty<string> _validator = H.Property<string>(c => c.Default(""));
+
+        [Ignore]
+        public User Validator
         {
             get => _validator.Get();
-            set => _validator.Set(value);
+            set => ValidatorId = value?.Id;
         }
-        private readonly IProperty<string> _validator = H.Property<string>(c => c.Default(""));
+        private readonly IForeign<User> _validator = H.Foreign<User>();
 
 
         public sbyte? Progress

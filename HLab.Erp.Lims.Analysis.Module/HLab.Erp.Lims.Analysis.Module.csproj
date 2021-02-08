@@ -30,10 +30,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Forms\Logo_lanspex_ne.png" />
+    <None Remove="Forms\Logo_lncqm_mr.png" />
+    <None Remove="Forms\Logo_MinistereSanteNiger.png" />
+    <None Remove="Forms\Logo_Niger_Flag.png" />
     <None Remove="Icons\Entities\Sample.svg" />
     <None Remove="Icons\Entities\TestCategory.svg" />
     <None Remove="Icons\Entities\TestClass.svg" />
+    <None Remove="Icons\Logo_lncqm_mr.png" />
     <None Remove="Icons\Sample\Consumable.svg" />
+    <None Remove="Icons\Tests\AssayTitration.svg" />
+    <None Remove="Icons\Tests\Desagregation.svg" />
+    <None Remove="Icons\Tests\MeltingPoint.svg" />
     <None Remove="Icons\Workflows\Check.svg" />
     <None Remove="Icons\Workflows\Correct.svg" />
     <None Remove="Icons\Workflows\Edit.svg" />
@@ -120,7 +128,7 @@
 
   <ItemGroup>
     <PackageReference Include="ControlzEx" Version="4.4.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.7.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -146,14 +154,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Forms\Logo_lanspex_ne.png" />
+    <Resource Include="Forms\Logo_lncqm_mr.png" />
+    <Resource Include="Forms\Logo_MinistereSanteNiger.png" />
+    <Resource Include="Forms\Logo_Niger_Flag.png" />
     <Resource Include="Icons\Entities\TestCategory.svg" />
     <Resource Include="Icons\Entities\TestClass.svg" />
     <Resource Include="Icons\Entities\Sample.svg" />
+    <Resource Include="Icons\Logo_lncqm_mr.png" />
     <Resource Include="Icons\Sample\Consumable.svg" />
     <Resource Include="Icons\Tests\AssayHplc.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Resource Include="Icons\Tests\AssayTitration.svg" />
     <Resource Include="Icons\Tests\AssayUv.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -166,6 +180,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Resource Include="Icons\Tests\Desagregation.svg" />
     <Resource Include="Icons\Tests\DissolutionHplc.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -186,6 +201,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Resource Include="Icons\Tests\MeltingPoint.svg" />
     <Resource Include="Icons\Tests\pH.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -422,6 +438,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Forms\CertificatNiger.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="TestClasses\TestCategoryDetailView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -463,6 +482,10 @@
     </Page>
     <Page Update="FormClasses\SampleFormView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Forms\CertificatNiger.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
     </Page>
     <Page Update="Icons\Entities\Product.xaml">
       <SubType>Designer</SubType>

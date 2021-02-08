@@ -166,8 +166,8 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
             // for theme compatibility
             xaml = xaml
-                .Replace("\"Black\"", "\"{DynamicResource MahApps.Brushes.Black}\"")
-                .Replace("\"White\"", "\"{DynamicResource MahApps.Brushes.White}\"")
+                .Replace("\"Black\"", "\"{DynamicResource MahApps.Brushes.ThemeForeground}\"")
+                .Replace("\"White\"", "\"{DynamicResource MahApps.Brushes.ThemeBackground}\"")
                 ;
 
             UserControl form;
@@ -215,6 +215,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                 using System.ComponentModel;
                 using HLab.Erp.Lims.Analysis.Module.FormClasses;
                 using HLab.Notify.PropertyChanged;
+                using HLab.Notify.Annotations;
                 using HLab.Notify.Wpf;
                 using HLab.Erp.Forms.Annotations;
 
@@ -422,7 +423,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                         else
                             checkBox.PreviewMouseDown += (sender, args) =>
                             {
-                                args.Handled = true;
+                                //args.Handled = true;
                                 module.Process(sender, args);
                                 SetFormMode(Mode);
                             };

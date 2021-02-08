@@ -11,13 +11,14 @@
              xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
              xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
              xmlns:workflows="clr-namespace:HLab.Erp.Workflows;assembly=HLab.Erp.Workflows.Wpf"
+             xmlns:data="clr-namespace:HLab.Erp.Lims.Analysis.Data;assembly=HLab.Erp.Lims.Analysis.Data"
              xmlns:views="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
-             xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
-             Background="#FF005040"
+             xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf" xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
+             Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
              d:DataContext="{d:DesignInstance {x:Type sampleTests:SampleTestViewModelDesign}, IsDesignTimeCreatable=True}"             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Background="{DynamicResource MahApps.Brushes.Accent3}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -26,9 +27,9 @@
 
         <workflows:WorkflowLockerView/>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+        <wpf:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
-                
+
                 <!-- TEST CLASS -->
                 <views:DetailView 
                     IconPath="{Binding Model.TestClass.IconPath}" 
@@ -37,15 +38,28 @@
 
                     <lang:LocalizedLabel Text="{}{OOS} : " VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding Model.OosNo}" VerticalAlignment="Center"/>
-                    
+
                     <lang:LocalizedLabel Text="{}{Name} : " VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding Model.TestName}" VerticalAlignment="Center"/>
-                    
+
                     <lang:LocalizedLabel Text="{}{Specifications} : "  VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding Model.Specification}" VerticalAlignment="Center"/>
 
                     <lang:LocalizedLabel Text="{}{Description} : "  VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding Model.Description}" VerticalAlignment="Center"/>
+
+                    <lang:LocalizedLabel Text="{}{Pharmacopoeia}"/>
+                    <entitySelectors:ForeignView 
+                                IsReadOnly="{Binding IsReadOnly}"
+                                Model="{Binding Model.Pharmacopoeia}"
+                                ModelClass="{x:Type data:Pharmacopoeia}"
+                                />
+                    
+                    <lang:LocalizedLabel Text="{}{Pharmacopoeia version}"/>
+                    <TextBox
+                                Text="{Binding Model.PharmacopoeiaVersion, UpdateSourceTrigger=PropertyChanged}" 
+                                HorizontalContentAlignment="Right" 
+                                HorizontalAlignment="Stretch"/>
 
                     <!--<lang:LocalizedLabel Text="{}{Method} : " />
                     <TextBox Text="{Binding Model.Method}"/>-->
@@ -55,7 +69,7 @@
                     Text="{}{Scheduling}"
                     EditMode="{Binding ScheduleEditMode}">
 
-                    
+
                     <lang:LocalizedLabel Text="{}{Date} :" />
                     <wpf:DateEx
                             HorizontalAlignment="Left"
@@ -66,19 +80,19 @@
                 </views:DetailView>
 
                 <!-- RESULTS -->
-                <views:DetailView Text="{}{Results}" IconPath="Icons/Result">
+                <views:DetailView Text="{}{Results}" IconPath="Icons/Result" EditMode="{Binding EditMode}">
                     <Label></Label>
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <!--<Button Command="{Binding ViewSpecificationsCommand}" HorizontalAlignment="Left">
                                 <lang:Localize Id="{}{Specifications}"/>
                             </Button>-->
-                            <Button Command="{Binding AddResultCommand}" HorizontalAlignment="Left">
+                            <!--<Button Command="{Binding AddResultCommand}" HorizontalAlignment="Left">
                                 <lang:Localize Id="{}{Add result}"/>
                             </Button>
                             <Button Command="{Binding DeleteResultCommand}" HorizontalAlignment="Left">
                                 <lang:Localize Id="{}{Remove result}"/>
-                            </Button>
+                            </Button>-->
                             <Button Command="{Binding SelectResultCommand}" HorizontalAlignment="Left">
                                 <lang:Localize Id="{}{Select result}"/>
                             </Button>
@@ -115,13 +129,9 @@
                     </Grid>
                 </views:DetailView>
 
-                <!-- RESULTS -->
-                <views:DetailView Text="{}{Documents}" IconPath="Icons/Sample/Folder">
-
-                </views:DetailView>
             </StackPanel>
-        </ScrollViewer>
-        <!-- RESULTS -->
+        </wpf:ScrollViewerEx>
+        
         <views:DetailView Grid.Row="2" Text="{}{Note}" IconPath="Icons/Sample/Folder">
             <TextBox Margin="50,0,15,0"  Grid.ColumnSpan="2"  Text="{Binding Model.Note, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap"/>
             <Label />

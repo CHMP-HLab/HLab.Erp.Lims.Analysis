@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using HLab.DependencyInjection.Annotations;
@@ -29,6 +32,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             FormHelper = new FormHelper();
         }
 
+        [Import] private IDataService _data;
         [Import] private Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> _getWorkflow;
         [Import] public IErpServices Erp { get; set; }
 
@@ -129,46 +133,99 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             .Do(async e => await e.LoadResultAsync())
         );
 
-        //public ITestHelper TestHelper => _testHelper.Get();
-        //private readonly IProperty<ITestHelper> _testHelper = H.Property<ITestHelper>(c => c
-        //    .Set(e => e.FormHelper?.Form?.Test)
-        //    .On(e => e.FormHelper.Form.Test)
-        //    //.NotNull(e => e.FormHelper?.Form?.Test)
-        //    .Update()
-        //);
-
-        //private ITrigger _1 = H.Trigger(c => c
-        //    .On(e => e.TestHelper)
-        //    .Do(e => e.TestHelper.PropertyChanged += e.TestHelper_PropertyChanged)
-        //);
-
-        //private void TestHelper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        //{
-        //    if (Model==null) return;
-        //    switch(e.PropertyName)
-        //    {
-        //        case "Result":
-        //            if(TestHelper?.Result!=null)
-        //                Model.Result = TestHelper.Result;
-        //            break;
-        //        case "Conformity":
-        //            if(TestHelper?.Result!=null)
-        //                Model.Conformity = TestHelper.Conformity;
-        //            break;
-        //        case "State":
-        //                Model.StateId = (int)TestHelper.State;
-        //            break;
-        //        //case "MandatoryDone":
-        //        //    Model.MandatoryDone = TestHelper.MandatoryDone;
-        //        //    break;
-        //    }
-        //}
         public async Task LoadResultAsync()
         {
             await FormHelper.LoadAsync(Model).ConfigureAwait(true);
 
             FormHelper.Mode = Workflow.CurrentState == SampleTestResultWorkflow.Running ? TestFormMode.Capture : TestFormMode.ReadOnly;
         }
+
+
+
+        // LINKED DOCUMENTS
+        [Import] private readonly Func<int, ListLinkedDocumentViewModel> _getDocuments;
+        public ListLinkedDocumentViewModel LinkedDocuments => _linkedDocuments.Get();
+        private readonly IProperty<ListLinkedDocumentViewModel> _linkedDocuments = H.Property<ListLinkedDocumentViewModel>(c => c
+            .Set(e =>
+            {
+                if (e.Model == null) return null;
+                var vm =  e._getDocuments(e.Model.Id);
+                vm.SetOpenAction(d => e.OpenDocument(e.LinkedDocuments.Selected));
+                return vm;
+            })
+            .On(e => e.Model)
+            .Update()
+        );
+
+        public ICommand AddDocumentCommand { get; } = H.Command(c => c
+            .CanExecute(e => e._addDocumentCanExecute())
+            .Action((e,t) => e.AddDocument())
+            .On(e => e.Workflow.CurrentState).CheckCanExecute()
+        );
+        public ICommand OpenDocumentCommand { get; } = H.Command(c => c
+            .CanExecute(e => e._addDocumentCanExecute())
+            .Action((e,t) => e.OpenDocument(e.LinkedDocuments.Selected))
+            .On(e => e.Workflow.CurrentState).CheckCanExecute()
+        );
+
+        private void OpenDocument(LinkedDocument selected)
+        {
+            var path = Path.GetTempFileName()+"_" + selected.Name;
+
+            File.WriteAllBytes(path, selected.File);
+
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = path,
+                UseShellExecute = true
+            };
+            Process.Start (psi);            
+        }
+
+        private bool _addDocumentCanExecute()
+        {
+            if(!Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
+            if(Workflow.CurrentState != SampleTestResultWorkflow.Running) return false;
+
+            return true;
+        }
+
+        private void AddDocument()
+        {
+            // Create OpenFileDialog 
+            Microsoft.Win32.OpenFileDialog dlg = new();
+
+            // Set filter for file extension and default file extension 
+            dlg.DefaultExt = ".pdf";
+            dlg.Filter = "PDF Files (*.pdf)|*.pdf|JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif"; 
+
+
+            // Display OpenFileDialog by calling ShowDialog method 
+            Nullable<bool> result = dlg.ShowDialog();
+
+
+            // Get the selected file name and display in a TextBox 
+            if (result == true)
+            {
+                var doc = _data.Add<LinkedDocument>(r =>
+                {
+                    r.Name = dlg.FileName.Split('\\').Last();
+                    r.SampleTestResult = Model;
+                    r.File = File.ReadAllBytes(dlg.FileName);
+                });
+
+                if (doc != null)
+                    LinkedDocuments.List.UpdateAsync();
+            }
+
+        }
+
+        /// <summary>
+        /// ///////////////////////////////////////////////////////////////////////////
+        /// </summary>
+
+
+
 
         public override string Title => _title.Get();
         private readonly IProperty<string> _title = H.Property<string>(c => c
@@ -185,5 +242,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             .On(e => e.Model.SampleTest.Description)
             .Update()
             );
+
+
+
     }
 }

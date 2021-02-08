@@ -13,7 +13,7 @@
         <TranslateTransform X="0" Y="-280.06665"/>
       </Canvas.RenderTransform>
       <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0.5" Canvas.Top="280.5" Width="16" Height="16" Name="path3728" Fill="#FFAA0000" StrokeThickness="0.26458332"/>
-            <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="2.5557652" Canvas.Top="287.03583" Width="11.84338" Height="2.9232602" Name="rect3734" Fill="#FFFFFFFF" StrokeThickness="0.26458332"/>
+            <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="2.5557652" Canvas.Top="287.03583" Width="11.84338" Height="2.9232602" Name="rect3734" Fill="#FFFEFEFE" StrokeThickness="0.26458332"/>
     </Canvas>
   </Canvas>
 </Viewbox>

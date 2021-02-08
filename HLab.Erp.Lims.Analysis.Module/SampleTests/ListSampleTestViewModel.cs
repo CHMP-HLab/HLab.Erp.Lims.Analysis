@@ -8,6 +8,8 @@ using HLab.Erp.Lims.Analysis.Module.Samples;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Mvvm.Annotations;
 
+using Outils;
+
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
     public class ListSampleTestViewModel : EntityListViewModel<SampleTest>, IMvvmContextProvider
@@ -66,11 +68,25 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     VerticalAlignment = VerticalAlignment.Top,
                     Children =
                     {
-                        new TextBlock{Text=s.TestName,FontWeight = FontWeights.Bold},
-                        new TextBlock{Text = s.Description, FontStyle = FontStyles.Italic}
-                    }})
-                .Column("{Specifications}", s => s.Specification)
-                .Column("{Result}", s => s.Result?.Result??"", s => s.Result?.Result??"")
+                        new TextBlock{Text=Print.Langue( s.TestName,"FR"),FontWeight = FontWeights.Bold},
+                        new TextBlock{Text = Print.Langue(s.Description,"FR"), FontStyle = FontStyles.Italic}
+                    }}, s => s.TestName)
+                .Column("{Specifications}", s => new StackPanel{
+                    VerticalAlignment = VerticalAlignment.Top,
+                    Children =
+                    {
+                        new TextBlock{},
+                        new TextBlock{Text = Print.Langue(s.Specification,"FR"), FontStyle = FontStyles.Italic}
+                    }}, s => s.Specification)
+                .Column("{Result}", s => new StackPanel{
+                    VerticalAlignment = VerticalAlignment.Top,
+                    Children =
+                    {
+                        new TextBlock{},
+                        new TextBlock{Text = Print.Langue(s.Result?.Result??"","FR"), FontStyle = FontStyles.Italic}
+                    }}, s => s.Result?.Result??"")
+                //.Column("{Specifications}", s => s.Specification)
+                //.Column("{Result}", s => s.Result?.Result??"")
                 .Icon("Conformity", s => GetIcon(s.Result?.StateId), s => s.Result?.StateId)
                 .Icon("{Stage}", s => GetStateIcon(s.Stage), s => s.Stage)
                 .Localize("{Stage}", s=>GetStateCaption(s.Stage), s=>s.Stage)

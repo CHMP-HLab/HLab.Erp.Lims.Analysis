@@ -22,6 +22,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
         [Import]
         public ProductsListPopupViewModel()
         {
+            AddAllowed = true;
+
             Columns
                 .Column("{Ref}", s => s.Caption)
                 .Column("{Inn}", e => e.Inn)
