@@ -68,7 +68,7 @@ namespace HLab.Erp.Lims.Analysis.Module
             return t
                 .Action(async w =>
                 {
-                    await w.SetStateAsync(getter,false,false);
+                    await w.SetStateAsync(getter,"","",false,false);
                 });
         }
     }
