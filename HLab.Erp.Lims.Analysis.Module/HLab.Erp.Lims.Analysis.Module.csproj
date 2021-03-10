@@ -30,6 +30,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Icons\AppName.svg" />
     <None Remove="Icons\Entities\Pharmacopoeia.svg" />
     <None Remove="Icons\Entities\Products\dose.svg" />
     <None Remove="Icons\Entities\Products\form.svg" />
@@ -166,6 +167,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Icons\AppName.svg" />
     <Resource Include="Icons\Entities\Pharmacopoeia.svg" />
     <Resource Include="Icons\Entities\Products\Dose.svg" />
     <Resource Include="Icons\Entities\Form.svg" />
