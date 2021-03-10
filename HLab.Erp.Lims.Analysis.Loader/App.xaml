@@ -1,7 +1,7 @@
 ﻿<Application x:Class="HLab.Erp.Lims.Analysis.Loader.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:HLab.Erp.Lims.Analysis.Loader" xmlns:converters="clr-namespace:HLab.Base.Wpf.Converters;assembly=HLab.Base.Wpf"
+             xmlns:converters="clr-namespace:HLab.Base.Wpf.Converters;assembly=HLab.Base.Wpf"
              ShutdownMode="OnExplicitShutdown"
              >
     <Application.Resources>
@@ -9,7 +9,8 @@
         <ResourceDictionary.MergedDictionaries>
             <ResourceDictionary>
                 <converters:ToVisibilityConverter x:Key="ToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
-                <converters:ToVisibilityConverter x:Key="ToCollapsedConverter" TrueValue="Collapsed" FalseValue="Visible"/>                
+                <converters:ToVisibilityConverter x:Key="ToCollapsedConverter" TrueValue="Collapsed" FalseValue="Visible"/>
+                <Visibility x:Key="DebugVisibility" >Visible</Visibility>
             </ResourceDictionary>
             <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
             <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />

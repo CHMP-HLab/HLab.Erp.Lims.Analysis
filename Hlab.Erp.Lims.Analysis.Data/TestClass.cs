@@ -105,7 +105,7 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         [Ignore]
         public string Caption => _caption.Get();
-        private readonly IProperty<string> _caption = H.Property<string>(c => c.OneWayBind(e => e.Name));
+        private readonly IProperty<string> _caption = H.Property<string>(c => c.Bind(e => e.Name));
 
         public string IconPath
         {

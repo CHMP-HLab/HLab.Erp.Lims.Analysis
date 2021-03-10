@@ -6,7 +6,7 @@
                 <TranslateTransform X="0" Y="0"/>
             </Canvas.RenderTransform>
             <Canvas.Resources>
-                <BlurEffect xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Key="filter4453" Radius="15"/>
+                <BlurEffect x:Key="filter4453" Radius="15"/>
             </Canvas.Resources>
             <!--Unknown tag: sodipodi:namedview-->
             <!--Unknown tag: metadata-->
@@ -19,52 +19,52 @@
                     <Canvas.RenderTransform>
                         <TranslateTransform X="96.486757" Y="314.51727"/>
                     </Canvas.RenderTransform>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4345" Fill="#FFFFDD55" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
+                    <Path Name="path4345" Fill="#FFFFDD55" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
                         <Path.Data>
                             <PathGeometry Figures="m 290.25263 68.11503 0.76758 65.03126 c 6.09717 0.69384 12.05892 2.28184 17.69336 4.71289 l 31.94726 -56.875 C 324.98588 73.101156 307.78807 68.710576 290.25263 68.11503 Z" FillRule="NonZero"/>
                         </Path.Data>
                     </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4343" Fill="#FFBCD35F" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
+                    <Path Name="path4343" Fill="#FFBCD35F" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
                         <Path.Data>
                             <PathGeometry Figures="m 279.21357 68.1541 c -17.52802 1.024208 -34.6251 5.839405 -50.11133 14.11328 l 32.39453 54.60742 c 5.91986 -2.27419 12.15137 -3.63416 18.48047 -4.0332 z" FillRule="NonZero"/>
                         </Path.Data>
                     </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4341" Fill="#FFFF9955" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
+                    <Path Name="path4341" Fill="#FFFF9955" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
                         <Path.Data>
                             <PathGeometry Figures="m 350.27802 86.40214 -31.86523 56.73047 c 5.18118 3.43556 9.82079 7.6249 13.76562 12.42969 L 387.5749 122.70097 C 377.91375 108.04668 365.18891 95.662349 350.27802 86.40214 Z" FillRule="NonZero"/>
                         </Path.Data>
                     </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4339" Fill="#FF37C871" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
+                    <Path Name="path4339" Fill="#FF37C871" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
                         <Path.Data>
                             <PathGeometry Figures="m 219.59052 87.86308 c -14.65429 9.661149 -27.03862 22.38599 -36.29883 37.29688 l 52.88477 29.70703 c 4.39079 -5.16592 9.59287 -9.58301 15.40234 -13.07813 z" FillRule="NonZero"/>
                         </Path.Data>
                     </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4337" Fill="#FFD35F5F" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
+                    <Path Name="path4337" Fill="#FFD35F5F" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
                         <Path.Data>
                             <PathGeometry Figures="m 393.17255 132.21269 -54.78711 32.5 c 3.20765 5.72109 5.49475 11.91143 6.77735 18.34375 l 62.11914 -0.73242 c -1.023 -17.52772 -5.83686 -34.62479 -14.10938 -50.11133 z" FillRule="NonZero"/>
                         </Path.Data>
                     </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4335" Fill="#FF37C8AB" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
+                    <Path Name="path4335" Fill="#FF37C8AB" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
                         <Path.Data>
                             <PathGeometry Figures="m 177.87372 134.77714 c -7.88329 15.67555 -12.27388 32.87406 -12.86914 50.41016 l 57.39453 -0.67773 c 1.25584 -7.23092 3.77545 -14.18415 7.44336 -20.54102 z" FillRule="NonZero"/>
                         </Path.Data>
                     </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4333" Fill="#FFC83737" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
+                    <Path Name="path4333" Fill="#FFC83737" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
                         <Path.Data>
                             <PathGeometry Figures="m 407.32294 193.36113 -60.94922 0.7207 c 0.0164 0.37358 0.0294 0.74729 0.0391 1.1211 -0.018 6.71702 -1.11874 13.38722 -3.25977 19.7539 l 51.29883 28.81446 c 7.88397 -15.67539 12.27522 -32.87391 12.87109 -50.41016 z" FillRule="NonZero"/>
                         </Path.Data>
                     </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4331" Fill="#FF0000FF" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
+                    <Path Name="path4331" Fill="#FF0000FF" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
                         <Path.Data>
                             <PathGeometry Figures="m 221.4245 195.55644 -56.3789 0.66602 c 1.023 17.52772 5.83686 34.62479 14.10937 50.11133 l 46.82422 -27.7754 c -2.95581 -7.3113 -4.50124 -15.11595 -4.55469 -23.00195 z" FillRule="NonZero"/>
                         </Path.Data>
                     </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4329" Fill="#FFAA0000" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
+                    <Path Name="path4329" Fill="#FFAA0000" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
                         <Path.Data>
                             <PathGeometry Figures="m 338.76825 225.1541 c -3.69274 6.71393 -8.58861 12.69158 -14.44336 17.63476 l 28.41212 47.89453 c 14.65408 -9.66059 27.03839 -22.38474 36.29882 -37.29492 z" FillRule="NonZero"/>
                         </Path.Data>
                     </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4211" Fill="#FF800080" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
+                    <Path Name="path4211" Fill="#FF800080" StrokeThickness="7.27149868" StrokeMiterLimit="4" Opacity="1">
                         <Path.Data>
                             <PathGeometry Figures="m 231.00068 228.41386 -46.2461 27.4336 c 9.66058 14.65409 22.38474 27.0384 37.29492 36.29883 l 25.80664 -45.94336 c -6.73734 -4.75929 -12.46593 -10.80518 -16.85546 -17.78907 z" FillRule="NonZero"/>
                         </Path.Data>

@@ -3,7 +3,6 @@ using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
-using HLab.Mvvm.Icons;
 
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
@@ -19,10 +18,18 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             DeleteAllowed = true;
 
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
-            Columns
-                .Column("", s => new IconView { Path = s.IconPath, Width = 30 })
-                .Column("{Name}", s => s.Name)
-                .Column("{class}", s => s.Class??"",s => s.Class)
+            Columns.Configure(c => c
+                    .Column
+                        .Header("{Name}")
+                        .Width(200)
+                        .Content(s => s.Name)
+                        .Icon( s => s.IconPath)
+                    .Column
+                        .Header("{class}")
+                        .Width(100)
+                        .Content(s => s.Class??"")
+                        .OrderBy(s => s.Class)
+            );
                 //.Hidden("IsValid",  s => s.Validation != 2)
                 ;
             using (List.Suspender.Get())

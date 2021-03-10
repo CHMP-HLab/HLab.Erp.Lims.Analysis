@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HLab.Erp.Lims.Analysis.Module.SampleTests"
              xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
-             xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
-             xmlns:details="clr-namespace:HLab.Erp.Core.Tools.Details;assembly=HLab.Erp.Core.Wpf" xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
+             xmlns:details="clr-namespace:HLab.Erp.Core.Tools.Details;assembly=HLab.Erp.Core.Wpf"
+             xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance {x:Type local:SampleTestViewModelDesign}, IsDesignTimeCreatable=True}"      
@@ -47,9 +47,9 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <!--<mvvm:ViewLocator Model="{Binding Results.Selected}" MinHeight="50"/>-->
-            <wpf:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <controlsEx:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
                 <ContentControl Content="{Binding FormHelper.Form}" IsEnabled="{Binding FormHelperIsActive}"/>
-            </wpf:ScrollViewerEx>
+            </controlsEx:ScrollViewerEx>
         </Grid>
             
     </Grid>

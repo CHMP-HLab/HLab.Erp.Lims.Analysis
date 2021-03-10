@@ -7,7 +7,7 @@
                 <TranslateTransform X="0" Y="0"/>
             </Canvas.RenderTransform>
             <Canvas.Resources>
-                <LinearGradientBrush xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Key="linearGradient4569" MappingMode="Absolute" StartPoint="14,-185" EndPoint="419,-185">
+                <LinearGradientBrush x:Key="linearGradient4569" MappingMode="Absolute" StartPoint="14,-185" EndPoint="419,-185">
                     <LinearGradientBrush.GradientStops>
                         <GradientStopCollection>
                             <GradientStop Color="#FFDC00DC" Offset="0"/>
@@ -18,7 +18,7 @@
                         <MatrixTransform Matrix="1 0 0 2.15 -18.730305 -827.80609"/>
                     </LinearGradientBrush.Transform>
                 </LinearGradientBrush>
-                <LinearGradientBrush xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Key="linearGradient4563" MappingMode="RelativeToBoundingBox" StartPoint="0,0" EndPoint="1,1">
+                <LinearGradientBrush x:Key="linearGradient4563" MappingMode="RelativeToBoundingBox" StartPoint="0,0" EndPoint="1,1">
                     <LinearGradientBrush.GradientStops>
                         <GradientStopCollection>
                             <GradientStop Color="#FFDC00DC" Offset="0"/>
@@ -37,8 +37,8 @@
                     <Canvas.RenderTransform>
                         <TranslateTransform X="122.1282" Y="-729.63096"/>
                     </Canvas.RenderTransform>
-                    <Rectangle xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="60.353207" Canvas.Top="1143.9325" Width="395.41754" Height="178.97847" RadiusY="0" RadiusX="0" Name="rect4561" Fill="{StaticResource linearGradient4569}" StrokeThickness="10" StrokeMiterLimit="4" Opacity="1"/>
-                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path45518" StrokeThickness="19.95332718" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat">
+                    <Rectangle Canvas.Left="60.353207" Canvas.Top="1143.9325" Width="395.41754" Height="178.97847" RadiusY="0" RadiusX="0" Name="rect4561" Fill="{StaticResource linearGradient4569}" StrokeThickness="10" StrokeMiterLimit="4" Opacity="1"/>
+                <Path Name="path45518" StrokeThickness="19.95332718" Stroke="Black" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat">
                         <Path.Data>
                             <PathGeometry Figures="m 60.563213 1282.3498 c 0 0 42.560797 2.523 61.828757 -4.5121 19.26795 -7.0353 40.38573 -106.1944 40.38573 -106.1944 0 0 20.01128 100.0068 37.4727 105.3879 17.46137 5.3814 65.70804 4.5183 78.41406 0.098 12.70598 -4.4204 20.44684 -26.5587 20.44684 -26.5587 0 0 10.61167 23.1281 24.79658 26.4607 14.18492 3.3329 130.52737 0 130.52737 0" FillRule="evenodd"/>
                         </Path.Data>

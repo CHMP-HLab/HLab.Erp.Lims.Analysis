@@ -3,24 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:HLab.Erp.Lims.Analysis.Module"
              xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
              xmlns:base="clr-namespace:HLab.Base;assembly=HLab.Base.Wpf"
              xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
-             xmlns:lang="clr-namespace:HLab.Mvvm.Lang;assembly=HLab.Mvvm.Wpf"
-             xmlns:icons="clr-namespace:HLab.Mvvm.Icons;assembly=HLab.Mvvm.Wpf"
+             xmlns:lang="clr-namespace:HLab.Localization.Wpf.Lang;assembly=HLab.Localization.Wpf"
              xmlns:views="clr-namespace:HLab.Mvvm.Views;assembly=HLab.Mvvm.Wpf"
              xmlns:products="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products"
              xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
              xmlns:data="clr-namespace:HLab.Erp.Lims.Analysis.Data;assembly=HLab.Erp.Lims.Analysis.Data"
              xmlns:samples="clr-namespace:HLab.Erp.Lims.Analysis.Module.Samples"
              xmlns:data1="clr-namespace:HLab.Erp.Base.Data;assembly=HLab.Erp.Base.Data"
-             xmlns:wpf="clr-namespace:HLab.Erp.Base.Wpf;assembly=HLab.Erp.Base.Wpf"
              xmlns:manufacturers="clr-namespace:HLab.Erp.Lims.Analysis.Module.Manufacturers"
              xmlns:customers="clr-namespace:HLab.Erp.Base.Wpf.Entities.Customers;assembly=HLab.Erp.Base.Wpf"
              xmlns:workflows="clr-namespace:HLab.Erp.Workflows;assembly=HLab.Erp.Workflows.Wpf"
              xmlns:views1="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
              xmlns:wpf1="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
+             xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
+             xmlns:wpf2="clr-namespace:HLab.Icons.Wpf;assembly=HLab.Icons.Wpf"
+             xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModelDesign}, IsDesignTimeCreatable=True}"             
              d:DesignHeight="1200" d:DesignWidth="500"
@@ -39,7 +39,7 @@
 
         <workflows:WorkflowLockerView/>
 
-        <wpf1:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
+        <controlsEx:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
                 <!--<views1:DetailView EditMode="{Binding EditMode}" Text="{}{Audit}" IconPath = "Icons/Sample/Folder">-->
                     <Expander Header="Audit" Grid.ColumnSpan="2">
@@ -407,7 +407,7 @@
 
                 </views1:DetailView>
             </StackPanel>
-        </wpf1:ScrollViewerEx>
+        </controlsEx:ScrollViewerEx>
 
         <!-- NOTE -->
         <views1:DetailView Grid.Row="2" EditMode="{Binding Locker.IsActive}" IconPath="Icons/Edit" Text="{}{Note}">

@@ -18,9 +18,13 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         public ListSampleFormViewModel(int sampleId)
         {
             List.AddFilter(()=>e => e.SampleId == sampleId);
-            Columns
-                .Icon("", s => s.FormClass.IconPath, s => s.FormClass.Name)
-                .Column("{Name}", s => s.FormClass.Name);
+            Columns.Configure(c => c
+                        .Column
+                            .Header("{Name}")
+                            .Width(200)
+                            .Content(s => s.FormClass.Name)
+                            .Icon( s => s.FormClass.IconPath)
+            );
 
             List.UpdateAsync();
 

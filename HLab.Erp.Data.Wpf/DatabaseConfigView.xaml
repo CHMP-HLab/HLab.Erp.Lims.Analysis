@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HLab.Erp.Data.Wpf"
-             xmlns:lang="clr-namespace:HLab.Mvvm.Lang;assembly=HLab.Mvvm.Wpf"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance {x:Type local:ConnectionDataViewModel}}"
              d:DesignHeight="450" d:DesignWidth="800">

@@ -8,15 +8,15 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
     {
         public ProductWorkflow(Product product,IDataLocker locker):base(product,locker)
         {
-            CurrentState = Created;
+            CurrentStage = Created;
             Update();
         }
 
-        public static State Created = State.Create(c => c
+        public static Stage Created = Stage.Create(c => c
             .Caption("^Reception entry").Icon("Icons/Sample/PackageOpened")
             .SetState(() => Created)
         );
 
-        protected override string StateName { get; set; }
+        protected override string StageName { get; set; }
     }
 }

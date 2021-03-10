@@ -21,10 +21,12 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
 
             _erp = erp;
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
-            Columns
-                .Column("{Name}", s => s.Nom)
-                ;
-
+            Columns.Configure(c => c
+                    .Column
+                        .Header("{Name}")
+                        .Width(500)
+                        .Content(s => s.Nom)
+                );
 
             using (List.Suspender.Get())
             {

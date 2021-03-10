@@ -9,6 +9,8 @@ namespace HLab.Erp.Lims.Analysis.Data
 
     public partial class Form : Entity, IListableModel, ILocalCache
     {
+        public static Form DesignModel => new() { Name="Tablet"};
+
         public Form() => H.Initialize(this);
 
         public override string ToString() => Name;
@@ -27,12 +29,12 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<string> _englishName = H.Property<string>(c => c.Default(""));
 
-        [Ignore]
-        public string IconPath => _iconPath.Get();
-        private readonly IProperty<string> _iconPath = H.Property<string>(c => c
-            .On(e => e.EnglishName)
-            .Set(e => "Icons/Forms/" + e.EnglishName)
-        );
+        public string IconPath
+        {
+            get => _iconPath.Get();
+            set => _iconPath.Set(value);
+        }
+        private readonly IProperty<string> _iconPath = H.Property<string>();
 
         [Ignore]
         public string Caption => Name;

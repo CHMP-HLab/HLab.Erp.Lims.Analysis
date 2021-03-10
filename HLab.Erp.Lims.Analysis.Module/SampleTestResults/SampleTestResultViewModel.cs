@@ -59,11 +59,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
                 e.Locker != null 
                 && e.Locker.IsActive 
                 && e.Workflow != null
-                && e.Workflow.CurrentState == SampleTestResultWorkflow.Running
+                && e.Workflow.CurrentStage == SampleTestResultWorkflow.Running
                 && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisResultEnter)
             )
             .On(e => e.Locker.IsActive)
-            .On(e => e.Workflow.CurrentState)
+            .On(e => e.Workflow.CurrentStage)
             .NotNull(e => e.Locker)
             .NotNull(e => e.Workflow)
             .Update()
@@ -99,10 +99,10 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
                     switch(e.Model.StateId)
                     {
                         case -1 : return "Icons/Validations/Error";
-                        case 0 : return "Icons/Results/NotChecked";
+                        case 0 : return "Icons/Results/ConformityTodo";
                         case 1 : return "Icons/Results/Running";
-                        case 2 : return "Icons/Results/GaugeKO";
-                        case 3 : return "Icons/Results/GaugeOK";
+                        case 2 : return "Icons/Results/ConformityKO";
+                        case 3 : return "Icons/Results/ConformityOK";
                         case 4 : return "Icons/Results/Invalidated";
                         default: return "Icons/Validations/Error";
                     } 
@@ -137,7 +137,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         {
             await FormHelper.LoadAsync(Model).ConfigureAwait(true);
 
-            FormHelper.Mode = Workflow.CurrentState == SampleTestResultWorkflow.Running ? TestFormMode.Capture : TestFormMode.ReadOnly;
+            FormHelper.Mode = Workflow.CurrentStage == SampleTestResultWorkflow.Running ? TestFormMode.Capture : TestFormMode.ReadOnly;
         }
 
 
@@ -160,12 +160,12 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         public ICommand AddDocumentCommand { get; } = H.Command(c => c
             .CanExecute(e => e._addDocumentCanExecute())
             .Action((e,t) => e.AddDocument())
-            .On(e => e.Workflow.CurrentState).CheckCanExecute()
+            .On(e => e.Workflow.CurrentStage).CheckCanExecute()
         );
         public ICommand OpenDocumentCommand { get; } = H.Command(c => c
             .CanExecute(e => e._addDocumentCanExecute())
             .Action((e,t) => e.OpenDocument(e.LinkedDocuments.Selected))
-            .On(e => e.Workflow.CurrentState).CheckCanExecute()
+            .On(e => e.Workflow.CurrentStage).CheckCanExecute()
         );
 
         private void OpenDocument(LinkedDocument selected)
@@ -185,7 +185,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         private bool _addDocumentCanExecute()
         {
             if(!Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
-            if(Workflow.CurrentState != SampleTestResultWorkflow.Running) return false;
+            if(Workflow.CurrentStage != SampleTestResultWorkflow.Running) return false;
 
             return true;
         }
@@ -237,7 +237,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
         public string SubTitle => _subTitle.Get();
         private readonly IProperty<string> _subTitle = H.Property<string>(c => c
-            .Set(e => e.Model.SampleTest.TestName + "\n" + e.Model.SampleTest.Description)
+            .Set(e => e.Model.SampleTest.TestName + "\n" + e.Model.SampleTest.Description.TrimEnd('\r','\n',' '))
             .On(e => e.Model.SampleTest.TestName)
             .On(e => e.Model.SampleTest.Description)
             .Update()

@@ -1,15 +1,14 @@
 ﻿<UserControl x:Class="HLab.Erp.Lims.Analysis.Module.TestClasses.TestClassDetailView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:base="clr-namespace:HLab.Base;assembly=HLab.Base.Wpf"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HLab.Erp.Lims.Analysis.Module"
-             xmlns:lang="clr-namespace:HLab.Mvvm.Lang;assembly=HLab.Mvvm.Wpf"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="clr-namespace:HLab.Localization.Wpf.Lang;assembly=HLab.Localization.Wpf"
              xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
-             xmlns:icons="clr-namespace:HLab.Mvvm.Icons;assembly=HLab.Mvvm.Wpf"
              xmlns:testClasses="clr-namespace:HLab.Erp.Lims.Analysis.Module.TestClasses"
              xmlns:views="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
+             xmlns:wpf="clr-namespace:HLab.Icons.Wpf;assembly=HLab.Icons.Wpf"
+             xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
              d:DataContext="{d:DesignInstance {x:Type testClasses:TestClassViewModelDesign}, IsDesignTimeCreatable=True}"             
              Background="#FF005040"
              mc:Ignorable="d" 
@@ -34,10 +33,10 @@
                 <ContentPresenter Content="{Binding Workflow}"/>-->
 
                 <lang:Localize Id="{}{Name} : " />
-                <TextBox Text="{Binding Model.Name}" HorizontalContentAlignment="Center" />
+                <TextBox Text="{Binding Model.Name,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
 
                 <lang:Localize Id="{}{Icon} : " StringFormat="{}{0} : " />
-                <TextBox Text="{Binding Model.IconPath}" HorizontalContentAlignment="Center" />
+                <TextBox Text="{Binding Model.IconPath,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
             </views:DetailView>
 
             <views:DetailView 
@@ -46,38 +45,44 @@
                 IconPath="Icons/Sample/Folder"
                 EditMode="{Binding Locker.IsActive}">
 
-                <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
-            </Label>
+                <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch" />
 
-            <Label HorizontalContentAlignment="Right" >
+                <Label HorizontalContentAlignment="Right" >
                 <lang:Localize Id="{}{Test Name} : "/>
             </Label>
             <TextBox Text="{Binding FormHelper.Form.Test.TestName}" HorizontalContentAlignment="Center" />
 
-            <Label HorizontalContentAlignment="Right" >
-                <lang:Localize Id="{}{Description} : "/>
-            </Label>
-            <TextBox Text="{Binding FormHelper.Form.Test.Description}" HorizontalContentAlignment="Center" />
+                
+                <Grid Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
 
-            <Label HorizontalContentAlignment="Right" >
-                <lang:Localize Id="{}{Result} : "/>
-            </Label>
-            <TextBox Text="{Binding FormHelper.Form.Test.Result}" HorizontalContentAlignment="Center" />
+                    <lang:LocalizedLabel Text="{}{Description} : " HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="0"/>
+                    <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Test.Description}" Grid.Row="1" Grid.Column="0"/>
+
+                    <lang:LocalizedLabel Text="{}{Specifications} : " HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="1"/>
+                    <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Test.Specifications}" Grid.Row="1" Grid.Column="1"/>
+
+                    <lang:LocalizedLabel Text="{}{Result}" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="2"/>
+                    <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Test.Result}" Grid.Row="1" Grid.Column="2"/>
+
+                    <lang:LocalizedLabel Text="{}{Conformity}" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="3" />
+                    <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Test.Conformity}" Grid.Row="1" Grid.Column="3"/>
+
+                    <icons:IconView Margin="0,5" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="3" Path="{Binding ConformityIconPath}" MaxHeight="40"/>
+                </Grid>
 
 
-            <Label HorizontalContentAlignment="Right" >
-                <lang:Localize Id="Specifications" StringFormat="{}{0} : " />
-            </Label>
-            <TextBox Text="{Binding FormHelper.Form.Test.Specifications}" HorizontalContentAlignment="Center" />
-
-            <Label HorizontalContentAlignment="Right" >
-                <lang:Localize Id="Conformity" StringFormat="{}{0} : " />
-            </Label>
-            <TextBox Text="{Binding FormHelper.Form.Test.Conformity}" HorizontalContentAlignment="Center" />
-
-            <Label HorizontalContentAlignment="Right" >
-                <lang:Localize Id="State" StringFormat="{}{0} : " />
-            </Label>
+            <lang:LocalizedLabel HorizontalContentAlignment="Right" Text="{}{State}"/>
             <TextBox Text="{Binding FormHelper.Form.Test.State}" HorizontalContentAlignment="Center" />
 
             <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">

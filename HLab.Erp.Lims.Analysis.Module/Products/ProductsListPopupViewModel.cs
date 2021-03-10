@@ -1,17 +1,27 @@
-﻿using HLab.DependencyInjection.Annotations;
+﻿using System;
+using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
-using HLab.Erp.Core.ViewModels.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
-using HLab.Mvvm.Icons;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
+    public static class ListsExtensions
+    {
+        public static IColumnConfigurator<T> FormColumn<T>(this IColumnConfigurator<T> c, Func<T, Form> getForm)
+            => c
+                .Column
+                    .Header("{Form}")
+                    .Width(150)
+                    .Content(e => getForm(e).Name)
+                    .Localize()
+                    .Icon(e => getForm(e)?.IconPath ?? "");
+
+    }
+
+
     public class ProductsListPopupViewModel : EntityListViewModel<Product>, IMvvmContextProvider
     {
         public void ConfigureMvvmContext(IMvvmContext ctx)
@@ -24,19 +34,27 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
         {
             AddAllowed = true;
 
-            Columns
-                .Column("{Ref}", s => s.Caption)
-                .Column("{Inn}", e => e.Inn)
-                .Column("{Dose}", e => e.Dose)
-                .Column("{Form}", e => e.Form)
-                .Icon("", s => s.Form?.IconPath ?? "",  s => s.Form.Name);
+            Columns.Configure(c => c
+                .Column.Header("{Ref}").Content(p => p.Caption)
+                .Column.Header("{Inn}").Content(p => p.Inn)
+                .Column.Header("{Dose}").Content(p => p.Dose)
+                .FormColumn(p => p.Form)
+            );
+
             using (List.Suspender.Get())
             {
-                Filters.Add(new FilterTextViewModel{Title = "{Inn}"}.Link(List,e => e.Inn));
-                Filters.Add(new FilterTextViewModel{Title = "{Dose}"}.Link(List,e => e.Dose));
+                Filter<TextFilter>(f => f.Title("{Inn}")
+                    .IconPath("Icons/Entities/Products/Inn")
+                    .Link(List,e => e.Inn));
+
+                Filter<TextFilter>(f => f.Title("{Dose}")
+                    .IconPath("Icons/Entities/Products/Dose")
+                    .Link(List,e => e.Dose));
 
             }
 
         }
     }
+
+
 }

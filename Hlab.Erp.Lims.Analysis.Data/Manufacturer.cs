@@ -23,7 +23,7 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         [Ignore] public string IconPath => _iconPath.Get();
         private readonly IProperty<string> _iconPath = H.Property<string>(c => c
-            .OneWayBind(e => e.Country.IconPath)
+            .Bind(e => e.Country.IconPath)
         );
 
     }

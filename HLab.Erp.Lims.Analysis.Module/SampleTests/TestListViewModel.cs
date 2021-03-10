@@ -3,16 +3,17 @@ using System.Windows.Controls;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Core.EntityLists;
+using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Samples;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
+using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
-
 using Outils;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
-    public class ListSampleTestViewModel : EntityListViewModel<SampleTest>, IMvvmContextProvider
+    public class TestListViewModel : EntityListViewModel<SampleTest>, IMvvmContextProvider
     {
         [Import] private readonly IAclService _acl;
 
@@ -45,53 +46,66 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     return "icons/Results/Running";
             }
         }
-        private string GetStateIcon(string name)
-        {
-            var state = SampleTestWorkflow.StateFromName(name);
-            return state?.GetIconPath(null);
-        }
-        private string GetStateCaption(string name)
-        {
-            var state = SampleTestWorkflow.StateFromName(name);
-            return state?.GetCaption(null);
-        }
 
-        public ListSampleTestViewModel(int sampleId)
+        public TestListViewModel()
         {
             var n = SampleTestWorkflow.Specifications; // TODO : this is a hack to force top level static constructor
 
-            List.AddFilter(()=>e => e.SampleId == sampleId);
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
-            Columns
-                .Icon("", s => s.TestClass.IconPath, s => s.TestClass.Order)
-                .Column("{Test}", s => new StackPanel{
-                    VerticalAlignment = VerticalAlignment.Top,
-                    Children =
-                    {
-                        new TextBlock{Text=Print.Langue( s.TestName,"FR"),FontWeight = FontWeights.Bold},
-                        new TextBlock{Text = Print.Langue(s.Description,"FR"), FontStyle = FontStyles.Italic}
-                    }}, s => s.TestName)
-                .Column("{Specifications}", s => new StackPanel{
-                    VerticalAlignment = VerticalAlignment.Top,
-                    Children =
-                    {
-                        new TextBlock{},
-                        new TextBlock{Text = Print.Langue(s.Specification,"FR"), FontStyle = FontStyles.Italic}
-                    }}, s => s.Specification)
-                .Column("{Result}", s => new StackPanel{
+            Columns.Configure(c => c
+                .Column
+                    .Header("{Sample}")
+                    .Content(s => s.Sample.Reference)
+
+                .Column
+                    .Icon(s => s.Sample.Product.IconPath)
+                    .OrderBy( s => s.Sample.Product.Caption)
+
+                .Column
+                    .Header("{Product}")
+                    .Content(s => s.Sample.Product.Caption)
+                
+                .Column
+                    .Header("{Test}").Mvvm<IDescriptionViewClass>()
+                    .OrderBy(s => s.Order)
+
+                .Column
+                    .Header("{Specifications}")
+                    .Content(s => new StackPanel{
+                        VerticalAlignment = VerticalAlignment.Top,
+                        Children =
+                        {
+                            new TextBlock{},
+                            new TextBlock{Text = Print.Langue(s.Specification,"FR"), FontStyle = FontStyles.Italic}
+                        }})
+                    .OrderBy(s => s.Specification)
+
+                .Column.Header("{Result}").Content(s => new StackPanel{
                     VerticalAlignment = VerticalAlignment.Top,
                     Children =
                     {
                         new TextBlock{},
                         new TextBlock{Text = Print.Langue(s.Result?.Result??"","FR"), FontStyle = FontStyles.Italic}
-                    }}, s => s.Result?.Result??"")
+                    }}).OrderBy(s => s.Result?.Result??"")
                 //.Column("{Specifications}", s => s.Specification)
                 //.Column("{Result}", s => s.Result?.Result??"")
-                .Icon("Conformity", s => GetIcon(s.Result?.StateId), s => s.Result?.StateId)
-                .Icon("{Stage}", s => GetStateIcon(s.Stage), s => s.Stage)
-                .Localize("{Stage}", s=>GetStateCaption(s.Stage), s=>s.Stage)
-                .Hidden("IsValid", s => s.Stage != SampleTestWorkflow.InvalidatedResults.Name)
-                .Hidden("Group", s => s.TestClassId);
+                .Column.Header("{Conformity}").Icon(s => GetIcon(s.Result?.StateId)).OrderBy(s => s.Result?.StateId)
+                .StageColumn(s => SampleTestWorkflow.StageFromName(s.Stage))
+                .Column.Hidden.Header("IsValid").Content(s => s.Stage != SampleTestWorkflow.InvalidatedResults.Name)
+                .Column.Hidden.Header("Group").Content(s => s.TestClassId)
+            );
+            using (List.Suspender.Get())
+            {
+
+                Filter<EntityFilter<Sample>>()
+                    .Link(List, e => e.SampleId);
+
+                Filter<EntityFilter<TestClass>>().Title("{Test Class}")
+                    .Link(List, e => e.TestClassId);
+
+                Filter<WorkflowFilterViewModel<SampleTestWorkflow>>().Title("{Stage}").IconPath("Icons/Workflow")
+                    .Link(List, e => e.Stage);
+            }
 
             List.UpdateAsync();
 
@@ -106,10 +120,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             return true;
         }
 
-        public override string Title => "Samples";
+        public override string Title => "{Tests}";
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }
     }
-
 }

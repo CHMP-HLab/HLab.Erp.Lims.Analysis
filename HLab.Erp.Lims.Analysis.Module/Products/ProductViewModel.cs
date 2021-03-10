@@ -12,30 +12,36 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
 {
     using H = H<ProductViewModel>;
 
-    class ProductViewModel: EntityViewModel<Product>
+    internal class ProductViewModel: EntityViewModel<Product>
     {
         public ProductViewModel() => H.Initialize(this);
 
         public override string Title => _title.Get();
         private readonly IProperty<string> _title = H.Property<string>(c => c
+        .Set(e => string.IsNullOrWhiteSpace(e.Model?.Inn) ? "{New product}" : e.Model.Inn)
         .On(e => e.Model.Inn)
-        .Set(e => e.Model?.Inn ));
+        .Update()
+        );
 
         public string SubTitle => _subTitle.Get();
         private readonly IProperty<string> _subTitle = H.Property<string>(c => c
-        .On(e => e.Model.Dose)
-        .On(e => e.Model.Form.Name)
-        .Set(e => e.getSubTitle ));
-        private string getSubTitle => Model?.Dose + "\n" + Model?.Form?.Name;
+            .Set(e => e.GetSubTitle )
+            .On(e => e.Model.Dose)
+            .On(e => e.Model.Form.Name)
+            .Update()
+        );
+        private string GetSubTitle => $"{Model?.Dose}\n{Model?.Form?.Name}";
 
 
         public override string IconPath => _iconPath.Get();
         private readonly IProperty<string> _iconPath = H.Property<string>(c => c
+        .Set(e => e.GetIconPath )
         .On(e => e.Model.Form.IconPath)
         .On(e => e.Model.IconPath)
-        .Set(e => e.getIconPath ));
+        .Update()
+        );
 
-        private string getIconPath => Model?.Form?.IconPath??Model.IconPath??base.IconPath;
+        private string GetIconPath => Model?.Form?.IconPath??Model?.IconPath??base.IconPath;
 
         //public ProductWorkflow Workflow => _workflow.Get();
         //private readonly IProperty<ProductWorkflow> _workflow = H.Property<ProductWorkflow>(c => c

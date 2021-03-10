@@ -67,28 +67,28 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             get => _etat.Get();
             set => State = value;
         }
-        private readonly IProperty<TestState> _etat = H.Property<TestState>(c => c.OneWayBind(e => e.State));
+        private readonly IProperty<TestState> _etat = H.Property<TestState>(c => c.Bind(e => e.State));
 
         public string Conforme
         {
             get => _conforme.Get();
             set => Conformity = value;
         }
-        private readonly IProperty<string> _conforme = H.Property<string>(c => c.OneWayBind(e => e.Conformity));
+        private readonly IProperty<string> _conforme = H.Property<string>(c => c.Bind(e => e.Conformity));
 
         public string Norme
         {
             get => _norme.Get();
             set => Specifications = value;
         }
-        private readonly IProperty<string> _norme = H.Property<string>(c => c.OneWayBind(e => e.Specifications));
+        private readonly IProperty<string> _norme = H.Property<string>(c => c.Bind(e => e.Specifications));
 
         public string NomTest
         {
             get => _nomTest.Get();
             set => TestName = value;
         }
-        private readonly IProperty<string> _nomTest = H.Property<string>(c => c.OneWayBind(e => e.TestName));
+        private readonly IProperty<string> _nomTest = H.Property<string>(c => c.Bind(e => e.TestName));
 
         public string Description
         {
@@ -102,7 +102,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             get => _resultat.Get();
             set => Result = value;
         }
-        private readonly IProperty<string> _resultat = H.Property<string>(c => c.OneWayBind(e => e.Result));
+        private readonly IProperty<string> _resultat = H.Property<string>(c => c.Bind(e => e.Result));
 
 
         public string Conformity

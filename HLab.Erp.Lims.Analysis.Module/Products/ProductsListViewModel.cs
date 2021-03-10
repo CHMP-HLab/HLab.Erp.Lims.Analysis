@@ -1,13 +1,7 @@
-﻿using System;
-using HLab.DependencyInjection.Annotations;
-using HLab.Erp.Core;
-using HLab.Erp.Core.EntityLists;
+﻿using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
-using HLab.Erp.Core.ViewModels;
-using HLab.Erp.Core.ViewModels.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
-using HLab.Mvvm.Icons;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
@@ -17,21 +11,59 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
         {
             AddAllowed = true;
             DeleteAllowed = true;
-            // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
-            Columns
-                //.Column("Ref",  s => s.Caption)
-                .Column("{Category}",e => e.Category?.Name,e => e.Category.Name)
-                .Column("{Inn}",e => e.Inn)
-                .Column("{Dose}",e => e.Dose)
-                .Column("{Form}",e => e.Form)
-                .Icon("", (s) => s.Form?.IconPath??"",s => s.Form.Name)
-                //.Hidden("IsValid",  s => s.Validation != 2)
-                ;
+
+            Columns.Configure(c => c
+                .Column
+                    .Header("{Category}")
+                    .Width(100)
+                    .Content(e => e.Category?.Name)
+                    .OrderBy(e => e.Category.Name)
+                .Column
+                    .Header("{Inn}")
+                    .Width(300)
+                    .Content(e => e.Inn)
+                .Column
+                    .Header("{Dose}")
+                    .Width(200)
+                    .Content(e => e.Dose)
+                .FormColumn(e => e.Form)//.Header("{Form}").Content(e => e.Form.Name).Localize().Icon((s) => s.Form?.IconPath??"")
+            );
 
             using (List.Suspender.Get())
             {
-                Filters.Add(new FilterTextViewModel{Title = "{Inn}"}.Link(List,e => e.Inn));
-                Filters.Add(new FilterTextViewModel{Title = "{Dose}"}.Link(List,e => e.Dose));
+                Filter<TextFilter>(f => f. Title("{Inn}"))
+                    .IconPath("Icons/Entities/Products/Inn")
+                    .Link(List,e => e.Inn);
+
+                Filter<TextFilter>(f => f.Title("{Dose}"))
+                    .IconPath("Icons/Entities/Products/Dose")
+                    .Link(List,e => e.Dose);
+
+                Filter<EntityFilter<Form>>(f => f.Title("{Form}"))
+                    .Link(List,e => e.FormId);
+            }
+        }
+
+        public void ConfigureMvvmContext(IMvvmContext ctx)
+        {
+        }
+    }
+    public class FormsListViewModel: EntityListViewModel<Form>, IMvvmContextProvider
+    {
+        public FormsListViewModel() 
+        {
+            AddAllowed = true;
+            DeleteAllowed = true;
+
+            Columns.Configure(c => c
+                .Column.Header("{Name}").Content(e => e.Name)
+                .Column.Header("{Icon}").Icon((s) => s.IconPath).OrderBy(s => s.Name)
+            );
+
+            using (List.Suspender.Get())
+            {
+                Filter<TextFilter>(f => f.Title("{Name}"))
+                    .Link(List,e => e.Name);
             }
         }
 

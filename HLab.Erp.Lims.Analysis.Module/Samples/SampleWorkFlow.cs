@@ -22,7 +22,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             H<SampleWorkflow>.Initialize(this);
                 
             var task = UpdateChildrenAsync();
-            SetState(sample.Stage);
+            SetStage(sample.Stage);
         }
         public async Task UpdateChildrenAsync()
         {
@@ -32,7 +32,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         [Import] private ObservableQuery<SampleTest> SampleTests;
 
-        protected override string StateName
+        protected override string StageName
         {
             get => Target.Stage; 
             set => Target.Stage = value;
@@ -43,7 +43,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .On(e => e.Target.Stage)
             .Do((a,p) =>
             {
-                a.SetState(a.Target.Stage);
+                a.SetStage(a.Target.Stage);
             })
 
             .On(e => e.Locker.IsActive)
@@ -57,7 +57,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         //########################################################
         // RECEPTION
 
-        public static State Reception = State.CreateDefault(c => c
+        public static Stage Reception = Stage.CreateDefault(c => c
             .Caption("{Reception entry}").Icon("Icons/Sample/PackageOpened|Icons/Validations/Edit")
             .SetState(() => Reception)
         );
@@ -73,7 +73,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         //########################################################
         // RECEPTION CHECK
 
-        public static State ReceptionCheck = State.Create(c => c
+        public static Stage ReceptionCheck = Stage.Create(c => c
             .Caption("{Reception check}").Icon("Icons/Sample/PackageOpened|Icons/Validations/Sign")
 
             .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.Batch))
@@ -130,7 +130,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         //########################################################
         // RECEPTION CORRECTION
 
-        public static State ReceptionCorrectionAsked = State.Create(c => c
+        public static Stage ReceptionCorrectionAsked = Stage.Create(c => c
             .Caption(w => "{Reception correction asked}")
             .Icon(w => "Icons/Workflows/Correct")
         );
@@ -148,7 +148,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         //########################################################
         // MONOGRAPH
 
-        public static State Monograph = State.Create(c => c
+        public static Stage Monograph = Stage.Create(c => c
             .Caption(w => "{Monograph Entry}").Icon(w => "Icons/Workflows/Monograph|Icons/Validations/Edit")
             .WhenStateAllowed(() => ReceptionCheck)
         );
@@ -164,7 +164,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         //########################################################
         // MONOGRAPH VALIDATED
 
-        public static State MonographClosed = State.Create(c => c
+        public static Stage MonographClosed = Stage.Create(c => c
             .Caption(w => "{Monograph validated}").Icon(w => "Icons/Workflows/Monograph|Icons/Validations/Validated")
 
             .NotWhen(w => w.Target.PharmacopoeiaId == null)
@@ -200,7 +200,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         //########################################################
         // PLANNING
 
-        public static State Planning = State.Create(c => c
+        public static Stage Planning = Stage.Create(c => c
             .Caption(w => "{Scheduling}").Icon(w => "icons/Workflows/Planning|Icons/Validations/Edit")
             .WhenStateAllowed(() => MonographClosed)
         );
@@ -215,7 +215,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         //########################################################
         // PRODUCTION
-        public static State Production = State.Create(c => c
+        public static Stage Production = Stage.Create(c => c
             .Caption(w => "{Production}").Icon(w => "Icons/Workflows/Production")
             .WhenStateAllowed(() => MonographClosed)
         );
@@ -246,7 +246,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Sign().Motivate()
         );
 
-        public static State Certificate = State.Create(c => c
+        public static Stage Certificate = Stage.Create(c => c
             .Caption(w => "{Print certificate}").Icon(w => "Icons/Workflows/Certificate")
             .WhenStateAllowed(()=>MonographClosed)
             .When(w => {
@@ -264,7 +264,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .WithMessage(w=>"{Some tests not validated yet}")
         );
 
-        public static State Invalidated = State.Create(c => c
+        public static Stage Invalidated = Stage.Create(c => c
             .Caption(w => "{Invalidated}").Icon(w => "Icons/Validations/Invalidated")
         );
 
@@ -279,7 +279,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Sign()
         );
 
-        public static State Closed = State.Create(c => c
+        public static Stage Closed = Stage.Create(c => c
             .Caption(w => "{Closed}").Icon(w => "Icons/Workflows/Closed")
             .SetState(() => Closed)
             //.When(w => w.Target.Invoiced).WithMessage(w => "{Not billed}")

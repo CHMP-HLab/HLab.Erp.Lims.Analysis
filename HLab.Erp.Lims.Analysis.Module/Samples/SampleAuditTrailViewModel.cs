@@ -22,16 +22,20 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             DeleteAllowed = false;
             AddAllowed = false;
 
-            Columns
-                .Column("{Date}", at => at.TimeStamp)
-//                .Column("{Action}", at => at.Action)
-//                .Column("{Caption}", at=>at.EntityCaption)
-//                .Column("{Class}", at=>at.EntityClass)
-                .Icon("{Icon}", at=>at.IconPath)
-//                .Column("{Log}", at=>LogAbstract(at.Log,50))
-                .Column("{Motivation}", at=>at.Motivation)
-                .Column("{User}", at=>at.UserCaption)
-                ;
+            Columns.Configure(c => c
+                .Column
+                    .Header("{Date}").Width(110)
+                    .Content(at => at.TimeStamp)
+                .Column
+                    .Header("{Icon}").Width(80)
+                    .Icon(at => at.IconPath)
+                .Column
+                    .Header("{Motivation}").Width(250)
+                    .Content(at => at.Motivation)
+                .Column
+                    .Header("{User}").Width(150)
+                    .Content(at => at.UserCaption)
+            );
 
             //AddFilter<FilterDateViewModel>(f =>  f
             //    .Title("{Date}")

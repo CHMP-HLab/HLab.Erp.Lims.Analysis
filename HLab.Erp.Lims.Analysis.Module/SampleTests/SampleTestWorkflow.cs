@@ -19,7 +19,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             TestResults.AddFilter(() => e => e.SampleTestId == id);
                 
             var task =  UpdateChildsAsync();
-            SetState(test.Stage);
+            SetStage(test.Stage);
             
             H<SampleTestWorkflow>.Initialize(this);
         }
@@ -36,7 +36,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .On(e => e.Target.Stage)
             .Do((a, b) =>
             {
-                a.SetState(a.Target.Stage);
+                a.SetStage(a.Target.Stage);
             })
 
             .On(e => e.Locker.IsActive)
@@ -49,7 +49,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         //########################################################
         // Specifications
 
-        public static State Specifications = State.CreateDefault(c => c
+        public static Stage Specifications = Stage.CreateDefault(c => c
             .Caption("{Specifications}").Icon("Icons/Workflows/Specifications")
         );
 
@@ -63,7 +63,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         //########################################################
         // Specifications
         //########################################################
-        public static State SignedSpecifications = State.Create(c => c
+        public static Stage SignedSpecifications = Stage.Create(c => c
             .Caption("{Specifications Signed}").Icon("Icons/Workflows/Specifications").SubIcon("Icons/Workflows/Sign")
             .When(e => e.Target.SpecificationsDone)
             .WithMessage(w=>"{Missing} : {Specification}")
@@ -89,7 +89,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         //Correction Needed
         //########################################################
 
-        public static State CorrectionNeeded = State.Create(c => c
+        public static Stage CorrectionNeeded = Stage.Create(c => c
             .Caption("{Correction needed}").Icon("Icons/Workflows/Correct")
         );
 
@@ -105,7 +105,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         //########################################################
         // Scheduling
 
-        public static State Scheduling = State.Create(c => c
+        public static Stage Scheduling = Stage.Create(c => c
             .Caption("{Scheduling}").Icon("Icons/Workflows/Planning")
         );
 
@@ -118,7 +118,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         //########################################################
         // Scheduled
 
-        public static State Scheduled = State.Create(c => c
+        public static Stage Scheduled = Stage.Create(c => c
             .Caption("{Scheduled}").Icon("Icons/Workflows/Planning")
             .When(w=>w.Target.ScheduledDate!=null)
             .WithMessage(w=>"{Missing} : {Schedule Date}")
@@ -142,7 +142,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         //########################################################
         // Running
 
-        public static State Running = State.Create(c => c
+        public static Stage Running = Stage.Create(c => c
             .Caption("{Running}").Icon("Icons/Workflows/Production")
         );
 
@@ -190,7 +190,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         //########################################################
         // ValidatedResults
 
-        public static State ValidatedResults = State.Create(c => c
+        public static Stage ValidatedResults = Stage.Create(c => c
             .Caption("{Validated}").Icon("Icons/Validations/Validated")
             .When(w =>
             {
@@ -222,11 +222,11 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .WithMessage(w=>"No selected result")
         );
 
-        public static State InvalidatedResults = State.Create(c => c
+        public static Stage InvalidatedResults = Stage.Create(c => c
             .Caption("{Invalidated}").Icon("Icons/Validations/Invalidated")
         );
 
-        protected override string StateName
+        protected override string StageName
         {
             get => Target.Stage; 
             set => Target.Stage = value;

@@ -2,8 +2,8 @@
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Icons.Wpf;
 using HLab.Mvvm.Annotations;
-using HLab.Mvvm.Icons;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
@@ -19,9 +19,15 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             DeleteAllowed = true;
 
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
-            Columns
-                .Column("", s => new IconView { Path = s.IconPath, Width = 30 })
-                .Column("{Name}", s => s.Name)
+            Columns.Configure(c => c
+                    .Column
+                        .Width(80)
+                        .Icon(s => s.IconPath, 30 )
+                    .Column
+                        .Header("{Name}")
+                        .Width(200)
+                        .Content(s => s.Name)
+            );
                 //.Hidden("IsValid",  s => s.Validation != 2)
                 ;
             using (List.Suspender.Get())

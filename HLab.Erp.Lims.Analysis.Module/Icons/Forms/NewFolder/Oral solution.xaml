@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This file is NOT compatible with Silverlight-->
-<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
-  <Canvas Name="svg12" Canvas.Left="0" Canvas.Top="0" Width="1000" Height="1000">
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         Stretch="Uniform">
+  <Canvas Width="1000" Height="1000">
     <Canvas.RenderTransform>
       <TranslateTransform X="0" Y="0"/>
     </Canvas.RenderTransform>
     <Canvas.Resources/>
     <!--Unknown tag: sodipodi:namedview-->
     <!--Unknown tag: metadata-->
-    <Canvas Name="g10">
-      <Canvas Name="g8">
+    <Canvas>
+      <Canvas>
         <Canvas.RenderTransform>
           <TransformGroup>
-            <ScaleTransform ScaleX="0.100000" ScaleY="-0.100000"/>
-            <TranslateTransform X="0.000000" Y="512.000000"/>
+            <ScaleTransform ScaleX="0.100000" ScaleY="-0.1"/>
+            <TranslateTransform X="0.000000" Y="512"/>
           </TransformGroup>
         </Canvas.RenderTransform>
-        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}">
+        <Path Fill="Black">
           <Path.Data>
             <PathGeometry Figures="M3284.9 4975.8c-82.6-50-136.4-115.3-165.2-203.7c-15.4-44.2-23.1-280.6-23.1-743.6v-680.2h1863.9h1863.9v668.7c0 405.4-7.7 695.6-21.1 739.8c-23.1 82.6-113.4 194.1-192.2 236.4c-46.1 23.1-294 26.9-1654.5 26.9H3356L3284.9 4975.8z" FillRule="NonZero"/>
           </Path.Data>
         </Path>
-        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path6" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}">
+        <Path Fill="Black">
           <Path.Data>
             <PathGeometry Figures="M3115.8 2518.1v-409.3l-121.1-34.6c-426.6-124.9-782.1-507.3-899.3-970.4c-36.5-146-36.5-213.3-32.7-2484.6l5.8-2332.8l53.8-144.1c169.1-459.3 518.8-778.2 976.2-891.6c111.4-26.9 326.7-30.7 1900.4-30.7c1983.1 0 1890.8-5.8 2181 136.4c361.3 174.9 620.7 495.8 720.6 889.7c36.5 147.9 38.4 213.3 38.4 2432.7c0 2206-1.9 2284.7-38.4 2428.9c-117.2 461.2-472.7 841.7-897.4 966.6l-121.1 34.6v409.3v407.4H4998.9H3115.8V2518.1z M6420.9 2089.6v-393.9h111.4c151.8 0 344-44.2 466.9-107.6c132.6-65.3 324.8-257.5 390.1-390.1c86.5-167.2 107.6-315.1 107.6-745.6V62.4h-2498h-2498v390.1c0 563 42.3 718.7 257.5 951.2c174.9 186.4 426.6 290.2 709.1 292.1h109.5v393.9v393.9h1422h1422V2089.6z M7496.9-2833.4c0-703.3-13.5-822.4-103.8-1001.1c-69.2-138.3-240.2-313.2-372.8-384.3c-224.8-121.1-192.2-119.2-2013.8-119.2c-1047.3 0-1692.9 7.7-1758.2 19.2c-251.7 48-511.1 238.3-630.3 461.2c-103.8 196-117.2 301.7-117.2 1024.2v647.6h2498h2498V-2833.4z" FillRule="NonZero"/>
           </Path.Data>

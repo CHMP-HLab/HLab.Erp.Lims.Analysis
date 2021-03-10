@@ -62,13 +62,13 @@ namespace HLab.Erp.Lims.Analysis.Module
         }
 
         public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> 
-            SetState<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t, Func<Workflow<TWf>.State> getter)
+            SetState<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t, Func<Workflow<TWf>.Stage> getter)
             where TWf : NotifierBase, IWorkflow<TWf>
         {
             return t
                 .Action(async w =>
                 {
-                    await w.SetStateAsync(getter,"","",false,false);
+                    await w.SetStageAsync(getter,"","",false,false);
                 });
         }
     }

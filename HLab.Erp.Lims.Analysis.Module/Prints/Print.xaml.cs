@@ -671,6 +671,7 @@ namespace Outils
 
       public static String Langue(String texte, String Langue)
       {
+          if (texte == null) return "";
          return Regex.Replace(Regex.Replace(texte, @"\{"+ Langue + @"=([\s|!-\|~-■]*)}", "$1"), @"\{..=[\s|!-\|~-■]*}", "");
       }
 

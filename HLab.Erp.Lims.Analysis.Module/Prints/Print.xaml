@@ -1,10 +1,11 @@
 ﻿<Window x:Class="Outils.Print"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Outils="clr-namespace:Outils"
         xmlns:base="clr-namespace:HLab.Base;assembly=HLab.Base.Wpf"
         xmlns:prints="clr-namespace:HLab.Erp.Lims.Analysis.Module.Prints"
-        xmlns:icons="clr-namespace:HLab.Mvvm.Icons;assembly=HLab.Mvvm.Wpf" xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
+        xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
+        xmlns:wpf1="clr-namespace:HLab.Icons.Wpf;assembly=HLab.Icons.Wpf"
+        xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
         Title="Impression" Width="1000" Height="1000" Background="#FFC7B67D" WindowStartupLocation="CenterOwner">
    <Grid x:Name="G_Font" SizeChanged="G_Font_SizeChanged">
       <Grid.ColumnDefinitions>
@@ -12,9 +13,9 @@
          <ColumnDefinition Width="660"/>
       </Grid.ColumnDefinitions>
 
-      <wpf:ScrollViewerEx VerticalScrollBarVisibility="Auto" Background="White" Grid.Column="1" >
+      <controlsEx:ScrollViewerEx VerticalScrollBarVisibility="Auto" Background="White" Grid.Column="1" >
          <Frame x:Name="F_Apercu" NavigationUIVisibility="Hidden"/>
-      </wpf:ScrollViewerEx>
+      </controlsEx:ScrollViewerEx>
 
       <DockPanel x:Name="DP_Panneau">
          <Grid DockPanel.Dock="Bottom">

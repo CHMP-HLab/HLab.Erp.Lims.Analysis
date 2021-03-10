@@ -6,7 +6,7 @@
     <RootNamespace>HLab.Erp.Lims.Analysis.Module</RootNamespace>
     <Platforms>AnyCPU;x64;x86</Platforms>
     <Configurations>Debug;Release;DebugRelease</Configurations>
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -30,10 +30,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Forms\Logo_lanspex_ne.png" />
-    <None Remove="Forms\Logo_lncqm_mr.png" />
-    <None Remove="Forms\Logo_MinistereSanteNiger.png" />
-    <None Remove="Forms\Logo_Niger_Flag.png" />
+    <None Remove="Icons\Entities\Pharmacopoeia.svg" />
+    <None Remove="Icons\Entities\Products\dose.svg" />
+    <None Remove="Icons\Entities\Products\form.svg" />
+    <None Remove="Icons\Entities\Products\inn.svg" />
+    <None Remove="Icons\Entities\Test.svg" />
+    <None Remove="Icons\Sample\commercial.svg" />
+    <None Remove="Icons\Sample\date.svg" />
+    <None Remove="Icons\Sample\location.svg" />
+    <None Remove="Icons\Sample\notification.svg" />
+    <None Remove="Icons\Workflows\Certificate.svg" />
+    <None Remove="Icons\Workflows\Closed.svg" />
+    <None Remove="Resources\Logo_lanspex_ne.png" />
+    <None Remove="Resources\Logo_lncqm_mr.png" />
+    <None Remove="Resources\Logo_MinistereSanteNiger.png" />
+    <None Remove="Resources\Logo_Niger_Flag.png" />
     <None Remove="Icons\Entities\Sample.svg" />
     <None Remove="Icons\Entities\TestCategory.svg" />
     <None Remove="Icons\Entities\TestClass.svg" />
@@ -54,6 +65,10 @@
 
   <ItemGroup>
     <Page Remove="Icons\Forms\Drugs.xaml" />
+    <Page Remove="Icons\Forms\Skin solution.xaml" />
+    <Page Remove="Icons\Results\ConformityKO.xaml" />
+    <Page Remove="Icons\Results\ConformityOK.xaml" />
+    <Page Remove="Icons\Results\ConformityTodo.xaml" />
     <Page Remove="Icons\Tests\AssayHplc.xaml" />
     <Page Remove="Icons\Tests\AssayUv.xaml" />
     <Page Remove="Icons\Tests\CCM.xaml" />
@@ -84,7 +99,6 @@
     <Page Remove="Icons\Forms\Pessaries.xaml" />
     <Page Remove="Icons\Forms\powder for oral suspension.xaml" />
     <Page Remove="Icons\Forms\powder.xaml" />
-    <Page Remove="Icons\Forms\Skin solution.xaml" />
     <Page Remove="Icons\Forms\Suppository.xaml" />
     <Page Remove="Icons\Forms\Tablet.xaml" />
     <Page Remove="Icons\Logo.xaml" />
@@ -92,10 +106,6 @@
     <Page Remove="Icons\result.xaml" />
     <Page Remove="Icons\Results\CheckFailed.xaml" />
     <Page Remove="Icons\Results\CheckPassed.xaml" />
-    <Page Remove="Icons\Results\Conform.xaml" />
-    <Page Remove="Icons\Results\Gauge.xaml" />
-    <Page Remove="Icons\Results\GaugeKO.xaml" />
-    <Page Remove="Icons\Results\GaugeOK.xaml" />
     <Page Remove="Icons\Results\NotChecked.xaml" />
     <Page Remove="Icons\Results\NotConform.xaml" />
     <Page Remove="Icons\Sample\Barcode.xaml" />
@@ -122,13 +132,14 @@
     <Page Remove="Icons\Validations\Stop.xaml" />
     <Page Remove="Icons\Validations\Validated.xaml" />
     <Page Remove="Icons\Validations\ValidateDocument.xaml" />
+    <Page Remove="Icons\Workflows\SampleWorkflow.xaml" />
     <Page Remove="Icons\Workflows\Specifications.xaml" />
     <Page Remove="Icons\Workflows\SpecificationsSigned.xaml" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="4.4.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" />
+    <PackageReference Include="ControlzEx" Version="5.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.9.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -140,6 +151,7 @@
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Core\HLab.Erp.Core.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Workflows.Wpf\HLab.Erp.Workflows.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Workflows\HLab.Erp.Workflows.csproj" />
+    <ProjectReference Include="..\..\..\HLab\HLab.Application.Wpf\HLab.Mvvm.Application.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Mvvm.Wpf\HLab.Mvvm.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Notify.Wpf\HLab.Notify.Wpf.csproj" />
     <ProjectReference Include="..\..\..\Lib\PDFsharp\PDFSharp.csproj" />
@@ -154,10 +166,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Forms\Logo_lanspex_ne.png" />
-    <Resource Include="Forms\Logo_lncqm_mr.png" />
-    <Resource Include="Forms\Logo_MinistereSanteNiger.png" />
-    <Resource Include="Forms\Logo_Niger_Flag.png" />
+    <Resource Include="Icons\Entities\Pharmacopoeia.svg" />
+    <Resource Include="Icons\Entities\Products\Dose.svg" />
+    <Resource Include="Icons\Entities\Form.svg" />
+    <Resource Include="Icons\Entities\Products\Inn.svg" />
+    <Resource Include="Icons\Entities\Test.svg" />
+    <Resource Include="Icons\Forms\NewFolder\Skin solution.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Sample\commercial.svg" />
+    <Resource Include="Icons\Sample\date.svg" />
+    <Resource Include="Icons\Sample\location.svg" />
+    <Resource Include="Icons\Sample\notification.svg" />
+    <Resource Include="Icons\Workflows\Certificate.svg" />
+    <Resource Include="Icons\Workflows\Closed.svg" />
+    <Resource Include="Icons\Workflows\SampleWorkflow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Resources\Logo_lanspex_ne.png" />
+    <Resource Include="Resources\Logo_lncqm_mr.png" />
+    <Resource Include="Resources\Logo_MinistereSanteNiger.png" />
+    <Resource Include="Resources\Logo_Niger_Flag.png" />
     <Resource Include="Icons\Entities\TestCategory.svg" />
     <Resource Include="Icons\Entities\TestClass.svg" />
     <Resource Include="Icons\Entities\Sample.svg" />
@@ -226,11 +255,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Forms\Cream.xaml">
+    <Resource Include="Icons\Forms\NewFolder\Cream.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Forms\Gel.xaml">
+    <Resource Include="Icons\Forms\NewFolder\Gel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
@@ -266,7 +295,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Forms\Oral solution.xaml">
+    <Resource Include="Icons\Forms\NewFolder\Oral solution.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
@@ -282,11 +311,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Forms\powder.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\Skin solution.xaml">
+    <Resource Include="Icons\Forms\NewFolder\powder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
@@ -294,7 +319,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Forms\Tablet.xaml">
+    <Resource Include="Icons\Forms\NewFolder\Tablet.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
@@ -317,19 +342,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Results\Conform.xaml">
+    <Resource Include="Icons\Results\ConformityTodo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Results\Gauge.xaml">
+    <Resource Include="Icons\Results\ConformityKO.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Results\GaugeKO.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Results\GaugeOK.xaml">
+    <Resource Include="Icons\Results\ConformityOK.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
@@ -438,7 +459,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Forms\CertificatNiger.xaml.cs">
+    <Compile Update="Resources\CertificatNiger.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="SampleTests\ColumnDescriptionBlock.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="TestClasses\TestCategoryDetailView.xaml.cs">
@@ -483,11 +507,18 @@
     <Page Update="FormClasses\SampleFormView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Forms\CertificatNiger.xaml">
+    <Page Update="Products\FormView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Resources\CertificatNiger.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Icons\Entities\Product.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="SampleTests\ColumnDescriptionBlock.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
     <Page Update="TestClasses\TestCategoryDetailView.xaml">

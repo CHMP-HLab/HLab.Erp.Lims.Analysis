@@ -11,11 +11,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
     {
         public SampleTestResultWorkflow(SampleTestResult result,IDataLocker locker):base(result,locker)
         {
-            SetState(result.Stage);
+            SetStage(result.Stage);
         }
 
         // RUNNING
-        public static State Running = State.CreateDefault(c => c
+        public static Stage Running = Stage.CreateDefault(c => c
             .Caption("{Running}").Icon("Icons/Workflows/Production")
             .Action(w => { w.Target.Start ??= DateTime.Now; })
         );
@@ -28,7 +28,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         );
 
         // SIGNED
-        public static State Signed = State.Create(c => c
+        public static Stage Signed = Stage.Create(c => c
             .Caption("{Signed}").Icon("Icons/Validations/Sign")
             .When(w=>w.Target.MandatoryDone)
         );
@@ -47,7 +47,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         );
 
         // ERROR
-        public static State CorrectionNeeded = State.Create(c => c
+        public static Stage CorrectionNeeded = Stage.Create(c => c
             .Caption("{Correction Needed}").Icon("Icons/Workflows/Correct")
         );
 
@@ -58,7 +58,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         );
 
         // CHECKED
-        public static State Checked = State.Create(c => c
+        public static Stage Checked = Stage.Create(c => c
             .Caption("{Checked}").Icon("Icons/Results/CheckPassed")
         );
 
@@ -77,7 +77,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         );
 
         // VALIDATED
-        public static State Validated = State.Create(c => c
+        public static Stage Validated = Stage.Create(c => c
             .Caption("{Validated}").Icon("Icons/Validations/Validated")
         );
 
@@ -90,7 +90,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         );
 
         // INVALIDATED
-        public static State Invalidated = State.Create(c => c
+        public static Stage Invalidated = Stage.Create(c => c
             .Caption("{Invalidated}").Icon("Icons/Validations/Invalidated")
             .Action(w =>
             {
@@ -100,7 +100,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         );
 
 
-        protected override string StateName
+        protected override string StageName
         {
             get => Target.Stage; 
             set => Target.Stage = value;

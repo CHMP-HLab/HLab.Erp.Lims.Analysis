@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,10 +13,8 @@ using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
-using HLab.Erp.Lims.Analysis.Module.Products;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
-using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
@@ -36,7 +33,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public SampleViewModel() => H.Initialize(this);
 
-        [Import] public SampleViewModel(Func<int, ListSampleTestViewModel> getTests, ObservableQuery<Packaging> packagings, Func<int, ListSampleFormViewModel> getForms, Func<ListFormClassViewModel> getFormClasses, Func<int,SampleAuditTrailViewModel> getAudit )
+        [Import] public SampleViewModel(Func<int, SampleSampleTestListViewModel> getTests, ObservableQuery<Packaging> packagings, Func<int, ListSampleFormViewModel> getForms, Func<ListFormClassViewModel> getFormClasses, Func<int,SampleAuditTrailViewModel> getAudit )
         {
             _getAudit = getAudit;
             _getTests = getTests;
@@ -89,10 +86,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .NotNull(e => e.Locker)
             .NotNull(e => e.Workflow)
             .Set(e => e.Locker.IsActive
-                       && e.Workflow.CurrentState == SampleWorkflow.Reception
+                       && e.Workflow.CurrentStage == SampleWorkflow.Reception
                        && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisReceptionSign))
             .On(e => e.Locker.IsActive)
-            .On(e => e.Workflow.CurrentState)
+            .On(e => e.Workflow.CurrentStage)
             .Update()
         );
 
@@ -117,11 +114,11 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 if (e.Locker==null) return false;
                 if (e.Workflow == null) return false;
                 return e.Locker.IsActive
-                       && e.Workflow.CurrentState == SampleWorkflow.Monograph
+                       && e.Workflow.CurrentStage == SampleWorkflow.Monograph
                        && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisMonographSign);
             })
             .On(e => e.Locker.IsActive)
-            .On(e => e.Workflow.CurrentState)
+            .On(e => e.Workflow.CurrentStage)
             .NotNull(e => e.Locker)
             .NotNull(e => e.Workflow)
             .Update()
@@ -140,21 +137,21 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 if (e.Locker==null) return false;
                 if (e.Workflow == null) return false;
                 return e.Locker.IsActive
-                       && e.Workflow.CurrentState == SampleWorkflow.Production
+                       && e.Workflow.CurrentStage == SampleWorkflow.Production
                        && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisCertificateCreate);
             })
             .On(e => e.Locker.IsActive)
-            .On(e => e.Workflow.CurrentState)
+            .On(e => e.Workflow.CurrentStage)
             .Update()
         );
         
-        private readonly Func<int, ListSampleTestViewModel> _getTests;
+        private readonly Func<int, SampleSampleTestListViewModel> _getTests;
         private readonly Func<int, ListSampleFormViewModel> _getForms;
         private readonly Func<ListFormClassViewModel> _getFormClasses;
         private readonly Func<int, SampleAuditTrailViewModel> _getAudit;
 
-        public ListSampleTestViewModel Tests => _tests.Get();
-        private readonly IProperty<ListSampleTestViewModel> _tests = H.Property<ListSampleTestViewModel>(c => c
+        public SampleSampleTestListViewModel Tests => _tests.Get();
+        private readonly IProperty<SampleSampleTestListViewModel> _tests = H.Property<SampleSampleTestListViewModel>(c => c
             .NotNull(e => e.Model)
             .Set(e => e._getTests(e.Model.Id))
             .On(e => e.Model)
@@ -208,13 +205,13 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         private bool CanExecuteAddTest()
         {
             if(!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddTest)) return false;
-            return Workflow?.CurrentState == SampleWorkflow.Monograph;
+            return Workflow?.CurrentStage == SampleWorkflow.Monograph;
         }
 
         private bool CanExecuteAddForm()
         {
             if(!Erp.Acl.IsGranted(AnalysisRights.AnalysisReceptionSign)) return false;
-            return Workflow?.CurrentState == SampleWorkflow.Reception;
+            return Workflow?.CurrentStage == SampleWorkflow.Reception;
         }
 
         public List<string> Origins => _origins.Get();
@@ -225,7 +222,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Update()
         );
 
-        //private async Task<List<string>> GetOrigins()
         private async Task<List<string>> GetOrigins()
         {
             var list =  await Erp.Data.SelectDistinctAsync<Sample, string>(s => s.CustomerId == Model.CustomerId && !string.IsNullOrWhiteSpace(s.SamplingOrigin),
@@ -244,7 +240,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 st.Code = testClass.Code;
                 st.Description = "";
                 st.TestName = testClass.Name;
-                st.Stage = SampleTestWorkflow.DefaultState.Name;
+                st.Stage = SampleTestWorkflow.DefaultStage.Name;
             });
 
             if (test != null)

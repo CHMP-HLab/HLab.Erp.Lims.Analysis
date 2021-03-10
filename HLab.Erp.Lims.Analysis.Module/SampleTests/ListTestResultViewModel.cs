@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using HLab.DependencyInjection.Annotations;
@@ -17,32 +18,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         [Import]
         private readonly IErpServices _erp;
 
-        private string GetStateIcon(int state)
-        {
-            switch (state)
-            {
-                case 1:
-                    return "icons/Results/CheckFailed";
-                case 2:
-                    return "icons/Results/GaugeKO";
-                case 3:
-                    return "icons/Results/GaugeOK";
-                default:
-                    return "icons/Results/Gauge";
-            }
-        }
-
-        private SampleTest _sampleTest;
-        private string GetStateIcon(string name)
-        {
-            var state = SampleTestResultWorkflow.StateFromName(name);
-            return state?.GetIconPath(null);
-        }
-        private string GetStateCaption(string name)
-        {
-            var state = SampleTestResultWorkflow.StateFromName(name);
-            return state?.GetCaption(null);
-        }
+        private readonly SampleTest _sampleTest;
 
         public ListTestResultViewModel(SampleTest sampleTest)
         {
@@ -53,19 +29,17 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
             List.AddFilter(() => e => e.SampleTestId == sampleTest.Id);
 
-            List.OrderBy = e => e.Start;
+             Columns.Configure(c => c
+                .Column.Header("{Name}").Content(s => s.Name).Width(70)
+                .Column.Header("{Start}").Content(s => s.Start).Width(80).OrderByOrder(0)
+                .Column.Header("{End}").Content(s => s.End).Width(80)
+                .Column.Header("{Result}").Content(s => s.Result).Width(80)
+                .ConformityColumn(s => s.StateId)
+                .StageColumn(s => SampleTestResultWorkflow.StageFromName(s.Stage))
 
-             Columns
-                .Column("{Name}", s => s.Name)
-                .Column("{Start}", s => s.Start)
-                .Column("{End}", s => s.End)
-                .Column("{Result}", s => s.Result)
-                .Icon("{State}", s => s.StateId != null ? GetStateIcon(s.StateId.Value) : "", s => s.StateId)
-                .Icon("{Stage}", s => GetStateIcon(s.Stage), s => s.Stage)
-                .Localize("{Stage}", s => GetStateCaption(s.Stage), s => s.Stage)
-                .Hidden("IsSelected",s => s.Id == s.SampleTest.Result?.Id)
-                .Hidden("IsValid", s => s.Stage != SampleTestResultWorkflow.Invalidated.Name)
-;
+                .Column.Hidden.Id("IsSelected").Content(s => s.Id == s.SampleTest.Result?.Id)
+                .Column.Hidden.Id("IsValid").Content(s => s.Stage != SampleTestResultWorkflow.Invalidated.Name)
+                 );
 
             using (List.Suspender.Get())
             {

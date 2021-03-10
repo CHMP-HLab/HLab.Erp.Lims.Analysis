@@ -4,6 +4,7 @@ using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Erp.Lims.Analysis.Module.Products;
+using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Notify.PropertyChanged;
 
@@ -22,6 +23,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public ICommand OpenListSampleCommand { get; } = H.Command(c => c.Action(
             e => e._erp.Docs.OpenDocumentAsync(typeof(SamplesListViewModel))
         ));
+        public ICommand OpenListTestCommand { get; } = H.Command(c => c.Action(
+            e => e._erp.Docs.OpenDocumentAsync(typeof(TestListViewModel))
+        ));
         public ICommand OpenListTestClassCommand { get; } = H.Command(c => c.Action(
             e => e._erp.Docs.OpenDocumentAsync(typeof(ListTestClassViewModel))
         ));
@@ -38,6 +42,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 _erp.Menu.RegisterMenu("data/samples", "{Samples}",
                     OpenListSampleCommand,
                     "Icons/Entities/Sample");
+
+                _erp.Menu.RegisterMenu("data/tests", "{Tests}",
+                    OpenListTestCommand,
+                    "Icons/Entities/Test");
  
                 _erp.Menu.RegisterMenu("tools/testclasses", "{Test Classes}",
                     OpenListTestClassCommand,

@@ -36,12 +36,12 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         private int _sampleTestId;
         private string GetStateIcon(string name)
         {
-            var state = SampleTestResultWorkflow.StateFromName(name);
+            var state = SampleTestResultWorkflow.StageFromName(name);
             return state?.GetIconPath(null);
         }
         private string GetStateCaption(string name)
         {
-            var state = SampleTestResultWorkflow.StateFromName(name);
+            var state = SampleTestResultWorkflow.StageFromName(name);
             return state?.GetCaption(null);
         }
 
@@ -56,8 +56,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
             //List.OrderBy = e => e.Start;
 
-             Columns
-                .Column("{Name}", s => s.Name)
+             Columns.Configure(c => c
+                    .Column
+                    .Header("{Name}").Width(200)
+                    .Content(s => s.Name)
+             );
                 //.Column("{Start}", s => s.Start)
                 //.Column("{End}", s => s.End)
                 //.Column("{Result}", s => s.Result)

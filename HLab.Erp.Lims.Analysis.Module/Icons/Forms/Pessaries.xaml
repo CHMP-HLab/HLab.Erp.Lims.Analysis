@@ -8,9 +8,9 @@
     <Canvas.Resources/>
     <!--Unknown tag: sodipodi:namedview-->
     <!--Unknown tag: metadata-->
-    <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="205.5" Width="612.3" Canvas.Top="83.7" Height="805.1" Name="path4498" Fill="#01323232" StrokeThickness="70" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}" StrokeMiterLimit="4" Opacity="1"/>
+    <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="205.5" Width="612.3" Canvas.Top="83.7" Height="805.1" Name="path4498" Fill="#01323232" StrokeThickness="70" Stroke="Black" StrokeMiterLimit="4" Opacity="1"/>
     <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4502" StrokeThickness="70
-          " Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat">
+          " Stroke="Black" StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat">
       <Path.Data>
         <PathGeometry Figures="m 540.7839 221.3983 c 94.95874 83.8967 118.37214 178.74835 128.17797 264.83051" FillRule="EvenOdd"/>
       </Path.Data>

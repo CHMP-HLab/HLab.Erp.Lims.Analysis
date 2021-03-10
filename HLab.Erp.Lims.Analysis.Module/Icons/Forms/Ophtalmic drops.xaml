@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--This file is NOT compatible with Silverlight-->
 <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
-  <Canvas Name="svg12" Canvas.Left="0" Canvas.Top="0" Width="1000" Height="1000">
+  <Canvas Width="1000" Height="1000">
     <Canvas.RenderTransform>
       <TranslateTransform X="0" Y="0"/>
     </Canvas.RenderTransform>
     <Canvas.Resources/>
     <!--Unknown tag: sodipodi:namedview-->
     <!--Unknown tag: metadata-->
-    <Canvas Name="g10">
-      <Canvas Name="g8">
+    <Canvas>
+      <Canvas>
         <Canvas.RenderTransform>
           <TransformGroup>
-            <ScaleTransform ScaleX="0.100000" ScaleY="-0.100000"/>
-            <TranslateTransform X="0.000000" Y="511.000000"/>
+            <ScaleTransform ScaleX="0.1" ScaleY="-0.1"/>
+            <TranslateTransform X="0" Y="511"/>
           </TransformGroup>
         </Canvas.RenderTransform>
-        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}">
+        <Path Fill="Black">
           <Path.Data>
             <PathGeometry Figures="M7019.7 4964.6c-132.1-69.1-846.9-1327.4-1186.3-2081.2c-228.2-501.5-348.4-873.9-366.4-1129.2C5410 961.3 6061.7 153.5 6899.6-23.7C7890.7-231 8941.8 628 8941.8 1646c0 267.3-48 465.5-216.2 898c-243.3 627.7-1096.2 2204.4-1288.4 2384.6C7338.1 5021.7 7151.9 5036.7 7019.7 4964.6z M7359.1 3697.3c363.4-633.7 672.8-1276.4 801.9-1669.8c120.1-360.4 57.1-765.8-153.1-1021.1c-342.4-414.5-1051.1-465.5-1498.6-111.1c-168.2 132.1-303.3 423.5-321.3 681.7c-15 174.2-3 246.3 78.1 486.5c51.1 153.2 168.2 438.5 261.3 627.7c192.2 411.4 645.7 1237.3 675.7 1237.3C7215 3928.5 7284 3823.4 7359.1 3697.3z" FillRule="NonZero"/>
           </Path.Data>
         </Path>
-        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path6" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Control}},FallbackValue=black}">
+        <Path Fill="Black">
           <Path.Data>
             <PathGeometry Figures="M3271.7 2378.8c-36-24-201.2-270.3-363.4-546.6c-901-1525.6-1570.7-2907.1-1780.9-3676c-87.1-315.3-93.1-810.9-12-1105.2c195.2-720.8 786.9-1387.5 1483.6-1669.8c330.4-132.1 543.6-174.2 892-171.2c408.4 3 693.7 75.1 1060.1 264.3c606.6 312.4 1045.1 825.9 1267.3 1486.6c102.1 306.3 117.1 783.9 30 1126.2c-192.2 771.8-910 2267.4-1823 3793.1c-141.1 234.3-291.3 456.5-333.3 486.5C3599.1 2441.9 3367.8 2447.9 3271.7 2378.8z M3995.5 489.8c555.6-994.1 1009.1-1985.1 1135.2-2474.7c147.1-573.6 0-1165.3-384.4-1570.7c-345.4-360.4-714.8-513.5-1255.3-516.6c-528.6-3-904 144.2-1249.3 489.6c-390.4 390.4-552.6 952-435.5 1504.6c87.1 405.4 396.4 1129.2 873.9 2036.2c225.2 432.5 717.8 1309.4 774.8 1381.5C3491 1384.8 3542 1300.7 3995.5 489.8z" FillRule="NonZero"/>
           </Path.Data>

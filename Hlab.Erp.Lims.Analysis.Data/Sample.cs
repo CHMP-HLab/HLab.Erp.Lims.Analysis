@@ -1,6 +1,7 @@
 using System;
 using HLab.Erp.Acl;
 using HLab.Erp.Base.Data;
+using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
 using HLab.Notify.PropertyChanged;
@@ -9,7 +10,7 @@ using NPoco;
 namespace HLab.Erp.Lims.Analysis.Data
 {
     using H = HD<Sample>;
-    public partial class Sample : Entity
+    public partial class Sample : Entity, IListableModel
     {
         public Sample() => H.Initialize(this);
 
@@ -584,5 +585,10 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<bool> _receivedSample = H.Property<bool>();
 
+        [Ignore]
+        public string Caption => Reference;
+
+        [Ignore]
+        public string IconPath => "Icons/Entities/Sample";
     }
 }

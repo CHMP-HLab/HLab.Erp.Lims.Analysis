@@ -271,8 +271,9 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         [Ignore]
         public string IconPath => _iconPath.Get();
-        private IProperty<string> _iconPath = H.Property<string>(c => c
-            .OneWayBind(e => e.TestClass.IconPath)
+        private readonly IProperty<string> _iconPath = H.Property<string>(c => c
+            .Set(e => string.IsNullOrWhiteSpace(e.TestClass?.IconPath) ? "icon/test/default" : e.TestClass.IconPath)
+            .On(e => e.TestClass.IconPath).Update()
         );
 
         [Ignore]
