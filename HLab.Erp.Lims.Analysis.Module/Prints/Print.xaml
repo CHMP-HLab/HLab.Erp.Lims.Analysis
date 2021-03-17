@@ -6,6 +6,7 @@
         xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
         xmlns:wpf1="clr-namespace:HLab.Icons.Wpf;assembly=HLab.Icons.Wpf"
         xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
+        xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
         Title="Impression" Width="1000" Height="1000" Background="#FFC7B67D" WindowStartupLocation="CenterOwner">
    <Grid x:Name="G_Font" SizeChanged="G_Font_SizeChanged">
       <Grid.ColumnDefinitions>
@@ -26,7 +27,7 @@
                <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
 
-            <base:TextBoxEx Height="24" Margin="120,18,0,0" x:Name="TB_Page" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40" HorizontalContentAlignment="Center" Mode="Chiffres" DoubleChange="TB_Page_DoubleChange" Background="#7FFFFFFF"/>
+            <wpf:TextBoxEx Height="24" Margin="120,18,0,0" x:Name="TB_Page" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40" HorizontalContentAlignment="Center" Mode="Digit" DoubleChange="TB_Page_DoubleChange" Background="#7FFFFFFF"/>
             <TextBlock HorizontalAlignment="Left" Margin="89,20,0,0" TextWrapping="Wrap" Text="Page" VerticalAlignment="Top"/>
             <TextBlock x:Name="T_Pages" HorizontalAlignment="Left" Margin="165,20,0,0" TextWrapping="Wrap" Text="/" VerticalAlignment="Top"/>
             <Button Content="Précedente" Height="40" Margin="0,10,60,0" x:Name="BT_Precedent" Tag="Precedent" VerticalAlignment="Top" HorizontalAlignment="Right" Width="40" Click="BT_Precedent_Click" />
@@ -47,8 +48,8 @@
             <RadioButton x:Name="RB_Tout" Content="Tout" HorizontalAlignment="Left" Margin="10,0,0,58" VerticalAlignment="Bottom" IsChecked="True" Grid.Row="1"/>
             <RadioButton x:Name="RB_PageCourante" Content="Page courante" HorizontalAlignment="Left" Margin="10,0,0,37" VerticalAlignment="Bottom" Grid.Row="1"/>
             <RadioButton x:Name="RB_Plage" Content="De              à" HorizontalAlignment="Left" Margin="10,0,0,16" VerticalAlignment="Bottom" Grid.Row="1"/>
-            <base:TextBoxEx Height="24" Margin="45,0,0,11" x:Name="TB_PageDebut" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40" HorizontalContentAlignment="Center" Mode="Chiffres" DoubleChange="TB_PageSelection_DoubleChange" Grid.Row="1" Background="#7FFFFFFF"/>
-            <base:TextBoxEx Height="24" Margin="97,0,0,11" x:Name="TB_PageFin" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40" HorizontalContentAlignment="Center" Mode="Chiffres" DoubleChange="TB_PageSelection_DoubleChange" Grid.Row="1" Background="#7FFFFFFF"/>
+            <wpf:TextBoxEx Height="24" Margin="45,0,0,11" x:Name="TB_PageDebut" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40" HorizontalContentAlignment="Center" Mode="Digit" DoubleChange="TB_PageSelection_DoubleChange" Grid.Row="1" Background="#7FFFFFFF"/>
+            <wpf:TextBoxEx Height="24" Margin="97,0,0,11" x:Name="TB_PageFin" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40" HorizontalContentAlignment="Center" Mode="Digit" DoubleChange="TB_PageSelection_DoubleChange" Grid.Row="1" Background="#7FFFFFFF"/>
             <TextBlock HorizontalAlignment="Left" Margin="10,0,0,79" TextWrapping="Wrap" Text="Sélection à imprimer" VerticalAlignment="Bottom" Grid.Row="1" FontStyle="Italic" Foreground="#7F000000"/>
             <Button Content="Imprimer" Height="80" HorizontalAlignment="Right" Margin="0,0,10,10" x:Name="BT_Imprimer" Tag="Imprimante" VerticalAlignment="Bottom" Width="80" IsDefault="True" Click="BT_Imprimer_Click" Grid.Row="1"/>
 
@@ -64,7 +65,7 @@
                               <ColumnDefinition Width="3*"/>
                               <ColumnDefinition Width="2*"/>
                            </Grid.ColumnDefinitions>
-                           <base:TextBoxEx Mode="Email" Height="22" Text="{Binding Adresse, UpdateSourceTrigger=PropertyChanged}" Background="#7FFFFFFF" TextChanged="Adresse_TextChanged"/>
+                           <wpf:TextBoxEx Mode="Email" Height="22" Text="{Binding Adresse, UpdateSourceTrigger=PropertyChanged}" Background="#7FFFFFFF" TextChanged="Adresse_TextChanged"/>
                            <TextBox Grid.Column="1" Height="22" Margin="2,0,0,0" Text="{Binding Nom, UpdateSourceTrigger=PropertyChanged}" Background="#7FFFFFFF" TextChanged="Adresse_TextChanged"/>
                         </Grid>
                      </Grid>
