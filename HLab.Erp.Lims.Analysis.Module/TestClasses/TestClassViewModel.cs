@@ -43,15 +43,15 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         public TestClassViewModel()
         {
             H.Initialize(this);
-            FormHelper = new FormHelper();
+            FormHelper = new ();
         }
 
-        public FormHelper FormHelper
+        public FormTestClassHelper FormHelper
         {
             get => _formHelper.Get();
             set => _formHelper.Set(value);
         }
-        private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>();
+        private readonly IProperty<FormTestClassHelper> _formHelper = H.Property<FormTestClassHelper>();
 
         public string State
         {
@@ -117,18 +117,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             FormHelper.LoadValues(specs);
             FormHelper.LoadValues(values);
 
-            FormHelper.Form.Traitement(null,null);
+            FormHelper.Form?.Traitement(null,null);
         }
-
-        //private IProperty<bool> _initLocker = H.Property<bool>(c => c.On(e => e.Locker).Do((e,f)=> {
-        //    e.Locker.BeforeSavingAction = async t =>
-        //    {
-        //        var h = new FormHelper();
-        //        h.Cs = e.Cs;
-        //        h.Xaml = e.Xaml;
-        //        t.Code = await h.SaveCode();
-        //    };
-        //}));
 
         private ITrigger _init = H.Trigger(c => c.On(e => e.Model).Do(async (e, f) =>
         {

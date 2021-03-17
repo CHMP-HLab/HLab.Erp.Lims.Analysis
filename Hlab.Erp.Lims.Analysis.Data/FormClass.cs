@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Erp.Forms.Annotations;
 using HLab.Notify.PropertyChanged;
+using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
     using H = H<FormClass>;
 
-    public class FormClass : Entity
+    public class FormClass : Entity, IListableModel, IEntityWithIcon
     {
         public FormClass() => H.Initialize(this);
 
@@ -46,7 +48,8 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<string> _version = H.Property<string>();
 
-
+        [Ignore]
+        public string Caption => Name;
 
     }
 }

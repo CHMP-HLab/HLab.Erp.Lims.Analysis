@@ -24,6 +24,8 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
     class DummyTarget : NotifierBase, IFormTarget
     {
+        public DummyTarget() => H<DummyTarget>.Initialize(this);
+
         public FormState State
         {
             get =>_state.Get(); 
@@ -124,8 +126,25 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                 }
                 else
                 {
-                    e.FormHelper.Xaml = "<Grid></Grid>";
-                    e.FormHelper.Cs = "public class Test\n{\n}";
+                    e.FormHelper.Xaml = @"
+                    <Grid>
+                    </Grid>";
+                    e.FormHelper.Cs = @"
+                    using System;
+                    using System.Windows;
+                    using System.Windows.Controls;
+                    using Outils;
+                    using System.Linq;
+                    using System.Collections.Generic;
+                    namespace Lims
+                    {
+                        public class Test
+                        {
+                            public void Process(object sender, RoutedEventArgs e)
+                            {
+                            }      
+                        }
+                    }";
                 }
 
                 await e.Compile();

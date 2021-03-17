@@ -14,6 +14,7 @@ using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
 using HLab.Base;
+using HLab.Base.Wpf;
 using HLab.Erp.Forms.Annotations;
 using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Notify.PropertyChanged;
@@ -23,32 +24,6 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
     using H = H<FormHelper>;
 
-    public enum FormMode
-    {
-        NotSet = 0,
-        Specification,
-        Capture,
-        ReadOnly
-    }
-
-
-    public interface IForm
-    {
-        IFormTarget Target { get; set; }
-        void Connect(int connectionId, object target);
-        void Process(object sender, RoutedEventArgs e);
-    }
-
-    public class DummyForm : UserControl, IForm
-    {
-        public IFormTarget Target { get; set; }
-
-        public void Connect(int connectionId, object target)
-        { }
-
-        public void Process(object sender, RoutedEventArgs e)
-        { }
-    }
 
     public class FormHelper :NotifierBase
     {
@@ -110,8 +85,12 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         }
         private readonly IProperty<int> _xamlErrorPos = H.Property<int>();
 
+        private struct SetterEntry
+        {
+            public Action<string> Action;
+        }
 
-        private readonly Dictionary<string,Action<string>> _setValue = new Dictionary<string, Action<string>>(); 
+        private readonly Dictionary<string,SetterEntry> _setValue = new(); 
 
 
         private Action<StringBuilder> _getSpecPackedValues;
@@ -153,7 +132,11 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                 </ResourceDictionary.MergedDictionaries></ResourceDictionary></UserControl.Resources >
          
                 <Grid>
-                <Grid.LayoutTransform><ScaleTransform ScaleX=""{Binding Scale,FallbackValue=4}"" ScaleY=""{Binding Scale,FallbackValue=4}""/></Grid.LayoutTransform>
+                <Grid.LayoutTransform>
+                    <ScaleTransform 
+                         ScaleX=""{Binding Scale,FallbackValue=4}"" 
+                         ScaleY=""{Binding Scale,FallbackValue=4}""/>
+                    </Grid.LayoutTransform>
                 <!--Content-->
                 </Grid>
             </UserControl >
@@ -218,7 +201,6 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                 using HLab.Notify.Annotations;
                 using HLab.Notify.Wpf;
                 using HLab.Erp.Forms.Annotations;
-
             " + Cs;
 
             //Remove old FM lib
@@ -291,17 +273,17 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                         case TextBoxEx tbe:
                             getValues += sb =>
                             {
-                                sb.Append(c.Name).Append("=").Append(tbe.Double).Append("■");// Le séparateur est un ALT + 254
+                                sb.Append(c.Name).Append('=').Append(tbe.Double).Append('■');// Le séparateur est un ALT + 254
                             };
-                            _setValue.Add(c.Name,s => tbe.Double = CSD(s));
+                            _setValue.Add(c.Name,new SetterEntry{Action=s => tbe.Double = CSD(s)});
                             break;
 
                         case TextBox tb:
                             getValues += sb =>
                             {
-                                sb.Append(c.Name).Append("=").Append(tb.Text.Replace("■", "")).Append("■");
+                                sb.Append(c.Name).Append('=').Append(tb.Text.Replace("■", "")).Append('■');
                             };
-                            _setValue.Add(c.Name,s => tb.Text = s);
+                            _setValue.Add(c.Name,new SetterEntry{Action=s => tb.Text = s});
                             break;
                         case CheckBox cb:
                             var idx = cb.Name.IndexOf("__", StringComparison.Ordinal);
@@ -314,15 +296,15 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                                 };
 
                                 var name = cb.Name.Substring(0, idx);
-                                var thisValue = cb.Name.Substring(idx + 2);
+                                var thisValue = cb.Name[(idx + 2)..];
 
                                 void Setter(string s) => cb.IsChecked = (thisValue == s);
 
-                                if (_setValue.TryGetValue(name, out var oldSetter))
+                                if (_setValue.TryGetValue(name, out var oldEntry))
                                 {
-                                    oldSetter += Setter;
+                                    oldEntry.Action += Setter;
                                 }
-                                else _setValue.Add(name,Setter);
+                                else _setValue.Add(name,new SetterEntry{Action = Setter});
                             }
                             else
                             {
@@ -358,7 +340,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             declarations += "public " + classname + "() => H.Initialize(this);";
             cs = cs.Insert(cs.IndexOf('{', index) + 1, declarations + connection + "}\r\n}\r\n");
 
-            var compiler = new Compiler { SourceCode = cs };
+            var compiler = new Compiler.Wpf.Compiler { SourceCode = cs };
 
             if (!compiler.Compile())
             {

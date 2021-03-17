@@ -10,16 +10,15 @@
              xmlns:views="clr-namespace:HLab.Mvvm.Views;assembly=HLab.Mvvm.Wpf"
              xmlns:products="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products"
              xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
-             xmlns:data="clr-namespace:HLab.Erp.Lims.Analysis.Data;assembly=HLab.Erp.Lims.Analysis.Data"
+             xmlns:analysis.Data="clr-namespace:HLab.Erp.Lims.Analysis.Data;assembly=HLab.Erp.Lims.Analysis.Data"
              xmlns:samples="clr-namespace:HLab.Erp.Lims.Analysis.Module.Samples"
-             xmlns:data1="clr-namespace:HLab.Erp.Base.Data;assembly=HLab.Erp.Base.Data"
+             xmlns:erp.Data="clr-namespace:HLab.Erp.Base.Data;assembly=HLab.Erp.Base.Data"
              xmlns:manufacturers="clr-namespace:HLab.Erp.Lims.Analysis.Module.Manufacturers"
              xmlns:customers="clr-namespace:HLab.Erp.Base.Wpf.Entities.Customers;assembly=HLab.Erp.Base.Wpf"
              xmlns:workflows="clr-namespace:HLab.Erp.Workflows;assembly=HLab.Erp.Workflows.Wpf"
-             xmlns:views1="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
-             xmlns:wpf1="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
+             xmlns:core.Views="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
+             xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
              xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
-             xmlns:wpf2="clr-namespace:HLab.Icons.Wpf;assembly=HLab.Icons.Wpf"
              xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModelDesign}, IsDesignTimeCreatable=True}"             
@@ -51,7 +50,7 @@
                     </Expander>
                 <!--</views1:DetailView>-->
                 <!-- RECORD -->            
-                <views1:DetailView EditMode="{Binding EditMode}" Text="{}{Record}" IconPath = "Icons/Sample/Folder">
+                <core.Views:DetailView EditMode="{Binding EditMode}" Text="{}{Record}" IconPath = "Icons/Sample/Folder">
 
                     <lang:LocalizedLabel Text="{}{Reference} : "/>
                     <TextBox Text="{Binding Model.Reference, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
@@ -77,34 +76,28 @@
                             Text="{Binding  Model.Motivation, UpdateSourceTrigger=PropertyChanged}"
                             Visibility="{Binding IsReadOnly,Converter={StaticResource BooleanToVisibility}}"
                             />
-                        <ComboBox 
-                            Visibility="{Binding EditMode,Converter={StaticResource BooleanToVisibility}}"
-                            IsEnabled="{Binding EditMode}"
-                            Margin="0,0,15,0"
-                            BorderBrush="#80000000"
-                            HorizontalContentAlignment="Center" 
-                            Text="{Binding Model.Motivation, UpdateSourceTrigger=PropertyChanged}">
-                            <ComboBoxItem>Routine</ComboBoxItem>
-                            <ComboBoxItem>Enregistrement</ComboBoxItem>
-                        </ComboBox>
+                        <entitySelectors:ForeignView 
+                            Model="{Binding Model.AnalysisMotivation}"
+                            ModelClass="{x:Type analysis.Data:AnalysisMotivation}" 
+                            />
                     </StackPanel>
 
                     <lang:LocalizedLabel Text="{}{Customer} : "/>
                     <entitySelectors:ForeignView 
                         Model="{Binding Model.Customer}"
-                        ModelClass="{x:Type data1:Customer}" 
+                        ModelClass="{x:Type erp.Data:Customer}" 
                         ListClass="{x:Type customers:CustomersListViewModel}"/>
-                </views1:DetailView>
+                </core.Views:DetailView>
 
-                <samples:SampleCustomView/>
+                <!--<samples:SampleCustomView/>-->
 
                 <!-- PRODUCT -->            
-                <views1:DetailView EditMode="{Binding EditMode}" IconPath="{Binding Model.Product.Form.IconPath,FallbackValue=icons}" Text="{}{Product}">
+                <core.Views:DetailView EditMode="{Binding EditMode}" IconPath="{Binding Model.Product.Form.IconPath,FallbackValue=icons}" Text="{}{Product}">
 
                     <lang:LocalizedLabel Text="{}{INN} : "/>
                     <entitySelectors:ForeignView 
                         Model="{Binding Model.Product}"
-                        ModelClass="{x:Type data:Product}" 
+                        ModelClass="{x:Type analysis.Data:Product}" 
                         ListClass="{x:Type products:ProductsListPopupViewModel}"/>
 
                     <lang:LocalizedLabel Text="{}{Commercial Name} : "/>
@@ -114,13 +107,13 @@
                         HorizontalAlignment="Stretch"/>
 
 
-                </views1:DetailView>
+                </core.Views:DetailView>
 
                 <!-- RECEPTION -->            
-                <views1:DetailView EditMode="{Binding EditMode}" IconPath="icons/Sample/PackageOpened" Text="{}{Reception}">
+                <core.Views:DetailView EditMode="{Binding EditMode}" IconPath="icons/Sample/PackageOpened" Text="{}{Reception}">
 
                     <lang:LocalizedLabel Text="{}{Date} :" />
-                    <wpf1:DateEx
+                    <wpf:DateEx
                             HorizontalAlignment="Left"
                             Date="{Binding Model.ReceptionDate}" 
                             DayValid="True"
@@ -157,7 +150,7 @@
                             <lang:Localize Id="{}{Date} :"/>
                         </Label>
 
-                        <wpf1:DateEx  Grid.Column="2"
+                        <wpf:DateEx  Grid.Column="2"
                         
                             HorizontalAlignment="Left"
                             Width="120"
@@ -185,10 +178,10 @@
                     <!--<TextBox
                         HorizontalAlignment="Stretch" 
                         Text="{Binding Model.SamplingOrigin, UpdateSourceTrigger=PropertyChanged}"/>-->
-                </views1:DetailView>
+                </core.Views:DetailView>
 
                 <!-- Batch -->            
-                <views1:DetailView EditMode="{Binding EditMode}" IconPath="Icons/Sample/Barcode" Text="{}{Batch}">
+                <core.Views:DetailView EditMode="{Binding EditMode}" IconPath="Icons/Sample/Barcode" Text="{}{Batch}">
 
                     <lang:LocalizedLabel Text="{}{N°} : "/>
                     <TextBox  
@@ -203,7 +196,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <wpf1:DateEx Date="{Binding Model.ExpirationDate}" DayValid="{Binding Model.ExpirationDayValid}" EmptyDayAllowed="True"/>
+                        <wpf:DateEx Date="{Binding Model.ExpirationDate}" DayValid="{Binding Model.ExpirationDayValid}" EmptyDayAllowed="True"/>
                         <icons:IconView Grid.Column="1" Path="icons/sample/expired" Height="25" Margin="2">
                             <icons:IconView.Style>
                                 <Style TargetType="icons:IconView">
@@ -227,7 +220,7 @@
                         <Label Grid.Column="2" HorizontalAlignment="Right">
                             <lang:Localize  Id="{}{Manufacture} : "/>
                         </Label>
-                        <wpf1:DateEx 
+                        <wpf:DateEx 
                     Grid.Column="3" 
                     Date="{Binding Model.ManufacturingDate, UpdateSourceTrigger=PropertyChanged}" 
                     DayValid="{Binding Model.ManufacturingDayValid}" EmptyDayAllowed="True"/>
@@ -243,7 +236,7 @@
 
                         <entitySelectors:ForeignView 
                             Model="{Binding Model.Manufacturer}"
-                            ModelClass="{x:Type data:Manufacturer}" 
+                            ModelClass="{x:Type analysis.Data:Manufacturer}" 
                             ListClass="{x:Type manufacturers:ManufacturersListViewModel}"/>
 
                         <Label Grid.Column="1">
@@ -253,32 +246,33 @@
                     </Grid>
 
 
-                </views1:DetailView>
+                </core.Views:DetailView>
 
-                <views1:DetailView EditMode="{Binding EditMode}" IconPath="Icons/Sample/Packaging" Text="{}{Forms}">
-<Label/><Button Command="{Binding AddOneFormCommand}"/>
-                    <!--<StackPanel>
-                        <lang:LocalizedLabel Text="{}{Add}"/>
-                        <entitySelectors:ForeignView DockPanel.Dock="Top"
-                                                     IsReadOnly="{Binding IsReadOnly}"
-                                                     ModelClass="{x:Type data:FormClass}"
-                                                     Command="{Binding AddFormCommand}"
-                        >
-                            <lang:Localize Id="{}{Add Form}"/>
-                        </entitySelectors:ForeignView>
-                    </StackPanel>-->
-<Label/>
+                <core.Views:DetailView EditMode="{Binding EditMode}" IconPath="Icons/Sample/Packaging" Text="{}{Forms}">
+                    <Label/>
+                        <!--<Button Command="{Binding AddOneFormCommand}"/>-->
+                        <StackPanel HorizontalAlignment="Left">
+                            <!--<lang:LocalizedLabel Text="{}{Add}"/>-->
+                            <entitySelectors:ForeignView DockPanel.Dock="Top"
+                                                         IsReadOnly="{Binding IsReadOnly}"
+                                                         ModelClass="{x:Type analysis.Data:FormClass}"
+                                                         Command="{Binding AddFormCommand}"
+                            >
+                                <lang:Localize Id="{}{Add Form}"/>
+                            </entitySelectors:ForeignView>
+                        </StackPanel>
+                    <Label/>
 
                     <mvvm:ViewLocator 
                         Foreground="White"
                         ViewClass="{x:Type annotations:IViewClassContent}"
                         Model="{Binding Forms}"
                     />
-                </views1:DetailView>
+                </core.Views:DetailView>
 
 
                 <!-- PACKAGING -->            
-                <views1:DetailView EditMode="{Binding EditMode}" IconPath="Icons/Sample/Packaging" Text="{}{Packaging}">
+                <core.Views:DetailView EditMode="{Binding EditMode}" IconPath="Icons/Sample/Packaging" Text="{}{Packaging}">
 
                     <lang:LocalizedLabel Text="{}{Original packaging} : " VerticalContentAlignment="Center"/>
                     <views:YesNoView Value="{Binding Model.InOriginalPackaging}"/>
@@ -405,17 +399,17 @@
                         </ComboBox>-->
 
 
-                </views1:DetailView>
+                </core.Views:DetailView>
             </StackPanel>
         </controlsEx:ScrollViewerEx>
 
         <!-- NOTE -->
-        <views1:DetailView Grid.Row="2" EditMode="{Binding Locker.IsActive}" IconPath="Icons/Edit" Text="{}{Note}">
+        <core.Views:DetailView Grid.Row="2" EditMode="{Binding Locker.IsActive}" IconPath="Icons/Edit" Text="{}{Note}">
 
             <TextBox Margin="50,0,15,0"  Grid.ColumnSpan="2"  Text="{Binding Model.Note, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap"/>
             <Label />
 
-        </views1:DetailView>
+        </core.Views:DetailView>
     </Grid>
 
 </UserControl>

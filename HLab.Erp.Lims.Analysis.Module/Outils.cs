@@ -27,6 +27,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Markup;
 using System.Windows.Media.Imaging;
 using HLab.Base;
+using HLab.Base.Wpf;
 
 namespace Outils
 {
@@ -704,9 +705,9 @@ namespace Outils
          return resultat;
       }
 
-      public static void Eclaire(this TextBox textBox, bool valeur)
+      public static void Enlight(this TextBox textBox, bool valeur)
       {
-         TextBoxEx.SetEclaire(textBox, valeur);
+         TextBoxEx.SetEnlightened(textBox, valeur);
       }
 
         public static  BitmapImage BytesToBitmap(byte[] data, int index = 0, int taille = 0)

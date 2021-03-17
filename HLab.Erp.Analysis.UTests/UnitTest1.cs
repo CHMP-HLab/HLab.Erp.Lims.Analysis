@@ -9,7 +9,7 @@ namespace HLab.Erp.Analysis.UTests
         [Fact]
         public async void FormStorage()
         {
-            var h = new FormHelper();
+            var h = new FormTestClassHelper();
 
             var xaml = "<Grid></Grid>";
             var cs = "using system; class test{}  ";

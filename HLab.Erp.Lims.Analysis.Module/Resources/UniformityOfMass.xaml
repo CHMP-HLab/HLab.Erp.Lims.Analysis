@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:o="clr-namespace:HLab.Base;assembly=HLab.Base.Wpf"
+             xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -16,102 +17,102 @@
             <TextBlock Text="Masse plein" FontWeight="Bold" TextAlignment="Center"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="01 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M01}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M01}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="02 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M02}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M02}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="03 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M03}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M03}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="04 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M04}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M04}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="05 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M05}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M05}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="06 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M06}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M06}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="07 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M07}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M07}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="08 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M08}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M08}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="09 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M09}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M09}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="10 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M10}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M10}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="11 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M11}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M11}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="12 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M12}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M12}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="13 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M13}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M13}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="14 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M14}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M14}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="15 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M15}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M15}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="16 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M16}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M16}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="17 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M17}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M17}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="18 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M18}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M18}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="19 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M19}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M19}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="20 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M20}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M20}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
         </StackPanel>
@@ -119,102 +120,102 @@
             <TextBlock Text="Masse vide" FontWeight="Bold" TextAlignment="Center"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="01 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M01V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M01V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="02 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M02V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M02V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="03 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M03V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M03V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="04 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M04V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M04V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="05 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M05}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M05}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="06 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M06V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M06V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="07 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M07V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M07V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="08 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M08V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M08V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="09 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M09V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M09V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="10 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M10V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M10V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="11 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M11V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M11V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="12 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M12V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M12V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="13 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M13V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M13V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="14 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M14V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M14V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="15 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M15V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M15V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="16 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M16V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M16V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="17 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M17V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M17V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="18 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M18V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M18V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="19 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M19V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M19V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="20 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M20V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M20V}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
         </StackPanel>
@@ -222,102 +223,102 @@
             <TextBlock Text="Masse produit" FontWeight="Bold" TextAlignment="Center"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="01 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M01P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M01P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="02 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M02P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M02P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="03 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M03P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M03P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="04 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M04P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M04P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="05 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M05P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M05P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="06 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M06P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M06P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="07 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M07P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M07P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="08 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M08P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M08P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="09 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M09P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M09P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="10 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M10P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M10P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="11 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M11P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M11P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="12 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M12P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M12P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="13 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M13P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M13P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="14 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M14P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M14P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="15 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M15P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M15P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="16 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M16P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M16P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="17 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M17P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M17P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="18 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M18P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M18P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="19 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M19P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M19P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="20 - " FontWeight="Bold" TextAlignment="Right"/>
-                <o:TextBoxEx Width="50" Double="{Binding M20P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
+                <wpf:TextBoxEx Width="50" Double="{Binding M20P}" Mode="Double" TextAlignment="Right" Tag="Obligatoire"/>
                 <TextBlock Text=" mg"/>
             </StackPanel>        
         </StackPanel>

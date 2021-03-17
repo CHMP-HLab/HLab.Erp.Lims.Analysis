@@ -12,47 +12,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
-using HLab.Base;
 using HLab.Base.Wpf;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
-    using H = H<FormHelper>;
+    using H = H<FormTestClassHelper>;
 
-    public enum TestFormMode
+    public class FormTestClassHelper : NotifierBase
     {
-        NotSet = 0,
-        Specification,
-        Capture,
-        ReadOnly
-    }
-
-    public interface ITestForm
-    {
-        void Connect(int connectionId, object target);
-        void Traitement(object sender, RoutedEventArgs e);
-
-        ITestHelper Test { get; }
-    }
-
-    public class DummyTestForm : UserControl, ITestForm
-    {
-        public ITestHelper Test => null;
-
-        public void Connect(int connectionId, object target)
-        {
-        }
-
-        public void Traitement(object sender, RoutedEventArgs e)
-        {
-        }
-    }
-
-    public class FormHelper : NotifierBase
-    {
-        public FormHelper() => H.Initialize(this);
+        public FormTestClassHelper() => H.Initialize(this);
 
 
         public TestFormMode Mode
@@ -144,33 +114,33 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             .On(e => e.Form.Test.Result)
             .NotNull(e => e.Result)
             .NotNull(e => e.Form.Test.Result)
-                .Do(e => e.Result.Result = e.Form.Test.Result)
+            .Do(e => e.Result.Result = e.Form.Test.Result)
 
             .On(e => e.Form.Test.State)
             .NotNull(e => e.Result)
             .NotNull(e => e.Form.Test.State)
-                .Do(e => e.Result.StateId = (int)e.Form.Test.State)
+            .Do(e => e.Result.ConformityId = e.Form.Test.State)
 
             .On(e => e.Form.Test.Specifications)
             .NotNull(e => e.Test)
             .NotNull(e => e.Form.Test?.Specifications)
-                .Do(e => e.Test.Specification = e.Form.Test.Specifications)
+            .Do(e => e.Test.Specification = e.Form.Test.Specifications)
 
             .On(e => e.Form.Test.TestName)
             .NotNull(e => e.Test)
             .NotNull(e => e.Form.Test?.TestName)
-                .Do(e => e.Test.TestName = e.Form.Test.TestName)
+            .Do(e => e.Test.TestName = e.Form.Test.TestName)
 
             .On(e => e.Form.Test.Description)
             .NotNull(e => e.Test)
             .NotNull(e => e.Form.Test?.Description)
-                .Do(e => e.Test.Description = e.Form.Test.Description)
+            .Do(e => e.Test.Description = e.Form.Test.Description)
 
             .On(e => e.Form.Test.Conformity)
             .NotNull(e => e.Test)
             .NotNull(e => e.Form.Test?.Conformity)
-                .Do(e => e.Test.Conform = e.Form.Test.Conformity)
-            );
+            .Do(e => e.Test.Conform = e.Form.Test.Conformity)
+        );
 
         public async Task ExtractCode(byte[] code)
         {
@@ -196,18 +166,21 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
             const string header = @"
             <UserControl 
-            xmlns = ""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-            xmlns:x = ""http://schemas.microsoft.com/winfx/2006/xaml""
-            xmlns:mc = ""http://schemas.openxmlformats.org/markup-compatibility/2006""
-            xmlns:d = ""http://schemas.microsoft.com/expression/blend/2008""
-            xmlns:o = ""clr-namespace:HLab.Base;assembly=HLab.Base.Wpf""
-            UseLayoutRounding = ""True"" >
-                <UserControl.Resources><ResourceDictionary><ResourceDictionary.MergedDictionaries>
+                xmlns = ""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+                xmlns:x = ""http://schemas.microsoft.com/winfx/2006/xaml""
+                xmlns:mc = ""http://schemas.openxmlformats.org/markup-compatibility/2006""
+                xmlns:d = ""http://schemas.microsoft.com/expression/blend/2008""
+                xmlns:o = ""clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf""
+                UseLayoutRounding = ""True"" >
+                <UserControl.Resources>
                     <ResourceDictionary Source = ""pack://application:,,,/HLab.Erp.Lims.Analysis.Module;component/FormClasses/FormsDictionary.xaml"" />          
-                </ResourceDictionary.MergedDictionaries></ResourceDictionary></UserControl.Resources >
-         
+                </UserControl.Resources >
                 <Grid>
-                <Grid.LayoutTransform><ScaleTransform ScaleX=""{Binding Scale,FallbackValue=4}"" ScaleY=""{Binding Scale,FallbackValue=4}""/></Grid.LayoutTransform>
+                <Grid.LayoutTransform>
+                    <ScaleTransform 
+                        ScaleX=""{Binding Scale,FallbackValue=4}"" 
+                        ScaleY=""{Binding Scale,FallbackValue=4}""/>
+                </Grid.LayoutTransform>
                 <!--Content-->
                 </Grid>
             </UserControl >
@@ -218,9 +191,10 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
             // for theme compatibility
             xaml = xaml
-                .Replace("\"Black\"", "\"{DynamicResource MahApps.Brushes.ThemeForeground}\"")
-                .Replace("\"White\"", "\"{DynamicResource MahApps.Brushes.ThemeBackground}\"")
+                    .Replace("\"Black\"", "\"{DynamicResource MahApps.Brushes.ThemeForeground}\"")
+                    .Replace("\"White\"", "\"{DynamicResource MahApps.Brushes.ThemeBackground}\"")
                 ;
+
             UserControl form;
             try
             {
@@ -242,15 +216,18 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                     var oldPos = $"Line {parseEx.LineNumber}, position {parseEx.LinePosition}.";
                     var newPos = $"Line {XamlErrorLine}, position {XamlErrorPos}.";
 
-                        XamlMessage +=
-                            ex.GetType().Name
-                            + Environment.NewLine
-                            + parseEx.Message.Replace(oldPos, newPos);
+                    XamlMessage +=
+                        ex.GetType().Name
+                        + Environment.NewLine
+                        + parseEx.Message.Replace(oldPos, newPos);
                 }
                 else
                     XamlMessage += "Error XAML :" + Environment.NewLine + ex.Message;
 
                 CsMessage = "Compilation C# impossible car erreur XAML";
+                #if DEBUG
+                Form = new DummyTestForm {Content = new TextBlock() {Text = XamlMessage}};
+                #endif
                 return;
             }
 
@@ -314,11 +291,12 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
             foreach (FrameworkElement fe in FindLogicalChildren<FrameworkElement>(form))
             {
-                if (!String.IsNullOrEmpty(fe.Name))
+                if (!string.IsNullOrEmpty(fe.Name))
                 {
+
                     elements.Add(fe);
-                    declarations += "public " + fe.GetType().Name + " " + fe.Name + ";\n";
-                    connection += "case " + n + ": this." + fe.Name + " = ((" + fe.GetType().Name + ")(target)); return;\n";
+                    declarations += "public " + fe.GetType().FullName + " " + fe.Name + ";\n";
+                    connection += "case " + n + ": this." + fe.Name + " = ((" + fe.GetType().FullName + ")(target)); return;\n";
 
                     if (fe is Control c)
                     {
@@ -403,7 +381,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             declarations += $"public {classname}() => H<{classname}>.Initialize(this);";
             cs = cs.Insert(cs.IndexOf('{', index) + 1, declarations + connection + "}\r\n}\r\n");
 
-            var compiler = new Compiler { SourceCode = cs };
+            var compiler = new Compiler.Wpf.Compiler { SourceCode = cs };
 
             if (!compiler.Compile())
             {
@@ -429,6 +407,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                     case TextBoxEx textBoxEx:
                         textBoxEx.DoubleChange += (sender, args) =>
                         {
+                            module.Test.Reset();
                             module.Traitement(sender, args);
                             SetFormMode(Mode);
                         };
@@ -438,6 +417,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                         textBox.TextChanged += (sender, args) =>
                         {
                             textBox.ApplySymbols();
+                            module.Test.Reset();
                             module.Traitement(sender, args);
                             SetFormMode(Mode);
                         };
@@ -461,6 +441,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                             {
                                 args.Handled = true;
                                 TestLegacyHelper.CheckGroup(sender, chk.ToArray());
+                                module.Test.Reset();
                                 module.Traitement(sender, args);
                                 SetFormMode(Mode);
                             };
@@ -469,6 +450,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                             checkBox.PreviewMouseDown += (sender, args) =>
                             {
                                 args.Handled = true;
+                                module.Test.Reset();
                                 module.Traitement(sender, args);
                                 SetFormMode(Mode);
                             };
@@ -717,15 +699,15 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                     var mandatory = IsMandatory(c);
 
                     var doneBrush = 
-                        isSpecMode
-                        ?spec?_specificationDoneBrush:_hiddenBrush
-                        :spec?_specificationDoneBrush:_normalBrush                        
+                            isSpecMode
+                                ?spec?_specificationDoneBrush:_hiddenBrush
+                                :spec?_specificationDoneBrush:_normalBrush                        
                         ;
 
                     var todoBrush = 
                         isSpecMode
-                        ?spec?_specificationNeededBrush:_hiddenBrush
-                        :mandatory?_mandatoryBrush:_normalBrush;
+                            ?spec?_specificationNeededBrush:_hiddenBrush
+                            :mandatory?_mandatoryBrush:_normalBrush;
 
 
                     Action todo;
@@ -792,7 +774,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 if (specificationNeeded > 0)
                 {
                     if(Form.Test!=null)
-                        Form.Test.State = TestState.NotStarted;
+                        Form.Test.State = ConformityState.NotChecked;
 
                     Test.SpecificationsDone = false;
                 }
@@ -805,40 +787,62 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 if (mandatoryNeeded > 0)
                 {
                     if(Form.Test!=null)
-                        Form.Test.State = mandatoryDone > 0 ? TestState.Running : TestState.NotStarted;
+                        Form.Test.State = mandatoryDone > 0 ? ConformityState.Running : ConformityState.NotChecked;
                     Result.MandatoryDone = false;
                 }
                 else Result.MandatoryDone = true;
             }
 
 
-            if(Form.Test !=null && Form.Test.State>TestState.Running)
+            if(Form.Test !=null && Form.Test.State>ConformityState.Running)
             {
-                if (specificationNeeded > 0) Form.Test.State = TestState.NotStarted;
-                if (mandatoryNeeded > 0) Form.Test.State = TestState.Running;
+                if (specificationNeeded > 0) Form.Test.State = ConformityState.NotChecked;
+                if (mandatoryNeeded > 0) Form.Test.State = ConformityState.Running;
             }
 
             if (Result != null)
             {
+                if (Form.Test != null && string.IsNullOrWhiteSpace(Form.Test.Conformity))
+                {
+                    Form.Test.Conformity = Form.Test.State switch
+                    {
+                        ConformityState.Undefined => "{Undefined}",
+                        ConformityState.NotChecked => "{Not started}",
+                        ConformityState.Running => "{Running}",
+                        ConformityState.NotConform => "{Not conform}",
+                        ConformityState.Conform => "{Conform}",
+                        ConformityState.Invalid => "{Invalid}",
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+
+                }
+
                 if (Mode == TestFormMode.Capture && Form.Test!=null)
                 {
                     Result.Conformity = Form.Test.Conformity;
                     Result.Result = Form.Test.Result;
-                    Result.StateId = (int)Form.Test.State;
+                    Result.ConformityId = Form.Test.State;
                 }
             }
             else
             {
                 if (Test != null)
                 {
-                    if (Mode == TestFormMode.Specification && Form.Test!=null)
+                    if (Form.Test != null)
                     {
-                        Test.TestName = Form.Test.TestName;
-                        Test.Description = Form.Test.Description;
-                        Test.Specification = Form.Test.Specifications;
+                        if (string.IsNullOrWhiteSpace(Form.Test.TestName)) 
+                            Form.Test.TestName = Test.TestClass.Name;
+
+                        if (Mode == TestFormMode.Specification)
+                        {
+                            Test.TestName = Form.Test.TestName;
+                            Test.Description = Form.Test.Description;
+                            Test.Specification = Form.Test.Specifications;
+                        }
                     }
                 }
             }
+
 
             return mandatoryNeeded>0 || specificationNeeded>0;
         }
@@ -945,20 +949,20 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             }
 
 
-            TestState state;
+            ConformityState state;
             // Modifie l'état du test en fonction de son avancée
             if (nbMandatory > 0)
             {
                 if (nbMandatoryOK == 0)
                 {
                     if (dateDebut == DateTime.MinValue)
-                        state = TestState.NotStarted;
+                        state = ConformityState.NotChecked;
                     else
-                        state = TestState.NotStarted;
+                        state = ConformityState.Running;
                 }
                 else if (nbMandatoryOK < nbMandatory)
                 {
-                    state = TestState.Running;
+                    state = ConformityState.Running;
 
                     // Si il n'y avait pas de date de début, en attribue une
                     if (dateDebut == DateTime.MinValue)
