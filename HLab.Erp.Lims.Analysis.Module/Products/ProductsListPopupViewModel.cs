@@ -15,7 +15,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
                 .Column
                     .Header("{Form}")
                     .Width(150)
-                    .Content(e => getForm(e).Name)
+                    .Content(e => getForm(e)?.Name)
                     .Localize()
                     .Icon(e => getForm(e)?.IconPath ?? "");
 
@@ -43,14 +43,20 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
 
             using (List.Suspender.Get())
             {
-                Filter<TextFilter>(f => f.Title("{Inn}")
+                Filter<TextFilter>()
+                    .Title("{Inn}")
                     .IconPath("Icons/Entities/Products/Inn")
-                    .Link(List,e => e.Inn));
+                    .Link(List,p => p.Inn);
 
-                Filter<TextFilter>(f => f.Title("{Dose}")
+                Filter<TextFilter>()
+                    .Title("{Dose}")
                     .IconPath("Icons/Entities/Products/Dose")
-                    .Link(List,e => e.Dose));
+                    .Link(List,p => p.Dose);
 
+                Filter<EntityFilter<Form>>()
+                    .Title("{Form}")
+                    .IconPath("Icons/Entities/Form")
+                    .Link(List,p => p.FormId??-1);
             }
 
         }

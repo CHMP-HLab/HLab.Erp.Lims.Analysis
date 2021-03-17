@@ -29,7 +29,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                     .Header("{Category}")
                     .Width(150)
                     .Content(s => s.Category?.Name??"")
-                    .OrderBy(s => s.Category.Name)
+                    .OrderBy(s => s.Category?.Name)
             );
                 //.Hidden("IsValid",  s => s.Validation != 2)
                 ;

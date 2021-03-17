@@ -40,7 +40,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
                     .Link(List,e => e.Dose);
 
                 Filter<EntityFilter<Form>>(f => f.Title("{Form}"))
-                    .Link(List,e => e.FormId);
+                    .Link(List,e => e.FormId??-1);
             }
         }
 
