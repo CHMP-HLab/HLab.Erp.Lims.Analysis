@@ -5,6 +5,7 @@ using HLab.Erp.Acl;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.Filters;
 using HLab.Erp.Lims.Analysis.Module.Samples;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Erp.Workflows;
@@ -17,35 +18,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
     {
         [Import] private readonly IAclService _acl;
 
-        private string GetIcon(int? state)
-        {
-            switch(state)
-            {
-                case 1:
-                    return "icons/Results/Gauge";
-                case 2:
-                    return 
-                        "icons/Results/GaugeKo";
-                case 3:
-                    return "icons/Results/GaugeOk";
-                default:
-                    return "icons/Results/Gauge";
-            }
-        }
-        private string GetCheckIcon(int state)
-        {
-            switch (state)
-            {
-                case 1:
-                    return "icons/Results/Running";
-                case 2:
-                    return "icons/Results/CheckFailed";
-                case 3:
-                    return "icons/Results/CheckPassed";
-                default:
-                    return "icons/Results/Running";
-            }
-        }
 
         public TestListViewModel()
         {
@@ -87,27 +59,27 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                         new TextBlock{},
                         new TextBlock{Text = Print.Langue(s.Result?.Result??"","FR"), FontStyle = FontStyles.Italic}
                     }}).OrderBy(s => s.Result?.Result??"")
-                //.Column("{Specifications}", s => s.Specification)
-                //.Column("{Result}", s => s.Result?.Result??"")
-                .Column.Header("{Conformity}").Icon(s => GetIcon(s.Result?.StateId)).OrderBy(s => s.Result?.StateId)
+                .ConformityColumn(s => s.Result?.ConformityId)
                 .StageColumn(s => SampleTestWorkflow.StageFromName(s.Stage))
                 .Column.Hidden.Header("IsValid").Content(s => s.Stage != SampleTestWorkflow.InvalidatedResults.Name)
                 .Column.Hidden.Header("Group").Content(s => s.TestClassId)
             );
             using (List.Suspender.Get())
             {
-
                 Filter<EntityFilter<Sample>>()
-                    .Link(List, e => e.SampleId);
+                    .Link(List, e => e.SampleId??-1);
 
                 Filter<EntityFilter<TestClass>>().Title("{Test Class}")
-                    .Link(List, e => e.TestClassId);
+                    .Link(List, e => e.TestClassId??-1);
 
-                Filter<WorkflowFilterViewModel<SampleTestWorkflow>>().Title("{Stage}").IconPath("Icons/Workflow")
+                Filter<WorkflowFilter<SampleTestWorkflow>>().Title("{Stage}").IconPath("Icons/Workflow")
                     .Link(List, e => e.Stage);
-            }
 
-            List.UpdateAsync();
+                Filter<ConformityFilter>()
+                    .Title("{Conformity}")
+                    .IconPath("Icons/Conformity")
+                    .PostLink(List, e => e.Result?.ConformityId??ConformityState.Undefined);
+            }
 
             DeleteAllowed = true;
         }

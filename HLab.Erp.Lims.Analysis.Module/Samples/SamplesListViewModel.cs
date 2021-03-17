@@ -6,52 +6,13 @@ using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.Filters;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
-
-    public class ProductsListPopupViewModel : EntityListViewModel<Product>, IMvvmContextProvider
-    {
-        public void ConfigureMvvmContext(IMvvmContext ctx)
-        {
-        }
-
-        public override string Title => "{Products}";
-        [Import]
-        public ProductsListPopupViewModel()
-        {
-
-            Columns.Configure(c => c
-                .Column
-                    .Header("{Inn}")
-                    .Width(200)
-                    .Content(p => p.Inn)
-                .Column
-                    .Header("{Dose}")
-                    .Width(100)
-                    .Content(p => p.Dose)
-                .FormColumn(p => p.Form)
-                );
-//                .Column("{Ref}", s => s.Caption)
-            using (List.Suspender.Get())
-            {
-                Filter<TextFilter>(f => f.Title("{Inn}")
-                    .Link(List,e => e.Inn));
-
-                Filter<TextFilter>(f => f.Title("{Dose}")
-                    .Link(List,e => e.Dose));
-
-                Filter<EntityFilter<Form>>()
-                    .Link(List, e => e.FormId);
-            }
-
-        }
-    }
-
-
     internal class SamplesListViewModel : EntityListViewModel<Sample>, IMvvmContextProvider
     {
 
@@ -69,7 +30,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             Columns.Configure(c => c
                     .Column.Header("{Ref}").Width(80).Content(s => s.Reference)
                     .Column.Header("{FileId}").Width(100).Content(s => s.FileId?.ToString() ?? "").OrderBy(s => s.FileId)
-                    .Column.Header("{Reception}").Width(75).Content(s=>s.ReceptionDate).OrderByOrder(0)
+                    .Column.Header("{Reception}").Width(75).Content(s=>s.ReceptionDate).OrderBy(s => s.ReceptionDate).OrderByOrder(0)
                     .Column.Header("{Customer}").Width(140).Content(s => s.Customer?.Name).Icon(s => s.Customer?.Country?.IconPath ?? "").OrderBy(s => s.Customer?.Caption)
                     .Column.Header("{Product}").Width(400).Content(s => s.Product?.Caption)
                     .FormColumn(s => s.Product?.Form)//?.Name).Icon((s) => s.Product?.Form?.IconPath ?? "")
@@ -79,23 +40,25 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                     .Column.Header("{Notification}").Width(75).Content(s => s.NotificationDate?.ToString("dd/MM/yyyy") ?? "").OrderBy(s => s.NotificationDate)
                     .Column.Header("{Validator}").Width(140).Content(s => s.Validator)
                     .ProgressColumn(s => s.Progress)
+                    .ConformityColumn(s => s.ConformityId)
                     .StageColumn(s => SampleWorkflow.StageFromName(s.Stage))
+
                 );
 
 
             using (List.Suspender.Get())
             {
                 Filter<EntityFilter<Product,ProductsListPopupViewModel>>(f => f.Title("{Product}"))
-                    .Link(List, s => s.ProductId);
+                    .Link(List, s => s.ProductId??-1);
 
                 Filter<EntityFilter<Customer>>(f => f.Title("{Customer}"))
-                    .Link(List, s => s.CustomerId);
+                    .Link(List, s => s.CustomerId??-1);
 
                 Filter<EntityFilter<Manufacturer>>(f => f.Title("{Manufacturer}"))
-                    .Link(List, s => s.ManufacturerId);
+                    .Link(List, s => s.ManufacturerId??-1);
 
                 Filter<EntityFilter<Pharmacopoeia>>(f => f.Title("{Pharmacopoeia}"))
-                    .Link(List, s => s.PharmacopoeiaId);
+                    .Link(List, s => s.PharmacopoeiaId??-1);
 
                 Filter<TextFilter>()
                     .Title("{Reference}")
@@ -146,10 +109,14 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                     .IconPath("Icons/Sample/Commercial")
                     .Link(List, s => s.CommercialName);
 
-                Filter<WorkflowFilterViewModel<SampleWorkflow>>()
+                Filter<WorkflowFilter<SampleWorkflow>>()
                     .Title("{Stage}")
                     .IconPath("Icons/Workflow")
                     .Link(List, e => e.Stage);
+                Filter<ConformityFilter>()
+                    .Title("{Conformity}")
+                    .IconPath("Icons/Conformity")
+                    .Link(List, e => e.ConformityId);
 
             }
 

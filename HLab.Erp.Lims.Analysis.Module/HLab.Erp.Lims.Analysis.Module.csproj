@@ -36,10 +36,12 @@
     <None Remove="Icons\Entities\Products\form.svg" />
     <None Remove="Icons\Entities\Products\inn.svg" />
     <None Remove="Icons\Entities\Test.svg" />
+    <None Remove="Icons\Conformity\Invalid.svg" />
     <None Remove="Icons\Sample\commercial.svg" />
     <None Remove="Icons\Sample\date.svg" />
     <None Remove="Icons\Sample\location.svg" />
     <None Remove="Icons\Sample\notification.svg" />
+    <None Remove="Icons\Workflows\Aborted.svg" />
     <None Remove="Icons\Workflows\Certificate.svg" />
     <None Remove="Icons\Workflows\Closed.svg" />
     <None Remove="Resources\Logo_lanspex_ne.png" />
@@ -65,11 +67,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Remove="Icons\Conformity\Invalid2.xaml" />
+    <Page Remove="Icons\Conformity\NotConform.xaml" />
+    <Page Remove="Icons\Conformity\Undefined.xaml" />
     <Page Remove="Icons\Forms\Drugs.xaml" />
     <Page Remove="Icons\Forms\Skin solution.xaml" />
-    <Page Remove="Icons\Results\ConformityKO.xaml" />
-    <Page Remove="Icons\Results\ConformityOK.xaml" />
-    <Page Remove="Icons\Results\ConformityTodo.xaml" />
+    <Page Remove="Icons\Conformity\Conform.xaml" />
+    <Page Remove="Icons\Conformity\NotChecked.xaml" />
     <Page Remove="Icons\Tests\AssayHplc.xaml" />
     <Page Remove="Icons\Tests\AssayUv.xaml" />
     <Page Remove="Icons\Tests\CCM.xaml" />
@@ -105,10 +109,8 @@
     <Page Remove="Icons\Logo.xaml" />
     <Page Remove="Icons\LogoBackground.xaml" />
     <Page Remove="Icons\result.xaml" />
-    <Page Remove="Icons\Results\CheckFailed.xaml" />
-    <Page Remove="Icons\Results\CheckPassed.xaml" />
-    <Page Remove="Icons\Results\NotChecked.xaml" />
-    <Page Remove="Icons\Results\NotConform.xaml" />
+    <Page Remove="Icons\Conformity\CheckFailed.xaml" />
+    <Page Remove="Icons\Conformity\CheckPassed.xaml" />
     <Page Remove="Icons\Sample\Barcode.xaml" />
     <Page Remove="Icons\Sample\Book.xaml" />
     <Page Remove="Icons\Sample\Drugs.xaml" />
@@ -152,6 +154,7 @@
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Core\HLab.Erp.Core.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Workflows.Wpf\HLab.Erp.Workflows.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Workflows\HLab.Erp.Workflows.csproj" />
+    <ProjectReference Include="..\..\..\HLab\Compiler.Wpf\Compiler.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Application.Wpf\HLab.Mvvm.Application.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Mvvm.Wpf\HLab.Mvvm.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Notify.Wpf\HLab.Notify.Wpf.csproj" />
@@ -176,10 +179,16 @@
     <Resource Include="Icons\Forms\NewFolder\Skin solution.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Resource Include="Icons\Conformity\Invalid.svg" />
+    <Resource Include="Icons\Conformity\Invalid2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
     <Resource Include="Icons\Sample\commercial.svg" />
     <Resource Include="Icons\Sample\date.svg" />
     <Resource Include="Icons\Sample\location.svg" />
     <Resource Include="Icons\Sample\notification.svg" />
+    <Resource Include="Icons\Workflows\Aborted.svg" />
     <Resource Include="Icons\Workflows\Certificate.svg" />
     <Resource Include="Icons\Workflows\Closed.svg" />
     <Resource Include="Icons\Workflows\SampleWorkflow.xaml">
@@ -336,31 +345,27 @@
     <Resource Include="Icons\Result.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Results\CheckFailed.xaml">
+    <Resource Include="Icons\Conformity\CheckFailed.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Results\CheckPassed.xaml">
+    <Resource Include="Icons\Conformity\CheckPassed.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Results\ConformityTodo.xaml">
+    <Resource Include="Icons\Conformity\NotChecked.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Results\ConformityKO.xaml">
+    <Resource Include="Icons\Conformity\NotConform.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Results\ConformityOK.xaml">
+    <Resource Include="Icons\Conformity\Conform.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Results\NotChecked.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Results\NotConform.xaml">
+    <Resource Include="Icons\Conformity\Undefined.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
@@ -500,6 +505,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Filters\ConformityFilterView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="FormClasses\FormClassView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
@@ -529,7 +538,7 @@
     <Page Update="FormClasses\FormClassDetailView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Icons\Results\Running.xaml">
+    <Page Update="Icons\Conformity\Running.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ProgressView.xaml">

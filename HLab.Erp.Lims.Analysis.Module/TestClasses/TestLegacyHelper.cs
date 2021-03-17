@@ -1,9 +1,12 @@
 ﻿using HLab.Notify.PropertyChanged;
 using System;
+using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using HLab.Erp.Lims.Analysis.Data;
 using YAMP;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
@@ -18,35 +21,28 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
     //    NonConforme = 2,
     //    Conforme = 3
     //};    
-    public enum TestState
-    {
-        Undefined = -1,
-        NotStarted = 0,
-        Running = 1,
-        NotConform = 2,
-        Conform = 3,
-        NotValid = 4
-    };
 
     public static class TestEtat
     {
-        public static TestState Indefini => TestState.Undefined;
-        public static TestState NonCommence => TestState.NotStarted;
-        public static TestState EnCours => TestState.Running;
-        public static TestState NonConforme => TestState.NotConform;
-        public static TestState Conforme => TestState.Conform;
-        public static TestState Invalide => TestState.NotValid;
+        public static ConformityState Indefini => ConformityState.Undefined;
+        public static ConformityState NonCommence => ConformityState.NotChecked;
+        public static ConformityState EnCours => ConformityState.Running;
+        public static ConformityState NonConforme => ConformityState.NotConform;
+        public static ConformityState Conforme => ConformityState.Conform;
+        public static ConformityState Invalide => ConformityState.Invalid;
     }
 
 
     public interface ITestHelper : INotifyPropertyChanged
     {
-        TestState State { get; set; }
+        ConformityState State { get; set; }
         string Conformity { get; set; }
         string Specifications { get; set; }
         string TestName { get; set; }
         string Description { get; set; }
         string Result { get; set; }
+
+        void Reset();
         //bool SpecificationsDone { get; set; }
         //bool MandatoryDone { get; set; }
     }
@@ -55,19 +51,19 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
     {
         public TestLegacyHelper() => H.Initialize(this);
 
-        public TestState State
+        public ConformityState State
         {
             get => _state.Get();
             set => _state.Set(value);
         }
-        private readonly IProperty<TestState> _state = H.Property<TestState>();
+        private readonly IProperty<ConformityState> _state = H.Property<ConformityState>();
 
-        public TestState Etat
+        public ConformityState Etat
         {
             get => _etat.Get();
             set => State = value;
         }
-        private readonly IProperty<TestState> _etat = H.Property<TestState>(c => c.Bind(e => e.State));
+        private readonly IProperty<ConformityState> _etat = H.Property<ConformityState>(c => c.Bind(e => e.State));
 
         public string Conforme
         {
@@ -191,6 +187,79 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 }
 
             }
+        }
+
+        private static readonly Brush ConformBrush = new SolidColorBrush(Colors.Green);
+        private static readonly Brush NotConformBrush = new SolidColorBrush(Colors.Red);
+        private static readonly Brush InvalidBrush = new SolidColorBrush(Colors.Yellow);
+
+        private static readonly Thickness OnThickness = new(0.4);
+
+        private readonly ConcurrentBag<Action> _cache = new();
+
+        public void Reset()
+        {
+            while (_cache.TryTake(out var action))
+            {
+                action();
+            }
+        }
+
+        private void SetBrush(Control control, Brush brush)
+        {
+            var oldBrush = control.BorderBrush;
+            var oldThickness = control.BorderThickness;
+            control.BorderBrush = brush;
+            control.BorderThickness = OnThickness;
+            _cache.Add(() =>
+            {
+                control.BorderBrush = oldBrush;
+                control.BorderThickness = oldThickness;
+            });
+        }
+
+        private void SetBrush(TextBlock control, Brush brush)
+        {
+            var oldBrush = control.Background;
+            //var oldThickness = control.BorderThickness;
+            control.Background = brush;
+            //control.BorderThickness = OnThickness;
+            _cache.Add(() =>
+            {
+                control.Background = oldBrush;
+                //control.BorderThickness = oldThickness;
+            });
+        }
+
+        public void NotConform(Control control)
+        {
+            State = ConformityState.NotConform;
+            SetBrush(control,NotConformBrush);
+        }
+        public void Conform(Control control)
+        {
+            State = ConformityState.Conform;
+            SetBrush(control,ConformBrush);
+        }
+        public void Invalid(Control control)
+        {
+            State = ConformityState.Invalid;
+            SetBrush(control,InvalidBrush);
+        }
+        public void NotConform(TextBlock control)
+        {
+            State = ConformityState.NotConform;
+            SetBrush(control,NotConformBrush);
+        }
+        public void Conform(TextBlock control)
+        {
+            State = ConformityState.Conform;
+            SetBrush(control,ConformBrush);
+        }
+        public void Invalid(TextBlock control)
+        {
+            State = ConformityState.Invalid;
+            SetBrush(control,InvalidBrush);
         }
     }
 }

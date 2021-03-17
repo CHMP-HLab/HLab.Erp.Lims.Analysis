@@ -11,6 +11,7 @@
              xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
              xmlns:acl="clr-namespace:HLab.Erp.Acl;assembly=HLab.Erp.Acl"
              xmlns:data="clr-namespace:HLab.Erp.Lims.Analysis.Data;assembly=HLab.Erp.Lims.Analysis.Data"
+             xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModelDesign}, IsDesignTimeCreatable=True}"
              d:DesignHeight="1000" d:DesignWidth="1000"
@@ -134,6 +135,7 @@
 
                 <Grid Grid.Column="2" Grid.Row="3" Height="80">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -150,7 +152,9 @@
                         </RadioButton>
                     </StackPanel>-->
 
-                    <StackPanel VerticalAlignment="Top">
+                    <icons:IconView Path="{Binding ConformityIconPath}"/>
+
+                    <StackPanel Grid.Column="1" VerticalAlignment="Top">
                         <lang:LocalizedLabel Foreground="White" DockPanel.Dock="Top" Text="{}{Conclusion}"/>
 
                         <TextBox VerticalScrollBarVisibility="Auto" IsReadOnly="{Binding IsReadOnlyProduction}"
@@ -164,7 +168,7 @@
                                  Margin="0,0,5,0" VerticalAlignment="Stretch"/>
                     </StackPanel>
                                             
-                        <StackPanel Grid.Column="1" Margin="5,0" VerticalAlignment="Top">
+                        <StackPanel Grid.Column="2" Margin="5,0" VerticalAlignment="Top">
                             <lang:LocalizedLabel Text="{}{Validator}"/>
                             <entitySelectors:ForeignView
                                     IsReadOnly="True"
@@ -175,7 +179,7 @@
 
                     
                     
-                    <StackPanel Grid.Column="2">
+                    <StackPanel Grid.Column="3">
                         <TextBlock>N° de Rapport</TextBlock>
                         <TextBox 
                                  Text="{Binding Model.ReportReference, UpdateSourceTrigger=PropertyChanged}"

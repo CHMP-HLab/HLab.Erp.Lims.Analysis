@@ -153,10 +153,128 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public SampleSampleTestListViewModel Tests => _tests.Get();
         private readonly IProperty<SampleSampleTestListViewModel> _tests = H.Property<SampleSampleTestListViewModel>(c => c
             .NotNull(e => e.Model)
-            .Set(e => e._getTests(e.Model.Id))
+            .Set( e =>
+            {
+                var tests =  e._getTests(e.Model.Id);
+                tests.List.CollectionChanged += e.List_CollectionChanged;
+                return tests;
+            })
             .On(e => e.Model)
             .Update()
         );
+
+        private void List_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (sender is IEnumerable<SampleTest> tests)
+                UpdateConformity(tests);
+
+        }
+
+        private ITrigger _ = H.Trigger(c => c
+            .NotNull(e => e.Tests)
+            .Do( e =>  e.UpdateConformity(e.Tests.List))
+            .On(e => e.Tests)
+            .Update()
+        );
+
+        public void UpdateConformity(IEnumerable<SampleTest> tests)
+        {
+            var conformity = ConformityState.Undefined;
+
+            foreach (var sampleTest in tests)
+            {
+                conformity = UpdateConformity(conformity, sampleTest.Result?.ConformityId ?? ConformityState.Undefined);
+            }
+
+            if (Model.ConformityId != conformity)
+            {
+                Model.ConformityId = conformity;
+                Erp.Data.UpdateAsync(Model, "ConformityId");
+            }
+        }
+
+        public string ConformityIconPath => _conformityIconPath.Get();
+        private readonly IProperty<string> _conformityIconPath = H.Property<string>(c => c
+            .Set(e => Sample.GetIconPath(e.Model.ConformityId))
+                .On(e => e.Model.ConformityId)
+                .Update()
+        );
+
+        private static ConformityState UpdateConformity(ConformityState currentState, ConformityState testState)
+        {
+                switch (testState)
+                {
+                    case ConformityState.Undefined:
+                        return currentState switch
+                        {
+                            ConformityState.Undefined => ConformityState.Undefined,
+                            ConformityState.NotChecked => ConformityState.Undefined,
+                            ConformityState.Running => ConformityState.Undefined,
+                            ConformityState.Conform => ConformityState.Undefined,
+                            ConformityState.NotConform => ConformityState.NotConform,
+                            ConformityState.Invalid => ConformityState.Invalid,
+                            _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
+                        };
+                    case ConformityState.NotChecked:
+                        return currentState switch
+                        {
+                            ConformityState.Undefined => ConformityState.NotChecked,
+                            ConformityState.NotChecked => ConformityState.NotChecked,
+                            ConformityState.Running => ConformityState.Running,
+                            ConformityState.NotConform => ConformityState.NotConform,
+                            ConformityState.Conform => ConformityState.Running,
+                            ConformityState.Invalid => ConformityState.Invalid,
+                            _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
+                        };
+                    case ConformityState.Running:
+                        return currentState switch
+                        {
+                            ConformityState.Undefined => ConformityState.Running,
+                            ConformityState.NotChecked => ConformityState.Running,
+                            ConformityState.Running => ConformityState.Running,
+                            ConformityState.Conform => ConformityState.Running,
+                            ConformityState.NotConform => ConformityState.NotConform,
+                            ConformityState.Invalid => ConformityState.Invalid,
+                            _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
+                        };
+                    case ConformityState.NotConform:
+                        return currentState switch
+                        {
+                            ConformityState.Undefined => ConformityState.NotConform,
+                            ConformityState.NotChecked => ConformityState.NotConform,
+                            ConformityState.Running => ConformityState.NotConform,
+                            ConformityState.Conform => ConformityState.NotConform,
+                            ConformityState.NotConform => ConformityState.NotConform,
+                            ConformityState.Invalid => ConformityState.NotConform,
+                            _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
+                        };
+                    case ConformityState.Conform:
+                        return currentState switch
+                        {
+                            ConformityState.Undefined => ConformityState.Conform,
+                            ConformityState.NotChecked => ConformityState.Running,
+                            ConformityState.Running => ConformityState.Running,
+                            ConformityState.Conform => ConformityState.Conform,
+                            ConformityState.NotConform => ConformityState.NotConform,
+                            ConformityState.Invalid => ConformityState.Invalid,
+                            _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
+                        };
+                    case ConformityState.Invalid:
+                        return currentState switch
+                        {
+                            ConformityState.Undefined => ConformityState.Invalid,
+                            ConformityState.NotChecked => ConformityState.Invalid,
+                            ConformityState.Running => ConformityState.Invalid,
+                            ConformityState.Conform => ConformityState.Invalid,
+                            ConformityState.Invalid => ConformityState.Invalid,
+                            ConformityState.NotConform => ConformityState.NotConform,
+                            _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
+                        };
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+        }
 
         public ListSampleFormViewModel Forms => _forms.Get();
         private readonly IProperty<ListSampleFormViewModel> _forms = H.Property<ListSampleFormViewModel>(c => c
@@ -184,21 +302,22 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public ICommand AddTestCommand { get; } = H.Command(c => c
             .CanExecute(e => e.CanExecuteAddTest())
-            .Action((e,t) => e.AddTest(t as TestClass))
+            .Action(async (e,t) => await e.AddTestAsync(t as TestClass))
             .On(e => e.Model.Stage)
             .CheckCanExecute()
         );
 
         public ICommand AddFormCommand { get; } = H.Command(c => c
             .CanExecute(e => e.CanExecuteAddForm())
-            .Action((e,t) => e.AddForm(t as FormClass))
+            .Action(async (e,t) => await e.AddFormAsync(t as FormClass))
             .On(e => e.Model.Stage)
+            .On(e => e.Model.Id)
             .CheckCanExecute()
         );
 
         public ICommand AddOneFormCommand { get; } = H.Command(c => c
             .CanExecute(e => e.CanExecuteAddForm())
-            .Action((e,t) => e.AddForms())
+            .Action(async (e,t) => await e.AddFormsAsync())
             .On(e => e.Model.Stage).CheckCanExecute()
         );
 
@@ -211,6 +330,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         private bool CanExecuteAddForm()
         {
             if(!Erp.Acl.IsGranted(AnalysisRights.AnalysisReceptionSign)) return false;
+            if (Model.Id < 0) return false; 
             return Workflow?.CurrentStage == SampleWorkflow.Reception;
         }
 
@@ -229,11 +349,11 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             return list;
         }
 
-        private void AddTest(TestClass testClass)
+        private async Task AddTestAsync(TestClass testClass)
         {
             if (testClass == null) return;
 
-            var test = _data.Add<SampleTest>(st =>
+            var test = await _data.AddAsync<SampleTest>(st =>
             {
                 st.Sample = Model;
                 st.TestClass = testClass;
@@ -244,33 +364,33 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             });
 
             if (test != null)
-                Tests.List.UpdateAsync();
+                await Tests.List.UpdateAsync();
         
         }
 
-        private void AddForms()
+        private async Task AddFormsAsync()
         {
             Forms.List.FluentUpdateAsync();
             FormClasses.List.FluentUpdateAsync();
             foreach (var formClass in FormClasses.List)
             {
                 if(!Forms.List.Any(e => ReferenceEquals(e.FormClass,formClass)))
-                    AddForm(formClass);
+                    await AddFormAsync(formClass);
             }
         }
 
-        private void AddForm(FormClass formClass)
+        private async Task AddFormAsync(FormClass formClass)
         {
             if (formClass == null) return;
 
-            var form = _data.Add<SampleForm>(st =>
+            var form = await _data.AddAsync<SampleForm>(st =>
             {
                 st.Sample = Model;
                 st.FormClass = formClass;
             });
 
             if (form != null)
-                Forms.List.UpdateAsync();
+                await Forms.List.UpdateAsync();
         }
 
         public SampleWorkflow Workflow => _workflow.Get();
@@ -323,13 +443,15 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             // Prépare l'impression
             var ip = new Print("Certificate",template.Page, langue);
 
-            ip["Reference"] = Model.Reference;
-            ip["Product.Inn"] = Model.Product?.Inn;
-            ip["CommercialName"] = Model.CommercialName;
-            ip["Product.Dose"] = Model.Product?.Dose;
-            ip["Product.Form"] = Model.Product?.Form.Name;
-            ip["ReportReference"] = Model.ReportReference;
-            ip["CustomerReference"] = Model.CustomerReference;
+
+            //ip["Reference"] = Model.Reference;
+            //ip["Product.Inn"] = Model.Product?.Inn;
+            //ip["CommercialName"] = Model.CommercialName;
+            //ip["Product.Dose"] = Model.Product?.Dose;
+            //ip["Product.Form"] = Model.Product?.Form.Name;
+            //ip["ReportReference"] = Model.ReportReference;
+            //ip["CustomerReference"] = Model.CustomerReference;
+            //ip["AnalysisMotivation.Name"] = Model.AnalysisMotivation.Name;
 
             String expiry = "";
             if (Model.ExpirationDate != null)
@@ -352,26 +474,26 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             ip["ManufacturingDate"] = dateFabrication;
 
 
-            ip["BatchNo"] = Model.Batch;
-            ip["Customer.Name"] = Model.Customer?.Name;
-            ip["Customer.Address"] = JoinNotNull("\n", Model.Customer?.Address, Model.Customer?.Country?.Name);
-            ip["Customer.Email"] = Model.Customer?.Email;
-            ip["Customer.Phone"] = Model.Customer?.Phone;
+            //ip["BatchNo"] = Model.Batch;
+            //ip["Customer.Name"] = Model.Customer?.Name;
+            //ip["Customer.Address"] = JoinNotNull("\n", Model.Customer?.Address, Model.Customer?.Country?.Name);
+            //ip["Customer.Email"] = Model.Customer?.Email;
+            //ip["Customer.Phone"] = Model.Customer?.Phone;
 
-            ip["Manufacturer.Name"] = JoinNotNull("\n", Model.Manufacturer?.Name, Model.Manufacturer?.Address, Model.Manufacturer?.Country?.Name);
-            ip["Manufacturer.Address"] = JoinNotNull("\n", Model.Manufacturer?.Address, Model.Manufacturer?.Country?.Name);
+            //ip["Manufacturer.Name"] = JoinNotNull("\n", Model.Manufacturer?.Name, Model.Manufacturer?.Address, Model.Manufacturer?.Country?.Name);
+            //ip["Manufacturer.Address"] = JoinNotNull("\n", Model.Manufacturer?.Address, Model.Manufacturer?.Country?.Name);
 
-            ip["ReceptionDate"] = Model.ReceptionDate?.ToString("dd/MM/yyyy");
-            ip["NotificationDate"] = apercu ? "Aperçu" : Model.NotificationDate?.ToString("dd/MM/yyyy");
-            ip["Pharmacopoeia"] = Model.Pharmacopoeia?.NameFr??"" + " " + Model.PharmacopoeiaVersion;
-            ip["PrelevementDate"] = Model.SamplingOrigin;
-            ip["ReceivedQuantity"] = Model.ReceivedQuantity.ToString();// + " " + slProduit.String("Forme").ToLower());
-            ip["PrimaryPackaging"] = Model.PrimaryPackaging;// + (TB_ConditionnementSecondaire.Text.Length>0 ? " (" + TB_ConditionnementSecondaire.Text + ")":""));
-            ip["SecondaryPackaging"] = Model.SecondaryPackaging;
-            ip["Product.Name"] = Model.Aspect + "\r\n" + Model.Size;
+            //ip["ReceptionDate"] = Model.ReceptionDate?.ToString("dd/MM/yyyy");
+            //ip["NotificationDate"] = apercu ? "Aperçu" : Model.NotificationDate?.ToString("dd/MM/yyyy");
+            //ip["Pharmacopoeia"] = Model.Pharmacopoeia?.NameFr??"" + " " + Model.PharmacopoeiaVersion;
+            //ip["PrelevementDate"] = Model.SamplingOrigin;
+            //ip["ReceivedQuantity"] = Model.ReceivedQuantity.ToString();// + " " + slProduit.String("Forme").ToLower());
+            //ip["PrimaryPackaging"] = Model.PrimaryPackaging;// + (TB_ConditionnementSecondaire.Text.Length>0 ? " (" + TB_ConditionnementSecondaire.Text + ")":""));
+            //ip["SecondaryPackaging"] = Model.SecondaryPackaging;
+            //ip["Product.Name"] = Model.Aspect + "\r\n" + Model.Size;
 
 
-            ip["Conclusion"] = Model.Conclusion;
+            //ip["Conclusion"] = Model.Conclusion;
 
             if(Model.Validator!=null)
             {
@@ -384,6 +506,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 ip["Validator.Function"] = ""; 
             }
 
+            ip.SetData(Model);
 
             // Cache le bandeau d'aperçu
             if (!apercu)
@@ -418,7 +541,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
                     if (test.EndDate == null || test.EndDate == DateTime.MinValue)
                         ip.Element["Date"] = "__/ __ /_____";
-                    else if (langue == "US")
+                    else if (langue == "US" || langue == "EN")
                         ip.Element["Date"] = test.EndDate?.ToString("MM/dd/yyyy") + Environment.NewLine;
                     else
                         ip.Element["Date"] = test.EndDate?.ToString("dd/MM/yyyy") + Environment.NewLine;
@@ -428,15 +551,20 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                     ip.Element["Specification"] = test.Specification + Environment.NewLine;
                     ip.Element["Result"] = test.Result?.Result??"" + Environment.NewLine;
 
-                    switch (test.Result?.StateId)
+                    switch (test.Result?.ConformityId)
                     {
-                        case 2 : ip.Element["Conform"] = "Non Conforme" + Environment.NewLine;
+                        case ConformityState.NotConform : ip.Element["Conform"] = "{FR=Non conforme}{EN=Not conform}" + Environment.NewLine;
                             conform = false;
                             break;
-                        case 3 : ip.Element["Conform"] = "Conforme" + Environment.NewLine;
+                        case ConformityState.Conform : ip.Element["Conform"] = "{FR=Conforme}{EN=Conform}" + Environment.NewLine;
                             break;
-                        default:
-                            ip.Element["Conform"] = "En cours" + Environment.NewLine;
+                        case ConformityState.Invalid : ip.Element["Conform"] = "{FR=Invalide}{EN=Invalid}" + Environment.NewLine;
+                            break;
+                        case ConformityState.NotChecked: ip.Element["Conform"] = "{FR=Non testé}{EN=Not tested}" + Environment.NewLine;
+                            break;
+                        case ConformityState.Running: ip.Element["Conform"] = "{FR=En cours}{EN=Running}" + Environment.NewLine;
+                            break;
+                        case null: ip.Element["Conform"] = "{FR=Non validé}{EN=Not validated}" + Environment.NewLine;
                             break;
                     }
                     //ip.Element["Conforme"] = test.Result?.Conformity??"" + Environment.NewLine;
@@ -447,34 +575,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             ip["AnalysisEnd"] = endDate;
 
 
-            if(conform)
-            {
-                ip["XConform"]="X"; 
-                ip["XNotConform"]=" ";
-            }
-            else
-            {
-                ip["XConform"]=" "; 
-                ip["XNotConform"]="X";
-            }
 
-            if(Model.Motivation=="Enregistrement")
-            {
-                ip["XAMM"]="X"; 
-            }
-            else
-            {
-                ip["XRoutine"]=" "; 
-            }
-
-            if(Model.Motivation=="Routine")
-            {
-                ip["XRoutine"]="X"; 
-            }
-            else
-            {
-                ip["XAMM"]=" "; 
-            }
             // Impression du certificat d'analyse
             String numero = Model.Reference;
             if(ip.Apercu("Certificat_" + numero, null, Print.Langue("{FR=Rapport d'analyse}{US=Report of analysis} ", langue) + Model.Reference))

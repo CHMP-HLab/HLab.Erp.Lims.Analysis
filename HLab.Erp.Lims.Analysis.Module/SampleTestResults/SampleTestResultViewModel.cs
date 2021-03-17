@@ -29,7 +29,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         public SampleTestResultViewModel()
         {
             H.Initialize(this);
-            FormHelper = new FormHelper();
+            FormHelper = new FormTestClassHelper();
         }
 
         [Import] private IDataService _data;
@@ -75,19 +75,18 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         private readonly IProperty<string> _conformity = H.Property<string>(c => c
             .Set(e =>
                 {
-                    switch(e.Model.StateId)
+                    return e.Model.ConformityId switch
                     {
-                        case -1 : return "{Undefined}";
-                        case 0 : return "{Not Started}";
-                        case 1 : return "{Running}";
-                        case 2 : return "{Not Conform}";
-                        case 3 : return "{Conform}";
-                        case 4 : return "{Not Valid}";
-                        default: return "{error}";
-                    } 
+                        //-1 => "{Undefined}",
+                        ConformityState.NotChecked => "{Not Started}",
+                        ConformityState.Running => "{Running}",
+                        ConformityState.NotConform => "{Not Conform}",
+                        ConformityState.Conform => "{Conform}",
+                        ConformityState.Invalid => "{Not Valid}",
+                    };
                 }            
             )
-            .On(e => e.Model.StateId)
+            .On(e => e.Model.ConformityId)
             .Update()
         );
 
@@ -95,19 +94,19 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
         private readonly IProperty<string> _conformityIconPath = H.Property<string>(c => c
             .Set(e =>
+            {
+                return e.Model.ConformityId switch
                 {
-                    switch(e.Model.StateId)
-                    {
-                        case -1 : return "Icons/Validations/Error";
-                        case 0 : return "Icons/Results/ConformityTodo";
-                        case 1 : return "Icons/Results/Running";
-                        case 2 : return "Icons/Results/ConformityKO";
-                        case 3 : return "Icons/Results/ConformityOK";
-                        case 4 : return "Icons/Results/Invalidated";
-                        default: return "Icons/Validations/Error";
-                    } 
-                }   )         
-            .On(e => e.Model.StateId)
+                    //-1 => "Icons/Results/ConformityInvalid",
+                    ConformityState.NotChecked => "Icons/Results/ConformityTodo",
+                    ConformityState.Running => "Icons/Results/Running",
+                    ConformityState.NotConform => "Icons/Results/ConformityKO",
+                    ConformityState.Conform => "Icons/Results/ConformityOK",
+                    ConformityState.Invalid => "Icons/Results/ConformityInvalid",
+                    _ => "Icons/Results/ConformityInvalid"
+                };
+            }   )         
+            .On(e => e.Model.ConformityId)
             .Update()
         );
 
@@ -118,12 +117,12 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         }
         private readonly IProperty<SampleTestViewModel> _parent = H.Property<SampleTestViewModel>();
 
-        public FormHelper FormHelper
+        public FormTestClassHelper FormHelper
         {
             get => _formHelper.Get();
             set => _formHelper.Set(value);
         }
-        private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>();
+        private readonly IProperty<FormTestClassHelper> _formHelper = H.Property<FormTestClassHelper>();
 
         private readonly ITrigger _ = H.Trigger(c => c
             .On(e => e.Model.Stage)

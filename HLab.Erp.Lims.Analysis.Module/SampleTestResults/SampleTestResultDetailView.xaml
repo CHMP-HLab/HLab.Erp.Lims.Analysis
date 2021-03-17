@@ -62,7 +62,7 @@
                         <lang:LocalizedLabel Text="{}{Result}" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="2"/>
                         <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding Model.Result}" Grid.Row="1" Grid.Column="2"/>
 
-                        <lang:LocalizedLabel Text="{}{Conformity}" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="3" />
+                        <lang:LocalizedLabel Text="{}{Conformity}" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="3" />
                         <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding Model.Conformity}" Grid.Row="1" Grid.Column="3"/>
 
                     </Grid>
@@ -72,8 +72,12 @@
                         <icons:IconView 
                             Path="{Binding ConformityIconPath}" 
                             IconMaxHeight="25"
-                            Caption="{Binding Conformity,Mode=OneWay}"
-                            />
+                            >
+                            <StackPanel>
+                                <lang:LocalizedLabel HorizontalAlignment="Left" Text="{Binding Conformity,Mode=OneWay}"/>
+                                <lang:LocalizedLabel HorizontalAlignment="Left" Text="{Binding ConformityIconPath,Mode=OneWay}"/>
+                            </StackPanel>
+                        </icons:IconView>
                         <Label/>
                </views:DetailView>
                 

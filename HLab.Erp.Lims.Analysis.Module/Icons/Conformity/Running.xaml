@@ -10,12 +10,13 @@
     <!--Unknown tag: metadata-->
     <Canvas Name="layer1">
       <Canvas.RenderTransform>
-        <TranslateTransform X="0" Y="-280.06665"/>
+        <TranslateTransform X="0" Y="0"/>
       </Canvas.RenderTransform>
-      <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0.5" Canvas.Top="280.5" Width="16" Height="16" Name="path3728" Fill="#FF000080" StrokeThickness="0.26458332"/>
+      <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left=".5" Canvas.Top=".5" Width="15" Height="15" Fill="#FF004080" StrokeThickness="0"/>
+      <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Left="0.5" Canvas.Top="0.5" Width="15" Height="15" Name="path25" StrokeThickness="1" Stroke="#FFFEFEFE" StrokeMiterLimit="4"/>
       <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path14" Fill="#FFFEFEFE" StrokeThickness="0.26458332" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat">
         <Path.Data>
-          <PathGeometry Figures="m 5.1282338 283.75344 8.3187642 4.84426 -8.3187642 4.24291 z" FillRule="NonZero"/>
+          <PathGeometry Figures="m 5.5 3 8 5 -8 5 z" FillRule="NonZero"/>
         </Path.Data>
       </Path>
     </Canvas>

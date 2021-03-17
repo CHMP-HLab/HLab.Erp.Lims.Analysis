@@ -22,25 +22,16 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         public static IColumnConfigurator<T> FormColumn<T>(this IColumnConfigurator<T> c, Func<T, Form> getForm)
             => c.Column
                 .Header("{Form}").Width(160)
-                .Content(e => getForm(e).Name)
+                .Content(e => getForm(e)?.Name)
                 .Localize()
                 .Icon(s => getForm(s)?.IconPath ?? "")
-                .OrderBy( s => getForm(s).Name);
-        private static string GetIcon(int? state)
-        {
-            return state switch
-            {
-                1 => "icons/Results/ConformityTodo",
-                2 => "icons/Results/ConformityKo",
-                3 => "icons/Results/ConformityOk",
-                _ => "icons/Results/ConformityTodo"
-            };
-        }
+                .OrderBy( s => getForm(s)?.Name??"");
 
-        public static IColumnConfigurator<T> ConformityColumn<T>(this IColumnConfigurator<T> c, Func<T, int?> getState)
+        public static IColumnConfigurator<T> ConformityColumn<T>(this IColumnConfigurator<T> c, Func<T, ConformityState?> getState)
             => c.Column
-                .Header("{Conformity}").Width(80)
-                .Icon(s => GetIcon(getState(s)))
+                .Header("{Conformity}").Width(130)
+                .Content(s => $"{{{getState(s)}}}").Localize()
+                .Icon(s => Sample.GetIconPath(getState(s)),20)
                 .Center()
                 .OrderBy(s => getState(s));
 

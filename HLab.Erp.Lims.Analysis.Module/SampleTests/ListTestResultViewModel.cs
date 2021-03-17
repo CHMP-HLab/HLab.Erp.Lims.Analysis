@@ -34,7 +34,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 .Column.Header("{Start}").Content(s => s.Start).Width(80).OrderByOrder(0)
                 .Column.Header("{End}").Content(s => s.End).Width(80)
                 .Column.Header("{Result}").Content(s => s.Result).Width(80)
-                .ConformityColumn(s => s.StateId)
+                .ConformityColumn(s => s.ConformityId)
                 .StageColumn(s => SampleTestResultWorkflow.StageFromName(s.Stage))
 
                 .Column.Hidden.Id("IsSelected").Content(s => s.Id == s.SampleTest.Result?.Id)
@@ -76,8 +76,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     
                 }
             });
-            if(result!=null)
+            if (result != null)
+            {
                 await List.UpdateAsync();
+                await _docs.OpenDocumentAsync(result);
+            }
 
         }
 

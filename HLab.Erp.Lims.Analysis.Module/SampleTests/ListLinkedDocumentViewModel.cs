@@ -16,34 +16,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         [Import]
         private readonly IErpServices _erp;
 
-        private string GetStateIcon(int state)
-        {
-            switch (state)
-            {
-                case 1:
-                    return "icons/Results/CheckFailed";
-                case 2:
-                    return "icons/Results/GaugeKO";
-                case 3:
-                    return "icons/Results/GaugeOK";
-                default:
-                    return "icons/Results/Gauge";
-            }
-        }
-
-
-
-        private int _sampleTestId;
-        private string GetStateIcon(string name)
-        {
-            var state = SampleTestResultWorkflow.StageFromName(name);
-            return state?.GetIconPath(null);
-        }
-        private string GetStateCaption(string name)
-        {
-            var state = SampleTestResultWorkflow.StageFromName(name);
-            return state?.GetCaption(null);
-        }
+        private readonly int _sampleTestId;
 
         public ListLinkedDocumentViewModel(int sampleTestId)
         {
@@ -61,15 +34,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     .Header("{Name}").Width(200)
                     .Content(s => s.Name)
              );
-                //.Column("{Start}", s => s.Start)
-                //.Column("{End}", s => s.End)
-                //.Column("{Result}", s => s.Result)
-                //.Icon("{State}", s => s.StateId != null ? GetStateIcon(s.StateId.Value) : "", s => s.StateId)
-                //.Icon("{Stage}", s => GetStateIcon(s.Stage), s => s.Stage)
-                //.Localize("{Stage}", s => GetStateCaption(s.Stage), s => s.Stage)
-                //.Hidden("IsSelected",s => s.Id == s.SampleTest.Result?.Id)
-                //.Hidden("IsValid", s => s.Stage != SampleTestResultWorkflow.Invalidated.Name)
-;
 
             using (List.Suspender.Get())
             {
@@ -109,15 +73,10 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 await List.UpdateAsync();
 
         }
-        protected override bool CanExecuteDelete()
-        {
-            if(Selected==null) return false;
-            //if (Selected.Stage != SampleTestResultWorkflow.Running.Name) return false;
-            //if(!_erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
-            return true;
-        }
+        protected override bool CanExecuteDelete() => Selected != null;
 
         public override string Title => "{Documents}";
+
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }

@@ -14,16 +14,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
     {
         [Import] private readonly IAclService _acl;
 
-        private string GetStageIcon(string name)
-        {
-            var stage = SampleTestWorkflow.StageFromName(name);
-            return stage?.GetIconPath(null);
-        }
-        private string GetStageCaption(string name)
-        {
-            var stage = SampleTestWorkflow.StageFromName(name);
-            return stage?.GetCaption(null);
-        }
 
         public SampleSampleTestListViewModel(int sampleId)
         {
@@ -40,7 +30,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 .OrderBy(s => s.Order)
 
                 .DescriptionColumn(s => "",s=>s.Specification)
-                    .Header("{Specifications} ok")
+                    .Header("{Specifications}")
                 .Width(200)
                 .OrderBy(s => s.Specification)
 
@@ -53,7 +43,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     .Header("{Conformity}").Width(200).OrderBy(s => s.Result?.Conformity??"")
 
 
-                .ConformityColumn(s => s.Result?.StateId)
+                .ConformityColumn(s => s.Result?.ConformityId)
                 .StageColumn(s => SampleTestWorkflow.StageFromName(s.Stage))
 
                 .Column.Hidden.Id("IsValid").Content(s => s.Stage != SampleTestWorkflow.InvalidatedResults.Name)

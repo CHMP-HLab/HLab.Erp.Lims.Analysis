@@ -7,13 +7,23 @@ using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    
     using H = HD<SampleTestResult>;
-     public partial class SampleTestResult : Entity
-//        , IEntityWithIcon
-//        , IEntityWithColor
-     {
-         public SampleTestResult() => H.Initialize(this);
+
+    public enum ConformityState
+    {
+        Undefined = -1,
+        NotChecked = 0,
+        Running = 1,
+        NotConform = 2,
+        Conform = 3,
+        Invalid = 4,
+    }
+
+    public partial class SampleTestResult : Entity
+    //        , IEntityWithIcon
+    //        , IEntityWithColor
+    {
+        public SampleTestResult() => H.Initialize(this);
 
 
         //public int? Color => _color.Get();
@@ -56,48 +66,42 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         public string Result
         {
-            get => _result.Get(); 
+            get => _result.Get();
             set => _result.Set(value);
         }
         private readonly IProperty<string> _result = H.Property<string>(c => c.Default(""));
 
         public string Conformity
         {
-            get => _conformity.Get(); 
+            get => _conformity.Get();
             set => _conformity.Set(value);
         }
         private readonly IProperty<string> _conformity = H.Property<string>(c => c.Default(""));
 
         public DateTime? Start
         {
-            get => _start.Get(); 
+            get => _start.Get();
             set => _start.Set(value);
         }
         private readonly IProperty<DateTime?> _start = H.Property<DateTime?>();
 
         public DateTime? End
         {
-            get => _end.Get(); 
+            get => _end.Get();
             set => _end.Set(value);
         }
 
         private readonly IProperty<DateTime?> _end = H.Property<DateTime?>();
 
 
-        //case -1 : Error";
-        //case 0  : NotChecked";
-        //case 1  : Running";
-        //case 2  : Conform;
-        //case 3  : NotConform";
-        //case 4  : Invalidated";
-        //default : Error";
-
-        public int? StateId
+        public ConformityState ConformityId
         {
-            get => _stateId.Get();
-            set => _stateId.Set(value);
+            get => _conformityId.Get();
+            set => _conformityId.Set(value);
         }
-        private readonly IProperty<int?> _stateId = H.Property<int?>();
+        private readonly IProperty<ConformityState> _conformityId = H.Property<ConformityState>();
+
+
         public int? Validation
         {
             get => _validation.Get();
@@ -129,5 +133,5 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _note.Set(value);
         }
         private readonly IProperty<string> _note = H.Property<string>();
-     }
+    }
 }

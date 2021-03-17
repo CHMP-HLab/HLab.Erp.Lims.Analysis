@@ -37,11 +37,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         [Import]
         private IDataService _data;
 
-        public FormHelper FormHelper => _formHelper.Get();
-        private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c
+        public FormTestClassHelper FormHelper => _formHelper.Get();
+        private readonly IProperty<FormTestClassHelper> _formHelper = H.Property<FormTestClassHelper>(c => c
             .Set(e => e._getFormHelper()));
 
-        [Import] private Func<FormHelper> _getFormHelper;
+        [Import] private Func<FormTestClassHelper> _getFormHelper;
 
         public async Task LoadResultAsync(SampleTestResult target=null)
         {
@@ -345,18 +345,18 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .Set(e =>
             {
                 if (e.Model.Result == null) return "Icons/Results/ConformityTodo";
-                switch(e.Model.Result.StateId)
+                switch(e.Model.Result.ConformityId)
                 {
-                    case -1 : return "Icons/Validations/Error";
-                    case 0 : return "Icons/Results/ConformityTodo";
-                    case 1 : return "Icons/Results/Running";
-                    case 2 : return "Icons/Results/ConformityKo";
-                    case 3 : return "Icons/Results/ConformityOK";
-                    case 4 : return "Icons/Results/Invalidated";
+                    case ConformityState.Undefined : return "Icons/Validations/Error";
+                    case ConformityState.NotChecked : return "Icons/Results/ConformityTodo";
+                    case ConformityState.Running : return "Icons/Results/Running";
+                    case ConformityState.NotConform : return "Icons/Results/ConformityKo";
+                    case ConformityState.Conform : return "Icons/Results/ConformityOK";
+                    case ConformityState.Invalid : return "Icons/Results/Invalidated";
                     default: return "Icons/Validations/Error";
                 } 
             }   )         
-            .On(e => e.Model.Result.StateId)
+            .On(e => e.Model.Result.ConformityId)
             .Update()
         );
 
