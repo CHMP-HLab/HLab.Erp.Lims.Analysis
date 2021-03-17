@@ -37,6 +37,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             .Caption("{Check}").Icon("Icons/Result/CheckPassed")
             .FromState(()=>Signed)
             .Action(w=> w.Target.End ??= DateTime.Now)
+            .NeedRight(()=>AnalysisRights.AnalysisResultCheck)
             .ToState(()=>Checked)
         );
 

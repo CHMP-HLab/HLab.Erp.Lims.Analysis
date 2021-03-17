@@ -58,6 +58,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .FromState(()=>Specifications)
             .NeedRight(()=>AnalysisRights.AnalysisMonographSign)
             .ToState(()=>SignedSpecifications)
+            .Sign()
         );
 
         //########################################################
@@ -76,6 +77,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .NeedRight(()=>AnalysisRights.AnalysisMonographValidate)
             .ToState(()=> CorrectionNeeded)
             .Backward()
+            .Sign().Motivate()
         );
 
         public static Action ValidateSpecifications = Action.Create(c => c
@@ -83,6 +85,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .FromState(()=>SignedSpecifications)
             .NeedRight(()=>AnalysisRights.AnalysisMonographValidate)
             .ToState(()=>Scheduling)
+            .Sign()
         );
 
         //########################################################
@@ -98,7 +101,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .FromState(()=>CorrectionNeeded,()=>SignedSpecifications, ()=>Scheduling, ()=>Scheduled,()=>Running)
             .NeedRight(()=>AnalysisRights.AnalysisMonographValidate)
             .ToState(()=> Specifications)
-            .Backward()
+            .Backward().Motivate()
         );
 
 
@@ -137,6 +140,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .FromState(()=>Scheduled)
             .ToState(()=>Scheduling)
             .Backward()
+            .Motivate()
         );
 
         //########################################################
@@ -151,6 +155,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .FromState(()=>Running)
             .ToState(()=>Scheduling)
             .Backward()
+            .Motivate()
         );
 
         public static Action ValidateResults = Action.Create(c => c
@@ -176,6 +181,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .When(w => w.Target.Sample.Stage == SampleWorkflow.Production.Name)
             .WithMessage(w=>"{Sample not in production}")
             .NeedRight(()=>AnalysisRights.AnalysisResultValidate)
+            .Sign()
         );
         public static Action InvalidateResults = Action.Create(c => c
             .Caption("{Invalidate results}").Icon("Icons/Validations/Invalidated")
@@ -184,6 +190,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .When(w => w.Target.Sample.Stage == SampleWorkflow.Production.Name)
             .WithMessage(w=>"{Sample not in production}")
             .NeedRight(()=>AnalysisRights.AnalysisResultValidate)
+            .Sign().Motivate()
         );
 
 
