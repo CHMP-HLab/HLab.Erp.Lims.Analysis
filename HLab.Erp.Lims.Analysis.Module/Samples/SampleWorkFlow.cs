@@ -224,7 +224,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         // CERTIFICAT
 
         public static Action ValidateCertificate = Action.Create( c => c
-            .Caption(w => "{Print Certificate}").Icon(w => "Icons/Workflows/Certificate")
+            .Caption(w => "{Validate Certificate}").Icon(w => "Icons/Workflows/Certificate")
             .FromState(() => Production)
             .Action(w=>{
                 w.Target.NotificationDate = DateTime.Today;
@@ -235,19 +235,19 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Sign()
         );
 
-        public static Action InvalidateSample = Action.Create( c => c
-            .Caption(w => "{Invalidated}").Icon(w => "Icons/Validations/Invalidated")
-            .FromState(() => Production)
+        public static Action AbortSample = Action.Create( c => c
+            .Caption(w => "{Abort analysis}").Icon(w => "Icons/Workflows/Aborted")
+            .FromState(()=>Reception, ()=>Monograph, ()=>Planning, () => Production, ()=>Certificate, ()=>Closed)
             .Action(w=>{
                 w.Target.Validator = WorkflowAnalysisExtension.Acl.Connection.User;
                 })
-            .ToState(() => Invalidated)
+            .ToState(() => Aborted)
             .NeedRight(()=>AnalysisRights.AnalysisCertificateCreate)
             .Sign().Motivate()
         );
 
         public static Stage Certificate = Stage.Create(c => c
-            .Caption(w => "{Print certificate}").Icon(w => "Icons/Workflows/Certificate")
+            .Caption(w => "{Certificate}").Icon(w => "Icons/Workflows/Certificate")
             .WhenStateAllowed(()=>MonographClosed)
             .When(w => {
                 var validated = 0;
@@ -264,8 +264,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .WithMessage(w=>"{Some tests not validated yet}")
         );
 
-        public static Stage Invalidated = Stage.Create(c => c
-            .Caption(w => "{Invalidated}").Icon(w => "Icons/Validations/Invalidated")
+        public static Stage Aborted = Stage.Create(c => c
+            .Caption(w => "{Aborted}").Icon(w => "Icons/Workflows/Aborted")
         );
 
         //########################################################

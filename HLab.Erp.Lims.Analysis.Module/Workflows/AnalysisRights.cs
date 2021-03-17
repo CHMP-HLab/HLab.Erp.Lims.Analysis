@@ -27,5 +27,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Workflows
         //Certificate
         public static readonly AclRight AnalysisCertificateCreate = AclRight.Get();
 
+        public static readonly AclRight AnalysisAbort = AclRight.Get();
+
     }
 }
