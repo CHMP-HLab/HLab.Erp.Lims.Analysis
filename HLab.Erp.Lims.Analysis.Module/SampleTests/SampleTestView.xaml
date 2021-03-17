@@ -7,6 +7,10 @@
              xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
              xmlns:details="clr-namespace:HLab.Erp.Core.Tools.Details;assembly=HLab.Erp.Core.Wpf"
              xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
+             xmlns:lang="clr-namespace:HLab.Localization.Wpf.Lang;assembly=HLab.Localization.Wpf"
+             xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
+             xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
+             xmlns:views="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance {x:Type local:SampleTestViewModelDesign}, IsDesignTimeCreatable=True}"      
@@ -46,9 +50,34 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            <Border Grid.Row="0" Background="#40000000"></Border>
+            <views:DetailView Grid.Row="0" HorizontalAlignment="Center" Text="{}{Results}" IconPath="Icons/Result" EditMode="{Binding EditMode}">
+                <Label />
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <!--<Button Command="{Binding ViewSpecificationsCommand}" HorizontalAlignment="Left">
+                                <lang:Localize Id="{}{Specifications}"/>
+                            </Button>-->
+                        <!--<Button Command="{Binding AddResultCommand}" HorizontalAlignment="Left">
+                                <lang:Localize Id="{}{Add result}"/>
+                            </Button>
+                            <Button Command="{Binding DeleteResultCommand}" HorizontalAlignment="Left">
+                                <lang:Localize Id="{}{Remove result}"/>
+                            </Button>-->
+                        <Button Command="{Binding SelectResultCommand}" HorizontalAlignment="Left">
+                            <lang:Localize Id="{}{Select result}"/>
+                        </Button>
+                    </StackPanel>
+                    <Grid VerticalAlignment="Top" mvvm:ViewLocator.ViewClass="{x:Type annotations:IViewClassContent}">
+                        <mvvm:ViewLocator Model="{Binding Results}"/>
+                    </Grid>
+                </StackPanel>
+
+            </views:DetailView>
+
             <!--<mvvm:ViewLocator Model="{Binding Results.Selected}" MinHeight="50"/>-->
             <controlsEx:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                <ContentControl Content="{Binding FormHelper.Form}" IsEnabled="{Binding FormHelperIsActive}"/>
+                <ContentControl HorizontalAlignment="Center" Content="{Binding FormHelper.Form}" IsEnabled="{Binding FormHelperIsActive}"/>
             </controlsEx:ScrollViewerEx>
         </Grid>
             

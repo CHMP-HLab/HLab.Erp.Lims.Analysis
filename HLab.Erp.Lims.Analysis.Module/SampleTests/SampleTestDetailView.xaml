@@ -31,7 +31,7 @@
             <StackPanel Orientation="Vertical">
                 <views:DetailView 
                     IconPath="{Binding Model.TestClass.IconPath}" 
-                    Text="{Binding Model.TestName}"
+                    Text="{Binding Model.TestClass.Name}"
                     EditMode="{Binding EditMode}">
 
                     <lang:LocalizedLabel Text="{}{Pharmacopoeia}"/>
@@ -70,7 +70,7 @@
 
                         <Border Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Background="#30000000"/>
                         <lang:LocalizedLabel FontWeight="Bold" Text="{}{Result}" HorizontalContentAlignment="Left" Grid.Row="0" Grid.Column="2"/>
-                        <lang:LocalizedLabel Margin="5" HorizontalAlignment="Center" Text="{Binding Model.Result.Result}" Grid.Row="1" Grid.Column="2"/>
+                        <lang:LocalizedLabel Margin="5" HorizontalAlignment="Center" Text="{Binding Model.Result.Result,FallbackValue='{}{Select a result}'}" Grid.Row="1" Grid.Column="2"/>
 
                         <Border Grid.Column="4" Grid.Row="0" Grid.RowSpan="2" Background="#30000000"/>
                         <lang:LocalizedLabel FontWeight="Bold" Text="{}{Conformity}" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="3" />
@@ -94,32 +94,7 @@
 
                 </views:DetailView>
 
-                <!-- RESULTS -->
-                <views:DetailView Text="{}{Results}" IconPath="Icons/Result" EditMode="{Binding EditMode}">
-                    <Label />
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <!--<Button Command="{Binding ViewSpecificationsCommand}" HorizontalAlignment="Left">
-                                <lang:Localize Id="{}{Specifications}"/>
-                            </Button>-->
-                            <!--<Button Command="{Binding AddResultCommand}" HorizontalAlignment="Left">
-                                <lang:Localize Id="{}{Add result}"/>
-                            </Button>
-                            <Button Command="{Binding DeleteResultCommand}" HorizontalAlignment="Left">
-                                <lang:Localize Id="{}{Remove result}"/>
-                            </Button>-->
-                            <Button Command="{Binding SelectResultCommand}" HorizontalAlignment="Left">
-                                <lang:Localize Id="{}{Select result}"/>
-                            </Button>
-                        </StackPanel>
-                        <Grid VerticalAlignment="Top" mvvm:ViewLocator.ViewClass="{x:Type annotations:IViewClassContent}">
-                            <mvvm:ViewLocator Model="{Binding Results}"/>
-                        </Grid>
-                    </StackPanel>
-
-                </views:DetailView>
-
-
+                <!-- LINKS -->
                 <views:DetailView 
                     IconPath="Icons/Entities/Sample" 
                     Text="{}{Sample}"
