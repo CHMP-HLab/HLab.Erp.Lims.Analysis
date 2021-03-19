@@ -50,7 +50,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 .Column.Hidden.Id("Group").Content(s => s.TestClassId)
             );
 
-            List.UpdateAsync();
+            List.Update();
 
             DeleteAllowed = true;
         }

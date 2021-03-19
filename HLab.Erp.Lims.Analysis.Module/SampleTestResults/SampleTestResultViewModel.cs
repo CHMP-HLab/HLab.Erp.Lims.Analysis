@@ -214,7 +214,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
                 });
 
                 if (doc != null)
-                    LinkedDocuments.List.UpdateAsync();
+                    LinkedDocuments.List.Update();
             }
 
         }

@@ -41,7 +41,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             Packagings = packagings;
             _getForms = getForms;
             _getFormClasses = getFormClasses;
-            Packagings.UpdateAsync();
+            Packagings.Update();
         }
         public override string Title => _title.Get();
         private readonly IProperty<string> _title = H.Property<string>(c => c
@@ -363,8 +363,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 st.Stage = SampleTestWorkflow.DefaultStage.Name;
             });
 
-            if (test != null)
-                await Tests.List.UpdateAsync();
+            if (test != null) Tests.List.Update();
         
         }
 
@@ -390,7 +389,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             });
 
             if (form != null)
-                await Forms.List.UpdateAsync();
+                 Forms.List.Update();
         }
 
         public SampleWorkflow Workflow => _workflow.Get();

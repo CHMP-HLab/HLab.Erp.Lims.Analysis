@@ -26,7 +26,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                             .Icon( s => s.FormClass.IconPath)
             );
 
-            List.UpdateAsync();
+            List.Update();
 
             DeleteAllowed = true;
         }

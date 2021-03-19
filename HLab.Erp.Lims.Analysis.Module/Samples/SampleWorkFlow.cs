@@ -26,7 +26,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         }
         public async Task UpdateChildrenAsync()
         {
-            await SampleTests.UpdateAsync();
+            SampleTests.Update(); // TODO : should be async
             Update();
         }
 

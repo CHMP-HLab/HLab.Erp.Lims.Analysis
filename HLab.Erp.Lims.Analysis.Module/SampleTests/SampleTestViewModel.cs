@@ -270,7 +270,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             });
 
             if (test != null)
-                Results.List.UpdateAsync();
+                Results.List.Update();
         }
 
         private void DeleteResult(SampleTestResult result)

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
 using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
@@ -62,7 +60,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
             var result  = await _erp.Data.AddAsync<SampleTestResult>(r =>
             {
-                r.Name = string.Format("R{0}",i+1);
+                r.Name = $"R{i + 1}";
                 r.SampleTestId = _sampleTestId;
                 if(target!=null)
                 {
@@ -70,7 +68,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 }
             });
             if(result!=null)
-                await List.UpdateAsync();
+                List.Update();
 
         }
         protected override bool CanExecuteDelete() => Selected != null;

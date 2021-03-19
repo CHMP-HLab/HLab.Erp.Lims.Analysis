@@ -59,7 +59,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             //    .Link(this,at=>at.EntityClass)
             //);
 
-            List.UpdateAsync();
+            List.Update();
         }
 
                 private string LogAbstract(string log, int size)

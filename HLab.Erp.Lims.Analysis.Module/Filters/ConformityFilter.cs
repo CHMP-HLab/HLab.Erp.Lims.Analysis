@@ -98,7 +98,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
         {
             //var entity = getter.Parameters[0];
             q.AddFilter(Title,()=> Match(getter));
-            Update = ()=> q.UpdateAsync();
+            Update = q.Update;
             return this;
         }
         public ConformityFilter PostLink<T>(ObservableQuery<T> q, Func<T, ConformityState> getter)
@@ -106,7 +106,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
         {
             //var entity = getter.Parameters[0];
             q.AddPostFilter(Title,e=> Match(getter).Invoke(e));
-            Update = ()=> q.UpdateAsync();
+            Update = q.Update;
             return this;
         }
 

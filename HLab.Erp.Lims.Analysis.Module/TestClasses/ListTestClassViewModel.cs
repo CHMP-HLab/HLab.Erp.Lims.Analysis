@@ -35,7 +35,6 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 ;
             using (List.Suspender.Get())
             {
-                List.UpdateAsync();
             }
         }
 

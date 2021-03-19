@@ -34,7 +34,6 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                 ;
             using (List.Suspender.Get())
             {
-                List.UpdateAsync();
             }
         }
 

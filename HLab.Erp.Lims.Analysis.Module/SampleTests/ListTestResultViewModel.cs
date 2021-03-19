@@ -69,7 +69,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
             var result  = await _erp.Data.AddAsync<SampleTestResult>(r =>
             {
-                r.Name = string.Format("R{0}",i+1);
+                r.Name = $"R{i + 1}";
                 r.SampleTestId = _sampleTest.Id;
                 if(target!=null)
                 {
@@ -78,7 +78,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             });
             if (result != null)
             {
-                await List.UpdateAsync();
+                List.Update();
                 await _docs.OpenDocumentAsync(result);
             }
 
