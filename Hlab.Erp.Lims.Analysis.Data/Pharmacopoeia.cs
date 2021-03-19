@@ -13,19 +13,12 @@ namespace HLab.Erp.Lims.Analysis.Data
     {
         public Pharmacopoeia() => H.Initialize(this);
 
-        public string NameFr
+        public string Name
         {
-            get => _nameFr.Get();
-            set => _nameFr.Set(value);
+            get => _name.Get();
+            set => _name.Set(value);
         }
-        private IProperty<string> _nameFr = H.Property<string>(c => c.Default(""));
-
-        public string NameEn
-        {
-            get => _nameEn.Get();
-            set => _nameEn.Set(value);
-        }
-        private readonly IProperty<string> _nameEn = H.Property<string>(c => c.Default(""));
+        private readonly IProperty<string> _name = H.Property<string>(c => c.Default(""));
 
         public string Abbreviation
         {
@@ -48,7 +41,7 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _searchUrl.Get();
             set => _searchUrl.Set(value);
         }
-        private IProperty<string> _searchUrl = H.Property<string>(c => c.Default(""));
+        private readonly IProperty<string> _searchUrl = H.Property<string>(c => c.Default(""));
 
 
         public string ReferenceUrl
@@ -58,20 +51,26 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<string> _referenceUrl = H.Property<string>(c => c.Default(""));
 
+        public string IconPath
+        {
+            get => _iconPath.Get();
+            set => _iconPath.Set(value);
+        }
+        private readonly IProperty<string> _iconPath = H.Property<string>(c => c.Default(""));
+
         [Ignore]
         public string Caption => _caption.Get();
         private readonly IProperty<string> _caption = H.Property<string>(c => c
-            .On(e => e.NameFr)
-            .Set(e => e.NameFr)
+            .On(e => e.Name)
+            .Set(e => e.Name)
         );
         
 
-        [Ignore]
-        public string IconPath => _iconPath.Get();
-        private readonly IProperty<string> _iconPath = H.Property<string>(c => c
-            .On(e => e.NameFr)
-            .Set(e => "Pharmacopoeia/" + (string.IsNullOrWhiteSpace(e.Abbreviation)?"home_flag":e.Abbreviation))
-        );
+        public static Pharmacopoeia DesignModel => new Pharmacopoeia
+        {
+            Name = "{US Pharmacopoeia}",
+            Abbreviation = "Usp"
+        };
 
     }
 }
