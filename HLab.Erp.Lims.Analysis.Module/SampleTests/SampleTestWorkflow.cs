@@ -66,7 +66,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         //########################################################
         public static Stage SignedSpecifications = Stage.Create(c => c
             .Caption("{Specifications Signed}").Icon("Icons/Workflows/Specifications").SubIcon("Icons/Workflows/Sign")
-            .When(e => e.Target.SpecificationsDone)
+            .When(e => e.Target.SpecificationDone)
             .WithMessage(w=>"{Missing} : {Specification}")
             .NeedRight(()=>AnalysisRights.AnalysisMonographSign)
         );

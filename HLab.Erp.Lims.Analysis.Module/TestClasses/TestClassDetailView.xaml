@@ -7,94 +7,119 @@
              xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
              xmlns:testClasses="clr-namespace:HLab.Erp.Lims.Analysis.Module.TestClasses"
              xmlns:views="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
-             xmlns:wpf="clr-namespace:HLab.Icons.Wpf;assembly=HLab.Icons.Wpf"
-             xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
+              xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
+             xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
+             xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
              d:DataContext="{d:DesignInstance {x:Type testClasses:TestClassViewModelDesign}, IsDesignTimeCreatable=True}"             
              Background="#FF005040"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-            <mvvm:ViewLocator Height="50"  Model="{Binding Locker}" Grid.ColumnSpan="2"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <views:DetailView 
-                Grid.Row="1" 
+                <mvvm:ViewLocator Height="50"  Model="{Binding Locker}" Grid.ColumnSpan="2"/>
+
+                <controlsEx:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Orientation="Vertical">
+                <views:DetailView 
                 Text="{}{Test}" 
                 IconPath="{Binding IconPath}"
                 EditMode="{Binding Locker.IsActive}">
 
-                <!--<Label>
+                    <!--<Label>
                     <lang:Localize Id="Workflow" Margin="50,0,0,0"/>
                 </Label>
                 <ContentPresenter Content="{Binding Workflow}"/>-->
 
-                <lang:Localize Id="{}{Name} : " />
-                <TextBox Text="{Binding Model.Name,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
+                    <lang:Localize Id="{}{Name} : " />
+                    <TextBox Text="{Binding Model.Name,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
 
-                <lang:Localize Id="{}{Icon} : " StringFormat="{}{0} : " />
-                <TextBox Text="{Binding Model.IconPath,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
-            </views:DetailView>
+                    <lang:Localize Id="{}{Icon} : " StringFormat="{}{0} : " />
+                    <TextBox Text="{Binding Model.IconPath,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
+                </views:DetailView>
 
-            <views:DetailView 
+                <views:DetailView 
                 Grid.Row="2" 
                 Text="{}{Results}" 
                 IconPath="Icons/Sample/Folder"
                 EditMode="{Binding Locker.IsActive}">
 
-                <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch" />
+                    <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch" />
 
-                <Label HorizontalContentAlignment="Right" >
-                <lang:Localize Id="{}{Test Name} : "/>
-            </Label>
-            <TextBox Text="{Binding FormHelper.Form.Test.TestName}" HorizontalContentAlignment="Center" />
-
-                
-                <Grid Grid.ColumnSpan="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-
-                    <lang:LocalizedLabel Text="{}{Description} : " HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="0"/>
-                    <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Test.Description}" Grid.Row="1" Grid.Column="0"/>
-
-                    <lang:LocalizedLabel Text="{}{Specifications} : " HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="1"/>
-                    <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Test.Specifications}" Grid.Row="1" Grid.Column="1"/>
-
-                    <lang:LocalizedLabel Text="{}{Result}" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="2"/>
-                    <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Test.Result}" Grid.Row="1" Grid.Column="2"/>
-
-                    <lang:LocalizedLabel Text="{}{Conformity}" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="3" />
-                    <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Test.Conformity}" Grid.Row="1" Grid.Column="3"/>
-
-                    <icons:IconView Margin="0,5" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="3" Path="{Binding ConformityIconPath}" MaxHeight="40"/>
-                </Grid>
+                    <Label HorizontalContentAlignment="Right" >
+                        <lang:Localize Id="{}{Test Name} : "/>
+                    </Label>
+                    <TextBox Text="{Binding FormHelper.Form.Test.TestName}" HorizontalContentAlignment="Center" />
 
 
-            <lang:LocalizedLabel HorizontalContentAlignment="Right" Text="{}{State}"/>
-            <TextBox Text="{Binding FormHelper.Form.Test.State}" HorizontalContentAlignment="Center" />
+                    <Grid Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-            <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
-                <Grid VerticalAlignment="Center">
-                    <Canvas DockPanel.Dock="Left">
-                        <icons:IconView Path = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
-                    </Canvas>
-                    <lang:Localize Id="Unit Tests" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                
-                </Grid>
-            </Label>
+                        <lang:LocalizedLabel Text="{}{Description} : " HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="0"/>
+                        <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Target.Description}" Grid.Row="1" Grid.Column="0"/>
 
-        </views:DetailView>
-    </Grid>
+                        <lang:LocalizedLabel Text="{}{Specifications} : " HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="1"/>
+                        <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Target.Specification}" Grid.Row="1" Grid.Column="1"/>
+
+                        <lang:LocalizedLabel Text="{}{Result}" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="2"/>
+                        <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Target.Result}" Grid.Row="1" Grid.Column="2"/>
+
+                        <lang:LocalizedLabel Text="{}{Conformity}" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="3" />
+                        <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Target.Conformity}" Grid.Row="1" Grid.Column="3"/>
+
+                        <icons:IconView Margin="0,5" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="3" Path="{Binding ConformityIconPath}" MaxHeight="40"/>
+                    </Grid>
+
+
+                    <lang:LocalizedLabel HorizontalContentAlignment="Right" Text="{}{State}"/>
+                    <TextBox Text="{Binding FormHelper.Form.Target.Conformity}" HorizontalContentAlignment="Center" />
+
+                    <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
+                        <Grid VerticalAlignment="Center">
+                            <Canvas DockPanel.Dock="Left">
+                                <icons:IconView Path = "Icons/Sample/Folder" Height="35" Opacity="0.8"/>
+                            </Canvas>
+                            <lang:Localize Id="Unit Tests" VerticalAlignment="Center" Margin="50,0,0,0"/>
+
+                        </Grid>
+                    </Label>
+                    <Button Grid.ColumnSpan="2"
+                        Command="{Binding CheckUnitTestsCommand}">
+                        <lang:LocalizedLabel>{Check}</lang:LocalizedLabel>
+                    </Button>
+                    <lang:LocalizedLabel>{Add}</lang:LocalizedLabel>
+                    <TextBox Text="{Binding NewName}"></TextBox>
+                    <Button Grid.ColumnSpan="2"  Command="{Binding AddUnitTestCommand}">
+                        <lang:LocalizedLabel>{Add}</lang:LocalizedLabel>
+
+                    </Button>
+                    <mvvm:ViewLocator Grid.ColumnSpan="2" ViewClass="{x:Type annotations:IViewClassContent}" Model="{Binding UnitTests}"/>
+
+                </views:DetailView>
+                        </StackPanel>
+                    </controlsEx:ScrollViewerEx>
+
+                <views:DetailView Grid.Row="2" EditMode="{Binding Locker.IsActive}" IconPath="Icons/Edit" Text="{}{Note}">
+
+                    <TextBox Margin="50,0,15,0"  Grid.ColumnSpan="2"  Text="{Binding Model.Note, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap"/>
+                    <Label />
+
+                </views:DetailView>
+
+            </Grid>
+
 </UserControl>

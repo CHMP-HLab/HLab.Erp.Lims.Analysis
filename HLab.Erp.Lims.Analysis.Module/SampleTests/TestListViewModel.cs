@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
+using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;

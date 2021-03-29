@@ -1,6 +1,7 @@
 using System;
 using HLab.Erp.Acl;
 using HLab.Erp.Base.Data;
+using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
@@ -13,11 +14,6 @@ namespace HLab.Erp.Lims.Analysis.Data
     public partial class Sample : Entity, IListableModel
     {
         public Sample() => H.Initialize(this);
-
-        public static string GetIconPath(ConformityState? state)
-        {
-            return $"Icons/Conformity/{state}";
-        }
 
         public string FileId
         {

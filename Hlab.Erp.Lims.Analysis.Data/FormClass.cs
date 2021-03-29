@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Data;
-using HLab.Erp.Forms.Annotations;
 using HLab.Notify.PropertyChanged;
 using NPoco;
 
@@ -13,7 +13,7 @@ namespace HLab.Erp.Lims.Analysis.Data
 {
     using H = H<FormClass>;
 
-    public class FormClass : Entity, IListableModel, IEntityWithIcon
+    public class FormClass : Entity, IListableModel, IEntityWithIcon, IFormClass
     {
         public FormClass() => H.Initialize(this);
 

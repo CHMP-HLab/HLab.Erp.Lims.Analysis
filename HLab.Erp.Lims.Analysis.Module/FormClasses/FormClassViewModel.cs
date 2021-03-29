@@ -2,8 +2,8 @@
 using System.Windows;
 using System.Windows.Input;
 using HLab.Erp.Acl;
+using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Data;
-using HLab.Erp.Forms.Annotations;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
@@ -26,26 +26,43 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
     {
         public DummyTarget() => H<DummyTarget>.Initialize(this);
 
-        public FormState State
-        {
-            get =>_state.Get(); 
-            set =>_state.Set(value); 
-        }
-        private readonly IProperty<FormState> _state = H<DummyTarget>.Property<FormState>();
+        public string Result { get; set; }
 
-        public string SpecValues
+        public ConformityState ConformityId
         {
-            get => _specValues.Get(); 
-            set => _specValues.Set(value);
+            get =>_conformityId.Get(); 
+            set =>_conformityId.Set(value); 
         }
-        private readonly IProperty<string> _specValues = H<DummyTarget>.Property<string>();
 
-        public string Values
+        public void Reset()
         {
-            get => _values.Get(); 
-            set => _values.Set(value);
+            throw new System.NotImplementedException();
         }
-        private readonly IProperty<string> _values = H<DummyTarget>.Property<string>();
+
+        private readonly IProperty<ConformityState> _conformityId = H<DummyTarget>.Property<ConformityState>();
+
+        public byte[] Code => null;
+
+        public string SpecificationValues
+        {
+            get => _specificationValues.Get(); 
+            set => _specificationValues.Set(value);
+        }
+        private readonly IProperty<string> _specificationValues = H<DummyTarget>.Property<string>();
+
+        public bool SpecificationDone
+        {
+            get => _specificationDone.Get(); 
+            set => _specificationDone.Set(value);
+        }
+        private readonly IProperty<bool> _specificationDone = H<DummyTarget>.Property<bool>();
+
+        public string ResultValues
+        {
+            get => _resultValues.Get(); 
+            set => _resultValues.Set(value);
+        }
+        private readonly IProperty<string> _resultValues = H<DummyTarget>.Property<string>();
 
         public bool MandatoryDone
         {
@@ -54,12 +71,15 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         }
         private readonly IProperty<bool> _mandatoryDone = H<DummyTarget>.Property<bool>();
 
-        public bool SpecificationsDone
-        {
-            get => _specificationsDone.Get(); 
-            set => _specificationsDone.Set(value);
-        }
-        private readonly IProperty<bool> _specificationsDone = H<DummyTarget>.Property<bool>();    }
+
+        public string DefaultTestName => "Dummy";
+        public string TestName { get; set; }
+        public string Description { get; set; }
+        public string Specification { get; set; }
+        public string Conformity { get; set; }
+        IFormClass IFormTarget.FormClass { get => null; set => throw new System.NotImplementedException(); }
+        string IFormTarget.Name { get => "Dummy"; set => throw new System.NotImplementedException(); }
+    }
 
     public class FormClassViewModel : EntityViewModel<FormClass>
     {
@@ -82,7 +102,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>();
 
         public ICommand TryCommand { get; } = H.Command(c => c.Action(
-            async e => await e.Compile()
+            async e => await e.FormHelper.Compile()
         ));
         public ICommand SpecificationModeCommand { get; } = H.Command(c => c.Action(
             e => e.FormHelper.Mode = FormMode.Specification
@@ -91,30 +111,6 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
              e => e.FormHelper.Mode = FormMode.Capture
         ));
 
-        public async Task Compile()
-        {
-            var specs = FormHelper.GetSpecPackedValues();
-            var values = FormHelper.GetPackedValues();
-
-            await FormHelper.LoadFormAsync(new DummyTarget()).ConfigureAwait(true);
-
-            Model.Code = await FormHelper.SaveCode();
-
-            FormHelper.LoadValues(specs);
-            FormHelper.LoadValues(values);
-
-            FormHelper.Form.Process(null,null);
-        }
-
-        //private IProperty<bool> _initLocker = H.Property<bool>(c => c.On(e => e.Locker).Do((e,f)=> {
-        //    e.Locker.BeforeSavingAction = async t =>
-        //    {
-        //        var h = new FormHelper();
-        //        h.Cs = e.Cs;
-        //        h.Xaml = e.Xaml;
-        //        t.Code = await h.SaveCode();
-        //    };
-        //}));
 
         private ITrigger _init = H.Trigger(c => c
             .On(e => e.Model)
@@ -147,7 +143,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                     }";
                 }
 
-                await e.Compile();
+                await e.FormHelper.Compile();
             }));
 
     }

@@ -15,7 +15,7 @@
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Base.Data\HLab.Erp.Base.Data.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Core\HLab.Erp.Core.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Data\HLab.Erp.Data.csproj" />
-    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Forms.Annotations\HLab.Erp.Forms.Annotations.csproj" />
+    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Forms.Annotations\HLab.Erp.Conformity.Annotations.csproj" />
   </ItemGroup>
 
 </Project>

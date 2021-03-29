@@ -13,14 +13,14 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
-    public class ListTestResultViewModel : EntityListViewModel<SampleTestResult>, IMvvmContextProvider
+    public class TestResultListViewModel : EntityListViewModel<SampleTestResult>, IMvvmContextProvider
     {
         [Import]
         private readonly IErpServices _erp;
 
         private readonly SampleTest _sampleTest;
 
-        public ListTestResultViewModel(SampleTest sampleTest)
+        public TestResultListViewModel(SampleTest sampleTest)
         {
             _sampleTest = sampleTest;
 

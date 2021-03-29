@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
+using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Notify.PropertyChanged;
@@ -12,7 +13,7 @@ namespace HLab.Erp.Lims.Analysis.Data
 {
     using H = HD<TestClass>;
 
-    public partial class TestClass : Entity, ILocalCache, IListableModel
+    public partial class TestClass : Entity, ILocalCache, IListableModel, IFormClass
         , IEntityWithIcon
         , IEntityWithColor
     {
@@ -23,7 +24,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _name.Get();
             set => _name.Set(value);
         }
-
         private readonly IProperty<string> _name = H.Property<string>(c => c.Default(""));
 
 
@@ -32,7 +32,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _version.Get();
             set => _version.Set(value);
         }
-
         private readonly IProperty<string> _version = H.Property<string>(c => c.Default(""));
 
 
@@ -41,7 +40,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _code.Get();
             set => _code.Set(value);
         }
-
         private readonly IProperty<byte[]> _code = H.Property<byte[]>();
 
 
@@ -50,7 +48,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _order.Get();
             set => _order.Set(value);
         }
-
         private readonly IProperty<int?> _order = H.Property<int?>();
 
 

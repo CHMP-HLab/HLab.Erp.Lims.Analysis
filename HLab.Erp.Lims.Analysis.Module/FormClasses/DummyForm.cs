@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using HLab.Erp.Forms.Annotations;
+using HLab.Erp.Conformity.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {

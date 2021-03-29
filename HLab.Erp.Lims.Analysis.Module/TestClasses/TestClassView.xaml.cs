@@ -37,7 +37,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         {
             if (e.PropertyName.StartsWith("XamlError"))
             {
-                HiglightError(
+                HighlightError(
                     ((TestClassViewModel) DataContext).FormHelper.XamlErrorLine,
                     ((TestClassViewModel) DataContext).FormHelper.XamlErrorPos
                 );
@@ -69,7 +69,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
 
 
-        private void HiglightError(int line, int pos)
+        private void HighlightError(int line, int pos)
         {
             foreach (var markSameWord in XamlEditor.TextArea.TextView.LineTransformers.OfType<MarkError>().ToList())
             {

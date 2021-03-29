@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
+using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Erp.Lims.Analysis.Module.Samples;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using HLab.Erp.Lims.Analysis.Module.TestClasses;
@@ -29,7 +31,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         public SampleTestResultViewModel()
         {
             H.Initialize(this);
-            FormHelper = new FormTestClassHelper();
+            FormHelper = new();
         }
 
         [Import] private IDataService _data;
@@ -93,19 +95,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         public string ConformityIconPath => _conformityIconPath.Get();
 
         private readonly IProperty<string> _conformityIconPath = H.Property<string>(c => c
-            .Set(e =>
-            {
-                return e.Model.ConformityId switch
-                {
-                    //-1 => "Icons/Results/ConformityInvalid",
-                    ConformityState.NotChecked => "Icons/Results/ConformityTodo",
-                    ConformityState.Running => "Icons/Results/Running",
-                    ConformityState.NotConform => "Icons/Results/ConformityKO",
-                    ConformityState.Conform => "Icons/Results/ConformityOK",
-                    ConformityState.Invalid => "Icons/Results/ConformityInvalid",
-                    _ => "Icons/Results/ConformityInvalid"
-                };
-            }   )         
+            .Set(e => e.Model.ConformityId.IconPath())
             .On(e => e.Model.ConformityId)
             .Update()
         );
@@ -117,12 +107,12 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         }
         private readonly IProperty<SampleTestViewModel> _parent = H.Property<SampleTestViewModel>();
 
-        public FormTestClassHelper FormHelper
+        public FormHelper FormHelper
         {
             get => _formHelper.Get();
             set => _formHelper.Set(value);
         }
-        private readonly IProperty<FormTestClassHelper> _formHelper = H.Property<FormTestClassHelper>();
+        private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>();
 
         private readonly ITrigger _ = H.Trigger(c => c
             .On(e => e.Model.Stage)
@@ -136,7 +126,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         {
             await FormHelper.LoadAsync(Model).ConfigureAwait(true);
 
-            FormHelper.Mode = Workflow.CurrentStage == SampleTestResultWorkflow.Running ? TestFormMode.Capture : TestFormMode.ReadOnly;
+            FormHelper.Mode = Workflow.CurrentStage == SampleTestResultWorkflow.Running ? FormMode.Capture : FormMode.ReadOnly;
         }
 
 

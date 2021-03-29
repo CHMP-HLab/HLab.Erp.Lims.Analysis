@@ -32,7 +32,7 @@ namespace HLab.Erp.Data.Wpf
             }
         }
 
-        public ObservableCollection<string> Databases { get; } = new ObservableCollection<string>();
+        public ObservableCollection<string> Databases { get; } = new();
 
         public string Server
         {

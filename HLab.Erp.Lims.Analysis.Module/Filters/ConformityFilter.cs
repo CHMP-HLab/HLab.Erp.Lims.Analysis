@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Media;
+using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
@@ -34,8 +35,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
 
             public ConformityState State { get; set; }
 
-            public string IconPath => Sample.GetIconPath(State);
-            public string Caption => $"{{{State}}}";
+            public string IconPath => State.IconPath();
+            public string Caption => State.Caption();
         }
 
         public ReadOnlyObservableCollection<ConformityEntry> List { get; }

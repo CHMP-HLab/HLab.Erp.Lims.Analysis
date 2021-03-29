@@ -8,6 +8,7 @@ using System.Windows.Input;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Base.Wpf;
+using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
@@ -195,7 +196,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public string ConformityIconPath => _conformityIconPath.Get();
         private readonly IProperty<string> _conformityIconPath = H.Property<string>(c => c
-            .Set(e => Sample.GetIconPath(e.Model.ConformityId))
+            .Set(e => e.Model.ConformityId.IconPath())
                 .On(e => e.Model.ConformityId)
                 .Update()
         );

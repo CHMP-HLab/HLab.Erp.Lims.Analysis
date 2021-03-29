@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
+using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Samples;
@@ -56,41 +57,16 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         public string Conformity => _conformity.Get();
 
         private readonly IProperty<string> _conformity = H.Property<string>(c => c
-            .Set(e =>
-                {
-                    switch((int)e.Model.State)
-                    {
-                        case -1 : return "{Undefined}";
-                        case 0 : return "{Not Started}";
-                        case 1 : return "{Running}";
-                        case 2 : return "{Not Conform}";
-                        case 3 : return "{Conform}";
-                        case 4 : return "{Not Valid}";
-                        default: return "{error}";
-                    } 
-                }            
-            )
-            .On(e => e.Model.State)
+            .Set(e => e.Model.ConformityId.ToString())
+            .On(e => e.Model.ConformityId)
             .Update()
         );
 
         public string ConformityIconPath => _conformityIconPath.Get();
 
         private readonly IProperty<string> _conformityIconPath = H.Property<string>(c => c
-            .Set(e =>
-                {
-                    switch((int)e.Model.State)
-                    {
-                        case -1 : return "Icons/Validations/Error";
-                        case 0 : return "Icons/Results/NotChecked";
-                        case 1 : return "Icons/Results/Running";
-                        case 2 : return "Icons/Results/GaugeKO";
-                        case 3 : return "Icons/Results/GaugeOK";
-                        case 4 : return "Icons/Results/Invalidated";
-                        default: return "Icons/Validations/Error";
-                    } 
-                }   )         
-            .On(e => e.Model.State)
+            .Set(e =>e.Model.ConformityId.IconPath())
+            .On(e => e.Model.ConformityId)
             .Update()
         );
 
@@ -158,8 +134,8 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
             FormHelper.Mode = Model.Sample.Stage == SampleWorkflow.Reception.Name ? FormMode.Capture : FormMode.ReadOnly;
 
-            FormHelper.LoadValues(Model.SpecValues);
-            FormHelper.LoadValues(Model.Values);
+            FormHelper.LoadValues(Model.SpecificationValues);
+            FormHelper.LoadValues(Model.ResultValues);
         }
 
         public override string Title => _title.Get();

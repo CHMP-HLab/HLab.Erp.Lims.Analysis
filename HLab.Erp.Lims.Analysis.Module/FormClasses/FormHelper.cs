@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -8,26 +7,33 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
-using HLab.Base;
 using HLab.Base.Wpf;
-using HLab.Erp.Forms.Annotations;
+using HLab.Erp.Conformity.Annotations;
+using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Notify.PropertyChanged;
-using MySqlX.XDevAPI.Common;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses
-{
-    using H = H<FormHelper>;
+{    using H = H<FormHelper>;
 
-
-    public class FormHelper :NotifierBase
+    public class FormHelper : NotifierBase
     {
-        public FormHelper() => H.Initialize(this);
+        public FormHelper() => H.Initialize(this); 
+
+        private static readonly Brush _normalBrush = new SolidColorBrush(Color.FromArgb(0x40, 0xFF, 0xFF, 0xFF));
+        private static readonly Brush _specificationNeededBrush = Brushes.MediumSpringGreen;
+        private static readonly Brush _specificationDoneBrush = Brushes.DarkGreen;
+        private static readonly Brush _mandatoryBrush = Brushes.PaleVioletRed;
+        private static readonly Brush _hiddenBrush = Brushes.Black;
+
         public FormMode Mode
         {
             get => _mode.Get();
@@ -46,6 +52,12 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         }
         private readonly IProperty<IForm> _form = H.Property<IForm>();
 
+        public ITestResultProvider Result
+        {
+            get => _result.Get();
+            set => _result.Set(value);
+        }
+        private readonly IProperty<ITestResultProvider> _result = H.Property<ITestResultProvider>();
 
         public string Xaml
         {
@@ -85,35 +97,44 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         }
         private readonly IProperty<int> _xamlErrorPos = H.Property<int>();
 
-        private struct SetterEntry
+        public int CsErrorLine
         {
-            public Action<string> Action;
+            get => _csErrorLine.Get();
+            set => _csErrorLine.Set(value);
         }
+        private readonly IProperty<int> _csErrorLine = H.Property<int>();
 
-        private readonly Dictionary<string,SetterEntry> _setValue = new(); 
-
-
-        private Action<StringBuilder> _getSpecPackedValues;
-        private Action<StringBuilder> _getPackedValues;
-
-        public string GetPackedValues()
+        public int CsErrorPos
         {
-            if (_getPackedValues == null) return "";
-
-            var sb = new StringBuilder();
-            _getPackedValues(sb);
-            return sb.ToString();
+            get => _csErrorPos.Get();
+            set => _csErrorPos.Set(value);
         }
-        public string GetSpecPackedValues()
+        private readonly IProperty<int> _csErrorPos = H.Property<int>();
+
+
+
+        public void LoadValues([NotNull]string values)
         {
-            if (_getSpecPackedValues == null) return "";
+            var dict = new Dictionary<string, string>();
 
-            var sb = new StringBuilder();
-            _getSpecPackedValues(sb);
-            return sb.ToString();
+            foreach (var value in values.Split('■'))// Le séparateur est un ALT + 254
+            {
+                var v = value.Split("=");
+                if (v.Length > 1)
+                {
+                    dict.TryAdd(v[0],v[1]);
+                }
+                else if (v.Length == 1)
+                {
+                    dict.TryAdd(v[0],"");
+                }
+
+            }
+
+            LoadValues(dict);
+
+            SetFormMode(Mode);
         }
-
-
         public async Task LoadFormAsync(IFormTarget target)
         {
             CsMessage = "";
@@ -125,12 +146,11 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             xmlns:x = ""http://schemas.microsoft.com/winfx/2006/xaml""
             xmlns:mc = ""http://schemas.openxmlformats.org/markup-compatibility/2006""
             xmlns:d = ""http://schemas.microsoft.com/expression/blend/2008""
-            xmlns:o = ""clr-namespace:HLab.Base;assembly=HLab.Base.Wpf""
+                xmlns:o = ""clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf""
             UseLayoutRounding = ""True"" >
-                <UserControl.Resources><ResourceDictionary><ResourceDictionary.MergedDictionaries>
+                <UserControl.Resources>
                     <ResourceDictionary Source = ""pack://application:,,,/HLab.Erp.Lims.Analysis.Module;component/FormClasses/FormsDictionary.xaml"" />          
-                </ResourceDictionary.MergedDictionaries></ResourceDictionary></UserControl.Resources >
-         
+                </UserControl.Resources >
                 <Grid>
                 <Grid.LayoutTransform>
                     <ScaleTransform 
@@ -143,8 +163,6 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             ";
 
             var xaml = header.Replace("<!--Content-->", Xaml, StringComparison.InvariantCulture);
-
-            //chose language
             xaml = await ApplyLanguage(xaml);
 
             // for theme compatibility
@@ -183,6 +201,9 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                     XamlMessage += "Error XAML :" + Environment.NewLine + ex.Message;
 
                 CsMessage = "Compilation C# impossible car erreur XAML";
+                #if DEBUG
+                Form = new DummyForm {Content = new TextBlock() {Text = XamlMessage}};
+                #endif
                 return;
             }
 
@@ -193,17 +214,19 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                 return;
             }
 
-            var cs = @"
+            var cs = @$"
                 using System.Runtime;
                 using System.ComponentModel;
                 using HLab.Erp.Lims.Analysis.Module.FormClasses;
                 using HLab.Notify.PropertyChanged;
                 using HLab.Notify.Annotations;
                 using HLab.Notify.Wpf;
-                using HLab.Erp.Forms.Annotations;
-            " + Cs;
+                using HLab.Base.Wpf;
+                using HLab.Erp.Lims.Analysis.Module.TestClasses;
+                using Outils;
+                {Cs}
+            ";
 
-            //Remove old FM lib
             if (cs.Contains("using FM;"))
             {
                 cs = cs.Replace("using FM;", "");
@@ -212,8 +235,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
 
             int index = cs.IndexOf("public class", StringComparison.InvariantCulture)+12;
-            int idx2 = cs.IndexOf("\r\n",index, StringComparison.Ordinal);
-            if(idx2<0) idx2 = cs.IndexOf("\n",index, StringComparison.Ordinal);
+            var idx2 = EndOfLine(cs,index);
 
             var classname = cs.Substring(index,idx2-index);
 
@@ -226,13 +248,11 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             index = cs.IndexOf("public class", StringComparison.InvariantCulture) + 12;
             if (index > -1)
             {
-                var i = cs.IndexOf("\r\n", index, StringComparison.InvariantCulture);
-                if (i < 0) i = cs.IndexOf("\n", index, StringComparison.InvariantCulture);
-                index = i;
+                index = EndOfLine(cs,index);
             }
 
 
-            cs = cs.Insert(index, " : UserControlNotifier, IForm");
+            cs = cs.Insert(index, " : TestLegacyForm, IForm");
 
             // Ajout des déclarations des objects du formulaire à lier à la classe et de la fonction Connect pour la liaison une fois instanciée
             var declarations = "";
@@ -255,101 +275,100 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
                 elements.Add(fe);
                 declarations += $"public {fe.GetType().Name} {fe.Name};\n";
-                connection += $"case {n} : this.{fe.Name} = (({fe.GetType().Name})(target)); return;\n";
+                connection += $"case {n} : this.{fe.Name} = (({fe.GetType().FullName})(target)); return;\n";
 
-                if (fe is Control c)
+                var isSpec = IsSpec(fe);
+
+                Action<StringBuilder> getValues = null;
+
+                switch (fe)
                 {
-                    var isSpec = false;
-                    if(fe.Tag is string tag)
-                    {
-                        tag = tag.ToLower();
-                        if (tag.Contains("spec") || tag.Contains("norme") ) isSpec = true;
-                    }
+                    case TextBlock tbl:
+                        getValues += sb =>
+                        {
+                            sb.Append(fe.Name).Append('=').Append(tbl.Text.Replace("■", "")).Append('■');// Le séparateur est un ALT + 254
+                        };
+                        break;
 
-                    Action<StringBuilder> getValues = null;
+                    case TextBoxEx tbe:
+                        getValues += sb =>
+                        {
+                            sb.Append(fe.Name).Append('=').Append(tbe.Double).Append('■');// Le séparateur est un ALT + 254
+                        };
+                        _setValue.Add(fe.Name,new SetterEntry{Action=s => tbe.Double = Csd(s)});
+                        break;
 
-                    switch (c)
-                    {
-                        case TextBoxEx tbe:
+                    case TextBox tb:
+                        getValues += sb =>
+                        {
+                            sb.Append(fe.Name).Append('=').Append(tb.Text.Replace("■", "")).Append('■');
+                        };
+                        _setValue.Add(fe.Name,new SetterEntry{Action=s => tb.Text = s});
+                        break;
+                    case CheckBox cb:
+                        var idx = cb.Name.IndexOf("__", StringComparison.Ordinal);
+                        if (idx>=0)
+                        {
+                            var cbValue = fe.Name.Replace("__", "=") + "■";
                             getValues += sb =>
                             {
-                                sb.Append(c.Name).Append('=').Append(tbe.Double).Append('■');// Le séparateur est un ALT + 254
+                                if (cb.IsChecked == true) sb.Append(cbValue);
                             };
-                            _setValue.Add(c.Name,new SetterEntry{Action=s => tbe.Double = CSD(s)});
-                            break;
 
-                        case TextBox tb:
+                            var name = cb.Name.Substring(0, idx);
+                            var thisValue = cb.Name[(idx + 2)..];
+
+                            void Setter(string s) => cb.IsChecked = (thisValue == s);
+
+                            if (_setValue.TryGetValue(name, out var oldEntry))
+                            {
+                                oldEntry.Action += Setter;
+                            }
+                            else _setValue.Add(name,new SetterEntry{Action = Setter});
+                        }
+                        else
+                        {
                             getValues += sb =>
                             {
-                                sb.Append(c.Name).Append('=').Append(tb.Text.Replace("■", "")).Append('■');
+                                sb.Append(fe.Name);
+                                sb.Append(cb.IsChecked switch
+                                {
+                                    null => "=N■",
+                                    false => "=0■",
+                                    true => "=1■",
+                                });
                             };
-                            _setValue.Add(c.Name,new SetterEntry{Action=s => tb.Text = s});
-                            break;
-                        case CheckBox cb:
-                            var idx = cb.Name.IndexOf("__", StringComparison.Ordinal);
-                            if (idx>=0)
-                            {
-                                var cbValue = c.Name.Replace("__", "=") + "■";
-                                getValues += sb =>
-                                {
-                                    if (cb.IsChecked == true) sb.Append(cbValue);
-                                };
+                        }
 
-                                var name = cb.Name.Substring(0, idx);
-                                var thisValue = cb.Name[(idx + 2)..];
-
-                                void Setter(string s) => cb.IsChecked = (thisValue == s);
-
-                                if (_setValue.TryGetValue(name, out var oldEntry))
-                                {
-                                    oldEntry.Action += Setter;
-                                }
-                                else _setValue.Add(name,new SetterEntry{Action = Setter});
-                            }
-                            else
-                            {
-                                getValues += sb =>
-                                {
-                                    sb.Append(c.Name);
-                                    sb.Append(cb.IsChecked switch
-                                    {
-                                        null => "=N■",
-                                        false => "=0■",
-                                        true => "=1■",
-                                    });
-                                };
-                            }
-
-                            break;
-                    }
-                    if (isSpec) _getSpecPackedValues += getValues;
-                    else _getPackedValues += getValues;
+                        break;
                 }
+                if (isSpec) _getSpecPackedValues += getValues;
+                else _getPackedValues += getValues;
+                
 
 
                 n++;
             }
-            //declarations += "public event PropertyChangedEventHandler PropertyChanged;";
-            declarations += @"
-                public IFormTarget Target 
-                {
-                    get => _target.Get();
-                    set => _target.Set(value);
-                }
-                private IProperty<IFormTarget> _target = H.Property<IFormTarget>();";
-            declarations += "public " + classname + "() => H.Initialize(this);";
+
+            if (cs.Contains("Traitement(")) declarations += "public void Process(object sender, RoutedEventArgs args) => Traitement(sender,args);";
+
             cs = cs.Insert(cs.IndexOf('{', index) + 1, declarations + connection + "}\r\n}\r\n");
 
-            var compiler = new Compiler.Wpf.Compiler { SourceCode = cs };
+            var tree = CSharpSyntaxTree.ParseText(cs);
+            var root = (await tree.GetRootAsync()).NormalizeWhitespace();
+            
+            cs = root.ToFullString();
 
-            if (!compiler.Compile())
+            var assembly = Compiler.Wpf.Compiler.Compile(out var messages, cs);
+            if (assembly == null)
             {
                 Form = new DummyForm { Content = form };
-                CsMessage = compiler.CsMessage;
+                CsMessage = messages;
                 return;
             }
 
-            var module = (IForm) compiler.Module;
+            var module = (IForm) Activator.CreateInstance(assembly.GetTypes()[0]);
+            ;
             module.Target = target;
 
             if (module is UserControl uc)
@@ -397,7 +416,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                             checkBox.PreviewMouseDown += (sender, args) =>
                             {
                                 args.Handled = true;
-                                TestLegacyHelper.CheckGroup(sender, chk.ToArray());
+                                TestLegacyForm.CheckGroup(sender, chk.ToArray());
                                 module.Process(sender, args);
                                 SetFormMode(Mode);
                             };
@@ -427,21 +446,107 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             Form = module;
         }
 
-        private static readonly Brush _normalBrush = new SolidColorBrush(Color.FromArgb(0x40, 0xFF, 0xFF, 0xFF));
-        private static readonly Brush _specificationNeededBrush = Brushes.MediumSpringGreen;
-        private static readonly Brush _specificationDoneBrush = Brushes.DarkGreen;
-        private static readonly Brush _mandatoryBrush = Brushes.PaleVioletRed;
-        private static readonly Brush _hiddenBrush = Brushes.Black;
+        private static int EndOfLine(string s,int index)
+        {
+            var idx1 = s.IndexOf("\n",index, StringComparison.InvariantCulture);
+            var idx2 = s.IndexOf("\r\n",index, StringComparison.InvariantCulture);
+            if(idx1<0) return idx2;
+            if(idx2<0) return idx1;
+            return Math.Min(idx1,idx2);
+        }
 
+        public static int LineCount(string text)
+        {
+            if (text == null) return 0;
+            var size = text.Length;
+            var nb = size == 0 ? 0 : 1;
+            for (var i = 0; i < size; i++)
+                if (text[i] == '\n')
+                    nb++;
+            return nb;
+        }
 
-        private bool SetFormMode(FormMode mode)
+        public static async Task<string> ApplyLanguage(String text, string language = "")
+        {
+            // Choix de la langue
+            if (language == "en")
+                return await Task.Run(()=> Regex.Replace(Regex.Replace(text, @"\{FR=[\s|!-\|~-■]*}", ""), @"\{US=([\s|!-\|~-■]*)}", "$1")); // En anglais
+
+            return await Task.Run(()=> Regex.Replace(Regex.Replace(text, @"\{US=[\s|!-\|~-■]*}", ""), @"\{FR=([\s|!-\|~-■]*)}", "$1")); // En français
+        }
+
+        public void LoadValues(Dictionary<string,string> values)
+        {
+            if (!(Form is FrameworkElement form)) return;
+
+            foreach (var c in FindLogicalChildren<Control>(form))
+            {
+                var name = c.Name;
+                var idx = name.IndexOf("__", StringComparison.Ordinal);
+                var isBool = idx >= 0;
+                if (isBool && c is CheckBox chk) name = name.Substring(0, idx);
+
+                if(values.TryGetValue(name,out var value))
+                    switch (c)
+                    {
+                        case TextBoxEx tbe:
+                            tbe.Double = Csd(value);
+                            break;
+                        case TextBox tb:
+                            tb.Text = value;
+                            break;
+                        case CheckBox cb:
+                            if (isBool)
+                            {
+                                cb.IsChecked = (c.Name == name + "__" + value);
+                            }
+                            else
+                                cb.IsChecked = value switch
+                                {
+                                    "N" => null,
+                                    "0" => false,
+                                    "1" => true,
+                                    _ => cb.IsChecked
+                                };
+
+                            break;
+                    }
+            }
+        }
+
+        public async Task LoadCodeAsync(byte[] code)
+        {
+            if(code==null) return;
+
+            var sCode = Encoding.UTF8.GetString(await GzipToBytes(code).ConfigureAwait(false));
+            var index = sCode.LastIndexOf("}\r\n", StringComparison.InvariantCulture);
+            Cs = sCode.Substring(0, index + 1);
+            Xaml = sCode.Substring(index + 3);
+        }
+
+        public async Task<byte[]> SaveCodeAsync()
+        {
+            var bytes = Encoding.UTF8.GetBytes(Cs.Trim('\r', '\n', ' ') + "\r\n" + Xaml.Trim('\r', '\n', ' '));
+            return await BytesToGZip(bytes);
+
+        }
+
+        public static double Csd(string str)
+        {
+            str = str.Replace(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator, ".", StringComparison.InvariantCulture);
+            try
+            {
+                return Convert.ToDouble(str, CultureInfo.InvariantCulture);
+            }
+            catch (Exception)
+            {
+                return 0.0;
+            }
+        }
+
+        public bool SetFormMode(FormMode mode)
         {
             if (Form == null) return false;
-
-            var isSpecMode = (mode == FormMode.Specification);
-            var isCaptureMode = (mode == FormMode.Capture);
-            var isReadMode = (mode == FormMode.ReadOnly);
-
 
             var specificationNeeded = 0;
             var mandatoryNeeded = 0;
@@ -460,13 +565,13 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                     var mandatory = IsMandatory(c);
 
                     var doneBrush = 
-                        isSpecMode
+                        mode == FormMode.Specification
                         ?spec?_specificationDoneBrush:_hiddenBrush
                         :spec?_specificationDoneBrush:_normalBrush                        
                         ;
 
                     var todoBrush = 
-                        isSpecMode
+                        mode == FormMode.Specification
                         ?spec?_specificationNeededBrush:_hiddenBrush
                         :mandatory?_mandatoryBrush:_normalBrush;
 
@@ -482,8 +587,8 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                     else done = () => optionalDone++;
 
                     var enabled =
-                        (spec && isSpecMode)
-                        || (!spec && isCaptureMode);
+                        (spec && mode == FormMode.Specification)
+                        || (!spec && mode == FormMode.Capture);
 
                     switch (c)
                     {
@@ -530,122 +635,92 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
             }
 
-            if (isSpecMode && Form?.Target != null)
+            // SPECIFICATION
+
+            if (Form?.Target != null)
             {
-                Form.Target.SpecValues = GetSpecPackedValues();
-                if (specificationNeeded > 0)
+                switch (mode)
                 {
-                    if(Form.Target!=null)
-                        Form.Target.State = FormState.NotStarted;
+                    case FormMode.Specification:
+                    {
+                        Form.Target.SpecificationValues = GetSpecPackedValues();
+                        if (specificationNeeded > 0)
+                        {
+                            if(Form.Target!=null)
+                                Form.Target.ConformityId = ConformityState.NotChecked;
 
-                    Form.Target.SpecificationsDone = false;
+                            Form.Target.SpecificationDone = false;
+                        }
+                        else Form.Target.SpecificationDone = true;
+
+                        break;
+                    }
+                    case FormMode.Capture:
+                    {
+                        Form.Target.ResultValues = GetPackedValues();
+                        if (mandatoryNeeded > 0)
+                        {
+                            if(Form.Target!=null)
+                                Form.Target.ConformityId = mandatoryDone > 0 ? ConformityState.Running : ConformityState.NotChecked;
+                            Form.Target.MandatoryDone = false;
+                        }
+                        else Form.Target.MandatoryDone = true;
+
+                        break;
+                    }
                 }
-                else Form.Target.SpecificationsDone = true;
-            }
 
-            if (isCaptureMode && Form?.Target != null)
-            {
-                Form.Target.Values = GetPackedValues();
-                if (mandatoryNeeded > 0)
+                if(Form.Target.ConformityId>ConformityState.Running)
                 {
-                    if(Form.Target!=null)
-                        Form.Target.State = mandatoryDone > 0 ? FormState.Running : FormState.NotStarted;
-                    Form.Target.MandatoryDone = false;
+                    if (specificationNeeded > 0) Form.Target.ConformityId = ConformityState.NotChecked;
+                    if (mandatoryNeeded > 0) Form.Target.ConformityId = ConformityState.Running;
                 }
-                else Form.Target.MandatoryDone = true;
-            }
 
+                if (string.IsNullOrWhiteSpace(Form.Target.Conformity))
+                {
+                    Form.Target.Conformity = Form.Target.ConformityId.Caption();
+                }
 
-            if(Form.Target !=null && Form.Target.State>FormState.Running)
-            {
-                if (specificationNeeded > 0) Form.Target.State = FormState.NotStarted;
-                if (mandatoryNeeded > 0) Form.Target.State = FormState.Running;
+                if (string.IsNullOrWhiteSpace(Form.Target.TestName))
+                {
+                    Form.Target.TestName = Form.Target.DefaultTestName;
+                }
             }
 
             return mandatoryNeeded>0 || specificationNeeded>0;
         }
 
-        private static bool IsMandatory(Control c) => IsTagged(c, "mand", "obli");
-        private static bool IsSpec(Control c) => IsTagged(c, "spec", "norme");
 
-        private static bool IsTagged(Control c,params string[] values)
+        private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
+        public async Task LoadAsync(IFormTarget target)
         {
-            if (c.Tag is string tag)
+            await _lock.WaitAsync();
+            try
             {
-                tag = tag.ToLower();
-                foreach (var value in values)
+                if (!ReferenceEquals(Form?.Target, target))
                 {
-                    if (tag.Contains(value)) return true;
+                    //if (Form?.Target != null) throw new Exception("Target should be null or same");
+                    //Form.Target = target;
+                    await ExtractCode(target.Code).ConfigureAwait(true);
+
+                    await LoadFormAsync(target).ConfigureAwait(true);
                 }
 
+                if (target?.SpecificationValues != null)
+                    LoadValues(target.SpecificationValues);
+
+                if (target?.ResultValues != null)
+                    LoadValues(target.ResultValues);
+
+                Form?.Process(null, new RoutedEventArgs());
             }
-            return false;
-        }
-
-        public void LoadValues([NotNull]string values)
-        {
-            if(values==null) return;
-
-            var dict = new Dictionary<string, string>();
-
-            foreach (var value in values.Split('■'))// Le séparateur est un ALT + 254
+            finally
             {
-                var v = value.Split("=");
-                if (v.Length > 1)
-                {
-                    dict.TryAdd(v[0],v[1]);
-                }
-                else if (v.Length == 1)
-                {
-                    dict.TryAdd(v[0],"");
-                }
-
-            }
-
-            LoadValues(dict);
-        }
-
-        public void LoadValues(Dictionary<string,string> values)
-        {
-            if (!(Form is FrameworkElement form)) return;
-
-            foreach (var c in FindLogicalChildren<Control>(form))
-            {
-                var name = c.Name;
-                var idx = name.IndexOf("__", StringComparison.Ordinal);
-                var isBool = idx >= 0;
-                if (isBool && c is CheckBox chk) name = name.Substring(0, idx);
-
-                if(values.TryGetValue(name,out var value))
-                    switch (c)
-                    {
-                        case TextBoxEx tbe:
-                            tbe.Double = CSD(value);
-                            break;
-                        case TextBox tb:
-                            tb.Text = value;
-                            break;
-                        case CheckBox cb:
-                            if (isBool)
-                            {
-                                cb.IsChecked = (c.Name == name + "__" + value);
-                            }
-                            else
-                                cb.IsChecked = value switch
-                                {
-                                    "N" => null,
-                                    "0" => false,
-                                    "1" => true,
-                                    _ => cb.IsChecked
-                                };
-
-                            break;
-                    }
+                _lock.Release();
             }
         }
 
-
-        public async Task LoadCodeAsync(byte[] code)
+        public async Task ExtractCode(byte[] code)
         {
             if(code==null) return;
 
@@ -655,42 +730,53 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             Xaml = sCode.Substring(index + 3);
         }
 
-        public async Task<byte[]> SaveCode()
-        {
-            var bytes = Encoding.UTF8.GetBytes(Cs.Trim('\r', '\n', ' ') + "\r\n" + Xaml.Trim('\r', '\n', ' '));
-            return await BytesToGZip(bytes);
 
-        }
-        public static double CSD(string str)
+
+        private static bool IsTagged(FrameworkElement c,params string[] values)
         {
-            str = str.Replace(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator, ".", StringComparison.InvariantCulture);
-            try
-            {
-                return Convert.ToDouble(str, CultureInfo.InvariantCulture);
-            }
-            catch (Exception)
-            {
-                return 0.0;
-            }
+            if (c.Tag is not string tag) return false;
+            tag = tag.ToLower();
+            return values.Any(value => tag.Contains(value));
+        }
+
+        private static bool IsMandatory(FrameworkElement c) => IsTagged(c, "mand", "obli");
+        private static bool IsSpec(FrameworkElement c) => IsTagged(c, "spec", "norme");
+
+        private Action<StringBuilder> _getSpecPackedValues;
+        private Action<StringBuilder> _getPackedValues;
+
+        public string GetPackedValues()
+        {
+            if (_getPackedValues == null) return "";
+
+            var sb = new StringBuilder();
+            _getPackedValues(sb);
+            return sb.ToString();
+        }
+
+        public string GetSpecPackedValues()
+        {
+            if (_getSpecPackedValues == null) return "";
+
+            var sb = new StringBuilder();
+            _getSpecPackedValues(sb);
+            return sb.ToString();
         }
 
         public static IEnumerable<T> FindLogicalChildren<T>(FrameworkElement fe) where T : FrameworkElement
         {
-            if (fe != null)
+            if (fe == null) yield break;
+            foreach (var child in LogicalTreeHelper.GetChildren(fe))
             {
-                foreach (object child in LogicalTreeHelper.GetChildren(fe))
+                if (child is T c)
                 {
-                    if (child != null && child is T)
-                    {
-                        yield return (T)child;
-                    }
-                    if (child is FrameworkElement)
-                    {
-                        foreach (T childOfChild in FindLogicalChildren<T>((FrameworkElement)child))
-                        {
-                            yield return childOfChild;
-                        }
-                    }
+                    yield return c;
+                }
+
+                if (child is not FrameworkElement e) continue;
+                foreach (var childOfChild in FindLogicalChildren<T>(e))
+                {
+                    yield return childOfChild;
                 }
             }
         }
@@ -714,6 +800,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             }
             return null;
         }
+
         private static async Task<byte[]> BytesToGZip(byte[] bytes)
         {
             if (bytes.Length == 0)
@@ -732,23 +819,24 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
             return null;
         }
-        public static async Task<string> ApplyLanguage(String text, string language = "")
+        
+        private struct SetterEntry
         {
-            // Choix de la langue
-            if (language == "en")
-                return await Task.Run(()=> Regex.Replace(Regex.Replace(text, @"\{FR=[\s|!-\|~-■]*}", ""), @"\{US=([\s|!-\|~-■]*)}", "$1")); // En anglais
-
-            return await Task.Run(()=> Regex.Replace(Regex.Replace(text, @"\{US=[\s|!-\|~-■]*}", ""), @"\{FR=([\s|!-\|~-■]*)}", "$1")); // En français
+            public Action<string> Action;
         }
-        public static int LineCount(string text)
+        private readonly Dictionary<string,SetterEntry> _setValue = new(); 
+
+        public async Task Compile()
         {
-            if (text == null) return 0;
-            var size = text.Length;
-            var nb = size == 0 ? 0 : 1;
-            for (var i = 0; i < size; i++)
-                if (text[i] == '\n')
-                    nb++;
-            return nb;
+            var specs = GetSpecPackedValues();
+            var values = GetPackedValues();
+
+            await LoadFormAsync(new DummyTarget()).ConfigureAwait(true);
+
+            LoadValues(specs);
+            LoadValues(values);
+
+            Form.Process(null,null);
         }
 
     }

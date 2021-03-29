@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Data;
 using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
@@ -9,17 +10,8 @@ namespace HLab.Erp.Lims.Analysis.Data
 {
     using H = HD<SampleTestResult>;
 
-    public enum ConformityState
-    {
-        Undefined = -1,
-        NotChecked = 0,
-        Running = 1,
-        NotConform = 2,
-        Conform = 3,
-        Invalid = 4,
-    }
 
-    public partial class SampleTestResult : Entity
+    public partial class SampleTestResult : Entity, IFormTarget
     //        , IEntityWithIcon
     //        , IEntityWithColor
     {
@@ -47,6 +39,7 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => SampleTestId = value?.Id;
         }
 
+
         private readonly IProperty<SampleTest> _sampleTest = H.Property<SampleTest>(c => c.Foreign(e => e.SampleTestId));
 
         public int? UserId
@@ -70,6 +63,7 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _result.Set(value);
         }
         private readonly IProperty<string> _result = H.Property<string>(c => c.Default(""));
+
 
         public string Conformity
         {
@@ -99,6 +93,12 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _conformityId.Get();
             set => _conformityId.Set(value);
         }
+
+        void IFormTarget.Reset()
+        {
+            throw new NotImplementedException();
+        }
+
         private readonly IProperty<ConformityState> _conformityId = H.Property<ConformityState>();
 
 
@@ -121,11 +121,19 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<string> _name = H.Property<string>();
 
+
+        string IFormTarget.ResultValues
+        {
+            get => Values;
+            set => Values = value;
+        }
+
         public bool MandatoryDone
         {
             get => _mandatoryDone.Get();
             set => _mandatoryDone.Set(value);
         }
+
         private readonly IProperty<bool> _mandatoryDone = H.Property<bool>();
         public string Note
         {
@@ -133,5 +141,41 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _note.Set(value);
         }
         private readonly IProperty<string> _note = H.Property<string>();
+
+        // TEST
+
+        [Ignore] string IFormTarget.Description
+        {
+            get => SampleTest.Description;
+            set => SampleTest.Description = value;
+        }
+
+        [Ignore] string IFormTarget.TestName
+        {
+            get => SampleTest.TestName;
+            set => SampleTest.TestName = value;
+        }
+        byte[] IFormTarget.Code => SampleTest.Code;
+
+        string IFormTarget.SpecificationValues
+        {
+            get => SampleTest.Values;
+            set => SampleTest.Values = value;
+        }
+
+        bool IFormTarget.SpecificationDone
+        {
+            get => SampleTest.SpecificationDone;
+            set => SampleTest.SpecificationDone = value;
+        }
+        string IFormTarget.Specification
+        {
+            get => SampleTest.Specification;
+            set => SampleTest.Specification = value;
+        }
+
+        string IFormTarget.DefaultTestName => ((IFormTarget)SampleTest).DefaultTestName;
+
+        IFormClass IFormTarget.FormClass { get => SampleTest.TestClass; set => throw new NotImplementedException(); }
     }
 }

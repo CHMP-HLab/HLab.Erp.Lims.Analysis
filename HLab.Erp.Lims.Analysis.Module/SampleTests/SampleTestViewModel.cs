@@ -1,20 +1,19 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
+using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Erp.Lims.Analysis.Module.Samples;
 using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
 using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
-using Outils;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
@@ -30,31 +29,31 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
     {
         public SampleTestViewModel() => H.Initialize(this);
 
-        [Import] private readonly Func<SampleTest, ListTestResultViewModel> _getResults;
-
         [Import] public IErpServices Erp { get; }
+        [Import] private IDataService _data;
 
-        [Import]
-        private IDataService _data;
+        [Import] private readonly Func<SampleTest, TestResultListViewModel> _getResults;
+        [Import] private Func<FormHelper> _getFormHelper;
 
-        public FormTestClassHelper FormHelper => _formHelper.Get();
-        private readonly IProperty<FormTestClassHelper> _formHelper = H.Property<FormTestClassHelper>(c => c
+        [Import] private Func<SampleTest, DataLocker<SampleTest>, SampleTestWorkflow> _getSampleTestWorkflow;
+
+        public FormHelper FormHelper => _formHelper.Get();
+        private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c
             .Set(e => e._getFormHelper()));
 
-        [Import] private Func<FormTestClassHelper> _getFormHelper;
 
-        public async Task LoadResultAsync(SampleTestResult target=null)
+        public async Task LoadResultAsync(IFormTarget target=null)
         {
-            await FormHelper.LoadAsync(Model,target).ConfigureAwait(true);
+            await FormHelper.LoadAsync(target??Model).ConfigureAwait(true);
 
             var state = Workflow.CurrentStage;
 
             if (state == SampleTestWorkflow.Specifications) 
-                FormHelper.Mode = TestFormMode.Specification;
+                FormHelper.Mode = FormMode.Specification;
             //else if (state == SampleTestWorkflow.Running) 
             //    FormHelper.Mode = TestFormMode.Capture;
             else 
-                FormHelper.Mode = TestFormMode.ReadOnly;
+                FormHelper.Mode = FormMode.ReadOnly;
         }
 
         public SampleTestWorkflow Workflow => _workflow.Get();
@@ -66,7 +65,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .Update()
         );
 
-        [Import] private Func<SampleTest, DataLocker<SampleTest>, SampleTestWorkflow> _getSampleTestWorkflow;
 
         public bool IsReadOnly => _isReadOnly.Get();
         private readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
@@ -123,30 +121,32 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
 
         // RESULTS
-        public ListTestResultViewModel Results => _results.Get();
-        private readonly IProperty<ListTestResultViewModel> _results = H.Property<ListTestResultViewModel>(c => c
+        public TestResultListViewModel Results => _results.Get();
+        private readonly IProperty<TestResultListViewModel> _results = H.Property<TestResultListViewModel>(c => c
             .NotNull(e => e.Model)
-            .Set(e =>
-            {
-                var vm =  e._getResults(e.Model);
-                vm.SetSelectAction(async r =>
-                {
-                    await e.LoadResultAsync(r as SampleTestResult).ConfigureAwait(false);
-                    if (e.SelectResultCommand is CommandPropertyHolder nc) nc.CheckCanExecute();
-                });
-
-                SampleTestResult selected = null;
-                foreach(var result in vm.List)
-                {
-                    if(selected==null) selected = result;
-                    if(result == e.Model.Result) selected = result;
-                }
-                vm.Selected = selected;
-                return vm;
-            })
+            .Set(e => e.SetResults())
             .On(e => e.Model)
             .Update()
         );
+
+        private TestResultListViewModel SetResults()
+        {
+            var vm =  _getResults(Model);
+            vm.SetSelectAction(async r =>
+            {
+                await LoadResultAsync(r as SampleTestResult).ConfigureAwait(false);
+                if (SelectResultCommand is CommandPropertyHolder nc) nc.CheckCanExecute();
+            });
+
+            SampleTestResult selected = null;
+            foreach(var result in vm.List)
+            {
+                if(selected==null) selected = result;
+                if(result == Model.Result) selected = result;
+            }
+            vm.Selected = selected;
+            return vm;
+        }
 
         private readonly ITrigger _trigger = H.Trigger(c => c
             .On(e => e.Model)
@@ -287,42 +287,14 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         /// ///////////////////////////////////////////////////////////////////////////
         /// </summary>
 
-        public ITestHelper TestHelper => _testHelper.Get();
-        private readonly IProperty<ITestHelper> _testHelper = H.Property<ITestHelper>(c => c
-            .On(e => e.FormHelper.Form.Test)
-            .NotNull(e => e.FormHelper?.Form?.Test)
-            .Do((e,f) => {
-                f.Set(e.FormHelper.Form.Test);
-                e.TestHelper.PropertyChanged += e.TestHelper_PropertyChanged;
-                })
+        public IFormTarget TestHelper => _testHelper.Get();
+        private readonly IProperty<IFormTarget> _testHelper = H.Property<IFormTarget>(c => c
+            .NotNull(e => e.FormHelper?.Form?.Target)
+            .Set(e => e.FormHelper.Form.Target)
+            .On(e => e.FormHelper.Form.Target)
+            .Update()
         );
 
-        private void TestHelper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (Model==null) return;
-            switch(e.PropertyName)
-            {
-                case "TestName":
-                    if(TestHelper?.TestName!=null)
-                        Model.TestName = TestHelper.TestName;
-                    break;
-                case "Description":
-                    if(TestHelper?.Description!=null)
-                        Model.Description = TestHelper.Description;
-                    break;
-                case "Specifications":
-                    if(TestHelper?.Specifications!=null)
-                        Model.Specification = TestHelper.Specifications;
-                    break;
-                //case "Conformity":
-                //    if(TestHelper?.Conformity!=null)
-                //        Model.Conform = TestHelper.Conformity;
-                //    break;
-                //case "SpecificationsDone":
-                //    Model.SpecificationsDone = TestHelper.SpecificationsDone;
-                //    break;
-            }
-        }
         
         public override string Title => _title.Get();
         private readonly IProperty<string> _title = H.Property<string>(c => c
@@ -342,20 +314,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         public string ConformityIconPath => _conformityIconPath.Get();
 
         private readonly IProperty<string> _conformityIconPath = H.Property<string>(c => c
-            .Set(e =>
-            {
-                if (e.Model.Result == null) return "Icons/Results/ConformityTodo";
-                switch(e.Model.Result.ConformityId)
-                {
-                    case ConformityState.Undefined : return "Icons/Validations/Error";
-                    case ConformityState.NotChecked : return "Icons/Results/ConformityTodo";
-                    case ConformityState.Running : return "Icons/Results/Running";
-                    case ConformityState.NotConform : return "Icons/Results/ConformityKo";
-                    case ConformityState.Conform : return "Icons/Results/ConformityOK";
-                    case ConformityState.Invalid : return "Icons/Results/Invalidated";
-                    default: return "Icons/Validations/Error";
-                } 
-            }   )         
+            .Set(e => (e.Model.Result?.ConformityId??ConformityState.NotChecked).IconPath())         
             .On(e => e.Model.Result.ConformityId)
             .Update()
         );

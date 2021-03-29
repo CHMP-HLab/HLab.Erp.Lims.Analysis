@@ -2,8 +2,10 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
+using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Workflows;
 
@@ -31,7 +33,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             => c.Column
                 .Header("{Conformity}").Width(130)
                 .Content(s => $"{{{getState(s)}}}").Localize()
-                .Icon(s => Sample.GetIconPath(getState(s)),20)
+                .Icon(s => (getState(s)??ConformityState.Undefined).IconPath(),20)
                 .Center()
                 .OrderBy(s => getState(s));
 

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Data;
-using HLab.Erp.Forms.Annotations;
 using HLab.Notify.PropertyChanged;
 using NPoco;
 
@@ -28,6 +28,13 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IForeign<FormClass> _formClass = H.Foreign<FormClass>();
 
+        [Ignore] IFormClass IFormTarget.FormClass 
+        {
+            get => FormClass;
+            set => FormClass = (FormClass)value;
+        }
+
+
         public int? SampleId
         {
             get => _sample.Id.Get();
@@ -41,21 +48,29 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IForeign<Sample> _sample = H.Foreign<Sample>();
 
-        public FormState State
-        {
-            get =>_state.Get(); 
-            set =>_state.Set(value); 
-        }
-        private readonly IProperty<FormState> _state = H.Property<FormState>();
 
-        public string SpecValues
+        public ConformityState ConformityId
         {
-            get => _specValues.Get(); 
-            set => _specValues.Set(value);
+            get =>_conformityId.Get(); 
+            set =>_conformityId.Set(value); 
         }
-        private readonly IProperty<string> _specValues = H.Property<string>();
 
-        public string Values
+        public void Reset()
+        {
+            throw new NotImplementedException();
+        }
+
+        private readonly IProperty<ConformityState> _conformityId = H.Property<ConformityState>();
+
+
+        public string SpecificationValues
+        {
+            get => _specificationValues.Get(); 
+            set => _specificationValues.Set(value);
+        }
+        private readonly IProperty<string> _specificationValues = H.Property<string>();
+
+        public string ResultValues
         {
             get => _values.Get(); 
             set => _values.Set(value);
@@ -69,11 +84,25 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<bool> _mandatoryDone = H.Property<bool>();
 
-        public bool SpecificationsDone
+        public bool SpecificationDone
         {
             get => _specificationsDone.Get(); 
             set => _specificationsDone.Set(value);
         }
         private readonly IProperty<bool> _specificationsDone = H.Property<bool>();
+
+        byte[] IFormTarget.Code => FormClass.Code;
+        string IFormTarget.TestName { get; set; }
+        string IFormTarget.Description { get; set; }
+        string IFormTarget.Specification { get; set; }
+        string IFormTarget.Conformity { get; set; }
+        string IFormTarget.Result { get; set; }
+
+        string IFormTarget.DefaultTestName => FormClass.Name;
+        string IFormTarget.Name
+        {
+            get => FormClass.Name;
+            set => FormClass.Name = value;
+        }
     }
 }

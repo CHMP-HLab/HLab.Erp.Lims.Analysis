@@ -1,4 +1,5 @@
 using System;
+using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
 using HLab.Notify.PropertyChanged;
@@ -7,27 +8,42 @@ using NPoco;
 namespace HLab.Erp.Lims.Analysis.Data
 {
     using H = HD<SampleTest>;
+
+
     public partial class SampleTest : Entity
         , IEntityWithIcon
         , IEntityWithColor
+        ,IFormTarget
     {
 
         public SampleTest() => H.Initialize(this);
 
         public int? SampleId
         {
-            get => _sampleId.Get();
-            set => _sampleId.Set(value);
+            get => _sample.Id.Get();
+            set => _sample.Id.Set(value);
         }
-        private readonly IProperty<int?> _sampleId = H.Property<int?>();
+        [Ignore]
+        public virtual Sample Sample
+        {
+            set => SampleId = value.Id;
+            get => _sample.Get();
+        }
+        private readonly IForeign<Sample> _sample = H.Foreign<Sample>();
 
 
         public int? TestClassId
         {
-            get => _testClassId.Get();
-            set => _testClassId.Set(value);
+            get => _testClass.Id.Get();
+            set => _testClass.Id.Set(value);
         }
-        private readonly IProperty<int?> _testClassId = H.Property<int?>();
+        [Ignore]
+        public virtual TestClass TestClass
+        {
+            set => TestClassId = value.Id;
+            get => _testClass.Get();
+        }
+        private readonly IForeign<TestClass> _testClass = H.Foreign<TestClass>();
 
 
         public int? TestStateId
@@ -77,14 +93,6 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<int?> _validatorId = H.Property<int?>();
 
-
-        //[Column]
-        //public DateTime? DateValidation
-        //{
-        //    get => N.Get(() => (DateTime?)null); set => N.Set(value);
-        //}
-
-
         public string TestName
         {
             get => _testName.Get();
@@ -101,12 +109,6 @@ namespace HLab.Erp.Lims.Analysis.Data
         private readonly IProperty<string> _version = H.Property<string>(c => c.Default(""));
 
 
-        //[StringLength(16777215)]
-        //public string Cs1 { get; set; }
-
-        //[StringLength(16777215)]
-        //public string Xaml1 { get; set; }
-
         public byte[] Code
         {
             get => _code.Get(); 
@@ -114,12 +116,15 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<byte[]> _code = H.Property<byte[]>();
 
+
         public string Description
         {
             get => _description.Get();
             set => _description.Set(value);
         }
         private readonly IProperty<string> _description = H.Property<string>(c => c.Default(""));
+
+
 
 
         public string Specification
@@ -130,13 +135,6 @@ namespace HLab.Erp.Lims.Analysis.Data
         private readonly IProperty<string> _specification = H.Property<string>(c => c.Default(""));
 
 
-        public string Conform
-        {
-            get => _conform.Get();
-            set => _conform.Set(value);
-        }
-        private readonly IProperty<string> _conform = H.Property<string>(c => c.Default(""));
-
         public string Values
         {
             get => _values.Get();
@@ -144,19 +142,11 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<string> _values = H.Property<string>(c => c.Default(""));
 
-        public int? ResultId
+        string IFormTarget.SpecificationValues
         {
-            get => _result.Id.Get();
-            set => _result.Id.Set(value);
+            get => Values; 
+            set => Values = value;
         }
-
-        [Ignore]
-        public SampleTestResult Result
-        {
-            get => _result.Get();
-            set => _result.Set(value);
-        }
-        private readonly IForeign<SampleTestResult> _result = H.Foreign<SampleTestResult>();
 
         public DateTime? ScheduledDate
         {
@@ -179,14 +169,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _endDate.Set(value);
         }
         private readonly IProperty<DateTime?> _endDate = H.Property<DateTime?>();
-
-
-        public bool? ReTest
-        {
-            get => _reTest.Get();
-            set => _reTest.Set(value);
-        }
-        private readonly IProperty<bool?> _reTest = H.Property<bool?>();
 
 
         public string OosNo
@@ -225,41 +207,86 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IForeign<Pharmacopoeia> _pharmacopoeia = H.Foreign<Pharmacopoeia>();
 
-
-
-        //[LOG 24]\nNom=Etape\nId=0 : Saisie du test\nId=1 : Test normé\nId=2 : A faire\nId=3 : En cours\nId=4 : Validé par le technicien\nId=5 : Données brutes validées\nId=6 : Validé par le pharmacien
         public string Stage
         {
             get => _stage.Get();
             set => _stage.Set(value);
         }
         private readonly IProperty<string> _stage = H.Property<string>();
-        public bool SpecificationsDone
+        
+        
+        public bool SpecificationDone
         {
-            get => _specificationsDone.Get();
-            set => _specificationsDone.Set(value);
+            get => _specificationDone.Get();
+            set => _specificationDone.Set(value);
         }
-        private readonly IProperty<bool> _specificationsDone = H.Property<bool>();
+        private readonly IProperty<bool> _specificationDone = H.Property<bool>();
 
-        [Ignore]
-        public virtual Sample Sample
+        // RESULT
+        public int? ResultId
         {
-            //get => E.GetForeign<Sample>(() => SampleId);
-            set => SampleId = value.Id;
-            get => _sample.Get();
-            //set => _sample.Set(value);
+            get => _result.Id.Get();
+            set => _result.Id.Set(value);
         }
-        private readonly IProperty<Sample> _sample = H.Property<Sample>(c => c.Foreign(e => e.SampleId));
+        
+        [Ignore]public SampleTestResult Result
+        {
+            get => _result.Get();
+            set => _result.Set(value);
+        }
+        private readonly IForeign<SampleTestResult> _result = H.Foreign<SampleTestResult>();
 
-        [Ignore]
-        public virtual TestClass TestClass
+        bool IFormTarget.MandatoryDone
         {
-            set => TestClassId = value.Id;
-            get => _testClass.Get();
+            get => Result?.MandatoryDone??true;
+            set
+            {
+                if(Result!=null)
+                    Result.MandatoryDone = value;
+            }
         }
-        private readonly IProperty<TestClass> _testClass = H.Property<TestClass>(c => c
-            .Foreign(e => e.TestClassId)
-        );
+
+        string IFormTarget.Conformity
+        {
+            get => Result?.Conformity;
+            set
+            {
+                if(Result!=null)
+                    Result.Conformity = value;
+            }
+        }
+
+        [Ignore] string IFormTarget.Result
+        {
+            get => Result?.Result;
+            set
+            {
+                if(Result!=null)
+                    Result.Result = value;
+            }
+        }
+
+        ConformityState IFormTarget.ConformityId 
+        {
+            get => Result?.ConformityId??ConformityState.Undefined;
+            set
+            {
+                if(Result!=null)
+                    Result.ConformityId = value;
+            }
+        }
+
+        string IFormTarget.ResultValues
+        {
+            get => Result?.Values;
+            set
+            {
+                if(Result!=null)
+                    Result.Values = value;
+            }
+        }
+
+        // CALCULATED
 
         [Ignore]
         public int? Color => _color.Get();
@@ -282,13 +309,17 @@ namespace HLab.Erp.Lims.Analysis.Data
             .Foreign(e => e.SampleTestId)
         );
 
-        //[Ignore]
-        //[Import]
-        //public ObservableQuery<TestResult> TestResults
-        //{
-        //    get => N.Get<ObservableQuery<TestResult>>();
-        //    set => N.Set(value.AddFilter("OneToMany", e => e.SampleTestId == Id)
-        //        .FluentUpdate());
-        //}
+
+        [Ignore] string IFormTarget.DefaultTestName => TestClass?.Name;
+
+        IFormClass IFormTarget.FormClass { get => TestClass; set => TestClass = (TestClass)value; }
+        string IFormTarget.Name { get => TestClass?.Name; set => throw new NotImplementedException(); }
+
+        public void Reset()
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

@@ -6,131 +6,93 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Notify.Wpf;
 using YAMP;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
-    using H = H<TestLegacyHelper>;
+    using H = H<TestLegacyForm>;
 
-    //public enum TestEtat
-    //{
-    //    Indefini = -1,
-    //    NonCommence = 0,
-    //    EnCours = 1,
-    //    NonConforme = 2,
-    //    Conforme = 3
-    //};    
-
-    public static class TestEtat
+    public class TestLegacyForm : UserControlNotifier
     {
-        public static ConformityState Indefini => ConformityState.Undefined;
-        public static ConformityState NonCommence => ConformityState.NotChecked;
-        public static ConformityState EnCours => ConformityState.Running;
-        public static ConformityState NonConforme => ConformityState.NotConform;
-        public static ConformityState Conforme => ConformityState.Conform;
-        public static ConformityState Invalide => ConformityState.Invalid;
-    }
-
-
-    public interface ITestHelper : INotifyPropertyChanged
-    {
-        ConformityState State { get; set; }
-        string Conformity { get; set; }
-        string Specifications { get; set; }
-        string TestName { get; set; }
-        string Description { get; set; }
-        string Result { get; set; }
-
-        void Reset();
-        //bool SpecificationsDone { get; set; }
-        //bool MandatoryDone { get; set; }
-    }
-
-    public class TestLegacyHelper : NotifierBase, ITestHelper
-    {
-        public TestLegacyHelper() => H.Initialize(this);
-
-        public ConformityState State
+        protected static class TestEtat
         {
-            get => _state.Get();
-            set => _state.Set(value);
+            public static ConformityState Indefini => ConformityState.Undefined;
+            public static ConformityState NonCommence => ConformityState.NotChecked;
+            public static ConformityState EnCours => ConformityState.Running;
+            public static ConformityState NonConforme => ConformityState.NotConform;
+            public static ConformityState Conforme => ConformityState.Conform;
+            public static ConformityState Invalide => ConformityState.Invalid;
         }
-        private readonly IProperty<ConformityState> _state = H.Property<ConformityState>();
 
-        public ConformityState Etat
+        public TestLegacyForm()
         {
-            get => _etat.Get();
-            set => State = value;
+            Test = new LegacyHelper(this);
+            H.Initialize(this);
         }
-        private readonly IProperty<ConformityState> _etat = H.Property<ConformityState>(c => c.Bind(e => e.State));
 
-        public string Conforme
+        public class LegacyHelper
         {
-            get => _conforme.Get();
-            set => Conformity = value;
-        }
-        private readonly IProperty<string> _conforme = H.Property<string>(c => c.Bind(e => e.Conformity));
+            private TestLegacyForm _form;
+            public LegacyHelper(TestLegacyForm form)
+            {
+                _form = form;
+            }
+            public ConformityState Etat
+            {
+                get => _form.Target.ConformityId;
+                set => _form.Target.ConformityId = value;
+            }
 
-        public string Norme
+            public string Conforme
+            {
+                get => _form.Target.Conformity;
+                set => _form.Target.Conformity = value;
+            }
+
+            public string Norme
+            {
+                get => _form.Target.Specification;
+                set => _form.Target.Specification = value;
+            }
+
+            public string NomTest
+            {
+                get => _form.Target.TestName;
+                set => _form.Target.TestName = value;
+            }
+
+            public string Description
+            {
+                get => _form.Target.Description;
+                set => _form.Target.Description = value;
+            }
+
+            public string Resultat
+            {
+                get => _form.Target.Result;
+                set => _form.Target.Result = value;
+            }
+
+            public double Calcul(TextBlock block, double value, int decimals = 2) =>
+                _form.Compute(block, value, decimals);
+
+            public double EvalueFormule(string formula) => Evaluate(formula);
+
+            public static void CheckGroupe(object sender, params CheckBox[] group) => CheckGroup(sender, group);
+
+        }
+        protected LegacyHelper Test { get; }
+
+        public IFormTarget Target 
         {
-            get => _norme.Get();
-            set => Specifications = value;
+            get => _target.Get();
+            set => _target.Set(value);
         }
-        private readonly IProperty<string> _norme = H.Property<string>(c => c.Bind(e => e.Specifications));
+        private readonly IProperty<IFormTarget> _target = H.Property<IFormTarget>();
 
-        public string NomTest
-        {
-            get => _nomTest.Get();
-            set => TestName = value;
-        }
-        private readonly IProperty<string> _nomTest = H.Property<string>(c => c.Bind(e => e.TestName));
-
-        public string Description
-        {
-            get => _description.Get();
-            set => _description.Set(value);
-        }
-        private readonly IProperty<string> _description = H.Property<string>();
-
-        public string Resultat
-        {
-            get => _resultat.Get();
-            set => Result = value;
-        }
-        private readonly IProperty<string> _resultat = H.Property<string>(c => c.Bind(e => e.Result));
-
-
-        public string Conformity
-        {
-            get => _conformity.Get();
-            set => _conformity.Set(value);
-        }
-        private readonly IProperty<string> _conformity = H.Property<string>();
-
-        public string Specifications
-        {
-            get => _specifications.Get();
-            set => _specifications.Set(value);
-        }
-        private readonly IProperty<string> _specifications = H.Property<string>();
-
-        public string TestName
-        {
-            get => _testName.Get();
-            set => _testName.Set(value);
-        }
-        private readonly IProperty<string> _testName = H.Property<string>();
-
-        public string Result
-        {
-            get => _result.Get();
-            set => _result.Set(value);
-        }
-        private readonly IProperty<string> _result = H.Property<string>();
-
-        public double Calcul(TextBlock block, double value, int decimals = 2) =>
-            Compute(block, value, decimals);
         public double Compute(TextBlock block, double value, int decimals = 2)
         {
             if (double.IsInfinity(value) || double.IsNaN(value))
@@ -145,14 +107,13 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             return value;
         }
 
-        public double EvalueFormule(string formula) => Evaluate(formula);
-        public double Evaluate(string formula)
+        public static double Evaluate(string formula)
         {
             try
             {
                 var parser = new Parser();
 
-                Value result = parser.Evaluate(formula);
+                var result = parser.Evaluate(formula);
 
 
                 if (result != null)
@@ -163,7 +124,6 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             return double.NaN;
         }
 
-        public static void CheckGroupe(object sender, params CheckBox[] group) => CheckGroup(sender, group);
         public static void CheckGroup(object sender, params CheckBox[] group)
         {
             if (!group.Contains(sender)) return;
@@ -185,7 +145,6 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                         c.IsChecked = false;
                     }
                 }
-
             }
         }
 
@@ -233,32 +192,32 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         public void NotConform(Control control)
         {
-            State = ConformityState.NotConform;
+            Target.ConformityId = ConformityState.NotConform;
             SetBrush(control,NotConformBrush);
         }
         public void Conform(Control control)
         {
-            State = ConformityState.Conform;
+            Target.ConformityId = ConformityState.Conform;
             SetBrush(control,ConformBrush);
         }
         public void Invalid(Control control)
         {
-            State = ConformityState.Invalid;
+            Target.ConformityId = ConformityState.Invalid;
             SetBrush(control,InvalidBrush);
         }
         public void NotConform(TextBlock control)
         {
-            State = ConformityState.NotConform;
+            Target.ConformityId = ConformityState.NotConform;
             SetBrush(control,NotConformBrush);
         }
         public void Conform(TextBlock control)
         {
-            State = ConformityState.Conform;
+            Target.ConformityId = ConformityState.Conform;
             SetBrush(control,ConformBrush);
         }
         public void Invalid(TextBlock control)
         {
-            State = ConformityState.Invalid;
+            Target.ConformityId = ConformityState.Invalid;
             SetBrush(control,InvalidBrush);
         }
     }
