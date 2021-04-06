@@ -142,7 +142,7 @@
 
   <ItemGroup>
     <PackageReference Include="ControlzEx" Version="5.0.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.9.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0-1.final" />
   </ItemGroup>
 
   <ItemGroup>
@@ -154,7 +154,7 @@
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Core\HLab.Erp.Core.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Workflows.Wpf\HLab.Erp.Workflows.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Workflows\HLab.Erp.Workflows.csproj" />
-    <ProjectReference Include="..\..\..\HLab\Compiler.Wpf\Compiler.Wpf.csproj" />
+    <ProjectReference Include="..\..\..\HLab\Compiler.Wpf\HLab.Compiler.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Application.Wpf\HLab.Mvvm.Application.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Mvvm.Wpf\HLab.Mvvm.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Notify.Wpf\HLab.Notify.Wpf.csproj" />

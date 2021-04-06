@@ -1,11 +1,12 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using HLab.Compiler.Wpf;
 using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Application;
+using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Rendering;
 
@@ -14,45 +15,50 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
     /// <summary>
     /// Logique d'interaction pour TestClassView.xaml
     /// </summary>
-    public partial class FormClassView : UserControl,IView<FormClassViewModel>, IViewClassDocument
+    public partial class FormClassView : UserControl, IView<IFormHelperProvider>, 
+        IViewClassDocument
     {
         public FormClassView()
         {
             InitializeComponent();
+
             DataContextChanged += TestClassView_DataContextChanged;
         }
 
         private void TestClassView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if(e.OldValue is FormClassViewModel oldVm)
-                oldVm.FormHelper.PropertyChanged -= Vm_PropertyChanged;
-            if (e.NewValue is FormClassViewModel vm)
+            if (e.OldValue is IFormHelperProvider oldVm)
+                oldVm.FormHelper.PropertyChanged -= FormHelper_PropertyChanged;
+            if (e.NewValue is IFormHelperProvider vm)
             {
-                XamlEditor.Text = vm.FormHelper.Xaml;
-                CodeEditor.Text = vm.FormHelper.Cs;
-                vm.FormHelper.PropertyChanged += Vm_PropertyChanged;
+                vm.FormHelper.PropertyChanged += FormHelper_PropertyChanged;
             }
         }
 
-        private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void FormHelper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.StartsWith("XamlError"))
+            if (sender is not FormHelper helper) return;
+            switch (e.PropertyName)
             {
-                HiglightError(
-                    ((FormClassViewModel) DataContext).FormHelper.XamlErrorLine,
-                    ((FormClassViewModel) DataContext).FormHelper.XamlErrorPos
-                );
+                case nameof(helper.SelectedXamlError):
+                    HighlightError(XamlEditor, helper.SelectedXamlError);
+                    break;
+                case nameof(helper.SelectedCsError):
+                {
+                    HighlightError(CodeEditor, helper.SelectedCsError);
+                    break;
+                }
+                case nameof(helper.SelectedDebugError):
+                    HighlightError(FinalCodeEditor, helper.SelectedDebugError);
+                    break;
             }
-            //    XamlEditor.Text = ((TestClassViewModel) DataContext).Xaml;
-            //if (e.PropertyName == "Code")
-            //    CodeEditor.Text = ((TestClassViewModel) DataContext).Code;
-
         }
 
         class MarkError : DocumentColorizingTransformer
         {
             private readonly int _line;
             private readonly int _pos;
+
             public MarkError(int line, int pos)
             {
                 _line = line;
@@ -63,33 +69,32 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             {
                 if (line.LineNumber == _line)
                 {
-                    if (_pos<line.Length)
-                        ChangeLinePart(line.Offset+_pos-1,line.EndOffset,e => e.TextRunProperties.SetBackgroundBrush(Brushes.LightPink));
+                    if (_pos < line.Length)
+                        ChangeLinePart(line.Offset + _pos - 1, line.EndOffset,
+                            e => e.TextRunProperties.SetBackgroundBrush(Brushes.LightPink));
                 }
             }
         }
 
-
-        private void HiglightError(int line, int pos)
+        private void DeleteErrors(TextEditor editor)
         {
-            foreach (var markSameWord in XamlEditor.TextArea.TextView.LineTransformers.OfType<MarkError>().ToList())
+            foreach (var markSameWord in editor.TextArea.TextView.LineTransformers.OfType<MarkError>().ToList())
             {
-                XamlEditor.TextArea.TextView.LineTransformers.Remove(markSameWord);
+                editor.TextArea.TextView.LineTransformers.Remove(markSameWord);
             }
-
-            if(line>-1 && pos>-1)
-                XamlEditor.TextArea.TextView.LineTransformers.Add(new MarkError(line,pos));
-
         }
 
-        private void TextEditor_OnTextChanged(object sender, EventArgs e)
+        private void HighlightError(TextEditor editor, CompileError error)
         {
-            if (ReferenceEquals(sender, XamlEditor))
-                ((FormClassViewModel) DataContext).FormHelper.Xaml = XamlEditor?.Text;
-            if (ReferenceEquals(sender, CodeEditor))
-                ((FormClassViewModel) DataContext).FormHelper.Cs = CodeEditor?.Text;
-        }
-    }
+            DeleteErrors(editor);
+            if (error == null) return;
 
-    
+            if (error.Line > -1 && error.Pos > -1)
+                editor.TextArea.TextView.LineTransformers.Add(new MarkError(error.Line, error.Pos));
+
+            editor.TextArea.Caret.Line = error.Line;
+            editor.TextArea.Caret.BringCaretToView();
+        }
+
+    }
 }

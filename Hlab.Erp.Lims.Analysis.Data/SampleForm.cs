@@ -72,10 +72,10 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         public string ResultValues
         {
-            get => _values.Get(); 
-            set => _values.Set(value);
+            get => _resultValues.Get(); 
+            set => _resultValues.Set(value);
         }
-        private readonly IProperty<string> _values = H.Property<string>();
+        private readonly IProperty<string> _resultValues = H.Property<string>();
 
         public bool MandatoryDone
         {
@@ -86,10 +86,10 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         public bool SpecificationDone
         {
-            get => _specificationsDone.Get(); 
-            set => _specificationsDone.Set(value);
+            get => _specificationDone.Get(); 
+            set => _specificationDone.Set(value);
         }
-        private readonly IProperty<bool> _specificationsDone = H.Property<bool>();
+        private readonly IProperty<bool> _specificationDone = H.Property<bool>();
 
         byte[] IFormTarget.Code => FormClass.Code;
         string IFormTarget.TestName { get; set; }

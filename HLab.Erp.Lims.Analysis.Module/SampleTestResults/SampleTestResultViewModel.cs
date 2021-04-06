@@ -126,7 +126,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         {
             await FormHelper.LoadAsync(Model).ConfigureAwait(true);
 
-            FormHelper.Mode = Workflow.CurrentStage == SampleTestResultWorkflow.Running ? FormMode.Capture : FormMode.ReadOnly;
+            FormHelper.Form.Mode = Workflow.CurrentStage == SampleTestResultWorkflow.Running ? FormMode.Capture : FormMode.ReadOnly;
         }
 
 

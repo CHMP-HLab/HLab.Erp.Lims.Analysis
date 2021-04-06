@@ -3,10 +3,15 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using HLab.Compiler.Wpf;
+using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Application;
+using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Rendering;
+using ICSharpCode.AvalonEdit.Search;
+using Microsoft.CodeAnalysis;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
@@ -18,34 +23,37 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         public TestClassView()
         {
             InitializeComponent();
+
             DataContextChanged += TestClassView_DataContextChanged;
         }
 
         private void TestClassView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if(e.OldValue is TestClassViewModel oldVm)
-                oldVm.FormHelper.PropertyChanged -= Vm_PropertyChanged;
+                oldVm.FormHelper.PropertyChanged -= FormHelper_PropertyChanged;
             if (e.NewValue is TestClassViewModel vm)
             {
-                XamlEditor.Text = vm.FormHelper.Xaml;
-                CodeEditor.Text = vm.FormHelper.Cs;
-                vm.FormHelper.PropertyChanged += Vm_PropertyChanged;
+                vm.FormHelper.PropertyChanged += FormHelper_PropertyChanged;
             }
         }
 
-        private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void FormHelper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.StartsWith("XamlError"))
+            if (sender is not FormHelper helper) return;
+            switch (e.PropertyName)
             {
-                HighlightError(
-                    ((TestClassViewModel) DataContext).FormHelper.XamlErrorLine,
-                    ((TestClassViewModel) DataContext).FormHelper.XamlErrorPos
-                );
+                case nameof(helper.SelectedXamlError):
+                    HighlightError(XamlEditor, helper.SelectedXamlError);
+                    break;
+                case nameof(helper.SelectedCsError):
+                {
+                    HighlightError(CodeEditor, helper.SelectedCsError);
+                    break;
+                }
+                case nameof(helper.SelectedDebugError): 
+                    HighlightError(FinalCodeEditor, helper.SelectedDebugError);
+                    break;
             }
-            //    XamlEditor.Text = ((TestClassViewModel) DataContext).Xaml;
-            //if (e.PropertyName == "Code")
-            //    CodeEditor.Text = ((TestClassViewModel) DataContext).Code;
-
         }
 
         class MarkError : DocumentColorizingTransformer
@@ -68,26 +76,48 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             }
         }
 
-
-        private void HighlightError(int line, int pos)
+        private void DeleteErrors(TextEditor editor)
         {
-            foreach (var markSameWord in XamlEditor.TextArea.TextView.LineTransformers.OfType<MarkError>().ToList())
+            foreach (var markSameWord in editor.TextArea.TextView.LineTransformers.OfType<MarkError>().ToList())
             {
-                XamlEditor.TextArea.TextView.LineTransformers.Remove(markSameWord);
+                editor.TextArea.TextView.LineTransformers.Remove(markSameWord);
             }
-
-            if(line>-1 && pos>-1)
-                XamlEditor.TextArea.TextView.LineTransformers.Add(new MarkError(line,pos));
-
         }
 
-        private void TextEditor_OnTextChanged(object sender, EventArgs e)
+        private void HighlightError(TextEditor editor, CompileError error)
         {
-            if (ReferenceEquals(sender, XamlEditor))
-                ((TestClassViewModel) DataContext).FormHelper.Xaml = XamlEditor?.Text;
-            if (ReferenceEquals(sender, CodeEditor))
-                ((TestClassViewModel) DataContext).FormHelper.Cs = CodeEditor?.Text;
+            DeleteErrors(editor);
+            if (error == null) return;
+
+            if(error.Line>-1 && error.Pos>-1)
+                editor.TextArea.TextView.LineTransformers.Add(new MarkError(error.Line,error.Pos));
+
+            editor.TextArea.Caret.Line = error.Line;
+            editor.TextArea.Caret.BringCaretToView();
         }
+
+        //private void TextEditor_OnTextChanged(object sender, EventArgs e)
+        //{
+        //    if (DataContext is not TestClassViewModel vm) return;
+        //    if (ReferenceEquals(sender, XamlEditor))
+        //    {
+        //        if (vm.FormHelper.Xaml != XamlEditor.Text)
+        //        {
+        //            vm.FormHelper.Xaml = XamlEditor.Text;
+        //            vm.TryAllowed = true;
+        //        }
+        //    }
+
+        //    if (ReferenceEquals(sender, CodeEditor))
+        //    {
+        //        if (vm.FormHelper.Cs != CodeEditor.Text)
+        //        {
+        //            vm.FormHelper.Cs = CodeEditor.Text;
+        //            vm.TryAllowed = true;
+        //        }
+        //    }
+
+        //}
     }
 
     

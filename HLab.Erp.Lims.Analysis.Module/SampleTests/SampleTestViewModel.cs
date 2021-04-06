@@ -49,11 +49,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             var state = Workflow.CurrentStage;
 
             if (state == SampleTestWorkflow.Specifications) 
-                FormHelper.Mode = FormMode.Specification;
+                FormHelper.Form.Mode = FormMode.Specification;
             //else if (state == SampleTestWorkflow.Running) 
             //    FormHelper.Mode = TestFormMode.Capture;
             else 
-                FormHelper.Mode = FormMode.ReadOnly;
+                FormHelper.Form.Mode = FormMode.ReadOnly;
         }
 
         public SampleTestWorkflow Workflow => _workflow.Get();
@@ -77,7 +77,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .NotNull(e => e.Locker)
             .NotNull(e => e.Workflow)
             .Set(e => {
-                e.FormHelper.SetFormMode(e.FormHelper.Mode);
+                e.FormHelper.Form.SetFormMode(e.FormHelper.Form.Mode);
                 return e.Locker.IsActive
                                 && e.Workflow.CurrentStage == SampleTestWorkflow.Specifications
                                 && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisMonographSign);

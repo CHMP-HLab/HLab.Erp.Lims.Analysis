@@ -132,10 +132,10 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
             await FormHelper.LoadFormAsync(Model).ConfigureAwait(true);
 
-            FormHelper.Mode = Model.Sample.Stage == SampleWorkflow.Reception.Name ? FormMode.Capture : FormMode.ReadOnly;
+            FormHelper.Form.Mode = Model.Sample.Stage == SampleWorkflow.Reception.Name ? FormMode.Capture : FormMode.ReadOnly;
 
-            FormHelper.LoadValues(Model.SpecificationValues);
-            FormHelper.LoadValues(Model.ResultValues);
+            FormHelper.Form.LoadValues(Model.SpecificationValues);
+            FormHelper.Form.LoadValues(Model.ResultValues);
         }
 
         public override string Title => _title.Get();

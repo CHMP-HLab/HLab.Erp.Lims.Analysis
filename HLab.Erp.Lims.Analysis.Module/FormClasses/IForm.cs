@@ -9,5 +9,10 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
         void Connect(int connectionId, object target);
         void Process(object sender, RoutedEventArgs e);
+
+        FormMode Mode { get; set; }
+        void SetFormMode(FormMode formMode);
+
+        void LoadValues(string values);
     }
 }

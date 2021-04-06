@@ -1,9 +1,7 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Conformity.Annotations;
-using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
@@ -14,7 +12,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
     public class FormClassViewModelDesign : FormClassViewModel, IViewModelDesign
     {
-        public FormClassViewModelDesign()
+        public FormClassViewModelDesign():base(null)
         {
 //            Model = FormClass.DesignModel;
             FormHelper.Xaml = "<xml></xml>";
@@ -81,34 +79,29 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         string IFormTarget.Name { get => "Dummy"; set => throw new System.NotImplementedException(); }
     }
 
-    public class FormClassViewModel : EntityViewModel<FormClass>
+    public class FormClassViewModel : EntityViewModel<FormClass>, IFormHelperProvider
     {
         public override string Title => _title.Get();
         private readonly IProperty<string> _title = H.Property<string>(c => c.Bind(e => e.Model.Name));
 
         public override string IconPath => Model.IconPath;
 
-        public FormClassViewModel()
+        [Import] public FormClassViewModel(FormHelper formHelper)
         {
+            FormHelper = formHelper;
             H.Initialize(this);
-            FormHelper = new();
         }
 
-        public FormHelper FormHelper
-        {
-            get => _formHelper.Get();
-            private init => _formHelper.Set(value);
-        }
-        private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>();
+        public FormHelper FormHelper { get; }
 
         public ICommand TryCommand { get; } = H.Command(c => c.Action(
             async e => await e.FormHelper.Compile()
         ));
         public ICommand SpecificationModeCommand { get; } = H.Command(c => c.Action(
-            e => e.FormHelper.Mode = FormMode.Specification
+            e => e.FormHelper.Form.Mode = FormMode.Specification
         ));
         public ICommand CaptureModeCommand { get; } = H.Command(c => c.Action(
-             e => e.FormHelper.Mode = FormMode.Capture
+             e => e.FormHelper.Form.Mode = FormMode.Capture
         ));
 
 

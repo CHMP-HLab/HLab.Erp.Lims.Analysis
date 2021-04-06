@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using HLab.Compiler.Wpf;
 using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Conformity.Annotations;
@@ -16,7 +17,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
     using H = H<TestClassViewModel>;
 
-    public class TestClassViewModel : EntityViewModel<TestClass>
+    public class TestClassViewModel : EntityViewModel<TestClass>, IFormHelperProvider
     {
         public override string Title => _title.Get();
         private readonly IProperty<string> _title = H.Property<string>(c => c.Bind(e => e.Model.Name));
@@ -67,6 +68,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
         private readonly IProperty<string> _newName = H.Property<string>();
 
+
+
         /// <summary>
         /// List of unit tests
         /// </summary>
@@ -103,10 +106,9 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         /// Try to recompile the form
         /// </summary>
         public ICommand TryCommand { get; } = H.Command(c => c
-            .CanExecute(e => e.Locker.IsActive && e.Locker.Persister.IsDirty)
+            .CanExecute(e => !e.FormHelper.FormUpToDate )
             .Action(async e => await e.TryAsync())
-                .On(e => e.Locker.IsActive)
-                .On(e => e.Locker.Persister.IsDirty)
+                .On(e => e.FormHelper.FormUpToDate)
             .CheckCanExecute()
         );
 
@@ -120,10 +122,10 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         /// Try to recompile the form
         /// </summary>
         public ICommand SpecificationModeCommand { get; } = H.Command(c => c.Action(
-            e => e.FormHelper.Mode = FormMode.Specification
+            e => e.FormHelper.Form.Mode = FormMode.Specification
         ));
         public ICommand CaptureModeCommand { get; } = H.Command(c => c.Action(
-            e => e.FormHelper.Mode = FormMode.Capture
+            e => e.FormHelper.Form.Mode = FormMode.Capture
         ));
 
         /// <summary>
@@ -146,8 +148,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 u.Description = FormHelper.Form.Target.Description;
                 u.Specification = FormHelper.Form.Target.Specification;
 //                u.SpecificationsDone = FormHelper.Form.Test.;
-                u.SpecificationValues = FormHelper.GetSpecPackedValues();
-                u.ResultValues = FormHelper.GetPackedValues();
+                u.SpecificationValues = FormHelper.Form.Target.SpecificationValues;
+                u.ResultValues = FormHelper.Form.Target.ResultValues;
 
                 u.ConformityId = FormHelper.Form.Target.ConformityId;
                 u.Result = FormHelper.Form.Target.Result;
@@ -171,8 +173,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             {
                 var u = t.Clone<TestClassUnitTestClone>();
                 await  LoadResultAsync(u).ConfigureAwait(true);
-                u.SpecificationValues = FormHelper.GetSpecPackedValues();
-                u.ResultValues = FormHelper.GetPackedValues();
+                u.SpecificationValues = FormHelper.Form.Target.SpecificationValues;
+                u.ResultValues = FormHelper.Form.Target.ResultValues;
 
                 if(!t.Check(u, out var error)) 
                     UnitTests.AddError(t.Id,error);
@@ -184,7 +186,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         public async Task LoadResultAsync(IFormTarget target=null)
         {
             await FormHelper.LoadAsync(target).ConfigureAwait(true);
-            FormHelper.Mode = FormMode.Specification;
+            FormHelper.Form.Mode = FormMode.Specification;
         }
 
 

@@ -3,11 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
              xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
              xmlns:testClasses="clr-namespace:HLab.Erp.Lims.Analysis.Module.TestClasses"
-             xmlns:details="clr-namespace:HLab.Erp.Core.Tools.Details;assembly=HLab.Erp.Core.Wpf"
              xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
+             xmlns:wpf="clr-namespace:HLab.Erp.Base.Wpf;assembly=HLab.Erp.Base.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance testClasses:TestClassViewModelDesign}">
     <Grid>
@@ -37,13 +36,13 @@
                     <!--<WindowsFormsHost>
                             <fctb1:FastColoredTextBox x:Name="TB_Xaml" Language="HTML" ShowFoldingLines="True" TabLength="3" ChangedLineColor="Yellow" CurrentLineColor="LightBlue" HighlightingRangeType="VisibleRange"/>
                         </WindowsFormsHost>-->
-                    <avalonedit:TextEditor x:Name="XamlEditor"
+                    <wpf:TextEditorEx x:Name="XamlEditor"
                             LineNumbersForeground="Black"
                             ShowLineNumbers="True"
                             Background="#F0FFFFFF"
                             FontSize="12" 
                             SyntaxHighlighting="XML" 
-                            TextChanged="TextEditor_OnTextChanged"
+                            Text="{Binding FormHelper.Xaml}"
                             IsReadOnly="{Binding Locker.IsReadOnly}"
                              
                         >
@@ -57,16 +56,21 @@
                                 <MenuItem Command="Paste" />
                             </ContextMenu>
                         </avalonedit:TextEditor.ContextMenu>                    
-                    </avalonedit:TextEditor>
+                    </wpf:TextEditorEx>
 
                     <controlsEx:ScrollViewerEx MaxHeight="200" VerticalScrollBarVisibility="Auto" Grid.Row="1" >
-                        <TextBlock 
-                            Text="{Binding FormHelper.XamlMessage}" 
-                            Grid.Row="1" Style="{x:Null}" 
-                            TextWrapping="Wrap" 
-                            Foreground="DarkRed"
-                            Background="Silver"
-                            />
+                        <ListView 
+                            ItemsSource="{Binding FormHelper.XamlErrors}"
+                            SelectedItem="{Binding SelectedXamlError}"
+                        >
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Message" Width="120" DisplayMemberBinding="{Binding Message}" />
+                                    <GridViewColumn Header="Ligne" Width="50" DisplayMemberBinding="{Binding Line}" />
+                                    <GridViewColumn Header="Colonne" Width="150" DisplayMemberBinding="{Binding Pos}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
                     </controlsEx:ScrollViewerEx>
                 </Grid>
 
@@ -81,41 +85,86 @@
                             <fctb1:FastColoredTextBox x:Name="TB_CS" Language="CSharp" ShowFoldingLines="True" TabLength="3" ChangedLineColor="Yellow" CurrentLineColor="LightBlue" HighlightingRangeType="VisibleRange"/>
                         </WindowsFormsHost>-->
                     <!--<TextBox x:Name="TB_CS"></TextBox>-->
-                    <avalonedit:TextEditor 
+                    <wpf:TextEditorEx 
                             Background="#F0FFFFFF"
                             FontSize="12" 
                             FontFamily="Consolas"
                             x:Name="CodeEditor" 
                             ShowLineNumbers="True"
                             SyntaxHighlighting="C#"
-                            TextChanged="TextEditor_OnTextChanged"
-                            
+                            Text ="{Binding FormHelper.Cs,Mode=TwoWay}"
                             IsReadOnly="{Binding Locker.IsReadOnly}"
                             >
-                    <avalonedit:TextEditor.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Command="Undo" />
-                            <MenuItem Command="Redo" />
-                            <Separator/>
-                            <MenuItem Command="Cut" />
-                            <MenuItem Command="Copy" />
-                            <MenuItem Command="Paste" />
-                        </ContextMenu>
-                    </avalonedit:TextEditor.ContextMenu>                    
-                    </avalonedit:TextEditor>
+                        <avalonedit:TextEditor.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="Undo" />
+                                <MenuItem Command="Redo" />
+                                <Separator/>
+                                <MenuItem Command="Cut" />
+                                <MenuItem Command="Copy" />
+                                <MenuItem Command="Paste" />
+                            </ContextMenu>
+                        </avalonedit:TextEditor.ContextMenu>                    
+                    </wpf:TextEditorEx>
                     <controlsEx:ScrollViewerEx MaxHeight="200" VerticalScrollBarVisibility="Auto" Grid.Row="1" >
-                        <TextBlock 
-                                
-                                Text="{Binding FormHelper.CsMessage}" 
-                                Style="{x:Null}" 
-                                TextWrapping="Wrap" 
-                                Foreground="DarkRed"
-                                Background="Silver"
-                            />
+                        <ListView 
+                            ItemsSource="{Binding FormHelper.CsErrors}"
+                            SelectedItem="{Binding SelectedCsError}"
+                            >
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Message" Width="120" DisplayMemberBinding="{Binding Message}" />
+                                    <GridViewColumn Header="Ligne" Width="50" DisplayMemberBinding="{Binding Line}" />
+                                    <GridViewColumn Header="Colonne" Width="150" DisplayMemberBinding="{Binding Pos}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
                     </controlsEx:ScrollViewerEx>
                 </Grid>
             </TabItem>
-            <TabItem Header="Unit Tests" />
+            <TabItem Header="Debug">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <wpf:TextEditorEx 
+                            Background="#F0FFFFFF"
+                            FontSize="12" 
+                            FontFamily="Consolas"
+                            x:Name="FinalCodeEditor" 
+                            ShowLineNumbers="True"
+                            SyntaxHighlighting="C#"
+                            Text="{Binding FormHelper.Provider.FinalCode,Mode=OneWay}"
+                            IsReadOnly="{Binding Locker.IsReadOnly}"
+                            >
+                        <avalonedit:TextEditor.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="Undo" />
+                                <MenuItem Command="Redo" />
+                                <Separator/>
+                                <MenuItem Command="Cut" />
+                                <MenuItem Command="Copy" />
+                                <MenuItem Command="Paste" />
+                            </ContextMenu>
+                        </avalonedit:TextEditor.ContextMenu>                    
+                    </wpf:TextEditorEx>
+                    <controlsEx:ScrollViewerEx MaxHeight="200" VerticalScrollBarVisibility="Auto" Grid.Row="1" >
+                        <ListView 
+                            ItemsSource="{Binding FormHelper.DebugErrors}"
+                            SelectedItem="{Binding SelectedDebugError}"
+                            >
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Message" Width="120" DisplayMemberBinding="{Binding Message}" />
+                                    <GridViewColumn Header="Ligne" Width="50" DisplayMemberBinding="{Binding Line}" />
+                                    <GridViewColumn Header="Colonne" Width="150" DisplayMemberBinding="{Binding Pos}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </controlsEx:ScrollViewerEx>
+                </Grid>
+            </TabItem>
         </TabControl>
 
         <GridSplitter Grid.Column="3"/>

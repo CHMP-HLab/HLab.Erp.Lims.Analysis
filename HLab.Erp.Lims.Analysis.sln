@@ -107,7 +107,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HLab.Localization.Wpf", "..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HLab.Icons.Annotations", "..\..\HLab\Hlab.Icons.Annotations\HLab.Icons.Annotations.csproj", "{322AC0C6-C7E5-4F53-882E-37540F87CE03}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Compiler.Wpf", "..\..\HLab\Compiler.Wpf\Compiler.Wpf.csproj", "{C71FD8C1-218C-4070-A19D-B594CF3D528B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HLab.Compiler.Wpf", "..\..\HLab\Compiler.Wpf\HLab.Compiler.Wpf.csproj", "{C71FD8C1-218C-4070-A19D-B594CF3D528B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HlabGuiTester", "..\..\HLab\HlabGuiTester\HlabGuiTester.csproj", "{00C9C095-0507-47B3-9822-C28CE21289B5}"
 EndProject

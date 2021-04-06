@@ -48,6 +48,13 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<string> _version = H.Property<string>();
 
+        public byte[] CodeHash
+        {
+            get => _codeHash.Get();
+            set => _codeHash.Set(value);
+        }
+        private readonly IProperty<byte[]> _codeHash = H.Property<byte[]>();
+
         [Ignore]
         public string Caption => Name;
 
