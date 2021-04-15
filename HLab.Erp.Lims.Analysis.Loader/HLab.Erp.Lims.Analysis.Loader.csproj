@@ -43,6 +43,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Acl.Wpf\HLab.Erp.Acl.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Acl\HLab.Erp.Acl.csproj" />
+    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Base.Data\HLab.Erp.Base.Data.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Base.Wpf\HLab.Erp.Base.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Core.Wpf\HLab.Erp.Core.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Data\HLab.Erp.Data.csproj" />

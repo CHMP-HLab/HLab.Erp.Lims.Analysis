@@ -5,11 +5,20 @@
     <Platforms>AnyCPU;x64;x86</Platforms>
     <LangVersion>9.0</LangVersion>
     <Configurations>Debug;Release;DebugRelease</Configurations>
+    <Version>2.1.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutputPath>bin\x64\Debug\</OutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="SQL\Update-From-0.0.0.0.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="SQL\Update-From-0.0.0.0.sql" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Base.Data\HLab.Erp.Base.Data.csproj" />
