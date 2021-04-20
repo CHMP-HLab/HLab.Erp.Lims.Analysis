@@ -16,10 +16,9 @@ namespace HTMLConverter
     using System.Collections;
     using System.Collections.Generic;
     using System.Text;
-    using System.IO;
+    // DependencyProperty
 
-    using System.Windows; // DependencyProperty
-    using System.Windows.Documents; // TextElement
+    // TextElement
   
     internal static class HtmlCssParser
     {

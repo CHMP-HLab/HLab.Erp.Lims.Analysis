@@ -142,6 +142,7 @@
 
   <ItemGroup>
     <PackageReference Include="ControlzEx" Version="5.0.0" />
+    <PackageReference Include="Grace" Version="7.2.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0-1.final" />
   </ItemGroup>
 
@@ -522,6 +523,9 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Products\FormView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Resources\Certificat - Copier.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Resources\CertificatNiger.xaml">

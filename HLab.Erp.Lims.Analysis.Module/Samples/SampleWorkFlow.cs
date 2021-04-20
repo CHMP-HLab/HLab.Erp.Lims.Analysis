@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Data.Observables;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Erp.Workflows;
 using HLab.Notify.PropertyChanged;
@@ -14,10 +14,12 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
     public class SampleWorkflow : Workflow<SampleWorkflow,Sample>
     {
-        public SampleWorkflow(Sample sample, DataLocker<Sample> locker):base(sample,locker)
+        private readonly ObservableQuery<SampleTest> _sampleTests;
+        public SampleWorkflow(Sample sample, DataLocker<Sample> locker, ObservableQuery<SampleTest> sampleTests):base(sample,locker)
         {
+            _sampleTests = sampleTests;
             var id = sample.Id;
-            SampleTests.AddFilter(() => e => e.SampleId == id);
+            _sampleTests.AddFilter(() => e => e.SampleId == id);
 
             H<SampleWorkflow>.Initialize(this);
                 
@@ -26,11 +28,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         }
         public async Task UpdateChildrenAsync()
         {
-            SampleTests.Update(); // TODO : should be async
+            _sampleTests.Update(); // TODO : should be async
             Update();
         }
 
-        [Import] private ObservableQuery<SampleTest> SampleTests;
 
         protected override string StageName
         {
@@ -175,12 +176,12 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 .WithMessage(w => "{Missing} : {Pharmacopoeia version}")
                 .HighlightField(w => w.Target.PharmacopoeiaVersion)
 
-            .NotWhen(w => w.SampleTests.Count == 0)
+            .NotWhen(w => w._sampleTests.Count == 0)
                 .WithMessage(w => "{Missing} : {Tests}")
 //                .HighlightField(w => w.Target.Pharmacopoeia)
 
             .When(w => {
-                foreach (SampleTest test in w.SampleTests)
+                foreach (SampleTest test in w._sampleTests)
                 {
                     if (test.Stage == SampleTestWorkflow.Specifications.Name) return false; 
                     if (test.Stage == SampleTestWorkflow.SignedSpecifications.Name) return false;
@@ -252,7 +253,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .When(w => {
                 var validated = 0;
                 var invalidated = 0;
-                foreach (SampleTest test in w.SampleTests) 
+                foreach (SampleTest test in w._sampleTests) 
                 {
                     if (test.Stage == SampleTestWorkflow.ValidatedResults.Name) validated++; 
                     else if (test.Stage == SampleTestWorkflow.InvalidatedResults.Name) invalidated++; 

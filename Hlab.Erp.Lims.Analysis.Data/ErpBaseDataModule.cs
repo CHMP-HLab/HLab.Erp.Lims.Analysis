@@ -1,17 +1,11 @@
-﻿using System.Text;
-using HLab.Core.Annotations;
-using HLab.DependencyInjection.Annotations;
-using HLab.Erp.Base.Data;
+﻿using HLab.Erp.Base.Data;
 using HLab.Erp.Data;
-using Npgsql;
-using Org.BouncyCastle.Crypto.Engines;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    [Export(typeof(IBootloader))]
     public class HLabErpLimsAnalysisDataUpdaterModule : DataUpdaterModule
     {
-        public HLabErpLimsAnalysisDataUpdaterModule()
+        public HLabErpLimsAnalysisDataUpdaterModule(IDataService data) : base(data)
         { }
 
         protected override ISqlBuilder GetSqlUpdater(string version, ISqlBuilder builder)
@@ -67,7 +61,10 @@ namespace HLab.Erp.Lims.Analysis.Data
                         .RenameColumn("SpecificationsDone", t => t.SpecificationDone)
 
                         .Table<SampleForm>()
-                        .RenameColumn("State", s => s.ConformityId);
+                        .RenameColumn("State", s => s.ConformityId)
+
+                        .Table<TestClassUnitTest>()
+                        .RenameColumn("Values", t => t.ResultValues);
                     break;
 
             }

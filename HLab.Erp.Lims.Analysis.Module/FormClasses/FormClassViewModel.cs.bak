@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
+using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses
@@ -15,7 +17,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
         public override string IconPath => Model.IconPath;
 
-        public FormClassViewModel(FormHelper formHelper)
+        [Import] public FormClassViewModel(FormHelper formHelper)
         {
             FormHelper = formHelper;
             H.Initialize(this);
@@ -26,11 +28,13 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             {
                 if (e.Model.Code != null)
                 {
-                    await e.FormHelper.ExtractCodeAsync(e.Model.Code).ConfigureAwait(true);
+                    await e.FormHelper.LoadCodeAsync(e.Model.Code).ConfigureAwait(true);
                 }
                 else
                 {
-                    e.FormHelper.Xaml = "<Grid></Grid>";
+                    e.FormHelper.Xaml = @"
+                    <Grid>
+                    </Grid>";
                     e.FormHelper.Cs = @"
                     using System;
                     using System.Windows;
@@ -40,7 +44,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                     using System.Collections.Generic;
                     namespace Lims
                     {
-                        public class Form
+                        public class Test
                         {
                             public void Process(object sender, RoutedEventArgs e)
                             {
@@ -53,6 +57,9 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             }));
         public FormHelper FormHelper { get; }
 
+        public ICommand TryCommand { get; } = H.Command(c => c.Action(
+            async e => await e.FormHelper.Compile()
+        ));
         #region Commands
 
         /// <summary>
@@ -68,7 +75,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         private async Task TryAsync()
         {
             await FormHelper.Compile();
-            Model.Code = await FormHelper.PackCodeAsync();
+            Model.Code = await FormHelper.SaveCodeAsync();
         }
 
         /// <summary>
@@ -81,7 +88,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
              e => e.FormHelper.Form.Mode = FormMode.Capture
         ));
 
-        #endregion
+
 
 
     }

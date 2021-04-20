@@ -1,9 +1,7 @@
 ﻿using HLab.Notify.PropertyChanged;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using HLab.Erp.Conformity.Annotations;
-using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses

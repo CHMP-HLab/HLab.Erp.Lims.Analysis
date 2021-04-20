@@ -1,13 +1,14 @@
-﻿using HLab.Erp.Core.EntityLists;
+﻿using Grace.DependencyInjection.Attributes;
+using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
-    public class ProductsListViewModel: EntityListViewModel<Product>, IMvvmContextProvider
+    public class ProductsListViewModel : EntityListViewModel<Product>, IMvvmContextProvider
     {
-        public ProductsListViewModel() 
+        protected override void Configure()
         {
             AddAllowed = true;
             DeleteAllowed = true;
@@ -41,29 +42,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
 
                 Filter<EntityFilter<Form>>(f => f.Title("{Form}"))
                     .Link(List,e => e.FormId??-1);
-            }
-        }
-
-        public void ConfigureMvvmContext(IMvvmContext ctx)
-        {
-        }
-    }
-    public class FormsListViewModel: EntityListViewModel<Form>, IMvvmContextProvider
-    {
-        public FormsListViewModel() 
-        {
-            AddAllowed = true;
-            DeleteAllowed = true;
-
-            Columns.Configure(c => c
-                .Column.Header("{Name}").Content(e => e.Name)
-                .Column.Header("{Icon}").Icon((s) => s.IconPath).OrderBy(s => s.Name)
-            );
-
-            using (List.Suspender.Get())
-            {
-                Filter<TextFilter>(f => f.Title("{Name}"))
-                    .Link(List,e => e.Name);
             }
         }
 

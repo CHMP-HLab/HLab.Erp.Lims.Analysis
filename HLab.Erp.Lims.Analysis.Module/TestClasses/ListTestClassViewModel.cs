@@ -1,5 +1,4 @@
-﻿using HLab.DependencyInjection.Annotations;
-using HLab.Erp.Core;
+﻿using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
@@ -10,11 +9,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
     class ListTestClassViewModel : EntityListViewModel<TestClass>, IMvvmContextProvider
     {
-        
-        [Import] private readonly IErpServices _erp;
-
- 
-        public ListTestClassViewModel() 
+        protected override void Configure()
         {
             AddAllowed = true;
             DeleteAllowed = true;
@@ -39,6 +34,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
 
         public override string Title => "{Test Classes}";
+
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }

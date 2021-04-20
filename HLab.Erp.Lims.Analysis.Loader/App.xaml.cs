@@ -1,7 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using Grace.DependencyInjection;
 using HLab.Core;
-using HLab.DependencyInjection;
-using HLab.DependencyInjection.Annotations;
+using HLab.Erp.Acl;
 using HLab.Erp.Base.Data;
 using HLab.Erp.Base.Wpf.Entities.Customers;
 using HLab.Erp.Lims.Analysis.Data;
@@ -32,8 +33,16 @@ namespace HLab.Erp.Lims.Analysis.Loader
                 base.OnStartup(e);
 
                 var container = new DependencyInjectionContainer();
-                container.ExportInitialize<OptionsServices>((c, a, o) => o.OptionsPath = "HLab.Erp");
+                
+                // TODO :
+                //container.Configure(e => e.ExportFactory<Func<OptionsServices>>(()=>new OptionsServices()));
+                //container.ExportInitialize<OptionsServices>((c, a, o) => o.OptionsPath = "HLab.Erp")
+
+                container.Configure(c => c.ExportInitialize<OptionsServices>(s => s.OptionsPath="HLab.Erp"));
+
                 container.Configure(c => c.Export<EventHandlerServiceWpf>().As<IEventHandlerService>());
+
+                container.Configure(c => c.Export(typeof(IDataLocker<>)).As(typeof(DataLocker<>)));
 
                 //boot.Container.ExportInitialize<BootLoaderErpWpf>((c, a, o) => o.SetMainViewMode(typeof(ViewModeKiosk)));
 
@@ -57,7 +66,7 @@ namespace HLab.Erp.Lims.Analysis.Loader
                 var g0 = boot.LoadDll("HLab.Erp.Lims.Analysis.Module");
                 //var g1 = boot.LoadDll("HLab.Erp.Lims.Monographs.Module");
             
-                boot.Configure();
+                boot.Configure(container);
 
                 var mvvm = container.Locate<IMvvmService>();
 

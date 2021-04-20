@@ -1,6 +1,4 @@
-﻿using HLab.DependencyInjection.Annotations;
-using HLab.Erp.Core;
-using HLab.Erp.Core.EntityLists;
+﻿using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 
@@ -8,11 +6,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
     public class ListFormClassViewModel : EntityListViewModel<FormClass>, IMvvmContextProvider
     {
-        
-        [Import] private readonly IErpServices _erp;
-
- 
-        public ListFormClassViewModel() 
+        protected override void Configure()
         {
             AddAllowed = true;
             DeleteAllowed = true;
@@ -38,6 +32,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         }
 
         public override string Title => "{Forms}";
+
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }

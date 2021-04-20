@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows;
-using System.Windows.Markup;
 using HLab.Compiler.Wpf;
 
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses

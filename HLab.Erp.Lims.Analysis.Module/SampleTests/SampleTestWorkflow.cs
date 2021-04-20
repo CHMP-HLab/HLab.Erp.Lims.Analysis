@@ -1,22 +1,23 @@
-﻿using System;
-using System.Threading.Tasks;
-using HLab.DependencyInjection.Annotations;
+﻿using System.Threading.Tasks;
 using HLab.Erp.Acl;
 using HLab.Erp.Data.Observables;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.Samples;
 using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Erp.Workflows;
 using HLab.Notify.PropertyChanged;
 
-namespace HLab.Erp.Lims.Analysis.Module.Samples
+namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
     public class SampleTestWorkflow : Workflow<SampleTestWorkflow, SampleTest>
     {
-        public SampleTestWorkflow(SampleTest test, IDataLocker locker):base(test,locker)
+        private readonly ObservableQuery<SampleTestResult> _testResults;
+        public SampleTestWorkflow(SampleTest test, IDataLocker locker, ObservableQuery<SampleTestResult> testResults):base(test,locker)
         {
+            _testResults = testResults;
             int id = test.Id;
-            TestResults.AddFilter(() => e => e.SampleTestId == id);
+            _testResults.AddFilter(() => e => e.SampleTestId == id);
                 
             var task =  UpdateChildsAsync();
             SetStage(test.Stage);
@@ -26,11 +27,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public async Task UpdateChildsAsync()
         {
-            TestResults.Update(); // TODO : should be async
+            _testResults.Update(); // TODO : should be async
             Update();
         }
 
-        [Import] private ObservableQuery<SampleTestResult> TestResults;
         private IProperty<bool> _ = H<SampleTestWorkflow>.Property<bool>(c => c
 
             .On(e => e.Target.Stage)
@@ -165,7 +165,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             {
                 if (w.Target.Result == null)
                 {
-                    foreach (var result in w.TestResults)
+                    foreach (var result in w._testResults)
                     {
                         if (result.Stage == SampleTestResultWorkflow.Validated.Name)
                         {
@@ -203,7 +203,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             {
                 var validated = 0;
                 var invalidated = 0;
-                foreach(var result in w.TestResults)
+                foreach(var result in w._testResults)
                 {
                     if(result.Stage==SampleTestResultWorkflow.Validated.Name) validated++;
                     else if(result.Stage==SampleTestResultWorkflow.Invalidated.Name) invalidated++;
@@ -218,7 +218,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
                 var validated = 0;
                 var invalidated = 0;
-                foreach(var result in w.TestResults)
+                foreach(var result in w._testResults)
                 {
                     if(result.Stage==SampleTestResultWorkflow.Validated.Name) validated++;
                     else if(result.Stage==SampleTestResultWorkflow.Invalidated.Name) invalidated++;

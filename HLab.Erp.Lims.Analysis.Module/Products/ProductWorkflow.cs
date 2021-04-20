@@ -1,5 +1,6 @@
 ﻿using HLab.Erp.Acl;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Erp.Workflows;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products

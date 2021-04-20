@@ -9,24 +9,15 @@ using System.Xml;
 using System.Net;
 using System.IO.Compression;
 using System.Security.Cryptography;
-using System.Data.Odbc;
-using System.Collections;
 using System.Windows;
 using System.Windows.Media;
-using System.ComponentModel;
 using System.Windows.Data;
 using System.Globalization;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Threading;
 using System.Windows.Controls;
-using System.Windows.Threading;
-using System.Windows.Media.Animation;
 using System.Windows.Documents;
 using System.Text.RegularExpressions;
 using System.Windows.Markup;
 using System.Windows.Media.Imaging;
-using HLab.Base;
 using HLab.Base.Wpf;
 
 namespace Outils

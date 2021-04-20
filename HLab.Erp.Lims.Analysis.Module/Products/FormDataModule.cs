@@ -2,7 +2,7 @@
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
-    public class ProductsDataModule : ErpDataModule<ProductsListViewModel>
+    public class FormDataModule : ErpParamModule<FormsListViewModel>
     {
 
     }

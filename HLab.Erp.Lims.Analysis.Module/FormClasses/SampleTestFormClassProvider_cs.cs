@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
-namespace HLab.Erp.Lims.Analysis.Module.FormClasses
+﻿namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
     public partial class SampleTestFormClassProvider
     {

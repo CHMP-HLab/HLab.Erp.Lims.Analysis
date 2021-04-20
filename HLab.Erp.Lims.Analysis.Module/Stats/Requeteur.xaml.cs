@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -9,14 +8,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
@@ -34,7 +26,7 @@ namespace Outils
     public partial class Requeteur : UserControl, IView<Requete> , IViewClassDocument
     {
         DataService _data;
-        [Import]public Requeteur(DataService data)
+        public Requeteur(DataService data)
         {
             _data = data;
 

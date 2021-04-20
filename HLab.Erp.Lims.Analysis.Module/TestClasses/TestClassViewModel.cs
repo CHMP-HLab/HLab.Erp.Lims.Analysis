@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
-using HLab.Compiler.Wpf;
-using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
-using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
@@ -24,7 +20,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         public override string IconPath => Model.IconPath;
 
-        [Import] public TestClassViewModel(IDataService data, Func<TestClass, TestClassUnitTestListViewModel> getUnitTests, FormHelper formHelper)
+        public TestClassViewModel(IDataService data, Func<TestClass, TestClassUnitTestListViewModel> getUnitTests, FormHelper formHelper)
         {
             _data = data;
             _getUnitTests = getUnitTests;
@@ -36,12 +32,27 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         {
             if (e.Model.Code != null)
             {
-                await e.FormHelper.ExtractCode(e.Model.Code).ConfigureAwait(true);
+                await e.FormHelper.ExtractCodeAsync(e.Model.Code).ConfigureAwait(true);
             }
             else
             {
                 e.FormHelper.Xaml = "<Grid></Grid>";
-                e.FormHelper.Cs = "public class Test\n{\n}";
+                e.FormHelper.Cs = @"
+                    using System;
+                    using System.Windows;
+                    using System.Windows.Controls;
+                    using Outils;
+                    using System.Linq;
+                    using System.Collections.Generic;
+                    namespace Lims
+                    {
+                        public class Test
+                        {
+                            public void Process(object sender, RoutedEventArgs e)
+                            {
+                            }      
+                        }
+                    }";
             }
 
             await e.FormHelper.Compile();
@@ -115,7 +126,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         private async Task TryAsync()
         {
             await FormHelper.Compile();
-            Model.Code = await FormHelper.SaveCodeAsync();
+            Model.Code = await FormHelper.PackCodeAsync();
         }
 
         /// <summary>

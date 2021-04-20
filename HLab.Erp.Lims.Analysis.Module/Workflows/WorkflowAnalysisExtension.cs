@@ -1,18 +1,31 @@
 ﻿using System;
 using System.Text;
+using Grace.DependencyInjection.Attributes;
 using HLab.Base.Fluent;
-using HLab.DependencyInjection.Annotations;
+using HLab.Core.Annotations;
 using HLab.Erp.Acl;
-using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Erp.Workflows;
 using HLab.Notify.PropertyChanged;
-using NPoco.Expressions;
 
-namespace HLab.Erp.Lims.Analysis.Module
+namespace HLab.Erp.Lims.Analysis.Module.Workflows
 {
-    static class WorkflowAnalysisExtension
+    public class WorkFlowBootloader : IBootloader
     {
-        [Import]
+        private readonly IAclService _acl;
+
+        public WorkFlowBootloader(IAclService acl)
+        {
+            _acl = acl;
+        }
+
+        public void Load(IBootContext bootstrapper)
+        {
+            WorkflowAnalysisExtension.Acl = _acl;
+        }
+    }
+
+    internal static class WorkflowAnalysisExtension
+    {
         public static IAclService Acl { get; set; }
         public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> NeedRight<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t, Func<AclRight> right)
             where TWf : NotifierBase, IWorkflow<TWf>

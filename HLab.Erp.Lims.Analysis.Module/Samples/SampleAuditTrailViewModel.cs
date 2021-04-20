@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using HLab.Erp.Acl;
 using HLab.Erp.Core.EntityLists;
-using HLab.Erp.Core.ListFilters;
-using HLab.Erp.Data;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
     public class SampleAuditTrailViewModel : EntityListViewModel<AuditTrail>
     {
-                public SampleAuditTrailViewModel(int sampleId)
+        public SampleAuditTrailViewModel Configure(int sampleId)
         {
             List.AddFilter(() => e => e.EntityId == sampleId);
             List.AddFilter(() => e => e.EntityClass == "Sample");
@@ -60,6 +53,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             //);
 
             List.Update();
+
+            return this;
         }
 
                 private string LogAbstract(string log, int size)
@@ -72,6 +67,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             return result;
         }
 
+        protected override void Configure()
+        {
+        }
 
     }
 }

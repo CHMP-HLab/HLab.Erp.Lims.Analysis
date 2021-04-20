@@ -1,16 +1,13 @@
-﻿using HLab.DependencyInjection.Annotations;
-using HLab.Erp.Core;
-using HLab.Erp.Core.EntityLists;
+﻿using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Icons.Wpf;
 using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
     public class ProductCategoriesListViewModel : EntityListViewModel<ProductCategory>, IMvvmContextProvider
     {
-        public ProductCategoriesListViewModel()
+        protected override void Configure()
         {
             AddAllowed = true;
             DeleteAllowed = true;
@@ -36,6 +33,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }
+
     }
 
 }

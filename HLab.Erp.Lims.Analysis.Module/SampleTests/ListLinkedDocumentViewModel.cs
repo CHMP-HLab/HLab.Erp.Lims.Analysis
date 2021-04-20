@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-
-using HLab.DependencyInjection.Annotations;
+using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
@@ -11,12 +10,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
     public class ListLinkedDocumentViewModel : EntityListViewModel<LinkedDocument>, IMvvmContextProvider
     {
-        [Import]
-        private readonly IErpServices _erp;
+        private int _sampleTestId;
 
-        private readonly int _sampleTestId;
-
-        public ListLinkedDocumentViewModel(int sampleTestId)
+        public void Configure(int sampleTestId)
         {
             _sampleTestId = sampleTestId;
 
@@ -40,6 +36,10 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         }
 
+        protected override void Configure()
+        {
+        }
+
         protected override async Task AddEntityAsync()
         {
             var target = Selected;
@@ -58,7 +58,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             }
 
 
-            var result  = await _erp.Data.AddAsync<SampleTestResult>(r =>
+            var result  = await Erp.Data.AddAsync<SampleTestResult>(r =>
             {
                 r.Name = $"R{i + 1}";
                 r.SampleTestId = _sampleTestId;

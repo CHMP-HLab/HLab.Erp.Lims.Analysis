@@ -1,10 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using HLab.DependencyInjection.Annotations;
-using HLab.Erp.Acl;
+﻿using HLab.Erp.Acl;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.Samples;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Mvvm.Annotations;
 
@@ -12,10 +8,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
     public class SampleSampleTestListViewModel : EntityListViewModel<SampleTest>, IMvvmContextProvider
     {
-        [Import] private readonly IAclService _acl;
-
-
-        public SampleSampleTestListViewModel(int sampleId)
+        public SampleSampleTestListViewModel Configure(int sampleId)
         {
             var n = SampleTestWorkflow.Specifications; // TODO : this is a hack to force top level static constructor
 
@@ -53,17 +46,23 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             List.Update();
 
             DeleteAllowed = true;
+
+            return this;
         }
 
         protected override bool CanExecuteDelete()
         {
             if(Selected==null) return false;
             if (Selected.Stage != SampleTestWorkflow.Specifications.Name) return false;
-            if(!_acl.IsGranted(AnalysisRights.AnalysisAddTest)) return false;
+            if(!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddTest)) return false;
             return true;
         }
 
         public override string Title => "Samples";
+        protected override void Configure()
+        {
+        }
+
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }

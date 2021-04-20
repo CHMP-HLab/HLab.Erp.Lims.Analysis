@@ -1,17 +1,17 @@
 ﻿using System.Windows;
+using Grace.DependencyInjection.Attributes;
 using HLab.Core.Annotations;
-using HLab.DependencyInjection.Annotations;
 using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Data.Wpf
 {
-    public class Bootloader : IBootloader
+    public class ErpDataBootloader : IBootloader
     {
         private readonly IDataService _data;
         private readonly IMvvmService _mvvm;
 
         [Import]
-        public Bootloader(IDataService data, IMvvmService mvvm)
+        public ErpDataBootloader(IDataService data, IMvvmService mvvm)
         {
             _data = data;
             _mvvm = mvvm;

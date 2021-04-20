@@ -1,8 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using System.Security.RightsManagement;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using HLab.DependencyInjection.Annotations;
 using HLab.Mvvm;
 using HLab.Network;
 using HLab.Notify.PropertyChanged;
@@ -14,7 +12,7 @@ namespace HLab.Erp.Data.Wpf
     public class ConnectionDataViewModel : ViewModel<ConnectionData>
     {
         private readonly IDataService _data;
-        [Import] public ConnectionDataViewModel(IDataService data, IpScanner scanner)
+        public ConnectionDataViewModel(IDataService data, IpScanner scanner)
         {
             _data = data;
             _scanner = scanner;

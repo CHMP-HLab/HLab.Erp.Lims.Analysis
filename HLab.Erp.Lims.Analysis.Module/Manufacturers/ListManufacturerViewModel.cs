@@ -1,6 +1,4 @@
-﻿using HLab.DependencyInjection.Annotations;
-using HLab.Erp.Core;
-using HLab.Erp.Core.EntityLists;
+﻿using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
@@ -9,15 +7,11 @@ namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
 {
     public class ManufacturersListViewModel: EntityListViewModel<Manufacturer>, IMvvmContextProvider
     {
-        private readonly IErpServices _erp;
-
-        [Import]
-        public ManufacturersListViewModel(IErpServices erp)
+        protected override void Configure()
         {
             AddAllowed = true;
             DeleteAllowed = true;
 
-            _erp = erp;
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
             Columns.Configure(c => c
                 .Column
@@ -39,5 +33,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }
+
     }
 }

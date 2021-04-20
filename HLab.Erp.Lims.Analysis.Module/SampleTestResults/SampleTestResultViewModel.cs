@@ -4,16 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
-using HLab.Erp.Lims.Analysis.Module.Samples;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
-using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
@@ -24,19 +21,28 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
     public class SampleTestResultViewModelDesign : SampleTestResultViewModel, IViewModelDesign
     {
+        public SampleTestResultViewModelDesign() : base(null, null, null)
+        {
+        }
     }
 
     public class SampleTestResultViewModel : EntityViewModel<SampleTestResult>
     {
-        public SampleTestResultViewModel()
+        public IErpServices Erp { get; }
+        private readonly Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> _getWorkflow;
+        private readonly Func<int, ListLinkedDocumentViewModel> _getDocuments;
+
+        public SampleTestResultViewModel(
+            IErpServices erp,
+            Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> getWorkflow, Func<int, ListLinkedDocumentViewModel> getDocuments)
         {
+            _getWorkflow = getWorkflow;
+            _getDocuments = getDocuments;
+            Erp = erp;
             H.Initialize(this);
             FormHelper = new();
         }
 
-        [Import] private IDataService _data;
-        [Import] private Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> _getWorkflow;
-        [Import] public IErpServices Erp { get; set; }
 
         public SampleTestResultWorkflow Workflow => _workflow.Get();
 
@@ -132,7 +138,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
 
         // LINKED DOCUMENTS
-        [Import] private readonly Func<int, ListLinkedDocumentViewModel> _getDocuments;
         public ListLinkedDocumentViewModel LinkedDocuments => _linkedDocuments.Get();
         private readonly IProperty<ListLinkedDocumentViewModel> _linkedDocuments = H.Property<ListLinkedDocumentViewModel>(c => c
             .Set(e =>
@@ -196,7 +201,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             // Get the selected file name and display in a TextBox 
             if (result == true)
             {
-                var doc = _data.Add<LinkedDocument>(r =>
+                var doc = Erp.Data.Add<LinkedDocument>(r =>
                 {
                     r.Name = dlg.FileName.Split('\\').Last();
                     r.SampleTestResult = Model;

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using HLab.DependencyInjection.Annotations;
+using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Acl;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core.EntityLists;
@@ -17,10 +17,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
     public class TestListViewModel : EntityListViewModel<SampleTest>, IMvvmContextProvider
     {
-        [Import] private readonly IAclService _acl;
-
-
-        public TestListViewModel()
+        protected override void Configure()
         {
             var n = SampleTestWorkflow.Specifications; // TODO : this is a hack to force top level static constructor
 
@@ -89,11 +86,12 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         {
             if(Selected==null) return false;
             if (Selected.Stage != SampleTestWorkflow.Specifications.Name) return false;
-            if(!_acl.IsGranted(AnalysisRights.AnalysisAddTest)) return false;
+            if(!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddTest)) return false;
             return true;
         }
 
         public override string Title => "{Tests}";
+
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }

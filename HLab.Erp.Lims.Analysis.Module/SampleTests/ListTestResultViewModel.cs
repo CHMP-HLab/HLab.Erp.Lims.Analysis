@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-
-using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
@@ -15,12 +12,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
     public class TestResultListViewModel : EntityListViewModel<SampleTestResult>, IMvvmContextProvider
     {
-        [Import]
-        private readonly IErpServices _erp;
+        private SampleTest _sampleTest;
 
-        private readonly SampleTest _sampleTest;
-
-        public TestResultListViewModel(SampleTest sampleTest)
+        public TestResultListViewModel Configure(SampleTest sampleTest)
         {
             _sampleTest = sampleTest;
 
@@ -47,6 +41,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 AddAllowed = true;
             }
 
+            return this;
+        }
+
+        protected override void Configure()
+        {
         }
 
         protected override async Task AddEntityAsync()
@@ -67,7 +66,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             }
 
 
-            var result  = await _erp.Data.AddAsync<SampleTestResult>(r =>
+            var result  = await Erp.Data.AddAsync<SampleTestResult>(r =>
             {
                 r.Name = $"R{i + 1}";
                 r.SampleTestId = _sampleTest.Id;
@@ -79,7 +78,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             if (result != null)
             {
                 List.Update();
-                await _docs.OpenDocumentAsync(result);
+                await Erp.Docs.OpenDocumentAsync(result);
             }
 
         }
@@ -87,7 +86,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         protected override bool CanExecuteDelete()
         {
             if(Selected==null) return false;
-            if(!_erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
+            if(!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
             if(_sampleTest.Stage != SampleTestWorkflow.Running.Name) return false;
             if(Selected.Stage!=null && Selected.Stage != SampleTestResultWorkflow.Running.Name) return false;
             if(_sampleTest.Result==null) return true;
@@ -98,7 +97,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         protected override bool CanExecuteAdd()
         {
             if (_sampleTest.Stage != SampleTestWorkflow.Running.Name) return false;
-            if(!_erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
+            if(!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
             return true;
         }
 

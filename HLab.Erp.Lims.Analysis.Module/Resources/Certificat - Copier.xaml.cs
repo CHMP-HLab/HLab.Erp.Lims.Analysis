@@ -3,11 +3,11 @@
 namespace HLab.Erp.Lims.Analysis.Module.Forms
 {
     /// <summary>
-    /// Logique d'interaction pour CertificatMauritanie.xaml
+    /// Logique d'interaction pour Certificat.xaml
     /// </summary>
-    public partial class CertificatMauritanie : Page
+    public partial class Certificat2 : Page
     {
-        public CertificatMauritanie()
+        public Certificat2()
         {
             //InitializeComponent();
         }

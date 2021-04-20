@@ -1,7 +1,5 @@
 ﻿using System.Windows.Input;
-
 using HLab.Core.Annotations;
-using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
 using HLab.Notify.PropertyChanged;
 
@@ -9,12 +7,16 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
 {
     using H = H<ListQueryModule>;
 
-    public class ListQueryModule : NotifierBase, IBootloader //postboot
+    public class ListQueryModule : NotifierBase, IBootloader
     {
         
-        [Import] private readonly IErpServices _erp;
+        private readonly IErpServices _erp;
 
-        public ListQueryModule() => H.Initialize(this);
+        public ListQueryModule(IErpServices erp)
+        {
+            _erp = erp;
+            H.Initialize(this);
+        }
 
 
         public ICommand OpenListQueryCommand { get; } = H.Command(c => c.Action(

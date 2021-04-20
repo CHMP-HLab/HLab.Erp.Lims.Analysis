@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Linq;
-using HLab.DependencyInjection.Annotations;
+using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Base.Data;
-using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
@@ -15,17 +13,12 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
     internal class SamplesListViewModel : EntityListViewModel<Sample>, IMvvmContextProvider
     {
-
-        private readonly IErpServices _erp;
-
-        [Import] public SamplesListViewModel(IErpServices erp)
+        protected override void Configure()
         {
             var n = SampleWorkflow.Reception; // TODO : this is a hack to force top level static constructor
 
             AddAllowed = true;
             DeleteAllowed = true;
-
-            _erp = erp;
 
             Columns.Configure(c => c
                     .Column.Header("{Ref}").Width(80).Content(s => s.Reference)

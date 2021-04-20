@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using HLab.DependencyInjection.Annotations;
-using HLab.Erp.Acl;
-using HLab.Erp.Data.Observables;
+﻿using HLab.Erp.Acl;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;

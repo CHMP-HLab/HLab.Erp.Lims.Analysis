@@ -1,26 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
 
-namespace HLab.Erp.Lims.Analysis.Module.Forms
+namespace HLab.Erp.Lims.Analysis.Module.Resources
 {
     /// <summary>
     /// Logique d'interaction pour Certificat.xaml
     /// </summary>
-    public partial class Certificat : Page
+    public partial class Certificat2 : Page
     {
-        public Certificat()
+        public Certificat2()
         {
             //InitializeComponent();
         }

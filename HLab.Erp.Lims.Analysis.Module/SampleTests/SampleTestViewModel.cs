@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
@@ -10,7 +9,6 @@ using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Erp.Lims.Analysis.Module.Samples;
 using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
-using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
@@ -22,20 +20,33 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
     public class SampleTestViewModelDesign : SampleTestViewModel, IViewModelDesign
     {
-
+        public SampleTestViewModelDesign() : base(null, null, null, null)
+        {
+        }
     }
 
     public class SampleTestViewModel : EntityViewModel<SampleTest>, IMvvmContextProvider
     {
-        public SampleTestViewModel() => H.Initialize(this);
+        public IErpServices Erp { get; }
 
-        [Import] public IErpServices Erp { get; }
-        [Import] private IDataService _data;
+        public SampleTestViewModel(
+            IErpServices erp, 
+            Func<TestResultListViewModel> getResults, 
+            Func<FormHelper> getFormHelper, 
+            Func<SampleTest, DataLocker<SampleTest>, SampleTestWorkflow> getSampleTestWorkflow)
+        {
+            Erp = erp;
+            _getResults = getResults;
+            _getFormHelper = getFormHelper;
+            _getSampleTestWorkflow = getSampleTestWorkflow;
+            H.Initialize(this);
+        }
 
-        [Import] private readonly Func<SampleTest, TestResultListViewModel> _getResults;
-        [Import] private Func<FormHelper> _getFormHelper;
 
-        [Import] private Func<SampleTest, DataLocker<SampleTest>, SampleTestWorkflow> _getSampleTestWorkflow;
+        private readonly Func<TestResultListViewModel> _getResults;
+        private readonly Func<FormHelper> _getFormHelper;
+
+        private readonly Func<SampleTest, DataLocker<SampleTest>, SampleTestWorkflow> _getSampleTestWorkflow;
 
         public FormHelper FormHelper => _formHelper.Get();
         private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c
@@ -76,6 +87,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         private readonly IProperty<bool> _editMode = H.Property<bool>(c => c
             .NotNull(e => e.Locker)
             .NotNull(e => e.Workflow)
+            .NotNull(e => e.FormHelper?.Form)
             .Set(e => {
                 e.FormHelper.Form.SetFormMode(e.FormHelper.Form.Mode);
                 return e.Locker.IsActive
@@ -84,6 +96,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             })
             .On(e => e.Locker.IsActive)
             .On(e => e.Workflow.CurrentStage)
+            .On(e => e.FormHelper.Form)
             .Update()
         );
         public bool ScheduleEditMode => _scheduleEditMode.Get();
@@ -131,7 +144,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         private TestResultListViewModel SetResults()
         {
-            var vm =  _getResults(Model);
+            var vm =  _getResults().Configure(Model);
             vm.SetSelectAction(async r =>
             {
                 await LoadResultAsync(r as SampleTestResult).ConfigureAwait(false);
@@ -156,7 +169,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .Do(async e => await e.LoadResultAsync(e.Results.Selected??e.Model.Result))
         );
 
-        public ICommand ViewSpecificationsCommand {get;} = H.Command(c => c
+        public ICommand ViewSpecificationsCommand { get; } = H.Command(c => c
             .Action(async e => await e.LoadResultAsync())
         );
 
@@ -185,12 +198,12 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         private bool _deleteResultCanExecute()
         {
-            if(Workflow==null) return false;
-            if(Results?.Selected==null) return false;
+            if (Workflow == null) return false;
+            if (Results?.Selected == null) return false;
             if(!Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
             if(Workflow.CurrentStage != SampleTestWorkflow.Running) return false;
-            if(Results.Selected.Stage!=null && Results.Selected.Stage != SampleTestResultWorkflow.Running.Name) return false;
-            if(Model.Result==null) return true;
+            if (Results.Selected.Stage != null && Results.Selected.Stage != SampleTestResultWorkflow.Running.Name) return false;
+            if (Model.Result == null) return true;
             if(Model.Result.Id == Results.Selected.Id) return false;
             return true;
         }
@@ -262,7 +275,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 }
             }            
             
-            var test = _data.Add<SampleTestResult>(r =>
+            var test = Erp.Data.Add<SampleTestResult>(r =>
             {
                 r.Name = string.Format("R{0}",i+1);
                 r.SampleTest = Model;
@@ -277,7 +290,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         {
             if(_deleteResultCanExecute())
             {
-                _data.Delete(result);
+                Erp.Data.Delete(result);
 
             }
         }

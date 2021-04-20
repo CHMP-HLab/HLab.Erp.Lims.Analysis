@@ -34,8 +34,7 @@ using System.Windows.Xps.Packaging;
 using System.Xml;
 using HLab.Base;
 using Nito.Disposables.Internals;
-using NPoco;
-using ValidationResult = System.Windows.Controls.ValidationResult;
+using Type = System.Type;
 
 
 namespace Outils
@@ -141,7 +140,13 @@ namespace Outils
                 data = property.GetValue(data);
                 i++;
             }
-            value = data?.ToString()??$"";
+
+            value = data switch
+            {
+                string s => s,
+                DateTime d => d.ToString("dd/MM/yyyy"),
+                _ => data?.ToString() ?? ""
+            };
             return true;
         }
 
@@ -299,13 +304,13 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        public bool Apercu(String nom = "Impression", String dossier = null, String objet = "", FlowDocument message = null)
+        public bool Apercu(string nom = "Impression", string dossier = null, string obj = "", FlowDocument message = null)
         {
             // Récupère les valeurs
             TB_Nom.Text = nom;
             _Dossier = dossier;
             _Destinataire.Add(new ItemAdresse());
-            TB_Objet.Text = objet;
+            TB_Objet.Text = obj;
             TB_Chemin.Text = _CheminDefaut;
             if (message != null)
                 RTB_Message.Document = message;
@@ -313,21 +318,6 @@ namespace Outils
             // Finalise pour afficher les pages
             Finalise();
 
-            //// Calcule le dernier élément
-            //CalculerElement();
-
-            //// Calcule la page en cours
-            //CalculerPage();
-
-            //// Remplace les totaux de numéros de pages
-            //foreach(Page page in _Page)
-            //   PagesTotales(page);
-
-            //// Applique le nombre de page total
-            //T_Pages.Text = "/ " + _Page.Count;
-
-            //// Affiche la première page
-            //AffichePage = 1;
 
             // Affiche la fenêtre
             return ShowDialog() == true ? true : false;
@@ -421,7 +411,7 @@ namespace Outils
             // Cree la page -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
             // Charge la première page avec son numéro de page
-            Page page = CreePage(_XamlPage.Replace("{Page}", (_Page.Count + 1).ToString()));
+            Page page = CreatePage(_XamlPage.Replace("{Page}", (_Page.Count + 1).ToString()));
 
             // Si il n'y a pas d'éléménts
             if (_Elements.Count == 0)
@@ -492,7 +482,7 @@ namespace Outils
                         _Page.Add(page);
 
                         // Charge la page avec son numéro de page et cache "PremierePageUniquement" car ce n'est pas la première page
-                        page = CreePage(_XamlPage.Replace("{Page}", (_Page.Count + 1).ToString()).Replace("Tag=\"PremierePageUniquement\"", "Visibility=\"Collapsed\""));
+                        page = CreatePage(_XamlPage.Replace("{Page}", (_Page.Count + 1).ToString()).Replace("Tag=\"PremierePageUniquement\"", "Visibility=\"Collapsed\""));
 
                         // Recherche le panneau contenant les éléments dynamiques
                         panelContenu = ((Panel)page.FindName("PanelContenu"));
@@ -508,7 +498,7 @@ namespace Outils
 
             // Si ce n'était pas la dernière page, l'ajoute
             if (iDernier > 0)
-                _Page.Add(CreePage(_XamlPage.Replace("{Page}", (_Page.Count + 1).ToString()).Replace("Tag=\"PremierePageUniquement\"", "Visibility=\"Collapsed\"")));
+                _Page.Add(CreatePage(_XamlPage.Replace("{Page}", (_Page.Count + 1).ToString()).Replace("Tag=\"PremierePageUniquement\"", "Visibility=\"Collapsed\"")));
 
             // Vide la liste des éléments
             _Elements.Clear();
@@ -683,19 +673,26 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private Page CreePage(String xaml)
+        private Page CreatePage(string xaml)
         {
             try
             {
-                Page page = (Page)XamlReader.Parse(xaml);
-                page.Measure(new Size(210, 297));
-                page.Arrange(new Rect(new Point(0, 0), new Size(210, 297)));
+                using var s = new StringReader(xaml);
+                var xmlReader = XmlReader.Create(s);
+                if (XamlReader.Load(xmlReader) is Page page)
+                {
+                    //page.Measure(new Size(210, 297));
+                    //page.Arrange(new Rect(new Point(0, 0), new Size(210, 297)));
 
-                return page;
+                    return page;
+                }
+
+                return new Page { Content = new TextBlock { Text = xaml } };
+
             }
             catch (XamlParseException ex)
             {
-                return new Page() { Content = new TextBlock { Text = ex.Message } };
+                return new Page { Content = new TextBlock { Text = ex.Message } };
             }
 
             // Applique les redimensionnement pour connaitre les tailles

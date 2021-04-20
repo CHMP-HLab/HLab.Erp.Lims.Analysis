@@ -1,6 +1,5 @@
 ﻿using System.Windows.Input;
 using HLab.Core.Annotations;
-using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Erp.Lims.Analysis.Module.Products;
@@ -10,14 +9,18 @@ using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
-    using H = H<ListSampleModule>;
+    using H = H<SampleListModule>;
 
-    public class ListSampleModule : NotifierBase, IBootloader //postboot
+    public class SampleListModule : NotifierBase, IBootloader
     {
         
-        [Import] private readonly IErpServices _erp;
+        private readonly IErpServices _erp;
 
-        public ListSampleModule() => H.Initialize(this);
+        public SampleListModule(IErpServices erp)
+        {
+            _erp = erp;
+            H.Initialize(this);
+        }
 
 
         public ICommand OpenListSampleCommand { get; } = H.Command(c => c.Action(

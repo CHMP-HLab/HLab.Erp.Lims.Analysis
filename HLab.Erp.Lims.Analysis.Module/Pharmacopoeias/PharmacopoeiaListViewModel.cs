@@ -1,6 +1,4 @@
-﻿using HLab.DependencyInjection.Annotations;
-using HLab.Erp.Core;
-using HLab.Erp.Core.EntityLists;
+﻿using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
@@ -9,15 +7,11 @@ namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
 {
     public class PharmacopoeiaListViewModel: EntityListViewModel<Pharmacopoeia>, IMvvmContextProvider
     {
-        private readonly IErpServices _erp;
-
-        [Import]
-        public PharmacopoeiaListViewModel(IErpServices erp)
+        protected override void Configure()
         {
             AddAllowed = true;
             DeleteAllowed = true;
 
-            _erp = erp;
             Columns.Configure(c => c
                 .Column
                     .Header("{Name}").Localize()
@@ -40,5 +34,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }
+
     }
 }

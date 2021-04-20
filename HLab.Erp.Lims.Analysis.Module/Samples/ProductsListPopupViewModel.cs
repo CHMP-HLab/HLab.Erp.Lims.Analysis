@@ -1,4 +1,4 @@
-﻿using HLab.DependencyInjection.Annotations;
+﻿using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
@@ -14,10 +14,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         }
 
         public override string Title => "{Products}";
-        [Import]
-        public ProductsListPopupViewModel()
+        protected override void Configure()
         {
-
             Columns.Configure(c => c
                 .Column
                 .Header("{Inn}")

@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using HLab.Erp.Core;
 using HLab.Erp.Data;
+using HLab.Mvvm.Application;
 using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
 using NPoco;

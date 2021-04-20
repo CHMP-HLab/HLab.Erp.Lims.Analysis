@@ -14,9 +14,11 @@
 
   <ItemGroup>
     <None Remove="SQL\Update-From-0.0.0.0.sql" />
+    <None Remove="SQL\Update-From-2.0.0.0.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="SQL\Update-From-2.0.0.0.sql" />
     <EmbeddedResource Include="SQL\Update-From-0.0.0.0.sql" />
   </ItemGroup>
 

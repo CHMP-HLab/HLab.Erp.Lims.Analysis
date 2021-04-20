@@ -1,5 +1,4 @@
 ﻿using System;
-using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
@@ -29,8 +28,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
         }
 
         public override string Title => "{Products}";
-        [Import]
-        public ProductsListPopupViewModel()
+        protected override void Configure()
         {
             AddAllowed = true;
 

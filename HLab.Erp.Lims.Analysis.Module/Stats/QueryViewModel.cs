@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using HLab.Erp.Lims.Analysis.Data;
+﻿using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm;
 using HLab.Notify.PropertyChanged;
 

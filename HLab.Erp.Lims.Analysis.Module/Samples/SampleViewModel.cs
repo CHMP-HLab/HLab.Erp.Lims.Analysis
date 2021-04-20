@@ -4,8 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-
-using HLab.DependencyInjection.Annotations;
+using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Acl;
 using HLab.Erp.Base.Wpf;
 using HLab.Erp.Conformity.Annotations;
@@ -30,13 +29,27 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
     {
         public Type ListProductType => typeof(ProductsListPopupViewModel);
 
-        [Import] public IErpServices Erp { get; }
+        public IErpServices Erp { get; }
+        private readonly Func<Sample,IDataLocker<Sample>,SampleWorkflow> _getSampleWorkflow;
 
-        public SampleViewModel() => H.Initialize(this);
+        internal SampleViewModel()
+        {
+            H.Initialize(this);
+        }
 
-        [Import] public SampleViewModel(Func<int, SampleSampleTestListViewModel> getTests, ObservableQuery<Packaging> packagings, Func<int, ListSampleFormViewModel> getForms, Func<ListFormClassViewModel> getFormClasses, Func<int,SampleAuditTrailViewModel> getAudit )
+        [Import] public SampleViewModel(
+            IErpServices erp, 
+            Func<SampleSampleTestListViewModel> getTests, 
+            ObservableQuery<Packaging> packagings, 
+            Func<ListSampleFormViewModel> getForms, 
+            Func<ListFormClassViewModel> getFormClasses, 
+            Func<SampleAuditTrailViewModel> getAudit, 
+            Func<Sample, IDataLocker<Sample>, SampleWorkflow> getSampleWorkflow
+            )
         {
             _getAudit = getAudit;
+            Erp = erp;
+            _getSampleWorkflow = getSampleWorkflow;
             _getTests = getTests;
             H.Initialize(this);
             Packagings = packagings;
@@ -44,6 +57,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             _getFormClasses = getFormClasses;
             Packagings.Update();
         }
+
         public override string Title => _title.Get();
         private readonly IProperty<string> _title = H.Property<string>(c => c
             .Set(e => e.Model?.Reference??"{New sample}")
@@ -94,7 +108,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Update()
         );
 
-        public Visibility CutomerVisibility => _customerVisibility.Get();
+        public Visibility CustomerVisibility => _customerVisibility.Get();
         private readonly IProperty<Visibility> _customerVisibility = H.Property<Visibility>(c => c
             .Set(e => e.Erp.Acl.IsGranted(ErpRights.ErpViewCustomer)?Visibility.Visible:Visibility.Hidden)
             .On(e => e.Erp.Acl.Connection.User)
@@ -146,17 +160,17 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Update()
         );
         
-        private readonly Func<int, SampleSampleTestListViewModel> _getTests;
-        private readonly Func<int, ListSampleFormViewModel> _getForms;
+        private readonly Func<SampleSampleTestListViewModel> _getTests;
+        private readonly Func<ListSampleFormViewModel> _getForms;
         private readonly Func<ListFormClassViewModel> _getFormClasses;
-        private readonly Func<int, SampleAuditTrailViewModel> _getAudit;
+        private readonly Func<SampleAuditTrailViewModel> _getAudit;
 
         public SampleSampleTestListViewModel Tests => _tests.Get();
         private readonly IProperty<SampleSampleTestListViewModel> _tests = H.Property<SampleSampleTestListViewModel>(c => c
             .NotNull(e => e.Model)
             .Set( e =>
             {
-                var tests =  e._getTests(e.Model.Id);
+                var tests =  e._getTests().Configure(e.Model.Id);
                 tests.List.CollectionChanged += e.List_CollectionChanged;
                 return tests;
             })
@@ -280,7 +294,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public ListSampleFormViewModel Forms => _forms.Get();
         private readonly IProperty<ListSampleFormViewModel> _forms = H.Property<ListSampleFormViewModel>(c => c
             .NotNull(e => e.Model)
-            .Set(e => e._getForms(e.Model.Id))
+            .Set(e => e._getForms().Configure(e.Model.Id))
             .On(e => e.Model)
             .Update()
         );
@@ -288,7 +302,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public SampleAuditTrailViewModel AuditTrail => _auditTrail.Get();
         private readonly IProperty<SampleAuditTrailViewModel> _auditTrail = H.Property<SampleAuditTrailViewModel>(c => c
             .NotNull(e => e.Model)
-            .Set(e => e._getAudit(e.Model.Id))
+            .Set(e => e._getAudit().Configure(e.Model.Id))
             .On(e => e.Model)
             .Update()
         );
@@ -310,7 +324,19 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public ICommand AddFormCommand { get; } = H.Command(c => c
             .CanExecute(e => e.CanExecuteAddForm())
-            .Action(async (e,t) => await e.AddFormAsync(t as FormClass))
+            .Action(async (e,t) =>
+            {
+                if (t is not FormClass formClass) return;
+
+                if (e.Forms.List.Any(sf => sf.FormClass.Id == formClass.Id)) return;
+
+                try
+                {
+                    await e.AddFormAsync(formClass);
+                }
+                catch(DataException)
+                { }
+            })
             .On(e => e.Model.Stage)
             .On(e => e.Model.Id)
             .CheckCanExecute()
@@ -354,7 +380,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         {
             if (testClass == null) return;
 
-            var test = await _data.AddAsync<SampleTest>(st =>
+            var test = await Erp.Data.AddAsync<SampleTest>(st =>
             {
                 st.Sample = Model;
                 st.TestClass = testClass;
@@ -383,7 +409,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         {
             if (formClass == null) return;
 
-            var form = await _data.AddAsync<SampleForm>(st =>
+            var form = await Erp.Data.AddAsync<SampleForm>(st =>
             {
                 st.Sample = Model;
                 st.FormClass = formClass;
@@ -407,20 +433,16 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Update()
         );
 
-        [Import] private Func<Sample,DataLocker<Sample>,SampleWorkflow> _getSampleWorkflow;
-
-        [Import] private IAclService _acl;
 
         public ICommand CertificateCommand { get; } = H.Command(c => c
             //.CanExecute(e => e._acl.IsGranted(AnalysisRights.AnalysisCertificateCreate))
             .Action(e =>
             {
-                var preview = true;
-                if (e._acl.IsGranted(AnalysisRights.AnalysisCertificateCreate)
-                    && 
-                    (e.Model.Stage == SampleWorkflow.Closed.Name || e.Model.Stage == SampleWorkflow.Certificate.Name))
-                    preview = false;
-                e.PrintCertificate("FR");
+                var preview = !(e.Erp.Acl.IsGranted(AnalysisRights.AnalysisCertificateCreate)
+                                &&
+                                (e.Model.Stage == SampleWorkflow.Closed.Name || e.Model.Stage == SampleWorkflow.Certificate.Name));
+
+                e.PrintCertificate("FR", preview);
             }).CheckCanExecute()
         );
         public ICommand PreviewCertificateCommand { get; } = H.Command(c => c
@@ -430,18 +452,16 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             })
         );
 
-        [Import]
-        private IDataService _data;
 
-        private void PrintCertificate(String langue, bool apercu = false)
+        private void PrintCertificate(String language, bool preview = false)
         {
             if (Model.Id == -1)
                 return;
 
-            var template = _data.FetchOne<Xaml>(e => e.Name == "Certificate");
+            var template = Erp.Data.FetchOne<Xaml>(e => e.Name == "Certificate");
 
             // Prépare l'impression
-            var ip = new Print("Certificate",template.Page, langue);
+            var ip = new Print("Certificate",template.Page, language);
 
 
             //ip["Reference"] = Model.Reference;
@@ -453,25 +473,19 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             //ip["CustomerReference"] = Model.CustomerReference;
             //ip["AnalysisMotivation.Name"] = Model.AnalysisMotivation.Name;
 
-            String expiry = "";
+            var expiry = "";
             if (Model.ExpirationDate != null)
             {
-                if (!Model.ExpirationDayValid)
-                    expiry = Model.ExpirationDate?.ToString("MM/yyyy");
-                else
-                    expiry = Model.ExpirationDate?.ToString("dd/MM/yyyy");
+                expiry = Model.ExpirationDate?.ToString(!Model.ExpirationDayValid ? "MM/yyyy" : "dd/MM/yyyy");
             }
             ip["ExpirationDate"] = expiry;
 
-            String dateFabrication = "";
+            var manufacturingDate = "";
             if (Model.ManufacturingDate != null)
             {
-                    if (!Model.ManufacturingDayValid)
-                        dateFabrication = Model.ManufacturingDate?.ToString("MM/yyyy");
-                    else
-                        dateFabrication = Model.ManufacturingDate?.ToString("dd/MM/yyyy");
+                manufacturingDate = Model.ManufacturingDate?.ToString(!Model.ManufacturingDayValid ? "MM/yyyy" : "dd/MM/yyyy");
             }
-            ip["ManufacturingDate"] = dateFabrication;
+            ip["ManufacturingDate"] = manufacturingDate;
 
 
             //ip["BatchNo"] = Model.Batch;
@@ -509,13 +523,13 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             ip.SetData(Model);
 
             // Cache le bandeau d'aperçu
-            if (!apercu)
+            if (!preview)
                 ip.Cache("Apercu");
 
             // Ajout des tests sur la page
-            String nomTest = "";
+            var nomTest = "";
 
-            bool conform = true;
+            bool? conform = true;
 
             var startDate = DateTime.MaxValue;
             var endDate = DateTime.MinValue;
@@ -541,7 +555,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
                     if (test.EndDate == null || test.EndDate == DateTime.MinValue)
                         ip.Element["Date"] = "__/ __ /_____";
-                    else if (langue == "US" || langue == "EN")
+                    else if (language == "US" || language == "EN")
                         ip.Element["Date"] = test.EndDate?.ToString("MM/dd/yyyy") + Environment.NewLine;
                     else
                         ip.Element["Date"] = test.EndDate?.ToString("dd/MM/yyyy") + Environment.NewLine;
@@ -559,26 +573,36 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                         case ConformityState.Conform : ip.Element["Conform"] = "{FR=Conforme}{EN=Conform}" + Environment.NewLine;
                             break;
                         case ConformityState.Invalid : ip.Element["Conform"] = "{FR=Invalide}{EN=Invalid}" + Environment.NewLine;
+                            conform = null;
                             break;
                         case ConformityState.NotChecked: ip.Element["Conform"] = "{FR=Non testé}{EN=Not tested}" + Environment.NewLine;
+                            conform = null;
                             break;
                         case ConformityState.Running: ip.Element["Conform"] = "{FR=En cours}{EN=Running}" + Environment.NewLine;
+                            conform = null;
+                            break;
+                        case ConformityState.Undefined: ip.Element["Conform"] = "{FR=Indéfini}{EN=Undefined}" + Environment.NewLine;
+                            conform = null;
                             break;
                         case null: ip.Element["Conform"] = "{FR=Non validé}{EN=Not validated}" + Environment.NewLine;
+                            conform = null;
                             break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
                     //ip.Element["Conforme"] = test.Result?.Conformity??"" + Environment.NewLine;
                 }
             }
 
-            ip["AnalysisStart"] = startDate;
-            ip["AnalysisEnd"] = endDate;
+            ip["Conformity"] = (conform == true)?"Conforme": (conform==false?"Non conforme":"Indeterminée");
+            ip["XConform"] = (conform == true)?"X":" ";
+            ip["XNotConform"] = (conform == false)?"X":" ";
 
-
+            ip["AnalysisStart"] = DateToString(language,startDate);
+            ip["AnalysisEnd"] = DateToString(language,endDate);
 
             // Impression du certificat d'analyse
-            String numero = Model.Reference;
-            if(ip.Apercu("Certificat_" + numero, null, Print.Langue("{FR=Rapport d'analyse}{US=Report of analysis} ", langue) + Model.Reference))
+            if(ip.Apercu("Rapport_" + Model.Reference, null, Print.Langue("{FR=Rapport d'analyse}{EN=Report of analysis} ", language) + Model.Reference))
             {
                 // Log cette impression
                 // TODO : Sql.Log(TypeObjet.Echantillon, IdEchantillon, ip.LogText);
@@ -587,8 +611,13 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         }
         private string JoinNotNull(string separator, params string[] values) => String.Join(separator, values.Where(s => !String.IsNullOrWhiteSpace(s)));
 
+        private static string DateToString(string language, DateTime date)
+        {
+            return (language == "EN" || language == "US") ? date.ToString("MM/dd/yyyy") : date.ToString("dd/MM/yyyy");
+        }
 
     }
+
 
     public class SampleViewModelDesign : SampleViewModel, IViewModelDesign
     {

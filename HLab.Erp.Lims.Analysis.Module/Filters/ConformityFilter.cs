@@ -4,12 +4,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Windows.Media;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
-using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Workflows;
 using HLab.Notify.PropertyChanged;
 

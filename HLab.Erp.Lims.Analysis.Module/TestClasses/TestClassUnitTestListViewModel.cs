@@ -1,25 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HLab.DependencyInjection.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
 using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
     public class TestClassUnitTestListViewModel : EntityListViewModel<TestClassUnitTest>, IMvvmContextProvider
     {
-        [Import]
-        private readonly IErpServices _erp;
-
-        private readonly TestClass _testClass;
-
         private readonly ObservableCollection<int> _failedTests = new();
         private readonly Dictionary<int, string> _errors = new();
 
@@ -50,9 +39,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             _passedTests.Add(idx);
         }
 
-        public TestClassUnitTestListViewModel(TestClass testClass)
+        public TestClassUnitTestListViewModel Configure(TestClass testClass)
         {
-            _testClass = testClass;
             _failedTests.CollectionChanged += FailedTests_CollectionChanged;
             _passedTests.CollectionChanged += FailedTests_CollectionChanged;
 
@@ -73,6 +61,11 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 AddAllowed = true;
             }
 
+            return this;
+        }
+
+        protected override void Configure()
+        {
         }
 
         protected override bool CanExecuteDelete()

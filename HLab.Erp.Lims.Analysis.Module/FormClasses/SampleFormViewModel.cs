@@ -1,16 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using HLab.DependencyInjection.Annotations;
+﻿using System.Threading.Tasks;
 using HLab.Erp.Acl;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Samples;
-using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
-using HLab.Erp.Lims.Analysis.Module.SampleTests;
-using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
-using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
 
@@ -20,17 +14,21 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
     public class SampleFormViewModelDesign : SampleFormViewModel, IViewModelDesign
     {
+        public SampleFormViewModelDesign() : base(null)
+        {
+        }
     }
 
     public class SampleFormViewModel : EntityViewModel<SampleForm>
     {
-        public SampleFormViewModel()
+        public SampleFormViewModel(IErpServices erp)
         {
+            Erp = erp;
             H.Initialize(this);
             FormHelper = new FormHelper();
         }
 
-        [Import] public IErpServices Erp { get; set; }
+        public IErpServices Erp { get; }
 
         public bool IsReadOnly => _isReadOnly.Get();
 
@@ -128,7 +126,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         //}
         public async Task LoadAsync()
         {
-            await FormHelper.LoadCodeAsync(Model.FormClass.Code).ConfigureAwait(true);
+            await FormHelper.ExtractCodeAsync(Model.FormClass.Code).ConfigureAwait(true);
 
             await FormHelper.LoadFormAsync(Model).ConfigureAwait(true);
 

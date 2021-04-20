@@ -1,27 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Markup;
-using System.Windows.Media;
-using HLab.Base.Wpf;
 using HLab.Compiler.Wpf;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Notify.PropertyChanged;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {    using H = H<FormHelper>;
@@ -168,9 +156,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             return nb;
         }
 
-
-
-        public async Task LoadCodeAsync(byte[] code)
+        public async Task ExtractCodeAsync(byte[] code)
         {
             if(code==null) return;
 
@@ -180,7 +166,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             Xaml = sCode.Substring(index + 3);
         }
 
-        public async Task<byte[]> SaveCodeAsync()
+        public async Task<byte[]> PackCodeAsync()
         {
             var bytes = Encoding.UTF8.GetBytes(Cs.Trim('\r', '\n', ' ') + "\r\n" + Xaml.Trim('\r', '\n', ' '));
             return await BytesToGZip(bytes);
@@ -196,7 +182,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                 {
                     //if (Form?.Target != null) throw new Exception("Target should be null or same");
                     //Form.Target = target;
-                    await ExtractCode(target.Code).ConfigureAwait(true);
+                    await ExtractCodeAsync(target.Code).ConfigureAwait(true);
 
                     await LoadFormAsync(target).ConfigureAwait(true);
                 }
@@ -215,15 +201,6 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             }
         }
 
-        public async Task ExtractCode(byte[] code)
-        {
-            if(code==null) return;
-
-            var sCode = Encoding.UTF8.GetString(await GzipToBytes(code).ConfigureAwait(false));
-            var index = sCode.LastIndexOf("}\r\n", StringComparison.InvariantCulture);
-            Cs = sCode.Substring(0, index + 1);
-            Xaml = sCode.Substring(index + 3);
-        }
 
         private static async Task<byte[]> GzipToBytes(object gz)
         {

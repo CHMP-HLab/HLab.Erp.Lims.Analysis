@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using HLab.Compiler.Wpf;
-using HLab.Erp.Lims.Analysis.Module.TestClasses;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Application;
 using ICSharpCode.AvalonEdit;
