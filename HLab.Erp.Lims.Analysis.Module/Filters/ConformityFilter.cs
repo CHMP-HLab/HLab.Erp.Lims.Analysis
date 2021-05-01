@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using HLab.Erp.Conformity.Annotations;
+using HLab.Erp.Core;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
@@ -15,10 +16,28 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
 {
     using H = H<ConformityFilter>;
 
-    public class ConformityFilter: FilterViewModel, IWorkflowFilter
+    public static class ConformityFilterExtensions
+    {
+        public static IFilterConfigurator<T, ConformityFilter> Link<T>(this IFilterConfigurator<T, ConformityFilter> fc, Expression<Func<T, ConformityState>> getter)
+            where T : class, IEntity, new()
+        {
+            fc.CurrentFilter.Link<T>(fc.Target().List, getter);
+            return fc;
+        }
+        public static IFilterConfigurator<T, ConformityFilter> PostLink<T>(this IFilterConfigurator<T, ConformityFilter> fc, Func<T, ConformityState> getter)
+            where T : class, IEntity, new()
+        {
+            fc.CurrentFilter.PostLink<T>(fc.Target().List, getter);
+            return fc;
+        }
+
+    }
+
+    public class ConformityFilter : FilterViewModel, IWorkflowFilter
     {
 
-        private static readonly MethodInfo ContainsMethod = typeof(List<ConformityState>).GetMethod("Contains", new[] {typeof(ConformityState)});
+
+        private static readonly MethodInfo ContainsMethod = typeof(List<ConformityState>).GetMethod("Contains", new[] { typeof(ConformityState) });
 
         public class ConformityEntry : NotifierBase
         {
@@ -26,7 +45,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
 
             public bool Selected
             {
-                get => _selected.Get(); 
+                get => _selected.Get();
                 set => _selected.Set(value);
             }
             private readonly IProperty<bool> _selected = H<ConformityEntry>.Property<bool>();
@@ -42,14 +61,14 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
 
         public ConformityFilter()
         {
-            List = new (_list);
+            List = new(_list);
             H<ConformityFilter>.Initialize(this);
 
             var values = Enum.GetValues(typeof(ConformityState)).Cast<ConformityState>();
 
             foreach (var state in values)
             {
-                _list.Add(new ConformityEntry{State = state});
+                _list.Add(new ConformityEntry { State = state });
             }
         }
 
@@ -63,21 +82,21 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
         public ConformityState Selected { get; set; }
 
 
-        public Expression<Func<T,bool>> Match<T>(Expression<Func<T, ConformityState>> getter)
+        public Expression<Func<T, bool>> Match<T>(Expression<Func<T, ConformityState>> getter)
         {
-            if (!Enabled) return null; 
+            if (!Enabled) return null;
 
             var entity = getter.Parameters[0];
-            var value = Expression.Constant(List.Where(e => e.Selected).Select(e => e.State).ToList(),typeof(List<ConformityState>));
+            var value = Expression.Constant(List.Where(e => e.Selected).Select(e => e.State).ToList(), typeof(List<ConformityState>));
 
-            var ex = Expression.Call(value,ContainsMethod,getter.Body);
+            var ex = Expression.Call(value, ContainsMethod, getter.Body);
 
-            return Expression.Lambda<Func<T, bool>>(ex,entity);
+            return Expression.Lambda<Func<T, bool>>(ex, entity);
         }
 
-        public Func<T,bool> Match<T>(Func<T, ConformityState> getter)
+        public Func<T, bool> Match<T>(Func<T, ConformityState> getter)
         {
-            if (!Enabled) return t => true; 
+            if (!Enabled) return t => true;
 
             var values = List.Where(e => e.Selected).Select(e => e.State).ToList();
 
@@ -96,7 +115,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
             where T : class, IEntity
         {
             //var entity = getter.Parameters[0];
-            q.AddFilter(Title,()=> Match(getter));
+            q.AddFilter(Header, () => Match(getter));
             Update = q.Update;
             return this;
         }
@@ -104,7 +123,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
             where T : class, IEntity
         {
             //var entity = getter.Parameters[0];
-            q.AddPostFilter(Title,e=> Match(getter).Invoke(e));
+            q.AddPostFilter(Header, e => Match(getter).Invoke(e));
             Update = q.Update;
             return this;
         }

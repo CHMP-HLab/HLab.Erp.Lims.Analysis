@@ -109,12 +109,13 @@ namespace HLab.Erp.Lims.Analysis.Data
         private readonly IProperty<string> _version = H.Property<string>(c => c.Default(""));
 
 
-        public byte[] Code
-        {
-            get => _code.Get(); 
-            set => _code.Set(value);
-        }
-        private readonly IProperty<byte[]> _code = H.Property<byte[]>();
+        //public byte[] Code
+        //{
+        //    get => _code.Get(); 
+        //    set => _code.Set(value);
+        //}
+        //private readonly IProperty<byte[]> _code = H.Property<byte[]>();
+        byte[] IFormTarget.Code => TestClass.Code;
 
 
         public string Description

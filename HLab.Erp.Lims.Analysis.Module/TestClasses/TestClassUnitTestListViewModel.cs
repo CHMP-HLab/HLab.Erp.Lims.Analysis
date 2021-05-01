@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
@@ -7,6 +8,7 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
+    [Export(typeof(IEntityListViewModel<TestClassUnitTest>))]
     public class TestClassUnitTestListViewModel : EntityListViewModel<TestClassUnitTest>, IMvvmContextProvider
     {
         private readonly ObservableCollection<int> _failedTests = new();
@@ -39,7 +41,20 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             _passedTests.Add(idx);
         }
 
-        public TestClassUnitTestListViewModel Configure(TestClass testClass)
+        public TestClassUnitTestListViewModel(TestClass testClass) : base(c =>
+        {
+            var list = c.Target<TestClassUnitTestListViewModel>();
+
+            return c
+                        .DeleteAllowed()
+                        .AddAllowed()
+                            .Column()
+                                .Header("{Name}").Content(s => s.Name).Width(200)
+                            .Column()
+                                .Id("error").Header("{Error}").Content(s => list._failedTests.Contains(s.Id) ? list._errors[s.Id] : "OK").Width(150)
+                            .Icon(s => list._failedTests.Contains(s.Id) ? "Icons/Conformity/CheckFailed" : list._passedTests.Contains(s.Id) ? "Icons/Conformity/CheckPassed" : "Icons/Conformity/Invalid");
+        }
+        )
         {
             _failedTests.CollectionChanged += FailedTests_CollectionChanged;
             _passedTests.CollectionChanged += FailedTests_CollectionChanged;
@@ -48,24 +63,6 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             DeleteAllowed=true;
 
             List.AddFilter(() => u => u.TestClassId == testClass.Id && Id>=0);
-
-            Columns.Configure(c => c
-                .Column.Header("{Name}").Content(s => s.Name).Width(200)
-                .Column.Id("error").Header("{Error}").Content(s => _failedTests.Contains(s.Id)?_errors[s.Id]:"OK").Width(150)
-                .Icon(s => _failedTests.Contains(s.Id)?"Icons/Conformity/CheckFailed":_passedTests.Contains(s.Id)?"Icons/Conformity/CheckPassed":"Icons/Conformity/Invalid")
-            );
-
-            using (List.Suspender.Get())
-            {
-                DeleteAllowed = true;
-                AddAllowed = true;
-            }
-
-            return this;
-        }
-
-        protected override void Configure()
-        {
         }
 
         protected override bool CanExecuteDelete()

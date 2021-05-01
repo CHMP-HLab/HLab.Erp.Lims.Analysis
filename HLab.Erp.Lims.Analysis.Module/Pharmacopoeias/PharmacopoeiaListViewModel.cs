@@ -1,34 +1,33 @@
-﻿using HLab.Erp.Core.EntityLists;
+﻿using Grace.DependencyInjection.Attributes;
+using HLab.Erp.Core;
+using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
 {
-    public class PharmacopoeiaListViewModel: EntityListViewModel<Pharmacopoeia>, IMvvmContextProvider
+    public class PharmacopoeiasListViewModel: EntityListViewModel<Pharmacopoeia>, IMvvmContextProvider
     {
-        protected override void Configure()
-        {
-            AddAllowed = true;
-            DeleteAllowed = true;
-
-            Columns.Configure(c => c
-                .Column
+        public PharmacopoeiasListViewModel() : base(c => c
+            .AddAllowed()
+            .DeleteAllowed()
+                .Column()
                     .Header("{Name}").Localize()
                     .Width(250)
                     .Content(e => e.Name)
-                .Icon(p => p.IconPath)
-                .Column
-                    .Header("{Abbreviation}")
+                    .Localize()
+                    .Icon(p => p.IconPath)
+                    .Link(e => e.Name)
+                        .Filter()
+                .Column()
+                    .Header("{Abbreviation}").Localize()
                     .Width(250)
-                    .Content(e => e.Abbreviation)
-                );
+                    .Link(e => e.Abbreviation)
+                        .Filter()
+        )
+        {
 
-            using (List.Suspender.Get())
-            {
-                Filter<TextFilter>(f => f.Title("{Name}")
-                    .Link(List, e => e.Name));
-            }
         }
 
         public void ConfigureMvvmContext(IMvvmContext ctx)

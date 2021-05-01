@@ -1,4 +1,5 @@
-﻿using HLab.Erp.Acl;
+﻿using Grace.DependencyInjection.Attributes;
+using HLab.Erp.Acl;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
@@ -8,14 +9,10 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
     public class SampleSampleTestListViewModel : EntityListViewModel<SampleTest>, IMvvmContextProvider
     {
-        public SampleSampleTestListViewModel Configure(int sampleId)
-        {
-            var n = SampleTestWorkflow.Specifications; // TODO : this is a hack to force top level static constructor
-
-            List.AddFilter(()=>e => e.SampleId == sampleId);
-            // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
-            Columns.Configure(c => c
-                    
+        private int _sampleId;
+        public SampleSampleTestListViewModel(int sampleId) : base(c => c
+                .DeleteAllowed()
+            
                 .DescriptionColumn(s=>s.TestName,s=>s.Description)
                     .Header("{Test}")//.Mvvm<IDescriptionViewClass>()
                 .Width(300)
@@ -37,17 +34,23 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
 
                 .ConformityColumn(s => s.Result?.ConformityId)
-                .StageColumn(s => SampleTestWorkflow.StageFromName(s.Stage))
+                .StageColumn(default(SampleTestWorkflow),s => s.Stage)
 
-                .Column.Hidden.Id("IsValid").Content(s => s.Stage != SampleTestWorkflow.InvalidatedResults.Name)
-                .Column.Hidden.Id("Group").Content(s => s.TestClassId)
-            );
+                .Column().Hidden().Id("IsValid").Content(s => s.Stage != SampleTestWorkflow.InvalidatedResults.Name)
+                .Column().Hidden().Id("Group").Content(s => s.TestClassId)
+        
+        )
+        {
+            _sampleId = sampleId;
+            var n = SampleTestWorkflow.Specifications; // TODO : this is a hack to force top level static constructor
 
-            List.Update();
+            // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
+        }
 
-            DeleteAllowed = true;
-
-            return this;
+        [Import]
+        public void Inject()
+        {
+            List.AddFilter(()=>e => e.SampleId == _sampleId);
         }
 
         protected override bool CanExecuteDelete()
@@ -58,10 +61,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             return true;
         }
 
-        public override string Title => "Samples";
-        protected override void Configure()
-        {
-        }
 
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {

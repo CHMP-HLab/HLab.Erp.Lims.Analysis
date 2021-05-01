@@ -1,39 +1,28 @@
-﻿using HLab.Erp.Core;
+﻿using Grace.DependencyInjection.Attributes;
+using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
-
-
-    class ListTestClassViewModel : EntityListViewModel<TestClass>, IMvvmContextProvider
+    public class TestClassesListViewModel : EntityListViewModel<TestClass>, IMvvmContextProvider
     {
-        protected override void Configure()
-        {
-            AddAllowed = true;
-            DeleteAllowed = true;
-
-            // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
-            Columns.Configure(c => c
-                .Column
+        public TestClassesListViewModel() : base(c => c
+            .AddAllowed()
+            .DeleteAllowed()
+                .Column()
                     .Header("{Name}").Width(200)
                     .Content(s => s.Name)
                     .Icon(s => s.IconPath)
-                .Column
+                .Column()
                     .Header("{Category}")
                     .Width(150)
                     .Content(s => s.Category?.Name??"")
-                    .OrderBy(s => s.Category?.Name)
-            );
-                //.Hidden("IsValid",  s => s.Validation != 2)
-                ;
-            using (List.Suspender.Get())
-            {
-            }
+                    .OrderBy(s => s.Category?.Name)           
+        )
+        {
         }
-
-        public override string Title => "{Test Classes}";
 
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {

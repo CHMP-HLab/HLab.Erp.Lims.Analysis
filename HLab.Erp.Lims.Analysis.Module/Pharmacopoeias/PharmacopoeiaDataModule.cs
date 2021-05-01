@@ -2,6 +2,6 @@
 
 namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
 {
-    public class PharmacopoeiaDataModule : ErpParamModule<PharmacopoeiaListViewModel>
+    public class PharmacopoeiaDataBootloader : ErpParamBootloader<PharmacopoeiasListViewModel>
     { }
 }

@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.4.4" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.5" />
     <PackageReference Include="System.Data.Odbc" Version="5.0.0" />
     <PackageReference Include="System.Data.OleDb" Version="5.0.0" />
     <PackageReference Include="System.IO.Ports" Version="5.0.1" />
@@ -54,6 +54,8 @@
     <ProjectReference Include="..\..\..\HLab\HLab.Notify.Wpf\HLab.Notify.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Options.Wpf\HLab.Options.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Options\HLab.Options.csproj" />
+    <ProjectReference Include="..\..\HLab.Erp.Lims.Monographs\HLab.Erp.Lims.Monographs.Data\HLab.Erp.Lims.Monographs.Data.csproj" />
+    <ProjectReference Include="..\..\HLab.Erp.Lims.Monographs\HLab.Erp.Lims.Monographs.Module\HLab.Erp.Lims.Monographs.Module.csproj" />
     <ProjectReference Include="..\HLab.Erp.Data.Wpf\HLab.Erp.Data.Wpf.csproj" />
     <ProjectReference Include="..\Hlab.Erp.Lims.Analysis.Data\HLab.Erp.Lims.Analysis.Data.csproj" />
     <ProjectReference Include="..\HLab.Erp.Lims.Analysis.Module\HLab.Erp.Lims.Analysis.Module.csproj" />

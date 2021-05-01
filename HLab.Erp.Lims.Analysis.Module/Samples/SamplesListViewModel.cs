@@ -1,6 +1,7 @@
 ﻿using System;
 using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Base.Data;
+using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
@@ -11,108 +12,141 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
-    internal class SamplesListViewModel : EntityListViewModel<Sample>, IMvvmContextProvider
+    public class SamplesListViewModel : EntityListViewModel<Sample>, IMvvmContextProvider
     {
-        protected override void Configure()
-        {
-            var n = SampleWorkflow.Reception; // TODO : this is a hack to force top level static constructor
+        public class SampleListBootloader : ErpDataBootloader<SamplesListViewModel>
+        { }
 
-            AddAllowed = true;
-            DeleteAllowed = true;
+        public SamplesListViewModel() : base(c => c
+            .AddAllowed()
+            .DeleteAllowed()
 
-            Columns.Configure(c => c
-                    .Column.Header("{Ref}").Width(80).Content(s => s.Reference)
-                    .Column.Header("{FileId}").Width(100).Content(s => s.FileId?.ToString() ?? "").OrderBy(s => s.FileId)
-                    .Column.Header("{Reception}").Width(75).Content(s=>s.ReceptionDate).OrderBy(s => s.ReceptionDate).OrderByOrder(0)
-                    .Column.Header("{Customer}").Width(140).Content(s => s.Customer?.Name).Icon(s => s.Customer?.Country?.IconPath ?? "").OrderBy(s => s.Customer?.Caption)
-                    .Column.Header("{Product}").Width(400).Content(s => s.Product?.Caption)
-                    .FormColumn(s => s.Product?.Form)//?.Name).Icon((s) => s.Product?.Form?.IconPath ?? "")
-                    .Column.Header("{Manufacturer}").Width(140).Content(s => s.Manufacturer?.Name)
-                    .Column.Header("{Qty}").Width(50).Content(s => s.ReceivedQuantity)
-                    .Column.Header("{Expiration}").Width(75).Content(s => s.ExpirationDate?.ToString(s.ExpirationDayValid ? "dd/MM/yyyy" : "MM/yyyy")).OrderBy(s => s.ExpirationDate)
-                    .Column.Header("{Notification}").Width(75).Content(s => s.NotificationDate?.ToString("dd/MM/yyyy") ?? "").OrderBy(s => s.NotificationDate)
-                    .Column.Header("{Validator}").Width(140).Content(s => s.Validator)
-                    .ProgressColumn(s => s.Progress)
-                    .ConformityColumn(s => s.ConformityId)
-                    .StageColumn(s => SampleWorkflow.StageFromName(s.Stage))
+                .Column()
+                    .Header("{Reference}")
+                    .Width(80)
+                    .Link(s => s.Reference)
+                        .Filter()
+                            .IconPath("Icons/Entities/Sample")
 
-                );
+                .Column()
+                    .Header("{FileId}")
+                    .Width(100)
+                    .Content(s => s.FileId?.ToString() ?? "")
+                    .OrderBy(s => s.FileId)
+                    .Link(s => s.FileId)
+                        .Filter()
 
+                .Column()
+                    .Header("{Reception}")
+                    .Width(75)
+                    .OrderByOrder(0)
+                    .Link(s=>s.ReceptionDate)
+                        .Filter()
 
-            using (List.Suspender.Get())
-            {
-                Filter<EntityFilter<Product,ProductsListPopupViewModel>>(f => f.Title("{Product}"))
-                    .Link(List, s => s.ProductId??-1);
+                .Column(e => e.Customer/*, e => e.CustomerId*/)
 
-                Filter<EntityFilter<Customer>>(f => f.Title("{Customer}"))
-                    .Link(List, s => s.CustomerId??-1);
+                .Column(e => e.Product)
 
-                Filter<EntityFilter<Manufacturer>>(f => f.Title("{Manufacturer}"))
-                    .Link(List, s => s.ManufacturerId??-1);
-
-                Filter<EntityFilter<Pharmacopoeia>>(f => f.Title("{Pharmacopoeia}"))
-                    .Link(List, s => s.PharmacopoeiaId??-1);
-
-                Filter<TextFilter>()
-                    .Title("{Reference}")
-                    .IconPath("Icons/Entities/Sample")
-                    .Link(List, s => s.Reference);
+                //.Column()
+                //    .Header("{Product}")
+                //    .Width(400)
+                //    .Content(s => s.Product?.Caption)
+                //    .Filter<EntityFilterNullable<Product,ProductsListPopupViewModel>>()
+                //        .PostLink(s => s.ProductId)
 
 
-                Filter<TextFilter>()
-                    .Title("{Batch}")
+                .PostLinkedColumn( s => s.Product?.Form, s=>s.Product.FormId)
+
+
+                .Column(e => e.Manufacturer, e=> e.ManufacturerId)
+
+                .Column()
+                    .Header("{Qty}")
+                    .Width(50)
+                    .Content(s => s.ReceivedQuantity)
+// TODO :create IntFilter                        .Filter()
+
+                .Column()
+                    .Header("{Expiration}")
+                    .Width(75)
+                    .Content(s => s.ExpirationDate?.ToString(s.ExpirationDayValid ? "dd/MM/yyyy" : "MM/yyyy"))
+                    .OrderBy(s => s.ExpirationDate)
+                    .Filter<DateFilter>()
+                        .Header("{Expiration}")
+                        .MinDate(DateTime.Now.AddYears(-5))
+                        .MaxDate(DateTime.Now.AddYears(+5))
+                        .IconPath("Icons/Sample/Date")
+                        .Link(s => s.ExpirationDate)
+
+                .Column()
+                    .Header("{Notification}")
+                    .Width(75)
+                    .Content(s => s.NotificationDate?.ToString("dd/MM/yyyy") ?? "")
+                    .OrderBy(s => s.NotificationDate)
+                    .Filter<DateFilter>()
+                        .Header("{Notification}")
+                        .MinDate(DateTime.Now.AddYears(-10))
+                        .MaxDate(DateTime.Now.AddYears(10))
+                        .IconPath("Icons/Sample/Notification|Icons/Sample/Date")
+                        .Link(s => s.NotificationDate)
+
+                .Column()
+                    .Header("{Validator}")
+                    .Width(140)
+                    .Content(s => s.Validator)
+
+                .ProgressColumn(s => s.Progress)
+
+                .ConformityColumn(s => s.ConformityId)
+
+                .StageColumn(default(SampleWorkflow),s => s.Stage)
+
+                .Filter<EntityFilterNullable<Pharmacopoeia>>()
+                    .Header("{Pharmacopoeia}")
+                    .Link(s => s.PharmacopoeiaId)
+
+                .Filter<TextFilter>()
+                    .Header("{Batch}")
                     .IconPath("Icons/Sample/BarCode")
-                    .Link(List, s => s.Batch);
-
-                Filter<DateFilter>()
-                    .Title("{Expiration}")
-                    .MinDate(DateTime.Now.AddYears(-5))
-                    .MaxDate(DateTime.Now.AddYears(+5))
-                    .IconPath("Icons/Sample/Date")
-                    .Link(List, s => s.ExpirationDate);
-
-                Filter<DateFilter>()
-                    .Title("{Notification}")
-                    .MinDate(DateTime.Now.AddYears(-10))
-                    .MaxDate(DateTime.Now.AddYears(10))
-                    .IconPath("Icons/Sample/Notification|Icons/Sample/Date")
-                    .Link(List, s => s.NotificationDate);
-
-                Filter<DateFilter>()
-                    .Title("{Manufacturing}")
+                    .Link(s => s.Batch)
+            
+                .Filter<DateFilter>()
+                    .Header("{Manufacturing}")
                     .MinDate(DateTime.Now.AddYears(-10))
                     .MaxDate(DateTime.Now.AddYears(10))
                     .IconPath("Icons/Entities/Manufacturer|Icons/Sample/Date")
-                    .Link(List, s => s.ManufacturingDate);
+                    .Link(s => s.ManufacturingDate)
 
-                Filter<DateFilter>()
-                    .Title("{Sampling}")
+                .Filter<DateFilter>()
+                    .Header("{Sampling}")
                     .MinDate(DateTime.Now.AddYears(-10))
                     .MaxDate(DateTime.Now.AddYears(10))
                     .IconPath("Icons/Sample/Sampling|Icons/Sample/Date")
-                    .Link(List, s => s.SamplingDate);
+                    .Link(s => s.SamplingDate)
 
-                Filter<TextFilter>()
-                    .Title("{Origin}")
+               .Filter<TextFilter>()
+                    .Header("{Origin}")
                     .IconPath("Icons/Sample/Location")
-                    .Link(List, s => s.SamplingOrigin);
+                    .Link(s => s.SamplingOrigin)
 
-                Filter<TextFilter>()
-                    .Title("{Commercial Name}")
+                .Filter<TextFilter>()
+                    .Header("{Commercial Name}")
                     .IconPath("Icons/Sample/Commercial")
-                    .Link(List, s => s.CommercialName);
+                    .Link(s => s.CommercialName)
 
-                Filter<WorkflowFilter<SampleWorkflow>>()
-                    .Title("{Stage}")
+                .Filter<WorkflowFilter<SampleWorkflow>>()
+                    .Header("{Stage}")
                     .IconPath("Icons/Workflow")
-                    .Link(List, e => e.Stage);
-                Filter<ConformityFilter>()
-                    .Title("{Conformity}")
+                    .Link(e => e.Stage)
+
+                .Filter<ConformityFilter>()
+                    .Header("{Conformity}")
                     .IconPath("Icons/Conformity")
-                    .Link(List, e => e.ConformityId);
+                    .Link(e => e.ConformityId)
 
-            }
-
+        )
+        {
+            var n = SampleWorkflow.Reception; // TODO : this is a hack to force top level static constructor
         }
 
         protected override void ConfigureEntity(Sample sample)

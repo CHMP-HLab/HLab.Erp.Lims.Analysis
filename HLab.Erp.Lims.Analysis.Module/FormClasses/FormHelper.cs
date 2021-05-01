@@ -18,8 +18,6 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
     {
         public FormHelper() => H.Initialize(this); 
 
-
-
         public IForm Form
         {
             get => _form.Get();
@@ -64,7 +62,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         }
         private readonly IProperty<string> _csMessage = H.Property<string>();
 
-        public ObservableCollection<CompileError> XamlErrors { get; }= new();
+        public ObservableCollection<CompileError> XamlErrors { get; } = new();
         public ObservableCollection<CompileError> CsErrors { get; } = new();
         public ObservableCollection<CompileError> DebugErrors { get; } = new();
 

@@ -1,4 +1,5 @@
 ﻿using Grace.DependencyInjection.Attributes;
+using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
@@ -13,32 +14,20 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         {
         }
 
-        public override string Title => "{Products}";
-        protected override void Configure()
+        public ProductsListPopupViewModel() : base(c => c
+                .Column()
+                    .Header("{Inn}")
+                    .Width(200)
+                    .Content(p => p.Inn)
+                    .Filter<TextFilter>()
+                .Column()
+                    .Header("{Dose}")
+                    .Width(100)
+                    .Content(p => p.Dose)
+                    .Filter<TextFilter>()
+                .FormColumn( p => p.Form,p => p.FormId)
+        )
         {
-            Columns.Configure(c => c
-                .Column
-                .Header("{Inn}")
-                .Width(200)
-                .Content(p => p.Inn)
-                .Column
-                .Header("{Dose}")
-                .Width(100)
-                .Content(p => p.Dose)
-                .FormColumn(p => p.Form)
-            );
-//                .Column("{Ref}", s => s.Caption)
-            using (List.Suspender.Get())
-            {
-                Filter<TextFilter>(f => f.Title("{Inn}")
-                    .Link(List,e => e.Inn));
-
-                Filter<TextFilter>(f => f.Title("{Dose}")
-                    .Link(List,e => e.Dose));
-
-                Filter<EntityFilter<Form>>()
-                    .Link(List, e => e.FormId??-1);
-            }
 
         }
     }

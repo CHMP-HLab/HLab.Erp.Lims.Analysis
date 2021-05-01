@@ -155,7 +155,7 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => SampleTest.TestName;
             set => SampleTest.TestName = value;
         }
-        byte[] IFormTarget.Code => SampleTest.Code;
+        byte[] IFormTarget.Code => SampleTest.TestClass.Code;
 
         string IFormTarget.SpecificationValues
         {

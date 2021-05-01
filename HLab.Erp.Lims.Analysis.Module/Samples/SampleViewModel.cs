@@ -39,11 +39,11 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         [Import] public SampleViewModel(
             IErpServices erp, 
-            Func<SampleSampleTestListViewModel> getTests, 
+            Func<int,SampleSampleTestListViewModel> getTests, 
             ObservableQuery<Packaging> packagings, 
-            Func<ListSampleFormViewModel> getForms, 
-            Func<ListFormClassViewModel> getFormClasses, 
-            Func<SampleAuditTrailViewModel> getAudit, 
+            Func<int,SampleFormsListViewModel> getForms, 
+            Func<FormClassesListViewModel> getFormClasses, 
+            Func<int, SampleAuditTrailViewModel> getAudit, 
             Func<Sample, IDataLocker<Sample>, SampleWorkflow> getSampleWorkflow
             )
         {
@@ -160,17 +160,17 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Update()
         );
         
-        private readonly Func<SampleSampleTestListViewModel> _getTests;
-        private readonly Func<ListSampleFormViewModel> _getForms;
-        private readonly Func<ListFormClassViewModel> _getFormClasses;
-        private readonly Func<SampleAuditTrailViewModel> _getAudit;
+        private readonly Func<int,SampleSampleTestListViewModel> _getTests;
+        private readonly Func<int, SampleFormsListViewModel> _getForms;
+        private readonly Func<FormClassesListViewModel> _getFormClasses;
+        private readonly Func<int,SampleAuditTrailViewModel> _getAudit;
 
         public SampleSampleTestListViewModel Tests => _tests.Get();
         private readonly IProperty<SampleSampleTestListViewModel> _tests = H.Property<SampleSampleTestListViewModel>(c => c
             .NotNull(e => e.Model)
             .Set( e =>
             {
-                var tests =  e._getTests().Configure(e.Model.Id);
+                var tests =  e._getTests(e.Model.Id);
                 tests.List.CollectionChanged += e.List_CollectionChanged;
                 return tests;
             })
@@ -291,10 +291,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         }
 
-        public ListSampleFormViewModel Forms => _forms.Get();
-        private readonly IProperty<ListSampleFormViewModel> _forms = H.Property<ListSampleFormViewModel>(c => c
+        public SampleFormsListViewModel Forms => _forms.Get();
+        private readonly IProperty<SampleFormsListViewModel> _forms = H.Property<SampleFormsListViewModel>(c => c
             .NotNull(e => e.Model)
-            .Set(e => e._getForms().Configure(e.Model.Id))
+            .Set(e => e._getForms(e.Model.Id))
             .On(e => e.Model)
             .Update()
         );
@@ -302,13 +302,13 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public SampleAuditTrailViewModel AuditTrail => _auditTrail.Get();
         private readonly IProperty<SampleAuditTrailViewModel> _auditTrail = H.Property<SampleAuditTrailViewModel>(c => c
             .NotNull(e => e.Model)
-            .Set(e => e._getAudit().Configure(e.Model.Id))
+            .Set(e => e._getAudit(e.Model.Id))
             .On(e => e.Model)
             .Update()
         );
 
-        public ListFormClassViewModel FormClasses => _formClasses.Get();
-        private readonly IProperty<ListFormClassViewModel> _formClasses = H.Property<ListFormClassViewModel>(c => c
+        public FormClassesListViewModel FormClasses => _formClasses.Get();
+        private readonly IProperty<FormClassesListViewModel> _formClasses = H.Property<FormClassesListViewModel>(c => c
             .NotNull(e => e.Model)
             .Set(e => e._getFormClasses())
             .On(e => e.Model)
@@ -384,7 +384,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             {
                 st.Sample = Model;
                 st.TestClass = testClass;
-                st.Code = testClass.Code;
+                //st.Code = testClass.Code;
                 st.Description = "";
                 st.TestName = testClass.Name;
                 st.Stage = SampleTestWorkflow.DefaultStage.Name;

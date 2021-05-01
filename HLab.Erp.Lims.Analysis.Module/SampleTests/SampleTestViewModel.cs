@@ -31,7 +31,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         public SampleTestViewModel(
             IErpServices erp, 
-            Func<TestResultListViewModel> getResults, 
+            Func<int,TestResultsListViewModel> getResults, 
             Func<FormHelper> getFormHelper, 
             Func<SampleTest, DataLocker<SampleTest>, SampleTestWorkflow> getSampleTestWorkflow)
         {
@@ -43,7 +43,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         }
 
 
-        private readonly Func<TestResultListViewModel> _getResults;
+        private readonly Func<int,TestResultsListViewModel> _getResults;
         private readonly Func<FormHelper> _getFormHelper;
 
         private readonly Func<SampleTest, DataLocker<SampleTest>, SampleTestWorkflow> _getSampleTestWorkflow;
@@ -134,17 +134,17 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
 
         // RESULTS
-        public TestResultListViewModel Results => _results.Get();
-        private readonly IProperty<TestResultListViewModel> _results = H.Property<TestResultListViewModel>(c => c
+        public TestResultsListViewModel Results => _results.Get();
+        private readonly IProperty<TestResultsListViewModel> _results = H.Property<TestResultsListViewModel>(c => c
             .NotNull(e => e.Model)
             .Set(e => e.SetResults())
             .On(e => e.Model)
             .Update()
         );
 
-        private TestResultListViewModel SetResults()
+        private TestResultsListViewModel SetResults()
         {
-            var vm =  _getResults().Configure(Model);
+            var vm =  _getResults(Model.Id);
             vm.SetSelectAction(async r =>
             {
                 await LoadResultAsync(r as SampleTestResult).ConfigureAwait(false);

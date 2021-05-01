@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Core;
@@ -8,72 +9,25 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
-    public class ListLinkedDocumentViewModel : EntityListViewModel<LinkedDocument>, IMvvmContextProvider
+    public class LinkedDocumentsListViewModel : EntityListViewModel<LinkedDocument>, IMvvmContextProvider
     {
-        private int _sampleTestId;
-
-        public void Configure(int sampleTestId)
+        private Action<LinkedDocument> _createAction;
+        public LinkedDocumentsListViewModel(
+            Expression<Func<LinkedDocument,bool>> filter,
+            Action<LinkedDocument> createAction = null
+            ) : base(c => c
+            .StaticFilter(filter)
+            .DeleteAllowed()
+                .Column()
+                .Header("{Name}").Width(200)
+                .Content(s => s.Name)
+        )
         {
-            _sampleTestId = sampleTestId;
-
-            AddAllowed=false;
-            DeleteAllowed=false;
-
-            List.AddFilter(() => e => e.SampleTestResultId == sampleTestId);
-
-            //List.OrderBy = e => e.Start;
-
-             Columns.Configure(c => c
-                    .Column
-                    .Header("{Name}").Width(200)
-                    .Content(s => s.Name)
-             );
-
-            using (List.Suspender.Get())
-            {
-                DeleteAllowed = true;
-            }
-
+            _createAction = createAction;
         }
 
-        protected override void Configure()
-        {
-        }
 
-        protected override async Task AddEntityAsync()
-        {
-            var target = Selected;
-
-            int i = 0;
-
-            foreach (var r in List)
-            {
-                var n = r.Name;
-                if (n.StartsWith("R")) n = n.Substring(1);
-
-                if(int.TryParse(n, out var v))
-                {
-                    i = Math.Max(i,v);
-                }
-            }
-
-
-            var result  = await Erp.Data.AddAsync<SampleTestResult>(r =>
-            {
-                r.Name = $"R{i + 1}";
-                r.SampleTestId = _sampleTestId;
-                if(target!=null)
-                {
-                    
-                }
-            });
-            if(result!=null)
-                List.Update();
-
-        }
         protected override bool CanExecuteDelete() => Selected != null;
-
-        public override string Title => "{Documents}";
 
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {

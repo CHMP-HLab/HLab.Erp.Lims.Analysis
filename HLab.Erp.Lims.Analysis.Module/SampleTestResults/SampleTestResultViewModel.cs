@@ -30,11 +30,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
     {
         public IErpServices Erp { get; }
         private readonly Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> _getWorkflow;
-        private readonly Func<int, ListLinkedDocumentViewModel> _getDocuments;
+        private readonly Func<int, LinkedDocumentsListViewModel> _getDocuments;
 
         public SampleTestResultViewModel(
             IErpServices erp,
-            Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> getWorkflow, Func<int, ListLinkedDocumentViewModel> getDocuments)
+            Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> getWorkflow, Func<int, LinkedDocumentsListViewModel> getDocuments)
         {
             _getWorkflow = getWorkflow;
             _getDocuments = getDocuments;
@@ -138,8 +138,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
 
         // LINKED DOCUMENTS
-        public ListLinkedDocumentViewModel LinkedDocuments => _linkedDocuments.Get();
-        private readonly IProperty<ListLinkedDocumentViewModel> _linkedDocuments = H.Property<ListLinkedDocumentViewModel>(c => c
+        public LinkedDocumentsListViewModel LinkedDocuments => _linkedDocuments.Get();
+        private readonly IProperty<LinkedDocumentsListViewModel> _linkedDocuments = H.Property<LinkedDocumentsListViewModel>(c => c
             .Set(e =>
             {
                 if (e.Model == null) return null;

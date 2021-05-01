@@ -1,26 +1,23 @@
-﻿using HLab.Erp.Core.EntityLists;
+﻿using Grace.DependencyInjection.Attributes;
+using HLab.Erp.Core;
+using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
-    public class ListSampleFormViewModel : EntityListViewModel<SampleForm>, IMvvmContextProvider
+    public class SampleFormsListViewModel : EntityListViewModel<SampleForm>, IMvvmContextProvider
     {
-        public ListSampleFormViewModel Configure(int sampleId)
+        public SampleFormsListViewModel(int sampleId) : base(c => c
+            .StaticFilter(e =>e.SampleId == sampleId)
+            .DeleteAllowed()
+                       .Column()
+                           .Header("{Name}")
+                           .Width(200)
+                           .Content(s => s.FormClass.Name)
+                           .Icon(s => s.FormClass.IconPath)
+        )
         {
-            List.AddFilter(()=>e => e.SampleId == sampleId);
-            Columns.Configure(c => c
-                        .Column
-                            .Header("{Name}")
-                            .Width(200)
-                            .Content(s => s.FormClass.Name)
-                            .Icon( s => s.FormClass.IconPath)
-            );
-
-            List.Update();
-
-            DeleteAllowed = true;
-            return this;
         }
 
         //protected override bool CanExecuteDelete()
@@ -31,10 +28,6 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         //    return true;
         //}
 
-        public override string Title => "Fiches";
-        protected override void Configure()
-        {
-        }
 
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {

@@ -1,33 +1,31 @@
-﻿using HLab.Erp.Core.EntityLists;
+﻿using Grace.DependencyInjection.Attributes;
+using HLab.Erp.Core;
+using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
 {
-    public class ManufacturersListViewModel: EntityListViewModel<Manufacturer>, IMvvmContextProvider
+    public class ManufacturersListViewModel : EntityListViewModel<Manufacturer>, IMvvmContextProvider
     {
-        protected override void Configure()
-        {
-            AddAllowed = true;
-            DeleteAllowed = true;
+        public class Bootloader : NestedBootloader
+        { }
 
-            // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
-            Columns.Configure(c => c
-                .Column
+        public ManufacturersListViewModel() : base(c => c
+            .AddAllowed()
+            .DeleteAllowed()
+            .Column()
+                .Header("{Name}")
+                .Width(250)
+                .Content(e => e.Name)
+                .Filter<TextFilter>()
                     .Header("{Name}")
-                    .Width(250)
-                    .Content(e => e.Name)
-                .Column
-                    .Icon(m => m.Country?.IconPath ?? "")
-                    .OrderBy(s => s.Country.Name)
-                );
-
-            using (List.Suspender.Get())
-            {
-                Filter<TextFilter>(f => f.Title("{Name}")
-                    .Link(List, e => e.Name));
-            }
+            .Column()
+                .Icon(m => m.Country?.IconPath ?? "")
+                .OrderBy(s => s.Country.Name)
+        )
+        {
         }
 
         public void ConfigureMvvmContext(IMvvmContext ctx)

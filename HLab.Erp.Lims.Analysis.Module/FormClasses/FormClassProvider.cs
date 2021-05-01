@@ -137,15 +137,11 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
         public IForm Create()
         {
-            IForm form;
-            if (_type != null)
-            {
-                form = (IForm)Activator.CreateInstance(_type);
-            }
-            else form = new DummyForm();
+            var form = _type != null ? (IForm)Activator.CreateInstance(_type) : new DummyForm();
 
             if(form is UserControl e)
                 e.Content = GetXamlUi();
+
             return form;
         }
 
