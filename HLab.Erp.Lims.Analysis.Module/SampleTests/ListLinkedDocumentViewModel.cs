@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
+using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 
@@ -17,10 +18,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             Action<LinkedDocument> createAction = null
             ) : base(c => c
             .StaticFilter(filter)
-            .DeleteAllowed()
-                .Column()
-                .Header("{Name}").Width(200)
-                .Content(s => s.Name)
+            //.DeleteAllowed()
+            .Column()
+            .Header("{Name}").Width(200).Content(s => s.Name)
         )
         {
             _createAction = createAction;

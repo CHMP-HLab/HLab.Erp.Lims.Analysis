@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
+using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Samples;
 using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
@@ -16,21 +17,45 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         private readonly SampleTest _sampleTest;
 
         public TestResultsListViewModel(SampleTest sampleTest) : base(c => c
-            .StaticFilter(e => e.SampleTestId == sampleTest.Id)
-            .DeleteAllowed()
-            .AddAllowed()
+                .StaticFilter(e => e.SampleTestId == sampleTest.Id)
+                //.DeleteAllowed()
+                //.AddAllowed()
 
 
-                .Column().Header("{Name}").Content(s => s.Name).Width(70)
-                .Column().Header("{Start}").Content(s => s.Start).Width(80).OrderByOrder(0)
-                .Column().Header("{End}").Content(s => s.End).Width(80)
-                .Column().Header("{Result}").Content(s => s.Result).Width(80)
+                .Column()
+                    .Header("{Name}")
+                    .Link(s => s.Name)
+                    .Width(70)
+
+                .Column()
+                    .Header("{Start}")
+                    .Link(s => s.Start)
+                    .Width(80)//.OrderByOrder(0)
+                
+                .Column()
+                    .Header("{End}")
+                    .Link(s => s.End)
+                    .Width(80)
+
+                .Column()
+                    .Header("{Result}")
+                    .Link(s => s.Result)
+                    .Width(80)
+
                 .ConformityColumn(s => s.ConformityId)
-                .StageColumn(default(SampleTestResultWorkflow),s => s.Stage)
+                
+                .StageColumn(default(SampleTestResultWorkflow), s => s.Stage)
 
-                .Column().Hidden().Id("IsSelected").Content(s => s.Id == s.SampleTest.Result?.Id)
-                .Column().Hidden().Id("IsValid").Content(s => s.Stage != SampleTestResultWorkflow.Invalidated.Name)
-        
+                .Column()
+                    .Hidden()
+                    .Id("IsSelected")
+                    .Content(s => s.Id == s.SampleTest.Result?.Id)
+
+                .Column()
+                    .Hidden()
+                    .Id("IsValid")
+                    .Content(s => s.Stage != SampleTestResultWorkflow.Invalidated.Name)
+
         )
         {
             _sampleTest = sampleTest;
@@ -47,22 +72,22 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 var n = r.Name;
                 if (n.StartsWith("R")) n = n.Substring(1);
 
-                if(int.TryParse(n, out var v))
+                if (int.TryParse(n, out var v))
                 {
-                    i = Math.Max(i,v);
+                    i = Math.Max(i, v);
                 }
             }
 
 
-            var result  = await Erp.Data.AddAsync<SampleTestResult>(r =>
-            {
-                r.Name = $"R{i + 1}";
-                r.SampleTestId = _sampleTest.Id;
-                if(target!=null)
-                {
-                    
-                }
-            });
+            var result = await Erp.Data.AddAsync<SampleTestResult>(r =>
+           {
+               r.Name = $"R{i + 1}";
+               r.SampleTestId = _sampleTest.Id;
+               if (target != null)
+               {
+
+               }
+           });
             if (result != null)
             {
                 List.Update();
@@ -73,19 +98,19 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         protected override bool CanExecuteDelete()
         {
-            if(Selected==null) return false;
-            if(!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
-            if(_sampleTest.Stage != SampleTestWorkflow.Running.Name) return false;
-            if(Selected.Stage!=null && Selected.Stage != SampleTestResultWorkflow.Running.Name) return false;
-            if(_sampleTest.Result==null) return true;
-            if(_sampleTest.Result.Id == Selected.Id) return false;
+            if (Selected == null) return false;
+            if (!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
+            if (_sampleTest.Stage != SampleTestWorkflow.Running.Name) return false;
+            if (Selected.Stage != null && Selected.Stage != SampleTestResultWorkflow.Running.Name) return false;
+            if (_sampleTest.Result == null) return true;
+            if (_sampleTest.Result.Id == Selected.Id) return false;
             return true;
         }
 
         protected override bool CanExecuteAdd()
         {
             if (_sampleTest.Stage != SampleTestWorkflow.Running.Name) return false;
-            if(!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
+            if (!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
             return true;
         }
 

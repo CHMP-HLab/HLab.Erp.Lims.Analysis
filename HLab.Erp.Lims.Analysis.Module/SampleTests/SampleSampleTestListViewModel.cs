@@ -1,6 +1,7 @@
 ﻿using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Acl;
 using HLab.Erp.Core.EntityLists;
+using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Mvvm.Annotations;
@@ -11,34 +12,35 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
     {
         private int _sampleId;
         public SampleSampleTestListViewModel(int sampleId) : base(c => c
-                .DeleteAllowed()
-            
-                .DescriptionColumn(s=>s.TestName,s=>s.Description)
+                //.DeleteAllowed()
+
+                .DescriptionColumn(s => s.TestName, s => s.Description)
                     .Header("{Test}")//.Mvvm<IDescriptionViewClass>()
                 .Width(300)
                 .Icon(s => s.IconPath)
                 .OrderBy(s => s.Order)
 
-                .DescriptionColumn(s => "",s=>s.Specification)
+                .DescriptionColumn(s => "", s => s.Specification)
                     .Header("{Specifications}")
                 .Width(200)
                 .OrderBy(s => s.Specification)
 
-                .DescriptionColumn(s => "",s=>s.Result?.Result??"")
-                
-                    .Header("{Result}").Width(200).OrderBy(s => s.Result?.Result??"")
+                .DescriptionColumn(s => "", s => s.Result?.Result ?? "")
 
-                .DescriptionColumn(s => "",s=>s.Result?.Conformity??"")
-                
-                    .Header("{Conformity}").Width(200).OrderBy(s => s.Result?.Conformity??"")
+                    .Header("{Result}").Width(200).OrderBy(s => s.Result?.Result ?? "")
+
+                .DescriptionColumn(s => "", s => s.Result?.Conformity ?? "")
+
+                    .Header("{Conformity}").Width(200).OrderBy(s => s.Result?.Conformity ?? "")
 
 
-                .ConformityColumn(s => s.Result?.ConformityId)
-                .StageColumn(default(SampleTestWorkflow),s => s.Stage)
+                .ConformityColumn(s => s.Result != null ? s.Result.ConformityId : null)
+
+                .StageColumn(default(SampleTestWorkflow), s => s.Stage)
 
                 .Column().Hidden().Id("IsValid").Content(s => s.Stage != SampleTestWorkflow.InvalidatedResults.Name)
                 .Column().Hidden().Id("Group").Content(s => s.TestClassId)
-        
+
         )
         {
             _sampleId = sampleId;
@@ -50,14 +52,14 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         [Import]
         public void Inject()
         {
-            List.AddFilter(()=>e => e.SampleId == _sampleId);
+            List.AddFilter(() => e => e.SampleId == _sampleId);
         }
 
         protected override bool CanExecuteDelete()
         {
-            if(Selected==null) return false;
+            if (Selected == null) return false;
             if (Selected.Stage != SampleTestWorkflow.Specifications.Name) return false;
-            if(!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddTest)) return false;
+            if (!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddTest)) return false;
             return true;
         }
 

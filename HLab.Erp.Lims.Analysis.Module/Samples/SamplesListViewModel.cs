@@ -3,6 +3,7 @@ using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Base.Data;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
+using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Filters;
@@ -14,76 +15,69 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
     public class SamplesListViewModel : EntityListViewModel<Sample>, IMvvmContextProvider
     {
-        public class SampleListBootloader : ErpDataBootloader<SamplesListViewModel>
+        public class SamplesListBootloader : ErpDataBootloader<SamplesListViewModel>
         { }
 
         public SamplesListViewModel() : base(c => c
-            .AddAllowed()
-            .DeleteAllowed()
+                //.AddAllowed()
+                //.DeleteAllowed()
 
                 .Column()
                     .Header("{Reference}")
                     .Width(80)
                     .Link(s => s.Reference)
                         .Filter()
-                            .IconPath("Icons/Entities/Sample")
+                        .IconPath("Icons/Entities/Sample")
 
                 .Column()
                     .Header("{FileId}")
                     .Width(100)
-                    .Content(s => s.FileId?.ToString() ?? "")
                     .OrderBy(s => s.FileId)
                     .Link(s => s.FileId)
                         .Filter()
 
                 .Column()
-                    .Header("{Reception}")
-                    .Width(75)
-                    .OrderByOrder(0)
-                    .Link(s=>s.ReceptionDate)
-                        .Filter()
+                .Header("{Reception}")
+                .Width(75)
+//                .OrderByOrder(0)
+                .Link(s => s.ReceptionDate)
+                .Filter()
 
-                .Column(e => e.Customer/*, e => e.CustomerId*/)
+                .Column(e => e.Customer)
 
                 .Column(e => e.Product)
 
-                //.Column()
-                //    .Header("{Product}")
-                //    .Width(400)
-                //    .Content(s => s.Product?.Caption)
-                //    .Filter<EntityFilterNullable<Product,ProductsListPopupViewModel>>()
-                //        .PostLink(s => s.ProductId)
+                //.PostLinkedColumn(s => s.Product?.Form, s => s.Product?.FormId)
 
 
-                .PostLinkedColumn( s => s.Product?.Form, s=>s.Product.FormId)
-
-
-                .Column(e => e.Manufacturer, e=> e.ManufacturerId)
+                .Column(e => e.Manufacturer, e => e.ManufacturerId)
 
                 .Column()
-                    .Header("{Qty}")
-                    .Width(50)
-                    .Content(s => s.ReceivedQuantity)
-// TODO :create IntFilter                        .Filter()
+                .Header("{Qty}")
+                .Width(50)
+                .Content(s => s.ReceivedQuantity)
+                // TODO :create IntFilter                        .Filter()
 
                 .Column()
-                    .Header("{Expiration}")
-                    .Width(75)
-                    .Content(s => s.ExpirationDate?.ToString(s.ExpirationDayValid ? "dd/MM/yyyy" : "MM/yyyy"))
-                    .OrderBy(s => s.ExpirationDate)
-                    .Filter<DateFilter>()
-                        .Header("{Expiration}")
-                        .MinDate(DateTime.Now.AddYears(-5))
-                        .MaxDate(DateTime.Now.AddYears(+5))
-                        .IconPath("Icons/Sample/Date")
-                        .Link(s => s.ExpirationDate)
+                .Header("{Expiration}")
+                .Width(75)
+                .OrderBy(s => s.ExpirationDate)
+                .Content(s => s.ExpirationDate == null ? null : s.ExpirationDate.Value.ToString(s.ExpirationDayValid ? "dd/MM/yyyy" : "MM/yyyy"))
+                .Link(s => s.ExpirationDate)
+                .Filter()
+
+                .Header("{Expiration}")
+                .MinDate(DateTime.Now.AddYears(-5))
+                .MaxDate(DateTime.Now.AddYears(+5))
+                .IconPath("Icons/Sample/Date")
+                .Link(s => s.ExpirationDate)
 
                 .Column()
-                    .Header("{Notification}")
-                    .Width(75)
-                    .Content(s => s.NotificationDate?.ToString("dd/MM/yyyy") ?? "")
-                    .OrderBy(s => s.NotificationDate)
-                    .Filter<DateFilter>()
+                .Header("{Notification}")
+                .Width(75)
+                .Content(s => s.NotificationDate?.ToString("dd/MM/yyyy") ?? "")
+                .Link(s => s.NotificationDate)
+                    .Filter()
                         .Header("{Notification}")
                         .MinDate(DateTime.Now.AddYears(-10))
                         .MaxDate(DateTime.Now.AddYears(10))
@@ -99,50 +93,46 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
                 .ConformityColumn(s => s.ConformityId)
 
-                .StageColumn(default(SampleWorkflow),s => s.Stage)
+                .StageColumn(default(SampleWorkflow), s => s.Stage)
 
-                .Filter<EntityFilterNullable<Pharmacopoeia>>()
+                .Column().Hidden()
                     .Header("{Pharmacopoeia}")
-                    .Link(s => s.PharmacopoeiaId)
+                    .Link(s => s.Pharmacopoeia)
+                    .Filter()
 
-                .Filter<TextFilter>()
+                .Column().Hidden()
                     .Header("{Batch}")
-                    .IconPath("Icons/Sample/BarCode")
                     .Link(s => s.Batch)
-            
-                .Filter<DateFilter>()
+                    .Filter()
+                    .IconPath("Icons/Sample/BarCode")
+
+                .Column().Hidden()
                     .Header("{Manufacturing}")
-                    .MinDate(DateTime.Now.AddYears(-10))
-                    .MaxDate(DateTime.Now.AddYears(10))
                     .IconPath("Icons/Entities/Manufacturer|Icons/Sample/Date")
                     .Link(s => s.ManufacturingDate)
+                    .Filter()
+                        .MinDate(DateTime.Now.AddYears(-10))
+                        .MaxDate(DateTime.Now.AddYears(10))
 
-                .Filter<DateFilter>()
+                .Column().Hidden()
                     .Header("{Sampling}")
-                    .MinDate(DateTime.Now.AddYears(-10))
-                    .MaxDate(DateTime.Now.AddYears(10))
                     .IconPath("Icons/Sample/Sampling|Icons/Sample/Date")
                     .Link(s => s.SamplingDate)
+                    .Filter()
+                        .MinDate(DateTime.Now.AddYears(-10))
+                        .MaxDate(DateTime.Now.AddYears(10))
 
-               .Filter<TextFilter>()
+                .Column().Hidden()
                     .Header("{Origin}")
-                    .IconPath("Icons/Sample/Location")
                     .Link(s => s.SamplingOrigin)
+                    .Filter()
+                        .IconPath("Icons/Sample/Location")
 
-                .Filter<TextFilter>()
+                .Column().Hidden()
                     .Header("{Commercial Name}")
-                    .IconPath("Icons/Sample/Commercial")
                     .Link(s => s.CommercialName)
-
-                .Filter<WorkflowFilter<SampleWorkflow>>()
-                    .Header("{Stage}")
-                    .IconPath("Icons/Workflow")
-                    .Link(e => e.Stage)
-
-                .Filter<ConformityFilter>()
-                    .Header("{Conformity}")
-                    .IconPath("Icons/Conformity")
-                    .Link(e => e.ConformityId)
+                    .Filter()
+                        .IconPath("Icons/Sample/Commercial")
 
         )
         {
@@ -151,7 +141,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         protected override void ConfigureEntity(Sample sample)
         {
-             sample.Stage = SampleWorkflow.DefaultStage.Name;
+            sample.Stage = SampleWorkflow.DefaultStage.Name;
         }
 
         public void ConfigureMvvmContext(IMvvmContext ctx)

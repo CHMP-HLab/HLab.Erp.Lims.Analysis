@@ -7,6 +7,7 @@ using HLab.Erp.Acl;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
+using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Filters;
@@ -25,19 +26,20 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         }
 
         public TestsListViewModel() : base(c => c
-               .DeleteAllowed()
+                   //                   .DeleteAllowed()
 
-                .Column(e => e.Sample, e=> e.SampleId)
+                   //.Column(e => e.Sample)
 
-                // todp : .Column(s => s.Sample.Product)
+                   // todp : .Column(s => s.Sample.Product)
 
-                .Column()
-                    .Header("{Test}")
-                    .Content(e => e.TestName)
-                    .OrderBy(s => s.Order)
-                    .Filter<EntityFilterNullable<TestClass>>()
+                   .Column()
+                       .Header("{Test}")
+                       .Link(e => e.TestName)
+                        .OrderBy(s => s.Order)
+                        .Filter()
+
                         .Header("{Test Class}")
-                        .Link(e => e.TestClassId)
+                        .Link(e => e.TestClass)
 
                 .DescriptionColumn(t => "", t => t.Specification)
                     .Header("{Specifications}")
@@ -47,7 +49,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     .Header("{Result}")
                     .OrderBy(s => s.Result?.Result ?? "")
 
-                .ConformityColumn(s => s.Result?.ConformityId)
+                .ConformityColumn(s => s.Result == null ? null : s.Result.ConformityId)
 
                 .StageColumn(default(SampleTestWorkflow), s => s.Stage)
 

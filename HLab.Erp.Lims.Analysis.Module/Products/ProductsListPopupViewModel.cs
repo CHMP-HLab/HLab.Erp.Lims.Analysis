@@ -7,6 +7,7 @@ using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using Grace.DependencyInjection.Attributes;
+using HLab.Erp.Core.ListFilterConfigurators;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
@@ -17,18 +18,26 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
         }
 
         public ProductsListPopupViewModel() : base(c => c
-            .Header("{Products}")
-            .AddAllowed()
-                .Column().Header("{Ref}").Content(p => p.Caption)
-                .Column().Header("{Inn}").Content(p => p.Inn)
-                    .Filter<TextFilter>()
-                    .IconPath("Icons/Entities/Products/Inn")
+                .Header("{Products}")
+                //.AddAllowed()
+                .Column()
+                    .Header("{Ref}")
+                    .Link(p => p.Caption)
+                
+                .Column()
+                    .Header("{Inn}")
                     .Link(p => p.Inn)
-                .Column().Header("{Dose}").Content(p => p.Dose)
-                    .Filter<TextFilter>()
+                    .Filter()
+                    .IconPath("Icons/Entities/Products/Inn")
+
+                .Column()
+                    .Header("{Dose}")
+                    .Link(p => p.Dose)
+                    .Filter()
                     .IconPath("Icons/Entities/Products/Dose")
                     .Link(p => p.Dose)
-                .FormColumn( p => p.Form,p => p.FormId)
+
+                .FormColumn( p => p.Form)
 
         )
         {

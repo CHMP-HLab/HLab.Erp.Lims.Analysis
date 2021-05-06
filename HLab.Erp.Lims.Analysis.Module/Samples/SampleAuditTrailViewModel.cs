@@ -3,6 +3,7 @@ using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Acl;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
+using HLab.Erp.Core.ListFilterConfigurators;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
@@ -12,19 +13,20 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .StaticFilter(e => e.EntityId == sampleId)
             .StaticFilter(e => e.EntityClass == "Sample")
             .StaticFilter(e => e.Motivation != null)
-                .Column()
-                    .Header("{Date}").Width(110)
-                    .Content(at => at.TimeStamp)
-                .Column()
-                    .Header("{Icon}").Width(80)
-                    .Icon(at => at.IconPath)
-                .Column()
-                    .Header("{Motivation}").Width(250)
-                    .Content(at => at.Motivation)
-                .Column()
-                    .Header("{User}").Width(150)
-                    .Content(at => at.UserCaption)
-        
+
+            .Column()
+            .Header("{Date}").Width(110).Content(at => at.TimeStamp)
+            
+            .Column()
+            .Header("{Icon}").Width(80)
+            .Icon(at => at.IconPath)
+            
+            .Column()
+            .Header("{Motivation}").Width(250)
+            .Content(at => at.Motivation)
+            
+            .Column()
+            .Header("{User}").Width(150).Content(at => at.UserCaption)
         )
         {
         }

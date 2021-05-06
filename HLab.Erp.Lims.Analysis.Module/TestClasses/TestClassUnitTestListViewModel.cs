@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
+using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 
@@ -43,15 +44,15 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         public TestClassUnitTestListViewModel(TestClass testClass) : base(c =>
         {
-            var list = c.Target<TestClassUnitTestListViewModel>();
+            var list = c.Target as TestClassUnitTestListViewModel;
 
             return c
-                        .DeleteAllowed()
-                        .AddAllowed()
-                            .Column()
-                                .Header("{Name}").Content(s => s.Name).Width(200)
-                            .Column()
-                                .Id("error").Header("{Error}").Content(s => list._failedTests.Contains(s.Id) ? list._errors[s.Id] : "OK").Width(150)
+                //.DeleteAllowed()
+                //.AddAllowed()
+                .Column()
+                .Header("{Name}").Content(s => s.Name).Width(200)
+                .Column()
+                .Id("error").Header("{Error}").Content(s => list._failedTests.Contains(s.Id) ? list._errors[s.Id] : "OK").Width(150)
                             .Icon(s => list._failedTests.Contains(s.Id) ? "Icons/Conformity/CheckFailed" : list._passedTests.Contains(s.Id) ? "Icons/Conformity/CheckPassed" : "Icons/Conformity/Invalid");
         }
         )
