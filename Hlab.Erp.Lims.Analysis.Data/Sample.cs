@@ -287,12 +287,12 @@ namespace HLab.Erp.Lims.Analysis.Data
         private readonly IForeign<User> _validator = H.Foreign<User>();
 
 
-        public sbyte? Progress
+        public double Progress
         {
             get => _progress.Get();
             set => _progress.Set(value);
         }
-        private readonly IProperty<sbyte?> _progress = H.Property<sbyte?>();
+        private readonly IProperty<double> _progress = H.Property<double>();
 
 
         public sbyte? Validation

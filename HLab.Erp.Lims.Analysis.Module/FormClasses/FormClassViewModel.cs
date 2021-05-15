@@ -10,8 +10,8 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
     public class FormClassViewModel : EntityViewModel<FormClass>, IFormHelperProvider
     {
-        public override string Title => _title.Get();
-        private readonly IProperty<string> _title = H.Property<string>(c => c.Bind(e => e.Model.Name));
+        public override string Header => _header.Get();
+        private readonly IProperty<string> _header = H.Property<string>(c => c.Bind(e => e.Model.Name));
 
         public override string IconPath => Model.IconPath;
 

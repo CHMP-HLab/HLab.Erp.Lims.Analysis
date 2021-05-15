@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using HLab.Erp.Acl;
 using HLab.Erp.Data.Observables;
 using HLab.Erp.Lims.Analysis.Data;
@@ -27,11 +28,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         public async Task UpdateChildsAsync()
         {
-            _testResults.Update(); // TODO : should be async
+            _testResults.Update();
             Update();
         }
 
-        private IProperty<bool> _ = H<SampleTestWorkflow>.Property<bool>(c => c
+        private ITrigger _ = H<SampleTestWorkflow>.Trigger(c => c
 
             .On(e => e.Target.Stage)
             .Do((a, b) =>
@@ -50,7 +51,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         // Specifications
 
         public static Stage Specifications = Stage.CreateDefault(c => c
-            .Caption("{Specifications}").Icon("Icons/Workflows/Specifications")
+            .Caption("{Specifications}")
+            .Icon("Icons/Workflows/Specifications")
+            .Progress(0.0).Action(w => w.Target.Progress = 0.0)
         );
 
         public static Action SignSpecifications = Action.Create(c => c
@@ -69,6 +72,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .When(e => e.Target.SpecificationDone)
             .WithMessage(w=>"{Missing} : {Specification}")
             .NeedRight(()=>AnalysisRights.AnalysisMonographSign)
+            .Progress(0.1).Action(w => w.Target.Progress = 0.1)
         );
 
         public static Action RequestSpecificationsCorrection = Action.Create(c => c
@@ -93,7 +97,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         //########################################################
 
         public static Stage CorrectionNeeded = Stage.Create(c => c
-            .Caption("{Correction needed}").Icon("Icons/Workflows/Correct")
+            .Caption("{Correction needed}")
+            .Icon("Icons/Workflows/Correct")
+            .Progress(0.2).Action(w => w.Target.Progress = 0.2)
         );
 
         public static Action Correction = Action.Create(c => c
@@ -109,7 +115,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         // Scheduling
 
         public static Stage Scheduling = Stage.Create(c => c
-            .Caption("{Scheduling}").Icon("Icons/Workflows/Planning")
+            .Caption("{Scheduling}")
+            .Icon("Icons/Workflows/Planning")
+            .Progress(0.3).Action(w => w.Target.Progress = 0.3)
         );
 
         public static Action Schedule  = Action.Create(c => c
@@ -125,6 +133,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .Caption("{Scheduled}").Icon("Icons/Workflows/Planning")
             .When(w=>w.Target.ScheduledDate!=null)
             .WithMessage(w=>"{Missing} : {Schedule Date}")
+            .Progress(0.4).Action(w => w.Target.Progress = 0.4)
         );
 
         public static Action ToProduction  = Action.Create(c => c
@@ -147,7 +156,10 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         // Running
 
         public static Stage Running = Stage.Create(c => c
-            .Caption("{Running}").Icon("Icons/Workflows/Production")
+            .Caption("{Running}")
+            .Icon("Icons/Workflows/Production")
+            .Progress(w => 0.5 + (w._testResults.Sum(r => r.Progress) / w._testResults.Count)*0.4)
+            .Action(w => w.Target.Progress = 0.5)
         );
 
         public static Action Stop  = Action.Create(c => c
@@ -199,6 +211,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         public static Stage ValidatedResults = Stage.Create(c => c
             .Caption("{Validated}").Icon("Icons/Validations/Validated")
+            .Progress(1.0).Action(w => w.Target.Progress = 1.0)
             .When(w =>
             {
                 var validated = 0;
@@ -227,6 +240,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 return (validated==1);
             })
             .WithMessage(w=>"No selected result")
+            
         );
 
         public static Stage InvalidatedResults = Stage.Create(c => c

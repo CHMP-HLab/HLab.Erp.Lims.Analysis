@@ -9,13 +9,14 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
     public class SampleFormsListViewModel : EntityListViewModel<SampleForm>, IMvvmContextProvider
     {
-        public SampleFormsListViewModel(int sampleId) : base(c => ColumnConfiguratorExtension.Content(c
+        public SampleFormsListViewModel(int sampleId) : base(c => c
                 .StaticFilter(e =>e.SampleId == sampleId)
 // TODO                .DeleteAllowed()
                 .Column()
-                .Header("{Name}")
-                .Width(200), s => s.FormClass.Name)
-                           .Icon(s => s.FormClass.IconPath)
+                    .Header("{Name}")
+                    .Width(200)
+                    .Content(s => s.FormClass.Name)
+                    .Icon(s => s.FormClass.IconPath)
         )
         {
         }

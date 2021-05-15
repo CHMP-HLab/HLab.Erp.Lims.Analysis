@@ -18,9 +18,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         public TestResultsListViewModel(SampleTest sampleTest) : base(c => c
                 .StaticFilter(e => e.SampleTestId == sampleTest.Id)
-                //.DeleteAllowed()
-                //.AddAllowed()
-
 
                 .Column()
                     .Header("{Name}")

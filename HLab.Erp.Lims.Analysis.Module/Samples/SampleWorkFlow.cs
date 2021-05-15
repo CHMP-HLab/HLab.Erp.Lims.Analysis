@@ -26,6 +26,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             var task = UpdateChildrenAsync();
             SetStage(sample.Stage);
         }
+
         public async Task UpdateChildrenAsync()
         {
             _sampleTests.Update(); // TODO : should be async
@@ -39,7 +40,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             set => Target.Stage = value;
         }
 
-        private IProperty<bool> _ = H<SampleWorkflow>.Property<bool>(c => c
+        private ITrigger _ = H<SampleWorkflow>.Trigger(c => c
 
             .On(e => e.Target.Stage)
             .Do((a,p) =>
@@ -75,7 +76,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         // RECEPTION CHECK
 
         public static Stage ReceptionCheck = Stage.Create(c => c
-            .Caption("{Reception check}").Icon("Icons/Sample/PackageOpened|Icons/Validations/Sign")
+            .Caption("{Reception check}")
+            .Icon("Icons/Sample/PackageOpened|Icons/Validations/Sign")
+            .Progress(0.1).Action(w => w.Target.Progress=0.1)
 
             .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.Batch))
             .WithMessage(w => "{Missing} : {Batch No}")
@@ -134,6 +137,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public static Stage ReceptionCorrectionAsked = Stage.Create(c => c
             .Caption(w => "{Reception correction asked}")
             .Icon(w => "Icons/Workflows/Correct")
+            .Progress(0.2).Action(w => w.Target.Progress=0.2)
         );
 
         public static Action CorrectReception = Action.Create(c => c
@@ -152,6 +156,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public static Stage Monograph = Stage.Create(c => c
             .Caption(w => "{Monograph Entry}").Icon(w => "Icons/Workflows/Monograph|Icons/Validations/Edit")
             .WhenStateAllowed(() => ReceptionCheck)
+            .Progress(0.3).Action(w => w.Target.Progress=0.3)
         );
 
         public static Action ValidateMonograph = Action.Create(c => c
@@ -167,6 +172,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public static Stage MonographClosed = Stage.Create(c => c
             .Caption(w => "{Monograph validated}").Icon(w => "Icons/Workflows/Monograph|Icons/Validations/Validated")
+            .Progress(0.4).Action(w => w.Target.Progress=0.4)
 
             .NotWhen(w => w.Target.PharmacopoeiaId == null)
                 .WithMessage(w => "{Missing} : {Pharmacopoeia}")
@@ -203,6 +209,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public static Stage Planning = Stage.Create(c => c
             .Caption(w => "{Scheduling}").Icon(w => "icons/Workflows/Planning|Icons/Validations/Edit")
+            .Progress(0.5).Action(w => w.Target.Progress=0.5)
             .WhenStateAllowed(() => MonographClosed)
         );
 
@@ -218,6 +225,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         // PRODUCTION
         public static Stage Production = Stage.Create(c => c
             .Caption(w => "{Production}").Icon(w => "Icons/Workflows/Production")
+            .Progress(0.6).Action(w => w.Target.Progress=0.6)
             .WhenStateAllowed(() => MonographClosed)
         );
 
@@ -249,6 +257,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public static Stage Certificate = Stage.Create(c => c
             .Caption(w => "{Certificate}").Icon(w => "Icons/Workflows/Certificate")
+            .Progress(0.9).Action(w => w.Target.Progress=0.9)
             .WhenStateAllowed(()=>MonographClosed)
             .When(w => {
                 var validated = 0;
@@ -267,6 +276,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public static Stage Aborted = Stage.Create(c => c
             .Caption(w => "{Aborted}").Icon(w => "Icons/Workflows/Aborted")
+            .Progress(1.0).Action(w => w.Target.Progress=1.0)
         );
 
         //########################################################
@@ -282,6 +292,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public static Stage Closed = Stage.Create(c => c
             .Caption(w => "{Closed}").Icon(w => "Icons/Workflows/Closed")
+            .Progress(1.0).Action(w => w.Target.Progress=1.0)
             .SetState(() => Closed)
             //.When(w => w.Target.Invoiced).WithMessage(w => "{Not billed}")
             //.When(w => w.Target.Paid).WithMessage(w => "{Not Payed}")

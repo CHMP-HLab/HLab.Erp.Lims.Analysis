@@ -7,7 +7,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <ProgressBar
-            Maximum="100.0"
+            Maximum="1.0"
             Minimum="0.0"
             Value="{Binding Value, Mode=OneWay, FallbackValue=50}" >
             <ProgressBar.Foreground>
@@ -30,7 +30,8 @@
                     HorizontalAlignment="Center"
                     Foreground="White"
                     FontSize="12"
-                    Content="{Binding Value, FallbackValue='100'}" />
+                    ContentStringFormat="{}{0:P00}"
+                    Content="{Binding Percent, FallbackValue=100}" />
 
                 <Label
                     FontWeight="Bold"

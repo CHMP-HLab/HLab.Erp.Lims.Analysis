@@ -104,7 +104,7 @@ namespace HLab.Erp.Lims.Analysis.Data
             throw new System.NotImplementedException();
         }
 
-        private readonly IProperty<ConformityState> _conformityId = H.Property<ConformityState>(c => c.Default(ConformityState.Undefined));
+        private readonly IProperty<ConformityState> _conformityId = H.Property<ConformityState>(c => c.Default(ConformityState.NotChecked));
 
         public bool MandatoryDone
         {

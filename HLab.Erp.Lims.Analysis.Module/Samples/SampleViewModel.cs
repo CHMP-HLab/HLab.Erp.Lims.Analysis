@@ -58,16 +58,16 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             Packagings.Update();
         }
 
-        public override string Title => _title.Get();
-        private readonly IProperty<string> _title = H.Property<string>(c => c
-            .Set(e => e.Model?.Reference??"{New sample}")
+        public override object Header => _header.Get();
+        private readonly IProperty<object> _header = H.Property<object>(c => c
+            .Set(e => (object)e.Model?.Reference??"{New sample}")
             .On(e => e.Model.Reference)
             .NotNull(e => e.Model)
             .Update()
         );
-        public string SubTitle => Model.Customer?.Name??"{New sample}" + "\n" + Model.Product?.Caption + "\n" + Model.Reference;
-        private IProperty<string> _subTitle = H.Property<string>(c => c
-            .Set(e => e.Model?.Customer?.Name??"{Customer}" + "\n" + e.Model.Product?.Caption??"{Product}")
+        public string SubTitle => _subTitle.Get();
+        private readonly IProperty<string> _subTitle = H.Property<string>(c => c
+            .Set(e => e.Model?.Customer?.Name??"{Customer}" + "\n" + e.Model?.Product?.Caption??"{Product}")
             .On(e => e.Model.Customer.Name)
             .On(e => e.Model.Product.Caption)
             .NotNull(e => e.Model)
@@ -194,11 +194,11 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public void UpdateConformity(IEnumerable<SampleTest> tests)
         {
-            var conformity = ConformityState.Undefined;
+            var conformity = ConformityState.NotChecked;
 
             foreach (var sampleTest in tests)
             {
-                conformity = UpdateConformity(conformity, sampleTest.Result?.ConformityId ?? ConformityState.Undefined);
+                conformity = UpdateConformity(conformity, sampleTest.Result?.ConformityId ?? ConformityState.NotChecked);
             }
 
             if (Model.ConformityId != conformity)
@@ -219,21 +219,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         {
                 switch (testState)
                 {
-                    case ConformityState.Undefined:
-                        return currentState switch
-                        {
-                            ConformityState.Undefined => ConformityState.Undefined,
-                            ConformityState.NotChecked => ConformityState.Undefined,
-                            ConformityState.Running => ConformityState.Undefined,
-                            ConformityState.Conform => ConformityState.Undefined,
-                            ConformityState.NotConform => ConformityState.NotConform,
-                            ConformityState.Invalid => ConformityState.Invalid,
-                            _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
-                        };
                     case ConformityState.NotChecked:
                         return currentState switch
                         {
-                            ConformityState.Undefined => ConformityState.NotChecked,
                             ConformityState.NotChecked => ConformityState.NotChecked,
                             ConformityState.Running => ConformityState.Running,
                             ConformityState.NotConform => ConformityState.NotConform,
@@ -244,7 +232,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                     case ConformityState.Running:
                         return currentState switch
                         {
-                            ConformityState.Undefined => ConformityState.Running,
                             ConformityState.NotChecked => ConformityState.Running,
                             ConformityState.Running => ConformityState.Running,
                             ConformityState.Conform => ConformityState.Running,
@@ -255,7 +242,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                     case ConformityState.NotConform:
                         return currentState switch
                         {
-                            ConformityState.Undefined => ConformityState.NotConform,
                             ConformityState.NotChecked => ConformityState.NotConform,
                             ConformityState.Running => ConformityState.NotConform,
                             ConformityState.Conform => ConformityState.NotConform,
@@ -266,7 +252,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                     case ConformityState.Conform:
                         return currentState switch
                         {
-                            ConformityState.Undefined => ConformityState.Conform,
                             ConformityState.NotChecked => ConformityState.Running,
                             ConformityState.Running => ConformityState.Running,
                             ConformityState.Conform => ConformityState.Conform,
@@ -277,7 +262,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                     case ConformityState.Invalid:
                         return currentState switch
                         {
-                            ConformityState.Undefined => ConformityState.Invalid,
                             ConformityState.NotChecked => ConformityState.Invalid,
                             ConformityState.Running => ConformityState.Invalid,
                             ConformityState.Conform => ConformityState.Invalid,
@@ -579,9 +563,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                             conform = null;
                             break;
                         case ConformityState.Running: ip.Element["Conform"] = "{FR=En cours}{EN=Running}" + Environment.NewLine;
-                            conform = null;
-                            break;
-                        case ConformityState.Undefined: ip.Element["Conform"] = "{FR=Indéfini}{EN=Undefined}" + Environment.NewLine;
                             conform = null;
                             break;
                         case null: ip.Element["Conform"] = "{FR=Non validé}{EN=Not validated}" + Environment.NewLine;

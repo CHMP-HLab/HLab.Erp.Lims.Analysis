@@ -30,11 +30,12 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
     {
         public IErpServices Erp { get; }
         private readonly Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> _getWorkflow;
-        private readonly Func<int, LinkedDocumentsListViewModel> _getDocuments;
+        private readonly Func<SampleTestResult, LinkedDocumentsListViewModel> _getDocuments;
 
         public SampleTestResultViewModel(
             IErpServices erp,
-            Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> getWorkflow, Func<int, LinkedDocumentsListViewModel> getDocuments)
+            Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> getWorkflow, 
+            Func<SampleTestResult, LinkedDocumentsListViewModel> getDocuments)
         {
             _getWorkflow = getWorkflow;
             _getDocuments = getDocuments;
@@ -143,7 +144,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             .Set(e =>
             {
                 if (e.Model == null) return null;
-                var vm =  e._getDocuments(e.Model.Id);
+                var vm =  e._getDocuments(e.Model);
                 vm.SetOpenAction(d => e.OpenDocument(e.LinkedDocuments.Selected));
                 return vm;
             })
@@ -221,8 +222,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
 
 
-        public override string Title => _title.Get();
-        private readonly IProperty<string> _title = H.Property<string>(c => c
+        public override string Header => _header.Get();
+        private readonly IProperty<string> _header = H.Property<string>(c => c
             .Set(e => e.Model.SampleTest.Sample?.Reference + " - " + e.Model.Name)
             .On(e => e.Model.SampleTest.Sample.Reference)
             .On(e => e.Model.Name)

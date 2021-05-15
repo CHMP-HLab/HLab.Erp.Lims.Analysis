@@ -1,5 +1,6 @@
 ﻿using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Acl;
+using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Lims.Analysis.Data;
@@ -34,7 +35,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     .Header("{Conformity}").Width(200).OrderBy(s => s.Result?.Conformity ?? "")
 
 
-                .ConformityColumn(s => s.Result != null ? s.Result.ConformityId : null)
+                .ConformityColumnPostLinked(s => s.Result != null ? s.Result.ConformityId : ConformityState.NotChecked)
 
                 .StageColumn(default(SampleTestWorkflow), s => s.Stage)
 

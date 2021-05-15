@@ -10,13 +10,16 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
 {
    public class FormsListViewModel: EntityListViewModel<Form>, IMvvmContextProvider
     {
-        public class FormDataModule : ErpParamBootloader<FormsListViewModel>
+        public class Bootloader : NestedBootloader
         {
+            public override string MenuPath => "param";
 
         }
+
+        protected override bool CanExecuteAdd() => true;
+        protected override bool CanExecuteDelete() => true;
+
         public FormsListViewModel() : base(c => c
-            //.AddAllowed()
-            //.DeleteAllowed()
             .Column()
                 .Header("{Name}")
                 .Link(e => e.Name)

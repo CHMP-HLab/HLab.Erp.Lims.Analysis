@@ -121,7 +121,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HLab.Erp.Units", "..\HLab.E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HLab.Fluent", "..\..\HLab\HLab.Fluent\HLab.Fluent.csproj", "{E2DA3446-A6EB-48DF-A07A-EBBBA9A20C2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HLab.Grace.UnitTests", "..\..\HLab\HLab.Grace.UnitTests\HLab.Grace.UnitTests.csproj", "{F016AF4F-5CE9-4AFF-AB39-B994A1849E6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HLab.Grace.UnitTests", "..\..\HLab\HLab.Grace.UnitTests\HLab.Grace.UnitTests.csproj", "{F016AF4F-5CE9-4AFF-AB39-B994A1849E6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -637,6 +637,7 @@ Global
 		{6EEB284B-1BA3-4CEC-975C-752D32A3BC19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EEB284B-1BA3-4CEC-975C-752D32A3BC19}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6EEB284B-1BA3-4CEC-975C-752D32A3BC19}.Release|x64.ActiveCfg = Release|x64
+		{6EEB284B-1BA3-4CEC-975C-752D32A3BC19}.Release|x64.Build.0 = Release|x64
 		{6EEB284B-1BA3-4CEC-975C-752D32A3BC19}.Release|x86.ActiveCfg = Release|x86
 		{6EEB284B-1BA3-4CEC-975C-752D32A3BC19}.Release|x86.Build.0 = Release|x86
 		{6EEB284B-1BA3-4CEC-975C-752D32A3BC19}.ReleaseDebug|Any CPU.ActiveCfg = ReleaseDebug|Any CPU
@@ -1352,7 +1353,6 @@ Global
 		{B449B446-5D98-4B7A-8B29-36E938AEDFC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B449B446-5D98-4B7A-8B29-36E938AEDFC0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B449B446-5D98-4B7A-8B29-36E938AEDFC0}.Release|x64.ActiveCfg = Release|x64
-		{B449B446-5D98-4B7A-8B29-36E938AEDFC0}.Release|x64.Build.0 = Release|x64
 		{B449B446-5D98-4B7A-8B29-36E938AEDFC0}.Release|x86.ActiveCfg = Release|x86
 		{B449B446-5D98-4B7A-8B29-36E938AEDFC0}.Release|x86.Build.0 = Release|x86
 		{B449B446-5D98-4B7A-8B29-36E938AEDFC0}.ReleaseDebug|Any CPU.ActiveCfg = Release|Any CPU
@@ -1771,8 +1771,8 @@ Global
 		{E2DA3446-A6EB-48DF-A07A-EBBBA9A20C2F}.DebugRelease|x86.Build.0 = Release|Any CPU
 		{E2DA3446-A6EB-48DF-A07A-EBBBA9A20C2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2DA3446-A6EB-48DF-A07A-EBBBA9A20C2F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E2DA3446-A6EB-48DF-A07A-EBBBA9A20C2F}.Release|x64.ActiveCfg = Release|Any CPU
-		{E2DA3446-A6EB-48DF-A07A-EBBBA9A20C2F}.Release|x64.Build.0 = Release|Any CPU
+		{E2DA3446-A6EB-48DF-A07A-EBBBA9A20C2F}.Release|x64.ActiveCfg = Release|x64
+		{E2DA3446-A6EB-48DF-A07A-EBBBA9A20C2F}.Release|x64.Build.0 = Release|x64
 		{E2DA3446-A6EB-48DF-A07A-EBBBA9A20C2F}.Release|x86.ActiveCfg = Release|Any CPU
 		{E2DA3446-A6EB-48DF-A07A-EBBBA9A20C2F}.Release|x86.Build.0 = Release|Any CPU
 		{E2DA3446-A6EB-48DF-A07A-EBBBA9A20C2F}.ReleaseDebug|Any CPU.ActiveCfg = Release|Any CPU
@@ -1802,7 +1802,6 @@ Global
 		{F016AF4F-5CE9-4AFF-AB39-B994A1849E6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F016AF4F-5CE9-4AFF-AB39-B994A1849E6F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F016AF4F-5CE9-4AFF-AB39-B994A1849E6F}.Release|x64.ActiveCfg = Release|Any CPU
-		{F016AF4F-5CE9-4AFF-AB39-B994A1849E6F}.Release|x64.Build.0 = Release|Any CPU
 		{F016AF4F-5CE9-4AFF-AB39-B994A1849E6F}.Release|x86.ActiveCfg = Release|Any CPU
 		{F016AF4F-5CE9-4AFF-AB39-B994A1849E6F}.Release|x86.Build.0 = Release|Any CPU
 		{F016AF4F-5CE9-4AFF-AB39-B994A1849E6F}.ReleaseDebug|Any CPU.ActiveCfg = Release|Any CPU

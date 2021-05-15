@@ -9,6 +9,11 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
     public class TestClassesListViewModel : EntityListViewModel<TestClass>, IMvvmContextProvider
     {
+        public class Bootloader : NestedBootloader
+        {
+            public override string MenuPath => "param";
+        }
+
         public TestClassesListViewModel() : base(c => c
             //.AddAllowed()
             //.DeleteAllowed()

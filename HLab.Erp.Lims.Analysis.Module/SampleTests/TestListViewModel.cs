@@ -26,11 +26,10 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         }
 
         public TestsListViewModel() : base(c => c
-                   //                   .DeleteAllowed()
 
-                   //.Column(e => e.Sample)
+                   .Column(e => e.Sample)
 
-                   // todp : .Column(s => s.Sample.Product)
+                   .Column(s => s.Sample.Product)
 
                    .Column()
                        .Header("{Test}")
@@ -38,8 +37,10 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                         .OrderBy(s => s.Order)
                         .Filter()
 
+                   .Column()
                         .Header("{Test Class}")
                         .Link(e => e.TestClass)
+                        .Filter()
 
                 .DescriptionColumn(t => "", t => t.Specification)
                     .Header("{Specifications}")
@@ -49,7 +50,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     .Header("{Result}")
                     .OrderBy(s => s.Result?.Result ?? "")
 
-                .ConformityColumn(s => s.Result == null ? null : s.Result.ConformityId)
+                .ConformityColumn(s => s.Result == null ? ConformityState.NotChecked : s.Result.ConformityId)
 
                 .StageColumn(default(SampleTestWorkflow), s => s.Stage)
 

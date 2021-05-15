@@ -11,8 +11,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
     {
         public FormViewModel() => H.Initialize(this);
 
-        public override string Title => _title.Get();
-        private readonly IProperty<string> _title = H.Property<string>(c => c
+        public override string Header => _header.Get();
+        private readonly IProperty<string> _header = H.Property<string>(c => c
         .Set(e => e.Model?.IconPath )
         .On(e => e.Model.IconPath)
         .Update()

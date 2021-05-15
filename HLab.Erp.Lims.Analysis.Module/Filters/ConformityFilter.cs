@@ -17,7 +17,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
     using H = H<ConformityFilter>;
 
 
-    public class ConformityFilter : Filter<ConformityState?>, IWorkflowFilter
+    public class ConformityFilter : Filter<ConformityState>, IWorkflowFilter
     {
 
 
@@ -34,10 +34,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
             }
             private readonly IProperty<bool> _selected = H<ConformityEntry>.Property<bool>();
 
-            public ConformityState? State { get; set; }
+            public ConformityState State { get; set; }
 
-            public string IconPath => State?.IconPath();
-            public string Caption => State?.Caption();
+            public string IconPath => State.IconPath();
+            public string Caption => State.Caption();
         }
 
         public ReadOnlyObservableCollection<ConformityEntry> List { get; }
@@ -66,19 +66,19 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
         public ConformityState Selected { get; set; }
 
 
-        public override Expression<Func<T, bool>> Match<T>(Expression<Func<T, ConformityState?>> getter)
+        public override Expression<Func<T, bool>> Match<T>(Expression<Func<T, ConformityState>> getter)
         {
             if (!Enabled) return null;
 
             var entity = getter.Parameters[0];
-            var value = Expression.Constant(List.Where(e => e.Selected && e.State.HasValue).Select(e => e.State.Value).ToList(), typeof(List<ConformityState>));
+            var value = Expression.Constant(List.Where(e => e.Selected).Select(e => e.State).ToList(), typeof(List<ConformityState>));
 
             var ex = Expression.Call(value, ContainsMethod, getter.Body);
 
             return Expression.Lambda<Func<T, bool>>(ex, entity);
         }
 
-        public override Func<T, bool> PostMatch<T>(Func<T, ConformityState?> getter)
+        public override Func<T, bool> PostMatch<T>(Func<T, ConformityState> getter)
         {
             if (!Enabled) return t => true;
 

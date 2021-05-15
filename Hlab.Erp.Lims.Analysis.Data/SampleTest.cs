@@ -257,6 +257,13 @@ namespace HLab.Erp.Lims.Analysis.Data
             }
         }
 
+        public double Progress
+        {
+            get => _progress.Get();
+            set => _progress.Set(value);
+        }
+        private readonly IProperty<double> _progress = H.Property<double>();
+
         [Ignore] string IFormTarget.Result
         {
             get => Result?.Result;
@@ -269,7 +276,7 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         ConformityState IFormTarget.ConformityId 
         {
-            get => Result?.ConformityId??ConformityState.Undefined;
+            get => Result?.ConformityId??ConformityState.NotChecked;
             set
             {
                 if(Result!=null)

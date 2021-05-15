@@ -6,8 +6,13 @@ using HLab.Erp.Lims.Analysis.Data;
 
 namespace HLab.Erp.Lims.Analysis.Module.Stats
 {
-    class QueryListViewModel : EntityListViewModel<Requete>
+    public class QueryListViewModel : EntityListViewModel<Requete>
     {
+        public class Bootloader : NestedBootloader
+        {
+            public override string MenuPath => "tools";
+        }
+
         public QueryListViewModel() : base(c => c
             .Column()
                 .Header("{Name}")

@@ -12,18 +12,19 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
     public class LinkedDocumentsListViewModel : EntityListViewModel<LinkedDocument>, IMvvmContextProvider
     {
-        private Action<LinkedDocument> _createAction;
+//        private Action<LinkedDocument> _createAction;
         public LinkedDocumentsListViewModel(
-            Expression<Func<LinkedDocument,bool>> filter,
-            Action<LinkedDocument> createAction = null
+            SampleTestResult result
+//            Expression<Func<LinkedDocument,bool>> filter,
+//            Action<LinkedDocument> createAction = null
             ) : base(c => c
-            .StaticFilter(filter)
+            .StaticFilter(e => e.SampleTestResultId == result.Id)
             //.DeleteAllowed()
             .Column()
             .Header("{Name}").Width(200).Content(s => s.Name)
         )
         {
-            _createAction = createAction;
+//            _createAction = createAction;
         }
 
 

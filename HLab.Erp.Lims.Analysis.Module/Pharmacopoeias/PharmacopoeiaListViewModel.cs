@@ -10,9 +10,15 @@ namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
 {
     public class PharmacopoeiasListViewModel: EntityListViewModel<Pharmacopoeia>, IMvvmContextProvider
     {
+        public class Bootloader : NestedBootloader
+        {
+            public override string MenuPath => "param";
+        }
+
+        protected override bool CanExecuteAdd() => true;
+        protected override bool CanExecuteDelete() => true;
+
         public PharmacopoeiasListViewModel() : base(c => c
-            //.AddAllowed()
-            //TODO .DeleteAllowed()
             .Column()
             .Header("{Name}").Localize()
             .Width(250).Content(e => e.Name)

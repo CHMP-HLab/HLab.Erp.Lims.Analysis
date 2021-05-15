@@ -31,7 +31,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         public SampleTestViewModel(
             IErpServices erp, 
-            Func<int,TestResultsListViewModel> getResults, 
+            Func<SampleTest,TestResultsListViewModel> getResults, 
             Func<FormHelper> getFormHelper, 
             Func<SampleTest, DataLocker<SampleTest>, SampleTestWorkflow> getSampleTestWorkflow)
         {
@@ -43,7 +43,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         }
 
 
-        private readonly Func<int,TestResultsListViewModel> _getResults;
+        private readonly Func<SampleTest,TestResultsListViewModel> _getResults;
         private readonly Func<FormHelper> _getFormHelper;
 
         private readonly Func<SampleTest, DataLocker<SampleTest>, SampleTestWorkflow> _getSampleTestWorkflow;
@@ -144,7 +144,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         private TestResultsListViewModel SetResults()
         {
-            var vm =  _getResults(Model.Id);
+            var vm =  _getResults(Model);
             vm.SetSelectAction(async r =>
             {
                 await LoadResultAsync(r as SampleTestResult).ConfigureAwait(false);
@@ -309,8 +309,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         );
 
         
-        public override string Title => _title.Get();
-        private readonly IProperty<string> _title = H.Property<string>(c => c
+        public override string Header => _header.Get();
+        private readonly IProperty<string> _header = H.Property<string>(c => c
             .Set(e => e.Model.Sample?.Reference)
             .On(e => e.Model.Sample.Reference)
         .Update()

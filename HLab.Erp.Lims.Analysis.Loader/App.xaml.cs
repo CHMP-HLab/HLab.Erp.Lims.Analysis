@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Runtime.ExceptionServices;
 using System.Windows;
 using Grace.DependencyInjection;
+using HLab.Bugs.Wpf;
 using HLab.Core;
 using HLab.Erp.Acl;
 using HLab.Erp.Base.Data;
 using HLab.Erp.Base.Wpf.Entities.Customers;
 using HLab.Erp.Core;
+using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Manufacturers;
 using HLab.Mvvm.Annotations;
@@ -44,6 +47,7 @@ namespace HLab.Erp.Lims.Analysis.Loader
             container.Configure(c => c.Export<EventHandlerServiceWpf>().As<IEventHandlerService>());
 
             container.Configure(c => c.Export(typeof(DataLocker<>)).As(typeof(IDataLocker<>)));
+            container.Configure(c => c.Export(typeof(EntityListHelper<>)).As(typeof(IEntityListHelper<>)));
 
             //boot.Container.ExportInitialize<BootLoaderErpWpf>((c, a, o) => o.SetMainViewMode(typeof(ViewModeKiosk)));
 
@@ -54,6 +58,7 @@ namespace HLab.Erp.Lims.Analysis.Loader
             var boot = container.Locate<Bootstrapper>();
             boot.AddReference<IView>();
             boot.AddReference<IViewModel>();
+            boot.AddReference<IEntityListHelper>();
             boot.AddReference<IEntityListViewModel>();
 
 

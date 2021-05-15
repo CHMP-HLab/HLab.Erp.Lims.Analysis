@@ -1,17 +1,25 @@
-﻿using Grace.DependencyInjection.Attributes;
+﻿using System.Windows.Input;
+using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {    
     public class FormClassesListViewModel : EntityListViewModel<FormClass>, IMvvmContextProvider
     {
+        public class Bootloader : NestedBootloader
+        {
+            public override string MenuPath => "param";
+        }
+
+        protected override bool CanExecuteAdd() => Erp.Acl.IsGranted(AnalysisRights.AnalysisProductCreate);
+        protected override bool CanExecuteDelete() => Erp.Acl.IsGranted(AnalysisRights.AnalysisProductCreate);
+
         public FormClassesListViewModel() : base(c => c
-// TODO                .AddAllowed()
-// TODO                .DeleteAllowed()
             .Column()
             .Header("{Name}")
             .Width(200)

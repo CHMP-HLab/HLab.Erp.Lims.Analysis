@@ -7,6 +7,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Workflows
         //Reception
         public static readonly AclRight AnalysisReceptionSign = AclRight.Get();
         public static readonly AclRight AnalysisReceptionCheck = AclRight.Get();
+        public static readonly AclRight AnalysisReceptionCreate = AclRight.Get();
 
         //Monograph
         public static readonly AclRight AnalysisMonographSign = AclRight.Get();
@@ -28,6 +29,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Workflows
         public static readonly AclRight AnalysisCertificateCreate = AclRight.Get();
 
         public static readonly AclRight AnalysisAbort = AclRight.Get();
+
+        //Products
+        public static readonly AclRight AnalysisProductCreate = AclRight.Get();
+
 
     }
 }

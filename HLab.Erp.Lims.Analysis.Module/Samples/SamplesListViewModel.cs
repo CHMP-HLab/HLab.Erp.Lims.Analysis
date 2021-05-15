@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Base.Data;
 using HLab.Erp.Core;
@@ -8,6 +9,7 @@ using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Module.Filters;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
+using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
 
@@ -15,12 +17,13 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
     public class SamplesListViewModel : EntityListViewModel<Sample>, IMvvmContextProvider
     {
-        public class SamplesListBootloader : ErpDataBootloader<SamplesListViewModel>
+        public class Bootloader : NestedBootloader
         { }
 
+        protected override bool CanExecuteAdd() => true;
+        protected override bool CanExecuteDelete() => Selected!=null || (SelectedIds?.Any()??false);
+
         public SamplesListViewModel() : base(c => c
-                //.AddAllowed()
-                //.DeleteAllowed()
 
                 .Column()
                     .Header("{Reference}")
@@ -43,14 +46,14 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 .Link(s => s.ReceptionDate)
                 .Filter()
 
-                .Column(e => e.Customer)
+                .Column(e => e.Customer).Mvvm().Width(250)
 
-                .Column(e => e.Product)
+                .Column(e => e.Product).Mvvm().Width(550)
 
                 //.PostLinkedColumn(s => s.Product?.Form, s => s.Product?.FormId)
 
 
-                .Column(e => e.Manufacturer, e => e.ManufacturerId)
+                .Column(e => e.Manufacturer).Mvvm().Width(250)
 
                 .Column()
                 .Header("{Qty}")
@@ -62,7 +65,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 .Header("{Expiration}")
                 .Width(75)
                 .OrderBy(s => s.ExpirationDate)
-                .Content(s => s.ExpirationDate == null ? null : s.ExpirationDate.Value.ToString(s.ExpirationDayValid ? "dd/MM/yyyy" : "MM/yyyy"))
+                .Content(s => s.ExpirationDate?.ToString(s.ExpirationDayValid ? "dd/MM/yyyy" : "MM/yyyy"))
                 .Link(s => s.ExpirationDate)
                 .Filter()
 
@@ -78,11 +81,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 .Content(s => s.NotificationDate?.ToString("dd/MM/yyyy") ?? "")
                 .Link(s => s.NotificationDate)
                     .Filter()
-                        .Header("{Notification}")
                         .MinDate(DateTime.Now.AddYears(-10))
                         .MaxDate(DateTime.Now.AddYears(10))
                         .IconPath("Icons/Sample/Notification|Icons/Sample/Date")
-                        .Link(s => s.NotificationDate)
 
                 .Column()
                     .Header("{Validator}")
@@ -97,7 +98,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
                 .Column().Hidden()
                     .Header("{Pharmacopoeia}")
-                    .Link(s => s.Pharmacopoeia)
+                    .Link(s => s.Pharmacopoeia).Mvvm()
                     .Filter()
 
                 .Column().Hidden()

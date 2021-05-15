@@ -12,7 +12,6 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
     {
         protected static class TestEtat
         {
-            public static ConformityState Indefini => ConformityState.Undefined;
             public static ConformityState NonCommence => ConformityState.NotChecked;
             public static ConformityState EnCours => ConformityState.Running;
             public static ConformityState NonConforme => ConformityState.NotConform;

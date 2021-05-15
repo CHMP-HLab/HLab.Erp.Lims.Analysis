@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
@@ -47,29 +48,24 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             var list = c.Target as TestClassUnitTestListViewModel;
 
             return c
-                //.DeleteAllowed()
-                //.AddAllowed()
+                    .StaticFilter(u =>u.TestClassId == testClass.Id && list.Id>=0)
                 .Column()
-                .Header("{Name}").Content(s => s.Name).Width(200)
+                .Header("{Name}").Width(200)
+                .Link(s => s.Name)
+                    .Filter()
                 .Column()
                 .Id("error").Header("{Error}").Content(s => list._failedTests.Contains(s.Id) ? list._errors[s.Id] : "OK").Width(150)
-                            .Icon(s => list._failedTests.Contains(s.Id) ? "Icons/Conformity/CheckFailed" : list._passedTests.Contains(s.Id) ? "Icons/Conformity/CheckPassed" : "Icons/Conformity/Invalid");
+                            .Icon(s => list._failedTests.Contains(s.Id) ? "Icons/Conformity/CheckFailed" : list._passedTests.Contains(s.Id) ? "Icons/Conformity/CheckPassed" : "Icons/Conformity/Invalid")
+                ;
         }
         )
         {
             _failedTests.CollectionChanged += FailedTests_CollectionChanged;
             _passedTests.CollectionChanged += FailedTests_CollectionChanged;
-
-            AddAllowed=true;
-            DeleteAllowed=true;
-
-            List.AddFilter(() => u => u.TestClassId == testClass.Id && Id>=0);
         }
+        protected override bool CanExecuteAdd() => true;
 
-        protected override bool CanExecuteDelete()
-        {
-            return Selected !=null;
-        }
+        protected override bool CanExecuteDelete() => Selected !=null || SelectedIds.Any();
 
         private void FailedTests_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {

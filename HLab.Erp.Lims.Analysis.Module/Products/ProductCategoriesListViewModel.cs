@@ -10,6 +10,11 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
 {
     public class ProductCategoriesListViewModel : EntityListViewModel<ProductCategory>, IMvvmContextProvider
     {
+        public class Bootloader : NestedBootloader
+        {
+            public override string MenuPath => "data/products";
+        }
+
         public ProductCategoriesListViewModel() : base(c => c
             // TODO .AddAllowed()
             //.DeleteAllowed()

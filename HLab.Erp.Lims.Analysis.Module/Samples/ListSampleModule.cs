@@ -23,12 +23,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         }
 
 
-        public ICommand OpenListTestClassCommand { get; } = H.Command(c => c.Action(
-            e => e._erp.Docs.OpenDocumentAsync(typeof(TestClassesListViewModel))
-        ));
-        public ICommand OpenListTestCategoryCommand { get; } = H.Command(c => c.Action(
-            e => e._erp.Docs.OpenDocumentAsync(typeof(ProductCategoriesListViewModel))
-        ));
         public ICommand OpenListFormClassCommand { get; } = H.Command(c => c.Action(
             e => e._erp.Docs.OpenDocumentAsync(typeof(FormClassesListViewModel))
         ));
@@ -37,14 +31,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public void Load(IBootContext b)
         {
 
- 
-                _erp.Menu.RegisterMenu("tools/testclasses", "{Test Classes}",
-                    OpenListTestClassCommand,
-                    "Icons/Entities/TestClass");
-
-                _erp.Menu.RegisterMenu("tools/testcategories", "{Test Categories}",
-                    OpenListTestCategoryCommand,
-                    "Icons/Entities/TestCategory");
 
                 _erp.Menu.RegisterMenu("tools/formclasses", "{Form Classes}",
                     OpenListFormClassCommand,

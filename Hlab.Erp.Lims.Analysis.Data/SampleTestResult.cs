@@ -142,6 +142,13 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<string> _note = H.Property<string>();
 
+        public double Progress
+        {
+            get => _progress.Get();
+            set => _progress.Set(value);
+        }
+        private readonly IProperty<double> _progress = H.Property<double>();
+
         // TEST
 
         [Ignore] string IFormTarget.Description

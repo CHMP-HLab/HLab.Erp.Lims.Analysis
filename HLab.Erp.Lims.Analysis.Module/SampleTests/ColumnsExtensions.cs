@@ -53,18 +53,27 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         }
 
 
-        public static IColumnConfigurator<T, ConformityState?, IFilter<ConformityState?>> Link<T, TLink, TFilter>(this IColumnConfigurator<T, TLink, TFilter> c, Expression<Func<T, ConformityState?>> getter)
+        public static IColumnConfigurator<T, ConformityState, IFilter<ConformityState>> Link<T, TLink, TFilter>(this IColumnConfigurator<T, TLink, TFilter> c, Expression<Func<T, ConformityState>> getter)
             where T : class, IEntity, new()
             where TFilter : IFilter<TLink>
         {
-            var result = c.GetChildConfigurator<ConformityState?, IFilter<ConformityState?>>();
-            result.Link = getter;
+            var result = c.GetChildConfigurator<ConformityState, IFilter<ConformityState>>();
+            result.LinkExpression = getter;
+
+            return result;
+        }
+        public static IColumnConfigurator<T, ConformityState, IFilter<ConformityState>> PostLink<T, TLink, TFilter>(this IColumnConfigurator<T, TLink, TFilter> c, Func<T, ConformityState> getter)
+            where T : class, IEntity, new()
+            where TFilter : IFilter<TLink>
+        {
+            var result = c.GetChildConfigurator<ConformityState, IFilter<ConformityState>>();
+            result.LinkLambda = getter;
 
             return result;
         }
 
-        public static IColumnConfigurator<T,ConformityState?,ConformityFilter> ConformityColumn<T, TLink, TFilter>(
-            this IColumnConfigurator<T, TLink, TFilter> c, Expression<Func<T, ConformityState?>> getStateExpression)
+        public static IColumnConfigurator<T,ConformityState,ConformityFilter> ConformityColumn<T, TLink, TFilter>(
+            this IColumnConfigurator<T, TLink, TFilter> c, Expression<Func<T, ConformityState>> getStateExpression)
             where T : class, IEntity, new()
             where TFilter : IFilter<TLink>
         {
@@ -74,11 +83,29 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 .Header("{Conformity}").Width(130)
                 .Link(getStateExpression)
                 .Content(s => $"{{{getState(s)}}}").Localize()
-                .Icon(s => (getState(s) ?? ConformityState.Undefined).IconPath(), 20)
+                .Icon(s => getState(s).IconPath(), 20)
                 .Center()
                 .OrderBy(s => getState(s))
                 .Filter(default(ConformityFilter))
                 .IconPath("Icons/Conformity");
+        }
+        public static IColumnConfigurator<T,ConformityState,ConformityFilter> ConformityColumnPostLinked<T, TLink, TFilter>(
+            this IColumnConfigurator<T, TLink, TFilter> c, Expression<Func<T, ConformityState>> getStateExpression)
+            where T : class, IEntity, new()
+            where TFilter : IFilter<TLink>
+        {
+            var getState = getStateExpression.Compile();
+
+            return c.Column()
+                .Header("{Conformity}").Width(130)
+                .IconPath("Icons/Conformity")
+                .PostLink(getState)
+                .Content(s => $"{{{getState(s)}}}").Localize()
+                .Icon(s => getState(s).IconPath(), 20)
+                .Center()
+                .OrderBy(s => getState(s))
+                .Filter(default(ConformityFilter))
+                ;
         }
 
         public static IColumnConfigurator<T, object, IFilter<object>> ProgressColumn<T, TLink, TFilter>(this IColumnConfigurator<T, TLink, TFilter> c,
