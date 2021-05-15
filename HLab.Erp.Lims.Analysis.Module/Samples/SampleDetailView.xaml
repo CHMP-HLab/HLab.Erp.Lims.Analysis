@@ -71,11 +71,6 @@
 
                     <lang:LocalizedLabel Text="{}{Motivation} : "/>
                     <StackPanel Margin="0,0,15,0">
-                        <TextBlock 
-                            VerticalAlignment="Center"
-                            Text="{Binding  Model.Motivation, UpdateSourceTrigger=PropertyChanged}"
-                            Visibility="{Binding IsReadOnly,Converter={StaticResource BooleanToVisibility}}"
-                            />
                         <entitySelectors:ForeignView 
                             Model="{Binding Model.AnalysisMotivation}"
                             ModelClass="{x:Type analysis.Data:AnalysisMotivation}" 
