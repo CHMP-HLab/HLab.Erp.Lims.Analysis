@@ -245,9 +245,9 @@
 
                 <core.Views:DetailView EditMode="{Binding EditMode}" IconPath="Icons/Sample/Packaging" Text="{}{Forms}">
                     <Label/>
-                        <!--<Button Command="{Binding AddOneFormCommand}"/>-->
+                    <!--    <Button Command="{Binding AddOneFormCommand}"/>
                         <StackPanel HorizontalAlignment="Left">
-                            <!--<lang:LocalizedLabel Text="{}{Add}"/>-->
+                            <lang:LocalizedLabel Text="{}{Add}"/>
                             <entitySelectors:ForeignView DockPanel.Dock="Top"
                                                          IsReadOnly="{Binding IsReadOnly}"
                                                          ModelClass="{x:Type analysis.Data:FormClass}"
@@ -256,7 +256,7 @@
                                 <lang:Localize Id="{}{Add Form}"/>
                             </entitySelectors:ForeignView>
                         </StackPanel>
-                    <Label/>
+                    <Label/>-->
 
                     <mvvm:ViewLocator 
                         Foreground="White"

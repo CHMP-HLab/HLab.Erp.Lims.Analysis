@@ -39,9 +39,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         [Import] public SampleViewModel(
             IErpServices erp, 
-            Func<int,SampleSampleTestListViewModel> getTests, 
+            Func<Sample,SampleSampleTestListViewModel> getTests, 
             ObservableQuery<Packaging> packagings, 
-            Func<int,SampleFormsListViewModel> getForms, 
+            Func<Sample,SampleFormsListViewModel> getForms, 
             Func<FormClassesListViewModel> getFormClasses, 
             Func<int, SampleAuditTrailViewModel> getAudit, 
             Func<Sample, IDataLocker<Sample>, SampleWorkflow> getSampleWorkflow
@@ -160,8 +160,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Update()
         );
         
-        private readonly Func<int,SampleSampleTestListViewModel> _getTests;
-        private readonly Func<int, SampleFormsListViewModel> _getForms;
+        private readonly Func<Sample,SampleSampleTestListViewModel> _getTests;
+        private readonly Func<Sample, SampleFormsListViewModel> _getForms;
         private readonly Func<FormClassesListViewModel> _getFormClasses;
         private readonly Func<int,SampleAuditTrailViewModel> _getAudit;
 
@@ -170,7 +170,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .NotNull(e => e.Model)
             .Set( e =>
             {
-                var tests =  e._getTests(e.Model.Id);
+                var tests =  e._getTests(e.Model);
                 tests.List.CollectionChanged += e.List_CollectionChanged;
                 return tests;
             })
@@ -278,7 +278,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public SampleFormsListViewModel Forms => _forms.Get();
         private readonly IProperty<SampleFormsListViewModel> _forms = H.Property<SampleFormsListViewModel>(c => c
             .NotNull(e => e.Model)
-            .Set(e => e._getForms(e.Model.Id))
+            .Set(e => e._getForms(e.Model))
             .On(e => e.Model)
             .Update()
         );

@@ -11,9 +11,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
     public class SampleSampleTestListViewModel : EntityListViewModel<SampleTest>, IMvvmContextProvider
     {
-        private int _sampleId;
-        public SampleSampleTestListViewModel(int sampleId) : base(c => c
+        public SampleSampleTestListViewModel(Sample sample) : base(c => c
                 //.DeleteAllowed()
+                .StaticFilter(e => e.SampleId == sample.Id)
 
                 .DescriptionColumn(s => s.TestName, s => s.Description)
                     .Header("{Test}")//.Mvvm<IDescriptionViewClass>()
@@ -44,17 +44,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         )
         {
-            _sampleId = sampleId;
             var n = SampleTestWorkflow.Specifications; // TODO : this is a hack to force top level static constructor
 
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
         }
 
-        [Import]
-        public void Inject()
-        {
-            List.AddFilter(() => e => e.SampleId == _sampleId);
-        }
 
         protected override bool CanExecuteDelete()
         {
