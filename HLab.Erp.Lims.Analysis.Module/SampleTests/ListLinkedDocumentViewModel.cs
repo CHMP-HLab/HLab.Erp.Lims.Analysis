@@ -28,7 +28,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         }
 
 
-        protected override bool CanExecuteDelete() => Selected != null;
+        protected override bool CanExecuteDelete(LinkedDocument doc, Action<string> errorAction) => Selected != null;
 
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {

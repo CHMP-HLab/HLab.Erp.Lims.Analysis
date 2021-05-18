@@ -2,6 +2,7 @@ using System;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Notify.PropertyChanged;
 using NPoco;
 
@@ -208,13 +209,25 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IForeign<Pharmacopoeia> _pharmacopoeia = H.Foreign<Pharmacopoeia>();
 
-        public string Stage
+        [Column("Stage")]
+        public string StageId
+        {
+            get => _stageId.Get();
+            set => _stageId.Set(value);
+        }
+        private readonly IProperty<string> _stageId = H.Property<string>();
+        
+        [Ignore]
+        public SampleTestWorkflow.Stage Stage
         {
             get => _stage.Get();
-            set => _stage.Set(value);
+            set => StageId = value.Name;
         }
-        private readonly IProperty<string> _stage = H.Property<string>();
-        
+        private readonly IProperty<SampleTestWorkflow.Stage> _stage = H.Property<SampleTestWorkflow.Stage>(c => c
+            .Set(e => SampleTestWorkflow.StageFromName(e.StageId))
+            .On(e => e.StageId)
+            .Update()
+        );
         
         public bool SpecificationDone
         {

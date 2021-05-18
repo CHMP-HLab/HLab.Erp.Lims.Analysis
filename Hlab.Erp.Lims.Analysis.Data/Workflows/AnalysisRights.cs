@@ -1,6 +1,6 @@
 ﻿using HLab.Erp.Acl;
 
-namespace HLab.Erp.Lims.Analysis.Module.Workflows
+namespace HLab.Erp.Lims.Analysis.Data.Workflows
 {
     public static class AnalysisRights
     {

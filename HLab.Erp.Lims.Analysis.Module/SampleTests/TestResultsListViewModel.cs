@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Grace.DependencyInjection.Attributes;
-using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.Samples;
-using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
-using HLab.Erp.Lims.Analysis.Module.Workflows;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
@@ -41,7 +38,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
                 .ConformityColumn(s => s.ConformityId)
                 
-                .StageColumn(default(SampleTestResultWorkflow), s => s.Stage)
+                .StageColumn(default(SampleTestResultWorkflow), s => s.StageId)
 
                 .Column()
                     .Hidden()
@@ -51,7 +48,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 .Column()
                     .Hidden()
                     .Id("IsValid")
-                    .Content(s => s.Stage != SampleTestResultWorkflow.Invalidated.Name)
+                    .Content(s => s.Stage != SampleTestResultWorkflow.Invalidated)
 
         )
         {
@@ -93,20 +90,20 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         }
 
-        protected override bool CanExecuteDelete()
+        protected override bool CanExecuteDelete(SampleTestResult result, Action<string> errorAction)
         {
             if (Selected == null) return false;
             if (!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
-            if (_sampleTest.Stage != SampleTestWorkflow.Running.Name) return false;
-            if (Selected.Stage != null && Selected.Stage != SampleTestResultWorkflow.Running.Name) return false;
+            if (_sampleTest.Stage != SampleTestWorkflow.Running) return false;
+            if (Selected.Stage != null && Selected.Stage != SampleTestResultWorkflow.Running) return false;
             if (_sampleTest.Result == null) return true;
             if (_sampleTest.Result.Id == Selected.Id) return false;
             return true;
         }
 
-        protected override bool CanExecuteAdd()
+        protected override bool CanExecuteAdd(Action<string> errorAction)
         {
-            if (_sampleTest.Stage != SampleTestWorkflow.Running.Name) return false;
+            if (_sampleTest.Stage != SampleTestWorkflow.Running) return false;
             if (!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
             return true;
         }

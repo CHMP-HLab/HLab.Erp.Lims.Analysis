@@ -3,10 +3,9 @@ using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.Samples;
-using HLab.Erp.Lims.Analysis.Module.SampleTests;
-using HLab.Erp.Lims.Analysis.Module.Workflows;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Mvvm.Annotations;
+using System;
 
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
@@ -26,17 +25,19 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             _sample = sample;
         }
 
-        protected override bool CanExecuteAdd()
+        protected override bool CanExecuteAdd(Action<string> errorAction)
         {
-            if (_sample.Stage != SampleWorkflow.Reception.Name) return false;
-            return Erp.Acl.IsGranted(AnalysisRights.AnalysisReceptionCreate);
+            var stage = _sample.Stage.IsAny(errorAction,SampleWorkflow.Reception);
+            var granted = Erp.Acl.IsGranted(errorAction,AnalysisRights.AnalysisReceptionCreate);
+            return stage && granted;
         }
 
-        protected override bool CanExecuteDelete()
+        protected override bool CanExecuteDelete(SampleForm target, Action<string> errorAction)
         {
-            if (Selected == null) return false;
-            if (Selected.Sample.Stage != SampleWorkflow.Reception.Name) return false;
-            return Erp.Acl.IsGranted(AnalysisRights.AnalysisReceptionCreate);
+            if (target == null) return false;
+            var stage = target.Sample.Stage.IsAny(errorAction, SampleWorkflow.Reception);
+            var granted = Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisReceptionCreate);
+            return stage && granted;
         }
 
         public void ConfigureMvvmContext(IMvvmContext ctx)

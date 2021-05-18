@@ -1,7 +1,7 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Data;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
 using NPoco;
@@ -108,12 +108,27 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _validation.Set(value);
         }
         private readonly IProperty<int?> _validation = H.Property<int?>();
-        public string Stage
+
+        [Column("Stage")]
+        public string StageId
+        {
+            get => _stageId.Get();
+            set => _stageId.Set(value);
+        }
+        private readonly IProperty<string> _stageId = H.Property<string>();
+
+        [Ignore]
+        public SampleTestResultWorkflow.Stage Stage
         {
             get => _stage.Get();
-            set => _stage.Set(value);
+            set => StageId = value.Name;
         }
-        private readonly IProperty<string> _stage = H.Property<string>();
+        private readonly IProperty<SampleTestResultWorkflow.Stage> _stage = H.Property<SampleTestResultWorkflow.Stage>(c => c
+            .Set(e => SampleTestResultWorkflow.StageFromName(e.StageId))
+            .On(e => e.StageId)
+            .Update()
+        );
+
         public string Name
         {
             get => _name.Get();

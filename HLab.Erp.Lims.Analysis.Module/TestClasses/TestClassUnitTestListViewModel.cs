@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Grace.DependencyInjection.Attributes;
@@ -63,9 +64,9 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             _failedTests.CollectionChanged += FailedTests_CollectionChanged;
             _passedTests.CollectionChanged += FailedTests_CollectionChanged;
         }
-        protected override bool CanExecuteAdd() => true;
+        protected override bool CanExecuteAdd(Action<string> errorAction) => true;
 
-        protected override bool CanExecuteDelete() => Selected !=null || SelectedIds.Any();
+        protected override bool CanExecuteDelete(TestClassUnitTest unitTest,Action<string> errorAction) => Selected !=null || SelectedIds.Any();
 
         private void FailedTests_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {

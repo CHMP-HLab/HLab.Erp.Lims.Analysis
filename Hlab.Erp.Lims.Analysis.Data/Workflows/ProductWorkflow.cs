@@ -1,6 +1,6 @@
 ﻿using HLab.Erp.Acl;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.Workflows;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Workflows;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
@@ -18,6 +18,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
             .SetState(() => Created)
         );
 
-        protected override string StageName { get; set; }
+        protected override Stage TargetStage { get; set; }
     }
 }

@@ -4,9 +4,10 @@ using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
-using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Mvvm.Annotations;
+using System;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
@@ -41,10 +42,14 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
         {
         }
 
-        protected override bool CanExecuteAdd() => Erp.Acl.IsGranted(AnalysisRights.AnalysisProductCreate);
-        protected override bool CanExecuteDelete() => Erp.Acl.IsGranted(AnalysisRights.AnalysisProductCreate);
-        protected override bool CanExecuteImport() => Erp.Acl.IsGranted(AnalysisRights.AnalysisProductCreate);
-        protected override bool CanExecuteExport() => true;
+        protected override bool CanExecuteAdd(Action<string> errorAction)
+        {
+            return Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
+        }
+
+        protected override bool CanExecuteDelete(Product product, Action<string> errorAction) => Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
+        protected override bool CanExecuteImport(Action<string> errorAction) => Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
+        protected override bool CanExecuteExport(Action<string> errorAction) => true;
 
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {

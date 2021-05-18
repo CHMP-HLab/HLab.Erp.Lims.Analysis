@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Text;
-using Grace.DependencyInjection.Attributes;
 using HLab.Base.Fluent;
 using HLab.Core.Annotations;
 using HLab.Erp.Acl;
 using HLab.Erp.Workflows;
 using HLab.Notify.PropertyChanged;
 
-namespace HLab.Erp.Lims.Analysis.Module.Workflows
+namespace HLab.Erp.Lims.Analysis.Data.Workflows
 {
     public class WorkFlowBootloader : IBootloader
     {
@@ -24,7 +23,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Workflows
         }
     }
 
-    internal static class WorkflowAnalysisExtension
+    public static class WorkflowAnalysisExtension
     {
         public static IAclService Acl { get; set; }
         public static IFluentConfigurator<IWorkflowConditionalObject<TWf>> NeedRight<TWf>(this IFluentConfigurator<IWorkflowConditionalObject<TWf>> t, Func<AclRight> right)

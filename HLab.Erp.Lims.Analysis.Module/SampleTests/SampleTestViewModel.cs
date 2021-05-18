@@ -4,12 +4,10 @@ using System.Windows.Input;
 using HLab.Erp.Acl;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
-using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
-using HLab.Erp.Lims.Analysis.Module.Samples;
 using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
-using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
 
@@ -202,7 +200,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             if (Results?.Selected == null) return false;
             if(!Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
             if(Workflow.CurrentStage != SampleTestWorkflow.Running) return false;
-            if (Results.Selected.Stage != null && Results.Selected.Stage != SampleTestResultWorkflow.Running.Name) return false;
+            if (Results.Selected.Stage != null && Results.Selected.Stage != SampleTestResultWorkflow.Running) return false;
             if (Model.Result == null) return true;
             if(Model.Result.Id == Results.Selected.Id) return false;
             return true;
@@ -212,15 +210,15 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         //TODO : probleme here where button not always available where conditions are ok
         public ICommand SelectResultCommand { get; } = H.Command(c => c
             .CanExecute(e => 
-                e.Results?.Selected?.Stage == SampleTestResultWorkflow.Validated.Name
-                && e.Model.Stage == SampleTestWorkflow.Running.Name
+                e.Results?.Selected?.Stage == SampleTestResultWorkflow.Validated
+                && e.Model.Stage == SampleTestWorkflow.Running
                 && e.Locker.IsActive
                 )
             .Action(async (e, t) =>
             {
                 if(
-                    e.Results?.Selected?.Stage == SampleTestResultWorkflow.Validated.Name
-                    && e.Model.Stage == SampleTestWorkflow.Running.Name
+                    e.Results?.Selected?.Stage == SampleTestResultWorkflow.Validated
+                    && e.Model.Stage == SampleTestWorkflow.Running
                     && e.Locker.IsActive)
                     await e.SelectResult(e.Results.Selected);
             })
@@ -253,7 +251,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         private async Task SelectResult(SampleTestResult result)
         {
-            if(result.Stage == SampleTestResultWorkflow.Validated.Name)
+            if(result.Stage == SampleTestResultWorkflow.Validated)
             {
                 Model.Result = result;
                 await Results.List.RefreshAsync();

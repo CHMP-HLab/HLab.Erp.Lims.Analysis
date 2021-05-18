@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using Google.Protobuf.Reflection;
-using Grace.DependencyInjection.Attributes;
-using HLab.Erp.Acl;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.Filters;
-using HLab.Erp.Lims.Analysis.Module.Samples;
-using HLab.Erp.Lims.Analysis.Module.Workflows;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
 using Outils;
@@ -52,9 +45,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
                 .ConformityColumn(s => s.Result == null ? ConformityState.NotChecked : s.Result.ConformityId)
 
-                .StageColumn(default(SampleTestWorkflow), s => s.Stage)
+                .StageColumn(default(SampleTestWorkflow), s => s.StageId)
 
-                .Column().Hidden().Header("IsValid").Content(s => s.Stage != SampleTestWorkflow.InvalidatedResults.Name)
+                .Column().Hidden().Header("IsValid").Content(s => s.Stage != SampleTestWorkflow.InvalidatedResults)
                 .Column().Hidden().Header("Group").Content(s => s.TestClassId)
 
         )
@@ -63,12 +56,12 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         }
 
-        protected override bool CanExecuteDelete()
+        protected override bool CanExecuteDelete(SampleTest sampleTest,Action<string> errorAction)
         {
-            if (Selected == null) return false;
-            if (Selected.Stage != SampleTestWorkflow.Specifications.Name) return false;
-            if (!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddTest)) return false;
-            return true;
+            if (sampleTest == null) return false;
+            var stage = sampleTest.Stage.IsAny(errorAction, SampleTestWorkflow.Specifications);
+            var granted = Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest);
+            return stage && granted;
         }
 
         public void ConfigureMvvmContext(IMvvmContext ctx)

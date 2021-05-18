@@ -5,6 +5,7 @@ using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Mvvm.Application;
 using HLab.Notify.PropertyChanged;
 using NPoco;
@@ -310,12 +311,25 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<ConformityState> _conformityId = H.Property<ConformityState>();
 
-        public string Stage
+        [Column("Stage")]
+        public string StageId
+        {
+            get => _stageId.Get();
+            set => _stageId.Set(value);
+        }
+        private readonly IProperty<string> _stageId = H.Property<string>();
+
+        [Ignore]
+        public SampleWorkflow.Stage Stage
         {
             get => _stage.Get();
-            set => _stage.Set(value);
+            set => StageId = value.Name;
         }
-        private readonly IProperty<string> _stage = H.Property<string>();
+        private readonly IProperty<SampleWorkflow.Stage> _stage = H.Property<SampleWorkflow.Stage>(c => c
+            .Set(e => SampleWorkflow.StageFromName(e.StageId))
+            .On(e => e.StageId)
+            .Update()
+        );
 
 
         public int? CustomerId

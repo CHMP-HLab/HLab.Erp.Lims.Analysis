@@ -1,10 +1,11 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using Grace.DependencyInjection.Attributes;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.Workflows;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses
@@ -16,8 +17,16 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             public override string MenuPath => "param";
         }
 
-        protected override bool CanExecuteAdd() => Erp.Acl.IsGranted(AnalysisRights.AnalysisProductCreate);
-        protected override bool CanExecuteDelete() => Erp.Acl.IsGranted(AnalysisRights.AnalysisProductCreate);
+        protected override bool CanExecuteAdd(Action<string> errorAction)
+        {
+            return Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
+        }
+
+        protected override bool CanExecuteDelete(FormClass target,Action<string> errorAction)
+        {
+            RemoveErrorMessage("Delete");
+            return Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
+        }
 
         public FormClassesListViewModel() : base(c => c
             .Column()

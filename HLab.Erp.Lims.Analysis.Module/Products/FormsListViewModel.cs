@@ -5,6 +5,7 @@ using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
+using System;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
@@ -16,8 +17,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
 
         }
 
-        protected override bool CanExecuteAdd() => true;
-        protected override bool CanExecuteDelete() => true;
+        protected override bool CanExecuteAdd(Action<string> errorAction) => true;
+        protected override bool CanExecuteDelete(Form form, Action<string> errorAction) => true;
 
         public FormsListViewModel() : base(c => c
             .Column()

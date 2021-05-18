@@ -9,9 +9,9 @@ using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
-using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
 

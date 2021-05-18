@@ -12,9 +12,9 @@ using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
-using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
@@ -371,7 +371,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 //st.Code = testClass.Code;
                 st.Description = "";
                 st.TestName = testClass.Name;
-                st.Stage = SampleTestWorkflow.DefaultStage.Name;
+                st.Stage = SampleTestWorkflow.DefaultStage;
             });
 
             if (test != null) Tests.List.Update();
@@ -424,7 +424,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             {
                 var preview = !(e.Erp.Acl.IsGranted(AnalysisRights.AnalysisCertificateCreate)
                                 &&
-                                (e.Model.Stage == SampleWorkflow.Closed.Name || e.Model.Stage == SampleWorkflow.Certificate.Name));
+                                (e.Model.Stage == SampleWorkflow.Closed || e.Model.Stage == SampleWorkflow.Certificate));
 
                 e.PrintCertificate("FR", preview);
             }).CheckCanExecute()
@@ -521,7 +521,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
             foreach (var test in Tests.List)
             {
-                if (test.Stage != SampleTestWorkflow.InvalidatedResults.Name)
+                if (test.Stage != SampleTestWorkflow.InvalidatedResults)
                 {
                     if ((test.StartDate??DateTime.MaxValue)<startDate) startDate = test.StartDate??DateTime.MaxValue;
                     if ((test.EndDate??DateTime.MinValue)>endDate) endDate = test.EndDate??DateTime.MinValue;

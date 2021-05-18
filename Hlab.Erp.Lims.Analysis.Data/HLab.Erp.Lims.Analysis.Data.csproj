@@ -27,6 +27,7 @@
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Core\HLab.Erp.Core.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Data\HLab.Erp.Data.csproj" />
     <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Forms.Annotations\HLab.Erp.Conformity.Annotations.csproj" />
+    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Workflows\HLab.Erp.Workflows.csproj" />
   </ItemGroup>
 
 </Project>

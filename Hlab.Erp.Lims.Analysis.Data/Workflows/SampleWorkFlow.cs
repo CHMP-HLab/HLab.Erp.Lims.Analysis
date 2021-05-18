@@ -3,12 +3,10 @@ using System.Threading.Tasks;
 using HLab.Erp.Acl;
 using HLab.Erp.Data.Observables;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.SampleTests;
-using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Erp.Workflows;
 using HLab.Notify.PropertyChanged;
 
-namespace HLab.Erp.Lims.Analysis.Module.Samples
+namespace HLab.Erp.Lims.Analysis.Data.Workflows
 {
 
 
@@ -34,7 +32,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         }
 
 
-        protected override string StageName
+        protected override Stage TargetStage
         {
             get => Target.Stage; 
             set => Target.Stage = value;
@@ -189,8 +187,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .When(w => {
                 foreach (SampleTest test in w._sampleTests)
                 {
-                    if (test.Stage == SampleTestWorkflow.Specifications.Name) return false; 
-                    if (test.Stage == SampleTestWorkflow.SignedSpecifications.Name) return false;
+                    if (test.Stage == SampleTestWorkflow.Specifications) return false; 
+                    if (test.Stage == SampleTestWorkflow.SignedSpecifications) return false;
                 }
                 return true;
             })
@@ -264,8 +262,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 var invalidated = 0;
                 foreach (SampleTest test in w._sampleTests) 
                 {
-                    if (test.Stage == SampleTestWorkflow.ValidatedResults.Name) validated++; 
-                    else if (test.Stage == SampleTestWorkflow.InvalidatedResults.Name) invalidated++; 
+                    if (test.Stage == SampleTestWorkflow.ValidatedResults) validated++; 
+                    else if (test.Stage == SampleTestWorkflow.InvalidatedResults) invalidated++; 
                     else return false;
                 }
 

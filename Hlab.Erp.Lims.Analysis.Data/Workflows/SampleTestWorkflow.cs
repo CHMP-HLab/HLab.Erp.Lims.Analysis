@@ -2,14 +2,10 @@
 using System.Threading.Tasks;
 using HLab.Erp.Acl;
 using HLab.Erp.Data.Observables;
-using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.Samples;
-using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
-using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Erp.Workflows;
 using HLab.Notify.PropertyChanged;
 
-namespace HLab.Erp.Lims.Analysis.Module.SampleTests
+namespace HLab.Erp.Lims.Analysis.Data.Workflows
 {
     public class SampleTestWorkflow : Workflow<SampleTestWorkflow, SampleTest>
     {
@@ -139,7 +135,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         public static Action ToProduction  = Action.Create(c => c
             .Caption("{To Production}").Icon("Icons/Workflows/Production")
             .FromState(()=>Scheduling,()=>Scheduled)
-            .When(w => w.Target.Sample.Stage == SampleWorkflow.Production.Name)
+            .When(w => w.Target.Sample.Stage == SampleWorkflow.Production)
             .WithMessage(w=>"{Sample not in production}")
             .ToState(()=>Running)
         );
@@ -179,7 +175,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 {
                     foreach (var result in w._testResults)
                     {
-                        if (result.Stage == SampleTestResultWorkflow.Validated.Name)
+                        if (result.Stage == SampleTestResultWorkflow.Validated)
                         {
                             w.Target.Result = result;
                             break;
@@ -190,7 +186,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .ToState(()=>ValidatedResults)
             .WhenStateAllowed(()=>ValidatedResults)    
         //Todo : reuse toState
-            .When(w => w.Target.Sample.Stage == SampleWorkflow.Production.Name)
+            .When(w => w.Target.Sample.Stage == SampleWorkflow.Production)
             .WithMessage(w=>"{Sample not in production}")
             .NeedRight(()=>AnalysisRights.AnalysisResultValidate)
             .Sign()
@@ -199,7 +195,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .Caption("{Invalidate results}").Icon("Icons/Validations/Invalidated")
             .FromState(()=>Running,()=>ValidatedResults)
             .ToState(()=>InvalidatedResults)
-            .When(w => w.Target.Sample.Stage == SampleWorkflow.Production.Name)
+            .When(w => w.Target.Sample.Stage == SampleWorkflow.Production)
             .WithMessage(w=>"{Sample not in production}")
             .NeedRight(()=>AnalysisRights.AnalysisResultValidate)
             .Sign().Motivate()
@@ -218,8 +214,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 var invalidated = 0;
                 foreach(var result in w._testResults)
                 {
-                    if(result.Stage==SampleTestResultWorkflow.Validated.Name) validated++;
-                    else if(result.Stage==SampleTestResultWorkflow.Invalidated.Name) invalidated++;
+                    if(result.Stage==SampleTestResultWorkflow.Validated) validated++;
+                    else if(result.Stage==SampleTestResultWorkflow.Invalidated) invalidated++;
                     else return false;
                 }
                 return (validated>0);
@@ -233,8 +229,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 var invalidated = 0;
                 foreach(var result in w._testResults)
                 {
-                    if(result.Stage==SampleTestResultWorkflow.Validated.Name) validated++;
-                    else if(result.Stage==SampleTestResultWorkflow.Invalidated.Name) invalidated++;
+                    if(result.Stage==SampleTestResultWorkflow.Validated) validated++;
+                    else if(result.Stage==SampleTestResultWorkflow.Invalidated) invalidated++;
                     else return false;
                 }
                 return (validated==1);
@@ -247,7 +243,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .Caption("{Invalidated}").Icon("Icons/Validations/Invalidated")
         );
 
-        protected override string StageName
+        protected override Stage TargetStage
         {
             get => Target.Stage; 
             set => Target.Stage = value;

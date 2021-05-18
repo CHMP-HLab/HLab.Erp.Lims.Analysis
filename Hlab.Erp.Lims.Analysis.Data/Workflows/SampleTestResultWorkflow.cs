@@ -1,12 +1,8 @@
 ﻿using System;
 using HLab.Erp.Acl;
-using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.Samples;
-using HLab.Erp.Lims.Analysis.Module.SampleTests;
-using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Erp.Workflows;
 
-namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
+namespace HLab.Erp.Lims.Analysis.Data.Workflows
 {
     public class SampleTestResultWorkflow : Workflow<SampleTestResultWorkflow, SampleTestResult>
     {
@@ -86,7 +82,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         public static Action AskForCorrection3 = Action.Create(c => c
             .Caption("{Ask for correction}").Icon("Icons/Workflows/Correct")
             .FromState(()=>Validated,()=>Invalidated)
-            .When(w => w.Target.SampleTest.Stage == SampleTestWorkflow.Running.Name)
+            .When(w => w.Target.SampleTest.Stage == SampleTestWorkflow.Running)
             .ToState(()=>CorrectionNeeded).Backward()
             .NeedRight(()=>AnalysisRights.AnalysisResultValidate)
         );
@@ -102,7 +98,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         );
 
 
-        protected override string StageName
+        protected override Stage TargetStage
         {
             get => Target.Stage; 
             set => Target.Stage = value;

@@ -5,6 +5,7 @@ using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
+using System;
 
 namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
 {
@@ -15,8 +16,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
             public override string MenuPath => "param";
         }
 
-        protected override bool CanExecuteAdd() => true;
-        protected override bool CanExecuteDelete() => true;
+        protected override bool CanExecuteAdd(Action<string> errorAction) => true;
+        protected override bool CanExecuteDelete(Pharmacopoeia pharmacopoeia, Action<string> errorAction) => true;
 
         public PharmacopoeiasListViewModel() : base(c => c
             .Column()

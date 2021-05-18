@@ -3,8 +3,8 @@ using HLab.Erp.Acl;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.Samples;
-using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
 
@@ -43,7 +43,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             .Set(e => 
                 e.Locker != null 
                 && e.Locker.IsActive 
-                && e.Model.Sample.Stage == SampleWorkflow.Reception.Name
+                && e.Model.Sample.Stage == SampleWorkflow.Reception
                 && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisResultEnter)
             )
             .On(e => e.Locker.IsActive)
@@ -130,7 +130,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
             await FormHelper.LoadFormAsync(Model).ConfigureAwait(true);
 
-            FormHelper.Form.Mode = Model.Sample.Stage == SampleWorkflow.Reception.Name ? FormMode.Capture : FormMode.ReadOnly;
+            FormHelper.Form.Mode = Model.Sample.Stage == SampleWorkflow.Reception ? FormMode.Capture : FormMode.ReadOnly;
 
             FormHelper.Form.LoadValues(Model.SpecificationValues);
             FormHelper.Form.LoadValues(Model.ResultValues);

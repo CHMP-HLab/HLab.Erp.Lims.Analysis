@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Linq;
-using Grace.DependencyInjection.Attributes;
-using HLab.Erp.Base.Data;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.Filters;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
-using HLab.Erp.Lims.Analysis.Module.Workflows;
 using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
 
@@ -20,8 +17,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public class Bootloader : NestedBootloader
         { }
 
-        protected override bool CanExecuteAdd() => true;
-        protected override bool CanExecuteDelete() => Selected!=null || (SelectedIds?.Any()??false);
+        protected override bool CanExecuteAdd(Action<string> errorAction) => true;
+        protected override bool CanExecuteDelete(Sample target,Action<string> errorAction) => Selected!=null || (SelectedIds?.Any()??false);
 
         public SamplesListViewModel() : base(c => c
 
@@ -94,7 +91,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
                 .ConformityColumn(s => s.ConformityId)
 
-                .StageColumn(default(SampleWorkflow), s => s.Stage)
+                .StageColumn(default(SampleWorkflow), s => s.StageId)
 
                 .Column().Hidden()
                     .Header("{Pharmacopoeia}")
@@ -142,7 +139,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         protected override void ConfigureEntity(Sample sample)
         {
-            sample.Stage = SampleWorkflow.DefaultStage.Name;
+            sample.Stage = SampleWorkflow.DefaultStage;
         }
 
         public void ConfigureMvvmContext(IMvvmContext ctx)

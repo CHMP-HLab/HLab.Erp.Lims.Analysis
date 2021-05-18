@@ -4,8 +4,9 @@ using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.Workflows;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Mvvm.Annotations;
+using System;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
@@ -37,9 +38,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
                 .ConformityColumnPostLinked(s => s.Result != null ? s.Result.ConformityId : ConformityState.NotChecked)
 
-                .StageColumn(default(SampleTestWorkflow), s => s.Stage)
+                .StageColumn(default(SampleTestWorkflow), s => s.StageId)
 
-                .Column().Hidden().Id("IsValid").Content(s => s.Stage != SampleTestWorkflow.InvalidatedResults.Name)
+                .Column().Hidden().Id("IsValid").Content(s => s.Stage != SampleTestWorkflow.InvalidatedResults)
                 .Column().Hidden().Id("Group").Content(s => s.TestClassId)
 
         )
@@ -50,12 +51,12 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         }
 
 
-        protected override bool CanExecuteDelete()
+        protected override bool CanExecuteDelete(SampleTest sampleTest, Action<string> errorAction)
         {
-            if (Selected == null) return false;
-            if (Selected.Stage != SampleTestWorkflow.Specifications.Name) return false;
-            if (!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddTest)) return false;
-            return true;
+            if (sampleTest == null) return false;
+            var stage =  sampleTest.Stage.IsAny( errorAction, SampleTestWorkflow.Specifications);
+            var granted = Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest);
+            return stage && granted;
         }
 
 
