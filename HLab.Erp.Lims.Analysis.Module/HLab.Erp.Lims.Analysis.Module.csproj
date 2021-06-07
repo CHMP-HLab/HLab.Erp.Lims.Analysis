@@ -146,20 +146,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Acl.Wpf\HLab.Erp.Acl.Wpf.csproj" />
-    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Acl\HLab.Erp.Acl.csproj" />
-    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Base.Wpf\HLab.Erp.Base.Wpf.csproj" />
-    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Core.Annotations\HLab.Erp.Core.Annotations.csproj" />
-    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Core.Wpf\HLab.Erp.Core.Wpf.csproj" />
-    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Core\HLab.Erp.Core.csproj" />
-    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Workflows.Wpf\HLab.Erp.Workflows.Wpf.csproj" />
-    <ProjectReference Include="..\..\..\HLab.Erp\HLab.Erp.Workflows\HLab.Erp.Workflows.csproj" />
-    <ProjectReference Include="..\..\..\HLab\Compiler.Wpf\HLab.Compiler.Wpf.csproj" />
-    <ProjectReference Include="..\..\..\HLab\HLab.Application.Wpf\HLab.Mvvm.Application.Wpf.csproj" />
-    <ProjectReference Include="..\..\..\HLab\HLab.Mvvm.Wpf\HLab.Mvvm.Wpf.csproj" />
-    <ProjectReference Include="..\..\..\HLab\HLab.Notify.Wpf\HLab.Notify.Wpf.csproj" />
-    <ProjectReference Include="..\..\..\Lib\PDFsharp\PDFSharp.csproj" />
-    <ProjectReference Include="..\..\..\Lib\YAMP\YAMP.csproj" />
+    <ProjectReference Include="..\..\HLab.Erp\HLab.Erp.Acl.Wpf\HLab.Erp.Acl.Wpf.csproj" />
+    <ProjectReference Include="..\..\HLab.Erp\HLab.Erp.Acl\HLab.Erp.Acl.csproj" />
+    <ProjectReference Include="..\..\HLab.Erp\HLab.Erp.Base.Wpf\HLab.Erp.Base.Wpf.csproj" />
+    <ProjectReference Include="..\..\HLab.Erp\HLab.Erp.Core.Annotations\HLab.Erp.Core.Annotations.csproj" />
+    <ProjectReference Include="..\..\HLab.Erp\HLab.Erp.Core.Wpf\HLab.Erp.Core.Wpf.csproj" />
+    <ProjectReference Include="..\..\HLab.Erp\HLab.Erp.Core\HLab.Erp.Core.csproj" />
+    <ProjectReference Include="..\..\HLab.Erp\HLab.Erp.Workflows.Wpf\HLab.Erp.Workflows.Wpf.csproj" />
+    <ProjectReference Include="..\..\HLab.Erp\HLab.Erp.Workflows\HLab.Erp.Workflows.csproj" />
+    <ProjectReference Include="..\..\HLab\Compiler.Wpf\HLab.Compiler.Wpf.csproj" />
+    <ProjectReference Include="..\..\HLab\HLab.Application.Wpf\HLab.Mvvm.Application.Wpf.csproj" />
+    <ProjectReference Include="..\..\HLab\HLab.Mvvm.Wpf\HLab.Mvvm.Wpf.csproj" />
+    <ProjectReference Include="..\..\HLab\HLab.Notify.Wpf\HLab.Notify.Wpf.csproj" />
+    <ProjectReference Include="..\Lib\PDFsharp\PDFSharp.csproj" />
+    <ProjectReference Include="..\Lib\YAMP\YAMP.csproj" />
     <ProjectReference Include="..\Hlab.Erp.Lims.Analysis.Data\HLab.Erp.Lims.Analysis.Data.csproj" />
   </ItemGroup>
 
