@@ -1,0 +1,341 @@
+﻿namespace YAMP
+{
+    using System;
+    using YAMP.Converter;
+
+    /// <summary>
+    /// Is the type for errorbar plots.
+    /// </summary>
+    public sealed class ErrorPlotValue : XYPlotValue
+    {
+        #region ctor
+
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
+        public ErrorPlotValue()
+        {
+            IsLogX = false;
+            IsLogY = false;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets if the x axis should be presented logarithmically.
+        /// </summary>
+        [ScalarToBooleanConverter]
+        [StringToBooleanConverter]
+        public bool IsLogX
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets if the y axis should be presented logarithmically.
+        /// </summary>
+        [ScalarToBooleanConverter]
+        [StringToBooleanConverter]
+        public bool IsLogY
+        {
+            get;
+            set;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Adds (multiple) series in form of a matrix. 
+        /// </summary>
+        /// <param name="m">The matrix which contains the values.</param>
+        public override void AddPoints(MatrixValue m)
+        {
+            if (m.DimensionY == 0 || m.DimensionX == 0)
+                return;
+
+            if (m.IsVector)
+            {
+                var x = Generate(1.0, 1.0, m.Length);
+                var y = Convert(m, 0, m.Length);
+                AddValues(x, y, new double[0], new double[0]);
+            }
+            else if(m.DimensionX <= m.DimensionY)
+            {
+                var x = ConvertY(m, 0, m.DimensionY, 0);
+
+                for (var k = 2; k <= m.DimensionX; k++)
+                {
+                    var y = ConvertY(m, 0, m.DimensionY, k - 1);
+                    AddValues(x, y, new double[0], new double[0]);
+                }
+            }
+            else
+            {
+                var x = ConvertX(m, 0, m.DimensionX, 0);
+
+                for (var k = 2; k <= m.DimensionY; k++)
+                {
+                    var y = ConvertX(m, 0, m.DimensionX, k - 1);
+                    AddValues(x, y, new double[0], new double[0]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds a single series to the plot.
+        /// </summary>
+        /// <param name="y">The y values.</param>
+        /// <param name="err">The y errors.</param>
+        public void AddPoints(MatrixValue y, MatrixValue err)
+        {
+            var x = new MatrixValue(Math.Max(y.DimensionY, y.DimensionX), 1);
+
+            for (var i = 1; i <= y.Length; i++)
+                x[i, 1] = new ScalarValue(i);
+
+            AddPoints(x, y, err);
+        }
+
+        /// <summary>
+        /// Adds a single series to the plot.
+        /// </summary>
+        /// <param name="x">The x values.</param>
+        /// <param name="y">The y values.</param>
+        /// <param name="err">The (x and y) errors.</param>
+        public void AddPoints(MatrixValue x, MatrixValue y, MatrixValue err)
+        {
+            if (x.IsVector)
+            {
+                var vx = Convert(x, 0, x.Length);
+
+                if (y.DimensionY > y.DimensionX || y.DimensionY >= x.Length)
+                {
+                    var dim = Math.Min(x.Length, y.DimensionY);
+                    var yerr = err.DimensionX > 0 ? ConvertY(err, 0, Math.Min(dim, err.DimensionY), 0) : new double[0];
+                    var xerr = err.DimensionX > 1 ? ConvertY(err, 0, Math.Min(dim, err.DimensionY), 1) : new double[0];
+
+                    for (var i = 0; i < y.DimensionX; i++)
+                    {
+                        var vy = ConvertY(y, 0, dim, i);
+                        AddValues(vx, vy, xerr, yerr);
+                    }
+                }
+                else
+                {
+                    var dim = Math.Min(x.Length, y.DimensionX);
+                    var yerr = err.DimensionY > 0 ? ConvertX(err, 0, Math.Min(dim, err.DimensionX), 0) : new double[0];
+                    var xerr = err.DimensionY > 1 ? ConvertX(err, 0, Math.Min(dim, err.DimensionX), 1) : new double[0];
+
+                    for (var i = 0; i < y.DimensionY; i++)
+                    {
+                        var vy = ConvertX(y, 0, dim, i);
+                        AddValues(vx, vy, xerr, yerr);
+                    }
+                }
+            }
+            else
+            {
+                AddPoints(x, err);
+                AddPoints(y, err);
+            }
+        }
+
+        void AddValues(double[] _x, double[] _y, double[] _xerr, double[] _yerr)
+        {
+            var p = new Points<ErrorPointPair>();
+            var xmin = double.MaxValue;
+            var xmax = double.MinValue;
+            var ymin = double.MaxValue;
+            var ymax = double.MinValue;
+
+            for (var i = 0; i < _y.Length; i++)
+            {
+                var x = _x[i];
+                var y = _y[i];
+
+                p.Add(new ErrorPointPair
+                {
+                    X = x,
+                    Y = y,
+                    Xerr = _xerr.Length > i ? _xerr[i] : 0.0,
+                    Yerr = _yerr.Length > i ? _yerr[i] : 0.0
+                });
+
+                if (x < xmin)
+                    xmin = x;
+
+                if (xmax < x)
+                    xmax = x;
+
+                if (y < ymin)
+                    ymin = y;
+
+                if (ymax < y)
+                    ymax = y;
+            }
+
+            if (Count == 0 || xmin < MinX)
+                MinX = xmin;
+
+            if (Count == 0 || xmax > MaxX)
+                MaxX = xmax;
+
+            if (Count == 0 || ymin < MinY)
+                MinY = ymin;
+
+            if (Count == 0 || ymax > MaxY)
+                MaxY = ymax;
+
+            AddSeries(p);
+        }
+
+        #endregion
+
+        #region Nested types
+
+        /// <summary>
+        /// Represents an error point.
+        /// </summary>
+        public struct ErrorPointPair
+        {
+            /// <summary>
+            /// The x value.
+            /// </summary>
+            public double X;
+
+            /// <summary>
+            /// The y value.
+            /// </summary>
+            public double Y;
+
+            /// <summary>
+            /// The x error.
+            /// </summary>
+            public double Xerr;
+
+            /// <summary>
+            /// The y error.
+            /// </summary>
+            public double Yerr;
+        }
+
+        #endregion
+
+        #region Serialization
+
+        /// <summary>
+        /// Converts the given instance to an array of bytes.
+        /// </summary>
+        /// <returns>The binary representation of this instance.</returns>
+        public override byte[] Serialize()
+        {
+            using (var s = Serializer.Create())
+            {
+                Serialize(s);
+                s.Serialize(IsLogX);
+                s.Serialize(IsLogY);
+                s.Serialize(Count);
+
+                for (var i = 0; i < Count; i++)
+                {
+                    var points = this[i];
+                    points.Serialize(s);
+                    s.Serialize(points.Count);
+
+                    for (int j = 0; j < points.Count; j++)
+                    {
+                        s.Serialize(points[j].X);
+                        s.Serialize(points[j].Y);
+                        s.Serialize(points[j].Xerr);
+                        s.Serialize(points[j].Yerr);
+                    }
+                }
+
+                return s.Value;
+            }
+        }
+
+        /// <summary>
+        /// Converts a set of bytes to a new instance.
+        /// </summary>
+        /// <param name="content">The binary representation.</param>
+        /// <returns>The new instance.</returns>
+        public override Value Deserialize(byte[] content)
+        {
+            var ep = new ErrorPlotValue();
+
+            using (var ds = Deserializer.Create(content))
+            {
+                ep.Deserialize(ds);
+                ep.IsLogX = ds.GetBoolean();
+                ep.IsLogY = ds.GetBoolean();
+                var length = ds.GetInt();
+
+                for (var i = 0; i < length; i++)
+                {
+                    var points = new Points<ErrorPointPair>();
+                    points.Deserialize(ds);
+                    var count = ds.GetInt();
+
+                    for (int j = 0; j < count; j++)
+                    {
+                        var x = ds.GetDouble();
+                        var y = ds.GetDouble();
+                        var xerr = ds.GetDouble();
+                        var yerr = ds.GetDouble();
+
+                        points.Add(new ErrorPointPair
+                        {
+                            X = x,
+                            Y = y,
+                            Xerr = xerr,
+                            Yerr = yerr
+                        });
+                    }
+
+                    ep.AddSeries(points);
+                }
+            }
+
+            return ep;
+        }
+
+        #endregion
+
+        #region Index
+
+        /// <summary>
+        /// Gets the series at the specified index.
+        /// </summary>
+        /// <param name="index">The 0-based index of the series.</param>
+        /// <returns>The series (list of points and properties).</returns>
+        public Points<ErrorPointPair> this[int index]
+        {
+            get
+            {
+                return base.GetSeries(index) as Points<ErrorPointPair>;
+            }
+        }
+
+        /// <summary>
+        /// Gets a certain point of the specified series.
+        /// </summary>
+        /// <param name="index">The 0-based index of the series.</param>
+        /// <param name="point">The 0-based index of the point.</param>
+        /// <returns>The point.</returns>
+        public ErrorPointPair this[int index, int point]
+        {
+            get
+            {
+                return this[index][point];
+            }
+        }
+
+        #endregion
+    }
+}
