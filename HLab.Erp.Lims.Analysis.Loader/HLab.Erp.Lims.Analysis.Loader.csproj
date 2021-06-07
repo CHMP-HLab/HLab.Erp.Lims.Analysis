@@ -51,6 +51,7 @@
     <ProjectReference Include="..\..\..\HLab\HLab.Application.Wpf\HLab.Mvvm.Application.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Bugs.Wpf\HLab.Bugs.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Core\HLab.Core.csproj" />
+    <ProjectReference Include="..\..\..\HLab\HLab.Ioc\HLab.Ioc.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Notify.Wpf\HLab.Notify.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Options.Wpf\HLab.Options.Wpf.csproj" />
     <ProjectReference Include="..\..\..\HLab\HLab.Options\HLab.Options.csproj" />

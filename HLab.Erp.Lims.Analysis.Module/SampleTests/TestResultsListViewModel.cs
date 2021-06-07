@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Grace.DependencyInjection.Attributes;
+
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Lims.Analysis.Data;

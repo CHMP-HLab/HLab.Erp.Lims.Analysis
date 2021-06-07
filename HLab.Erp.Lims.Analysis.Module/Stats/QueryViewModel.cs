@@ -8,6 +8,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
 
     public class QueryViewModel :ViewModel<Requete>
     {
-        QueryViewModel() => H.Initialize(this);
+        public QueryViewModel() => H.Initialize(this);
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Grace.DependencyInjection.Attributes;
+
 using HLab.Erp.Acl;
 using HLab.Erp.Base.Wpf;
 using HLab.Erp.Conformity.Annotations;
@@ -37,7 +37,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             H.Initialize(this);
         }
 
-        [Import] public SampleViewModel(
+        public SampleViewModel(
             IErpServices erp, 
             Func<Sample,SampleSampleTestListViewModel> getTests, 
             ObservableQuery<Packaging> packagings, 
@@ -380,8 +380,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         private async Task AddFormsAsync()
         {
-            Forms.List.FluentUpdateAsync();
-            FormClasses.List.FluentUpdateAsync();
+            Forms.List.UpdateAsync();
+            FormClasses.List.UpdateAsync();
             foreach (var formClass in FormClasses.List)
             {
                 if(!Forms.List.Any(e => ReferenceEquals(e.FormClass,formClass)))

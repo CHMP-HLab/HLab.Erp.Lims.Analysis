@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using HLab.Erp.Base.Data;
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
@@ -44,6 +45,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 .Filter()
 
                 .Column(e => e.Customer).Mvvm().Width(250)
+
+                .Column().Header("{Customer").Width(250).Content(c => c.Customer?.Caption).Icon(c => c.Customer?.IconPath) .Link(c => c.Customer)
 
                 .Column(e => e.Product).Mvvm().Width(550)
 

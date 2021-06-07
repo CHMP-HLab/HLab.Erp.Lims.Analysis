@@ -6,7 +6,7 @@ using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
-using Grace.DependencyInjection.Attributes;
+
 using HLab.Erp.Core.ListFilterConfigurators;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products

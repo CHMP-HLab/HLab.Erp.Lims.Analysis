@@ -142,7 +142,6 @@
 
   <ItemGroup>
     <PackageReference Include="ControlzEx" Version="5.0.0" />
-    <PackageReference Include="Grace" Version="7.2.1-Beta811" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0-1.final" />
   </ItemGroup>
 

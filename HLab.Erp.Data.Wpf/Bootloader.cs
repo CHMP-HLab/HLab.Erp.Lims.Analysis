@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Grace.DependencyInjection.Attributes;
 using HLab.Core.Annotations;
 using HLab.Mvvm.Annotations;
 
@@ -10,7 +9,6 @@ namespace HLab.Erp.Data.Wpf
         private readonly IDataService _data;
         private readonly IMvvmService _mvvm;
 
-        [Import]
         public ErpDataBootloader(IDataService data, IMvvmService mvvm)
         {
             _data = data;

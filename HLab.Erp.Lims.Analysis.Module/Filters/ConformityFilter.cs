@@ -19,8 +19,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
 
     public class ConformityFilter : Filter<ConformityState>, IWorkflowFilter
     {
-
-
         private static readonly MethodInfo ContainsMethod = typeof(List<ConformityState>).GetMethod("Contains", new[] { typeof(ConformityState) });
 
         public class ConformityEntry : NotifierBase
