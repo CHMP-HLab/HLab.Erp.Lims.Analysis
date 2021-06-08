@@ -142,6 +142,7 @@
 
   <ItemGroup>
     <PackageReference Include="ControlzEx" Version="5.0.0" />
+    <PackageReference Include="Mages" Version="2.0.0-alpha-9" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0-1.final" />
   </ItemGroup>
 
@@ -159,7 +160,6 @@
     <ProjectReference Include="..\..\HLab\HLab.Mvvm.Wpf\HLab.Mvvm.Wpf.csproj" />
     <ProjectReference Include="..\..\HLab\HLab.Notify.Wpf\HLab.Notify.Wpf.csproj" />
     <ProjectReference Include="..\Lib\PDFsharp\PDFSharp.csproj" />
-    <ProjectReference Include="..\Lib\YAMP\YAMP.csproj" />
     <ProjectReference Include="..\Hlab.Erp.Lims.Analysis.Data\HLab.Erp.Lims.Analysis.Data.csproj" />
   </ItemGroup>
 

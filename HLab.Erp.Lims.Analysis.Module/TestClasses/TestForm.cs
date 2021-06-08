@@ -11,7 +11,6 @@ using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Notify.PropertyChanged;
 using HLab.Notify.Wpf;
-using YAMP;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
@@ -160,12 +159,11 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         {
             try
             {
-                var parser = new Parser();
-
-                var result = parser.Evaluate(formula);
-
+                var engine = new Mages.Core.Engine();
+                var result = engine.Interpret(formula);
+                
                 if (result != null)
-                    return ((ScalarValue)result).Value;
+                    return (double)result;
             }
             catch { }
 
