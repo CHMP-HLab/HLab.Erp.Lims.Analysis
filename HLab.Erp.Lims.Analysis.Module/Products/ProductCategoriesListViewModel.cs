@@ -12,7 +12,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
     {
         public class Bootloader : NestedBootloader
         {
-            public override string MenuPath => "data/products";
+            public override string MenuPath => "param";
         }
 
         public ProductCategoriesListViewModel() : base(c => c
