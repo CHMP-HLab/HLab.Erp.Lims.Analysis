@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file is NOT compatible with Silverlight-->
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Stretch="Uniform">
+    <Canvas x:Name="svg8" Width="16.933333" Height="16.933334">
+        <Canvas.RenderTransform>
+            <TranslateTransform X="0" Y="0"/>
+        </Canvas.RenderTransform>
+        <!--Unknown tag: sodipodi:namedview-->
+        <!--Unknown tag: metadata-->
+        <Canvas>
+            <Canvas.RenderTransform>
+                <TranslateTransform X="0" Y="-280.06665"/>
+            </Canvas.RenderTransform>
+            <Ellipse xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Canvas.Top="280" Width="16" Height="16" StrokeThickness="1" Canvas.Left="1" Stroke="Black"/>
+            <Ellipse Canvas.Top="282" Width="12" Height="12" Fill="#FF005000" StrokeThickness="0" Canvas.Left="3"/>
+        </Canvas>
+    </Canvas>
+</Viewbox>

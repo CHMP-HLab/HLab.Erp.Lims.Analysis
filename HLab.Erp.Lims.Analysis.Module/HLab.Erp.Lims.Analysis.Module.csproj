@@ -67,8 +67,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Remove="Icons\Conformity\CheckFailed.xaml" />
     <Page Remove="Icons\Conformity\Invalid2.xaml" />
     <Page Remove="Icons\Conformity\NotConform.xaml" />
+    <Page Remove="Icons\Conformity\NotSelected.xaml" />
+    <Page Remove="Icons\Conformity\Selected.xaml" />
     <Page Remove="Icons\Conformity\Undefined.xaml" />
     <Page Remove="Icons\Forms\Drugs.xaml" />
     <Page Remove="Icons\Forms\Skin solution.xaml" />
@@ -109,8 +112,6 @@
     <Page Remove="Icons\Logo.xaml" />
     <Page Remove="Icons\LogoBackground.xaml" />
     <Page Remove="Icons\result.xaml" />
-    <Page Remove="Icons\Conformity\CheckFailed.xaml" />
-    <Page Remove="Icons\Conformity\CheckPassed.xaml" />
     <Page Remove="Icons\Sample\Barcode.xaml" />
     <Page Remove="Icons\Sample\Book.xaml" />
     <Page Remove="Icons\Sample\Drugs.xaml" />
@@ -171,6 +172,14 @@
 
   <ItemGroup>
     <Resource Include="Icons\AppName.svg" />
+    <Resource Include="Icons\Conformity\CheckFailed.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Conformity\NotSelected.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
     <Resource Include="Icons\Entities\Pharmacopoeia.svg" />
     <Resource Include="Icons\Entities\Products\Dose.svg" />
     <Resource Include="Icons\Entities\Form.svg" />
@@ -345,11 +354,7 @@
     <Resource Include="Icons\Result.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Conformity\CheckFailed.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Conformity\CheckPassed.xaml">
+    <Resource Include="Icons\Conformity\Selected.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>

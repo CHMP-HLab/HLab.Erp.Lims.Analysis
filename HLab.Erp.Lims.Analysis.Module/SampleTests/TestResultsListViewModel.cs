@@ -17,6 +17,12 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 .StaticFilter(e => e.SampleTestId == sampleTest.Id)
 
                 .Column()
+                    .Header("{Selected}")
+                    //.Content(s => s.SampleTest.ResultId == s.Id)
+                    .Icon(s => (s.SampleTest.ResultId == s.Id) ? "Icons/Conformity/Selected" : "Icons/Conformity/NotSelected",20)
+                    .Width(70)
+
+                .Column()
                     .Header("{Name}")
                     .Link(s => s.Name)
                     .Width(70)
