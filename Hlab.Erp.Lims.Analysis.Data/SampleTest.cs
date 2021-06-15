@@ -127,8 +127,6 @@ namespace HLab.Erp.Lims.Analysis.Data
         private readonly IProperty<string> _description = H.Property<string>(c => c.Default(""));
 
 
-
-
         public string Specification
         {
             get => _specification.Get();
