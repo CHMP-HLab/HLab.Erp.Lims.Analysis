@@ -8,7 +8,6 @@ using System.Windows.Input;
 using HLab.Erp.Acl;
 using HLab.Erp.Base.Wpf;
 using HLab.Erp.Conformity.Annotations;
-using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
 using HLab.Erp.Lims.Analysis.Data;
@@ -29,8 +28,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
     {
         public Type ListProductType => typeof(ProductsListPopupViewModel);
 
-        public IErpServices Erp { get; }
-        private readonly Func<Sample,IDataLocker<Sample>,SampleWorkflow> _getSampleWorkflow;
+        private readonly Func<Sample, IDataLocker<Sample>, SampleWorkflow> _getSampleWorkflow;
 
         internal SampleViewModel()
         {
@@ -38,36 +36,34 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         }
 
         public SampleViewModel(
-            IErpServices erp, 
-            Func<Sample,SampleSampleTestListViewModel> getTests, 
-            ObservableQuery<Packaging> packagings, 
-            Func<Sample,SampleFormsListViewModel> getForms, 
-            Func<FormClassesListViewModel> getFormClasses, 
-            Func<int, SampleAuditTrailViewModel> getAudit, 
+            Func<Sample, SampleSampleTestListViewModel> getTests,
+            ObservableQuery<Packaging> packagings,
+            Func<Sample, SampleFormsListViewModel> getForms,
+            Func<FormClassesListViewModel> getFormClasses,
+            Func<int, SampleAuditTrailViewModel> getAudit,
             Func<Sample, IDataLocker<Sample>, SampleWorkflow> getSampleWorkflow
             )
         {
             _getAudit = getAudit;
-            Erp = erp;
             _getSampleWorkflow = getSampleWorkflow;
             _getTests = getTests;
             H.Initialize(this);
             Packagings = packagings;
             _getForms = getForms;
             _getFormClasses = getFormClasses;
-            Packagings.Update();
+            Packagings?.Update();
         }
 
         public override object Header => _header.Get();
         private readonly IProperty<object> _header = H.Property<object>(c => c
-            .Set(e => (object)e.Model?.Reference??"{New sample}")
+            .Set(e => (object)e.Model?.Reference ?? "{New sample}")
             .On(e => e.Model.Reference)
             .NotNull(e => e.Model)
             .Update()
         );
         public string SubTitle => _subTitle.Get();
         private readonly IProperty<string> _subTitle = H.Property<string>(c => c
-            .Set(e => e.Model?.Customer?.Name??"{Customer}" + "\n" + e.Model?.Product?.Caption??"{Product}")
+            .Set(e => e.Model?.Customer?.Name ?? "{Customer}" + "\n" + e.Model?.Product?.Caption ?? "{Product}")
             .On(e => e.Model.Customer.Name)
             .On(e => e.Model.Product.Caption)
             .NotNull(e => e.Model)
@@ -75,14 +71,14 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         );
         public ObservableQuery<Packaging> Packagings { get; }
 
-        [TriggerOn(nameof(Packagings),"Item","Secondary")]
+        [TriggerOn(nameof(Packagings), "Item", "Secondary")]
         public IObservableFilter<Packaging> PrimaryPackagingList { get; }
             = H.Filter<Packaging>(c => c
                 .AddFilter(p => !p.Secondary)
                 .Link(e => e.Packagings)
             );
 
-        [TriggerOn(nameof(Packagings),"Item","Secondary")]
+        [TriggerOn(nameof(Packagings), "Item", "Secondary")]
         public IObservableFilter<Packaging> SecondaryPackagingList { get; }
             = H.Filter<Packaging>(c => c
                 .AddFilter(p => p.Secondary)
@@ -102,7 +98,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .NotNull(e => e.Workflow)
             .Set(e => e.Locker.IsActive
                        && e.Workflow.CurrentStage == SampleWorkflow.Reception
-                       && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisReceptionSign))
+                       && e.Acl.IsGranted(AnalysisRights.AnalysisReceptionSign))
             .On(e => e.Locker.IsActive)
             .On(e => e.Workflow.CurrentStage)
             .Update()
@@ -110,8 +106,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public Visibility CustomerVisibility => _customerVisibility.Get();
         private readonly IProperty<Visibility> _customerVisibility = H.Property<Visibility>(c => c
-            .Set(e => e.Erp.Acl.IsGranted(ErpRights.ErpViewCustomer)?Visibility.Visible:Visibility.Hidden)
-            .On(e => e.Erp.Acl.Connection.User)
+            .Set(e => e.Acl.IsGranted(ErpRights.ErpViewCustomer) ? Visibility.Visible : Visibility.Hidden)
+            .On(e => e.Acl.Connection.User)
             .Update()
         );
 
@@ -126,11 +122,11 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         private readonly IProperty<bool> _monographMode = H.Property<bool>(c => c
             .Set(e =>
             {
-                if (e.Locker==null) return false;
+                if (e.Locker == null) return false;
                 if (e.Workflow == null) return false;
                 return e.Locker.IsActive
                        && e.Workflow.CurrentStage == SampleWorkflow.Monograph
-                       && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisMonographSign);
+                       && e.Acl.IsGranted(AnalysisRights.AnalysisMonographSign);
             })
             .On(e => e.Locker.IsActive)
             .On(e => e.Workflow.CurrentStage)
@@ -149,31 +145,31 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         private readonly IProperty<bool> _productionMode = H.Property<bool>(c => c
             .Set(e =>
             {
-                if (e.Locker==null) return false;
+                if (e.Locker == null) return false;
                 if (e.Workflow == null) return false;
                 return e.Locker.IsActive
                        && e.Workflow.CurrentStage == SampleWorkflow.Production
-                       && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisCertificateCreate);
+                       && e.Acl.IsGranted(AnalysisRights.AnalysisCertificateCreate);
             })
             .On(e => e.Locker.IsActive)
             .On(e => e.Workflow.CurrentStage)
             .Update()
         );
-        
-        private readonly Func<Sample,SampleSampleTestListViewModel> _getTests;
+
+        private readonly Func<Sample, SampleSampleTestListViewModel> _getTests;
         private readonly Func<Sample, SampleFormsListViewModel> _getForms;
         private readonly Func<FormClassesListViewModel> _getFormClasses;
-        private readonly Func<int,SampleAuditTrailViewModel> _getAudit;
+        private readonly Func<int, SampleAuditTrailViewModel> _getAudit;
 
         public SampleSampleTestListViewModel Tests => _tests.Get();
         private readonly IProperty<SampleSampleTestListViewModel> _tests = H.Property<SampleSampleTestListViewModel>(c => c
             .NotNull(e => e.Model)
-            .Set( e =>
-            {
-                var tests =  e._getTests(e.Model);
-                tests.List.CollectionChanged += e.List_CollectionChanged;
-                return tests;
-            })
+            .Set(e =>
+           {
+               var tests = e._getTests?.Invoke(e.Model);
+               if (tests != null) tests.List.CollectionChanged += e.List_CollectionChanged;
+               return tests;
+           })
             .On(e => e.Model)
             .Update()
         );
@@ -187,7 +183,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         private ITrigger _ = H.Trigger(c => c
             .NotNull(e => e.Tests)
-            .Do( e =>  e.UpdateConformity(e.Tests.List))
+            .Do(e => e.UpdateConformity(e.Tests.List))
             .On(e => e.Tests)
             .Update()
         );
@@ -204,7 +200,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             if (Model.ConformityId != conformity)
             {
                 Model.ConformityId = conformity;
-                Erp.Data.UpdateAsync(Model, "ConformityId");
+                Data.UpdateAsync(Model, "ConformityId");
             }
         }
 
@@ -217,68 +213,68 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         private static ConformityState UpdateConformity(ConformityState currentState, ConformityState testState)
         {
-                switch (testState)
-                {
-                    case ConformityState.NotChecked:
-                        return currentState switch
-                        {
-                            ConformityState.NotChecked => ConformityState.NotChecked,
-                            ConformityState.Running => ConformityState.Running,
-                            ConformityState.NotConform => ConformityState.NotConform,
-                            ConformityState.Conform => ConformityState.Running,
-                            ConformityState.Invalid => ConformityState.Invalid,
-                            _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
-                        };
-                    case ConformityState.Running:
-                        return currentState switch
-                        {
-                            ConformityState.NotChecked => ConformityState.Running,
-                            ConformityState.Running => ConformityState.Running,
-                            ConformityState.Conform => ConformityState.Running,
-                            ConformityState.NotConform => ConformityState.NotConform,
-                            ConformityState.Invalid => ConformityState.Invalid,
-                            _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
-                        };
-                    case ConformityState.NotConform:
-                        return currentState switch
-                        {
-                            ConformityState.NotChecked => ConformityState.NotConform,
-                            ConformityState.Running => ConformityState.NotConform,
-                            ConformityState.Conform => ConformityState.NotConform,
-                            ConformityState.NotConform => ConformityState.NotConform,
-                            ConformityState.Invalid => ConformityState.NotConform,
-                            _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
-                        };
-                    case ConformityState.Conform:
-                        return currentState switch
-                        {
-                            ConformityState.NotChecked => ConformityState.Running,
-                            ConformityState.Running => ConformityState.Running,
-                            ConformityState.Conform => ConformityState.Conform,
-                            ConformityState.NotConform => ConformityState.NotConform,
-                            ConformityState.Invalid => ConformityState.Invalid,
-                            _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
-                        };
-                    case ConformityState.Invalid:
-                        return currentState switch
-                        {
-                            ConformityState.NotChecked => ConformityState.Invalid,
-                            ConformityState.Running => ConformityState.Invalid,
-                            ConformityState.Conform => ConformityState.Invalid,
-                            ConformityState.Invalid => ConformityState.Invalid,
-                            ConformityState.NotConform => ConformityState.NotConform,
-                            _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
-                        };
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+            switch (testState)
+            {
+                case ConformityState.NotChecked:
+                    return currentState switch
+                    {
+                        ConformityState.NotChecked => ConformityState.NotChecked,
+                        ConformityState.Running => ConformityState.Running,
+                        ConformityState.NotConform => ConformityState.NotConform,
+                        ConformityState.Conform => ConformityState.Running,
+                        ConformityState.Invalid => ConformityState.Invalid,
+                        _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
+                    };
+                case ConformityState.Running:
+                    return currentState switch
+                    {
+                        ConformityState.NotChecked => ConformityState.Running,
+                        ConformityState.Running => ConformityState.Running,
+                        ConformityState.Conform => ConformityState.Running,
+                        ConformityState.NotConform => ConformityState.NotConform,
+                        ConformityState.Invalid => ConformityState.Invalid,
+                        _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
+                    };
+                case ConformityState.NotConform:
+                    return currentState switch
+                    {
+                        ConformityState.NotChecked => ConformityState.NotConform,
+                        ConformityState.Running => ConformityState.NotConform,
+                        ConformityState.Conform => ConformityState.NotConform,
+                        ConformityState.NotConform => ConformityState.NotConform,
+                        ConformityState.Invalid => ConformityState.NotConform,
+                        _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
+                    };
+                case ConformityState.Conform:
+                    return currentState switch
+                    {
+                        ConformityState.NotChecked => ConformityState.Running,
+                        ConformityState.Running => ConformityState.Running,
+                        ConformityState.Conform => ConformityState.Conform,
+                        ConformityState.NotConform => ConformityState.NotConform,
+                        ConformityState.Invalid => ConformityState.Invalid,
+                        _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
+                    };
+                case ConformityState.Invalid:
+                    return currentState switch
+                    {
+                        ConformityState.NotChecked => ConformityState.Invalid,
+                        ConformityState.Running => ConformityState.Invalid,
+                        ConformityState.Conform => ConformityState.Invalid,
+                        ConformityState.Invalid => ConformityState.Invalid,
+                        ConformityState.NotConform => ConformityState.NotConform,
+                        _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
+                    };
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
         }
 
         public SampleFormsListViewModel Forms => _forms.Get();
         private readonly IProperty<SampleFormsListViewModel> _forms = H.Property<SampleFormsListViewModel>(c => c
             .NotNull(e => e.Model)
-            .Set(e => e._getForms(e.Model))
+            .Set(e => e._getForms?.Invoke(e.Model))
             .On(e => e.Model)
             .Update()
         );
@@ -286,7 +282,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public SampleAuditTrailViewModel AuditTrail => _auditTrail.Get();
         private readonly IProperty<SampleAuditTrailViewModel> _auditTrail = H.Property<SampleAuditTrailViewModel>(c => c
             .NotNull(e => e.Model)
-            .Set(e => e._getAudit(e.Model.Id))
+            .Set(e => e._getAudit?.Invoke(e.Model.Id))
             .On(e => e.Model)
             .Update()
         );
@@ -294,21 +290,21 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public FormClassesListViewModel FormClasses => _formClasses.Get();
         private readonly IProperty<FormClassesListViewModel> _formClasses = H.Property<FormClassesListViewModel>(c => c
             .NotNull(e => e.Model)
-            .Set(e => e._getFormClasses())
+            .Set(e => e._getFormClasses?.Invoke())
             .On(e => e.Model)
             .Update()
         );
 
         public ICommand AddTestCommand { get; } = H.Command(c => c
             .CanExecute(e => e.CanExecuteAddTest())
-            .Action(async (e,t) => await e.AddTestAsync(t as TestClass))
+            .Action(async (e, t) => await e.AddTestAsync(t as TestClass))
             .On(e => e.Model.Stage)
             .CheckCanExecute()
         );
 
         public ICommand AddFormCommand { get; } = H.Command(c => c
             .CanExecute(e => e.CanExecuteAddForm())
-            .Action(async (e,t) =>
+            .Action(async (e, t) =>
             {
                 if (t is not FormClass formClass) return;
 
@@ -318,7 +314,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 {
                     await e.AddFormAsync(formClass);
                 }
-                catch(DataException)
+                catch (DataException)
                 { }
             })
             .On(e => e.Model.Stage)
@@ -328,20 +324,20 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public ICommand AddOneFormCommand { get; } = H.Command(c => c
             .CanExecute(e => e.CanExecuteAddForm())
-            .Action(async (e,t) => await e.AddFormsAsync())
+            .Action(async (e, t) => await e.AddFormsAsync())
             .On(e => e.Model.Stage).CheckCanExecute()
         );
 
         private bool CanExecuteAddTest()
         {
-            if(!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddTest)) return false;
+            if (!Acl.IsGranted(AnalysisRights.AnalysisAddTest)) return false;
             return Workflow?.CurrentStage == SampleWorkflow.Monograph;
         }
 
         private bool CanExecuteAddForm()
         {
-            if(!Erp.Acl.IsGranted(AnalysisRights.AnalysisReceptionSign)) return false;
-            if (Model.Id < 0) return false; 
+            if (!Acl.IsGranted(AnalysisRights.AnalysisReceptionSign)) return false;
+            if (Model.Id < 0) return false;
             return Workflow?.CurrentStage == SampleWorkflow.Reception;
         }
 
@@ -355,7 +351,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         private async Task<List<string>> GetOrigins()
         {
-            var list =  await Erp.Data.SelectDistinctAsync<Sample, string>(s => s.CustomerId == Model.CustomerId && !string.IsNullOrWhiteSpace(s.SamplingOrigin),
+            var list = await Data.SelectDistinctAsync<Sample, string>(s => s.CustomerId == Model.CustomerId && !string.IsNullOrWhiteSpace(s.SamplingOrigin),
                 s => s.SamplingOrigin).ToListAsync();
             return list;
         }
@@ -364,7 +360,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         {
             if (testClass == null) return;
 
-            var test = await Erp.Data.AddAsync<SampleTest>(st =>
+            var test = await Data.AddAsync<SampleTest>(st =>
             {
                 st.Sample = Model;
                 st.TestClass = testClass;
@@ -375,7 +371,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             });
 
             if (test != null) Tests.List.Update();
-        
+
         }
 
         private async Task AddFormsAsync()
@@ -384,7 +380,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             FormClasses.List.UpdateAsync();
             foreach (var formClass in FormClasses.List)
             {
-                if(!Forms.List.Any(e => ReferenceEquals(e.FormClass,formClass)))
+                if (!Forms.List.Any(e => ReferenceEquals(e.FormClass, formClass)))
                     await AddFormAsync(formClass);
             }
         }
@@ -393,27 +389,23 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         {
             if (formClass == null) return;
 
-            var form = await Erp.Data.AddAsync<SampleForm>(st =>
+            var form = await Data.AddAsync<SampleForm>(st =>
             {
                 st.Sample = Model;
                 st.FormClass = formClass;
             });
 
             if (form != null)
-                 Forms.List.Update();
+                Forms.List.Update();
         }
 
         public SampleWorkflow Workflow => _workflow.Get();
         private readonly IProperty<SampleWorkflow> _workflow = H.Property<SampleWorkflow>(c => c
-            .Set(vm =>
-            {
-                if (vm.Model == null || vm.Locker == null) return null;
-                return vm._getSampleWorkflow(vm.Model, vm.Locker);
-            })
-            .On(e => e.Model)
-            .On(e => e.Locker)
             .NotNull(e => e.Model)
             .NotNull(e => e.Locker)
+            .Set(vm => vm._getSampleWorkflow?.Invoke(vm.Model, vm.Locker))
+            .On(e => e.Model)
+            .On(e => e.Locker)
             .Update()
         );
 
@@ -422,7 +414,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             //.CanExecute(e => e._acl.IsGranted(AnalysisRights.AnalysisCertificateCreate))
             .Action(e =>
             {
-                var preview = !(e.Erp.Acl.IsGranted(AnalysisRights.AnalysisCertificateCreate)
+                var preview = !(e.Acl.IsGranted(AnalysisRights.AnalysisCertificateCreate)
                                 &&
                                 (e.Model.Stage == SampleWorkflow.Closed || e.Model.Stage == SampleWorkflow.Certificate));
 
@@ -442,10 +434,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             if (Model.Id == -1)
                 return;
 
-            var template = Erp.Data.FetchOne<Xaml>(e => e.Name == "Certificate");
+            var template = Data.FetchOne<Xaml>(e => e.Name == "Certificate");
 
             // Prépare l'impression
-            var ip = new Print("Certificate",template.Page, language);
+            var ip = new Print("Certificate", template.Page, language);
 
 
             //ip["Reference"] = Model.Reference;
@@ -493,15 +485,15 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
             //ip["Conclusion"] = Model.Conclusion;
 
-            if(Model.Validator!=null)
+            if (Model.Validator != null)
             {
-                ip["Validator.Caption"] = $"DR {Model.Validator.Caption}"; 
-                ip["Validator.Function"] = Model.Validator.Function; 
+                ip["Validator.Caption"] = $"DR {Model.Validator.Caption}";
+                ip["Validator.Function"] = Model.Validator.Function;
             }
             else
             {
                 ip["Validator.Caption"] = $"Analyse non validée";
-                ip["Validator.Function"] = ""; 
+                ip["Validator.Function"] = "";
             }
 
             ip.SetData(Model);
@@ -523,8 +515,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             {
                 if (test.Stage != SampleTestWorkflow.InvalidatedResults)
                 {
-                    if ((test.StartDate??DateTime.MaxValue)<startDate) startDate = test.StartDate??DateTime.MaxValue;
-                    if ((test.EndDate??DateTime.MinValue)>endDate) endDate = test.EndDate??DateTime.MinValue;
+                    if ((test.StartDate ?? DateTime.MaxValue) < startDate) startDate = test.StartDate ?? DateTime.MaxValue;
+                    if ((test.EndDate ?? DateTime.MinValue) > endDate) endDate = test.EndDate ?? DateTime.MinValue;
 
                     // Ajoute la ligne pour le nom du test
                     if (test.TestName != nomTest)
@@ -545,27 +537,33 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                         ip.Element["Date"] = test.EndDate?.ToString("dd/MM/yyyy") + Environment.NewLine;
 
                     ip.Element["Description"] = test.Description + Environment.NewLine;
-                    ip.Element["Reference"] = test.Pharmacopoeia?.Abbreviation??"" +" "+ test.PharmacopoeiaVersion + Environment.NewLine;
+                    ip.Element["Reference"] = test.Pharmacopoeia?.Abbreviation ?? "" + " " + test.PharmacopoeiaVersion + Environment.NewLine;
                     ip.Element["Specification"] = test.Specification + Environment.NewLine;
-                    ip.Element["Result"] = test.Result?.Result??"" + Environment.NewLine;
+                    ip.Element["Result"] = test.Result?.Result ?? "" + Environment.NewLine;
 
                     switch (test.Result?.ConformityId)
                     {
-                        case ConformityState.NotConform : ip.Element["Conform"] = "{FR=Non conforme}{EN=Not conform}" + Environment.NewLine;
+                        case ConformityState.NotConform:
+                            ip.Element["Conform"] = "{FR=Non conforme}{EN=Not conform}" + Environment.NewLine;
                             conform = false;
                             break;
-                        case ConformityState.Conform : ip.Element["Conform"] = "{FR=Conforme}{EN=Conform}" + Environment.NewLine;
+                        case ConformityState.Conform:
+                            ip.Element["Conform"] = "{FR=Conforme}{EN=Conform}" + Environment.NewLine;
                             break;
-                        case ConformityState.Invalid : ip.Element["Conform"] = "{FR=Invalide}{EN=Invalid}" + Environment.NewLine;
+                        case ConformityState.Invalid:
+                            ip.Element["Conform"] = "{FR=Invalide}{EN=Invalid}" + Environment.NewLine;
                             conform = null;
                             break;
-                        case ConformityState.NotChecked: ip.Element["Conform"] = "{FR=Non testé}{EN=Not tested}" + Environment.NewLine;
+                        case ConformityState.NotChecked:
+                            ip.Element["Conform"] = "{FR=Non testé}{EN=Not tested}" + Environment.NewLine;
                             conform = null;
                             break;
-                        case ConformityState.Running: ip.Element["Conform"] = "{FR=En cours}{EN=Running}" + Environment.NewLine;
+                        case ConformityState.Running:
+                            ip.Element["Conform"] = "{FR=En cours}{EN=Running}" + Environment.NewLine;
                             conform = null;
                             break;
-                        case null: ip.Element["Conform"] = "{FR=Non validé}{EN=Not validated}" + Environment.NewLine;
+                        case null:
+                            ip.Element["Conform"] = "{FR=Non validé}{EN=Not validated}" + Environment.NewLine;
                             conform = null;
                             break;
                         default:
@@ -575,15 +573,15 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 }
             }
 
-            ip["Conformity"] = (conform == true)?"Conforme": (conform==false?"Non conforme":"Indeterminée");
-            ip["XConform"] = (conform == true)?"X":" ";
-            ip["XNotConform"] = (conform == false)?"X":" ";
+            ip["Conformity"] = (conform == true) ? "Conforme" : (conform == false ? "Non conforme" : "Indeterminée");
+            ip["XConform"] = (conform == true) ? "X" : " ";
+            ip["XNotConform"] = (conform == false) ? "X" : " ";
 
-            ip["AnalysisStart"] = DateToString(language,startDate);
-            ip["AnalysisEnd"] = DateToString(language,endDate);
+            ip["AnalysisStart"] = DateToString(language, startDate);
+            ip["AnalysisEnd"] = DateToString(language, endDate);
 
             // Impression du certificat d'analyse
-            if(ip.Apercu("Rapport_" + Model.Reference, null, Print.Langue("{FR=Rapport d'analyse}{EN=Report of analysis} ", language) + Model.Reference))
+            if (ip.Apercu("Rapport_" + Model.Reference, null, Print.Langue("{FR=Rapport d'analyse}{EN=Report of analysis} ", language) + Model.Reference))
             {
                 // Log cette impression
                 // TODO : Sql.Log(TypeObjet.Echantillon, IdEchantillon, ip.LogText);

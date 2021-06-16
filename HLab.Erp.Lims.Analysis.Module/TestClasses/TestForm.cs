@@ -135,7 +135,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             get => _mode.Get();
             set
             {
-                if(_mode.Set(value))
+                if (_mode.Set(value))
                     SetFormMode(value);
             }
         }
@@ -161,7 +161,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             {
                 var engine = new Mages.Core.Engine();
                 var result = engine.Interpret(formula);
-                
+
                 if (result != null)
                     return (double)result;
             }
@@ -274,10 +274,10 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         //protected virtual bool HasTag(FrameworkElement e, string tag)
         //{
-            
+
         //}
 
-        protected virtual bool HasLevel(FrameworkElement e,ElementLevel level)
+        protected virtual bool HasLevel(FrameworkElement e, ElementLevel level)
         {
             switch (level)
             {
@@ -311,79 +311,79 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             var optionalDone = 0;
 
 
-                foreach (var element in _namedElements)
+            foreach (var element in _namedElements)
+            {
+                var spec = HasLevel(element, ElementLevel.Specification);
+                var mandatory = HasLevel(element, ElementLevel.Mandatory);
+
+                var doneBrush =
+                    mode == FormMode.Specification
+                    ? spec ? SpecificationDoneBrush : HiddenBrush
+                    : spec ? SpecificationDoneBrush : NormalBrush
+                    ;
+
+                var todoBrush =
+                    mode == FormMode.Specification
+                    ? spec ? SpecificationNeededBrush : HiddenBrush
+                    : mandatory ? MandatoryBrush : NormalBrush;
+
+
+                Action todo;
+                if (spec) todo = () => specificationNeeded++;
+                else if (mandatory) todo = () => mandatoryNeeded++;
+                else todo = () => optionalEmpty++;
+
+                Action done;
+                if (spec) done = () => specificationDone++;
+                else if (mandatory) done = () => mandatoryDone++;
+                else done = () => optionalDone++;
+
+                var enabled =
+                    (spec && mode == FormMode.Specification)
+                    || (!spec && mode == FormMode.Capture);
+
+                switch (element)
                 {
-                    var spec = HasLevel(element, ElementLevel.Specification);
-                    var mandatory = HasLevel(element, ElementLevel.Mandatory);
+                    // TextBoxEx
+                    case TextBoxEx tb when Math.Abs(tb.Double) > double.Epsilon:
+                        tb.Background = doneBrush;
+                        tb.IsEnabled = enabled;
+                        done();
+                        break;
 
-                    var doneBrush = 
-                        mode == FormMode.Specification
-                        ?spec?SpecificationDoneBrush:HiddenBrush
-                        :spec?SpecificationDoneBrush:NormalBrush                        
-                        ;
+                    case TextBoxEx tb:
+                        tb.Background = todoBrush;
+                        tb.IsEnabled = enabled;
+                        todo();
+                        break;
 
-                    var todoBrush = 
-                        mode == FormMode.Specification
-                        ?spec?SpecificationNeededBrush:HiddenBrush
-                        :mandatory?MandatoryBrush:NormalBrush;
+                    // TextBox
+                    case TextBox tb when tb.Text.Length > 0:
+                        tb.Background = doneBrush;
+                        tb.IsEnabled = enabled;
+                        done();
+                        break;
 
+                    case TextBox tb:
+                        tb.Background = todoBrush;
+                        tb.IsEnabled = enabled;
+                        todo();
+                        break;
 
-                    Action todo;
-                    if (spec) todo = () => specificationNeeded++;
-                    else if(mandatory) todo = () => mandatoryNeeded++;
-                    else todo = () => optionalEmpty++;
+                    // CheckBox
+                    case CheckBox cb when cb.IsChecked != null:
+                        cb.Background = doneBrush;
+                        cb.IsEnabled = enabled;
+                        done();
+                        break;
 
-                    Action done;
-                    if (spec) done = () => specificationDone++;
-                    else if(mandatory) done = () => mandatoryDone++;
-                    else done = () => optionalDone++;
-
-                    var enabled =
-                        (spec && mode == FormMode.Specification)
-                        || (!spec && mode == FormMode.Capture);
-
-                    switch (element)
-                    {
-                        // TextBoxEx
-                        case TextBoxEx tb when Math.Abs(tb.Double) > double.Epsilon:
-                            tb.Background = doneBrush;
-                            tb.IsEnabled = enabled;
-                            done();
-                            break;
-
-                        case TextBoxEx tb:
-                            tb.Background = todoBrush;
-                            tb.IsEnabled = enabled;
-                            todo();
-                            break;
-
-                        // TextBox
-                        case TextBox tb when tb.Text.Length > 0:
-                            tb.Background = doneBrush;
-                            tb.IsEnabled = enabled;
-                            done();
-                            break;
-
-                        case TextBox tb:
-                            tb.Background = todoBrush;
-                            tb.IsEnabled = enabled;
-                            todo();
-                            break;
-
-                        // CheckBox
-                        case CheckBox cb when cb.IsChecked != null:
-                            cb.Background = doneBrush;
-                            cb.IsEnabled = enabled;
-                            done();
-                            break;
-
-                        case CheckBox cb:
-                            cb.Background = todoBrush;
-                            cb.IsEnabled = enabled;
-                            todo();
-                            break;
-                    }
+                    case CheckBox cb:
+                        cb.Background = todoBrush;
+                        cb.IsEnabled = enabled;
+                        todo();
+                        break;
                 }
+            }
 
 
             // SPECIFICATION
@@ -393,35 +393,35 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 switch (mode)
                 {
                     case FormMode.Specification:
-                    {
-                        Target.SpecificationValues = GetSpecPackedValues();
-                        if (specificationNeeded > 0)
                         {
-                            if(Target!=null)
-                               Target.ConformityId = ConformityState.NotChecked;
+                            Target.SpecificationValues = GetSpecPackedValues();
+                            if (specificationNeeded > 0)
+                            {
+                                if (Target != null)
+                                    Target.ConformityId = ConformityState.NotChecked;
 
-                            Target.SpecificationDone = false;
+                                Target.SpecificationDone = false;
+                            }
+                            else Target.SpecificationDone = true;
+
+                            break;
                         }
-                        else Target.SpecificationDone = true;
-
-                        break;
-                    }
                     case FormMode.Capture:
-                    {
-                        Target.ResultValues = GetPackedValues();
-                        if (mandatoryNeeded > 0)
                         {
-                            if(Target!=null)
-                                Target.ConformityId = mandatoryDone > 0 ? ConformityState.Running : ConformityState.NotChecked;
-                            Target.MandatoryDone = false;
-                        }
-                        else Target.MandatoryDone = true;
+                            Target.ResultValues = GetPackedValues();
+                            if (mandatoryNeeded > 0)
+                            {
+                                if (Target != null)
+                                    Target.ConformityId = mandatoryDone > 0 ? ConformityState.Running : ConformityState.NotChecked;
+                                Target.MandatoryDone = false;
+                            }
+                            else Target.MandatoryDone = true;
 
-                        break;
-                    }
+                            break;
+                        }
                 }
 
-                if(Target.ConformityId>ConformityState.Running)
+                if (Target.ConformityId > ConformityState.Running)
                 {
                     if (specificationNeeded > 0) Target.ConformityId = ConformityState.NotChecked;
                     if (mandatoryNeeded > 0) Target.ConformityId = ConformityState.Running;
@@ -449,20 +449,18 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 var v = value.Split("=");
                 if (v.Length > 1)
                 {
-                    dict.TryAdd(v[0],v[1]);
+                    dict.TryAdd(v[0], v[1]);
                 }
                 else if (v.Length == 1)
                 {
-                    dict.TryAdd(v[0],"");
+                    dict.TryAdd(v[0], "");
                 }
 
             }
 
             LoadValues(dict);
-
-            SetFormMode(Mode);
         }
-        public void LoadValues(Dictionary<string,string> values)
+        public void LoadValues(Dictionary<string, string> values)
         {
             foreach (var c in _namedElements)
             {
@@ -471,7 +469,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 var isBool = idx >= 0;
                 if (isBool && c is CheckBox chk) name = name.Substring(0, idx);
 
-                if(values.TryGetValue(name,out var value))
+                if (values.TryGetValue(name, out var value))
                     switch (c)
                     {
                         case TextBoxEx tbe:

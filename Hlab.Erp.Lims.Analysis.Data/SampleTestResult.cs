@@ -10,7 +10,6 @@ namespace HLab.Erp.Lims.Analysis.Data
 {
     using H = HD<SampleTestResult>;
 
-
     public partial class SampleTestResult : Entity, IFormTarget
     //        , IEntityWithIcon
     //        , IEntityWithColor

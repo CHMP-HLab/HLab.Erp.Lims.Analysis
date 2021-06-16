@@ -42,7 +42,7 @@
             </Grid.RowDefinitions>
             <!--<mvvm:ViewLocator Model="{Binding Results.Selected}" MinHeight="50"/>-->
             <controlsEx:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                <ContentControl Content="{Binding FormHelper.Form}" IsEnabled="{Binding Locker.IsActive}" />
+                <ContentControl Content="{Binding FormHelper.Form}" IsEnabled="{Binding EditMode}" />
             </controlsEx:ScrollViewerEx>
         </Grid>
             

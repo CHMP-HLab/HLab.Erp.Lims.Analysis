@@ -1,12 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
-using HLab.Core.Annotations;
+﻿using System.Threading.Tasks;
 using HLab.Erp.Acl;
-using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
@@ -81,16 +74,18 @@ namespace HLab.Erp.Analysis.UTests
                 );
 
 
-              await vm.FormHelper.LoadDefaultFormAsync();
-         //   var testClass = new TestClass{Code = await vm.FormHelper.PackCodeAsync()};
-
-         //   //   vm.Model = new Test_SampleTestResult {SampleTest = new Test_SampleTest {TestClass = testClass}};
-            vm.Model = new SampleTestResult {};
+            await vm.FormHelper.LoadDefaultFormAsync();
+            var testClass = new TestClass{Code = await vm.FormHelper.PackCodeAsync()};
+            vm.Model = new Test_SampleTestResult {SampleTest = new Test_SampleTest {TestClass = testClass}};
+            //vm.Model = new SampleTestResult {};
             vm.Workflow.CurrentStage = SampleTestResultWorkflow.Running;
 
             await vm.Locker.ActivateAsync();
 
             Assert.True(vm.EditMode);
+
+            vm.Workflow.CurrentStage = SampleTestResultWorkflow.Validated;
+            Assert.False(vm.EditMode);
         }
 
         [WpfFact]
@@ -129,7 +124,7 @@ namespace HLab.Erp.Analysis.UTests
 
             SampleWorkflow GetSampleWorkflow(Sample s, IDataLocker<Sample> d) => new SampleWorkflow(s, d, null);
 
-            var vm = new SampleViewModel(null, null, null, null, null, null, GetSampleWorkflow);
+            var vm = new SampleViewModel(null, null, null, null, null,  GetSampleWorkflow);
 
             vm.Inject(
                 null,

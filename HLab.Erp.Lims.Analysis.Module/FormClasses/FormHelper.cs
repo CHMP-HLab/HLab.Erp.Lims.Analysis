@@ -16,7 +16,30 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
     public class FormHelper : NotifierBase
     {
-        public FormHelper() => H.Initialize(this); 
+        public FormHelper() => H.Initialize(this);
+
+        public async Task LoadDefaultFormAsync()
+        {
+            Xaml = "<Grid></Grid>";
+            Cs = @"using System;
+            using System.Windows;
+            using System.Windows.Controls;
+            using FM;
+            namespace Lims
+            {
+                public class TestIdentification
+                {
+                    public void Process(object sender, RoutedEventArgs e)
+                    {
+
+                        Test.Description = ""Denomination"";
+                        Test.Norme       = ""Specification"";
+                        Test.Resultat    = ""Resultat"";
+                    }  
+                }
+            }";
+           await CompileAsync().ConfigureAwait(false);
+        }
 
         public IForm Form
         {
@@ -124,16 +147,16 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             CsErrors.Clear();
             DebugErrors.Clear();
 
-            if(Provider.XamlErrors != null)
-                foreach(var e in Provider.XamlErrors)
+            if (Provider.XamlErrors != null)
+                foreach (var e in Provider.XamlErrors)
                     XamlErrors.Add(e);
 
-            if(Provider.CsErrors != null)
-                foreach(var e in Provider.CsErrors)
+            if (Provider.CsErrors != null)
+                foreach (var e in Provider.CsErrors)
                     CsErrors.Add(e);
 
-            if(Provider.DebugErrors != null)
-                foreach(var e in Provider.DebugErrors)
+            if (Provider.DebugErrors != null)
+                foreach (var e in Provider.DebugErrors)
                     DebugErrors.Add(e);
 
             Form = Provider.Create();
@@ -239,7 +262,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             return null;
         }
         
-        public async Task Compile()
+        public async Task CompileAsync()
         {
             var specs = Form?.Target?.SpecificationValues;
             var values = Form?.Target?.ResultValues;

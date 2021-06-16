@@ -85,17 +85,15 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             else
             {
                 CsErrors = messages.Select(TranslateCsError);
-
-                #if DEBUG
-                    var parser = new CompilerCodeParser(cs);
-                    parser.FormatCode();
-                    FinalCode = parser.Code;
-
-                    var dummy = Compiler.Wpf.Compiler.Compile(out var m2, FinalCode);
-                    DebugErrors = m2;
-#endif
-
             }
+#if DEBUG
+            var parser = new CompilerCodeParser(cs);
+            parser.FormatCode();
+            FinalCode = parser.Code;
+
+            var dummy = Compiler.Wpf.Compiler.Compile(out var m2, FinalCode);
+            DebugErrors = m2;
+#endif
         }
 
         private string PrepareCs(string cs)
@@ -149,6 +147,8 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
         private FrameworkElement GetXamlUi()
         {
+            if(_xaml==null) return new TextBlock {Text = "xaml was null"};
+
             try
             {
                 return (FrameworkElement)XamlReader.Parse(_xaml);

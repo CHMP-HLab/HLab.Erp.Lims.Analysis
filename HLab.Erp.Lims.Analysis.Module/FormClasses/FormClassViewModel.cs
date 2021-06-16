@@ -49,7 +49,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                     }";
                 }
 
-                await e.FormHelper.Compile();
+                await e.FormHelper.CompileAsync();
             }));
         public FormHelper FormHelper { get; }
 
@@ -67,7 +67,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
         private async Task TryAsync()
         {
-            await FormHelper.Compile();
+            await FormHelper.CompileAsync();
             Model.Code = await FormHelper.PackCodeAsync();
         }
 

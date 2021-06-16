@@ -55,7 +55,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                     }";
             }
 
-            await e.FormHelper.Compile();
+            await e.FormHelper.CompileAsync();
         }));
 
         #region Imports
@@ -125,7 +125,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         private async Task TryAsync()
         {
-            await FormHelper.Compile();
+            await FormHelper.CompileAsync();
             Model.Code = await FormHelper.PackCodeAsync();
         }
 

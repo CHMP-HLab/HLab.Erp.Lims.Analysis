@@ -10,25 +10,25 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 {
 
 
-    public class SampleWorkflow : Workflow<SampleWorkflow,Sample>
+    public class SampleWorkflow : Workflow<SampleWorkflow, Sample>
     {
         private readonly ObservableQuery<SampleTest> _sampleTests;
-        public SampleWorkflow(Sample sample, DataLocker<Sample> locker, ObservableQuery<SampleTest> sampleTests):base(sample,locker)
+        public SampleWorkflow(Sample sample, IDataLocker<Sample> locker, ObservableQuery<SampleTest> sampleTests):base(sample,locker)
         {
             _sampleTests = sampleTests;
             var id = sample.Id;
-            _sampleTests.AddFilter(() => e => e.SampleId == id);
+            _sampleTests?.AddFilter(() => e => e.SampleId == id);
 
             H<SampleWorkflow>.Initialize(this);
-                
-            var task = UpdateChildrenAsync();
+
+            UpdateChildren();
+
             SetStage(sample.Stage);
         }
 
-        public async Task UpdateChildrenAsync()
+        public void UpdateChildren()
         {
-            _sampleTests.Update(); // TODO : should be async
-            Update();
+            _sampleTests?.Update(Update); 
         }
 
 
@@ -47,9 +47,9 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
             })
 
             .On(e => e.Locker.IsActive)
-            .Do(async (swf,p) =>
+            .Do((swf,p) =>
             {
-                await swf.UpdateChildrenAsync();
+                swf.UpdateChildren();
             })
         );
 
@@ -180,11 +180,12 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
                 .WithMessage(w => "{Missing} : {Pharmacopoeia version}")
                 .HighlightField(w => w.Target.PharmacopoeiaVersion)
 
-            .NotWhen(w => w._sampleTests.Count == 0)
+            .NotWhen(w => (w._sampleTests?.Count??0) == 0)
                 .WithMessage(w => "{Missing} : {Tests}")
 //                .HighlightField(w => w.Target.Pharmacopoeia)
 
             .When(w => {
+                if(w._sampleTests != null)
                 foreach (SampleTest test in w._sampleTests)
                 {
                     if (test.Stage == SampleTestWorkflow.Specifications) return false; 
@@ -260,6 +261,9 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
             .When(w => {
                 var validated = 0;
                 var invalidated = 0;
+
+                if (w._sampleTests == null) return false;
+
                 foreach (SampleTest test in w._sampleTests) 
                 {
                     if (test.Stage == SampleTestWorkflow.ValidatedResults) validated++; 
