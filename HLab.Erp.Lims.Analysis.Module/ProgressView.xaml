@@ -31,29 +31,8 @@
                     Foreground="White"
                     FontSize="12"
                     ContentStringFormat="{}{0:P00}"
-                    Content="{Binding Percent, FallbackValue=100}" />
-
-                <Label
-                    FontWeight="Bold"
-                    HorizontalAlignment="Center"
-                    Foreground="White"
-                    FontSize="12"
-                    Content="%"
-                    />
-                <!--<Label 
-            FontWeight="Bold"
-            HorizontalAlignment="Center"
-            Foreground="White"
-            FontSize="12"
-            Content="{Binding Model.TotalWeight, FallbackValue='200'}" />-->
+                    Content="{Binding Value, FallbackValue=0.0}" />
             </StackPanel>
-            <!--<Label 
-            FontWeight="Bold"
-            HorizontalAlignment="Center"
-            Foreground="White"
-            FontSize="22"
-            ContentStringFormat="{}{0:P00}"
-            Content="{Binding Model.TotalScore, FallbackValue='10%'}" />-->
         </StackPanel>
     </Grid>
 </UserControl>

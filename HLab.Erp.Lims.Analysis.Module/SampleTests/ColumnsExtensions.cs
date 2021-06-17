@@ -115,7 +115,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             where TFilter : IFilter<TLink>
             => c.Column()
                 .Header("{Progress}").Width(80)
-                .Content(s => new ProgressViewModel {Value = getProgress(s) ?? 0})
+                .Content(s => new ProgressViewModel {Value = getProgress(s) ?? 0.0})
                 .OrderBy(s => getProgress(s));
 
         public static IColumnConfigurator<T, object, IFilter<object>> DescriptionColumn<T, TLink, TFilter>(this IColumnConfigurator<T, TLink, TFilter> c,

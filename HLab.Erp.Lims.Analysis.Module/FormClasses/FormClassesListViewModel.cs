@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Input;
 
 using HLab.Erp.Core;
 using HLab.Erp.Core.EntityLists;
@@ -9,7 +8,7 @@ using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses
-{    
+{
     public class FormClassesListViewModel : EntityListViewModel<FormClass>, IMvvmContextProvider
     {
         public class Bootloader : NestedBootloader

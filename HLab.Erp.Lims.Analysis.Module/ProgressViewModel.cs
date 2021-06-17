@@ -3,7 +3,7 @@ using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module
 {
-    class ProgressViewModel : ViewModel
+    public class ProgressViewModel : ViewModel
     {
         public ProgressViewModel() => H<ProgressViewModel>.Initialize(this);
 
