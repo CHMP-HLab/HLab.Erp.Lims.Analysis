@@ -318,6 +318,12 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _stageId.Set(value);
         }
         private readonly IProperty<string> _stageId = H.Property<string>();
+        public string PreviousStageId
+        {
+            get => _previousStageId.Get();
+            set => _previousStageId.Set(value);
+        }
+        private readonly IProperty<string> _previousStageId = H.Property<string>();
 
         [Ignore]
         public SampleWorkflow.Stage Stage

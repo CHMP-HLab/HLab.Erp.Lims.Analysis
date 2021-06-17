@@ -1,5 +1,5 @@
-﻿UPDATE "SAMPLE" SET "AnalysisMotivationID" = 1 WHERE "Motivation" = 'Routine';
-UPDATE "SAMPLE" SET "AnalysisMotivationID" = 3 WHERE "Motivation" = 'Enregistrement';
+﻿UPDATE "SAMPLE" SET "AnalysisMotivationId" = 1 WHERE "Motivation" = 'Routine';
+UPDATE "SAMPLE" SET "AnalysisMotivationId" = 3 WHERE "Motivation" = 'Enregistrement';
 
 DELETE FROM "SampleForm" WHERE "ResultValues" IS NULL;
 
