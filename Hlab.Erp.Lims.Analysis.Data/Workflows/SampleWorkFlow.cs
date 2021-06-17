@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Threading.Tasks;
 using HLab.Erp.Acl;
 using HLab.Erp.Data.Observables;
-using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Workflows;
 using HLab.Notify.PropertyChanged;
 
@@ -20,7 +18,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
             _sampleTests?.AddFilter(() => e => e.SampleId == id);
 
             H<SampleWorkflow>.Initialize(this);
-
+            
+            _sampleTests?.Start();
             UpdateChildren();
 
             SetStage(sample.Stage);
@@ -298,7 +297,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
         public static Action ReopenAnalysis = Action.Create(c => c
            .Caption(w => "{Reopen analysis}").Icon(w => "Icons/Workflows/Redo")
            .FromStage(() => Aborted)
-           .Action(w => w.TargetStage = SampleWorkflow.StageFromName(w.Target.PreviousStageId))
+           .ToStage(w => StageFromName(w.Target.PreviousStageId))
            .NeedRight(() => AnalysisRights.AnalysisCertificateCreate)
            .Sign().Motivate()
         );
@@ -318,7 +317,6 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
             .Caption(w => "{Closed}").Icon(w => "Icons/Workflows/Closed")
             .Progress(1.0).Action(w => w.Target.Progress = 1.0)
             .SetStage(() => Closed)
-            .NotWhen()
             //.When(w => w.Target.Invoiced).WithMessage(w => "{Not billed}")
             //.When(w => w.Target.Paid).WithMessage(w => "{Not Payed}")
             .WhenStageAllowed(() => Certificate)

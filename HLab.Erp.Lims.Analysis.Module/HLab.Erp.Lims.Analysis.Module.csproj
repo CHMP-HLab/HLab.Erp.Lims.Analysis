@@ -136,6 +136,7 @@
     <Page Remove="Icons\Validations\Stop.xaml" />
     <Page Remove="Icons\Validations\Validated.xaml" />
     <Page Remove="Icons\Validations\ValidateDocument.xaml" />
+    <Page Remove="Icons\Workflows\Redo.xaml" />
     <Page Remove="Icons\Workflows\SampleWorkflow.xaml" />
     <Page Remove="Icons\Workflows\Specifications.xaml" />
     <Page Remove="Icons\Workflows\SpecificationsSigned.xaml" />
@@ -200,6 +201,7 @@
     <Resource Include="Icons\Workflows\Aborted.svg" />
     <Resource Include="Icons\Workflows\Certificate.svg" />
     <Resource Include="Icons\Workflows\Closed.svg" />
+    <Resource Include="Icons\Workflows\Redo.xaml" />
     <Resource Include="Icons\Workflows\SampleWorkflow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Resource>
