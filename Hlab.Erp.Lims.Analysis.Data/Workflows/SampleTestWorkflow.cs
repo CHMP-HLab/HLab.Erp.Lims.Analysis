@@ -49,9 +49,9 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action SignSpecifications = Action.Create(c => c
             .Caption("{Sign}").Icon("Icons/Workflows/SpecificationsSigned")
-            .FromState(() => Specifications)
+            .FromStage(() => Specifications)
             .NeedRight(() => AnalysisRights.AnalysisMonographSign)
-            .ToState(() => SignedSpecifications)
+            .ToStage(() => SignedSpecifications)
             .Sign()
         );
 
@@ -68,18 +68,18 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action RequestSpecificationsCorrection = Action.Create(c => c
             .Caption("{Request correction}").Icon("Icons/Workflows/Correct")
-            .FromState(() => SignedSpecifications, () => Scheduled, () => Scheduling, () => Running)
+            .FromStage(() => SignedSpecifications, () => Scheduled, () => Scheduling, () => Running)
             .NeedRight(() => AnalysisRights.AnalysisMonographValidate)
-            .ToState(() => CorrectionNeeded)
+            .ToStage(() => CorrectionNeeded)
             .Backward()
             .Sign().Motivate()
         );
 
         public static Action ValidateSpecifications = Action.Create(c => c
             .Caption("{Validate}").Icon("Icons/Validations/Validated")
-            .FromState(() => SignedSpecifications)
+            .FromStage(() => SignedSpecifications)
             .NeedRight(() => AnalysisRights.AnalysisMonographValidate)
-            .ToState(() => Scheduling)
+            .ToStage(() => Scheduling)
             .Sign()
         );
 
@@ -95,9 +95,9 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action Correction = Action.Create(c => c
             .Caption("{Correct}").Icon("Icons/Workflows/Correct")
-            .FromState(() => CorrectionNeeded, () => SignedSpecifications, () => Scheduling, () => Scheduled, () => Running)
+            .FromStage(() => CorrectionNeeded, () => SignedSpecifications, () => Scheduling, () => Scheduled, () => Running)
             .NeedRight(() => AnalysisRights.AnalysisMonographValidate)
-            .ToState(() => Specifications)
+            .ToStage(() => Specifications)
             .Backward().Motivate()
         );
 
@@ -113,8 +113,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action Schedule = Action.Create(c => c
            .Caption("{Schedule}").Icon("Icons/Workflows/Planning")
-           .FromState(() => Scheduling)
-           .ToState(() => Scheduled)
+           .FromStage(() => Scheduling)
+           .ToStage(() => Scheduled)
         );
 
         //########################################################
@@ -129,16 +129,16 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action ToProduction = Action.Create(c => c
            .Caption("{To Production}").Icon("Icons/Workflows/Production")
-           .FromState(() => Scheduling, () => Scheduled)
+           .FromStage(() => Scheduling, () => Scheduled)
            .When(w => w.Target.Sample.Stage == SampleWorkflow.Production)
            .WithMessage(w => "{Sample not in production}")
-           .ToState(() => Running)
+           .ToStage(() => Running)
         );
 
         public static Action Unschedule = Action.Create(c => c
            .Caption("{Unschedule}").Icon("Icons/Workflows/Planning")
-           .FromState(() => Scheduled)
-           .ToState(() => Scheduling)
+           .FromStage(() => Scheduled)
+           .ToStage(() => Scheduling)
            .Backward()
            .Motivate()
         );
@@ -155,15 +155,15 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action Stop = Action.Create(c => c
            .Caption("{Pause}").Icon("Icons/Workflows/Pause")
-           .FromState(() => Running)
-           .ToState(() => Scheduling)
+           .FromStage(() => Running)
+           .ToStage(() => Scheduling)
            .Backward()
            .Motivate()
         );
 
         public static Action ValidateResults = Action.Create(c => c
             .Caption("{Validate results}").Icon("Icons/Validations/Validated")
-            .FromState(() => Running)
+            .FromStage(() => Running)
             .Action(w =>
             {
                 if (w.Target.Result == null)
@@ -178,8 +178,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
                     }
                 }
             })
-            .ToState(() => ValidatedResults)
-            .WhenStateAllowed(() => ValidatedResults)
+            .ToStage(() => ValidatedResults)
+            .WhenStageAllowed(() => ValidatedResults)
             //Todo : reuse toState
             .When(w => w.Target.Sample.Stage == SampleWorkflow.Production)
             .WithMessage(w => "{Sample not in production}")
@@ -189,8 +189,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action InvalidateResults = Action.Create(c => c
             .Caption("{Invalidate results}").Icon("Icons/Validations/Invalidated")
-            .FromState(() => Running, () => ValidatedResults)
-            .ToState(() => InvalidatedResults)
+            .FromStage(() => Running, () => ValidatedResults)
+            .ToStage(() => InvalidatedResults)
             .When(w => w.Target.Sample.Stage == SampleWorkflow.Production)
             .WithMessage(w => "{Sample not in production}")
             .NeedRight(() => AnalysisRights.AnalysisResultValidate)
@@ -248,9 +248,9 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action Correct = Action.Create(c => c
             .Caption("{Correct}").Icon("Icons/Workflows/Correct")
-            .FromState(()=>ValidatedResults,()=>InvalidatedResults)
+            .FromStage(()=>ValidatedResults,()=>InvalidatedResults)
             .NeedRight(() => AnalysisRights.AnalysisResultValidate)
-            .ToState(()=>Running)
+            .ToStage(()=>Running)
         );
 
         protected override Stage TargetStage

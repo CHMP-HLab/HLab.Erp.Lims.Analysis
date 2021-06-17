@@ -19,9 +19,9 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action Sign = Action.Create(c => c
             .Caption("{Sign}").Icon("Icons/Validations/Sign")
-            .FromState(() => Running)
+            .FromStage(() => Running)
             .Action(w => w.Target.End = DateTime.Now)
-            .ToState(() => Signed)
+            .ToStage(() => Signed)
         );
 
         // SIGNED
@@ -32,16 +32,16 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action Check = Action.Create(c => c
             .Caption("{Check}").Icon("Icons/Result/CheckPassed")
-            .FromState(() => Signed)
+            .FromStage(() => Signed)
             .Action(w => w.Target.End ??= DateTime.Now)
             .NeedRight(() => AnalysisRights.AnalysisResultCheck)
-            .ToState(() => Checked)
+            .ToStage(() => Checked)
         );
 
         public static Action AskForCorrection = Action.Create(c => c
             .Caption("{Ask for correction}").Icon("Icons/Workflows/Correct")
-            .FromState(() => Signed, () => Checked)
-            .ToState(() => CorrectionNeeded).Backward()
+            .FromStage(() => Signed, () => Checked)
+            .ToStage(() => CorrectionNeeded).Backward()
         );
 
         // ERROR
@@ -51,8 +51,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action Correct = Action.Create(c => c
             .Caption("{Correct}").Icon("Icons/Workflows/Correct")
-            .FromState(() => CorrectionNeeded, () => Signed)
-            .ToState(() => Running)
+            .FromStage(() => CorrectionNeeded, () => Signed)
+            .ToStage(() => Running)
         );
 
         // CHECKED
@@ -62,15 +62,15 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action Validate = Action.Create(c => c
             .Caption("{Validate}").Icon("Icons/Validations/Validated")
-            .FromState(() => Checked)
-            .ToState(() => Validated)
+            .FromStage(() => Checked)
+            .ToStage(() => Validated)
             .NeedRight(() => AnalysisRights.AnalysisResultValidate)
         );
 
         public static Action Invalidate = Action.Create(c => c
             .Caption("{Invalidate}").Icon("Icons/Validations/Invalidated")
-            .FromState(() => Checked, () => Validated)
-            .ToState(() => Invalidated)
+            .FromStage(() => Checked, () => Validated)
+            .ToStage(() => Invalidated)
             .NeedRight(() => AnalysisRights.AnalysisResultValidate)
         );
 
@@ -81,9 +81,9 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action AskForCorrection3 = Action.Create(c => c
             .Caption("{Ask for correction}").Icon("Icons/Workflows/Correct")
-            .FromState(() => Validated, () => Invalidated)
+            .FromStage(() => Validated, () => Invalidated)
             .When(w => w.Target.SampleTest?.Stage == SampleTestWorkflow.Running)
-            .ToState(() => CorrectionNeeded).Backward()
+            .ToStage(() => CorrectionNeeded).Backward()
             .NeedRight(() => AnalysisRights.AnalysisResultValidate)
         );
 

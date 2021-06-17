@@ -15,7 +15,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
 
         public static Stage Created = Stage.Create(c => c
             .Caption("^Reception entry").Icon("Icons/Sample/PackageOpened")
-            .SetState(() => Created)
+            .SetStage(() => Created)
         );
 
         protected override Stage TargetStage { get; set; }
