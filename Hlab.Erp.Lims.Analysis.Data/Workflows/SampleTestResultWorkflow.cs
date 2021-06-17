@@ -20,6 +20,10 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
         public static Action Sign = Action.Create(c => c
             .Caption("{Sign}").Icon("Icons/Validations/Sign")
             .FromStage(() => Running)
+            .When(w => w.Target.SampleTest.Stage == SampleTestWorkflow.Running)
+            .WithMessage(w=>"{Test not in production}")
+            .When(w => w.Target.SampleTest.Sample.Stage == SampleWorkflow.Production)
+            .WithMessage(w=>"{Sample not in production}")
             .Action(w => w.Target.End = DateTime.Now)
             .ToStage(() => Signed)
         );

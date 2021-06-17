@@ -57,6 +57,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             .Set(e =>
                 e.Locker.IsActive
                 && e.Workflow.CurrentStage == SampleTestResultWorkflow.Running
+                && e.Model.SampleTest.Stage == SampleTestWorkflow.Running
+                && e.Model.SampleTest.Sample.Stage == SampleWorkflow.Production
                 && e.Acl.IsGranted(AnalysisRights.AnalysisResultEnter)
             )
             .On(e => e.Locker.IsActive)

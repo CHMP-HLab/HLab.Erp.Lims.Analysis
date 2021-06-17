@@ -18,7 +18,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
             _sampleTests?.AddFilter(() => e => e.SampleId == id);
 
             H<SampleWorkflow>.Initialize(this);
-            
+
             _sampleTests?.Start();
             UpdateChildren();
 
@@ -163,11 +163,26 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action ValidateMonograph = Action.Create(c => c
            .Caption(w => "{Validate monograph}").Icon(w => "Icons/Workflows/Monograph|Icons/Validations/Validated")
-           .NeedRight(() => AnalysisRights.AnalysisReceptionCheck)
+           .NeedRight(() => AnalysisRights.AnalysisMonographValidate)
            .FromStage(() => Monograph)
            .ToStage(() => MonographClosed)
             .Sign()
             );
+
+        //########################################################
+        // MONOGRAPH REVIEW NEEDED
+
+        public static Stage MonographReviewNeeded = Stage.Create(c => c
+            .Caption(w => "{Monograph Review Needed}").Icon(w => "Icons/Workflows/Monograph|Icons/Workflows/Correct")
+            .WhenStageAllowed(() => Monograph)
+        );
+
+        public static Action CorrectMonograph = Action.Create(c => c
+            .Caption("{Correct}").Icon("Icons/Workflows/Correct")
+            .FromStage(() => MonographReviewNeeded)
+            .NeedRight(() => AnalysisRights.AnalysisMonographValidate)
+            .ToStage(() => Monograph)
+        );
 
         //########################################################
         // MONOGRAPH VALIDATED
@@ -231,6 +246,14 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
             .Caption(w => "{Production}").Icon(w => "Icons/Workflows/Production")
             .Progress(0.6).Action(w => w.Target.Progress = 0.6)
             .WhenStageAllowed(() => MonographClosed)
+        );
+
+        public static Action AskForMonographCorrection = Action.Create(c => c
+           .Caption(w => "{Ask for Monograph correction}").Icon(w => "Icons/Workflows/Monograph|Icons/Workflows/Correct")
+           .FromStage(() => Production)
+           .ToStage(() => MonographReviewNeeded)
+           .NeedRight(() => AnalysisRights.AnalysisResultEnter)
+           .Sign().Motivate().Backward()
         );
 
         //########################################################
