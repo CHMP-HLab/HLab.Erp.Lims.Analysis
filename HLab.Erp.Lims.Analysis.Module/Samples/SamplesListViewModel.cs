@@ -46,8 +46,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
                 .Column(e => e.Customer).Mvvm().Width(250)
 
-                .Column().Header("{Customer").Width(250).Content(c => c.Customer?.Caption).Icon(c => c.Customer?.IconPath) .Link(c => c.Customer)
-
                 .Column(e => e.Product).Mvvm().Width(550)
 
                 //.PostLinkedColumn(s => s.Product?.Form, s => s.Product?.FormId)
