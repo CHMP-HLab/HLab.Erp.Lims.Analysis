@@ -515,8 +515,14 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             {
                 if (test.Stage != SampleTestWorkflow.InvalidatedResults)
                 {
-                    if ((test.StartDate ?? DateTime.MaxValue) < startDate) startDate = test.StartDate ?? DateTime.MaxValue;
-                    if ((test.EndDate ?? DateTime.MinValue) > endDate) endDate = test.EndDate ?? DateTime.MinValue;
+                    var testStartDate = test.StartDate ?? test.Result.Start ?? DateTime.MaxValue;
+                    var testEndDate = test.EndDate ?? test.Result.End ?? DateTime.MinValue;
+
+                    if (testStartDate > testEndDate) testStartDate = testEndDate;
+                    if (testEndDate < testStartDate) testEndDate = testStartDate;
+
+                    if (testStartDate < startDate) startDate = testStartDate;
+                    if (testEndDate > endDate) endDate = testEndDate;
 
                     // Ajoute la ligne pour le nom du test
                     if (test.TestName != nomTest)
@@ -529,12 +535,11 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                     // Les résultats du test
                     ip.AjouteElement("Test");
 
-                    if (test.EndDate == null || test.EndDate == DateTime.MinValue)
-                        ip.Element["Date"] = "__/ __ /_____";
-                    else if (language == "US" || language == "EN")
-                        ip.Element["Date"] = test.EndDate?.ToString("MM/dd/yyyy") + Environment.NewLine;
-                    else
-                        ip.Element["Date"] = test.EndDate?.ToString("dd/MM/yyyy") + Environment.NewLine;
+                    ip.Element["Date"] = testEndDate == DateTime.MinValue
+                        ? "__/ __ /_____"
+                        : language is "US" or "EN"
+                            ? testEndDate.ToString("MM/dd/yyyy")
+                            : testEndDate.ToString("dd/MM/yyyy");
 
                     ip.Element["Description"] = test.Description + Environment.NewLine;
                     ip.Element["Reference"] = test.Pharmacopoeia?.Abbreviation ?? "" + " " + test.PharmacopoeiaVersion + Environment.NewLine;
