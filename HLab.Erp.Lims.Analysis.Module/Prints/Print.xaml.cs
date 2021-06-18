@@ -339,7 +339,10 @@ namespace Outils
 
             // Remplace les totaux de numéros de pages
             foreach (Page page in _Page)
-                PagesTotales(page);
+            {
+                if(page.Content is DependencyObject dependency)
+                    PagesTotales(dependency);
+            }
 
             // Applique le nombre de page total
             T_Pages.Text = "/ " + _Page.Count;
@@ -653,14 +656,14 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void PagesTotales(DependencyObject depObj)
+        private void PagesTotales(DependencyObject dependency)
         {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(dependency); i++)
             {
-                DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                DependencyObject child = VisualTreeHelper.GetChild(dependency, i);
 
-                if (child != null && child is TextBlock)
-                    ((TextBlock)child).Text = ((TextBlock)child).Text.Replace("{NbPages}", _Page.Count.ToString());
+                if (child is TextBlock textBlock)
+                    textBlock.Text = textBlock.Text.Replace("{NbPages}", _Page.Count.ToString());
 
                 PagesTotales(child);
             }
