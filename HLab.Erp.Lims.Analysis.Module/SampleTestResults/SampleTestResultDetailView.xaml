@@ -11,6 +11,7 @@
              xmlns:sampleTestResults="clr-namespace:HLab.Erp.Lims.Analysis.Module.SampleTestResults"
              xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
              xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
+             xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
              Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
              d:DataContext="{d:DesignInstance {x:Type sampleTestResults:SampleTestResultViewModelDesign}, IsDesignTimeCreatable=True}"             
              mc:Ignorable="d" 
@@ -35,10 +36,10 @@
                     <TextBox FontSize="16" HorizontalAlignment="Left" Text="{Binding Model.Name}" VerticalAlignment="Center" />
 
                     <lang:LocalizedLabel Text="{}{Start} : " HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
-                    <TextBlock HorizontalAlignment="Left" Text="{Binding Model.Start}" VerticalAlignment="Center"/>
+                    <wpf:DateEx HorizontalAlignment="Left" Width="200" ShowTime="True" Date="{Binding Model.Start}"/>
 
                     <lang:LocalizedLabel Text="{}{End} : " HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
-                    <TextBlock HorizontalAlignment="Left" Text="{Binding Model.End}"/>
+                    <wpf:DateEx HorizontalAlignment="Left" Width="200" ShowTime="True" Date="{Binding Model.End}"/>
 
                     <Grid Grid.ColumnSpan="2">
                         <Grid.ColumnDefinitions>

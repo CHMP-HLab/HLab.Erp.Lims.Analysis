@@ -56,7 +56,7 @@
                     <TextBox Text="{Binding Model.Reference, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
 
                     <lang:LocalizedLabel Text="{}{FileId} : "/>
-                    <base:NumTextBox 
+                    <wpf:NumTextBox 
                         Margin="0,0,15,0"
                         BorderBrush="#80000000"
                         HorizontalContentAlignment="Center" 
@@ -131,7 +131,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <base:NumTextBox 
+                        <wpf:NumTextBox 
                         
                             MaxValue ="99999"
                             BorderBrush="#80000000"
@@ -259,7 +259,6 @@
                     <Label/>-->
 
                     <mvvm:ViewLocator 
-                        Foreground="White"
                         ViewClass="{x:Type annotations:IViewClassContent}"
                         Model="{Binding Forms}"
                     />

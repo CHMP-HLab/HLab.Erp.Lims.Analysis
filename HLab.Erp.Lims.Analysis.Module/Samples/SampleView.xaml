@@ -127,7 +127,6 @@
 
                 <Grid Grid.Row="2" VerticalAlignment="Top">
                     <mvvm:ViewLocator 
-                        Foreground="White"
                         ViewClass="{x:Type annotations:IViewClassContent}"
                         Model="{Binding Tests}"
                         />
@@ -155,7 +154,7 @@
                     <icons:IconView Path="{Binding ConformityIconPath}"/>
 
                     <StackPanel Grid.Column="1" VerticalAlignment="Top">
-                        <lang:LocalizedLabel Foreground="White" DockPanel.Dock="Top" Text="{}{Conclusion}"/>
+                        <lang:LocalizedLabel DockPanel.Dock="Top" Text="{}{Conclusion}"/>
 
                         <TextBox VerticalScrollBarVisibility="Auto" IsReadOnly="{Binding IsReadOnlyProduction}"
                                  IsEnabled="{Binding ProductionMode}"
