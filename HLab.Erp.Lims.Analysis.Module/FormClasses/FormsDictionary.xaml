@@ -118,7 +118,7 @@
                         <Popup AllowsTransparency="True" Focusable="False" IsOpen="{TemplateBinding IsDropDownOpen}" x:Name="Popup" Placement="Bottom" PopupAnimation="Fade">
                             <Grid MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{TemplateBinding ActualWidth}" x:Name="DropDown" SnapsToDevicePixels="True">
                                 <Border x:Name="DropDownBorder" Background="{DynamicResource MahApps.Brushes.Badged.Background}" BorderBrush="{DynamicResource MahApps.Brushes.Badged.Background.Disabled}" BorderThickness="1" CornerRadius="0" />
-                                <controlsEx:ScrollViewerEx Margin="1" SnapsToDevicePixels="True">
+                                <controlsEx:ScrollViewerEx Margin="1">
                                     <StackPanel KeyboardNavigation.DirectionalNavigation="Contained" IsItemsHost="True" TextBlock.Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" />
                                 </controlsEx:ScrollViewerEx>
                             </Grid>

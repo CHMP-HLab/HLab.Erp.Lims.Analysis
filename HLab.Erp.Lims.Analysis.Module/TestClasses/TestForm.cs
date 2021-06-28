@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -16,18 +17,18 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
     public abstract class TestForm : UserControlNotifier
     {
-        private static readonly Brush ConformBrush = Brushes.Green;
-        private static readonly Brush NotConformBrush = Brushes.Red;
-        private static readonly Brush InvalidBrush = Brushes.LightPink;
-        private static readonly Brush ValidBrush = Brushes.Transparent;
-        private static readonly Thickness OnThickness = new(0.4);
+        protected static readonly Brush ConformBrush = Brushes.Green;
+        protected static readonly Brush NotConformBrush = Brushes.Red;
+        protected static readonly Brush InvalidBrush = Brushes.LightPink;
+        protected static readonly Brush ValidBrush = Brushes.Transparent;
+        protected static readonly Thickness OnThickness = new(0.4);
 
 
-        private static readonly Brush NormalBrush = new SolidColorBrush(Color.FromArgb(0x40, 0xFF, 0xFF, 0xFF));
-        private static readonly Brush SpecificationNeededBrush = Brushes.MediumSpringGreen;
-        private static readonly Brush SpecificationDoneBrush = Brushes.DarkGreen;
-        private static readonly Brush MandatoryBrush = Brushes.PaleVioletRed;
-        private static readonly Brush HiddenBrush = Brushes.Black;
+        protected static readonly Brush NormalBrush = new SolidColorBrush(Color.FromArgb(0x40, 0xFF, 0xFF, 0xFF));
+        protected static readonly Brush SpecificationNeededBrush = Brushes.MediumSpringGreen;
+        protected static readonly Brush SpecificationDoneBrush = Brushes.DarkGreen;
+        protected static readonly Brush MandatoryBrush = Brushes.PaleVioletRed;
+        protected static readonly Brush HiddenBrush = Brushes.Black;
 
 
         protected TestForm()
@@ -35,13 +36,26 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             H<TestForm>.Initialize(this);
         }
 
+        public virtual string Version => "";
+
+        public virtual void Upgrade(FormValues values) { }
+
         private IEnumerable<FrameworkElement> _namedElements;
+
+        private IForm Form
+        {
+            get
+            {
+                if (this is not IForm form) throw new Exception("TestForm should imlement IForm");
+                return form;
+            }
+        }
 
         protected override void OnContentChanged(object oldContent, object newContent)
         {
             try
             {
-                if (this is not IForm form) return;
+                var form = Form;
 
                 if (newContent is not FrameworkElement content) return;
 
@@ -59,19 +73,11 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                     switch (element)
                     {
                         case TextBoxEx textBoxEx:
-                            textBoxEx.DoubleChange += (sender, args) =>
-                            {
-                                form.Process(sender, args);
-                                SetFormMode(Mode);
-                            };
+                            textBoxEx.DoubleChange += form.TryProcess;
                             break;
 
                         case TextBox textBox:
-                            textBox.TextChanged += (sender, args) =>
-                            {
-                                form.Process(sender, args);
-                                SetFormMode(Mode);
-                            };
+                            textBox.TextChanged += form.TryProcess;
                             break;
 
                         case CheckBox checkBox:
@@ -91,27 +97,21 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                                 checkBox.PreviewMouseDown += (sender, args) =>
                                 {
                                     args.Handled = true;
-                                    TestLegacyForm.CheckGroup(sender, chk.ToArray());
-                                    form.Process(sender, args);
-                                    SetFormMode(Mode);
+                                    CheckGroup(sender, chk.ToArray());
+                                    form.TryProcess(sender, args);
                                 };
                             }
                             else
-                                checkBox.PreviewMouseDown += (sender, args) =>
-                                {
-                                    //args.Handled = true;
-                                    form.Process(sender, args);
-                                    SetFormMode(Mode);
-                                };
+                                checkBox.PreviewMouseDown += (a, f) =>
+                            {
+                                f.Handled = true;
+                                form.TryProcess(a, f);
+                            };
 
                             break;
 
                         case Button button:
-                            button.Click += (sender, args) =>
-                            {
-                                form.Process(sender, args);
-                                SetFormMode(Mode);
-                            };
+                            button.Click += form.TryProcess;
                             break;
                     }
                     i++;
@@ -141,34 +141,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
         private readonly IProperty<FormMode> _mode = H<TestForm>.Property<FormMode>();
 
-        public static double Compute(TextBlock block, double value, int decimals = 2)
-        {
-            if (double.IsInfinity(value) || double.IsNaN(value))
-            {
-                block.Background = InvalidBrush;
-                block.Text = "!";
-                return double.NaN;
-            }
 
-            block.Background = ValidBrush;
-            block.Text = Math.Round(value, decimals).ToString(CultureInfo.CurrentCulture);
-            return value;
-        }
-
-        public static double Evaluate(string formula)
-        {
-            try
-            {
-                var engine = new Mages.Core.Engine();
-                var result = engine.Interpret(formula);
-
-                if (result != null)
-                    return (double)result;
-            }
-            catch { }
-
-            return double.NaN;
-        }
 
         public static void CheckGroup(object sender, params CheckBox[] group)
         {
@@ -282,9 +255,9 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             switch (level)
             {
                 case ElementLevel.Capture:
-                    return e is TextBox || e is CheckBox;
+                    return e is TextBox or CheckBox;
                 case ElementLevel.Result:
-                    return e is TextBlock || e is CheckBox;
+                    return e is TextBlock or CheckBox;
             }
 
             if (e.Tag is not string tag || string.IsNullOrWhiteSpace(tag)) return false;
@@ -442,25 +415,18 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         public void LoadValues(string values)
         {
             if (values == null) return;
-            var dict = new Dictionary<string, string>();
+            var formValues = new FormValues(values);
 
-            foreach (var value in values.Split('■'))// Le séparateur est un ALT + 254
+            if(Form.Version != formValues.Version)
             {
-                var v = value.Split("=");
-                if (v.Length > 1)
-                {
-                    dict.TryAdd(v[0], v[1]);
-                }
-                else if (v.Length == 1)
-                {
-                    dict.TryAdd(v[0], "");
-                }
-
+                Form.Upgrade(formValues);
             }
 
-            LoadValues(dict);
+            LoadValues(formValues);
         }
-        public void LoadValues(Dictionary<string, string> values)
+
+
+        public void LoadValues(FormValues values)
         {
             foreach (var c in _namedElements)
             {
@@ -509,5 +475,9 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             }
         }
 
+        public void SetErrorMessage(FrameworkElement fe)
+        {
+            ToolTip = fe;
+        }
     }
 }

@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
+using System.Globalization;
+using System;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
@@ -80,10 +82,33 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 set => _form.Target.Result = value;
             }
 
-            public double Calcul(TextBlock block, double value, int decimals = 2) =>
-                Compute(block, value, decimals);
+            public double Calcul(TextBlock block, double value, int decimals = 2)
+            {
+                if (double.IsInfinity(value) || double.IsNaN(value))
+                {
+                    block.Background = InvalidBrush;
+                    block.Text = "!";
+                }
 
-            public double EvalueFormule(string formula) => Evaluate(formula);
+                block.Background = ValidBrush;
+                block.Text = Math.Round(value, decimals).ToString(CultureInfo.CurrentCulture);
+                return value;
+            }
+
+            public double EvalueFormule(string formula)
+            {
+                try
+                {
+                    var engine = new Mages.Core.Engine();
+                    var result = engine.Interpret(formula);
+
+                    if (result != null)
+                        return (double)result;
+                }
+                catch { }
+
+                return double.NaN;
+            }
 
             public void CheckGroupe(object sender, params CheckBox[] group) => CheckGroup(sender, group);
 

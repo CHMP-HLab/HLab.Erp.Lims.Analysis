@@ -214,7 +214,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                 if (target?.ResultValues != null)
                     Form.LoadValues(target.ResultValues);
 
-                Form?.Process(null, new RoutedEventArgs());
+                Form?.TryProcess(null, new RoutedEventArgs());
             }
             finally
             {
