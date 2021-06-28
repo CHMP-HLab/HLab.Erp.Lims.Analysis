@@ -144,8 +144,8 @@
 
   <ItemGroup>
     <PackageReference Include="ControlzEx" Version="5.0.0" />
-    <PackageReference Include="Mages" Version="2.0.0-alpha-9" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0-1.final" />
+    <PackageReference Include="Mages" Version="2.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0" />
   </ItemGroup>
 
   <ItemGroup>
