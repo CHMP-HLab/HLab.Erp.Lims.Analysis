@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using HLab.Erp.Acl;
@@ -132,6 +133,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
            .FromStage(() => Scheduling, () => Scheduled)
            .When(w => w.Target.Sample.Stage == SampleWorkflow.Production)
            .WithMessage(w => "{Sample not in production}")
+            .Action(w => w.Target.StartDate ??= DateTime.Now)
            .ToStage(() => Running)
         );
 
@@ -166,6 +168,11 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
             .FromStage(() => Running)
             .Action(w =>
             {
+                // if StartDate or EndDate is empty set it
+                if (!w.Target.StartDate.HasValue) w.Target.StartDate = DateTime.Now;
+                if (!w.Target.EndDate.HasValue) w.Target.EndDate = DateTime.Now;
+
+                // if no result selected, select the first (so unique as required by ValidatedResults stage)
                 if (w.Target.Result == null)
                 {
                     foreach (var result in w._testResults)
@@ -215,7 +222,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
                 }
                 return true;
             })
-            .WithMessage(w => "Some results not validated yet")
+            .WithMessage(w => "{Some results not validated yet}")
 
             .When(w =>
             {
@@ -225,7 +232,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
                 }
                 return false;
             })
-            .WithMessage(w => "No validated test")
+            .WithMessage(w => "{No validated test}")
 
             .When(w =>
             {
@@ -239,7 +246,16 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
                 }
                 return validated == 1;
             })
-            .WithMessage(w => "No selected result")
+            .WithMessage(w => "{No selected result}")
+
+            .When(w => !w.Target.StartDate.HasValue || w.Target.StartDate <= DateTime.Now)
+            .WithMessage(w => "{Start date should be past}")
+
+            .When(w => !w.Target.EndDate.HasValue || w.Target.EndDate <= DateTime.Now)
+            .WithMessage(w => "{End date should be past}")
+
+            .When(w => !w.Target.EndDate.HasValue || !w.Target.StartDate.HasValue || w.Target.EndDate >= w.Target.StartDate)
+            .WithMessage(w => "{End date should be before start}")
         );
 
         public static Stage InvalidatedResults = Stage.Create(c => c
@@ -248,9 +264,9 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action Correct = Action.Create(c => c
             .Caption("{Correct}").Icon("Icons/Workflows/Correct")
-            .FromStage(()=>ValidatedResults,()=>InvalidatedResults)
+            .FromStage(() => ValidatedResults, () => InvalidatedResults)
             .NeedRight(() => AnalysisRights.AnalysisResultValidate)
-            .ToStage(()=>Running)
+            .ToStage(() => Running)
         );
 
         protected override Stage TargetStage

@@ -30,12 +30,12 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 .Column()
                     .Header("{Start}")
                     .Link(s => s.Start)
-                    .Width(80)//.OrderByOrder(0)
+                    .Width(100)//.OrderByOrder(0)
                 
                 .Column()
                     .Header("{End}")
                     .Link(s => s.End)
-                    .Width(80)
+                    .Width(100)
 
                 .Column()
                     .Header("{Result}")
@@ -83,6 +83,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
            {
                r.Name = $"R{i + 1}";
                r.SampleTestId = _sampleTest.Id;
+               r.Start = DateTime.Now;
                if (target != null)
                {
 

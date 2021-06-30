@@ -93,6 +93,31 @@
                         MaxWidth="130"/>
 
                 </views:DetailView>
+                
+                <views:DetailView 
+                    IconPath="Icons/Workflows/Planning" 
+                    Text="{}{Processing date}"
+                    EditMode="{Binding ResultMode}">
+
+                    <lang:LocalizedLabel Text="{}{Start} :" />
+                    <wpf:DateEx
+                        HorizontalAlignment="Left"
+                        Date="{Binding Model.StartDate}" 
+                        ShowTime="True"
+                        DayValid="True"
+                        EmptyDayAllowed="False"
+                        MinWidth="200"/>
+                    
+                    <lang:LocalizedLabel Text="{}{End} :" />
+                    <wpf:DateEx
+                        HorizontalAlignment="Left"
+                        Date="{Binding Model.EndDate}" 
+                        ShowTime="True"
+                        DayValid="True"
+                        EmptyDayAllowed="False"
+                        MinWidth="200"/>
+
+                </views:DetailView>
 
                 <!-- LINKS -->
                 <views:DetailView 
