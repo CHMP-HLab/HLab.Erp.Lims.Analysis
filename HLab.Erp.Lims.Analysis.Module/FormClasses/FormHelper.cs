@@ -9,6 +9,7 @@ using System.Windows;
 using HLab.Compiler.Wpf;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses

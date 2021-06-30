@@ -8,6 +8,8 @@ using System.Windows.Controls;
 using System.Windows.Markup;
 using HLab.Base.Wpf;
 using HLab.Compiler.Wpf;
+using HLab.Localization.Wpf.Lang;
+using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
@@ -138,7 +140,9 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             var form = _type != null ? (IForm)Activator.CreateInstance(_type) : new DummyForm();
 
             if(form is UserControl e)
+            {
                 e.Content = GetXamlUi();
+            }
 
             return form;
         }

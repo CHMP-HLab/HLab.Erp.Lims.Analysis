@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using HLab.Erp.Acl;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
@@ -14,18 +15,18 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
     public class SampleFormViewModelDesign : SampleFormViewModel, IViewModelDesign
     {
-        public SampleFormViewModelDesign() : base(null)
+        public SampleFormViewModelDesign() : base(null,null)
         {
         }
     }
 
     public class SampleFormViewModel : EntityViewModel<SampleForm>
     {
-        public SampleFormViewModel(IErpServices erp)
+        public SampleFormViewModel(IErpServices erp, Func<FormHelper> getFormHelper)
         {
             Erp = erp;
             H.Initialize(this);
-            FormHelper = new FormHelper();
+            FormHelper = getFormHelper();
         }
 
         public IErpServices Erp { get; }

@@ -2,7 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:base="clr-namespace:HLab.Base;assembly=HLab.Base.Wpf"
                     xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
-                    xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf">
+                    xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
+                    xmlns:lang="clr-namespace:HLab.Localization.Wpf.Lang;assembly=HLab.Localization.Wpf"
+                    >
 
     <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
         <Setter Property="FontSize" Value="3"/>
@@ -58,22 +60,59 @@
                     <BulletDecorator Background="Transparent">
                         <BulletDecorator.Bullet>
                             <Grid>
-                                <TextBlock Text="{TemplateBinding CheckBox.Content}" Margin="4,0,0,0"/>
-                                <Rectangle Width="3" Height="3" Stroke="{DynamicResource MahApps.Brushes.ThemeForeground}" StrokeThickness="0.25" VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5" Fill="{TemplateBinding Background}">
+                                <ContentControl Content="{TemplateBinding CheckBox.Content}" Margin="4,0,0,0"/>
+                                <!--<Rectangle 
+                                    Width="3" 
+                                    Height="3" 
+                                    Stroke="{DynamicResource MahApps.Brushes.ThemeForeground}" 
+                                    StrokeThickness="0.25" 
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Left" 
+                                    RenderTransformOrigin="0.5,0.5" 
+                                    Fill="{TemplateBinding Background}">
+                                    
                                     <Rectangle.RenderTransform>
                                         <TransformGroup>
                                             <TranslateTransform Y="0" X="0"/>
                                         </TransformGroup>
                                     </Rectangle.RenderTransform>
-                                </Rectangle>
+                                    
+                                </Rectangle>-->
+                                <Border 
+                                    Width="3.5" 
+                                    Height="3.5" 
+                                    BorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}" 
+                                    CornerRadius="0.5"
+                                    BorderThickness="0.25" 
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Left" 
+                                    RenderTransformOrigin="0.5,0.5" 
+                                    Background="{TemplateBinding Background}">
 
-                                <Rectangle Name="coche" Visibility="Collapsed" Width="2" Height="2" Fill="{DynamicResource MahApps.Brushes.ThemeForeground}" StrokeThickness="0" VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+                                    <Border.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform Y="0" X="0"/>
+                                        </TransformGroup>
+                                    </Border.RenderTransform>
+                                    
+                                </Border>
+
+                                <!--<Rectangle Name="coche" Visibility="Collapsed" Width="2" Height="2" Fill="{DynamicResource MahApps.Brushes.ThemeForeground}" StrokeThickness="0" VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
                                     <Rectangle.RenderTransform>
                                         <TransformGroup>
                                             <TranslateTransform Y="0" X="0.5"/>
                                         </TransformGroup>
                                     </Rectangle.RenderTransform>
-                                </Rectangle>
+                                </Rectangle>-->
+                                
+                                <Border CornerRadius="0.5" Name="coche" Visibility="Collapsed" Width="2.2" Height="2.5" Background="{DynamicResource MahApps.Brushes.ThemeForeground}" BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+                                    <Border.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform Y="0" X="0.55"/>
+                                        </TransformGroup>
+                                    </Border.RenderTransform>
+                                </Border>
+                                
                             </Grid>
                         </BulletDecorator.Bullet>
                     </BulletDecorator>
@@ -116,7 +155,7 @@
                         </ToggleButton>
 
                         <Popup AllowsTransparency="True" Focusable="False" IsOpen="{TemplateBinding IsDropDownOpen}" x:Name="Popup" Placement="Bottom" PopupAnimation="Fade">
-                            <Grid MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{TemplateBinding ActualWidth}" x:Name="DropDown" SnapsToDevicePixels="True">
+                            <Grid MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{TemplateBinding ActualWidth}" x:Name="DropDown">
                                 <Border x:Name="DropDownBorder" Background="{DynamicResource MahApps.Brushes.Badged.Background}" BorderBrush="{DynamicResource MahApps.Brushes.Badged.Background.Disabled}" BorderThickness="1" CornerRadius="0" />
                                 <controlsEx:ScrollViewerEx Margin="1">
                                     <StackPanel KeyboardNavigation.DirectionalNavigation="Contained" IsItemsHost="True" TextBlock.Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" />
