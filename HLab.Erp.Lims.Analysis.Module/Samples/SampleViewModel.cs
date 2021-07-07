@@ -515,8 +515,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             {
                 if (test.Stage != SampleTestWorkflow.InvalidatedResults)
                 {
-                    var testStartDate = test.StartDate ?? test.Result.Start ?? DateTime.MaxValue;
-                    var testEndDate = test.EndDate ?? test.Result.End ?? DateTime.MinValue;
+                    var testStartDate = test.StartDate ?? test.Result?.Start ?? DateTime.MaxValue;
+                    var testEndDate = test.EndDate ?? test.Result?.End ?? DateTime.MinValue;
 
                     if (testStartDate > testEndDate) testStartDate = testEndDate;
                     if (testEndDate < testStartDate) testEndDate = testStartDate;
