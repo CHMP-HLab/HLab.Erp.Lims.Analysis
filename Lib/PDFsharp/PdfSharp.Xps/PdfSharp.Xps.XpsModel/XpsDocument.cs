@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.IO.Packaging;
-using System.Text;
 using System.Xml;
-using PdfSharp.Xps.Parsing;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Represents an XpsDocument that can be converted to PDF by PDFsharp.
-  /// </summary>
-  public sealed class XpsDocument : IDisposable
+    /// <summary>
+    /// Represents an XpsDocument that can be converted to PDF by PDFsharp.
+    /// </summary>
+    public sealed class XpsDocument : IDisposable
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="XpsDocument"/> class from a stream.

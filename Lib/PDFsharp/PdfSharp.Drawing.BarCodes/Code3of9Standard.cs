@@ -28,14 +28,13 @@
 #endregion
 
 using System;
-using System.Diagnostics;
 
 namespace PdfSharp.Drawing.BarCodes
 {
-  /// <summary>
-  /// Imlpementation of the Code 3 of 9 bar code.
-  /// </summary>
-  public class Code3of9Standard : ThickThinBarCode
+    /// <summary>
+    /// Imlpementation of the Code 3 of 9 bar code.
+    /// </summary>
+    public class Code3of9Standard : ThickThinBarCode
   {
     /// <summary>
     /// Initializes a new instance of Standard3of9.

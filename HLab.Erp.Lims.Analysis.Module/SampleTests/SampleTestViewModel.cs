@@ -3,12 +3,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using HLab.Erp.Acl;
 using HLab.Erp.Conformity.Annotations;
-using HLab.Erp.Core;
-using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
-using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Application;
 using HLab.Notify.PropertyChanged;
@@ -20,7 +17,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
     public class SampleTestViewModelDesign : SampleTestViewModel, IViewModelDesign
     {
-        public SampleTestViewModelDesign() : base(null,null, null, null)
+        public SampleTestViewModelDesign() : base(null,null, null, null, null)
         {
         }
     }
@@ -28,20 +25,25 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
     public class SampleTestViewModel : EntityViewModel<SampleTest>, IMvvmContextProvider
     {
         public IDocumentService Docs { get; }
-
+        private Func<Sample, DataLocker<Sample>> _getSampleLocker;
         public SampleTestViewModel(
-            IDocumentService docs, 
-            Func<SampleTest,TestResultsListViewModel> getResults, 
-            Func<FormHelper> getFormHelper, 
-            Func<SampleTest, DataLocker<SampleTest>, SampleTestWorkflow> getSampleTestWorkflow)
+            IDocumentService docs,
+            Func<SampleTest, TestResultsListViewModel> getResults,
+            Func<FormHelper> getFormHelper,
+            Func<SampleTest, DataLocker<SampleTest>, SampleTestWorkflow> getSampleTestWorkflow,
+            Func<Sample, DataLocker<Sample>> getSampleLocker
+            )
         {
             Docs = docs;
             _getResults = getResults;
             _getFormHelper = getFormHelper;
             _getSampleTestWorkflow = getSampleTestWorkflow;
+            _getSampleLocker = getSampleLocker;
+
             H.Initialize(this);
         }
 
+        private ITrigger _modelTrigger => H.Trigger(c => c.On(e => e.Model).Do(e => Locker.AddDependencyLocker(e._getSampleLocker(e.Model.Sample))));
 
         private readonly Func<SampleTest,TestResultsListViewModel> _getResults;
 

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PdfSharp.Xps.XpsModel
+﻿namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Creates an arbitrary affine matrix transformation that manipulates objects or coordinate systems
-  /// in a two-dimensional plane.
-  /// </summary>
-  class MatrixTransform : XpsElement
+    /// <summary>
+    /// Creates an arbitrary affine matrix transformation that manipulates objects or coordinate systems
+    /// in a two-dimensional plane.
+    /// </summary>
+    class MatrixTransform : XpsElement
   {
     internal MatrixTransform()
     {

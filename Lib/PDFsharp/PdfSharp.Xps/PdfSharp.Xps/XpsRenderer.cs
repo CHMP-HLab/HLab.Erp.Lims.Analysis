@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.IO.Packaging;
 using System.Xml;
-using System.Windows.Xps;
 using PdfSharp.Pdf;
 using PdfSharp.Xps.Rendering;
 using PdfSharp.Xps.XpsModel;
@@ -14,10 +10,10 @@ using IOPath = System.IO.Path;
 namespace PdfSharp.Xps
 {
 #if true
-  /// <summary>
-  /// Provides functionality to convert WPF graphic to PDF files.
-  /// </summary>
-  static class XpsRenderer // declare deprecated
+    /// <summary>
+    /// Provides functionality to convert WPF graphic to PDF files.
+    /// </summary>
+    static class XpsRenderer // declare deprecated
   {
     /// <summary>
     /// A first hack to do the job...

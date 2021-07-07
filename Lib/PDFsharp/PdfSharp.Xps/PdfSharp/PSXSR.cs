@@ -31,18 +31,15 @@ using System;
 using System.Diagnostics;
 using System.Resources;
 using System.Reflection;
-using System.Text.RegularExpressions;
-using PdfSharp.Drawing;
-using PdfSharp.Pdf;
 
 #pragma warning disable 1591
 
 namespace PdfSharp
 {
-  /// <summary>
-  /// The Pdf-Sharp-XPS-String-Resources.
-  /// </summary>
-  static class PSXSR
+    /// <summary>
+    /// The Pdf-Sharp-XPS-String-Resources.
+    /// </summary>
+    static class PSXSR
   {
     #region General messages
 

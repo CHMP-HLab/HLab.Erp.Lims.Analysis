@@ -28,16 +28,13 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using PdfSharp.Internal;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.Filters
 {
-  /// <summary>
-  /// Implements the ASCIIHexDecode filter.
-  /// </summary>
-  public class ASCIIHexDecode : Filter
+    /// <summary>
+    /// Implements the ASCIIHexDecode filter.
+    /// </summary>
+    public class ASCIIHexDecode : Filter
   {
     /// <summary>
     /// Encodes the specified data.

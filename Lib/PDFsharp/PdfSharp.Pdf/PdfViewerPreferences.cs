@@ -27,20 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections;
-using System.Globalization;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
-using PdfSharp;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Represents the PDF document viewer preferences dictionary.
-  /// </summary>
-  public sealed class PdfViewerPreferences : PdfDictionary
+    /// <summary>
+    /// Represents the PDF document viewer preferences dictionary.
+    /// </summary>
+    public sealed class PdfViewerPreferences : PdfDictionary
   {
     internal PdfViewerPreferences(PdfDocument document)
       : base(document)

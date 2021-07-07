@@ -33,18 +33,16 @@ using System.Runtime.InteropServices;
 using System.Drawing;
 #endif
 #if WPF
-using System.Windows.Media;
-using System.Globalization;
 #endif
 
 #pragma warning disable 1591
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Represents a two-dimensional vector specified by x- and y-coordinates.
-  /// </summary>
-  [Serializable]
+    /// <summary>
+    /// Represents a two-dimensional vector specified by x- and y-coordinates.
+    /// </summary>
+    [Serializable]
   [StructLayout(LayoutKind.Sequential)]
   public struct XVector : IFormattable
   {

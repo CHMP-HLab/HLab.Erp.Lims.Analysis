@@ -27,21 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Collections;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.Internal;
-using PdfSharp.Pdf.Security;
-using PdfSharp.Internal;
-using PdfSharp.Drawing;
 
 namespace PdfSharp.Pdf.Security
 {
-  /// <summary>
-  /// Encapsulates access to the security settings of a PDF document.
-  /// </summary>
-  public sealed class PdfSecuritySettings
+    /// <summary>
+    /// Encapsulates access to the security settings of a PDF document.
+    /// </summary>
+    public sealed class PdfSecuritySettings
   {
     internal PdfSecuritySettings(PdfDocument document)
     {

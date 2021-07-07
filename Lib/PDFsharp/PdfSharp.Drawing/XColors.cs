@@ -27,25 +27,19 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Globalization;
-using System.ComponentModel;
-using System.Threading;
 #if GDI
 using System.Drawing;
 #endif
 #if WPF
-using System.Windows.Media;
 #endif
-using PdfSharp.Internal;
 
 namespace PdfSharp.Drawing
 {
-  ///<summary>
-  /// Represents a set of 141 pre-defined RGB colors. Incidentally the values are the same
-  /// as in System.Drawing.Color.
-  /// </summary>
-  public static class XColors
+    ///<summary>
+    /// Represents a set of 141 pre-defined RGB colors. Incidentally the values are the same
+    /// as in System.Drawing.Color.
+    /// </summary>
+    public static class XColors
   {
     ///<summary>Gets a predefined color.</summary>
     public static XColor AliceBlue { get { return new XColor(XKnownColor.AliceBlue); } }

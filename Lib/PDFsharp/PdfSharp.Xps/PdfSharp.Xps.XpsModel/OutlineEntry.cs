@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PdfSharp.Xps.XpsModel
+﻿namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Represents an index to a specific location in the document.
-  /// </summary>
-  class OutlineEntry : XpsElement
+    /// <summary>
+    /// Represents an index to a specific location in the document.
+    /// </summary>
+    class OutlineEntry : XpsElement
   {
     /// <summary>
     /// A description of the level where the outline entry exists in the hierarchy.

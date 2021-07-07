@@ -27,14 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 
 namespace PdfSharp
 {
-  /// <summary>
-  /// Version info base for all PDFsharp related assemblies.
-  /// </summary>
-  public static class ProductVersionInfo
+    /// <summary>
+    /// Version info base for all PDFsharp related assemblies.
+    /// </summary>
+    public static class ProductVersionInfo
   {
     /// <summary>
     /// The title of the product.

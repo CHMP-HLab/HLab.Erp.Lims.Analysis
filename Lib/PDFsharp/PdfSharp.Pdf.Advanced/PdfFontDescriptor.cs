@@ -28,19 +28,14 @@
 #endregion
 
 using System;
-using System.Collections;
-using System.Globalization;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
 using PdfSharp.Fonts.OpenType;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// The PDF font descriptor flags.
-  /// </summary>
-  [Flags]
+    /// <summary>
+    /// The PDF font descriptor flags.
+    /// </summary>
+    [Flags]
   enum PdfFontDescriptorFlags
   {
     /// <summary>

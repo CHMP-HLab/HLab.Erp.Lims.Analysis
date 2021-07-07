@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PdfSharp.Xps.XpsModel
+﻿namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Fills a region with a linear gradient.
-  /// </summary>
-  class LinearGradientBrush : Brush
+    /// <summary>
+    /// Fills a region with a linear gradient.
+    /// </summary>
+    class LinearGradientBrush : Brush
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="LinearGradientBrush"/> class.

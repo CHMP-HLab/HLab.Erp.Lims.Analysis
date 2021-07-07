@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PdfSharp.Xps.XpsModel
+﻿namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Fills a region with an image.
-  /// </summary>
-  class ImageBrush : Brush
+    /// <summary>
+    /// Fills a region with an image.
+    /// </summary>
+    class ImageBrush : Brush
   {
     /// <summary>
     /// Defines the uniform transparency of the brush fill. Values range from 0 (fully transparent)

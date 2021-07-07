@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace YAMP.Numerics
+﻿namespace YAMP.Numerics
 {
     /// <summary>
     /// The two possible signs for the fourier transformation.

@@ -28,21 +28,14 @@
 #endregion
 
 using System;
-using System.Globalization;
-using System.Diagnostics;
-using System.Collections;
-using PdfSharp.Internal;
 using PdfSharp.Drawing;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.IO;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.Annotations
 {
-  /// <summary>
-  /// Represents a rubber stamp annotation.
-  /// </summary>
-  public sealed class PdfRubberStampAnnotation : PdfAnnotation
+    /// <summary>
+    /// Represents a rubber stamp annotation.
+    /// </summary>
+    public sealed class PdfRubberStampAnnotation : PdfAnnotation
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfRubberStampAnnotation"/> class.

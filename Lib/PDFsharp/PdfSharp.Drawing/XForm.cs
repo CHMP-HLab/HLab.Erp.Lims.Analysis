@@ -29,8 +29,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.ComponentModel;
 using System.IO;
 #if GDI
 using System.Drawing;
@@ -38,24 +36,18 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 #endif
 #if WPF
-using System.Windows.Media;
 #endif
-using PdfSharp.Internal;
 using PdfSharp.Drawing.Pdf;
-using PdfSharp.Fonts.OpenType;
 using PdfSharp.Pdf;
-using PdfSharp.Pdf.IO;
 using PdfSharp.Pdf.Advanced;
-using PdfSharp.Pdf.Filters;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Represents a graphical object that can be used to render retained graphics on it.
-  /// In GDI+ it is represented by a Metafile, in WPF by a DrawingVisual, and in PDF by a Form XObjects.
-  /// </summary>
-  public class XForm : XImage, IContentStream
+    /// <summary>
+    /// Represents a graphical object that can be used to render retained graphics on it.
+    /// In GDI+ it is represented by a Metafile, in WPF by a DrawingVisual, and in PDF by a Form XObjects.
+    /// </summary>
+    public class XForm : XImage, IContentStream
   {
     internal enum FormState
     {

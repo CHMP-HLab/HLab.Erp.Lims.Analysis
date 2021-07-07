@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Represents a collection of XpsElement objecs.
-  /// </summary>
-  class XpsElementCollection : List<XpsElement>
+    /// <summary>
+    /// Represents a collection of XpsElement objecs.
+    /// </summary>
+    class XpsElementCollection : List<XpsElement>
   {
     // Currently just a placeholder of a generic list.
   }

@@ -29,22 +29,18 @@
 
 using System;
 using System.Diagnostics;
-using System.Collections;
-using System.Globalization;
 using System.Text;
 using System.IO;
-using PdfSharp.Pdf;
 using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.Security;
 using PdfSharp.Pdf.Internal;
-using PdfSharp.Internal;
 
 namespace PdfSharp.Pdf.IO
 {
-  /// <summary>
-  /// Encapsulates the arguments of the PdfPasswordProvider delegate.
-  /// </summary>
-  public class PdfPasswordProviderArgs
+    /// <summary>
+    /// Encapsulates the arguments of the PdfPasswordProvider delegate.
+    /// </summary>
+    public class PdfPasswordProviderArgs
   {
     /// <summary>
     /// Sets the password to open the document with.

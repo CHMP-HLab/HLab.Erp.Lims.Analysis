@@ -27,27 +27,20 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Text;
 #if GDI
 using System.Drawing;
 using System.Drawing.Drawing2D;
 #endif
 #if WPF
-using System.Windows;
-using System.Windows.Media;
 #endif
-using PdfSharp.Pdf.Internal;
 using PdfSharp.Drawing;
 
 namespace PdfSharp.Fonts
 {
-  /// <summary>
-  /// Base class for all font descriptors.
-  /// </summary>
-  internal class FontDescriptor
+    /// <summary>
+    /// Base class for all font descriptors.
+    /// </summary>
+    internal class FontDescriptor
   {
     /// <summary>
     /// 

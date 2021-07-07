@@ -27,18 +27,17 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using System.Diagnostics;
 using System.Text;
 
 namespace PdfSharp.Pdf.Internal
 {
-  /// <summary>
-  /// An encoder for raw strings. The raw encoding is simply the identity relation between
-  /// charachters and bytes. PDFsharp internally works with raw encoded strings instead of
-  /// byte arrays because strings are much more handy than byte arrays.
-  /// </summary>
-  internal sealed class RawEncoding : Encoding
+    /// <summary>
+    /// An encoder for raw strings. The raw encoding is simply the identity relation between
+    /// charachters and bytes. PDFsharp internally works with raw encoded strings instead of
+    /// byte arrays because strings are much more handy than byte arrays.
+    /// </summary>
+    internal sealed class RawEncoding : Encoding
   {
     public RawEncoding()
     {

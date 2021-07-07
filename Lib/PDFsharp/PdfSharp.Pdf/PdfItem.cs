@@ -28,19 +28,14 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.Collections;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
 using PdfSharp.Pdf.IO;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// The base class of all PDF objects and simple types.
-  /// </summary>
-  public abstract class PdfItem : ICloneable
+    /// <summary>
+    /// The base class of all PDF objects and simple types.
+    /// </summary>
+    public abstract class PdfItem : ICloneable
   {
     // All simple types (i.e. derived from PdfItem but not from PdfObject) must be immutable.
 

@@ -27,18 +27,14 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Collections;
 using PdfSharp.Pdf.Annotations;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.AcroForms
 {
-  /// <summary>
-  /// Represents the check box field.
-  /// </summary>
-  public sealed class PdfCheckBoxField : PdfButtonField
+    /// <summary>
+    /// Represents the check box field.
+    /// </summary>
+    public sealed class PdfCheckBoxField : PdfButtonField
   {
     /// <summary>
     /// Initializes a new instance of PdfCheckBoxField.

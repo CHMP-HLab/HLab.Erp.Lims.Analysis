@@ -27,21 +27,15 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Globalization;
-using System.Diagnostics;
-using System.Collections;
-using PdfSharp.Internal;
-using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.Annotations
 {
-  /// <summary>
-  /// Represents a link annotation.
-  /// </summary>
-  public sealed class PdfLinkAnnotation : PdfAnnotation
+    /// <summary>
+    /// Represents a link annotation.
+    /// </summary>
+    public sealed class PdfLinkAnnotation : PdfAnnotation
   {
     // Just a hack to make MigraDoc work with this code.
     enum LinkType

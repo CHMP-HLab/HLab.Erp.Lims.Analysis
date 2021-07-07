@@ -28,16 +28,13 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.Collections;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.AcroForms
 {
-  /// <summary>
-  /// Represents the base class for all choice field dictionaries.
-  /// </summary>
-  public abstract class PdfChoiceField : PdfAcroField
+    /// <summary>
+    /// Represents the base class for all choice field dictionaries.
+    /// </summary>
+    public abstract class PdfChoiceField : PdfAcroField
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfChoiceField"/> class.

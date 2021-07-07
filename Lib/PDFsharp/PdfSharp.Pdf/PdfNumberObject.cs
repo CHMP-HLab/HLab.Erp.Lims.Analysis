@@ -27,19 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Globalization;
-using System.Collections;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Base class for indirect number values (not yet used, maybe superfluous).
-  /// </summary>
-  public abstract class PdfNumberObject : PdfObject
+    /// <summary>
+    /// Base class for indirect number values (not yet used, maybe superfluous).
+    /// </summary>
+    public abstract class PdfNumberObject : PdfObject
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfNumberObject"/> class.

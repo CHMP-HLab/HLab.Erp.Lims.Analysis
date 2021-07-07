@@ -30,21 +30,19 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Collections;
 using System.Globalization;
 using System.Text;
 using System.IO;
-using PdfSharp.Pdf;
 using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.Security;
 using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.IO
 {
-  /// <summary>
-  /// Represents a writer for generation of PDF streams. 
-  /// </summary>
-  internal class PdfWriter
+    /// <summary>
+    /// Represents a writer for generation of PDF streams. 
+    /// </summary>
+    internal class PdfWriter
   {
     public PdfWriter(Stream pdfStream, PdfStandardSecurityHandler securityHandler)
     {

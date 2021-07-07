@@ -27,24 +27,14 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Collections;
-using System.Globalization;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.Advanced;
-using PdfSharp.Pdf.IO;
 
 namespace PdfSharp.Pdf.Internal
 {
-  /// <summary>
-  /// Provides a thread-local cache for large objects.
-  /// </summary>
-  internal class GlobalObjectTable
+    /// <summary>
+    /// Provides a thread-local cache for large objects.
+    /// </summary>
+    internal class GlobalObjectTable
   {
     public GlobalObjectTable()
     {

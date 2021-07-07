@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace YAMP
+﻿namespace YAMP
 {
     /// <summary>
     /// This enumeration contains the available display (ToString) styles.

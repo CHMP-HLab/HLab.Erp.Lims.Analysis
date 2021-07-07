@@ -30,18 +30,15 @@
 using System;
 using System.Diagnostics;
 using System.Collections;
-using System.Text;
-using System.IO;
 using PdfSharp.Pdf.Advanced;
-using PdfSharp.Pdf.IO;
 using System.Collections.Generic;
 
 namespace PdfSharp.Pdf.Annotations
 {
-  /// <summary>
-  /// Represents the annotations array of a page.
-  /// </summary>
-  public sealed class PdfAnnotations : PdfArray
+    /// <summary>
+    /// Represents the annotations array of a page.
+    /// </summary>
+    public sealed class PdfAnnotations : PdfArray
   {
     internal PdfAnnotations(PdfDocument document)
       : base(document)

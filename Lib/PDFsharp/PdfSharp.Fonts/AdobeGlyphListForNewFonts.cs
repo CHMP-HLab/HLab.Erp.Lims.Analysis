@@ -27,14 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 
 namespace PdfSharp.Fonts
 {
-  /// <summary>
-  /// Testing only
-  /// </summary>
-  public sealed class AdobeGlyphListForNewFonts
+    /// <summary>
+    /// Testing only
+    /// </summary>
+    public sealed class AdobeGlyphListForNewFonts
   {
     AdobeGlyphListForNewFonts() { }
 

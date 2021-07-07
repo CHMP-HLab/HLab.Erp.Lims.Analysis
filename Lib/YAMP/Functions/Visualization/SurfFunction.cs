@@ -1,7 +1,5 @@
 ﻿namespace YAMP
 {
-    using System;
-
     [Description("SurfFunctionDescription")]
     [Kind(PopularKinds.Plot)]
     sealed class SurfFunction : VisualizationFunction

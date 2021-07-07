@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using PdfSharp.Drawing;
+﻿using PdfSharp.Drawing;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Specifies a set of points between which lines are drawn.
-  /// </summary>
-  class PolyLineSegment : PathSegment
+    /// <summary>
+    /// Specifies a set of points between which lines are drawn.
+    /// </summary>
+    class PolyLineSegment : PathSegment
   {
     /// <summary>
     /// Gets the smallest rectangle that completely contains all points of the segments.

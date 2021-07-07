@@ -27,14 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 
 namespace PdfSharp.Pdf.IO
 {
-  /// <summary>
-  /// Character table by name.
-  /// </summary>
-  internal sealed class Chars
+    /// <summary>
+    /// Character table by name.
+    /// </summary>
+    internal sealed class Chars
   {
     // ReSharper disable InconsistentNaming
     public const char EOF = (char)65535; //unchecked((char)(-1));

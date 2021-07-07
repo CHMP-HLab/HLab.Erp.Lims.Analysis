@@ -1,6 +1,5 @@
 ﻿using HLab.Erp.Base.Data;
 using HLab.Erp.Data;
-using MySqlX.XDevAPI.Relational;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
@@ -68,6 +67,10 @@ namespace HLab.Erp.Lims.Analysis.Data
                         .RenameColumn("Values", t => t.ResultValues)
 
                         .Table<Sample>().AddColumn(t => t.PreviousStageId)
+
+                        .Table<Sample>().AddColumn(t => t.Progress)
+                        .Table<SampleTest>().AddColumn(t => t.Progress)
+                        .Table<SampleTestResult>().AddColumn(t => t.Progress)
                         ;
                     break;
 

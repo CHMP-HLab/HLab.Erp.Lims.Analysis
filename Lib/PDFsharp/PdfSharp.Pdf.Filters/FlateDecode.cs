@@ -27,9 +27,6 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Text;
 using System.IO;
 #if NET_ZIP
 using System.IO.Compression;
@@ -40,10 +37,10 @@ using PdfSharp.SharpZipLib.Zip.Compression.Streams;
 
 namespace PdfSharp.Pdf.Filters
 {
-  /// <summary>
-  /// Implements the FlateDecode filter by wrapping SharpZipLib.
-  /// </summary>
-  public class FlateDecode : Filter
+    /// <summary>
+    /// Implements the FlateDecode filter by wrapping SharpZipLib.
+    /// </summary>
+    public class FlateDecode : Filter
   {
     /// <summary>
     /// Encodes the specified data.

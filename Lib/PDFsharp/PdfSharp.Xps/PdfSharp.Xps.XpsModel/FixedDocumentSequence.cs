@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PdfSharp.Xps.XpsModel
+﻿namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Specifies a sequence of fixed documents.
-  /// </summary>
-  class FixedDocumentSequence : XpsElement
+    /// <summary>
+    /// Specifies a sequence of fixed documents.
+    /// </summary>
+    class FixedDocumentSequence : XpsElement
   {
     /// <summary>
     /// A collection of document references.

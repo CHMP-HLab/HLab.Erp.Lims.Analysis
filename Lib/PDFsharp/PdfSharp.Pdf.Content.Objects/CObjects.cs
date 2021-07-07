@@ -34,14 +34,13 @@ using System.Collections;
 using System.Globalization;
 using System.IO;
 using System.Text;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.Content.Objects  // TODO: split into single files
 {
-  /// <summary>
-  /// Base class for all PDF content stream objects.
-  /// </summary>
-  public abstract class CObject : ICloneable
+    /// <summary>
+    /// Base class for all PDF content stream objects.
+    /// </summary>
+    public abstract class CObject : ICloneable
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="CObject"/> class.

@@ -27,16 +27,12 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-using System.Diagnostics;
-using PdfSharp.Drawing;
-
 namespace PdfSharp.Drawing.BarCodes
 {
-  /// <summary>
-  /// Holds all temporary information needed during rendering.
-  /// </summary>
-  class BarCodeRenderInfo
+    /// <summary>
+    /// Holds all temporary information needed during rendering.
+    /// </summary>
+    class BarCodeRenderInfo
   {
     public BarCodeRenderInfo(XGraphics gfx, XBrush brush, XFont font, XPoint position)
     {

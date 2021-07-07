@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PdfSharp.Xps.XpsModel
+﻿namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// A single signature definition.
-  /// </summary>
-  class SignatureDefinition : XpsElement
+    /// <summary>
+    /// A single signature definition.
+    /// </summary>
+    class SignatureDefinition : XpsElement
   {
     /// <summary>
     /// A globally unique identifier for this signature spot.

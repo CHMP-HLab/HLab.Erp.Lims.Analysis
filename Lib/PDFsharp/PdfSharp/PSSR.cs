@@ -31,7 +31,6 @@ using System;
 using System.Diagnostics;
 using System.Resources;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 
@@ -39,10 +38,10 @@ using PdfSharp.Pdf;
 
 namespace PdfSharp
 {
-  /// <summary>
-  /// The Pdf-Sharp-String-Resources.
-  /// </summary>
-  static class PSSR
+    /// <summary>
+    /// The Pdf-Sharp-String-Resources.
+    /// </summary>
+    static class PSSR
   {
     // How to use:
     // Create a function or property for each message text, depending on how many parameters are

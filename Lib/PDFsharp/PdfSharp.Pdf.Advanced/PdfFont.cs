@@ -29,22 +29,15 @@
 
 using System;
 using System.Diagnostics;
-using System.Collections;
 using System.Text;
-using System.IO;
-using PdfSharp.Pdf.Advanced;
-using PdfSharp.Drawing;
-using PdfSharp.Fonts.OpenType;
 using PdfSharp.Fonts;
-using PdfSharp.Internal;
-using PdfSharp.Pdf.Filters;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Represents a PDF font.
-  /// </summary>
-  public class PdfFont : PdfDictionary
+    /// <summary>
+    /// Represents a PDF font.
+    /// </summary>
+    public class PdfFont : PdfDictionary
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfFont"/> class.

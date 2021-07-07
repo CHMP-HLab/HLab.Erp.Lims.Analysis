@@ -27,29 +27,21 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Text;
 #if GDI
 using System.Drawing;
 using System.Drawing.Drawing2D;
 #endif
 #if WPF
-using System.Windows;
-using System.Windows.Media;
 #endif
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.Internal;
 using PdfSharp.Drawing;
 
 namespace PdfSharp.Fonts.OpenType
 {
-  /// <summary>
-  /// PDFsharp internal stuff.
-  /// For more information see Andrew Schulman "Undocumented PDFsharp"  :-))
-  /// </summary>
-  public static class ExternalHelper
+    /// <summary>
+    /// PDFsharp internal stuff.
+    /// For more information see Andrew Schulman "Undocumented PDFsharp"  :-))
+    /// </summary>
+    public static class ExternalHelper
   {
     /// <summary>
     /// This is an external helper function.

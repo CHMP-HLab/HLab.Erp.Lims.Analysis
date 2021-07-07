@@ -27,15 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
 
 namespace PdfSharp.Fonts.OpenType
 {
-  /// <summary>
-  /// Identifies the technology of an OpenType font file.
-  /// </summary>
-  enum FontTechnology
+    /// <summary>
+    /// Identifies the technology of an OpenType font file.
+    /// </summary>
+    enum FontTechnology
   {
     /// <summary>
     /// Font is Adobe Postscript font in CFF.

@@ -32,13 +32,11 @@ using System;
 using System.Drawing;
 #endif
 #if WPF
-using System.Windows;
 #endif
-using PdfSharp.Drawing;
 
 namespace PdfSharp.Internal
 {
-  struct SColor
+    struct SColor
   {
     public byte a;
     public byte r;

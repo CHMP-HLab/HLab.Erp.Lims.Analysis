@@ -1,7 +1,5 @@
 ﻿namespace YAMP.Converter
 {
-    using System;
-
     /// <summary>
     /// String to integer converter.
     /// </summary>

@@ -27,17 +27,14 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Base class for all dictionaries that map resource names to objects.
-  /// </summary>
-  internal class PdfResourceMap : PdfDictionary //, IEnumerable
+    /// <summary>
+    /// Base class for all dictionaries that map resource names to objects.
+    /// </summary>
+    internal class PdfResourceMap : PdfDictionary //, IEnumerable
   {
     public PdfResourceMap()
     {

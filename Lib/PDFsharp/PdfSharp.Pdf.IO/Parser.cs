@@ -29,35 +29,30 @@
 
 using System;
 using System.Diagnostics;
-using System.Collections;
-using System.Reflection;
-using System.Text;
 using System.IO;
-using PdfSharp.Pdf;
 using PdfSharp.Pdf.Advanced;
-using PdfSharp.Pdf.Filters;
 
 namespace PdfSharp.Pdf.IO
 {
-  /*
-     Direct and indireckt objects
-     
-     * If a simple object (boolean, integer, number, date, string, rectangle etc.) is referenced indirect,
-       the parser reads this objects immediatly and consumes the indirection.
-       
-     * If a composite object (dictionary, array etc.) is referenced indirect, a PdfReference objects
-       is returned.
-       
-     * If a composite object is a direct object, no PdfReference is created and the object is
-       parsed immediatly.
-       
-     * A refernece to a non existing object is specified as legal, therefor null is returned.
-  */
+    /*
+       Direct and indireckt objects
 
-  /// <summary>
-  /// Provides the functions to parse PDF documents.
-  /// </summary>
-  internal sealed class Parser
+       * If a simple object (boolean, integer, number, date, string, rectangle etc.) is referenced indirect,
+         the parser reads this objects immediatly and consumes the indirection.
+
+       * If a composite object (dictionary, array etc.) is referenced indirect, a PdfReference objects
+         is returned.
+
+       * If a composite object is a direct object, no PdfReference is created and the object is
+         parsed immediatly.
+
+       * A refernece to a non existing object is specified as legal, therefor null is returned.
+    */
+
+    /// <summary>
+    /// Provides the functions to parse PDF documents.
+    /// </summary>
+    internal sealed class Parser
   {
     PdfDocument document;
     Lexer lexer;

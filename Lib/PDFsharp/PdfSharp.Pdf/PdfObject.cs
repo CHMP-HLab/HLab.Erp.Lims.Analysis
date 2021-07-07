@@ -29,21 +29,15 @@
 
 using System;
 using System.Diagnostics;
-using System.Collections;
-using System.Globalization;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
 using PdfSharp.Pdf.Advanced;
-using PdfSharp.Pdf.Internal;
 using PdfSharp.Pdf.IO;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Base class of all composite PDF objects.
-  /// </summary>
-  public abstract class PdfObject : PdfItem
+    /// <summary>
+    /// Base class of all composite PDF objects.
+    /// </summary>
+    public abstract class PdfObject : PdfItem
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfObject"/> class.

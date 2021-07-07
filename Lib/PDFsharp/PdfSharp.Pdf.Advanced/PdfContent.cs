@@ -29,24 +29,18 @@
 
 using System;
 using System.Diagnostics;
-using System.Collections;
-using System.Text;
-using System.IO;
-using PdfSharp.Drawing;
 using PdfSharp.Drawing.Pdf;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.Internal;
 using PdfSharp.Pdf.Filters;
 using PdfSharp.Pdf.IO;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Represents the content of a page. PDFsharp supports only one content stream per page.
-  /// If an imported page has an array of content streams, the streams are concatenated to
-  /// one single stream.
-  /// </summary>
-  public sealed class PdfContent : PdfDictionary
+    /// <summary>
+    /// Represents the content of a page. PDFsharp supports only one content stream per page.
+    /// If an imported page has an array of content streams, the streams are concatenated to
+    /// one single stream.
+    /// </summary>
+    public sealed class PdfContent : PdfDictionary
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfContent"/> class.

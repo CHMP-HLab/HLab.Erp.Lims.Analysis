@@ -29,18 +29,16 @@
 
 using System;
 using System.Diagnostics;
-using System.Text;
-using System.Collections;
 using System.Collections.Generic;
 using PdfSharp.Fonts.OpenType;
 using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Fonts
 {
-  /// <summary>
-  /// Helper class that determines the characters used in a particular font.
-  /// </summary>
-  internal class CMapInfo
+    /// <summary>
+    /// Helper class that determines the characters used in a particular font.
+    /// </summary>
+    internal class CMapInfo
   {
     public CMapInfo(OpenTypeDescriptor descriptor)
     {

@@ -28,22 +28,14 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using PdfSharp.Drawing;
-using PdfSharp.Internal;
-
-using Fixed = System.Int32;
-using FWord = System.Int16;
-using UFWord = System.UInt16;
 
 namespace PdfSharp.Fonts.OpenType
 {
-  /// <summary>
-  /// Represents an indirect reference to an existing font table in a font image.
-  /// Used to create binary copies of an existing font table that is not modified.
-  /// </summary>
-  internal class IRefFontTable : OpenTypeFontTable
+    /// <summary>
+    /// Represents an indirect reference to an existing font table in a font image.
+    /// Used to create binary copies of an existing font table that is not modified.
+    /// </summary>
+    internal class IRefFontTable : OpenTypeFontTable
   {
     public IRefFontTable(FontData fontData, OpenTypeFontTable fontTable)
       : base(null, fontTable.DirectoryEntry.Tag)

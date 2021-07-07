@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.IO.Packaging;
 using IOPath = System.IO.Path;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Binds an ordered sequence of fixed pages together into a single multi-page document.
-  /// </summary>
-  public class FixedDocument : XpsElement
+    /// <summary>
+    /// Binds an ordered sequence of fixed pages together into a single multi-page document.
+    /// </summary>
+    public class FixedDocument : XpsElement
   {
     /// <summary>
     /// Gets the number of fixed pages in this document.

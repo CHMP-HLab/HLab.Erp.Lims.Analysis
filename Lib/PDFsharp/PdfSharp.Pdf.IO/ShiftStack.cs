@@ -30,18 +30,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Collections;
-using System.Text;
-using System.IO;
-using PdfSharp.Pdf;
 
 namespace PdfSharp.Pdf.IO
 {
-  /// <summary>
-  /// Represents the stack for the shift-reduce parser. It seems that it is only needed for
-  /// reduction of indirect references.
-  /// </summary>
-  internal class ShiftStack
+    /// <summary>
+    /// Represents the stack for the shift-reduce parser. It seems that it is only needed for
+    /// reduction of indirect references.
+    /// </summary>
+    internal class ShiftStack
   {
     // TODO: make Lexer.PeekChars(20) and scan for 'R' to detect indirect references
 

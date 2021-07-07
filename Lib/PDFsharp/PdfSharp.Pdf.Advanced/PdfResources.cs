@@ -29,16 +29,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Represents a PDF resource object.
-  /// </summary>
-  public sealed class PdfResources : PdfDictionary
+    /// <summary>
+    /// Represents a PDF resource object.
+    /// </summary>
+    public sealed class PdfResources : PdfDictionary
   {
     // Resource management works roughly like this:
     // When the user creates an XFont and uses it in the XGraphics of a PdfPage, then at the first time

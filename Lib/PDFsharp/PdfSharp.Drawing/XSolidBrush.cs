@@ -28,23 +28,19 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.IO;
 #if GDI
 using System.Drawing;
 #endif
 #if WPF
-using System.Windows;
 using System.Windows.Media;
 #endif
-using PdfSharp.Internal;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Defines a single color object used to fill shapes and draw text.
-  /// </summary>
-  public class XSolidBrush : XBrush
+    /// <summary>
+    /// Defines a single color object used to fill shapes and draw text.
+    /// </summary>
+    public class XSolidBrush : XBrush
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="XSolidBrush"/> class.

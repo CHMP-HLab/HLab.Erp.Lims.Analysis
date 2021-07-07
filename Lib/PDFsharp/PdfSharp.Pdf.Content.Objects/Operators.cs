@@ -27,17 +27,15 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections;
 using System.Diagnostics;
 using System.Collections.Generic;
 
 namespace PdfSharp.Pdf.Content.Objects
 {
-  /// <summary>
-  /// Represents a PDF content stream operator description.
-  /// </summary>
-  public sealed class OpCode
+    /// <summary>
+    /// Represents a PDF content stream operator description.
+    /// </summary>
+    public sealed class OpCode
   {
     OpCode() { }
 

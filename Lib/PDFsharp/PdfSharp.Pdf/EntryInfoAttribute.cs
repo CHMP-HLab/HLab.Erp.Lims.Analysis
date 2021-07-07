@@ -28,15 +28,13 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.Collections;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Specifies the type of a key's value in a dictionary.
-  /// </summary>
-  [Flags]
+    /// <summary>
+    /// Specifies the type of a key's value in a dictionary.
+    /// </summary>
+    [Flags]
   internal enum KeyType
   {
     Name = 0x00000001,

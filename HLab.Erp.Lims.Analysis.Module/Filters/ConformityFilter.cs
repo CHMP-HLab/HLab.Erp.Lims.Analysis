@@ -5,18 +5,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using HLab.Erp.Conformity.Annotations;
-using HLab.Erp.Core;
-using HLab.Erp.Core.ListFilters;
-using HLab.Erp.Data;
-using HLab.Erp.Data.Observables;
+using HLab.Erp.Core.Wpf.ListFilters;
 using HLab.Erp.Workflows;
 using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.Filters
 {
-    using H = H<ConformityFilter>;
-
-
     public class ConformityFilter : Filter<ConformityState>, IWorkflowFilter
     {
         private static readonly MethodInfo ContainsMethod = typeof(List<ConformityState>).GetMethod("Contains", new[] { typeof(ConformityState) });

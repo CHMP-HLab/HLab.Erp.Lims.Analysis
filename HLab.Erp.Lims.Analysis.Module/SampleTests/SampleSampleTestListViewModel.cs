@@ -1,7 +1,5 @@
-﻿
-using HLab.Erp.Acl;
-using HLab.Erp.Conformity.Annotations;
-using HLab.Erp.Core.EntityLists;
+﻿using HLab.Erp.Conformity.Annotations;
+using HLab.Erp.Core.Wpf.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Data.Workflows;

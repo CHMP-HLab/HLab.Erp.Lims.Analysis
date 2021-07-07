@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace YAMP.Numerics
+﻿namespace YAMP.Numerics
 {
     /// <summary>
     /// Possible normalization values for the fourier transformation.

@@ -31,20 +31,16 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Collections;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
 using PdfSharp.Pdf.IO;
-using PdfSharp.Pdf;
 using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.Annotations;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Represents the pages of the document.
-  /// </summary>
-  [DebuggerDisplay("(PageCount={Count})")]
+    /// <summary>
+    /// Represents the pages of the document.
+    /// </summary>
+    [DebuggerDisplay("(PageCount={Count})")]
   public sealed class PdfPages : PdfDictionary, IEnumerable
   {
     internal PdfPages(PdfDocument document)

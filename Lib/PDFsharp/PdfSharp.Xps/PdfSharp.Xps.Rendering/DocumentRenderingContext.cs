@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using PdfSharp.Xps.XpsModel;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.Advanced;
-using PdfSharp.Drawing;
-using PdfSharp.Drawing.Pdf;
+﻿using PdfSharp.Pdf;
 
 namespace PdfSharp.Xps.Rendering
 {
-  /// <summary>
-  /// Keeps track of the already created PDF objects.
-  /// </summary>
-  class DocumentRenderingContext
+    /// <summary>
+    /// Keeps track of the already created PDF objects.
+    /// </summary>
+    class DocumentRenderingContext
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="DocumentRenderingContext"/> class.

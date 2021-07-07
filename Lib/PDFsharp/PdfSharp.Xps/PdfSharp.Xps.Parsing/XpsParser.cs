@@ -2,18 +2,17 @@
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using System.Xml;
 using System.IO;
 using PdfSharp.Xps.XpsModel;
 
 namespace PdfSharp.Xps.Parsing
 {
-  /// <summary>
-  /// Simple XPS parser.
-  /// The parser is not a syntax checker and therefore expects well-defined XPS XML to work properly.
-  /// </summary>
-  partial class XpsParser
+    /// <summary>
+    /// Simple XPS parser.
+    /// The parser is not a syntax checker and therefore expects well-defined XPS XML to work properly.
+    /// </summary>
+    partial class XpsParser
   {
     XpsParser(XmlTextReader rdr)
     {

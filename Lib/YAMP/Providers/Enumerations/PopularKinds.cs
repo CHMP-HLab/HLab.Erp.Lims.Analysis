@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace YAMP
+﻿namespace YAMP
 {
     /// <summary>
     /// Defines a standard set of kinds of functions.

@@ -27,23 +27,14 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Collections;
-using System.Reflection;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.IO;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Provides access to the internal PDF object data structures. This class prevents the public
-  /// interfaces from pollution with to much internal functions.
-  /// </summary>
-  public class PdfObjectInternals
+    /// <summary>
+    /// Provides access to the internal PDF object data structures. This class prevents the public
+    /// interfaces from pollution with to much internal functions.
+    /// </summary>
+    public class PdfObjectInternals
   {
     internal PdfObjectInternals(PdfObject obj)
     {

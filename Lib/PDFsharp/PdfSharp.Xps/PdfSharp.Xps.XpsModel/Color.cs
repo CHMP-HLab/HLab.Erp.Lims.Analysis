@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using PdfSharp.Internal;
-using PdfSharp.Xps;
-using PdfSharp.Xps.Rendering;
 
 #pragma warning disable 414, 169, 649 // incomplete code state
 
 namespace PdfSharp.Xps.XpsModel
 {
-  struct Color
+    struct Color
   {
     public byte A
     {

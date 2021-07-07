@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products"
              xmlns:lang="clr-namespace:HLab.Localization.Wpf.Lang;assembly=HLab.Localization.Wpf"
              xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
-             xmlns:views="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
+             xmlns:views="clr-namespace:HLab.Erp.Core.Wpf.Views;assembly=HLab.Erp.Core.Wpf"
              xmlns:icons="clr-namespace:HLab.Mvvm.Application.Wpf.Icons;assembly=HLab.Mvvm.Application.Wpf"
              xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
              mc:Ignorable="d" 

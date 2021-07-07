@@ -28,19 +28,15 @@
 #endregion
 
 using System;
-using System.Collections;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
 using PdfSharp.Pdf.IO;
 using PdfSharp.Pdf.AcroForms;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Represents the catalog dictionary.
-  /// </summary>
-  public sealed class PdfCatalog : PdfDictionary
+    /// <summary>
+    /// Represents the catalog dictionary.
+    /// </summary>
+    public sealed class PdfCatalog : PdfDictionary
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfCatalog"/> class.

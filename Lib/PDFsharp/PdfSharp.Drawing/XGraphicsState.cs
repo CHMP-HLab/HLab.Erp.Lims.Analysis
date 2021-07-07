@@ -27,21 +27,19 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 #if GDI
 using System.Drawing;
 using System.Drawing.Drawing2D;
 #endif
 #if WPF
-using System.Windows.Media;
 #endif
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Represents the internal state of an XGraphics object.
-  /// </summary>
-  public sealed class XGraphicsState
+    /// <summary>
+    /// Represents the internal state of an XGraphics object.
+    /// </summary>
+    public sealed class XGraphicsState
   {
 #if GDI
     internal XGraphicsState(GraphicsState state)

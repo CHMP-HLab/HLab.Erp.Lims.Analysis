@@ -39,20 +39,18 @@
 
 using System;
 using System.IO;
-
-using PdfSharp.SharpZipLib.Zip.Compression;
 using PdfSharp.SharpZipLib.Checksums;
 
 namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
 {
 
-  /// <summary>
-  /// This filter stream is used to decompress data compressed using the "deflate"
-  /// format. The "deflate" format is described in RFC 1951.
-  ///
-  /// Author of the original java version: John Leuner.
-  /// </summary>
-  internal class InflaterInputStream : Stream
+    /// <summary>
+    /// This filter stream is used to decompress data compressed using the "deflate"
+    /// format. The "deflate" format is described in RFC 1951.
+    ///
+    /// Author of the original java version: John Leuner.
+    /// </summary>
+    internal class InflaterInputStream : Stream
   {
     /// <summary>
     /// Decompressor for this stream

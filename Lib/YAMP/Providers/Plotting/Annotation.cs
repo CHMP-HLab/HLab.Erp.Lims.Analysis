@@ -1,5 +1,4 @@
-﻿using System;
-using YAMP.Converter;
+﻿using YAMP.Converter;
 
 namespace YAMP
 {

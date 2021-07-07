@@ -27,15 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Text;
 
 namespace PdfSharp.Drawing.BarCodes
 {
-  /// <summary>
-  /// docDaSt
-  /// </summary>
-  public enum DataMatrixEncoding
+    /// <summary>
+    /// docDaSt
+    /// </summary>
+    public enum DataMatrixEncoding
   {
     /// <summary>
     /// docDaSt

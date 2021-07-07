@@ -2,24 +2,21 @@
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using System.IO;
 using System.IO.Packaging;
 using System.Xml;
-using PdfSharp.Drawing;
 using PdfSharp.Pdf.Advanced;
 using PdfSharp.Xps.Parsing;
-using PdfSharp.Xps.Rendering;
 using System.Windows.Media.Imaging;
 using IOPath = System.IO.Path;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// The container of fixed documents.
-  /// The current implementation assumes only one fixed payload per XPS document.
-  /// </summary>
-  class FixedPayload
+    /// <summary>
+    /// The container of fixed documents.
+    /// The current implementation assumes only one fixed payload per XPS document.
+    /// </summary>
+    class FixedPayload
   {
     public FixedPayload(XpsDocument document)
     {

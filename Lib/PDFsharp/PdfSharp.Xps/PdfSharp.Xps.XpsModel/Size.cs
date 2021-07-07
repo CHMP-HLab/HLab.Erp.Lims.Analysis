@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using PdfSharp.Drawing;
+﻿using PdfSharp.Drawing;
 using PdfSharp.Internal;
 using PdfSharp.Xps.Parsing;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Represents the width and height of an object.
-  /// </summary>
-  public struct Size
+    /// <summary>
+    /// Represents the width and height of an object.
+    /// </summary>
+    public struct Size
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="Size"/> struct.

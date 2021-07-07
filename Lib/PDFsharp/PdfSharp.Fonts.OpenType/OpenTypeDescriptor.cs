@@ -29,26 +29,22 @@
 
 using System;
 using System.Diagnostics;
-using System.Globalization;
-using System.Runtime.InteropServices;
 using System.Text;
 #if GDI
 using System.Drawing;
 using System.Drawing.Drawing2D;
 #endif
 #if WPF
-using System.Windows;
-using System.Windows.Media;
 #endif
 using PdfSharp.Pdf.Internal;
 using PdfSharp.Drawing;
 
 namespace PdfSharp.Fonts.OpenType
 {
-  /// <summary>
-  /// The OpenType font descriptor.
-  /// </summary>
-  internal sealed class OpenTypeDescriptor : FontDescriptor
+    /// <summary>
+    /// The OpenType font descriptor.
+    /// </summary>
+    internal sealed class OpenTypeDescriptor : FontDescriptor
   {
     public OpenTypeDescriptor(XFont font, XPdfFontOptions options)
     {

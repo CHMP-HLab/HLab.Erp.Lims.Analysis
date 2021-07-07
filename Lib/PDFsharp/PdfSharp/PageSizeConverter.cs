@@ -32,16 +32,15 @@ using System;
 using System.Drawing;
 #endif
 #if WPF
-using System.Windows;
 #endif
 using PdfSharp.Drawing;
 
 namespace PdfSharp
 {
-  /// <summary>
-  /// Converter from <see cref="PageSize"/> to <see cref="XSize"/>.
-  /// </summary>
-  public static class PageSizeConverter
+    /// <summary>
+    /// Converter from <see cref="PageSize"/> to <see cref="XSize"/>.
+    /// </summary>
+    public static class PageSizeConverter
   {
     /// <summary>
     /// Converts the specified page size enumeration to a pair of values in point.

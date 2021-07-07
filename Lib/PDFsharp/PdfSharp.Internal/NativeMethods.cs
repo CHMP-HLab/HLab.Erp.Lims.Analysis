@@ -28,16 +28,14 @@
 #endregion
 
 using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Security;
 
 namespace PdfSharp.Internal
 {
-  /// <summary>
-  /// Required native Win32 calls. Don't know what to do under Mono.
-  /// </summary>
-  static class NativeMethods
+    /// <summary>
+    /// Required native Win32 calls. Don't know what to do under Mono.
+    /// </summary>
+    static class NativeMethods
   {
     /// <summary>
     /// Reflected from System.Drawing.SafeNativeMethods+LOGFONT

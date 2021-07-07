@@ -27,14 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Brushes for all the pre-defined colors.
-  /// </summary>
-  public static class XBrushes
+    /// <summary>
+    /// Brushes for all the pre-defined colors.
+    /// </summary>
+    public static class XBrushes
   {
     /// <summary>Gets a pre-defined XBrush object.</summary>
     public static XSolidBrush AliceBlue

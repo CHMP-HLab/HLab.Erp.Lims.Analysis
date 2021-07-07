@@ -1,14 +1,12 @@
 ﻿using System;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
-using HLab.Erp.Core.EntityLists;
+using HLab.Erp.Core.Wpf.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
-using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
-using Outils;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {

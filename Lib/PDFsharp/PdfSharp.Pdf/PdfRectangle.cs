@@ -29,29 +29,23 @@
 
 using System;
 using System.Diagnostics;
-using System.Globalization;
-using System.Collections;
-using System.Text;
 #if GDI
 using System.Drawing;
 #endif
 #if WPF
-using System.Windows.Media;
 #endif
-using PdfSharp.Internal;
 using PdfSharp.Drawing;
-using PdfSharp.Pdf;
 using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.IO;
 using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Represents a PDF rectangle value, that is internally an array with 4 real values.
-  /// </summary>
-  // TODO: Can the format be expressed less verbose?
-  [DebuggerDisplay("X1={X1.ToString(\"0.####\",System.Globalization.CultureInfo.InvariantCulture)}, X2={X2.ToString(\"0.####\",System.Globalization.CultureInfo.InvariantCulture)}, Y1={Y1.ToString(\"0.####\",System.Globalization.CultureInfo.InvariantCulture)}, Y2={Y2.ToString(\"0.####\",System.Globalization.CultureInfo.InvariantCulture)}")]
+    /// <summary>
+    /// Represents a PDF rectangle value, that is internally an array with 4 real values.
+    /// </summary>
+    // TODO: Can the format be expressed less verbose?
+    [DebuggerDisplay("X1={X1.ToString(\"0.####\",System.Globalization.CultureInfo.InvariantCulture)}, X2={X2.ToString(\"0.####\",System.Globalization.CultureInfo.InvariantCulture)}, Y1={Y1.ToString(\"0.####\",System.Globalization.CultureInfo.InvariantCulture)}, Y2={Y2.ToString(\"0.####\",System.Globalization.CultureInfo.InvariantCulture)}")]
   public sealed class PdfRectangle : PdfItem
   {
     // This class must behave like a value type. Therefore it cannot be changed (like System.String).

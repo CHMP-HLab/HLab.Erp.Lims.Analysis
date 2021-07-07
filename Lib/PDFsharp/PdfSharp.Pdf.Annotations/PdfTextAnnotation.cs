@@ -28,21 +28,13 @@
 #endregion
 
 using System;
-using System.Globalization;
-using System.Diagnostics;
-using System.Collections;
-using PdfSharp.Internal;
-using PdfSharp.Drawing;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.IO;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.Annotations
 {
-  /// <summary>
-  /// Represents a text annotation.
-  /// </summary>
-  public sealed class PdfTextAnnotation : PdfAnnotation
+    /// <summary>
+    /// Represents a text annotation.
+    /// </summary>
+    public sealed class PdfTextAnnotation : PdfAnnotation
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfTextAnnotation"/> class.

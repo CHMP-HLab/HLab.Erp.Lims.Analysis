@@ -31,15 +31,14 @@ using System;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Reflection;
-using PdfSharp.Pdf.IO;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Hold information about the value of a key in a dictionary. This information is used to create
-  /// and interpret this value.
-  /// </summary>
-  internal sealed class KeyDescriptor
+    /// <summary>
+    /// Hold information about the value of a key in a dictionary. This information is used to create
+    /// and interpret this value.
+    /// </summary>
+    internal sealed class KeyDescriptor
   {
     /// <summary>
     /// Initializes a new instance of KeyDescriptor from the specified attribute during a KeysMeta
