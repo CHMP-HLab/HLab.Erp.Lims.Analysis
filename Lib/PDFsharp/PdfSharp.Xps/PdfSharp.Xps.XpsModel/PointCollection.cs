@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using PdfSharp.Drawing;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Represents a collection of Point objecs.
-  /// </summary>
-  class PointStopCollection : List<Point>
+    /// <summary>
+    /// Represents a collection of Point objecs.
+    /// </summary>
+    class PointStopCollection : List<Point>
   {
     // Currently just a placeholder of a generic list.
 

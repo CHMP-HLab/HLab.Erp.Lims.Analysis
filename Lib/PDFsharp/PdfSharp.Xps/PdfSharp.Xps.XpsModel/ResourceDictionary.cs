@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Defines a set of reusable resource definitions that can be used as property values in the fixed page markup.
-  /// </summary>
-  class ResourceDictionary : XpsElement
+    /// <summary>
+    /// Defines a set of reusable resource definitions that can be used as property values in the fixed page markup.
+    /// </summary>
+    class ResourceDictionary : XpsElement
   {
     /// <summary>
     /// Specifies the URI of a part containing markup for a resource dictionary.

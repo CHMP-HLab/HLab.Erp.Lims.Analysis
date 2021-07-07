@@ -30,24 +30,22 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 #if GDI
 using System.Drawing;
 #endif
 #if WPF
-using System.Windows;
 #endif
 using PdfSharp.Internal;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Represents a pair of floating-point numbers, typically the width and height of a
-  /// graphical object.
-  /// </summary>
-  //[DebuggerDisplay("({Width}, {Height})")]
-  [DebuggerDisplay("Width={Width.ToString(\"0.####\",System.Globalization.CultureInfo.InvariantCulture)}, Height={Height.ToString(\"0.####\",System.Globalization.CultureInfo.InvariantCulture)}")]
+    /// <summary>
+    /// Represents a pair of floating-point numbers, typically the width and height of a
+    /// graphical object.
+    /// </summary>
+    //[DebuggerDisplay("({Width}, {Height})")]
+    [DebuggerDisplay("Width={Width.ToString(\"0.####\",System.Globalization.CultureInfo.InvariantCulture)}, Height={Height.ToString(\"0.####\",System.Globalization.CultureInfo.InvariantCulture)}")]
   [Serializable, StructLayout(LayoutKind.Sequential)] //, ValueSerializer(typeof(SizeValueSerializer)), TypeConverter(typeof(SizeConverter))]
   public struct XSize : IFormattable
   {

@@ -27,24 +27,18 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using System.Diagnostics;
-using System.Collections;
 using System.Text;
-using System.IO;
 using PdfSharp.Drawing;
-using PdfSharp.Internal;
 using PdfSharp.Fonts;
 using PdfSharp.Fonts.OpenType;
-using PdfSharp.Pdf.Advanced;
-using PdfSharp.Pdf.Filters;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Represents a composite font. Used for Unicode encoding.
-  /// </summary>
-  internal sealed class PdfType0Font : PdfFont
+    /// <summary>
+    /// Represents a composite font. Used for Unicode encoding.
+    /// </summary>
+    internal sealed class PdfType0Font : PdfFont
   {
     public PdfType0Font(PdfDocument document)
       : base(document)

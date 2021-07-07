@@ -31,17 +31,14 @@ using System;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
-using System.IO;
 using PdfSharp.Drawing;
-using PdfSharp.Internal;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Contains all used images of a document.
-  /// </summary>
-  internal sealed class PdfImageTable : PdfResourceTable
+    /// <summary>
+    /// Contains all used images of a document.
+    /// </summary>
+    internal sealed class PdfImageTable : PdfResourceTable
   {
     /// <summary>
     /// Initializes a new instance of this class, which is a singleton for each document.

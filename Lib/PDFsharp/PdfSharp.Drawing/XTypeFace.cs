@@ -28,29 +28,19 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.ComponentModel;
-using System.IO;
 #if GDI
 using System.Drawing;
 using System.Drawing.Drawing2D;
 #endif
 #if WPF
-using System.Windows;
-using System.Windows.Media;
 #endif
-using PdfSharp.Internal;
-using PdfSharp.Fonts.OpenType;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.Advanced;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Temporary hack to implement PrivateFontCollection.
-  /// </summary>
-  class XTypefaceHack
+    /// <summary>
+    /// Temporary hack to implement PrivateFontCollection.
+    /// </summary>
+    class XTypefaceHack
   {
     public XTypefaceHack(string typefaceName)
       : this(typefaceName, XFontStyle.Regular, XFontWeights.Normal, new XFontStretch())

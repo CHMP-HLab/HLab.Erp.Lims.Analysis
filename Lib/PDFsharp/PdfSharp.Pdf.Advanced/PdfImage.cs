@@ -30,28 +30,23 @@
 
 using System;
 using System.Diagnostics;
-using System.Collections;
-using System.Text;
 using System.IO;
 #if GDI
 using System.Drawing;
 using System.Drawing.Imaging;
 #endif
 #if WPF
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 #endif
 using PdfSharp.Drawing;
-using PdfSharp.Fonts.OpenType;
-using PdfSharp.Internal;
 using PdfSharp.Pdf.Filters;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Represents an image.
-  /// </summary>
-  public sealed partial class PdfImage : PdfXObject
+    /// <summary>
+    /// Represents an image.
+    /// </summary>
+    public sealed partial class PdfImage : PdfXObject
   {
     /// <summary>
     /// Initializes a new instance of PdfImage from an XImage.

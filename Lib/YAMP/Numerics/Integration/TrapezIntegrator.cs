@@ -1,6 +1,5 @@
 ﻿namespace YAMP.Numerics
 {
-    using System;
     using YAMP;
     using YAMP.Exceptions;
 

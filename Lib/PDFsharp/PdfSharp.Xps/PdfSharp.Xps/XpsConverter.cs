@@ -1,33 +1,24 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.IO.Packaging;
-using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PdfSharp.Xps.XpsModel;
 using PdfSharp.Pdf;
-using PdfSharp.Pdf.Advanced;
 using PdfSharp.Drawing;
-using PdfSharp.Drawing.Pdf;
 using PdfSharp.Xps.Rendering;
 using FixedDocument = PdfSharp.Xps.XpsModel.FixedDocument;
-using FixedDocumentSequence = PdfSharp.Xps.XpsModel.FixedDocumentSequence;
 using FixedPage = PdfSharp.Xps.XpsModel.FixedPage;
 using IOPath = System.IO.Path;
-using Point = PdfSharp.Xps.XpsModel.Point;
-using Rect = PdfSharp.Xps.XpsModel.Rect;
-using Size = PdfSharp.Xps.XpsModel.Size;
 
 namespace PdfSharp.Xps
 {
-  /// <summary>
-  /// Main class that provides the functionallity to convert an XPS file into a PDF file.
-  /// </summary>
-  public class XpsConverter
+    /// <summary>
+    /// Main class that provides the functionallity to convert an XPS file into a PDF file.
+    /// </summary>
+    public class XpsConverter
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="XpsConverter"/> class.

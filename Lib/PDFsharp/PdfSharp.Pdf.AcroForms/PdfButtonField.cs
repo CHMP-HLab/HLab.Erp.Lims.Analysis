@@ -30,16 +30,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Collections;
 using PdfSharp.Pdf.Annotations;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.AcroForms
 {
-  /// <summary>
-  /// Represents the base class for all button fields.
-  /// </summary>
-  public abstract class PdfButtonField : PdfAcroField
+    /// <summary>
+    /// Represents the base class for all button fields.
+    /// </summary>
+    public abstract class PdfButtonField : PdfAcroField
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfButtonField"/> class.

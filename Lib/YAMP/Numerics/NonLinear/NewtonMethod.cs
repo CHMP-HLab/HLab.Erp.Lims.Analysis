@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace YAMP.Numerics.Optimization
 {
     /// <summary>
     /// Represents the Newton method.
     /// </summary>
-   public class NewtonMethod : NonLinearBase
+    public class NewtonMethod : NonLinearBase
     {
         /// <summary>
         /// Creates a new instance.

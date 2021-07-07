@@ -28,15 +28,13 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.Collections;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Base class for all dictionary Keys classes.
-  /// </summary>
-  public class KeysBase
+    /// <summary>
+    /// Base class for all dictionary Keys classes.
+    /// </summary>
+    public class KeysBase
   {
     // public KeysBase() { }
 

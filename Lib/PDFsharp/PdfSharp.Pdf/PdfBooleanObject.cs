@@ -27,21 +27,16 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using System.Diagnostics;
-using System.Collections;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
 using PdfSharp.Pdf.IO;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Represents an indirect boolean value. This type is not used by PDFsharp. If it is imported from
-  /// an external PDF file, the value is converted into a direct object.
-  /// </summary>
-  [DebuggerDisplay("({Value})")]
+    /// <summary>
+    /// Represents an indirect boolean value. This type is not used by PDFsharp. If it is imported from
+    /// an external PDF file, the value is converted into a direct object.
+    /// </summary>
+    [DebuggerDisplay("({Value})")]
   public sealed class PdfBooleanObject : PdfObject
   {
     /// <summary>

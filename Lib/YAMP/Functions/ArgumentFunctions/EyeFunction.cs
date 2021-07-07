@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace YAMP
+﻿namespace YAMP
 {
     [Description("EyeFunctionDescription")]
 	[Kind(PopularKinds.Function)]

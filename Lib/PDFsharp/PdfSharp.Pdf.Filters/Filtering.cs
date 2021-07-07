@@ -29,16 +29,13 @@
 
 using System;
 using System.Diagnostics;
-using PdfSharp.Internal;
-using PdfSharp.Pdf.IO;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.Filters
 {
-  /// <summary>
-  /// Applies standard filters to streams.
-  /// </summary>
-  public static class Filtering
+    /// <summary>
+    /// Applies standard filters to streams.
+    /// </summary>
+    public static class Filtering
   {
     /// <summary>
     /// Gets the filter specified by the case sensitive name.

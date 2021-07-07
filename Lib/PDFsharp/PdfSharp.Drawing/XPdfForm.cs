@@ -28,9 +28,6 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.ComponentModel;
 using System.IO;
 #if GDI
 using System.Drawing;
@@ -38,27 +35,21 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 #endif
 #if WPF
-using System.Windows.Media;
 #endif
 using PdfSharp.Internal;
-using PdfSharp.Drawing.Pdf;
-using PdfSharp.Fonts.OpenType;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
-using PdfSharp.Pdf.Advanced;
-using PdfSharp.Pdf.Filters;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Represents a so called 'PDF form external object', which is typically an imported page of an external
-  /// PDF document. XPdfForm objects are used like images to draw an existing PDF page of an external
-  /// document in the current document. XPdfForm objects can only be placed in PDF documents. If you try
-  /// to draw them using a XGraphics based on an GDI+ context no action is taken if no placeholder image
-  /// is specified. Otherwise the place holder is drawn.
-  /// </summary>
-  public class XPdfForm : XForm
+    /// <summary>
+    /// Represents a so called 'PDF form external object', which is typically an imported page of an external
+    /// PDF document. XPdfForm objects are used like images to draw an existing PDF page of an external
+    /// document in the current document. XPdfForm objects can only be placed in PDF documents. If you try
+    /// to draw them using a XGraphics based on an GDI+ context no action is taken if no placeholder image
+    /// is specified. Otherwise the place holder is drawn.
+    /// </summary>
+    public class XPdfForm : XForm
   {
     /// <summary>
     /// Initializes a new instance of the XPdfForm class from the specified path to an external PDF document.

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using PdfSharp.Xps.Rendering;
-
-namespace PdfSharp.Xps.XpsModel
+﻿namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Base class for all XPS elements.
-  /// </summary>
-  public class XpsElement
+    /// <summary>
+    /// Base class for all XPS elements.
+    /// </summary>
+    public class XpsElement
   {
     /// <summary>
     /// Gets or sets the parent of this element.

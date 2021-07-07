@@ -27,22 +27,18 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Collections;
-using System.Globalization;
-using System.Text;
 using System.IO;
 using PdfSharp.Pdf.Internal;
 using PdfSharp.Pdf.Content.Objects;
 
 namespace PdfSharp.Pdf.Content
 {
-  /// <summary>
-  /// Represents a writer for generation of PDF streams. 
-  /// </summary>
-  internal class ContentWriter
+    /// <summary>
+    /// Represents a writer for generation of PDF streams. 
+    /// </summary>
+    internal class ContentWriter
   {
     public ContentWriter(Stream contentStream)
     {

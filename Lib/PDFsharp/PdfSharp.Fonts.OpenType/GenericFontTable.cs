@@ -28,21 +28,13 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using PdfSharp.Drawing;
-using PdfSharp.Internal;
-
-using Fixed = System.Int32;
-using FWord = System.Int16;
-using UFWord = System.UInt16;
 
 namespace PdfSharp.Fonts.OpenType
 {
-  /// <summary>
-  /// Generic font table. Not yet used
-  /// </summary>
-  internal class GenericFontTable : OpenTypeFontTable
+    /// <summary>
+    /// Generic font table. Not yet used
+    /// </summary>
+    internal class GenericFontTable : OpenTypeFontTable
   {
     public GenericFontTable(OpenTypeFontTable fontTable)
       : base(null, "xxxx")

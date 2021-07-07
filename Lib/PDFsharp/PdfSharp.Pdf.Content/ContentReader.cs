@@ -27,15 +27,14 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using PdfSharp.Pdf.Content.Objects;
 
 namespace PdfSharp.Pdf.Content
 {
-  /// <summary>
-  /// Represents the functionality for reading PDF content streams.
-  /// </summary>
-  public sealed class ContentReader
+    /// <summary>
+    /// Represents the functionality for reading PDF content streams.
+    /// </summary>
+    public sealed class ContentReader
   {
     // Makes this class static
     ContentReader() { }

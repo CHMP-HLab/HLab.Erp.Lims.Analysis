@@ -28,24 +28,20 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.IO;
 #if GDI
 using System.Drawing;
 using System.Drawing.Drawing2D;
 #endif
 #if WPF
-using System.Windows;
 using System.Windows.Media;
 #endif
-using PdfSharp.Internal;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Defines an object used to draw lines and curves.
-  /// </summary>
-  public sealed class XPen
+    /// <summary>
+    /// Defines an object used to draw lines and curves.
+    /// </summary>
+    public sealed class XPen
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="XPen"/> class.

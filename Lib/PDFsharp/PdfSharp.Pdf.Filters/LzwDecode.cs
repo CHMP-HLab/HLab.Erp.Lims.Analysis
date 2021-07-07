@@ -28,16 +28,14 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.Text;
 using System.IO;
 
 namespace PdfSharp.Pdf.Filters
 {
-  /// <summary>
-  /// Implements the LzwDecode filter.
-  /// </summary>
-  public class LzwDecode : Filter
+    /// <summary>
+    /// Implements the LzwDecode filter.
+    /// </summary>
+    public class LzwDecode : Filter
   {
     /// <summary>
     /// Throws a NotImplementedException because the obsolete LZW encoding is not supported by PDFsharp.

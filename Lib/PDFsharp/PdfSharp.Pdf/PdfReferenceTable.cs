@@ -31,20 +31,16 @@ using System;
 using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
 using PdfSharp.Pdf.Advanced;
-using PdfSharp.Pdf.Internal;
 using PdfSharp.Pdf.IO;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Represents the cross reference table of a PDF document. It contains all indirect objects of
-  /// a document.
-  /// </summary>
-  internal sealed class PdfReferenceTable // do not derive from PdfObject
+    /// <summary>
+    /// Represents the cross reference table of a PDF document. It contains all indirect objects of
+    /// a document.
+    /// </summary>
+    internal sealed class PdfReferenceTable // do not derive from PdfObject
   {
     public PdfReferenceTable(PdfDocument document)
     {

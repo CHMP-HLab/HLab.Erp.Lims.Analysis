@@ -33,9 +33,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using System.IO;
 using PdfSharp.Drawing;
-using PdfSharp.Internal;
 using PdfSharp.Pdf.IO;
 using PdfSharp.Pdf.Filters;
 using PdfSharp.Pdf.Advanced;
@@ -43,10 +41,10 @@ using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Value creation flags. Specifies whether and how a value that not exists is created.
-  /// </summary>
-  public enum VCF
+    /// <summary>
+    /// Value creation flags. Specifies whether and how a value that not exists is created.
+    /// </summary>
+    public enum VCF
   {
     /// <summary>
     /// Don't create the value.

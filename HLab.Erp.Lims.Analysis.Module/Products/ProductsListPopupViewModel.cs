@@ -1,13 +1,9 @@
-﻿using System;
-using HLab.Erp.Core;
-using HLab.Erp.Lims.Analysis.Data;
+﻿using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
-using HLab.Erp.Core.EntityLists;
-using HLab.Erp.Core.ListFilters;
-using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
 
 using HLab.Erp.Core.ListFilterConfigurators;
+using HLab.Erp.Core.Wpf.EntityLists;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {

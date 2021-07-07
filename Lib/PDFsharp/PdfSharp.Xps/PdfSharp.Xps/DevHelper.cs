@@ -1,20 +1,11 @@
-﻿using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Text;
-using PdfSharp.Xps.XpsModel;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.Advanced;
-using PdfSharp.Pdf.Internal;
-using PdfSharp.Drawing;
-using PdfSharp.Drawing.Pdf;
+﻿using System.Diagnostics;
 
 namespace PdfSharp.Xps
 {
-  /// <summary>
-  /// Helper functions for developing the XPS to PDF converter.
-  /// </summary>
-  static class DevHelper
+    /// <summary>
+    /// Helper functions for developing the XPS to PDF converter.
+    /// </summary>
+    static class DevHelper
   {
     public static void NotImplemented(string message)
     {

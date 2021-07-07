@@ -1,8 +1,7 @@
 ﻿using System;
 
 using HLab.Erp.Acl;
-using HLab.Erp.Core;
-using HLab.Erp.Core.EntityLists;
+using HLab.Erp.Core.Wpf.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples

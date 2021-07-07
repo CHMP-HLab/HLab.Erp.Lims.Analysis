@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Represents a collection of PathSegment objecs.
-  /// </summary>
-  class PathSegmentCollection : List<PathSegment>
+    /// <summary>
+    /// Represents a collection of PathSegment objecs.
+    /// </summary>
+    class PathSegmentCollection : List<PathSegment>
   {
     // Currently just a placeholder of a generic list.
   }

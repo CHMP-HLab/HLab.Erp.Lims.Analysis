@@ -27,18 +27,15 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using PdfSharp.Internal;
 using PdfSharp.Pdf.IO;
 using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.Filters
 {
-  /// <summary>
-  /// Reserved for future extension.
-  /// </summary>
-  public class FilterParms
+    /// <summary>
+    /// Reserved for future extension.
+    /// </summary>
+    public class FilterParms
   {
     // not yet used
   }

@@ -35,16 +35,14 @@ using System.ComponentModel;
 using System.Drawing;
 #endif
 #if WPF
-using System.Windows.Media;
 #endif
-using PdfSharp.Internal;
 
 namespace PdfSharp.Drawing
 {
-  ///<summary>
-  /// Represents a RGB, CMYK, or gray scale color.
-  /// </summary>
-  [DebuggerDisplay("(A={A}, R={R}, G={G}, B={B} C={C}, M={M}, Y={Y}, K={K})")]
+    ///<summary>
+    /// Represents a RGB, CMYK, or gray scale color.
+    /// </summary>
+    [DebuggerDisplay("(A={A}, R={R}, G={G}, B={B} C={C}, M={M}, Y={Y}, K={K})")]
   public struct XColor
   {
     XColor(uint argb)

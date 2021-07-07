@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  public class FixedDocumentCollection : ICollection<FixedDocument>
+    public class FixedDocumentCollection : ICollection<FixedDocument>
   {
     FixedPayload fpayload;
 

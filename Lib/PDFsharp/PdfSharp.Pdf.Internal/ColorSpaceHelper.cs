@@ -28,16 +28,14 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.Text;
 using PdfSharp.Drawing;
 
 namespace PdfSharp.Pdf.Internal
 {
-  /// <summary>
-  /// Helper functions for RGB and CMYK colors.
-  /// </summary>
-  static class ColorSpaceHelper
+    /// <summary>
+    /// Helper functions for RGB and CMYK colors.
+    /// </summary>
+    static class ColorSpaceHelper
   {
     /// <summary>
     /// Checks whether a color mode and a color match.

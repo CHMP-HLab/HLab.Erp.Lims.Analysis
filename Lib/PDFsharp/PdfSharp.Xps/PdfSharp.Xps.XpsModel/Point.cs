@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using PdfSharp.Drawing;
+﻿using PdfSharp.Drawing;
 using PdfSharp.Internal;
 using PdfSharp.Xps.Parsing;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Represents the width and height of an object.
-  /// </summary>
-  public struct Point
+    /// <summary>
+    /// Represents the width and height of an object.
+    /// </summary>
+    public struct Point
   {
     public Point(double x, double y)
       : this()

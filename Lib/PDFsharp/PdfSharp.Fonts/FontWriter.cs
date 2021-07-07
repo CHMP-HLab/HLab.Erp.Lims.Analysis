@@ -27,17 +27,14 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 
 namespace PdfSharp.Fonts
 {
-  /// <summary>
-  /// Represents a writer for generation of font file streams. 
-  /// </summary>
-  internal class FontWriter
+    /// <summary>
+    /// Represents a writer for generation of font file streams. 
+    /// </summary>
+    internal class FontWriter
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="FontWriter"/> class.

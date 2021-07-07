@@ -27,19 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Collections;
-using PdfSharp.Pdf;
-using PdfSharp.Internal;
-using PdfSharp.Drawing;
 
 namespace PdfSharp.Pdf.Security
 {
-  /// <summary>
-  /// Represents the base of all security handlers.
-  /// </summary>
-  public abstract class PdfSecurityHandler : PdfDictionary
+    /// <summary>
+    /// Represents the base of all security handlers.
+    /// </summary>
+    public abstract class PdfSecurityHandler : PdfDictionary
   {
     internal PdfSecurityHandler(PdfDocument document) : base(document)
     {

@@ -29,29 +29,23 @@
 
 using System;
 using System.Diagnostics;
-using System.Globalization;
 using System.Collections.Generic;
-using System.IO;
 #if GDI
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 #endif
 #if WPF
-using System.Windows;
 using System.Windows.Media;
 #endif
 using PdfSharp.Internal;
-using PdfSharp.Pdf;
-using PdfSharp.Drawing.Pdf;
-using PdfSharp.Pdf.Advanced;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Helper class for Geometry paths.
-  /// </summary>
-  static class GeometryHelper
+    /// <summary>
+    /// Helper class for Geometry paths.
+    /// </summary>
+    static class GeometryHelper
   {
 #if WPF
     /// <summary>

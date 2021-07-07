@@ -27,7 +27,6 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 #if GDI
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -38,10 +37,10 @@ using System.Windows.Media;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Converts XGraphics enums to GDI+ enums.
-  /// </summary>
-  static class XConvert
+    /// <summary>
+    /// Converts XGraphics enums to GDI+ enums.
+    /// </summary>
+    static class XConvert
   {
 #if GDI
     /// <summary>

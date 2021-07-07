@@ -27,18 +27,15 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using System.Diagnostics;
-using System.Collections;
-using System.Text;
 using PdfSharp.Drawing;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Represents trim margins added to the page.
-  /// </summary>
-  [DebuggerDisplay("(Left={left.Millimeter}mm, Right={right.Millimeter}mm, Top={top.Millimeter}mm, Bottom={bottom.Millimeter}mm)")]
+    /// <summary>
+    /// Represents trim margins added to the page.
+    /// </summary>
+    [DebuggerDisplay("(Left={left.Millimeter}mm, Right={right.Millimeter}mm, Top={top.Millimeter}mm, Bottom={bottom.Millimeter}mm)")]
   public sealed class TrimMargins
   {
     ///// <summary>

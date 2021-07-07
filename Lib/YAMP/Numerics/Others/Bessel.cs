@@ -1,5 +1,4 @@
 ﻿using System;
-using YAMP;
 
 namespace YAMP.Numerics
 {

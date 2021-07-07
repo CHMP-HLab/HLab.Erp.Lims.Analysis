@@ -1,19 +1,11 @@
-﻿using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Diagnostics;
 using PdfSharp.Xps.XpsModel;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.Advanced;
-using PdfSharp.Pdf.Internal;
-using PdfSharp.Drawing;
-using PdfSharp.Drawing.Pdf;
 
 using BitmapSource = System.Windows.Media.Imaging.BitmapSource;
 
 namespace PdfSharp.Xps.Rendering
 {
-  class ImageBuilder : BuilderBase
+    class ImageBuilder : BuilderBase
   {
     ImageBuilder(DocumentRenderingContext context) :
       base(context)

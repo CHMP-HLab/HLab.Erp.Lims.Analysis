@@ -29,23 +29,19 @@
 #endregion
 
 using System;
-using System.Diagnostics;
 #if GDI
 using System.Drawing;
 #endif
 #if WPF
-using System.Windows;
-using System.Windows.Media;
 #endif
-using PdfSharp.Drawing;
 
 namespace PdfSharp.Drawing.BarCodes
 {
-  /// <summary>
-  /// Defines the DataMatrix 2D barcode. THIS IS AN EMPIRA INTERNAL IMPLEMENTATION. THE CODE IN
-  /// THE OPEN SOURCE VERSION IS A FAKE.
-  /// </summary>
-  public class CodeDataMatrix : MatrixCode
+    /// <summary>
+    /// Defines the DataMatrix 2D barcode. THIS IS AN EMPIRA INTERNAL IMPLEMENTATION. THE CODE IN
+    /// THE OPEN SOURCE VERSION IS A FAKE.
+    /// </summary>
+    public class CodeDataMatrix : MatrixCode
   {
     /// <summary>
     /// Initializes a new instance of CodeDataMatrix.

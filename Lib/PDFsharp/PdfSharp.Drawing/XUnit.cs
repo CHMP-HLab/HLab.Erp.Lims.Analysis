@@ -28,16 +28,15 @@
 #endregion
 
 using System;
-using System.Diagnostics;
 using System.Globalization;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Represents a value and its unit of measure. The structure converts implicitly from and to
-  /// double with a value measured in point.
-  /// </summary>
-  public struct XUnit : IFormattable
+    /// <summary>
+    /// Represents a value and its unit of measure. The structure converts implicitly from and to
+    /// double with a value measured in point.
+    /// </summary>
+    public struct XUnit : IFormattable
   {
     internal const double PointFactor = 1;
     internal const double InchFactor = 72;

@@ -35,16 +35,14 @@ using System.Threading;
 using System.Drawing;
 #endif
 #if WPF
-using System.Windows.Media;
 #endif
-using PdfSharp.Internal;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Manages the localization of the color class.
-  /// </summary>
-  public class XColorResourceManager
+    /// <summary>
+    /// Manages the localization of the color class.
+    /// </summary>
+    public class XColorResourceManager
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="XColorResourceManager"/> class.

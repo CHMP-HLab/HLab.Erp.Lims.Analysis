@@ -27,14 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Collects information of a font.
-  /// </summary>
-  public sealed class XFontMetrics
+    /// <summary>
+    /// Collects information of a font.
+    /// </summary>
+    public sealed class XFontMetrics
   {
     internal XFontMetrics(string name, int unitsPerEm, int ascent, int descent, int leading,
       int capHeight, int xHeight, int stemV, int stemH, int averageWidth, int maxWidth)

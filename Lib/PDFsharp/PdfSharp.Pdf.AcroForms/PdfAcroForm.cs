@@ -27,18 +27,14 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Collections;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.AcroForms
 {
-  /// <summary>
-  /// Represents a interactive form (or AcroForm), a collection of fields for 
-  /// gathering information interactively from the user.
-  /// </summary>
-  public sealed class PdfAcroForm : PdfDictionary
+    /// <summary>
+    /// Represents a interactive form (or AcroForm), a collection of fields for 
+    /// gathering information interactively from the user.
+    /// </summary>
+    public sealed class PdfAcroForm : PdfDictionary
   {
     /// <summary>
     /// Initializes a new instance of AcroForm.

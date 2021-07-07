@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using PdfSharp.Drawing;
+﻿using PdfSharp.Drawing;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Represents an elliptical arc between two points.
-  /// </summary>
-  class ArcSegment : PathSegment
+    /// <summary>
+    /// Represents an elliptical arc between two points.
+    /// </summary>
+    class ArcSegment : PathSegment
   {
     /// <summary>
     /// Gets the smallest rectangle that completely contains all points of the segments.

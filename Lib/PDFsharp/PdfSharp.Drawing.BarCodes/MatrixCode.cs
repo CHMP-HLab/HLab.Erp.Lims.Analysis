@@ -29,16 +29,13 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.ComponentModel;
-using PdfSharp.Drawing;
 
 namespace PdfSharp.Drawing.BarCodes
 {
-  /// <summary>
-  /// Represents the base class of all 2D codes.
-  /// </summary>
-  public abstract class MatrixCode : CodeBase
+    /// <summary>
+    /// Represents the base class of all 2D codes.
+    /// </summary>
+    public abstract class MatrixCode : CodeBase
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="MatrixCode"/> class.

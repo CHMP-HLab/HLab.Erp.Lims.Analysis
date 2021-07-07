@@ -28,16 +28,12 @@
 #endregion
 
 using System;
-using System.Diagnostics;
 #if GDI
 using System.Drawing;
 using System.Drawing.Imaging;
 #endif
 #if WPF
-using System.Windows;
-using System.Windows.Media;
 #endif
-using PdfSharp.Drawing;
 
 
 
@@ -52,14 +48,14 @@ using PdfSharp.Drawing;
 
 namespace PdfSharp.Drawing.BarCodes
 {
-  /// <summary>
-  /// Creates the XImage object for a DataMatrix.
-  /// Important note for OpenSource version of PDFsharp:
-  ///   The generated image object only contains random data.
-  ///   If you need the correct implementation as defined in the ISO/IEC 16022:2000 specification,
-  ///   please contact empira Software GmbH via www.pdfsharp.com.
-  /// </summary>
-  internal class DataMatrixImage
+    /// <summary>
+    /// Creates the XImage object for a DataMatrix.
+    /// Important note for OpenSource version of PDFsharp:
+    ///   The generated image object only contains random data.
+    ///   If you need the correct implementation as defined in the ISO/IEC 16022:2000 specification,
+    ///   please contact empira Software GmbH via www.pdfsharp.com.
+    /// </summary>
+    internal class DataMatrixImage
   {
     public static XImage GenerateMatrixImage(string text, string encoding, int rows, int columns)
     {

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PdfSharp.Xps.XpsModel
+﻿namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Fills a region with a radial gradient.
-  /// </summary>
-  class RadialGradientBrush : Brush
+    /// <summary>
+    /// Fills a region with a radial gradient.
+    /// </summary>
+    class RadialGradientBrush : Brush
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="RadialGradientBrush"/> class.

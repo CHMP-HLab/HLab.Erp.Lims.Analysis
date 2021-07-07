@@ -27,22 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Globalization;
-using System.Diagnostics;
-using System.Collections;
-using PdfSharp.Internal;
-using PdfSharp.Drawing;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.IO;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.Annotations
 {
-  /// <summary>
-  /// Represents a generic annotation. Used for annotation dictionaries unknown to PDFsharp.
-  /// </summary>
-  internal sealed class PdfGenericAnnotation : PdfAnnotation
+    /// <summary>
+    /// Represents a generic annotation. Used for annotation dictionaries unknown to PDFsharp.
+    /// </summary>
+    internal sealed class PdfGenericAnnotation : PdfAnnotation
   {
       //DMH 6/7/06
       //Make this public so we can use it in PdfAnnotations to

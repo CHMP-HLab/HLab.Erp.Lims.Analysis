@@ -31,19 +31,16 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Collections;
-using System.Text;
-using System.IO;
 using PdfSharp.Drawing;
-using PdfSharp.Internal;
 using PdfSharp.Pdf.IO;
 using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Represents an outline item in the outlines tree. An outline is also knows as a bookmark.
-  /// </summary>
-  public sealed class PdfOutline : PdfDictionary
+    /// <summary>
+    /// Represents an outline item in the outlines tree. An outline is also knows as a bookmark.
+    /// </summary>
+    public sealed class PdfOutline : PdfDictionary
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfOutline"/> class.

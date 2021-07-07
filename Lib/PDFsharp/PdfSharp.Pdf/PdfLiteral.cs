@@ -28,22 +28,17 @@
 #endregion
 
 using System;
-using System.Collections;
-using System.Globalization;
-using System.Text;
-using System.IO;
 using PdfSharp.Drawing;
-using PdfSharp.Internal;
 using PdfSharp.Pdf.IO;
 using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Represents text that is written 'as it is' into the PDF stream. This class can lead to invalid PDF files.
-  /// E.g. strings in a literal are not encrypted when the document is saved with a password.
-  /// </summary>
-  public sealed class PdfLiteral : PdfItem
+    /// <summary>
+    /// Represents text that is written 'as it is' into the PDF stream. This class can lead to invalid PDF files.
+    /// E.g. strings in a literal are not encrypted when the document is saved with a password.
+    /// </summary>
+    public sealed class PdfLiteral : PdfItem
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfLiteral"/> class.

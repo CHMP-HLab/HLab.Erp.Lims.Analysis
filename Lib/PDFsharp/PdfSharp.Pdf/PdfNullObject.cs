@@ -27,21 +27,15 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Globalization;
-using System.Collections;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
 using PdfSharp.Pdf.IO;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Represents an indirect null value. This type is not used by PDFsharp, but at least
-  /// one tool from Adobe creates PDF files with a null object.
-  /// </summary>
-  public sealed class PdfNullObject : PdfObject
+    /// <summary>
+    /// Represents an indirect null value. This type is not used by PDFsharp, but at least
+    /// one tool from Adobe creates PDF files with a null object.
+    /// </summary>
+    public sealed class PdfNullObject : PdfObject
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfNullObject"/> class.

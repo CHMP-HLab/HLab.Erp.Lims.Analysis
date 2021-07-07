@@ -29,12 +29,7 @@
 
 using System;
 using System.Diagnostics;
-using System.Collections;
-using System.Reflection;
-using System.Text;
 using System.IO;
-using PdfSharp.Internal;
-using PdfSharp.Pdf;
 using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.Internal;
 using PdfSharp.Pdf.IO;
@@ -43,10 +38,10 @@ using PdfSharp.Pdf.Security;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Represents a PDF document.
-  /// </summary>
-  [DebuggerDisplay("(Name={Name})")] // A name makes debugging easier
+    /// <summary>
+    /// Represents a PDF document.
+    /// </summary>
+    [DebuggerDisplay("(Name={Name})")] // A name makes debugging easier
   public sealed class PdfDocument : PdfObject, IDisposable
   {
     internal DocumentState state;

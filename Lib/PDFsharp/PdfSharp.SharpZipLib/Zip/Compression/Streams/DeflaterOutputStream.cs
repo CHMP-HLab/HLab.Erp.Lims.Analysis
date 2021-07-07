@@ -39,17 +39,16 @@
 using System;
 using System.IO;
 using PdfSharp.SharpZipLib.Checksums;
-using PdfSharp.SharpZipLib.Zip.Compression;
 
-namespace PdfSharp.SharpZipLib.Zip.Compression.Streams 
+namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
 {
 
-	/// <summary>
-	/// A special stream deflating or compressing the bytes that are
-	/// written to it.  It uses a Deflater to perform actual deflating.<br/>
-  /// Authors of the original java version: Tom Tromey, Jochen Hoenicke 
-	/// </summary>
-	internal class DeflaterOutputStream : Stream
+    /// <summary>
+    /// A special stream deflating or compressing the bytes that are
+    /// written to it.  It uses a Deflater to perform actual deflating.<br/>
+    /// Authors of the original java version: Tom Tromey, Jochen Hoenicke 
+    /// </summary>
+    internal class DeflaterOutputStream : Stream
 	{
 		/// <summary>
 		/// This buffer is used temporarily to retrieve the bytes from the

@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using HLab.Erp.Core.ListFilters;
+using HLab.Erp.Core.Wpf.ListFilters;
 using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
 

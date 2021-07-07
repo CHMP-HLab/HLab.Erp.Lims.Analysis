@@ -29,22 +29,14 @@
 
 using System;
 using System.Diagnostics;
-using System.Collections;
-using System.Text;
-using System.IO;
-using PdfSharp.Drawing;
-using PdfSharp.Drawing.Pdf;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.Internal;
-using PdfSharp.Pdf.Filters;
 using PdfSharp.Pdf.IO;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Represents an array of PDF content streams of a page.
-  /// </summary>
-  public sealed class PdfContents : PdfArray
+    /// <summary>
+    /// Represents an array of PDF content streams of a page.
+    /// </summary>
+    public sealed class PdfContents : PdfArray
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfContents"/> class.

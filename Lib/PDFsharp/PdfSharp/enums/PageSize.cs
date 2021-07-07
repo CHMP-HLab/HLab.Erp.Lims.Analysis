@@ -27,14 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 
 namespace PdfSharp
 {
-  /// <summary>
-  /// Identifies the most popular predefined page sizes.
-  /// </summary>
-  public enum PageSize
+    /// <summary>
+    /// Identifies the most popular predefined page sizes.
+    /// </summary>
+    public enum PageSize
   {
     /// <summary>
     /// The width or height of the page are set manually and override the PageSize property.

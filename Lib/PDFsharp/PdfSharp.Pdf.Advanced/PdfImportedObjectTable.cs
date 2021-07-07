@@ -29,22 +29,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Collections;
-using System.Text;
-using System.IO;
-using PdfSharp.Pdf.Advanced;
-using PdfSharp.Drawing;
-using PdfSharp.Fonts.OpenType;
-using PdfSharp.Internal;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Represents the imported objects of an external document. Used to cache objects that are
-  /// already imported when a PdfFormXObject is added to a page.
-  /// </summary>
-  internal sealed class PdfImportedObjectTable
+    /// <summary>
+    /// Represents the imported objects of an external document. Used to cache objects that are
+    /// already imported when a PdfFormXObject is added to a page.
+    /// </summary>
+    internal sealed class PdfImportedObjectTable
   {
     /// <summary>
     /// Initializes a new instance of this class with the document the objects are imported from.

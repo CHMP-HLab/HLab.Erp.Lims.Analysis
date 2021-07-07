@@ -27,24 +27,18 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using System.Diagnostics;
-using System.Collections;
-using System.Text;
-using System.IO;
 using PdfSharp.Drawing;
-using PdfSharp.Internal;
 using PdfSharp.Fonts;
 using PdfSharp.Fonts.OpenType;
-using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.Filters;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Represents a TrueType font.
-  /// </summary>
-  internal class PdfTrueTypeFont : PdfFont
+    /// <summary>
+    /// Represents a TrueType font.
+    /// </summary>
+    internal class PdfTrueTypeFont : PdfFont
   {
     public PdfTrueTypeFont(PdfDocument document)
       : base(document)

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using HLab.Erp.Conformity.Annotations;
+﻿using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Data;
 using HLab.Notify.PropertyChanged;
 using NPoco;
-using Org.BouncyCastle.Crypto.Operators;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {

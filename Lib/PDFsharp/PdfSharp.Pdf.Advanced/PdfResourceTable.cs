@@ -27,21 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections;
-using System.Globalization;
-using System.Text;
-using System.IO;
-using PdfSharp.Drawing;
-using PdfSharp.Internal;
-using PdfSharp.Fonts.OpenType;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Base class for FontTable, ImageTable, FormXObjectTable etc.
-  /// </summary>
-  internal class PdfResourceTable
+    /// <summary>
+    /// Base class for FontTable, ImageTable, FormXObjectTable etc.
+    /// </summary>
+    internal class PdfResourceTable
   {
     public PdfResourceTable(PdfDocument owner)
     {

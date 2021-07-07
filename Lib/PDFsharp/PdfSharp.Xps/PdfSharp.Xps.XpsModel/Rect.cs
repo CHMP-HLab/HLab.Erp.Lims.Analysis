@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
-using System.Collections.Generic;
-using System.Text;
 using PdfSharp.Internal;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Represents the width and height of an object.
-  /// </summary>
-  [DebuggerDisplay("X={X}, Y={Y}, Width={Width}, Height={Height}")]
+    /// <summary>
+    /// Represents the width and height of an object.
+    /// </summary>
+    [DebuggerDisplay("X={X}, Y={Y}, Width={Width}, Height={Height}")]
   public struct Rect
   {
     public double X { get; set; }

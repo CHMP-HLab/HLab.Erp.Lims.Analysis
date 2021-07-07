@@ -28,15 +28,13 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics;
-using PdfSharp.Drawing;
 
 namespace PdfSharp.Drawing.BarCodes
 {
-  /// <summary>
-  /// Internal base class for several bar code types.
-  /// </summary>
-  public abstract class ThickThinBarCode : BarCode  // TODO: The name is not optimal
+    /// <summary>
+    /// Internal base class for several bar code types.
+    /// </summary>
+    public abstract class ThickThinBarCode : BarCode  // TODO: The name is not optimal
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="ThickThinBarCode"/> class.
