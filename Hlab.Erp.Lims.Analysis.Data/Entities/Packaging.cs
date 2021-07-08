@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using HLab.Erp.Data;
 using HLab.Notify.PropertyChanged;
 
-namespace HLab.Erp.Lims.Analysis.Data
+namespace HLab.Erp.Lims.Analysis.Data.Entities
 {
     using H = HD<Packaging>;
 

@@ -14,6 +14,7 @@
              xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
              xmlns:wpf1="clr-namespace:HLab.Icons.Wpf;assembly=HLab.Icons.Wpf"
              xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
+             xmlns:entities="clr-namespace:HLab.Erp.Lims.Analysis.Data.Entities;assembly=HLab.Erp.Lims.Analysis.Data"
              Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
              d:DataContext="{d:DesignInstance {x:Type sampleTests:SampleTestViewModelDesign}, IsDesignTimeCreatable=True}"             
              mc:Ignorable="d" 
@@ -38,7 +39,7 @@
                     <entitySelectors:ForeignView 
                         IsReadOnly="{Binding IsReadOnly}"
                         Model="{Binding Model.Pharmacopoeia}"
-                        ModelClass="{x:Type data:Pharmacopoeia}"
+                        ModelClass="{x:Type entities:Pharmacopoeia}"
                     />
                     
                     <lang:LocalizedLabel Text="{}{Pharmacopoeia version}"/>

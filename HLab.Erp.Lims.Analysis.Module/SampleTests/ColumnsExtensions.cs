@@ -9,6 +9,7 @@ using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Core.Wpf.ListFilters;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Erp.Lims.Analysis.Module.Filters;
 using HLab.Erp.Workflows;
 

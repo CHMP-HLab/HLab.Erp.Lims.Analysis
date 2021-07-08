@@ -5,6 +5,7 @@ using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 using System;
+using HLab.Erp.Lims.Analysis.Data.Entities;
 
 namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
 {

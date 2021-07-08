@@ -1,5 +1,6 @@
 ﻿using HLab.Erp.Acl;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
 

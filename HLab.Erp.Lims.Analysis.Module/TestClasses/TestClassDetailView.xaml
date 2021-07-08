@@ -38,6 +38,9 @@
                     <lang:Localize Id="{}{Name} : " />
                     <TextBox Text="{Binding Model.Name,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
 
+                    <lang:Localize Id="{}{Version} : " />
+                    <TextBox Text="{Binding Model.Version,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
+
                     <lang:Localize Id="{}{Icon} : " StringFormat="{}{0} : " />
                     <TextBox Text="{Binding Model.IconPath,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
                 </views:DetailView>

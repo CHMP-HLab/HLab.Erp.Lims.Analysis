@@ -53,13 +53,18 @@
                 <core.Views:DetailView EditMode="{Binding EditMode}" Text="{}{Record}" IconPath = "Icons/Sample/Folder">
 
                     <lang:LocalizedLabel Text="{}{Reference} : "/>
-                    <TextBox Text="{Binding Model.Reference, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
+                    <TextBox 
+                        BorderBrush="#80000000"
+                        Margin="0,0,15,0"
+                        Text="{Binding Model.Reference, UpdateSourceTrigger=PropertyChanged}" 
+                        HorizontalContentAlignment="Center" />
 
                     <lang:LocalizedLabel Text="{}{FileId} : "/>
                     <wpf:NumTextBox 
                         Margin="0,0,15,0"
                         BorderBrush="#80000000"
                         HorizontalContentAlignment="Center" 
+                        MaxValue="999999999"
                         Value="{Binding Model.FileId, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <lang:LocalizedLabel Text="{}{Customer Reference} : "/>
@@ -70,7 +75,7 @@
                         Text="{Binding Model.CustomerReference, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <lang:LocalizedLabel Text="{}{Motivation} : "/>
-                    <StackPanel Margin="0,0,15,0">
+                    <StackPanel Margin="0,0,0,0">
                         <entitySelectors:ForeignView 
                             Model="{Binding Model.AnalysisMotivation}"
                             ModelClass="{x:Type analysis.Data:AnalysisMotivation}" 
@@ -97,6 +102,7 @@
 
                     <lang:LocalizedLabel Text="{}{Commercial Name} : "/>
                     <TextBox 
+                        BorderBrush="#80000000"
                         VerticalContentAlignment="Center"
                         Text="{Binding Model.CommercialName, UpdateSourceTrigger=PropertyChanged}" 
                         HorizontalAlignment="Stretch"/>
@@ -180,8 +186,8 @@
 
                     <lang:LocalizedLabel Text="{}{N°} : "/>
                     <TextBox  
-                    Text="{Binding Model.Batch, UpdateSourceTrigger=PropertyChanged}"/>
-
+                        BorderBrush="#80000000"
+                        Text="{Binding Model.Batch, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <lang:LocalizedLabel Text="{}{Expiration} : "/>
                     <Grid Margin="0,0,15,0">

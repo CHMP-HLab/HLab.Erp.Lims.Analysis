@@ -5,10 +5,11 @@ using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 using System;
+using HLab.Erp.Lims.Analysis.Data.Entities;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products
 {
-    public class FormsListViewModel: EntityListViewModel<Form>, IMvvmContextProvider
+    public class ProductFormsListViewModel: EntityListViewModel<Form>, IMvvmContextProvider
     {
         public class Bootloader : NestedBootloader
         {
@@ -19,7 +20,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
         protected override bool CanExecuteAdd(Action<string> errorAction) => true;
         protected override bool CanExecuteDelete(Form form, Action<string> errorAction) => true;
 
-        public FormsListViewModel() : base(c => c
+        public ProductFormsListViewModel() : base(c => c
             .Column()
                 .Header("{Name}")
                 .Link(e => e.Name)

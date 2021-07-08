@@ -1,5 +1,6 @@
 ﻿using HLab.Erp.Base.Data;
 using HLab.Erp.Data;
+using HLab.Erp.Lims.Analysis.Data.Entities;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
