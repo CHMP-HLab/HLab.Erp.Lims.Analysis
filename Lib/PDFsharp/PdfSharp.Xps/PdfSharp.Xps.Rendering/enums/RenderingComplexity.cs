@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace PdfSharp.Xps.Rendering
+﻿namespace PdfSharp.Xps.Rendering
 {
-  enum RenderingComplexity  // not used anymore
+    enum RenderingComplexity  // not used anymore
   {
     /// <summary>
     /// All alpha values 100%, opacity 100%, no OpacityMask

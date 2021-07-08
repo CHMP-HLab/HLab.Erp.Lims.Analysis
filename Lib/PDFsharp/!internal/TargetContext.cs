@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using PdfSharp.Drawing;
-
-namespace PdfSharp.Internal
+﻿namespace PdfSharp.Internal
 {
 #if GDI && WPF
   /// <summary>

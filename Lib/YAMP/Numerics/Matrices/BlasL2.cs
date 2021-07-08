@@ -1,7 +1,4 @@
-﻿using System;
-using YAMP;
-
-namespace YAMP.Numerics
+﻿namespace YAMP.Numerics
 {
     /// <summary>
     /// Provides BLAS Level 2 Access, this level contains matrix-vector operations of the form y = A * x + y.

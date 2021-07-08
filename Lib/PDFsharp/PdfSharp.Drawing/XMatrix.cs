@@ -30,25 +30,22 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 #if GDI
 using System.Drawing;
 using System.Drawing.Drawing2D;
 #endif
 #if WPF
-using System.Windows;
-using System.Windows.Media;
 #endif
 using PdfSharp.Internal;
 
 // ReSharper disable RedundantNameQualifier
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Represents a 3-by-3 matrix that represents an affine 2D transformation.
-  /// </summary>
-  [DebuggerDisplay("({M11}, {M12}, {M21}, {M22}, {OffsetX}, {OffsetY})")]
+    /// <summary>
+    /// Represents a 3-by-3 matrix that represents an affine 2D transformation.
+    /// </summary>
+    [DebuggerDisplay("({M11}, {M12}, {M21}, {M22}, {OffsetX}, {OffsetY})")]
   [Serializable, StructLayout(LayoutKind.Sequential)] //, TypeConverter(typeof(MatrixConverter)), ValueSerializer(typeof(MatrixValueSerializer))]
   public struct XMatrix : IFormattable
   {

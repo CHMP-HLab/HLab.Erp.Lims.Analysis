@@ -28,19 +28,13 @@
 #endregion
 
 using System;
-using System.Collections;
-using System.Globalization;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
-using PdfSharp;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Represents the PDF document information dictionary.
-  /// </summary>
-  public sealed class PdfDocumentInformation : PdfDictionary
+    /// <summary>
+    /// Represents the PDF document information dictionary.
+    /// </summary>
+    public sealed class PdfDocumentInformation : PdfDictionary
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfDocumentInformation"/> class.

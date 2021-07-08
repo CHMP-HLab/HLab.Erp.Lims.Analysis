@@ -4,14 +4,14 @@ using System.Reflection;
 using System.Windows;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
-using HLab.Erp.Core.EntityLists;
+using HLab.Erp.Core.Wpf.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
-using HLab.Erp.Core.ListFilters;
+using HLab.Erp.Core.Wpf.ListFilters;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Erp.Lims.Analysis.Module.Filters;
 using HLab.Erp.Workflows;
-using HLab.Mvvm.Application;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {

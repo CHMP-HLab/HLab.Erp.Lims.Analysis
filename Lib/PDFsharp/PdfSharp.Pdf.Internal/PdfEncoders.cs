@@ -29,20 +29,17 @@
 
 using System;
 using System.Diagnostics;
-using System.Collections;
 using System.Globalization;
 using System.Text;
 using PdfSharp.Drawing;
-using System.IO;
-using PdfSharp.Internal;
 using PdfSharp.Pdf.Security;
 
 namespace PdfSharp.Pdf.Internal
 {
-  /// <summary>
-  /// Groups a set of static encoding helper functions.
-  /// </summary>
-  internal static class PdfEncoders
+    /// <summary>
+    /// Groups a set of static encoding helper functions.
+    /// </summary>
+    internal static class PdfEncoders
   {
     // static char InvalidChar = '?';
 

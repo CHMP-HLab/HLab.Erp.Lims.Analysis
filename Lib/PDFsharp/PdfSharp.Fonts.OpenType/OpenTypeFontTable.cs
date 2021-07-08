@@ -29,20 +29,13 @@
 
 using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-using PdfSharp.Drawing;
-using PdfSharp.Internal;
-
-using Fixed = System.Int32;
-using FWord = System.Int16;
-using UFWord = System.UInt16;
 
 namespace PdfSharp.Fonts.OpenType
 {
-  /// <summary>
-  /// Base class for all OpenType fonts.
-  /// </summary>
-  internal class OpenTypeFontTable : ICloneable
+    /// <summary>
+    /// Base class for all OpenType fonts.
+    /// </summary>
+    internal class OpenTypeFontTable : ICloneable
   {
     public OpenTypeFontTable(FontData fontData, string tag)
     {

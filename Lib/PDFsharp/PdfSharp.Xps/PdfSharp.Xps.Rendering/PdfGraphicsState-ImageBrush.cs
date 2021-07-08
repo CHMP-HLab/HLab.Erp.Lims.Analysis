@@ -1,13 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Globalization;
-using System.Collections.Generic;
-using System.Text;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.Advanced;
-using PdfSharp.Pdf.Internal;
 using PdfSharp.Drawing;
-using PdfSharp.Drawing.Pdf;
 using PdfSharp.Xps.XpsModel;
 using System.Windows.Media.Imaging;
 
@@ -15,7 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace PdfSharp.Xps.Rendering
 {
-  partial class PdfGraphicsState
+    partial class PdfGraphicsState
   {
     [Obsolete]
     void RealizeImageBrush(ImageBrush brush, ref XForm xform, ref XImage xImage)

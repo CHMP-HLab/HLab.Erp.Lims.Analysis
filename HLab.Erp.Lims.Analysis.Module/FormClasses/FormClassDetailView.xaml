@@ -6,7 +6,7 @@
              xmlns:lang="clr-namespace:HLab.Localization.Wpf.Lang;assembly=HLab.Localization.Wpf"
              xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
              xmlns:formClasses="clr-namespace:HLab.Erp.Lims.Analysis.Module.FormClasses"
-             xmlns:views="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
+             xmlns:views="clr-namespace:HLab.Erp.Core.Wpf.Views;assembly=HLab.Erp.Core.Wpf"
              xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
              d:DataContext="{d:DesignInstance {x:Type formClasses:FormClassViewModelDesign}, IsDesignTimeCreatable=True}"             
              Background="#FF005040"

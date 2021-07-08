@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  public class FixedPageCollection : ICollection<FixedPage>
+    public class FixedPageCollection : ICollection<FixedPage>
   {
     FixedDocument fdoc;
 

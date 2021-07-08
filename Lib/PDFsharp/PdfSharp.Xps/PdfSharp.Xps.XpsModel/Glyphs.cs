@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Represents a run of text from a single font.
-  /// </summary>
-  class Glyphs : XpsElement
+    /// <summary>
+    /// Represents a run of text from a single font.
+    /// </summary>
+    class Glyphs : XpsElement
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="Glyphs"/> class.

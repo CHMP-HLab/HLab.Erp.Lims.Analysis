@@ -1,6 +1,4 @@
-﻿using HLab.Mvvm.Annotations;
-
-namespace HLab.Erp.Lims.Analysis.Module.FormClasses
+﻿namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
     public partial class SampleTestFormClassProvider
     {

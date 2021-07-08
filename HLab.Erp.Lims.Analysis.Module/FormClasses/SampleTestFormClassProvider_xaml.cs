@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.Text.RegularExpressions;
 using HLab.Compiler.Wpf;
-using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {

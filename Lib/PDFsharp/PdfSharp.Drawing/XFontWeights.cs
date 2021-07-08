@@ -28,15 +28,14 @@
 #endregion
 
 using System;
-using System.Diagnostics;
 using System.Globalization;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Defines a set of static predefined XFontWeight values.
-  /// </summary>
-  public static class XFontWeights
+    /// <summary>
+    /// Defines a set of static predefined XFontWeight values.
+    /// </summary>
+    public static class XFontWeights
   {
     internal static bool FontWeightStringToKnownWeight(string s, IFormatProvider provider, ref XFontWeight fontWeight)
     {

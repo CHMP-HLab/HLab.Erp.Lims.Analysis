@@ -29,19 +29,16 @@
 
 using System;
 using System.Diagnostics;
-using System.Collections;
 using System.Text;
-using System.IO;
-using PdfSharp.Internal;
 using PdfSharp.Pdf.IO;
 using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Determines the encoding of a PdfString or PdfStringObject.
-  /// </summary>
-  [Flags]
+    /// <summary>
+    /// Determines the encoding of a PdfString or PdfStringObject.
+    /// </summary>
+    [Flags]
   public enum PdfStringEncoding
   {
     /// <summary>

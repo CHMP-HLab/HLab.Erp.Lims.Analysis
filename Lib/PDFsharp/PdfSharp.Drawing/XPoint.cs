@@ -36,17 +36,16 @@ using System.Runtime.InteropServices;
 using System.Drawing;
 #endif
 #if WPF
-using System.Windows;
 #endif
 using PdfSharp.Internal;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Represents a pair of floating point x- and y-coordinates that defines a point
-  /// in a two-dimensional plane.
-  /// </summary>
-  [DebuggerDisplay("X={X.ToString(\"0.####\",System.Globalization.CultureInfo.InvariantCulture)}, Y={Y.ToString(\"0.####\",System.Globalization.CultureInfo.InvariantCulture)}")]
+    /// <summary>
+    /// Represents a pair of floating point x- and y-coordinates that defines a point
+    /// in a two-dimensional plane.
+    /// </summary>
+    [DebuggerDisplay("X={X.ToString(\"0.####\",System.Globalization.CultureInfo.InvariantCulture)}, Y={Y.ToString(\"0.####\",System.Globalization.CultureInfo.InvariantCulture)}")]
   [Serializable]
   [StructLayout(LayoutKind.Sequential)] // TypeConverter(typeof(PointConverter)), ValueSerializer(typeof(PointValueSerializer))]
   public struct XPoint : IFormattable

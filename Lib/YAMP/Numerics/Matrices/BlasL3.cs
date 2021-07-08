@@ -1,7 +1,4 @@
-﻿using System;
-using YAMP;
-
-namespace YAMP.Numerics
+﻿namespace YAMP.Numerics
 {
     /// <summary>
     /// Blas Level 3 Matrix Matrix multiplication.

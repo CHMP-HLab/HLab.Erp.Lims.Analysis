@@ -1,16 +1,13 @@
-﻿using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 
 namespace PdfSharp.Xps.Rendering
 {
-  /// <summary>
-  /// Some temporary stuff.
-  /// </summary>
-  static class WpfUtils
+    /// <summary>
+    /// Some temporary stuff.
+    /// </summary>
+    static class WpfUtils
   {
     /// <summary>
     /// Converts a PolyQuadraticBezierSegment into a PolyLineSegment because I currently have no muse to calculate

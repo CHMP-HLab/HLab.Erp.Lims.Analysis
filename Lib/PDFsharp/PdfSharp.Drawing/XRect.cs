@@ -30,23 +30,21 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 #if GDI
 using System.Drawing;
 #endif
 #if WPF
 using System.Windows;
-using System.Windows.Media;
 #endif
 using PdfSharp.Internal;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Stores a set of four floating-point numbers that represent the location and size of a rectangle.
-  /// </summary>
-  [DebuggerDisplay("({X}, {Y}, {Width}, {Height})")]
+    /// <summary>
+    /// Stores a set of four floating-point numbers that represent the location and size of a rectangle.
+    /// </summary>
+    [DebuggerDisplay("({X}, {Y}, {Width}, {Height})")]
   [Serializable, StructLayout(LayoutKind.Sequential)] // , ValueSerializer(typeof(RectValueSerializer)), TypeConverter(typeof(RectConverter))]
   public struct XRect : IFormattable
   {

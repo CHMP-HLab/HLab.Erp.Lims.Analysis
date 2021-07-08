@@ -6,7 +6,7 @@
              xmlns:lang="clr-namespace:HLab.Localization.Wpf.Lang;assembly=HLab.Localization.Wpf"
              xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
              xmlns:testClasses="clr-namespace:HLab.Erp.Lims.Analysis.Module.TestClasses"
-             xmlns:views="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
+             xmlns:views="clr-namespace:HLab.Erp.Core.Wpf.Views;assembly=HLab.Erp.Core.Wpf"
               xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
              xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
              xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
@@ -37,6 +37,9 @@
 
                     <lang:Localize Id="{}{Name} : " />
                     <TextBox Text="{Binding Model.Name,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
+
+                    <lang:Localize Id="{}{Version} : " />
+                    <TextBox Text="{Binding Model.Version,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
 
                     <lang:Localize Id="{}{Icon} : " StringFormat="{}{0} : " />
                     <TextBox Text="{Binding Model.IconPath,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />

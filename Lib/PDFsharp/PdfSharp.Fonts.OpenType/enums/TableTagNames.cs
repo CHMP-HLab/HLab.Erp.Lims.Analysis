@@ -27,15 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
 
 namespace PdfSharp.Fonts.OpenType
 {
-  /// <summary>
-  /// TrueType font table names.
-  /// </summary>
-  static class TableTagNames
+    /// <summary>
+    /// TrueType font table names.
+    /// </summary>
+    static class TableTagNames
   {
     // --- Required Tables ---
 

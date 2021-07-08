@@ -1,6 +1,4 @@
 using System;
-using YAMP;
-using System.Runtime.InteropServices;
 
 namespace YAMP.Numerics
 {

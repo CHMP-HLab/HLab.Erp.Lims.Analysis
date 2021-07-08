@@ -1,16 +1,11 @@
-﻿using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Text;
-using System.Globalization;
-using PdfSharp.Drawing;
+﻿using PdfSharp.Drawing;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Contains a set of <PathFigure> elements.
-  /// </summary>
-  class PathGeometry : XpsElement
+    /// <summary>
+    /// Contains a set of <PathFigure> elements.
+    /// </summary>
+    class PathGeometry : XpsElement
   {
     //PathGeometry()
     //{

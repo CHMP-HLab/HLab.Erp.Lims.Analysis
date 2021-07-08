@@ -1,17 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Text;
-using PdfSharp.Xps.XpsModel;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.Advanced;
-using PdfSharp.Pdf.Internal;
-using PdfSharp.Drawing;
-using PdfSharp.Drawing.Pdf;
+﻿using PdfSharp.Xps.XpsModel;
 
 namespace PdfSharp.Xps.Rendering
 {
-  abstract class XPTilingBrush : XPBrush
+    abstract class XPTilingBrush : XPBrush
   {
     protected XPTilingBrush(Brush brush)
       : base(brush)

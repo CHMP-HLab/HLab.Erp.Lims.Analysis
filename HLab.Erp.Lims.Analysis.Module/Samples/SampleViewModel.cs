@@ -11,6 +11,7 @@ using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
@@ -515,8 +516,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             {
                 if (test.Stage != SampleTestWorkflow.InvalidatedResults)
                 {
-                    var testStartDate = test.StartDate ?? test.Result.Start ?? DateTime.MaxValue;
-                    var testEndDate = test.EndDate ?? test.Result.End ?? DateTime.MinValue;
+                    var testStartDate = test.StartDate ?? test.Result?.Start ?? DateTime.MaxValue;
+                    var testEndDate = test.EndDate ?? test.Result?.End ?? DateTime.MinValue;
 
                     if (testStartDate > testEndDate) testStartDate = testEndDate;
                     if (testEndDate < testStartDate) testEndDate = testStartDate;

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using HLab.Erp.Acl;
 using HLab.Erp.Data.Observables;
 using HLab.Erp.Workflows;
@@ -255,7 +253,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
             .WithMessage(w => "{End date should be past}")
 
             .When(w => !w.Target.EndDate.HasValue || !w.Target.StartDate.HasValue || w.Target.EndDate >= w.Target.StartDate)
-            .WithMessage(w => "{End date should be before start}")
+            .WithMessage(w => "{End date should be after start}")
         );
 
         public static Stage InvalidatedResults = Stage.Create(c => c

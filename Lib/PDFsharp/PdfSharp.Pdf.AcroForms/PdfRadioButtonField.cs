@@ -28,16 +28,13 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.Collections;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.AcroForms
 {
-  /// <summary>
-  /// Represents the radio button field.
-  /// </summary>
-  public sealed class PdfRadioButtonField : PdfButtonField
+    /// <summary>
+    /// Represents the radio button field.
+    /// </summary>
+    public sealed class PdfRadioButtonField : PdfButtonField
   {
     /// <summary>
     /// Initializes a new instance of PdfRadioButtonField.

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
-using HLab.Erp.Base.Data;
 using HLab.Erp.Core;
-using HLab.Erp.Core.EntityLists;
+using HLab.Erp.Core.Wpf.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
-using HLab.Erp.Core.ListFilters;
+using HLab.Erp.Core.Wpf.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;

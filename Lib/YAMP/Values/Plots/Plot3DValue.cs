@@ -1,8 +1,6 @@
 ﻿namespace YAMP
 {
     using System;
-    using System.Collections.Generic;
-    using System.IO;
     using YAMP.Converter;
 
     /// <summary>

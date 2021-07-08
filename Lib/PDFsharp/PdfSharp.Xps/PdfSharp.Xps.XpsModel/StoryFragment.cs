@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PdfSharp.Xps.XpsModel
+﻿namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Specifies the document structural markup that appears on the current page for a single story block.
-  /// </summary>
-  class StoryFragment : XpsElement
+    /// <summary>
+    /// Specifies the document structural markup that appears on the current page for a single story block.
+    /// </summary>
+    class StoryFragment : XpsElement
   {
     /// <summary>
     /// Identifies the story that this story fragment belongs to.

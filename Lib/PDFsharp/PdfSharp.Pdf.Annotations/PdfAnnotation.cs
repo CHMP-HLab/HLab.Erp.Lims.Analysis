@@ -28,18 +28,14 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.Collections;
-using PdfSharp.Pdf;
-using PdfSharp.Internal;
 using PdfSharp.Drawing;
 
 namespace PdfSharp.Pdf.Annotations
 {
-  /// <summary>
-  /// Represents the base class of all annotations.
-  /// </summary>
-  public abstract class PdfAnnotation : PdfDictionary
+    /// <summary>
+    /// Represents the base class of all annotations.
+    /// </summary>
+    public abstract class PdfAnnotation : PdfDictionary
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfAnnotation"/> class.

@@ -30,16 +30,11 @@
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using System.IO;
 using PdfSharp.Drawing;
-using PdfSharp.Internal;
-using PdfSharp.Fonts.OpenType;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  internal enum FontType
+    internal enum FontType
   {
     /// <summary>
     /// TrueType with WinAnsi encoding.

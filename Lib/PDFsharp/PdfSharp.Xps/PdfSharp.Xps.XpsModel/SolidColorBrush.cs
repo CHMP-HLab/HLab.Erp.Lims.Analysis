@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PdfSharp.Xps.XpsModel
+﻿namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Fills defined geometric regions with a solid color.
-  /// </summary>
-  class SolidColorBrush : Brush
+    /// <summary>
+    /// Fills defined geometric regions with a solid color.
+    /// </summary>
+    class SolidColorBrush : Brush
   {
     public SolidColorBrush()
     {

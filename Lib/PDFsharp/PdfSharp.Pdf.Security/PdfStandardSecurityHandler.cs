@@ -30,10 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Collections;
-using PdfSharp.Drawing;
-using PdfSharp.Internal;
-using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.Internal;
@@ -41,10 +37,10 @@ using System.Security.Cryptography;
 
 namespace PdfSharp.Pdf.Security
 {
-  /// <summary>
-  /// Represents the standard PDF security handler.
-  /// </summary>
-  public sealed class PdfStandardSecurityHandler : PdfSecurityHandler
+    /// <summary>
+    /// Represents the standard PDF security handler.
+    /// </summary>
+    public sealed class PdfStandardSecurityHandler : PdfSecurityHandler
   {
     internal PdfStandardSecurityHandler(PdfDocument document)
       : base(document)

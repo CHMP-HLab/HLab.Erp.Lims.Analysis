@@ -27,17 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Collections;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.AcroForms
 {
-  /// <summary>
-  /// Represents a generic field. Used for AcroForm dictionaries unknown to PDFsharp.
-  /// </summary>
-  public sealed class PdfGenericField : PdfAcroField
+    /// <summary>
+    /// Represents a generic field. Used for AcroForm dictionaries unknown to PDFsharp.
+    /// </summary>
+    public sealed class PdfGenericField : PdfAcroField
   {
     /// <summary>
     /// Initializes a new instance of PdfGenericField.

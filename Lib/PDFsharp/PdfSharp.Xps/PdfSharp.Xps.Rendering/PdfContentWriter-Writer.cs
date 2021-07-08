@@ -1,18 +1,14 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Globalization;
-using System.Collections.Generic;
 using System.Text;
 using PdfSharp.Xps.XpsModel;
-using PdfSharp.Pdf;
 using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.Internal;
 using PdfSharp.Drawing;
-using PdfSharp.Drawing.Pdf;
 
 namespace PdfSharp.Xps.Rendering
 {
-  partial class PdfContentWriter
+    partial class PdfContentWriter
   {
     /// <summary>
     /// Writes a string literally to the content stream.

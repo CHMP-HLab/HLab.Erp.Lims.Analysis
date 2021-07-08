@@ -28,17 +28,14 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.Collections;
 using PdfSharp.Drawing;
-using PdfSharp.Internal;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Holds PDF specific information of the document.
-  /// </summary>
-  public sealed class PdfDocumentSettings
+    /// <summary>
+    /// Holds PDF specific information of the document.
+    /// </summary>
+    public sealed class PdfDocumentSettings
   {
     internal PdfDocumentSettings(PdfDocument document)
     {

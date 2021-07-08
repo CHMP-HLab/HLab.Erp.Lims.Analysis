@@ -30,15 +30,13 @@
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
-using PdfSharp.Drawing;
-using PdfSharp.Fonts.OpenType;
 
 namespace PdfSharp.Fonts.OpenType
 {
-  /// <summary>
-  /// Global table of TrueType font faces.
-  /// </summary>
-  class FontDataStock  // TODO: rename
+    /// <summary>
+    /// Global table of TrueType font faces.
+    /// </summary>
+    class FontDataStock  // TODO: rename
   {
     FontDataStock()
     {

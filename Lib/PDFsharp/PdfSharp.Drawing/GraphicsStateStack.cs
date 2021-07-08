@@ -28,22 +28,20 @@
 #endregion
 
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
 #if GDI
 using System.Drawing;
 using System.Drawing.Drawing2D;
 #endif
 #if WPF
-using System.Windows.Media;
 #endif
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Represents a stack of XGraphicsState and XGraphicsContainer objects.
-  /// </summary>
-  internal class GraphicsStateStack
+    /// <summary>
+    /// Represents a stack of XGraphicsState and XGraphicsContainer objects.
+    /// </summary>
+    internal class GraphicsStateStack
   {
     public GraphicsStateStack(XGraphics gfx)
     {

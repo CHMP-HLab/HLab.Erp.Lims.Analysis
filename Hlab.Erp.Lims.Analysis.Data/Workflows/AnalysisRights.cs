@@ -33,6 +33,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
         //Products
         public static readonly AclRight AnalysisProductCreate = AclRight.Get();
 
+        //TestClass
+        public static readonly AclRight AnalysisTestClassCreate = AclRight.Get();
 
     }
 }

@@ -27,14 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 
 namespace PdfSharp.Pdf.IO
 {
-  /// <summary>
-  /// Terminal symbols recognized by lexer.
-  /// </summary>
-  internal enum Symbol
+    /// <summary>
+    /// Terminal symbols recognized by lexer.
+    /// </summary>
+    internal enum Symbol
   {
     None,
     Comment, Null, Integer, UInteger, Real, Boolean, String, HexString, UnicodeString, UnicodeHexString,

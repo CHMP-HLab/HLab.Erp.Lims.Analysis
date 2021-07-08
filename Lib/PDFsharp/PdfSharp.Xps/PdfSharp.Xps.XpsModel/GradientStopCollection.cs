@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Represents a collection of GradientStop objecs.
-  /// </summary>
-  class GradientStopCollection : List<GradientStop>
+    /// <summary>
+    /// Represents a collection of GradientStop objecs.
+    /// </summary>
+    class GradientStopCollection : List<GradientStop>
   {
     // Currently just a placeholder of a generic list.
 

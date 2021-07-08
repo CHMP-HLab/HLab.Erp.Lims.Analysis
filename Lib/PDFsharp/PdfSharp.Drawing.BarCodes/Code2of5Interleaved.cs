@@ -27,16 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using PdfSharp.Drawing;
 
 namespace PdfSharp.Drawing.BarCodes
 {
-  /// <summary>
-  /// Implementation of the Code 2 of 5 bar code.
-  /// </summary>
-  public class Code2of5Interleaved : ThickThinBarCode
+    /// <summary>
+    /// Implementation of the Code 2 of 5 bar code.
+    /// </summary>
+    public class Code2of5Interleaved : ThickThinBarCode
   {
     /// <summary>
     /// Initializes a new instance of Interleaved2of5.

@@ -30,11 +30,7 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
-using System.Collections;
 using System.ComponentModel;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
 using PdfSharp.Pdf.IO;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf.Advanced;
@@ -42,10 +38,10 @@ using PdfSharp.Pdf.Annotations;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Represents a page in a PDF document.
-  /// </summary>
-  public sealed class PdfPage : PdfDictionary, IContentStream
+    /// <summary>
+    /// Represents a page in a PDF document.
+    /// </summary>
+    public sealed class PdfPage : PdfDictionary, IContentStream
   {
     /// <summary>
     /// Initializes a new page. The page must be added to a document before it can be used.

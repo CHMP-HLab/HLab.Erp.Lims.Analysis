@@ -29,28 +29,21 @@
 
 using System;
 using System.Diagnostics;
-using System.Collections;
-using System.Text;
-using System.IO;
 #if GDI
 using System.Drawing;
 using System.Drawing.Imaging;
 #endif
 #if WPF
-using System.Windows.Media;
 #endif
 using PdfSharp.Drawing;
-using PdfSharp.Fonts.OpenType;
-using PdfSharp.Internal;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Represents a base class for dictionaries with a content stream.
-  /// Implement IContentStream for use with a content writer.
-  /// </summary>
-  public abstract class PdfDictionaryWithContentStream : PdfDictionary, IContentStream
+    /// <summary>
+    /// Represents a base class for dictionaries with a content stream.
+    /// Implement IContentStream for use with a content writer.
+    /// </summary>
+    public abstract class PdfDictionaryWithContentStream : PdfDictionary, IContentStream
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfDictionaryWithContentStream"/> class.

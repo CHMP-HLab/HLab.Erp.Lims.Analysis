@@ -27,21 +27,16 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using System.Globalization;
-using System.Collections;
-using System.Text;
-using System.IO;
 using PdfSharp.Pdf.IO;
-using PdfSharp.Internal;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Represents an indirect real value. This type is not used by PDFsharp. If it is imported from
-  /// an external PDF file, the value is converted into a direct object.
-  /// </summary>
-  public sealed class PdfRealObject : PdfNumberObject
+    /// <summary>
+    /// Represents an indirect real value. This type is not used by PDFsharp. If it is imported from
+    /// an external PDF file, the value is converted into a direct object.
+    /// </summary>
+    public sealed class PdfRealObject : PdfNumberObject
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfRealObject"/> class.

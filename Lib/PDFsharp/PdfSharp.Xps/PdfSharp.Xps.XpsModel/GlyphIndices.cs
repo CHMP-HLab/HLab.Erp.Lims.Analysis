@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using PdfSharp.Internal;
 using PdfSharp.Xps.Parsing;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  enum GlyphIndicesComplexity
+    enum GlyphIndicesComplexity
   {
     None = 1,
     DistanceOnly = 2,

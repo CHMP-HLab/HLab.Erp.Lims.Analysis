@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Globalization;
-using System.Collections.Generic;
-using System.Text;
 using PdfSharp.Internal;
 using PdfSharp.Drawing;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Represents a transformation matrix.
-  /// </summary>
-  struct Matrix
+    /// <summary>
+    /// Represents a transformation matrix.
+    /// </summary>
+    struct Matrix
   {
     public Matrix(double m11, double m12, double m21, double m22, double offsetX, double offsetY)
     {

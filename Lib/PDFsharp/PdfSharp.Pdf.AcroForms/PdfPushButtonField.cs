@@ -27,17 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Collections;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.AcroForms
 {
-  /// <summary>
-  /// Represents the push button field.
-  /// </summary>
-  public sealed class PdfPushButtonField : PdfButtonField
+    /// <summary>
+    /// Represents the push button field.
+    /// </summary>
+    public sealed class PdfPushButtonField : PdfButtonField
   {
     /// <summary>
     /// Initializes a new instance of PdfPushButtonField.

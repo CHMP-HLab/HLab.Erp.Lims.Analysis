@@ -28,7 +28,6 @@
 #endregion
 
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
 using PdfSharp.Drawing;
 using PdfSharp.Fonts.OpenType;
@@ -36,10 +35,10 @@ using PdfSharp.Fonts.OpenType;
 namespace PdfSharp.Fonts
 {
 #if true
-  /// <summary>
-  /// Global table of TrueType fontdescriptor objects.
-  /// </summary>
-  class FontDescriptorStock
+    /// <summary>
+    /// Global table of TrueType fontdescriptor objects.
+    /// </summary>
+    class FontDescriptorStock
   {
     FontDescriptorStock()
     {

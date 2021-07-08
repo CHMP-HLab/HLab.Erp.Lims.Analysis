@@ -27,15 +27,14 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Specifies how text strings are encoded. A text string is any text used outside of a page content 
-  /// stream, e.g. document information, outline text, annotation text etc.
-  /// </summary>
-  public enum PdfTextStringEncoding
+    /// <summary>
+    /// Specifies how text strings are encoded. A text string is any text used outside of a page content 
+    /// stream, e.g. document information, outline text, annotation text etc.
+    /// </summary>
+    public enum PdfTextStringEncoding
   {
     /// <summary>
     /// Specifies that hypertext uses PDF DocEncoding.

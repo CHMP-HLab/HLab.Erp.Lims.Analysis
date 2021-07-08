@@ -30,22 +30,20 @@
 using System;
 using System.Globalization;
 using System.Diagnostics;
-using System.Collections;
-using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.IO
 {
-  /// <summary>
-  /// Lexical analyzer for PDF files. Technically a PDF file is a stream of bytes. Some chunks
-  /// of bytes represent strings in several encodings. The actual encoding depends on the
-  /// context where the string is used. Therefore the bytes are 'raw encoded' into characters,
-  /// i.e. a character or token read by the lexer has always character values in the range from
-  /// 0 to 255.
-  /// </summary>
-  internal class Lexer
+    /// <summary>
+    /// Lexical analyzer for PDF files. Technically a PDF file is a stream of bytes. Some chunks
+    /// of bytes represent strings in several encodings. The actual encoding depends on the
+    /// context where the string is used. Therefore the bytes are 'raw encoded' into characters,
+    /// i.e. a character or token read by the lexer has always character values in the range from
+    /// 0 to 255.
+    /// </summary>
+    internal class Lexer
   {
     /// <summary>
     /// Initializes a new instance of the Lexer class.

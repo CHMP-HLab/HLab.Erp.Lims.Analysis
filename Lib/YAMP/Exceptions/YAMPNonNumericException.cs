@@ -1,7 +1,5 @@
 ﻿namespace YAMP.Exceptions
 {
-    using System;
-
     /// <summary>
     /// The non-numeric exception.
     /// </summary>

@@ -33,18 +33,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Collections;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
 using PdfSharp.Pdf.IO;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Represents an indirect reference to a PdfObject.
-  /// </summary>
-  [DebuggerDisplay("iref({ObjectNumber}, {GenerationNumber})")]
+    /// <summary>
+    /// Represents an indirect reference to a PdfObject.
+    /// </summary>
+    [DebuggerDisplay("iref({ObjectNumber}, {GenerationNumber})")]
   public sealed class PdfReference : PdfItem
   {
     // About PdfReference 

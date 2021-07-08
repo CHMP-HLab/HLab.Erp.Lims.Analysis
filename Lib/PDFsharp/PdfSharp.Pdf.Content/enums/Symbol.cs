@@ -27,14 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 
 namespace PdfSharp.Pdf.Content
 {
-  /// <summary>
-  /// Terminal symbols recognized by PDF content stream lexer.
-  /// </summary>
-  internal enum CSymbol
+    /// <summary>
+    /// Terminal symbols recognized by PDF content stream lexer.
+    /// </summary>
+    internal enum CSymbol
   {
     None,
     Comment, Integer, Real, /*Boolean?,*/ String, HexString, UnicodeString, UnicodeHexString,

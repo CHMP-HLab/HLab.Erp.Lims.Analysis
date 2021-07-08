@@ -27,17 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Collections;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.AcroForms
 {
-  /// <summary>
-  /// Represents the list box field.
-  /// </summary>
-  public sealed class PdfListBoxField : PdfChoiceField
+    /// <summary>
+    /// Represents the list box field.
+    /// </summary>
+    public sealed class PdfListBoxField : PdfChoiceField
   {
     /// <summary>
     /// Initializes a new instance of PdfListBoxField.

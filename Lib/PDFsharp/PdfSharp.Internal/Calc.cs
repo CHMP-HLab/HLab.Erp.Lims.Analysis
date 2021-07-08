@@ -32,16 +32,15 @@ using System;
 using System.Drawing;
 #endif
 #if WPF
-using System.Windows;
 #endif
 using PdfSharp.Drawing;
 
 namespace PdfSharp.Internal
 {
-  /// <summary>
-  /// Some static helper functions for calculations.
-  /// </summary>
-  internal static class Calc
+    /// <summary>
+    /// Some static helper functions for calculations.
+    /// </summary>
+    internal static class Calc
   {
     /// <summary>
     /// Degree to radiant factor.

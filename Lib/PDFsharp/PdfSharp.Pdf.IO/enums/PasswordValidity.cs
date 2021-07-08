@@ -27,14 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 
 namespace PdfSharp.Pdf.IO
 {
-  /// <summary>
-  /// Determines the type of the password.
-  /// </summary>
-  public enum PasswordValidity
+    /// <summary>
+    /// Determines the type of the password.
+    /// </summary>
+    public enum PasswordValidity
   {
     /// <summary>
     /// Password is neither user nor owner password.

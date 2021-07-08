@@ -1,11 +1,11 @@
 ﻿
 using HLab.Erp.Core;
-using HLab.Erp.Core.EntityLists;
+using HLab.Erp.Core.Wpf.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
-using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 using System;
+using HLab.Erp.Lims.Analysis.Data.Entities;
 
 namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
 {

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using PdfSharp.Drawing;
+﻿using PdfSharp.Drawing;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// A series of quadratic Bézier segments.
-  /// </summary>
-  class PolyQuadraticBezierSegment : PathSegment
+    /// <summary>
+    /// A series of quadratic Bézier segments.
+    /// </summary>
+    class PolyQuadraticBezierSegment : PathSegment
   {
     /// <summary>
     /// Gets the smallest rectangle that completely contains all points of the segments.

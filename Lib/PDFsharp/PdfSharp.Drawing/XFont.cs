@@ -30,20 +30,15 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.ComponentModel;
-using System.IO;
 #if GDI
 using System.Drawing;
 using System.Drawing.Drawing2D;
 #endif
 #if WPF
-using System.Windows;
 using System.Windows.Media;
 #endif
-using PdfSharp.Internal;
 using PdfSharp.Fonts;
-using PdfSharp.Fonts.OpenType;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.Advanced;
 
@@ -52,10 +47,10 @@ using PdfSharp.Pdf.Advanced;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Defines an object used to draw text.
-  /// </summary>
-  [DebuggerDisplay("'{Name}', {Size}")]
+    /// <summary>
+    /// Defines an object used to draw text.
+    /// </summary>
+    [DebuggerDisplay("'{Name}', {Size}")]
   public class XFont
   {
     /// <summary>

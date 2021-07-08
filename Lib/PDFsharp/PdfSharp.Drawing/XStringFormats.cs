@@ -27,23 +27,19 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.IO;
 #if GDI
 using System.Drawing;
 using System.Drawing.Drawing2D;
 #endif
 #if WPF
-using System.Windows.Media;
 #endif
-using PdfSharp.Internal;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Represents predefined text layouts.
-  /// </summary>
-  public static class XStringFormats
+    /// <summary>
+    /// Represents predefined text layouts.
+    /// </summary>
+    public static class XStringFormats
   {
     /// <summary>
     /// Gets a new XStringFormat object that aligns the text left on the base line.

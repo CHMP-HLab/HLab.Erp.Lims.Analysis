@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PdfSharp.Xps.XpsModel
+﻿namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Contains a reference to a FixedDocument part.
-  /// </summary>
-  class DocumentReference : XpsElement
+    /// <summary>
+    /// Contains a reference to a FixedDocument part.
+    /// </summary>
+    class DocumentReference : XpsElement
   {
     /// <summary>
     /// Specifies the URI of the fixed document content.

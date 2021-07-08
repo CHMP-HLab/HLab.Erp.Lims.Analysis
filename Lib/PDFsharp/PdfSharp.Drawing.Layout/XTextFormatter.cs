@@ -29,20 +29,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Collections;
-using System.Text;
-using PdfSharp.Drawing;
 using PdfSharp.Pdf.IO;
 
 namespace PdfSharp.Drawing.Layout
 {
-  /// <summary>
-  /// Represents a very simple text formatter.
-  /// If this class does not satisfy your needs on formatting paragraphs I recommend to take a look
-  /// at MigraDoc Foundation. Alternatively you should copy this class in your own source code and modify it.
-  /// </summary>
-  public class XTextFormatter
+    /// <summary>
+    /// Represents a very simple text formatter.
+    /// If this class does not satisfy your needs on formatting paragraphs I recommend to take a look
+    /// at MigraDoc Foundation. Alternatively you should copy this class in your own source code and modify it.
+    /// </summary>
+    public class XTextFormatter
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="XTextFormatter"/> class.

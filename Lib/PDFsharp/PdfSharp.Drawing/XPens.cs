@@ -27,14 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Pens for all the pre-defined colors.
-  /// </summary>
-  public static class XPens
+    /// <summary>
+    /// Pens for all the pre-defined colors.
+    /// </summary>
+    public static class XPens
   {
     /// <summary>Gets a pre-defined XPen object.</summary>
     public static XPen AliceBlue

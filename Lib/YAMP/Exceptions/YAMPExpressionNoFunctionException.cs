@@ -1,7 +1,5 @@
 ﻿namespace YAMP.Exceptions
 {
-    using System;
-
     /// <summary>
     /// The expression no function exception.
     /// </summary>

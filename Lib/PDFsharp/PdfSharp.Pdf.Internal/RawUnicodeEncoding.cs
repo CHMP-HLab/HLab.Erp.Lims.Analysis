@@ -27,15 +27,14 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using System.Text;
 
 namespace PdfSharp.Pdf.Internal
 {
-  /// <summary>
-  /// An encoder for Unicode strings.
-  /// </summary>
-  internal sealed class RawUnicodeEncoding : Encoding
+    /// <summary>
+    /// An encoder for Unicode strings.
+    /// </summary>
+    internal sealed class RawUnicodeEncoding : Encoding
   {
     public RawUnicodeEncoding()
     { }

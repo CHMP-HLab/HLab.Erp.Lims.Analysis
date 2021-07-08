@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HLab.Erp.Conformity.Annotations;
-using HLab.Erp.Core;
+﻿using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Data;
 using HLab.Mvvm.Application;
 using HLab.Notify.PropertyChanged;
 using NPoco;
 
-namespace HLab.Erp.Lims.Analysis.Data
+namespace HLab.Erp.Lims.Analysis.Data.Entities
 {
     using H = H<FormClass>;
 

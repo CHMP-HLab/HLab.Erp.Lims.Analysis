@@ -35,7 +35,7 @@
     <None Remove="Icons\Entities\Products\dose.svg" />
     <None Remove="Icons\Entities\Products\form.svg" />
     <None Remove="Icons\Entities\Products\inn.svg" />
-    <None Remove="Icons\Entities\Test.svg" />
+    <None Remove="Icons\Entities\SampleTest.svg" />
     <None Remove="Icons\Conformity\Invalid.svg" />
     <None Remove="Icons\Sample\commercial.svg" />
     <None Remove="Icons\Sample\date.svg" />
@@ -185,7 +185,7 @@
     <Resource Include="Icons\Entities\Products\Dose.svg" />
     <Resource Include="Icons\Entities\Form.svg" />
     <Resource Include="Icons\Entities\Products\Inn.svg" />
-    <Resource Include="Icons\Entities\Test.svg" />
+    <Resource Include="Icons\Entities\SampleTest.svg" />
     <Resource Include="Icons\Forms\NewFolder\Skin solution.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Resource>

@@ -28,24 +28,18 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using PdfSharp.Drawing;
-using PdfSharp.Internal;
 using PdfSharp.Fonts;
-using PdfSharp.Fonts.OpenType;
-using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.Filters;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Represents a ToUnicode map for composite font.
-  /// </summary>
-  internal sealed class PdfToUnicodeMap : PdfDictionary
+    /// <summary>
+    /// Represents a ToUnicode map for composite font.
+    /// </summary>
+    internal sealed class PdfToUnicodeMap : PdfDictionary
   {
     public PdfToUnicodeMap(PdfDocument document)
       : base(document)

@@ -28,30 +28,22 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.ComponentModel;
 using System.IO;
 #if GDI
 using System.Drawing;
 using System.Drawing.Drawing2D;
 #endif
 #if WPF
-using System.Windows;
-using System.Windows.Media;
 #endif
-using PdfSharp.Internal;
 using PdfSharp.Fonts.OpenType;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.Advanced;
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Specifies a physical font face that corresponds to a font file on the disk.
-  /// </summary>
-  //[DebuggerDisplay("'{Name}', {Size}")]
-  public class XGlyphTypeface
+    /// <summary>
+    /// Specifies a physical font face that corresponds to a font file on the disk.
+    /// </summary>
+    //[DebuggerDisplay("'{Name}', {Size}")]
+    public class XGlyphTypeface
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="XGlyphTypeface"/> class from the specified font file.

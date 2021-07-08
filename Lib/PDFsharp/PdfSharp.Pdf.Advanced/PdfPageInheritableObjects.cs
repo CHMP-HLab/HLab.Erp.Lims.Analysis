@@ -28,20 +28,13 @@
 #endregion
 
 using System;
-using System.Diagnostics;
-using System.Collections;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
-using PdfSharp.Pdf.IO;
-using PdfSharp.Drawing;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Represents a PDF page object.
-  /// </summary>
-  internal class PdfPageInheritableObjects : PdfDictionary
+    /// <summary>
+    /// Represents a PDF page object.
+    /// </summary>
+    internal class PdfPageInheritableObjects : PdfDictionary
   {
     public PdfPageInheritableObjects()
     {

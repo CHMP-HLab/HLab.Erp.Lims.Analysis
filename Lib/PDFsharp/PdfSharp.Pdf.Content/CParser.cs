@@ -27,22 +27,16 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using System.Diagnostics;
-using System.Collections;
-using System.Reflection;
-using System.Text;
-using System.IO;
-using PdfSharp.Pdf;
 using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.Content.Objects;
 
 namespace PdfSharp.Pdf.Content
 {
-  /// <summary>
-  /// Provides the functionality to parse PDF content streams.
-  /// </summary>
-  internal sealed class CParser
+    /// <summary>
+    /// Provides the functionality to parse PDF content streams.
+    /// </summary>
+    internal sealed class CParser
   {
     PdfPage page;
     CLexer lexer;

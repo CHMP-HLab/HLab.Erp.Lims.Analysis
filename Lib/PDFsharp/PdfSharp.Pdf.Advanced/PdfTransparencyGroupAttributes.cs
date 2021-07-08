@@ -27,29 +27,19 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Collections;
-using System.Text;
-using System.IO;
 #if GDI
 using System.Drawing;
 using System.Drawing.Imaging;
 #endif
 #if WPF
-using System.Windows.Media;
 #endif
-using PdfSharp.Drawing;
-using PdfSharp.Fonts.OpenType;
-using PdfSharp.Internal;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Represents a PDF transparency group XObject.
-  /// </summary>
-  public sealed class PdfTransparencyGroupAttributes : PdfGroupAttributes
+    /// <summary>
+    /// Represents a PDF transparency group XObject.
+    /// </summary>
+    public sealed class PdfTransparencyGroupAttributes : PdfGroupAttributes
   {
     internal PdfTransparencyGroupAttributes(PdfDocument thisDocument)
       : base(thisDocument)

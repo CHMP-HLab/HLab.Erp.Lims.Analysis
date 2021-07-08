@@ -1,18 +1,17 @@
-using HLab.Erp.Core;
 using HLab.Erp.Data;
 using HLab.Mvvm.Application;
 using HLab.Notify.PropertyChanged;
 using NPoco;
 
-namespace HLab.Erp.Lims.Analysis.Data
+namespace HLab.Erp.Lims.Analysis.Data.Entities
 {
-    using H = H<AnalysisMotivation>;
+    using H = H<Form>;
 
-    public partial class AnalysisMotivation : Entity, IListableModel, ILocalCache
+    public partial class Form : Entity, IListableModel, ILocalCache
     {
-        public static AnalysisMotivation DesignModel => new() { Name="My Form"};
+        public static Form DesignModel => new() { Name="Tablet"};
 
-        public AnalysisMotivation() => H.Initialize(this);
+        public Form() => H.Initialize(this);
 
         public override string ToString() => Name;
 
@@ -23,6 +22,12 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<string> _name = H.Property<string>(c => c.Default(""));
 
+        public string EnglishName
+        {
+            get => _englishName.Get();
+            set => _englishName.Set(value);
+        }
+        private readonly IProperty<string> _englishName = H.Property<string>(c => c.Default(""));
 
         public string IconPath
         {

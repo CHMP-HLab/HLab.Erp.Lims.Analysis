@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PdfSharp.Xps.XpsModel
+﻿namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Fills a region with a drawing. The drawing may be specified as either a child of the <VisualBrush>
-  /// element, or as a resource reference. Drawing content is expressed using <Canvas>, <Path>,
-  /// and <Glyphs> elements. 
-  /// </summary>
-  class VisualBrush : Brush
+    /// <summary>
+    /// Fills a region with a drawing. The drawing may be specified as either a child of the <VisualBrush>
+    /// element, or as a resource reference. Drawing content is expressed using <Canvas>, <Path>,
+    /// and <Glyphs> elements. 
+    /// </summary>
+    class VisualBrush : Brush
   {
     public VisualBrush()
     {

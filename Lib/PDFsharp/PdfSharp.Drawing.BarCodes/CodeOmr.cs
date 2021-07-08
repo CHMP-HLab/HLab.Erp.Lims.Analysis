@@ -27,17 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.ComponentModel;
-using PdfSharp.Drawing;
 
 namespace PdfSharp.Drawing.BarCodes
 {
-  /// <summary>
-  /// Represents an OMR code.
-  /// </summary>
-  public class CodeOmr : BarCode
+    /// <summary>
+    /// Represents an OMR code.
+    /// </summary>
+    public class CodeOmr : BarCode
   {
     /// <summary>
     /// initializes a new OmrCode with the given data.

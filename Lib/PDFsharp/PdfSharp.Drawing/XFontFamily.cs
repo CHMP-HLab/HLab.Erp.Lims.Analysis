@@ -27,28 +27,22 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.IO;
 #if GDI
 using System.Drawing;
 using System.Drawing.Drawing2D;
 #endif
 #if WPF
-using System.Windows.Media;
 #endif
-using PdfSharp.Pdf;
-using PdfSharp.Fonts.OpenType;
 
 // WPFHACK
 #pragma warning disable 162
 
 namespace PdfSharp.Drawing
 {
-  /// <summary>
-  /// Defines a group of type faces having a similar basic design and certain variations in styles.
-  /// </summary>
-  public sealed class XFontFamily
+    /// <summary>
+    /// Defines a group of type faces having a similar basic design and certain variations in styles.
+    /// </summary>
+    public sealed class XFontFamily
   {
     internal XFontFamily() { }
 

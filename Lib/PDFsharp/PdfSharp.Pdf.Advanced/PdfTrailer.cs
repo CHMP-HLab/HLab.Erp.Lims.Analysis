@@ -29,18 +29,17 @@
 
 using System;
 using System.Diagnostics;
-using System.Collections;
 using PdfSharp.Pdf.IO;
 using PdfSharp.Pdf.Security;
 using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.Advanced
 {
-  /// <summary>
-  /// Represents a PDF trailer dictionary. Even trailers are dictionaries their never have a cross
-  /// reference entry in PdfReferenceTable.
-  /// </summary>
-  internal sealed class PdfTrailer : PdfDictionary
+    /// <summary>
+    /// Represents a PDF trailer dictionary. Even trailers are dictionaries their never have a cross
+    /// reference entry in PdfReferenceTable.
+    /// </summary>
+    internal sealed class PdfTrailer : PdfDictionary
   {
     /// <summary>
     /// Initializes a new instance of PdfTrailer.

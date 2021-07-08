@@ -28,16 +28,14 @@
 #endregion
 
 using System;
-using System.Diagnostics;
 using System.ComponentModel;
-using PdfSharp.Drawing;
 
 namespace PdfSharp.Drawing.BarCodes
 {
-  /// <summary>
-  /// Represents the base class of all bar codes.
-  /// </summary>
-  public abstract class BarCode : CodeBase
+    /// <summary>
+    /// Represents the base class of all bar codes.
+    /// </summary>
+    public abstract class BarCode : CodeBase
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="BarCode"/> class.

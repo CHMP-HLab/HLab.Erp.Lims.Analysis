@@ -27,19 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Collections;
-using PdfSharp.Pdf;
-using PdfSharp.Internal;
-using PdfSharp.Drawing;
 
 namespace PdfSharp.Pdf.Actions
 {
-  /// <summary>
-  /// Represents the base class for all PDF actions.
-  /// </summary>
-  public abstract class PdfAction : PdfDictionary
+    /// <summary>
+    /// Represents the base class for all PDF actions.
+    /// </summary>
+    public abstract class PdfAction : PdfDictionary
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfAction"/> class.

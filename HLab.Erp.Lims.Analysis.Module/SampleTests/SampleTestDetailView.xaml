@@ -9,11 +9,12 @@
              xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
              xmlns:workflows="clr-namespace:HLab.Erp.Workflows;assembly=HLab.Erp.Workflows.Wpf"
              xmlns:data="clr-namespace:HLab.Erp.Lims.Analysis.Data;assembly=HLab.Erp.Lims.Analysis.Data"
-             xmlns:views="clr-namespace:HLab.Erp.Core.Views;assembly=HLab.Erp.Core.Wpf"
+             xmlns:views="clr-namespace:HLab.Erp.Core.Wpf.Views;assembly=HLab.Erp.Core.Wpf"
              xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf" xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
              xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
              xmlns:wpf1="clr-namespace:HLab.Icons.Wpf;assembly=HLab.Icons.Wpf"
              xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
+             xmlns:entities="clr-namespace:HLab.Erp.Lims.Analysis.Data.Entities;assembly=HLab.Erp.Lims.Analysis.Data"
              Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
              d:DataContext="{d:DesignInstance {x:Type sampleTests:SampleTestViewModelDesign}, IsDesignTimeCreatable=True}"             
              mc:Ignorable="d" 
@@ -38,7 +39,7 @@
                     <entitySelectors:ForeignView 
                         IsReadOnly="{Binding IsReadOnly}"
                         Model="{Binding Model.Pharmacopoeia}"
-                        ModelClass="{x:Type data:Pharmacopoeia}"
+                        ModelClass="{x:Type entities:Pharmacopoeia}"
                     />
                     
                     <lang:LocalizedLabel Text="{}{Pharmacopoeia version}"/>

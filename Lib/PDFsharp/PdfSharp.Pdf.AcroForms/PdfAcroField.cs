@@ -30,16 +30,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Collections;
 using PdfSharp.Pdf.Advanced;
-using PdfSharp.Pdf.Internal;
 
 namespace PdfSharp.Pdf.AcroForms
 {
-  /// <summary>
-  /// Represents the base class for all interactive field dictionaries.
-  /// </summary>
-  public abstract class PdfAcroField : PdfDictionary
+    /// <summary>
+    /// Represents the base class for all interactive field dictionaries.
+    /// </summary>
+    public abstract class PdfAcroField : PdfDictionary
   {
     /// <summary>
     /// Initializes a new instance of PdfAcroField.

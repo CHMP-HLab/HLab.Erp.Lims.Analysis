@@ -27,23 +27,20 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Text;
 #if GDI
 using System.Drawing;
 using System.Drawing.Drawing2D;
 #endif
 #if WPF
-using System.Windows.Media;
 #endif
 
 namespace PdfSharp.Drawing
 {
 #if true
-  /// <summary>
-  /// Represents a segment of a path defined by a type and a set of points.
-  /// </summary>
-  internal sealed class XGraphicsPathItem
+    /// <summary>
+    /// Represents a segment of a path defined by a type and a set of points.
+    /// </summary>
+    internal sealed class XGraphicsPathItem
   {
     public XGraphicsPathItem(XGraphicsPathItemType type)
     {

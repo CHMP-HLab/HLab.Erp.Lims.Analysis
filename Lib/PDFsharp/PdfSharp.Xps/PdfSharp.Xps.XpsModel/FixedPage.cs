@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Contains markup that describes the rendering of a single page of content.
-  /// </summary>
-  public class FixedPage : XpsElement
+    /// <summary>
+    /// Contains markup that describes the rendering of a single page of content.
+    /// </summary>
+    public class FixedPage : XpsElement
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="FixedPage"/> class.

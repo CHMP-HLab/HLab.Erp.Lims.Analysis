@@ -32,17 +32,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Collections;
 using System.Text;
-using System.IO;
-using PdfSharp.Internal;
 using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.IO;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Represents a PDF array object.
-  /// </summary>
-  [DebuggerDisplay("(elements={Elements.Count})")]
+    /// <summary>
+    /// Represents a PDF array object.
+    /// </summary>
+    [DebuggerDisplay("(elements={Elements.Count})")]
   public class PdfArray : PdfObject, IEnumerable<PdfItem>
   {
     ArrayElements elements;

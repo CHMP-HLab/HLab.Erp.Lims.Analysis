@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PdfSharp.Xps.XpsModel
+﻿namespace PdfSharp.Xps.XpsModel
 {
-  /// <summary>
-  /// Defines a reference from a fixed document to a part that contains a <FixedPage> element.
-  /// </summary>
-  class PageContent : XpsElement
+    /// <summary>
+    /// Defines a reference from a fixed document to a part that contains a <FixedPage> element.
+    /// </summary>
+    class PageContent : XpsElement
   {
     /// <summary>
     /// Specifies a URI that refers to the page content, held in a distinct part within the package.

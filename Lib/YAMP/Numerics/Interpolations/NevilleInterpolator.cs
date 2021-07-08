@@ -1,7 +1,4 @@
-﻿using System;
-using YAMP;
-
-namespace YAMP.Numerics
+﻿namespace YAMP.Numerics
 {
     /// <summary>
     /// The Neville polynom interpolation algorithm.

@@ -27,18 +27,13 @@
 // DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections;
-using System.Text;
-using System.IO;
-using PdfSharp.Internal;
 
 namespace PdfSharp.Pdf
 {
-  /// <summary>
-  /// Represents a indirect reference that is not in the cross reference table.
-  /// </summary>
-  public sealed class PdfNull : PdfItem
+    /// <summary>
+    /// Represents a indirect reference that is not in the cross reference table.
+    /// </summary>
+    public sealed class PdfNull : PdfItem
   {
     PdfNull()
     { }

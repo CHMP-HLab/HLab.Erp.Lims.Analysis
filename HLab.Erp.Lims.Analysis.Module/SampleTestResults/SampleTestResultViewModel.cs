@@ -8,6 +8,7 @@ using HLab.Base.Extensions;
 using HLab.Erp.Acl;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
@@ -19,17 +20,32 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
     public class SampleTestResultViewModel : EntityViewModel<SampleTestResult>
     {
+        private Func<Sample, DataLocker<Sample>> _getSampleLocker;
+        private Func<SampleTest, DataLocker<SampleTest>> _getSampleTestLocker;
+
+
         public SampleTestResultViewModel(
             Func<FormHelper> getFormHelper, 
             Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> getWorkflow,
-            Func<SampleTestResult, LinkedDocumentsListViewModel> getDocuments)
+            Func<SampleTestResult, LinkedDocumentsListViewModel> getDocuments,
+            Func<Sample, DataLocker<Sample>> getSampleLocker,
+            Func<SampleTest, DataLocker<SampleTest>> getSampleTestLocker
+            )
         {
             _getFormHelper = getFormHelper;
             _getWorkflow = getWorkflow;
             _getDocuments = getDocuments;
+            _getSampleLocker = getSampleLocker;
+            _getSampleTestLocker = getSampleTestLocker;
 
             H.Initialize(this);
         }
+        private ITrigger _modelTrigger = H.Trigger(c => c
+            .On(e => e.Model)
+            .Do(e => e.Locker.AddDependencyLocker(
+                e._getSampleLocker(e.Model.SampleTest.Sample),
+                e._getSampleTestLocker(e.Model.SampleTest)
+                )));
 
         private readonly Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> _getWorkflow;
 
