@@ -286,9 +286,13 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
         );
 
         public static Stage Certificate = Stage.Create(c => c
-            .Caption(w => "{Certificate}").Icon(w => "Icons/Workflows/Certificate")
+            .Caption(w => "{Certificate}")
+            .Icon(w => "Icons/Workflows/Certificate")
             .Progress(0.9).Action(w => w.Target.Progress = 0.9)
             .WhenStageAllowed(() => MonographClosed)
+            .NotWhen(w => string.IsNullOrWhiteSpace(w.Target.ReportReference))
+                .WithMessage(w => "{Missing} : {Certificate Reference}")
+                .HighlightField(w => w.Target.ReportReference)
             .When(w =>
             {
                 var validated = 0;
