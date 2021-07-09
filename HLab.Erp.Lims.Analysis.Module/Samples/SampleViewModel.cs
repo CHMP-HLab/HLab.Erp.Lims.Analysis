@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,6 +16,7 @@ using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
+using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
@@ -25,22 +27,29 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
     using H = H<SampleViewModel>;
 
+
+    public class SampleViewModelDesign : SampleViewModel.Design
+    {
+
+    }
+
     public class SampleViewModel : EntityViewModel<Sample>
     {
+
+        public class Design : SampleViewModel, IViewModelDesign
+        {
+            public new Sample Model { get; } = Sample.DesignModel;
+        }
+
         public Type ListProductType => typeof(ProductsListPopupViewModel);
 
         private readonly Func<Sample, IDataLocker<Sample>, SampleWorkflow> _getSampleWorkflow;
 
-        internal SampleViewModel()
-        {
-            H.Initialize(this);
-        }
+        private SampleViewModel() { }
 
         public SampleViewModel(
             Func<Sample, SampleSampleTestListViewModel> getTests,
-            ObservableQuery<Packaging> packagings,
             Func<Sample, SampleFormsListViewModel> getForms,
-            Func<FormClassesListViewModel> getFormClasses,
             Func<int, SampleAuditTrailViewModel> getAudit,
             Func<Sample, IDataLocker<Sample>, SampleWorkflow> getSampleWorkflow
             )
@@ -49,10 +58,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             _getSampleWorkflow = getSampleWorkflow;
             _getTests = getTests;
             H.Initialize(this);
-            Packagings = packagings;
             _getForms = getForms;
-            _getFormClasses = getFormClasses;
-            Packagings?.Update();
         }
 
         public override object Header => _header.Get();
@@ -70,22 +76,14 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .NotNull(e => e.Model)
             .Update()
         );
-        public ObservableQuery<Packaging> Packagings { get; }
 
-        [TriggerOn(nameof(Packagings), "Item", "Secondary")]
-        public IObservableFilter<Packaging> PrimaryPackagingList { get; }
-            = H.Filter<Packaging>(c => c
-                .AddFilter(p => !p.Secondary)
-                .Link(e => e.Packagings)
-            );
 
-        [TriggerOn(nameof(Packagings), "Item", "Secondary")]
-        public IObservableFilter<Packaging> SecondaryPackagingList { get; }
-            = H.Filter<Packaging>(c => c
-                .AddFilter(p => p.Secondary)
-                .Link(e => e.Packagings)
-            );
 
+
+
+
+
+ 
         public bool IsReadOnly => _isReadOnly.Get();
         private readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
             .Set(e => !e.EditMode)
@@ -159,7 +157,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         private readonly Func<Sample, SampleSampleTestListViewModel> _getTests;
         private readonly Func<Sample, SampleFormsListViewModel> _getForms;
-        private readonly Func<FormClassesListViewModel> _getFormClasses;
+//        private readonly Func<FormClassesListViewModel> _getFormClasses;
         private readonly Func<int, SampleAuditTrailViewModel> _getAudit;
 
         public SampleSampleTestListViewModel Tests => _tests.Get();
@@ -288,116 +286,79 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Update()
         );
 
-        public FormClassesListViewModel FormClasses => _formClasses.Get();
-        private readonly IProperty<FormClassesListViewModel> _formClasses = H.Property<FormClassesListViewModel>(c => c
-            .NotNull(e => e.Model)
-            .Set(e => e._getFormClasses?.Invoke())
-            .On(e => e.Model)
-            .Update()
-        );
+        public ObservableCollection<string> CommercialNames { get; } = new();
+        public ObservableCollection<string> Origins { get; } = new();
+        public ObservableCollection<string> PrimaryPackagingList { get; } = new();
+        public ObservableCollection<string> SecondaryPackagingList { get; } = new();
+        public ObservableCollection<string> StorageConditionsList { get; } = new();
 
-        public ICommand AddTestCommand { get; } = H.Command(c => c
-            .CanExecute(e => e.CanExecuteAddTest())
-            .Action(async (e, t) => await e.AddTestAsync(t as TestClass))
-            .On(e => e.Model.Stage)
-            .CheckCanExecute()
-        );
 
-        public ICommand AddFormCommand { get; } = H.Command(c => c
-            .CanExecute(e => e.CanExecuteAddForm())
-            .Action(async (e, t) =>
-            {
-                if (t is not FormClass formClass) return;
-
-                if (e.Forms.List.Any(sf => sf.FormClass.Id == formClass.Id)) return;
-
-                try
-                {
-                    await e.AddFormAsync(formClass);
-                }
-                catch (DataException)
-                { }
-            })
-            .On(e => e.Model.Stage)
-            .On(e => e.Model.Id)
-            .CheckCanExecute()
-        );
-
-        public ICommand AddOneFormCommand { get; } = H.Command(c => c
-            .CanExecute(e => e.CanExecuteAddForm())
-            .Action(async (e, t) => await e.AddFormsAsync())
-            .On(e => e.Model.Stage).CheckCanExecute()
-        );
-
-        private bool CanExecuteAddTest()
-        {
-            if (!Acl.IsGranted(AnalysisRights.AnalysisAddTest)) return false;
-            return Workflow?.CurrentStage == SampleWorkflow.Monograph;
-        }
-
-        private bool CanExecuteAddForm()
-        {
-            if (!Acl.IsGranted(AnalysisRights.AnalysisReceptionSign)) return false;
-            if (Model.Id < 0) return false;
-            return Workflow?.CurrentStage == SampleWorkflow.Reception;
-        }
-
-        public List<string> Origins => _origins.Get();
-        private readonly IProperty<List<string>> _origins = H.Property<List<string>>(c => c
-            .NotNull(e => e.Model)
-            .Set(async e => await e.GetOrigins())
+        private readonly ITrigger _1 = H.Trigger(c => c
             .On(e => e.Model.Customer)
-            .Update()
+            .On(e => e.Locker.IsActive)
+            .Do(async e => await e.GetOrigins())
+        );
+        private readonly ITrigger _2 = H.Trigger(c => c
+            .On(e => e.Model.Product)
+            .On(e => e.Locker.IsActive)
+            .Do(async e => await e.UpdateProductLists())
         );
 
-        private async Task<List<string>> GetOrigins()
+        private async Task GetOrigins()
         {
-            var list = await Data.SelectDistinctAsync<Sample, string>(s => s.CustomerId == Model.CustomerId && !string.IsNullOrWhiteSpace(s.SamplingOrigin),
+            if (!Locker.IsActive) return;
+            if (Model.Stage != SampleWorkflow.Reception) return;
+
+            var list = await Data.SelectDistinctAsync<Sample, string>(s => s.CustomerId == Model.CustomerId /*&& !string.IsNullOrWhiteSpace(s.SamplingOrigin)*/,
                 s => s.SamplingOrigin).ToListAsync();
-            return list;
-        }
+            Origins.Clear();
 
-        private async Task AddTestAsync(TestClass testClass)
-        {
-            if (testClass == null) return;
-
-            var test = await Data.AddAsync<SampleTest>(st =>
+            foreach (var s in list.Where(e => !string.IsNullOrWhiteSpace(e)).OrderBy(e => e))
             {
-                st.Sample = Model;
-                st.TestClass = testClass;
-                //st.Code = testClass.Code;
-                st.Description = "";
-                st.TestName = testClass.Name;
-                st.Stage = SampleTestWorkflow.DefaultStage;
-            });
-
-            if (test != null) Tests.List.Update();
-
-        }
-
-        private async Task AddFormsAsync()
-        {
-            Forms.List.UpdateAsync();
-            FormClasses.List.UpdateAsync();
-            foreach (var formClass in FormClasses.List)
-            {
-                if (!Forms.List.Any(e => ReferenceEquals(e.FormClass, formClass)))
-                    await AddFormAsync(formClass);
+                Origins.Add(s);
             }
         }
 
-        private async Task AddFormAsync(FormClass formClass)
+        private async Task UpdateProductLists()
         {
-            if (formClass == null) return;
+            if (!Locker.IsActive) return;
+            if (Model.Stage != SampleWorkflow.Reception) return;
 
-            var form = await Data.AddAsync<SampleForm>(st =>
+            var commercialNamesList = await Data.SelectDistinctAsync<Sample, string>(s => s.ProductId == Model.ProductId /*&& !string.IsNullOrWhiteSpace(s.SamplingOrigin)*/,
+                s => s.CommercialName).ToListAsync();
+            CommercialNames.Clear();
+
+            foreach (var s in commercialNamesList.Where(e => !string.IsNullOrWhiteSpace(e)).OrderBy(e => e))
             {
-                st.Sample = Model;
-                st.FormClass = formClass;
-            });
+                CommercialNames.Add(s);
+            }
 
-            if (form != null)
-                Forms.List.Update();
+            var primaryList = await Data.SelectDistinctAsync<Sample, string>(s => s.ProductId == Model.ProductId /*&& !string.IsNullOrWhiteSpace(s.SamplingOrigin)*/,
+                s => s.PrimaryPackaging).ToListAsync();
+            PrimaryPackagingList.Clear();
+
+            foreach (var s in primaryList.Where(e => !string.IsNullOrWhiteSpace(e)).OrderBy(e => e))
+            {
+                PrimaryPackagingList.Add(s);
+            }
+
+            var secondaryList = await Data.SelectDistinctAsync<Sample, string>(s => s.ProductId == Model.ProductId /*&& !string.IsNullOrWhiteSpace(s.SamplingOrigin)*/,
+                s => s.SecondaryPackaging).ToListAsync();
+            SecondaryPackagingList.Clear();
+
+            foreach (var s in secondaryList.Where(e => !string.IsNullOrWhiteSpace(e)).OrderBy(e => e))
+            {
+                SecondaryPackagingList.Add(s);
+            }
+
+            var storageList = await Data.SelectDistinctAsync<Sample, string>(s => s.ProductId == Model.ProductId /*&& !string.IsNullOrWhiteSpace(s.SamplingOrigin)*/,
+                s => s.StorageConditions).ToListAsync();
+            StorageConditionsList.Clear();
+
+            foreach (var s in storageList.Where(e => !string.IsNullOrWhiteSpace(e)).OrderBy(e => e))
+            {
+                StorageConditionsList.Add(s);
+            }
         }
 
         public SampleWorkflow Workflow => _workflow.Get();
@@ -440,16 +401,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             // Prépare l'impression
             var ip = new Print("Certificate", template.Page, language);
 
-
-            //ip["Reference"] = Model.Reference;
-            //ip["Product.Inn"] = Model.Product?.Inn;
-            //ip["CommercialName"] = Model.CommercialName;
-            //ip["Product.Dose"] = Model.Product?.Dose;
-            //ip["Product.Form"] = Model.Product?.Form.Name;
-            //ip["ReportReference"] = Model.ReportReference;
-            //ip["CustomerReference"] = Model.CustomerReference;
-            //ip["AnalysisMotivation.Name"] = Model.AnalysisMotivation.Name;
-
             var expiry = "";
             if (Model.ExpirationDate != null)
             {
@@ -464,27 +415,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             }
             ip["ManufacturingDate"] = manufacturingDate;
 
-
-            //ip["BatchNo"] = Model.Batch;
-            //ip["Customer.Name"] = Model.Customer?.Name;
-            //ip["Customer.Address"] = JoinNotNull("\n", Model.Customer?.Address, Model.Customer?.Country?.Name);
-            //ip["Customer.Email"] = Model.Customer?.Email;
-            //ip["Customer.Phone"] = Model.Customer?.Phone;
-
-            //ip["Manufacturer.Name"] = JoinNotNull("\n", Model.Manufacturer?.Name, Model.Manufacturer?.Address, Model.Manufacturer?.Country?.Name);
-            //ip["Manufacturer.Address"] = JoinNotNull("\n", Model.Manufacturer?.Address, Model.Manufacturer?.Country?.Name);
-
-            //ip["ReceptionDate"] = Model.ReceptionDate?.ToString("dd/MM/yyyy");
-            //ip["NotificationDate"] = apercu ? "Aperçu" : Model.NotificationDate?.ToString("dd/MM/yyyy");
-            //ip["Pharmacopoeia"] = Model.Pharmacopoeia?.NameFr??"" + " " + Model.PharmacopoeiaVersion;
-            //ip["PrelevementDate"] = Model.SamplingOrigin;
-            //ip["ReceivedQuantity"] = Model.ReceivedQuantity.ToString();// + " " + slProduit.String("Forme").ToLower());
-            //ip["PrimaryPackaging"] = Model.PrimaryPackaging;// + (TB_ConditionnementSecondaire.Text.Length>0 ? " (" + TB_ConditionnementSecondaire.Text + ")":""));
-            //ip["SecondaryPackaging"] = Model.SecondaryPackaging;
-            //ip["Product.Name"] = Model.Aspect + "\r\n" + Model.Size;
-
-
-            //ip["Conclusion"] = Model.Conclusion;
 
             if (Model.Validator != null)
             {
@@ -594,7 +524,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             }
 
         }
-        private string JoinNotNull(string separator, params string[] values) => String.Join(separator, values.Where(s => !String.IsNullOrWhiteSpace(s)));
 
         private static string DateToString(string language, DateTime date)
         {
@@ -604,8 +533,4 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
     }
 
 
-    public class SampleViewModelDesign : SampleViewModel, IViewModelDesign
-    {
-        public new Sample Model { get; } = Sample.DesignModel;
-    }
 }

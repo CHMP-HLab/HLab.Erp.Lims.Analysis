@@ -101,11 +101,20 @@
                         ListClass="{x:Type products:ProductsListPopupViewModel}"/>
 
                     <lang:LocalizedLabel Text="{}{Commercial Name} : "/>
-                    <TextBox 
+                    <!--<TextBox 
                         BorderBrush="#80000000"
                         VerticalContentAlignment="Center"
                         Text="{Binding Model.CommercialName, UpdateSourceTrigger=PropertyChanged}" 
-                        HorizontalAlignment="Stretch"/>
+                        HorizontalAlignment="Stretch"/>-->
+                    <ComboBox 
+                        Visibility="{Binding EditMode,Converter={StaticResource BooleanToVisibility}}"
+                        ItemsSource="{Binding CommercialNames}" 
+                        IsReadOnly="{Binding IsReadOnly}"
+                        BorderBrush="#80000000"
+                        IsEditable="True" 
+                        Text="{Binding Model.CommercialName, UpdateSourceTrigger=PropertyChanged}"
+                            
+                    />
 
 
                 </core.Views:DetailView>
@@ -291,7 +300,7 @@
                             BorderBrush="#80000000"
                             IsEditable="True" 
                             Text="{Binding Model.PrimaryPackaging, UpdateSourceTrigger=PropertyChanged}"
-                            DisplayMemberPath="Name"
+                            
                             />
 
                     </StackPanel>
@@ -310,18 +319,21 @@
                             BorderBrush="#80000000"
                             IsEditable="True" 
                             Text="{Binding Model.SecondaryPackaging, UpdateSourceTrigger=PropertyChanged}"
-                            DisplayMemberPath="Name" SelectionChanged="ComboBox_SelectionChanged"
+                            SelectionChanged="ComboBox_SelectionChanged"
                             />
                     </StackPanel>
                     <!---->
 
                     <lang:LocalizedLabel Text="{}{Storage Conditions} : "/>
-                    <TextBox 
-                        VerticalScrollBarVisibility="Auto" 
+                    <ComboBox 
+                        Visibility="{Binding EditMode,Converter={StaticResource BooleanToVisibility}}"
+                        ItemsSource="{Binding StorageConditionsList}" 
+                        IsReadOnly="{Binding IsReadOnly}"
                         BorderBrush="#80000000"
-                        Text="{Binding Model.StorageConditions, UpdateSourceTrigger=PropertyChanged}" 
-                        AcceptsReturn="True" 
-                        TextWrapping="Wrap" />
+                        IsEditable="True" 
+                        Text="{Binding Model.StorageConditions, UpdateSourceTrigger=PropertyChanged}"
+                            
+                    />
 
                     <!--
             <Label Style="{DynamicResource SmallSeparator}">

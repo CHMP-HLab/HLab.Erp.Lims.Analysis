@@ -5,11 +5,16 @@ using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Mvvm.Annotations;
 using System;
+using System.Windows.Input;
+using HLab.Notify.PropertyChanged;
+using System.Threading.Tasks;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
+    using H = H<SampleSampleTestListViewModel>;
     public class SampleSampleTestListViewModel : EntityListViewModel<SampleTest>, IMvvmContextProvider
     {
+        public Sample Sample {get;}
         public SampleSampleTestListViewModel(Sample sample) : base(c => c
                 //.DeleteAllowed()
                 .StaticFilter(e => e.SampleId == sample.Id)
@@ -45,6 +50,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         {
             var n = SampleTestWorkflow.Specifications; // TODO : this is a hack to force top level static constructor
 
+            Sample = sample;
+
+            H.Initialize(this);
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
         }
 
@@ -55,6 +63,36 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             var stage =  sampleTest.Stage.IsAny( errorAction, SampleTestWorkflow.Specifications);
             var granted = Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest);
             return stage && granted;
+        }
+
+
+        public override Type AddArgumentClass => typeof(TestClass);
+
+        private readonly ITrigger _ = H.Trigger(c => c
+            .On(e => e.Sample.Stage).Do(e => (e.AddCommand as CommandPropertyHolder)?.CheckCanExecute())
+        );
+
+        protected override bool CanExecuteAdd(Action<string> errorAction)
+        {
+            if (!Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest)) return false;
+            return Sample.Stage.IsAny(errorAction,SampleWorkflow.Monograph);
+        }
+
+        protected async override Task AddEntityAsync(object arg)
+        {
+            if (!(arg is TestClass testClass)) return;
+
+            var test = await Erp.Data.AddAsync<SampleTest>(st =>
+            {
+                st.Sample = Sample;
+                st.TestClass = testClass;
+                //st.Code = testClass.Code;
+                st.Description = "";
+                st.TestName = testClass.Name;
+                st.Stage = SampleTestWorkflow.DefaultStage;
+            });
+
+            if (test != null) List.Update();
         }
 
 

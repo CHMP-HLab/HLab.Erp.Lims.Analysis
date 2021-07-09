@@ -93,16 +93,6 @@
 
                         </StackPanel>
                         <Label/>
-                        <StackPanel>
-                            <lang:LocalizedLabel Text="{}{Add}"/>
-                            <entitySelectors:ForeignView DockPanel.Dock="Top"
-                                    IsReadOnly="{Binding IsReadOnlyMonograph}"
-                                    ModelClass="{x:Type data:TestClass}"
-                                    Command="{Binding AddTestCommand}"
-                                    >
-                                <lang:Localize Id="{}{Add Test}"/>
-                            </entitySelectors:ForeignView>
-                        </StackPanel>
                     </StackPanel>
 
                 </Grid>
@@ -197,31 +187,6 @@
                     </StackPanel>
                 </Grid>
             </Grid>
-            <!--<Grid Grid.Column="2">
-                <CheckBox
-                          Height="23" 
-                          HorizontalAlignment="Right" 
-                          Margin="0,7,0,0" Width="23" 
-                          Tag="Calendrier" 
-                          IsChecked="{Binding Events}" >
-                    <lang:Localize Id="Events"/>
-                </CheckBox>
-
-                <Label>
-                    <lang:Localize Id="Events"/>
-                </Label>
-                <ListView x:Name="LV_Evenement" Margin="10,40,0,0" Background="#00000000" Grid.Column="2">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="0,0,0,0">
-                                <Label Content="{Binding Instant, StringFormat='{}{0:dd/MM/yyyy hh:mm}'}" HorizontalAlignment="Left" />
-                                <Label Content="{Binding Utilisateur}" HorizontalAlignment="Right" />
-                                <Label Content="{Binding Action}" Margin="10,17,0,3" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>-->
         </Grid>
     </Grid>
 </UserControl>

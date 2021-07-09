@@ -42,14 +42,14 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         public bool EditMode => _editMode.Get();
 
         private readonly IProperty<bool> _editMode = H.Property<bool>(c => c
+            .NotNull(e => e.Locker)
+            .NotNull(e => e.Model.Sample)
             .Set(e => 
-                e.Locker != null 
-                && e.Locker.IsActive 
+                e.Locker.IsActive 
                 && e.Model.Sample.Stage == SampleWorkflow.Reception
                 && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisResultEnter)
             )
             .On(e => e.Locker.IsActive)
-            .NotNull(e => e.Locker)
             .Update()
         );
 
@@ -132,10 +132,11 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
             await FormHelper.LoadFormAsync(Model).ConfigureAwait(true);
 
-            FormHelper.Form.Mode = Model.Sample.Stage == SampleWorkflow.Reception ? FormMode.Capture : FormMode.ReadOnly;
-
             FormHelper.Form.LoadValues(Model.SpecificationValues);
             FormHelper.Form.LoadValues(Model.ResultValues);
+
+            FormHelper.Form.Mode = Model.Sample.Stage == SampleWorkflow.Reception ? FormMode.Capture : FormMode.ReadOnly;
+
         }
 
         public override string Header => _header.Get();

@@ -5,15 +5,17 @@ using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Mvvm.Annotations;
 using System;
 using HLab.Erp.Lims.Analysis.Data.Entities;
+using System.Threading.Tasks;
+using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
+    using H = H<SampleFormsListViewModel>;
     public class SampleFormsListViewModel : EntityListViewModel<SampleForm>, IMvvmContextProvider
     {
-        private readonly Sample _sample;
+        public Sample Sample {get; }
         public SampleFormsListViewModel(Sample sample) : base(c => c
                 .StaticFilter(e =>e.SampleId == sample.Id)
-// TODO                .DeleteAllowed()
                 .Column()
                     .Header("{Name}")
                     .Width(200)
@@ -21,19 +23,59 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                     .Icon(s => s.FormClass.IconPath)
         )
         {
-            _sample = sample;
+            Sample = sample;
+
+            H.Initialize(this);
         }
+
+        private readonly ITrigger _ = H.Trigger(c => c
+            .On(e => e.Sample.Stage)
+            .On(e => e.Sample.Id)
+            .Do(e => (e.AddCommand as CommandPropertyHolder)?.CheckCanExecute())
+        );
 
         protected override bool CanExecuteAdd(Action<string> errorAction)
         {
-            var stage = _sample.Stage.IsAny(errorAction,SampleWorkflow.Reception);
-            var granted = Erp.Acl.IsGranted(errorAction,AnalysisRights.AnalysisReceptionCreate);
+            if (Sample.Id < 0) {
+                errorAction("{Please save before adding forms}");
+                return false;
+            };
+            
+            var stage = Sample.Stage.IsAny(errorAction,SampleWorkflow.Reception);
+            var granted = Erp.Acl.IsGranted(errorAction,AnalysisRights.AnalysisReceptionSign);
             return stage && granted;
+        }
+
+        public override Type AddArgumentClass => typeof(FormClass);
+
+
+        protected async override Task AddEntityAsync(object arg)
+        {
+            if (!(arg is FormClass formClass)) return;
+
+            //var exists = await Erp.Data.FetchOneAsync<SampleForm>(sf => sf.SampleId == Sample.Id && sf.FormClassId == formClass.Id);
+            //if(exists == null)
+            foreach(var sf in List)
+            {
+                if(sf.SampleId == Sample.Id && sf.FormClassId == formClass.Id)
+                {
+                    return;
+                }
+            }
+
+            var form = await Erp.Data.AddAsync<SampleForm>(st =>
+            {
+                st.Sample = Sample;
+                st.FormClass = formClass;
+            });
+
+            if (form != null)
+                List.Update();
         }
 
         protected override bool CanExecuteDelete(SampleForm target, Action<string> errorAction)
         {
-            if (target == null) return false;
+            if (target?.Sample == null) return false;
             var stage = target.Sample.Stage.IsAny(errorAction, SampleWorkflow.Reception);
             var granted = Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisReceptionCreate);
             return stage && granted;
