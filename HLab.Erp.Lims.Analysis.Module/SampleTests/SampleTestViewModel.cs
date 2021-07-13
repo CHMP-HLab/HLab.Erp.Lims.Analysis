@@ -25,7 +25,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
     public class SampleTestViewModel : EntityViewModel<SampleTest>, IMvvmContextProvider
     {
         public IDocumentService Docs { get; }
-        private Func<Sample, DataLocker<Sample>> _getSampleLocker;
+        private readonly Func<Sample, DataLocker<Sample>> _getSampleLocker;
         public SampleTestViewModel(
             IDocumentService docs,
             Func<SampleTest, TestResultsListViewModel> getResults,
@@ -43,7 +43,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             H.Initialize(this);
         }
 
-        private ITrigger _modelTrigger => H.Trigger(c => c.On(e => e.Model).Do(e => Locker.AddDependencyLocker(e._getSampleLocker(e.Model.Sample))));
+        private ITrigger _modelTrigger = H.Trigger(c => c.On(e => e.Model).Do(e => e.Locker.AddDependencyLocker(e._getSampleLocker(e.Model.Sample))));
 
         private readonly Func<SampleTest,TestResultsListViewModel> _getResults;
 
@@ -115,7 +115,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         );
 
         public bool ResultMode => _resultMode.Get();
-        private IProperty<bool> _resultMode = H.Property<bool>(c => c
+        private readonly IProperty<bool> _resultMode = H.Property<bool>(c => c
             .NotNull(e => e.Locker)
             .NotNull(e => e.Workflow)
             .Set(e => 
@@ -212,7 +212,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         }
 
 
-        //TODO : probleme here where button not always available where conditions are ok
         public ICommand SelectResultCommand { get; } = H.Command(c => c
             .CanExecute(e => 
                 e.Results?.Selected?.Stage == SampleTestResultWorkflow.Validated

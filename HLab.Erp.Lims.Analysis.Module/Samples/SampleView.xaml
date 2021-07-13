@@ -87,6 +87,8 @@
                         <StackPanel>
                             <lang:LocalizedLabel Text="{}{Pharmacopoeia version}"/>
                             <TextBox
+                                IsReadOnly="{Binding IsReadOnlyMonograph}"
+                                    IsEnabled="{Binding Locker.IsActive}"
                                     Text="{Binding Model.PharmacopoeiaVersion, UpdateSourceTrigger=PropertyChanged}" 
                                     HorizontalContentAlignment="Right" 
                                     HorizontalAlignment="Stretch"/>

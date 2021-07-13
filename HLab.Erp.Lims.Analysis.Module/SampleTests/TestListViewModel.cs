@@ -35,11 +35,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
                 .DescriptionColumn(t => "", t => t.Specification)
                     .Header("{Specifications}")
-                    .OrderBy(s => s.Specification)
+                    .OrderBy(s => s.Specification).UpdateOn(s => s.Specification)
 
                 .DescriptionColumn(t => "", t => t.Result?.Result)
                     .Header("{Result}")
-                    .OrderBy(s => s.Result?.Result ?? "")
+                    .OrderBy(s => s.Result?.Result ?? "").UpdateOn(s => s.Result.Result)
 
                 .ConformityColumn(s => s.Result == null ? ConformityState.NotChecked : s.Result.ConformityId)
 

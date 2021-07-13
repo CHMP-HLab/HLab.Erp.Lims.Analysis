@@ -27,7 +27,10 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             Func<T,IWorkflowStage> stage = e => stageFromName(stageName(e));
 
             return c.Column()
-                .Header("{Stage}").Width(180).Content(s => stage(s).GetCaption(null))
+                .Id("Stage")
+                .Header("{Stage}")
+                .Width(180)
+                .Content(s => stage(s).GetCaption(null))
                 .Localize()
                 .Icon(s => stage(s)?.GetIconPath(null), 20)
                 .OrderBy(s => stage(s).Name)
@@ -60,7 +63,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             var result = c.GetChildConfigurator<ConformityState, IFilter<ConformityState>>();
             result.LinkExpression = getter;
 
-            return result;
+            return result.UpdateOn(getter);
         }
         public static IColumnConfigurator<T, ConformityState, IFilter<ConformityState>> PostLink<T, TLink, TFilter>(this IColumnConfigurator<T, TLink, TFilter> c, Func<T, ConformityState> getter)
             where T : class, IEntity, new()
@@ -109,14 +112,18 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         }
 
         public static IColumnConfigurator<T, object, IFilter<object>> ProgressColumn<T, TLink, TFilter>(this IColumnConfigurator<T, TLink, TFilter> c,
-            Func<T, double?> getProgress) 
-            
+            Expression<Func<T, double?>> getProgress)
+
             where T : class, IEntity, new()
             where TFilter : IFilter<TLink>
-            => c.Column()
-                .Header("{Progress}").Width(80)
-                .Content(s => new ProgressViewModel {Value = getProgress(s) ?? 0.0})
-                .OrderBy(s => getProgress(s));
+        {
+            var getter = getProgress.Compile();
+            return c.Column()
+                           .Header("{Progress}").Width(80)
+                           .Content(s => new ProgressViewModel { Value = getter(s) ?? 0.0 })
+                           .UpdateOn(getProgress)
+                           .OrderBy(s => getter(s));
+        }
 
         public static IColumnConfigurator<T, object, IFilter<object>> DescriptionColumn<T, TLink, TFilter>(this IColumnConfigurator<T, TLink, TFilter> c,
             Func<T, string> getTitle, Func<T, string> getDescription) 

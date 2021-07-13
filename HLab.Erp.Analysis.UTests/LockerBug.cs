@@ -141,7 +141,7 @@ namespace HLab.Erp.Analysis.UTests
 
             SampleWorkflow GetSampleWorkflow(Sample s, IDataLocker<Sample> d) => new SampleWorkflow(s, d, null);
 
-            var vm = new SampleViewModel(null, null, null, null, null,  GetSampleWorkflow);
+            var vm = new SampleViewModel(null, null, null, GetSampleWorkflow);
 
             vm.Inject(
                 null,

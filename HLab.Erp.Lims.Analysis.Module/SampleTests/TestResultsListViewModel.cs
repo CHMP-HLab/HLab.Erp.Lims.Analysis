@@ -6,12 +6,15 @@ using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Mvvm.Annotations;
+using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
+    using H = H<TestResultsListViewModel>;
+
     public class TestResultsListViewModel : EntityListViewModel<SampleTestResult>, IMvvmContextProvider
     {
-        private readonly SampleTest _sampleTest;
+        public SampleTest SampleTest { get; }
 
         public TestResultsListViewModel(SampleTest sampleTest) : base(c => c
                 .StaticFilter(e => e.SampleTestId == sampleTest.Id)
@@ -42,9 +45,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     .Link(s => s.Result)
                     .Width(80)
 
-                .ConformityColumn(s => s.ConformityId)
+                .ConformityColumn(s => s.ConformityId)//.UpdateOn(s => s.ConformityId)
                 
-                .StageColumn(default(SampleTestResultWorkflow), s => s.StageId)
+                .StageColumn(default(SampleTestResultWorkflow), s => s.StageId)//.UpdateOn(s => s.StageId)
 
                 .Column()
                     .Hidden()
@@ -58,7 +61,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         )
         {
-            _sampleTest = sampleTest;
+            SampleTest = sampleTest;
+
+            H.Initialize(this);
         }
 
         protected override async Task AddEntityAsync()
@@ -82,7 +87,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             var result = await Erp.Data.AddAsync<SampleTestResult>(r =>
            {
                r.Name = $"R{i + 1}";
-               r.SampleTestId = _sampleTest.Id;
+               r.SampleTestId = SampleTest.Id;
                r.Start = DateTime.Now;
                if (target != null)
                {
@@ -101,16 +106,25 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         {
             if (Selected == null) return false;
             if (!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
-            if (_sampleTest.Stage != SampleTestWorkflow.Running) return false;
+            if (SampleTest.Stage != SampleTestWorkflow.Running) return false;
             if (Selected.Stage != null && Selected.Stage != SampleTestResultWorkflow.Running) return false;
-            if (_sampleTest.Result == null) return true;
-            if (_sampleTest.Result.Id == Selected.Id) return false;
+            if (SampleTest.Result == null) return true;
+            if (SampleTest.Result.Id == Selected.Id) return false;
             return true;
         }
 
+        private readonly ITrigger _ = H.Trigger(c => c
+            .On(e => e.SampleTest.Stage).Do(e => (e.AddCommand as CommandPropertyHolder)?.CheckCanExecute())
+        );
+
+        //private readonly ITrigger _1 = H.Trigger(c => c
+        //    .On(e => e.List.Item().Stage)
+        //    .Do((e,a) => e.RefreshColumn("Stage"))
+        //);
+
         protected override bool CanExecuteAdd(Action<string> errorAction)
         {
-            if (_sampleTest.Stage != SampleTestWorkflow.Running) return false;
+            if (SampleTest.Stage != SampleTestWorkflow.Running) return false;
             if (!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
             return true;
         }

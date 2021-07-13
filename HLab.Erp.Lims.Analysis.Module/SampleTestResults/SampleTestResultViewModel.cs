@@ -20,9 +20,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
     public class SampleTestResultViewModel : EntityViewModel<SampleTestResult>
     {
-        private Func<Sample, DataLocker<Sample>> _getSampleLocker;
-        private Func<SampleTest, DataLocker<SampleTest>> _getSampleTestLocker;
-
+        private readonly Func<Sample, DataLocker<Sample>> _getSampleLocker;
+        private readonly Func<SampleTest, DataLocker<SampleTest>> _getSampleTestLocker;
 
         public SampleTestResultViewModel(
             Func<FormHelper> getFormHelper, 
@@ -40,6 +39,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
             H.Initialize(this);
         }
+
         private ITrigger _modelTrigger = H.Trigger(c => c
             .On(e => e.Model)
             .Do(e => e.Locker.AddDependencyLocker(

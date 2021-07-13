@@ -258,7 +258,7 @@
 
                 </core.Views:DetailView>
 
-                <core.Views:DetailView EditMode="{Binding EditMode}" IconPath="Icons/Sample/Packaging" Text="{}{Forms}">
+                <core.Views:DetailView EditMode="{Binding EditMode}" IconPath="Icons/Entities/FormClass" Text="{}{Forms}">
                     <Label/>
                     <!--    <Button Command="{Binding AddOneFormCommand}"/>
                         <StackPanel HorizontalAlignment="Left">

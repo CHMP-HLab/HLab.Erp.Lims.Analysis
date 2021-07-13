@@ -23,23 +23,23 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     .Header("{Test}")//.Mvvm<IDescriptionViewClass>()
                 .Width(300)
                 .Icon(s => s.IconPath)
-                .OrderBy(s => s.Order)
+                .OrderBy(s => s.Order).UpdateOn(s => s.TestName).UpdateOn(s => s.Description)
 
                 .DescriptionColumn(s => "", s => s.Specification)
                     .Header("{Specifications}")
                 .Width(200)
-                .OrderBy(s => s.Specification)
+                .OrderBy(s => s.Specification).UpdateOn(s => s.Specification)
 
                 .DescriptionColumn(s => "", s => s.Result?.Result ?? "")
 
-                    .Header("{Result}").Width(200).OrderBy(s => s.Result?.Result ?? "")
+                    .Header("{Result}").Width(200).OrderBy(s => s.Result?.Result ?? "").UpdateOn(s => s.Result.Result)
 
                 .DescriptionColumn(s => "", s => s.Result?.Conformity ?? "")
 
-                    .Header("{Conformity}").Width(200).OrderBy(s => s.Result?.Conformity ?? "")
+                    .Header("{Conformity}").Width(200).OrderBy(s => s.Result?.Conformity ?? "").UpdateOn(s => s.Result.Conformity)
 
 
-                .ConformityColumnPostLinked(s => s.Result != null ? s.Result.ConformityId : ConformityState.NotChecked)
+                .ConformityColumnPostLinked(s => s.Result != null ? s.Result.ConformityId : ConformityState.NotChecked).UpdateOn(s => s.Result.ConformityId)
 
                 .StageColumn(default(SampleTestWorkflow), s => s.StageId)
 
@@ -65,20 +65,40 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             return stage && granted;
         }
 
-
         public override Type AddArgumentClass => typeof(TestClass);
 
-        private readonly ITrigger _ = H.Trigger(c => c
-            .On(e => e.Sample.Stage).Do(e => (e.AddCommand as CommandPropertyHolder)?.CheckCanExecute())
+        private readonly ITrigger _1 = H.Trigger(c => c
+            .On(e => e.Sample.Stage)
+            .On(e => e.Sample.Pharmacopoeia)
+            .On(e => e.Sample.PharmacopoeiaVersion)
+            .Do(e => (e.AddCommand as CommandPropertyHolder)?.CheckCanExecute())
         );
+
+        //private readonly ITrigger _triggerConformity = H.Trigger(c => c
+        //    .On(e => e.List.Item().Result.ConformityId)
+        //    .On(e => e.List.Item().Result.Stage)
+        //    .On(e => e.List.Item().Result.Start)
+        //    .On(e => e.List.Item().Result.End)
+        //    .Do(e => e.List.Refresh())
+        //);
 
         protected override bool CanExecuteAdd(Action<string> errorAction)
         {
             if (!Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest)) return false;
+            if (Sample.Pharmacopoeia == null)
+            {
+                errorAction("{Missing} : {Pharmacopoeia}");
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(Sample.PharmacopoeiaVersion))
+            {
+                errorAction("{Missing} : {Pharmacopoeia version}");
+                return false;
+            }
             return Sample.Stage.IsAny(errorAction,SampleWorkflow.Monograph);
         }
 
-        protected async override Task AddEntityAsync(object arg)
+        protected override async Task AddEntityAsync(object arg)
         {
             if (!(arg is TestClass testClass)) return;
 
@@ -86,6 +106,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             {
                 st.Sample = Sample;
                 st.TestClass = testClass;
+                st.Pharmacopoeia = Sample.Pharmacopoeia;
+                st.PharmacopoeiaVersion = Sample.PharmacopoeiaVersion;
                 //st.Code = testClass.Code;
                 st.Description = "";
                 st.TestName = testClass.Name;

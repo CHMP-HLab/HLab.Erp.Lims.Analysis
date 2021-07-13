@@ -140,6 +140,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .On(e => e.ProductionMode)
             .Update()
         );
+
         public bool ProductionMode => _productionMode.Get();
         private readonly IProperty<bool> _productionMode = H.Property<bool>(c => c
             .Set(e =>
@@ -157,7 +158,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         private readonly Func<Sample, SampleSampleTestListViewModel> _getTests;
         private readonly Func<Sample, SampleFormsListViewModel> _getForms;
-//        private readonly Func<FormClassesListViewModel> _getFormClasses;
         private readonly Func<int, SampleAuditTrailViewModel> _getAudit;
 
         public SampleSampleTestListViewModel Tests => _tests.Get();

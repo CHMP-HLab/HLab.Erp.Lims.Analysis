@@ -73,6 +73,9 @@
     <Page Remove="Icons\Conformity\NotSelected.xaml" />
     <Page Remove="Icons\Conformity\Selected.xaml" />
     <Page Remove="Icons\Conformity\Undefined.xaml" />
+    <Page Remove="Icons\Entities\FormClass.xaml" />
+    <Page Remove="Icons\Entities\Manufacturer.xaml" />
+    <Page Remove="Icons\Entities\Product.xaml" />
     <Page Remove="Icons\Forms\Drugs.xaml" />
     <Page Remove="Icons\Forms\Skin solution.xaml" />
     <Page Remove="Icons\Conformity\Conform.xaml" />
@@ -181,7 +184,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Resource Include="Icons\Entities\FormClass.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Icons\Entities\Manufacturer.xaml" />
     <Resource Include="Icons\Entities\Pharmacopoeia.svg" />
+    <Resource Include="Icons\Entities\Product.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
     <Resource Include="Icons\Entities\Products\Dose.svg" />
     <Resource Include="Icons\Entities\Form.svg" />
     <Resource Include="Icons\Entities\Products\Inn.svg" />
@@ -536,9 +546,6 @@
     </Page>
     <Page Update="Resources\CertificatNiger.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Icons\Entities\Product.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="SampleTests\ColumnDescriptionBlock.xaml">

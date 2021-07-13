@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file is NOT compatible with Silverlight-->
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+  <Canvas Name="svg10" Width="16" Height="16">
+    <Canvas.RenderTransform>
+      <TranslateTransform X="0" Y="0"/>
+    </Canvas.RenderTransform>
+    <Canvas.Resources/>
+    <!--Unknown tag: sodipodi:namedview-->
+    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4" Fill="#FF000000">
+      <Path.Data>
+        <PathGeometry Figures="M13.812 4.507l-3.681-3.861c-0.068-0.073-0.163-0.115-0.26-0.115h-5.827c-1.075 0-1.963 0.884-1.963 1.959v11.019c0 1.075 0.888 1.959 1.963 1.959h7.909c1.075 0 1.963-0.884 1.963-1.959v-8.749c0-0.094-0.043-0.184-0.105-0.253zM10.238 1.805l2.464 2.587h-1.601c-0.476 0-0.862-0.382-0.862-0.859v-1.728zM13.196 13.51c0 0.679-0.563 1.238-1.241 1.238h-7.909c-0.674 0-1.241-0.559-1.241-1.238v-11.019c0-0.674 0.562-1.238 1.241-1.238h5.47v2.28c0 0.876 0.708 1.581 1.584 1.581h2.097v8.396z" FillRule="NonZero"/>
+      </Path.Data>
+    </Path>
+    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path6" Fill="#FF000000">
+      <Path.Data>
+        <PathGeometry Figures="M5.030 12.258c-0.199 0-0.361 0.163-0.361 0.361s0.163 0.361 0.361 0.361h5.943c0.199 0 0.361-0.163 0.361-0.361s-0.163-0.361-0.365-0.361h-5.939z" FillRule="NonZero"/>
+      </Path.Data>
+    </Path>
+    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path8" Fill="#FF000000">
+      <Path.Data>
+        <PathGeometry Figures="M9.678 5.29c-0.141-0.141-0.368-0.141-0.509 0l-3.229 3.218c-0.039 0.039-0.073 0.090-0.090 0.148l-0.65 2.049c-0.039 0.13-0.007 0.267 0.090 0.365 0.068 0.068 0.163 0.105 0.256 0.105 0.036 0 0.073-0.007 0.109-0.018l2.049-0.645c0.054-0.018 0.105-0.047 0.148-0.090l3.219-3.229c0.141-0.141 0.141-0.368 0-0.509l-1.392-1.392zM6.098 10.262l0.26-0.823 0.562 0.563-0.823 0.26zM7.596 9.656l-0.891-0.891 2.717-2.71 0.884 0.884-2.71 2.717z" FillRule="NonZero"/>
+      </Path.Data>
+    </Path>
+    <!--Unknown tag: metadata-->
+  </Canvas>
+</Viewbox>

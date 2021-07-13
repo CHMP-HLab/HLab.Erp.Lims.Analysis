@@ -36,7 +36,7 @@
                     <TextBox FontSize="16" HorizontalAlignment="Left" Text="{Binding Model.Name}" VerticalAlignment="Center" />
 
                     <lang:LocalizedLabel Text="{}{Start} : " HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
-                    <wpf:DateEx HorizontalAlignment="Left" Width="200" ShowTime="True" Date="{Binding Model.Start}"/>
+                    <wpf:DateEx HorizontalAlignment="Left" Width="200" EmptyDayAllowed="False" ShowTime="True" Date="{Binding Model.Start}"/>
 
                     <lang:LocalizedLabel Text="{}{End} : " HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
                     <wpf:DateEx HorizontalAlignment="Left" Width="200" ShowTime="True" Date="{Binding Model.End}"/>

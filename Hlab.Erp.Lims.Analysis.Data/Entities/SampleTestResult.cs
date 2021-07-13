@@ -90,7 +90,18 @@ namespace HLab.Erp.Lims.Analysis.Data
         public ConformityState ConformityId
         {
             get => _conformityId.Get();
-            set => _conformityId.Set(value);
+            set
+            {
+                #if DEBUG
+                if (_conformityId.Get() != default)
+                {
+                    if (Stage != SampleTestResultWorkflow.Running)
+                    { }
+//                        throw new Exception("Invalid state");
+                }
+                #endif
+                _conformityId.Set(value);
+            }
         }
 
         void IFormTarget.Reset()
