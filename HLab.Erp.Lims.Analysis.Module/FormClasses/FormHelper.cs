@@ -279,7 +279,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             Form.LoadValues(specs);
             Form.LoadValues(values);
 
-            if(old) Form.AllowProcess();
+            /*if(old)*/ Form.AllowProcess();
 
             try
             {

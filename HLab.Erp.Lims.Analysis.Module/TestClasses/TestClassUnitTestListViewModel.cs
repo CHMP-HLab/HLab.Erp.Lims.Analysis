@@ -63,7 +63,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
         protected override bool CanExecuteAdd(Action<string> errorAction) => true;
 
-        protected override bool CanExecuteDelete(TestClassUnitTest unitTest,Action<string> errorAction) => Selected !=null || SelectedIds.Any();
+        protected override bool CanExecuteDelete(TestClassUnitTest unitTest,Action<string> errorAction) => Selected !=null || (SelectedIds?.Any()??false);
 
         private void FailedTests_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {

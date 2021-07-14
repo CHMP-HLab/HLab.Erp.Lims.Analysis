@@ -262,11 +262,6 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             return s.Replace("■", "");
         }
 
-        //protected virtual bool HasTag(FrameworkElement e, string tag)
-        //{
-
-        //}
-
         protected virtual bool HasLevel(FrameworkElement e, ElementLevel level)
         {
             switch (level)
@@ -300,6 +295,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             var mandatoryDone = 0;
             var optionalDone = 0;
 
+            List<string> todoList = new();
+
 
             foreach (var element in _namedElements)
             {
@@ -319,8 +316,16 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
 
                 Action todo;
+
                 if (spec) todo = () => specificationNeeded++;
-                else if (mandatory) todo = () => mandatoryNeeded++;
+                else if (mandatory)
+                {
+                    todo = () =>
+                    {
+                        mandatoryNeeded++;
+                        todoList.Add(element.Name);
+                    };
+                }
                 else todo = () => optionalEmpty++;
 
                 Action done;

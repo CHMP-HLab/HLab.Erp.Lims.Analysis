@@ -251,8 +251,8 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                     return $".Append($\"{element.Name}={{Sanitize({element.Name}.Text)}}■\")";// Le séparateur est un ALT + 254
             if (element.Type.IsAssignableTo(typeof(TextBoxEx)))
                     return $".Append($\"{element.Name}={{{element.Name}.Double}}■\")";// Le séparateur est un ALT + 254
-            if (element.Type.IsAssignableTo(typeof(TextBlock)))
-                    return $".Append($\"{element.Name}={{Sanitize({element.Name}.Text}}■\")";
+            if (element.Type.IsAssignableTo(typeof(TextBox)))
+                    return $".Append($\"{element.Name}={{Sanitize({element.Name}.Text)}}■\")";
             if (element.Type.IsAssignableTo(typeof(CheckBox)))
                 if (element.Name.Contains("__"))
                 {
