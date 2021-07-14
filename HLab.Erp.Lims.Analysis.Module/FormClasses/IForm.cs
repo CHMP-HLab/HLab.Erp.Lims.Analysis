@@ -19,21 +19,12 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
         void LoadValues(string values);
 
+        bool PreventProcess();
+        void AllowProcess();
+
         void SetErrorMessage(FrameworkElement fe);
 
-        public void TryProcess(object sender, RoutedEventArgs args)
-        {
-            try
-            {
-                Process(sender, args);
-                SetFormMode(Mode);
-            }
-            catch (Exception e)
-            {
-                SetErrorMessage(new ExceptionView { DataContext = e });
-            }
-
-        }
+        public void TryProcess(object sender, RoutedEventArgs args);
 
         void Upgrade(FormValues formValues);
     }

@@ -41,6 +41,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         private IEnumerable<FrameworkElement> _namedElements;
 
+        private bool _allowProcess = false;
+
         private IForm Form
         {
             get
@@ -49,6 +51,22 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 return form;
             }
         }
+
+        public void TryProcess(object sender, RoutedEventArgs args)
+        {
+            if(!_allowProcess) return;
+
+            try
+            {
+                Form.Process(sender, args);
+                SetFormMode(Mode);
+            }
+            catch (Exception e)
+            {
+                SetErrorMessage(new ExceptionView { DataContext = e });
+            }
+        }
+
 
         protected override void OnContentChanged(object oldContent, object newContent)
         {
@@ -411,8 +429,22 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             }
         }
 
+        public bool PreventProcess()
+        {
+            var old = _allowProcess;
+            _allowProcess = false;
+            return old;
+        }
+
+        public void AllowProcess()
+        {
+            _allowProcess = true;
+        }
+
         public void LoadValues(string values)
         {
+            var allowProcess = PreventProcess();
+
             if (values == null) return;
             var formValues = new FormValues(values);
 
@@ -422,6 +454,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             }
 
             LoadValues(formValues);
+
+            _allowProcess = allowProcess;
         }
 
 
@@ -446,7 +480,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                         case CheckBox cb:
                             if (isBool)
                             {
-                                cb.IsChecked = (c.Name == name + "__" + value);
+                                cb.IsChecked = c.Name == $"{name}__{value}";
                             }
                             else
                                 cb.IsChecked = value switch

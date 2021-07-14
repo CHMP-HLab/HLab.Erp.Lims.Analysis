@@ -7,6 +7,10 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
     public class DummyForm : UserControl, IForm
     {
+
+        public DummyForm()
+        { }
+
         public IFormTarget Target { get; set; }
 
         public void Connect(int connectionId, object target){ }
@@ -33,6 +37,19 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         }
 
         public void Upgrade(FormValues formValues)
+        {
+        }
+
+        public bool PreventProcess()
+        {
+            return false;
+        }
+
+        public void AllowProcess()
+        {
+        }
+
+        public void TryProcess(object sender, RoutedEventArgs args)
         {
         }
     }

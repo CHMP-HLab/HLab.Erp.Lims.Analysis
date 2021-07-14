@@ -209,11 +209,15 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                     await LoadFormAsync(target).ConfigureAwait(true);
                 }
 
+                Form.PreventProcess();
+
                 if (target?.SpecificationValues != null)
                     Form.LoadValues(target.SpecificationValues);
 
                 if (target?.ResultValues != null)
                     Form.LoadValues(target.ResultValues);
+
+                Form.AllowProcess();
 
                 Form?.TryProcess(null, new RoutedEventArgs());
             }
@@ -270,8 +274,12 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
             await LoadFormAsync(new DummyTarget()).ConfigureAwait(true);
 
+            var old = Form.PreventProcess();
+
             Form.LoadValues(specs);
             Form.LoadValues(values);
+
+            if(old) Form.AllowProcess();
 
             try
             {

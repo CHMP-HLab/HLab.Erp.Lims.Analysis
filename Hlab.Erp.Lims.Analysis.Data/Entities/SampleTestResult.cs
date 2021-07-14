@@ -93,7 +93,7 @@ namespace HLab.Erp.Lims.Analysis.Data
             set
             {
                 #if DEBUG
-                if (_conformityId.Get() != default)
+                if (_conformityId.Get() != default && _conformityId.Get() != value)
                 {
                     if (Stage != SampleTestResultWorkflow.Running)
                     { }
