@@ -21,7 +21,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
                 .Column()
                     .Header("{Selected}")
-                    //.Content(s => s.SampleTest.ResultId == s.Id)
                     .Icon(s => (s.SampleTest.ResultId == s.Id) ? "Icons/Conformity/Selected" : "Icons/Conformity/NotSelected",20)
                     .Width(70)
 
@@ -45,9 +44,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     .Link(s => s.Result)
                     .Width(80)
 
-                .ConformityColumn(s => s.ConformityId)//.UpdateOn(s => s.ConformityId)
+                .ConformityColumn(s => s.ConformityId)
                 
-                .StageColumn(default(SampleTestResultWorkflow), s => s.StageId)//.UpdateOn(s => s.StageId)
+                .StageColumn(default(SampleTestResultWorkflow), s => s.StageId)
 
                 .Column()
                     .Hidden()
@@ -74,12 +73,19 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
             foreach (var r in List)
             {
+                // Todo : more robust parsing (should deal with any aother prefix)
                 var n = r.Name;
-                if (n.StartsWith("R")) n = n.Substring(1);
+                if (n.StartsWith("R",StringComparison.InvariantCulture))
+                {
+                    n = n[1..];
+                }
 
                 if (int.TryParse(n, out var v))
                 {
-                    i = Math.Max(i, v);
+                    if (v > i)
+                    {
+                        i = v;
+                    }
                 }
             }
 
@@ -96,10 +102,9 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
            });
             if (result != null)
             {
-                List.Update();
+                await List.UpdateAsync();
                 await Erp.Docs.OpenDocumentAsync(result);
             }
-
         }
 
         protected override bool CanExecuteDelete(SampleTestResult result, Action<string> errorAction)
@@ -116,11 +121,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         private readonly ITrigger _ = H.Trigger(c => c
             .On(e => e.SampleTest.Stage).Do(e => (e.AddCommand as CommandPropertyHolder)?.CheckCanExecute())
         );
-
-        //private readonly ITrigger _1 = H.Trigger(c => c
-        //    .On(e => e.List.Item().Stage)
-        //    .Do((e,a) => e.RefreshColumn("Stage"))
-        //);
 
         protected override bool CanExecuteAdd(Action<string> errorAction)
         {
