@@ -377,6 +377,19 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                         cb.IsEnabled = enabled;
                         todo();
                         break;
+
+                    case ComboBox cbo when cbo.Text.Length > 0:
+                        cbo.Background = doneBrush;
+                        cbo.IsEnabled = enabled;
+                        done();
+                        break;
+
+                    case ComboBox cbo :
+                        cbo.Background = todoBrush;
+                        cbo.IsEnabled = enabled;
+                        todo();
+                        break;
+
                 }
             }
 
