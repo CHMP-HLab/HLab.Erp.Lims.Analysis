@@ -35,7 +35,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
         );
 
         public static Action Check = Action.Create(c => c
-            .Caption("{Check}").Icon("Icons/Result/CheckPassed")
+            .Caption("{Check}").Icon("Icons/Workflows/CheckResult")
             .FromStage(() => Signed)
             .Action(w => w.Target.End ??= DateTime.Now)
             .NeedRight(() => AnalysisRights.AnalysisResultCheck)
@@ -61,7 +61,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         // CHECKED
         public static Stage Checked = Stage.Create(c => c
-            .Caption("{Checked}").Icon("Icons/Results/CheckPassed")
+            .Caption("{Checked}").Icon("Icons/Workflows/CheckPassed")
         );
 
         public static Action Validate = Action.Create(c => c

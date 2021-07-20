@@ -86,6 +86,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                     .Header("{Validator}")
                     .Width(140)
                     .Content(s => s.Validator)
+                    .OrderBy(e => e.Validator.Name)
 
                 .ProgressColumn(s => s.Progress)
 
@@ -96,7 +97,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 .Column().Hidden()
                     .Header("{Pharmacopoeia}")
                     .Link(s => s.Pharmacopoeia).Mvvm()
-                    .Filter()
+                    .Filter().IconPath("Icons/Entities/Pharmacopoeia")
 
                 .Column().Hidden()
                     .Header("{Batch}")

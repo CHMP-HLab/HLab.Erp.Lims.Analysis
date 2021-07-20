@@ -116,7 +116,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
 
         public static Action CheckReception = Action.Create(c => c
-            .Caption(w => "{Check}").Icon(w => "Icons/Workflows/Check")
+            .Caption(w => "{Check}").Icon(w => "Icons/Workflows/CheckResult")
             .FromStage(() => ReceptionCheck)
             .ToStage(() => Monograph)
             .NeedRight(() => AnalysisRights.AnalysisReceptionCheck)

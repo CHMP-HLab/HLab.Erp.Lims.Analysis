@@ -41,7 +41,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     .Header("{Result}")
                     .OrderBy(s => s.Result?.Result ?? "").UpdateOn(s => s.Result.Result)
 
-                .ConformityColumn(s => s.Result == null ? ConformityState.NotChecked : s.Result.ConformityId)
+                .ConformityColumn(s => s.Result == null ? ConformityState.NotChecked : s.Result.ConformityId).UpdateOn(s => s.Result.ConformityId)
 
                 .StageColumn(default(SampleTestWorkflow), s => s.StageId)
 
