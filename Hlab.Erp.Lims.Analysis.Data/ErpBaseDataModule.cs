@@ -15,6 +15,24 @@ namespace HLab.Erp.Lims.Analysis.Data
             {
                 case "0.0.0.0":
                     builder
+                        .Table<FormClass>().Create()
+                        .Table<SampleForm>().Create()
+
+                        .Table<Sample>()
+                            .AddColumn(s => s.CustomerReference)
+                            .AddColumn(s => s.ReportReference)
+
+                        .Table<SampleTest>()
+                            .AddColumn(st => st.PharmacopoeiaId)
+                            .AddColumn(st => st.PharmacopoeiaVersion)
+
+                        .Table<LocalizeEntry>().AddColumn(s => s.Custom)
+                        
+                        .Version("1.0.0.0")
+                        ;
+                    break;
+                case "1.0.0.0":
+                    builder
                         .Table<Form>()
                             .AddColumn(f => f.IconPath)
                         .Table<LinkedDocument>()
@@ -72,6 +90,7 @@ namespace HLab.Erp.Lims.Analysis.Data
                         .Table<Sample>().AddColumn(t => t.Progress)
                         .Table<SampleTest>().AddColumn(t => t.Progress)
                         .Table<SampleTestResult>().AddColumn(t => t.Progress)
+                        .Version("2.2.0.0");
                         ;
                     break;
 
