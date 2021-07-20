@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
 	  <TargetFramework>net5.0-windows</TargetFramework>
@@ -43,6 +43,7 @@
     <None Remove="Icons\Sample\notification.svg" />
     <None Remove="Icons\Workflows\Aborted.svg" />
     <None Remove="Icons\Workflows\Certificate.svg" />
+    <None Remove="Icons\Workflows\CheckPassed.svg" />
     <None Remove="Icons\Workflows\Closed.svg" />
     <None Remove="Resources\Logo_lanspex_ne.png" />
     <None Remove="Resources\Logo_lncqm_mr.png" />
@@ -56,7 +57,6 @@
     <None Remove="Icons\Tests\AssayTitration.svg" />
     <None Remove="Icons\Tests\Desagregation.svg" />
     <None Remove="Icons\Tests\MeltingPoint.svg" />
-    <None Remove="Icons\Workflows\Check.svg" />
     <None Remove="Icons\Workflows\Correct.svg" />
     <None Remove="Icons\Workflows\Edit.svg" />
     <None Remove="Icons\Workflows\Monograph.svg" />
@@ -68,6 +68,7 @@
 
   <ItemGroup>
     <Page Remove="Icons\Conformity\CheckFailed.xaml" />
+    <Page Remove="Icons\Conformity\Conformity.xaml" />
     <Page Remove="Icons\Conformity\Invalid2.xaml" />
     <Page Remove="Icons\Conformity\NotConform.xaml" />
     <Page Remove="Icons\Conformity\NotSelected.xaml" />
@@ -139,6 +140,7 @@
     <Page Remove="Icons\Validations\Stop.xaml" />
     <Page Remove="Icons\Validations\Validated.xaml" />
     <Page Remove="Icons\Validations\ValidateDocument.xaml" />
+    <Page Remove="Icons\Workflows\CheckResult.xaml" />
     <Page Remove="Icons\Workflows\Redo.xaml" />
     <Page Remove="Icons\Workflows\SampleWorkflow.xaml" />
     <Page Remove="Icons\Workflows\Specifications.xaml" />
@@ -180,6 +182,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Resource Include="Icons\Conformity\Conformity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
     <Resource Include="Icons\Conformity\NotSelected.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -207,9 +213,10 @@
     <Resource Include="Icons\Sample\commercial.svg" />
     <Resource Include="Icons\Sample\date.svg" />
     <Resource Include="Icons\Sample\location.svg" />
-    <Resource Include="Icons\Sample\notification.svg" />
+    <Resource Include="Icons\Sample\Notification.svg" />
     <Resource Include="Icons\Workflows\Aborted.svg" />
     <Resource Include="Icons\Workflows\Certificate.svg" />
+    <Resource Include="Icons\Workflows\CheckResult.xaml" />
     <Resource Include="Icons\Workflows\Closed.svg" />
     <Resource Include="Icons\Workflows\Redo.xaml" />
     <Resource Include="Icons\Workflows\SampleWorkflow.xaml">
@@ -466,7 +473,7 @@
     <Resource Include="Icons\Validations\ValidateDocument.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Workflows\Check.svg" />
+    <Resource Include="Icons\Workflows\CheckPassed.svg" />
     <Resource Include="Icons\Workflows\Correct.svg" />
     <Resource Include="Icons\Validations\Edit.svg" />
     <Resource Include="Icons\Workflows\Monograph.svg" />
