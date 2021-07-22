@@ -3,7 +3,7 @@ using HLab.Mvvm.Application;
 using HLab.Notify.PropertyChanged;
 using NPoco;
 
-namespace HLab.Erp.Lims.Analysis.Data
+namespace HLab.Erp.Lims.Analysis.Data.Entities
 {
     using H = HD<ProductCategory>;
 

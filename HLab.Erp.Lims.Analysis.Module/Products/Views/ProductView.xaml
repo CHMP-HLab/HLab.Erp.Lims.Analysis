@@ -34,7 +34,7 @@
                     <entitySelectors:ForeignView 
                         HorizontalAlignment="Left"
                         Model="{Binding Model.Category}"
-                        ModelClass="{x:Type data:ProductCategory}" 
+                        ModelClass="{x:Type entities:ProductCategory}" 
                         ListClass="{x:Type products:ProductCategoriesListViewModel}"/>
                 
             <lang:LocalizedLabel Text="{}{INN} : "/>

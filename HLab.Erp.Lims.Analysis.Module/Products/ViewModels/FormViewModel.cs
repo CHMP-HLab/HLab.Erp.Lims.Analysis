@@ -36,6 +36,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products
         private string getIconPath => Model.IconPath??base.IconPath;
 
     }
+
     class FormViewModelDesign : FormViewModel, IViewModelDesign
     {
         public new Form Model { get; } = Form.DesignModel;

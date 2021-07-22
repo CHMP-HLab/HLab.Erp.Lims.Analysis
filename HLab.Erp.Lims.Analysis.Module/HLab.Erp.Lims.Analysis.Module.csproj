@@ -545,7 +545,10 @@
     <Page Update="Pharmacopoeias\PharmacopoeiaView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Products\FormView.xaml">
+    <Page Update="Products\Views\ProductCategoryView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Products\Views\FormView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Resources\Certificat - Copier.xaml">
