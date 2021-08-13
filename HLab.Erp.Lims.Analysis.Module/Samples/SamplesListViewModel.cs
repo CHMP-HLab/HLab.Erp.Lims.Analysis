@@ -132,7 +132,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                     .Link(s => s.CommercialName)
                     .Filter()
                         .IconPath("Icons/Sample/Commercial")
-
+/**/
         )
         {
             var n = SampleWorkflow.Reception; // TODO : this is a hack to force top level static constructor
