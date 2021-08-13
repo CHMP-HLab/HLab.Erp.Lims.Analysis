@@ -1,11 +1,10 @@
-﻿using HLab.Erp.Lims.Analysis.Data;
-using HLab.Mvvm.Annotations;
-using HLab.Erp.Lims.Analysis.Module.SampleTests;
-
-using HLab.Erp.Core.ListFilterConfigurators;
+﻿using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Core.Wpf.EntityLists;
+using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.SampleTests;
+using HLab.Mvvm.Annotations;
 
-namespace HLab.Erp.Lims.Analysis.Module.Products
+namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 {
     public class ProductsListPopupViewModel : EntityListViewModel<Product>, IMvvmContextProvider
     {

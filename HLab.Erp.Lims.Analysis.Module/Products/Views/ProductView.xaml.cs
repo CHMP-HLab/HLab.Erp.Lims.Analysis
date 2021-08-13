@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using HLab.Erp.Core.Tools.Details;
+using HLab.Erp.Lims.Analysis.Module.Products.ViewModels;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Application;
 

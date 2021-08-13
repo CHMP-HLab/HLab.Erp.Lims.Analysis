@@ -3,7 +3,7 @@ using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
 
-namespace HLab.Erp.Lims.Analysis.Module.Products
+namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 {
     using H = H<ProductViewModel>;
 

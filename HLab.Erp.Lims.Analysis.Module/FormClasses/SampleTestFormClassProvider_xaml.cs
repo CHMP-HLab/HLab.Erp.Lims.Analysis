@@ -15,6 +15,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             xmlns:d = ""http://schemas.microsoft.com/expression/blend/2008""
                 xmlns:o = ""clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf""
                 xmlns:lang=""clr-namespace:HLab.Localization.Wpf.Lang;assembly=HLab.Localization.Wpf""
+                xmlns:math=""clr-namespace:WpfMath.Controls;assembly=WpfMath""
             UseLayoutRounding = ""False"" >
                 <UserControl.Resources>
                     <ResourceDictionary Source = ""pack://application:,,,/HLab.Erp.Lims.Analysis.Module;component/FormClasses/FormsDictionary.xaml"" />          

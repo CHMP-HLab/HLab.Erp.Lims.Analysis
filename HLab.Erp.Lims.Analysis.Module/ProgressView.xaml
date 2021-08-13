@@ -7,9 +7,10 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <ProgressBar
+            x:Name="ProgressBar"
             Maximum="1.0"
             Minimum="0.0"
-            Value="{Binding Value, Mode=OneWay, FallbackValue=50}" >
+            >
             <ProgressBar.Foreground>
                 <LinearGradientBrush  EndPoint="1,0" StartPoint="0,0">
                     <GradientStop Color="#FF508050" Offset="0"/>
@@ -26,12 +27,12 @@
         <StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0">
                 <Label 
+                    x:Name="Label"
                     FontWeight="Bold"
                     HorizontalAlignment="Center"
                     Foreground="White"
                     FontSize="12"
-                    ContentStringFormat="{}{0:P00}"
-                    Content="{Binding Value, FallbackValue=0.0}" />
+                    ContentStringFormat="{}{0:P00}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

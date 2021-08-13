@@ -1,14 +1,13 @@
-﻿
+﻿using System;
 using HLab.Erp.Core;
-using HLab.Erp.Core.Wpf.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
+using HLab.Erp.Core.Wpf.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using HLab.Mvvm.Annotations;
-using System;
 
-namespace HLab.Erp.Lims.Analysis.Module.Products
+namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 {
     public class ProductsListViewModel : EntityListViewModel<Product>, IMvvmContextProvider
     {

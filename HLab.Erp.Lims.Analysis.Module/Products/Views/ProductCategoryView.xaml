@@ -9,8 +9,9 @@
              xmlns:views="clr-namespace:HLab.Erp.Core.Wpf.Views;assembly=HLab.Erp.Core.Wpf"
              xmlns:icons="clr-namespace:HLab.Mvvm.Application.Wpf.Icons;assembly=HLab.Mvvm.Application.Wpf"
              xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
+             xmlns:viewModels="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products.ViewModels"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance {x:Type local:ProductCategoryViewModel}, IsDesignTimeCreatable=True}"             
+             d:DataContext="{d:DesignInstance {x:Type viewModels:ProductCategoryViewModel}, IsDesignTimeCreatable=True}"             
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
 <Grid.RowDefinitions>

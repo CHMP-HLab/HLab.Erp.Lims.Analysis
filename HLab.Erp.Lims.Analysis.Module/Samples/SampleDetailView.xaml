@@ -20,6 +20,7 @@
              xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
              xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
              xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
+             xmlns:viewModels="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products.ViewModels"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModelDesign}, IsDesignTimeCreatable=True}"             
              d:DesignHeight="1200" d:DesignWidth="500"
@@ -98,7 +99,7 @@
                     <entitySelectors:ForeignView 
                         Model="{Binding Model.Product}"
                         ModelClass="{x:Type analysis.Data:Product}" 
-                        ListClass="{x:Type products:ProductsListPopupViewModel}"/>
+                        ListClass="{x:Type viewModels:ProductsListPopupViewModel}"/>
 
                     <lang:LocalizedLabel Text="{}{Commercial Name} : "/>
                     <!--<TextBox 

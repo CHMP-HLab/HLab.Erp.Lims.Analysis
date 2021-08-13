@@ -120,7 +120,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             var getter = getProgress.Compile();
             return c.Column()
                            .Header("{Progress}").Width(80)
-                           .Content(s => new ProgressViewModel { Value = getter(s) ?? 0.0 })
+                           .Content(s => new ProgressView { Value = getter(s) ?? 0.0 })
                            .UpdateOn(getProgress)
                            .OrderBy(s => getter(s));
         }

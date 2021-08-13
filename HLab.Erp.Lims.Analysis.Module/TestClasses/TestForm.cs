@@ -67,6 +67,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             }
         }
 
+        private bool IsNamedElement(FrameworkElement e) => !string.IsNullOrWhiteSpace(e.Name) && e.Name != "formulaContainerElement";
 
         protected override void OnContentChanged(object oldContent, object newContent)
         {
@@ -79,7 +80,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 var checkboxes = new Dictionary<string, List<CheckBox>>();
 
                 _namedElements = content.FindLogicalChildren<FrameworkElement>()
-                    .Where(e => !string.IsNullOrWhiteSpace(e.Name)).ToList();
+                    .Where(e => IsNamedElement(e)).ToList();
 
                 var i = 0;
 

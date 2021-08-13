@@ -174,7 +174,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
         private Dictionary<string,ElementInfo> GetNamedElements(FrameworkElement e) => e
             .FindLogicalChildren<FrameworkElement>()
-            .Where(fe => !string.IsNullOrEmpty(fe.Name))
+            .Where(fe => !string.IsNullOrEmpty(fe.Name) && fe.Name!= "formulaContainerElement")
             .ToDictionary(fe => fe.Name, fe => new ElementInfo(fe.Name, fe.GetType(), GetElementLevel(fe)));
 
         protected ElementLevel GetElementLevel(FrameworkElement fe)
@@ -222,7 +222,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             foreach (var fe in NamedElements.Values)
             {
                 sb.Append($"public {fe.Type.FullName} {fe.Name};");
-                connect.Append($"case {n} : this.{fe.Name} = (({fe.Type.FullName})(target)); return;");
+                connect.Append($"case {n} : if(target is {fe.Type.FullName} {fe.Name}Target) this.{fe.Name} = {fe.Name}Target; return;");
                 n++;
             }
 
