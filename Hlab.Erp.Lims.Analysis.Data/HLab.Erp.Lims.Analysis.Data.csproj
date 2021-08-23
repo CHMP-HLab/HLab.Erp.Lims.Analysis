@@ -3,7 +3,7 @@
   <PropertyGroup>
         <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
     <Platforms>AnyCPU;x64;x86</Platforms>
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>default</LangVersion>
     <Configurations>Debug;Release;DebugRelease</Configurations>
     <Version>2.2.0</Version>
     <AssemblyVersion>2.2.0.0</AssemblyVersion>

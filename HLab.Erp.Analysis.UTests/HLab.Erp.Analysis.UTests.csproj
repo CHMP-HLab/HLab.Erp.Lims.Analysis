@@ -8,6 +8,8 @@
     <Platforms>AnyCPU;x86;x64</Platforms>
 
     <Configurations>Debug;Release;DebugRelease</Configurations>
+
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
