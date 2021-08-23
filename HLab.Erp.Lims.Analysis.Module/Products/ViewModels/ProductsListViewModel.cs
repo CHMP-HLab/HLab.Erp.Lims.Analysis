@@ -40,11 +40,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         {
         }
 
-        protected override bool CanExecuteAdd(Action<string> errorAction)
-        {
-            return Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
-        }
-
+        protected override bool CanExecuteAdd(Action<string> errorAction) => Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
         protected override bool CanExecuteDelete(Product product, Action<string> errorAction) => Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
         protected override bool CanExecuteImport(Action<string> errorAction) => Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
         protected override bool CanExecuteExport(Action<string> errorAction) => true;

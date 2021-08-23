@@ -4,6 +4,8 @@ using HLab.Erp.Core.Wpf.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
+using System;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 
 namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
 {
@@ -13,8 +15,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
         { }
 
         public ManufacturersListViewModel() : base(c => c
-//                .AddAllowed()
-// TODO                .DeleteAllowed()
             .Column()
             .Header("{Name}")
             .Width(250).Link(e => e.Name)
@@ -27,6 +27,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
         )
         {
         }
+
+        protected override bool CanExecuteAdd(Action<string> errorAction) => Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisManufacturerCreate);
+        protected override bool CanExecuteDelete(Manufacturer manufacturer, Action<string> errorAction) => Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisManufacturerCreate);
 
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
