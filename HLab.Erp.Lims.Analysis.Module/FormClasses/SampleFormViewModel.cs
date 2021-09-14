@@ -100,40 +100,17 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         //    .Update()
         //);
 
-        //private ITrigger _1 = H.Trigger(c => c
-        //    .On(e => e.TestHelper)
-        //    .Do(e => e.TestHelper.PropertyChanged += e.TestHelper_PropertyChanged)
-        //);
-
-        //private void TestHelper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        //{
-        //    if (Model==null) return;
-        //    switch(e.PropertyName)
-        //    {
-        //        case "Result":
-        //            if(TestHelper?.Result!=null)
-        //                Model.Result = TestHelper.Result;
-        //            break;
-        //        case "Conformity":
-        //            if(TestHelper?.Result!=null)
-        //                Model.Conformity = TestHelper.Conformity;
-        //            break;
-        //        case "State":
-        //                Model.StateId = (int)TestHelper.State;
-        //            break;
-        //        //case "MandatoryDone":
-        //        //    Model.MandatoryDone = TestHelper.MandatoryDone;
-        //        //    break;
-        //    }
-        //}
         public async Task LoadAsync()
         {
-            await FormHelper.ExtractCodeAsync(Model.FormClass.Code).ConfigureAwait(true);
+            //await FormHelper.ExtractCodeAsync(Model.FormClass.Code).ConfigureAwait(true);
 
-            await FormHelper.LoadFormAsync(Model).ConfigureAwait(true);
+            //await FormHelper.LoadFormAsync(Model).ConfigureAwait(true);
 
-            FormHelper.Form.LoadValues(Model.SpecificationValues);
-            FormHelper.Form.LoadValues(Model.ResultValues);
+            //FormHelper.Form.LoadValues(Model.SpecificationValues);
+            //FormHelper.Form.LoadValues(Model.ResultValues);
+
+            //FormHelper.Form.Mode = Model.Sample.Stage == SampleWorkflow.Reception ? FormMode.Capture : FormMode.ReadOnly;
+            await FormHelper.LoadAsync(Model).ConfigureAwait(true);
 
             FormHelper.Form.Mode = Model.Sample.Stage == SampleWorkflow.Reception ? FormMode.Capture : FormMode.ReadOnly;
 
