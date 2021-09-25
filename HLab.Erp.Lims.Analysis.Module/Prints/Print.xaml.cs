@@ -60,7 +60,7 @@ namespace Outils
 
         private String _Langue = null;
         private String _XamlPage = null;
-        private Hashtable _XamlElement = new Hashtable();
+        private string _XamlElement;
         private String _XamlElementCourant = null;
         private List<Page> _Page = new List<Page>();
         private List<UIElement> _Elements = new List<UIElement>();
@@ -81,7 +81,6 @@ namespace Outils
         ####################################################################################################################################################################################################################################################################################################################################################################*/
 
         public string XamlPage => _XamlPage;
-        public Hashtable XamlElement => _XamlElement;
 
 
         /********************************************************************************************************************************************************************************************************************************************************************************
@@ -290,7 +289,7 @@ namespace Outils
             _PageCourante = 0;
             _Page.Clear();
             _Elements.Clear();
-            _XamlElement.Clear();
+            _XamlElement = "";
         }
 
 
@@ -381,19 +380,21 @@ namespace Outils
             element = element.Replace(sStart, "").Replace(sEnd, "");
             _XamlPage = page;
 
-            // Distingue les différents éléments
-            _XamlElement.Clear();
-            XmlDocument xd = new XmlDocument();
-            xd.LoadXml("<Grid xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\">" + element + "</Grid>");
+            _XamlElement = element;
 
-            foreach (XmlNode xn in xd.FirstChild)
-            {
-                if (xn.Attributes != null)
-                {
-                    XmlAttribute xa = xn.Attributes["Name"];
-                    _XamlElement.Add(xa == null ? "" : xa.InnerText, xn.OuterXml);
-                }
-            }
+            //// Distingue les différents éléments
+            //_XamlElement.Clear();
+            //XmlDocument xd = new XmlDocument();
+            //xd.LoadXml("<Grid xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\">" + element + "</Grid>");
+
+            //foreach (XmlNode xn in xd.FirstChild)
+            //{
+            //    if (xn.Attributes != null)
+            //    {
+            //        XmlAttribute xa = xn.Attributes["Name"];
+            //        _XamlElement.Add(xa == null ? "" : xa.InnerText, xn.OuterXml);
+            //    }
+            //}
         }
 
 
@@ -428,7 +429,12 @@ namespace Outils
             int iElement = 0;
 
             // Recherche le panneau contenant les éléments dynamiques
-            Panel panelContenu = ((Panel)page.FindName("PanelContenu"));
+            Panel panelContenu = (Panel)page.FindName("PanelContenu");
+
+            page.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            page.Arrange(new Rect(0, 0, page.DesiredSize.Width, page.DesiredSize.Height));
+
+
             double hPanel = panelContenu.RenderSize.Height;
             double cumul = 0.0;
             int iDernier = -1;
@@ -438,20 +444,24 @@ namespace Outils
 
             while (iElement < _Elements.Count)
             {
+                var element = _Elements[iElement];
+
                 // Ajoute l'élément courant si il n'a pas déjà été ajouté
                 if (iElement != iDernier)
                 {
                     // Ajoute l'élément courant
-                    panelContenu.Children.Add(_Elements[iElement]);
+                    panelContenu.Children.Add(element);
 
                     // Recalcule son placement
-                    _Elements[iElement].UpdateLayout();
+                    page.UpdateLayout();
+                    page.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                    page.Arrange(new Rect(0, 0, element.DesiredSize.Width, element.DesiredSize.Height));
 
                     // L'ajoute sa hauteur aux précédents
-                    if (_Elements[iElement] is RichTextBox)
-                        cumul += _Elements[iElement].RenderSize.Height * _CoeffRichTextBox;
+                    if (element is RichTextBox)
+                        cumul += element.RenderSize.Height * _CoeffRichTextBox;
                     else
-                        cumul += _Elements[iElement].RenderSize.Height;
+                        cumul += element.RenderSize.Height;
                 }
 
                 // Vérifie si il passe
@@ -465,8 +475,12 @@ namespace Outils
                     if (iDernier == -1)
                     {
                         // Retire les éléments uniquement sur la derniere page
-                        CacheDernier(page);
+                        HideLastPageElements(page);
+
                         page.UpdateLayout();
+                        page.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                        page.Arrange(new Rect(0, 0, page.DesiredSize.Width, page.DesiredSize.Height));
+
                         hPanel = panelContenu.RenderSize.Height;
                         iDernier = iElement;
                     }
@@ -475,10 +489,10 @@ namespace Outils
                     else
                     {
                         // Retire l'élément qui ne passe pas
-                        panelContenu.Children.Remove(_Elements[iElement]);
+                        panelContenu.Children.Remove(element);
 
                         // Ne l'inclut pas dans la prochaine page si c'est un séparateur
-                        if (((FrameworkElement)_Elements[iElement]).Name == "Separateur")
+                        if (((FrameworkElement)element).Name == "Separateur")
                             iElement++;
 
                         // Ajoute cette page dans la liste
@@ -489,6 +503,10 @@ namespace Outils
 
                         // Recherche le panneau contenant les éléments dynamiques
                         panelContenu = ((Panel)page.FindName("PanelContenu"));
+
+                        page.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                        page.Arrange(new Rect(0, 0, page.DesiredSize.Width, page.DesiredSize.Height));
+
                         hPanel = panelContenu.RenderSize.Height;
                         cumul = 0.0;
                         iDernier = -1;
@@ -548,13 +566,13 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        public void AjouteElement(String element = "")
+        public void AjouteElement()
         {
             // Calcul le dernier élément
             CalculerElement();
 
             // Charge l'élément
-            _XamlElementCourant = (String)_XamlElement[element];
+            _XamlElementCourant = _XamlElement;
         }
 
 
@@ -632,20 +650,20 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void CacheDernier(DependencyObject depObj)
+        private void HideLastPageElements(DependencyObject depObj)
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
             {
                 DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
 
-                if (child != null && child is FrameworkElement)
+                if (child != null && child is FrameworkElement e)
                 {
                     object tag = ((FrameworkElement)child).Tag;
                     if (tag != null && tag.ToString() == "DernierePageUniquement")
-                        ((FrameworkElement)child).Visibility = Visibility.Collapsed;
+                        e.Visibility = Visibility.Collapsed;
                 }
 
-                CacheDernier(child);
+                HideLastPageElements(child);
             }
         }
 
@@ -714,6 +732,26 @@ namespace Outils
             xaml = xaml.Replace("{" + champ + "}", valeur);
         }
 
+        private static void ReplaceZone(ref String xaml, String zone, String valeur)
+        {
+            string sStart = $"<!--{zone}.Start-->";
+            string sEnd = $"<!--{zone}.End-->";
+
+            var zoneStart = xaml.IndexOf(sStart);
+
+            if(zoneStart<0) return;
+
+            var zoneStop = xaml.IndexOf(sEnd) + sEnd.Length;
+
+            var xamlZone = xaml.Substring(zoneStart, zoneStop - zoneStart);
+
+            xaml = xaml.Replace(xamlZone, valeur);
+        }
+
+        public void ReplaceZone(String zone, String valeur)
+        {
+            ReplaceZone(ref _XamlPage, zone, valeur);
+        }
 
         /********************************************************************************************************************************************************************************************************************************************************************************
         * 
@@ -1198,6 +1236,13 @@ namespace Outils
                     if (_Impression._XamlElementCourant != null)
                         RemplaceChamp(ref _Impression._XamlElementCourant, champ, value.ToString());
                 }
+            }
+
+            public void ReplaceZone(string zone, string value)
+            {
+                if (_Impression._XamlElementCourant != null)
+                    Print.ReplaceZone(ref _Impression._XamlElementCourant, zone, value.ToString());
+
             }
         }
 

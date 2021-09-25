@@ -456,15 +456,26 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                     if (testEndDate > endDate) endDate = testEndDate;
 
                     // Ajoute la ligne pour le nom du test
-                    if (test.TestName != nomTest)
-                    {
-                        nomTest = test.TestName;
-                        ip.AjouteElement("Titre");
-                        ip.Element["Titre"] = " " + nomTest;
-                    }
+                    //if (test.TestName != nomTest)
+                    //{
+                    //    nomTest = test.TestName;
+                    //    ip.AjouteElement("Titre");
+                    //    ip.Element["Titre"] = " " + nomTest;
+                    //}
 
                     // Les résultats du test
-                    ip.AjouteElement("Test");
+                    ip.AjouteElement();
+
+                    // si même nom de test ne pas repeter
+                    if(nomTest == test.TestName)
+                    {
+                        ip.Element.ReplaceZone("Titre","");
+                    }
+                    else
+                    {
+                        nomTest = test.TestName;
+                        ip.Element["Titre"] = " " + nomTest;
+                    }
 
                     ip.Element["Date"] = testEndDate == DateTime.MinValue
                         ? "__/ __ /_____"
@@ -505,7 +516,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
-                    //ip.Element["Conforme"] = test.Result?.Conformity??"" + Environment.NewLine;
                 }
             }
 
@@ -515,6 +525,11 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
             ip["AnalysisStart"] = DateToString(language, startDate);
             ip["AnalysisEnd"] = DateToString(language, endDate);
+
+            if (string.IsNullOrWhiteSpace(Model.Conclusion))
+            {
+                ip.ReplaceZone("Conclusion","");
+            }
 
             // Impression du certificat d'analyse
             if (ip.Apercu("Rapport_" + Model.Reference, null, Print.Langue("{FR=Rapport d'analyse}{EN=Report of analysis} ", language) + Model.Reference))
