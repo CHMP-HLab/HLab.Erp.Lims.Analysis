@@ -4,7 +4,6 @@
         xmlns:base="clr-namespace:HLab.Base;assembly=HLab.Base.Wpf"
         xmlns:prints="clr-namespace:HLab.Erp.Lims.Analysis.Module.Prints"
         xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
-        xmlns:wpf1="clr-namespace:HLab.Icons.Wpf;assembly=HLab.Icons.Wpf"
         xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
         xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
         Title="Impression" Width="1000" Height="1000" Background="#FFC7B67D" WindowStartupLocation="CenterOwner">
@@ -33,8 +32,8 @@
             <Button Content="Précedente" Height="40" Margin="0,10,60,0" x:Name="BT_Precedent" Tag="Precedent" VerticalAlignment="Top" HorizontalAlignment="Right" Width="40" Click="BT_Precedent_Click" />
             <Button Content="Suivante" Height="40" HorizontalAlignment="Right" Margin="0,10,10,0" x:Name="BT_Suivante" Tag="Suivant" VerticalAlignment="Top" Width="40" Click="BT_Suivante_Click" />
 
-            <icons:IconView Path="printer" Grid.Row="1" Opacity="0.1"/>
-            <ListBox x:Name="LB_Imprimantes" Background="#3FFFFFFF" BorderThickness="0" HorizontalContentAlignment="Stretch" Grid.Row="1" Margin="0,0,0,100">
+            <icons:IconView Path="Icons/Edit" Grid.Row="0" Opacity="1" Foreground="White"/>
+            <ListBox x:Name="LB_Imprimantes" Background="#3FFFFFFF" BorderThickness="0" HorizontalContentAlignment="Stretch" Grid.Row="1" Margin="0,30,0,100">
                <ListBox.ItemTemplate>
                   <DataTemplate>
                      <Grid HorizontalAlignment="Stretch" Margin="2">
@@ -53,7 +52,7 @@
             <TextBlock HorizontalAlignment="Left" Margin="10,0,0,79" TextWrapping="Wrap" Text="Sélection à imprimer" VerticalAlignment="Bottom" Grid.Row="1" FontStyle="Italic" Foreground="#7F000000"/>
             <Button Content="Imprimer" Height="80" HorizontalAlignment="Right" Margin="0,0,10,10" x:Name="BT_Imprimer" Tag="Imprimante" VerticalAlignment="Bottom" Width="80" IsDefault="True" Click="BT_Imprimer_Click" Grid.Row="1"/>
 
-            <icons:IconView Path="icons/print/email" Grid.Row="2" Opacity="0.12"/>
+            <icons:IconView Path="Icons/Email" Grid.Row="2" Opacity="0.12"/>
             <ListBox x:Name="LB_Destinataire" Background="#7FFFFFFF" BorderThickness="0" HorizontalContentAlignment="Stretch" Grid.Row="2" Height="80" VerticalAlignment="Top" AllowDrop="True" Drop="LB_PieceJointe_Drop" DragOver="LB_PieceJointe_DragOver">
                <ListBox.ItemTemplate>
                   <DataTemplate>

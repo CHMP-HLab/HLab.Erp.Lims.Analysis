@@ -31,12 +31,14 @@
 
   <ItemGroup>
     <None Remove="Icons\AppName.svg" />
+    <None Remove="Icons\Email.svg" />
     <None Remove="Icons\Entities\Pharmacopoeia.svg" />
     <None Remove="Icons\Entities\Products\dose.svg" />
     <None Remove="Icons\Entities\Products\form.svg" />
     <None Remove="Icons\Entities\Products\inn.svg" />
     <None Remove="Icons\Entities\SampleTest.svg" />
     <None Remove="Icons\Conformity\Invalid.svg" />
+    <None Remove="Icons\Printer.svg" />
     <None Remove="Icons\Sample\commercial.svg" />
     <None Remove="Icons\Sample\date.svg" />
     <None Remove="Icons\Sample\location.svg" />
@@ -191,6 +193,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Resource Include="Icons\Email.svg" />
     <Resource Include="Icons\Entities\FormClass.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Resource>
@@ -211,6 +214,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Resource Include="Icons\Printer.svg" />
     <Resource Include="Icons\Sample\commercial.svg" />
     <Resource Include="Icons\Sample\date.svg" />
     <Resource Include="Icons\Sample\location.svg" />
