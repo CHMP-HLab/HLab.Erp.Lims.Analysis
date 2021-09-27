@@ -20,18 +20,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
                    .Column(e => e.Sample)
 
-                   .Column(s => s.Sample.Product)
+                   //.Column(s => s.Sample.Product)
 
-                   .Column()
-                       .Header("{Test}")
-                       .Link(e => e.TestName)
-                        .OrderBy(s => s.Order)
-                        .Filter()
+                   .Column(e => e.Pharmacopoeia).Mvvm()
 
-                   .Column()
-                        .Header("{Test Class}")
-                        .Link(e => e.TestClass)
-                        .Filter()
+                   .Column(e => e.TestClass).Mvvm()
 
                 .DescriptionColumn(t => "", t => t.Specification)
                     .Header("{Specifications}")
@@ -41,7 +34,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     .Header("{Result}")
                     .OrderBy(s => s.Result?.Result ?? "").UpdateOn(s => s.Result.Result)
 
-                .ConformityColumn(s => s.Result == null ? ConformityState.NotChecked : s.Result.ConformityId).UpdateOn(s => s.Result.ConformityId)
+                .ConformityColumnPostLinked(s => s.Result == null ? ConformityState.NotChecked : s.Result.ConformityId).UpdateOn(s => s.Result.ConformityId)
 
                 .StageColumn(default(SampleTestWorkflow), s => s.StageId)
 
