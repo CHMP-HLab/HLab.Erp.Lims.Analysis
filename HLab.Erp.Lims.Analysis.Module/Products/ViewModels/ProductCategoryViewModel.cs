@@ -10,8 +10,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 
         public override string Header => _header.Get();
         private readonly IProperty<string> _header = H<ProductCategoryViewModel>.Property<string>(c => c
-            .Set(e => e.Model?.IconPath )
-            .On(e => e.Model.IconPath)
+            .Set(e => e.Model?.Name )
+            .On(e => e.Model.Name)
             .Update()
         );
 

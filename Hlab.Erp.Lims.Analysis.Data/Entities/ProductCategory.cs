@@ -24,12 +24,35 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             set => _name.Set(value);
         }
         private readonly IProperty<string> _name = H.Property<string>(c => c.Default(""));
+
+        public string NamePropertyName
+        {
+            get => _namePropertyName.Get();
+            set => _namePropertyName.Set(value);
+        }
+        private readonly IProperty<string> _namePropertyName = H.Property<string>(c => c.Default("{Name}"));
+
+        public string VariantPropertyName
+        {
+            get => _variantPropertyName.Get();
+            set => _variantPropertyName.Set(value);
+        }
+        private readonly IProperty<string> _variantPropertyName = H.Property<string>(c => c.Default("{Variant}"));
+
+        public string ComplementPropertyName
+        {
+            get => _complementPropertyName.Get();
+            set => _complementPropertyName.Set(value);
+        }
+        private readonly IProperty<string> _complementPropertyName = H.Property<string>(c => c.Default("{Complement}"));
+
         public int? Priority
         {
             get => _priority.Get();
             set => _priority.Set(value);
         }
         private readonly IProperty<int?> _priority = H.Property<int?>();
+
         [Ignore]
         public string Caption => Name;
         public string IconPath

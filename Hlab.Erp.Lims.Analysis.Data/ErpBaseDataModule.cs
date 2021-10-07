@@ -91,6 +91,19 @@ namespace HLab.Erp.Lims.Analysis.Data
                         .Table<SampleTest>().AddColumn(t => t.Progress)
                         .Table<SampleTestResult>().AddColumn(t => t.Progress)
                         .Version("2.2.0.0");
+                         break;
+                        ;
+                case "2.2.0.0":
+                    builder
+                        .Table<ProductCategory>()
+                        .AddColumn(t => t.NamePropertyName)
+                        .AddColumn(t => t.VariantPropertyName)
+                        .AddColumn(t => t.ComplementPropertyName)
+                        .Table<Product>()
+                            .RenameColumn("Inn",t=>t.Name)
+                            .RenameColumn("Dose",t=>t.Variant)
+
+                        .Version("2.3.0.0");
                         ;
                     break;
 

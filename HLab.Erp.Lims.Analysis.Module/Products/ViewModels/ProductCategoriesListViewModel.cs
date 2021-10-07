@@ -17,11 +17,12 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
             // TODO .AddAllowed()
             //.DeleteAllowed()
             .Column()
-            .Header("{Name}")
-            .Width(150)
-                .Link(s => s.Name)
-                .Icon(s => s.IconPath)
-                    .Filter()
+            .Header("{Name}").Localize()
+            .Width(250).Content(e => e.Name)
+                    .Localize()
+                    .Icon(p => p.IconPath)
+                    .Link(e => e.Name)
+                        .Filter()
         )
         {
         }

@@ -20,17 +20,17 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
                     .Link(p => p.Caption)
                 
                 .Column()
-                    .Header("{Inn}")
-                    .Link(p => p.Inn)
+                    .Header("{Name}")
+                    .Link(p => p.Name)
                     .Filter()
                     .IconPath("Icons/Entities/Products/Inn")
 
                 .Column()
                     .Header("{Dose}")
-                    .Link(p => p.Dose)
+                    .Link(p => p.Variant)
                     .Filter()
                     .IconPath("Icons/Entities/Products/Dose")
-                    .Link(p => p.Dose)
+                    .Link(p => p.Variant)
 
                 .FormColumn( p => p.Form)
 

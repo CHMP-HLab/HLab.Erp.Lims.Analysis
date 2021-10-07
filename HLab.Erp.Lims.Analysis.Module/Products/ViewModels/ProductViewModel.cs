@@ -13,19 +13,19 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 
         public override string Header => _header.Get();
         private readonly IProperty<string> _header = H.Property<string>(c => c
-        .Set(e => string.IsNullOrWhiteSpace(e.Model?.Inn) ? "{New product}" : e.Model.Inn)
-        .On(e => e.Model.Inn)
+        .Set(e => string.IsNullOrWhiteSpace(e.Model?.Name) ? "{New product}" : e.Model.Name)
+        .On(e => e.Model.Name)
         .Update()
         );
 
         public string SubTitle => _subTitle.Get();
         private readonly IProperty<string> _subTitle = H.Property<string>(c => c
             .Set(e => e.GetSubTitle )
-            .On(e => e.Model.Dose)
+            .On(e => e.Model.Variant)
             .On(e => e.Model.Form.Name)
             .Update()
         );
-        private string GetSubTitle => $"{Model?.Dose}\n{Model?.Form?.Name}";
+        private string GetSubTitle => $"{Model?.Variant}\n{Model?.Form?.Name}";
 
 
         public override string IconPath => _iconPath.Get();

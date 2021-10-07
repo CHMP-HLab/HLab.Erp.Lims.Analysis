@@ -38,11 +38,18 @@
                         ModelClass="{x:Type entities:ProductCategory}" 
                         ListClass="{x:Type viewModels:ProductCategoriesListViewModel}"/>
                 
-            <lang:LocalizedLabel Text="{}{INN} : "/>
-            <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Inn}" HorizontalContentAlignment="Center" />
+            <StackPanel Orientation="Horizontal">
+                <lang:LocalizedLabel Text="{Binding Model.Category.NamePropertyName}"/>
+                <Label Content=" : "/>
+            </StackPanel>
+            <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Name}" HorizontalContentAlignment="Center" />
                 
-            <lang:LocalizedLabel Text="{}{Dose} : "/>
-            <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Dose}" HorizontalContentAlignment="Center" />
+            <StackPanel Orientation="Horizontal">
+                <lang:LocalizedLabel Text="{Binding Model.Category.VariantPropertyName}"/>
+                <lang:LocalizedLabel Text=" : "/>
+            </StackPanel>
+                
+            <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Variant}" HorizontalContentAlignment="Center" />
 
             <lang:LocalizedLabel Text="{}{Complement} : "/>
             <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Complement}" HorizontalContentAlignment="Center" />

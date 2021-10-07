@@ -206,9 +206,9 @@
                         <TextBlock VerticalAlignment="Top" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Margin="1">Dosage :</TextBlock>
 
                         <TextBlock VerticalAlignment="Top" Grid.Column="1" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="1">{CommercialName}</TextBlock>
-                        <TextBlock VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="1">{Product.Inn}</TextBlock>
+                        <TextBlock VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="1">{Product.Name}</TextBlock>
                         <TextBlock VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="1">{Product.Form}</TextBlock>
-                        <TextBlock VerticalAlignment="Top" Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="1">{Product.Dose}</TextBlock>
+                        <TextBlock VerticalAlignment="Top" Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="1">{Product.Variant}</TextBlock>
                     </Grid>
 
                     <Grid Grid.Row="1" Grid.Column="1">

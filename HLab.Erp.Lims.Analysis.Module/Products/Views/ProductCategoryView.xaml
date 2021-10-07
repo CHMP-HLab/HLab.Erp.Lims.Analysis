@@ -32,6 +32,15 @@
             <lang:LocalizeTextBox 
                 Text="{Binding Model.Name, UpdateSourceTrigger=PropertyChanged}" 
                 IsReadOnly="{Binding Locker.IsReadOnly}"/>
+            
+            <lang:LocalizedLabel Text="{}{Name property name} : "/>
+            <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.NamePropertyName,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
+            
+            <lang:LocalizedLabel Text="{}{Variant property name} : "/>
+            <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.VariantPropertyName,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
+            
+            <lang:LocalizedLabel Text="{}{Complement property name} : "/>
+            <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.ComplementPropertyName,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
                 
             <lang:LocalizedLabel Text="{}{Icon Path} : "/>
             <TextBox TextWrapping="Wrap" Text="{Binding Model.IconPath,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
