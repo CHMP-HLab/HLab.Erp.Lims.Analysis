@@ -47,6 +47,7 @@
     <None Remove="Icons\Workflows\Certificate.svg" />
     <None Remove="Icons\Workflows\CheckPassed.svg" />
     <None Remove="Icons\Workflows\Closed.svg" />
+    <None Remove="Resources\Entete_ANCQ.png" />
     <None Remove="Resources\Logo_lanspex_ne.png" />
     <None Remove="Resources\Logo_lncqm_mr.png" />
     <None Remove="Resources\Logo_MinistereSanteNiger.png" />
@@ -147,6 +148,10 @@
     <Page Remove="Icons\Workflows\SampleWorkflow.xaml" />
     <Page Remove="Icons\Workflows\Specifications.xaml" />
     <Page Remove="Icons\Workflows\SpecificationsSigned.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Entete_ANCQ.png" />
   </ItemGroup>
 
   <ItemGroup>
