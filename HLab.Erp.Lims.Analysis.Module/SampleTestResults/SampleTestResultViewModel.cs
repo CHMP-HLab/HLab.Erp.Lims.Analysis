@@ -25,6 +25,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
         public SampleTestResultViewModel(
             Func<FormHelper> getFormHelper, 
+            Func<int, SampleTestResultAuditTrailViewModel> getAudit,
             Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> getWorkflow,
             Func<SampleTestResult, LinkedDocumentsListViewModel> getDocuments,
             Func<Sample, DataLocker<Sample>> getSampleLocker,
@@ -32,6 +33,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             )
         {
             _getFormHelper = getFormHelper;
+            _getAudit = getAudit;
             _getWorkflow = getWorkflow;
             _getDocuments = getDocuments;
             _getSampleLocker = getSampleLocker;
@@ -39,6 +41,37 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
             H.Initialize(this);
         }
+
+        // Audit Trail
+        private readonly Func<int, SampleTestResultAuditTrailViewModel> _getAudit;
+        public SampleTestResultAuditTrailViewModel AuditTrail => _auditTrail.Get();
+        private readonly IProperty<SampleTestResultAuditTrailViewModel> _auditTrail = H.Property<SampleTestResultAuditTrailViewModel>(c => c
+            .NotNull(e => e.Model)
+            .Set(e => e._getAudit?.Invoke(e.Model.Id))
+            .On(e => e.Model)
+            .Update()
+        );
+
+        public bool AuditDetail
+        {
+            get => _auditDetail.Get();
+            set => _auditDetail.Set(value);
+        }
+        private readonly IProperty<bool> _auditDetail = H.Property<bool>();
+
+        private ITrigger _onAuditDetail = H.Trigger(c => c
+        .On(e => e.AuditDetail)
+        .On(e => e.AuditTrail)
+        .NotNull(e => e.AuditTrail)
+        .Do(e =>
+        {
+            if(e.AuditDetail)
+                e.AuditTrail.List.RemoveFilter("Detail");
+            else
+                e.AuditTrail.List.AddFilter(e => e.Motivation != null || e.Log.Contains("Stage=") || e.Log.Contains("StageId="),0,"Detail");
+
+            e.AuditTrail.List.Update();
+        }));
 
         private ITrigger _modelTrigger = H.Trigger(c => c
             .On(e => e.Model)

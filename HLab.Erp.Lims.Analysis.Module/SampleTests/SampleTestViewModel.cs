@@ -17,7 +17,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
     public class SampleTestViewModelDesign : SampleTestViewModel, IViewModelDesign
     {
-        public SampleTestViewModelDesign() : base(null,null, null, null, null)
+        public SampleTestViewModelDesign() : base(null, null,null, null, null, null)
         {
         }
     }
@@ -29,6 +29,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         public SampleTestViewModel(
             IDocumentService docs,
             Func<SampleTest, TestResultsListViewModel> getResults,
+            Func<int, SampleTestAuditTrailViewModel> getAudit,
             Func<FormHelper> getFormHelper,
             Func<SampleTest, DataLocker<SampleTest>, SampleTestWorkflow> getSampleTestWorkflow,
             Func<Sample, DataLocker<Sample>> getSampleLocker
@@ -36,6 +37,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         {
             Docs = docs;
             _getResults = getResults;
+            _getAudit = getAudit;
             _getFormHelper = getFormHelper;
             _getSampleTestWorkflow = getSampleTestWorkflow;
             _getSampleLocker = getSampleLocker;
@@ -69,6 +71,38 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 FormHelper.Form.Mode = FormMode.ReadOnly;
         }
 
+
+
+        // Audit Trail
+        private readonly Func<int, SampleTestAuditTrailViewModel> _getAudit;
+        public SampleTestAuditTrailViewModel AuditTrail => _auditTrail.Get();
+        private readonly IProperty<SampleTestAuditTrailViewModel> _auditTrail = H.Property<SampleTestAuditTrailViewModel>(c => c
+            .NotNull(e => e.Model)
+            .Set(e => e._getAudit?.Invoke(e.Model.Id))
+            .On(e => e.Model)
+            .Update()
+        );
+
+        public bool AuditDetail
+        {
+            get => _auditDetail.Get();
+            set => _auditDetail.Set(value);
+        }
+        private readonly IProperty<bool> _auditDetail = H.Property<bool>();
+
+        private ITrigger _onAuditDetail = H.Trigger(c => c
+        .On(e => e.AuditDetail)
+        .On(e => e.AuditTrail)
+        .NotNull(e => e.AuditTrail)
+        .Do(e =>
+        {
+            if(e.AuditDetail)
+                e.AuditTrail.List.RemoveFilter("Detail");
+            else
+                e.AuditTrail.List.AddFilter(e => e.Motivation != null || e.Log.Contains("Stage=") || e.Log.Contains("StageId="),0,"Detail");
+
+            e.AuditTrail.List.Update();
+        }));
         public SampleTestWorkflow Workflow => _workflow.Get();
         private readonly IProperty<SampleTestWorkflow> _workflow = H.Property<SampleTestWorkflow>(c => c
             .NotNull(e => e.Locker)

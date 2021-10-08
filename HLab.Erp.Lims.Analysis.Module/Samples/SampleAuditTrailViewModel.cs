@@ -3,29 +3,59 @@
 using HLab.Erp.Acl;
 using HLab.Erp.Core.Wpf.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
+using HLab.Base.Extensions;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
     public class SampleAuditTrailViewModel : EntityListViewModel<AuditTrail>
     {
+
+        private static string GetStage(string log)
+        {
+            var lines = log.Replace("\r","").Split('\n');
+            foreach (var line in lines)
+            {
+                var part = line.Split('=');
+
+                if(part.Length>1)
+                {
+                    switch(part[0])
+                    {
+                        case "Stage":
+                        case "StageId":
+                        return SampleWorkflow.StageFromName(part[1]).GetCaption(null);
+                    }
+                }
+            }
+            return "NA";
+        }
+
         public SampleAuditTrailViewModel(int sampleId) : base(c => c
             .StaticFilter(e => e.EntityId == sampleId)
             .StaticFilter(e => e.EntityClass == "Sample")
-            .StaticFilter(e => e.Motivation != null)
+            //.StaticFilter(e => e.Motivation != null || e.Log.Contains("Stage="))
+
+             .Column()
+            .Header("{Stage}").Width(150).Content(at => $"{GetStage(at.Log)}").Localize()
+            .Icon(at => at.IconPath,20)
 
             .Column()
             .Header("{Date}").Width(110).Content(at => at.TimeStamp)
             
-            .Column()
-            .Header("{Icon}").Width(80)
-            .Icon(at => at.IconPath)
-            
+            //.Column()
+            //.Header("{Icon}").Width(80)
+
+             .Column()
+            .Header("{User}").Width(150).Content(at => at.UserCaption)
+           
             .Column()
             .Header("{Motivation}").Width(250)
             .Content(at => at.Motivation)
             
-            .Column()
-            .Header("{User}").Width(150).Content(at => at.UserCaption)
+
+             .Column()
+            .Header("{Log}").Width(150).Content(at => $"{at.Log}").Localize()
         )
         {
         }

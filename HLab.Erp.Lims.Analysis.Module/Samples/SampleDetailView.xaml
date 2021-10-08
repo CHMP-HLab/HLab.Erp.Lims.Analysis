@@ -42,13 +42,26 @@
         <controlsEx:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
                 <!--<views1:DetailView EditMode="{Binding EditMode}" Text="{}{Audit}" IconPath = "Icons/Sample/Folder">-->
-                    <Expander Header="Audit" Grid.ColumnSpan="2">
-                    <mvvm:ViewLocator 
-                        Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
-                        ViewClass="{x:Type annotations:IViewClassContent}"
-                        Model="{Binding AuditTrail}"
-                    />
-                    </Expander>
+                        <Expander x:Name="AuditExpender">
+                            <Expander.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <lang:LocalizedLabel Grid.Column="0" Text="{}{Audit}"/>
+                                    <CheckBox Grid.Column="1" IsChecked="{Binding AuditDetail}" Visibility="{Binding ElementName=AuditExpender, Path=IsExpanded, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <lang:LocalizedLabel Text="{}{Detail}"/>
+                                    </CheckBox>
+                                </Grid>
+                            </Expander.Header>
+                            <mvvm:ViewLocator 
+                                Grid.Row="1"
+                                Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                                ViewClass="{x:Type annotations:IViewClassContent}"
+                                Model="{Binding AuditTrail}"
+                            />
+                        </Expander>
                 <!--</views1:DetailView>-->
                 <!-- RECORD -->            
                 <core.Views:DetailView EditMode="{Binding EditMode}" Text="{}{Record}" IconPath = "Icons/Sample/Folder">
@@ -95,7 +108,12 @@
                 <!-- PRODUCT -->            
                 <core.Views:DetailView EditMode="{Binding EditMode}" IconPath="{Binding Model.Product.Form.IconPath,FallbackValue=icons}" Text="{}{Product}">
 
-                    <lang:LocalizedLabel Text="{}{INN} : "/>
+                    <StackPanel Orientation="Horizontal">
+                        <lang:LocalizedLabel Text="{Binding Model.Product.Category.NamePropertyName}"/>
+                        <Label Content=" / "/>
+                        <lang:LocalizedLabel Text="{Binding Model.Product.Category.VariantPropertyName}"/>
+                        <Label Content=" :"/>
+                    </StackPanel>
                     <entitySelectors:ForeignView 
                         Model="{Binding Model.Product}"
                         ModelClass="{x:Type analysis.Data:Product}" 

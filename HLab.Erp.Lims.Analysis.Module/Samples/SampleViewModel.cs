@@ -76,13 +76,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .NotNull(e => e.Model)
             .Update()
         );
-
-
-
-
-
-
-
  
         public bool IsReadOnly => _isReadOnly.Get();
         private readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
@@ -90,6 +83,36 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .On(e => e.EditMode)
             .Update()
         );
+
+        // Audit Trail
+        public SampleAuditTrailViewModel AuditTrail => _auditTrail.Get();
+        private readonly IProperty<SampleAuditTrailViewModel> _auditTrail = H.Property<SampleAuditTrailViewModel>(c => c
+            .NotNull(e => e.Model)
+            .Set(e => e._getAudit?.Invoke(e.Model.Id))
+            .On(e => e.Model)
+            .Update()
+        );
+
+        public bool AuditDetail
+        {
+            get => _auditDetail.Get();
+            set => _auditDetail.Set(value);
+        }
+        private readonly IProperty<bool> _auditDetail = H.Property<bool>();
+
+        private ITrigger _onAuditDetail = H.Trigger(c => c
+        .On(e => e.AuditDetail)
+        .On(e => e.AuditTrail)
+        .NotNull(e => e.AuditTrail)
+        .Do(e =>
+        {
+            if(e.AuditDetail)
+                e.AuditTrail.List.RemoveFilter("Detail");
+            else
+                e.AuditTrail.List.AddFilter(e => e.Motivation != null || e.Log.Contains("Stage=") || e.Log.Contains("StageId="),0,"Detail");
+
+            e.AuditTrail.List.Update();
+        }));
 
         public bool EditMode => _editMode.Get();
         private readonly IProperty<bool> _editMode = H.Property<bool>(c => c
@@ -278,13 +301,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Update()
         );
 
-        public SampleAuditTrailViewModel AuditTrail => _auditTrail.Get();
-        private readonly IProperty<SampleAuditTrailViewModel> _auditTrail = H.Property<SampleAuditTrailViewModel>(c => c
-            .NotNull(e => e.Model)
-            .Set(e => e._getAudit?.Invoke(e.Model.Id))
-            .On(e => e.Model)
-            .Update()
-        );
 
         public ObservableCollection<string> CommercialNames { get; } = new();
         public ObservableCollection<string> Origins { get; } = new();

@@ -27,6 +27,28 @@
 
         <controlsEx:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
+            <Expander x:Name="AuditExpender">
+                
+                <Expander.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <lang:LocalizedLabel Grid.Column="0" Text="{}{Audit}"/>
+                        <CheckBox Grid.Column="1" IsChecked="{Binding AuditDetail}" Visibility="{Binding ElementName=AuditExpender, Path=IsExpanded, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <lang:LocalizedLabel Text="{}{Detail}"/>
+                        </CheckBox>
+                    </Grid>
+                </Expander.Header>
+                            <mvvm:ViewLocator 
+                                Grid.Row="1"
+                                Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                                ViewClass="{x:Type annotations:IViewClassContent}"
+                                Model="{Binding AuditTrail}"
+                            />
+                        </Expander>
+                
                 <views:DetailView
                                   EditMode="{Binding EditMode}"
                                   IconPath="{Binding Model.SampleTest.TestClass.IconPath}" 
