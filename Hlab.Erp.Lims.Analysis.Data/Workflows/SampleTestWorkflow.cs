@@ -37,6 +37,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
             .Do((a, b) => a.UpdateChildren())
         );
 
+
         //########################################################
         // Specifications
 
@@ -54,9 +55,11 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
             .Sign()
         );
 
+
         //########################################################
         // Specifications
         //########################################################
+
         public static Stage SignedSpecifications = Stage.Create(c => c
             .Caption("{Specifications Signed}").Icon("Icons/Workflows/Specifications").SubIcon("Icons/Workflows/Sign")
             .When(e => e.Target.SpecificationDone)
@@ -76,11 +79,12 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action ValidateSpecifications = Action.Create(c => c
             .Caption("{Validate}").Icon("Icons/Validations/Validated")
-            .FromStage(() => SignedSpecifications)
+            .FromStage(() => SignedSpecifications, () => Specifications)
             .NeedRight(() => AnalysisRights.AnalysisMonographValidate)
             .ToStage(() => Scheduling)
             .Sign()
         );
+
 
         //########################################################
         //Correction Needed
@@ -94,8 +98,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action Correction = Action.Create(c => c
             .Caption("{Correct}").Icon("Icons/Workflows/Correct")
-            .FromStage(() => CorrectionNeeded, () => SignedSpecifications, () => Scheduling, () => Scheduled, () => Running)
-            .NeedRight(() => AnalysisRights.AnalysisMonographValidate)
+            .FromStage(() => CorrectionNeeded, () => SignedSpecifications)
+            .NeedRight(() => AnalysisRights.AnalysisMonographSign)
             .ToStage(() => Specifications)
             .Backward().Motivate()
         );
@@ -105,6 +109,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
         // Scheduling
 
         public static Stage Scheduling = Stage.Create(c => c
+            .WhenStageAllowed(() => SignedSpecifications)
             .Caption("{Scheduling}")
             .Icon("Icons/Workflows/Planning")
             .Progress(0.3).Action(w => w.Target.Progress = 0.3)
@@ -115,6 +120,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
            .FromStage(() => Scheduling)
            .ToStage(() => Scheduled)
         );
+
 
         //########################################################
         // Scheduled
@@ -142,6 +148,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
            .Backward()
            .Motivate()
         );
+
 
         //########################################################
         // Running
