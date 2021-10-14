@@ -20,7 +20,7 @@
              xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
              xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
              xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
-             xmlns:viewModels="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products.ViewModels"
+             xmlns:viewModels="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products.ViewModels" xmlns:audittrails="clr-namespace:HLab.Erp.Acl.AuditTrails;assembly=HLab.Erp.Acl.Wpf"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModelDesign}, IsDesignTimeCreatable=True}"             
              d:DesignHeight="1200" d:DesignWidth="500"
@@ -41,28 +41,9 @@
 
         <controlsEx:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
-                <!--<views1:DetailView EditMode="{Binding EditMode}" Text="{}{Audit}" IconPath = "Icons/Sample/Folder">-->
-                        <Expander x:Name="AuditExpender">
-                            <Expander.Header>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <lang:LocalizedLabel Grid.Column="0" Text="{}{Audit}"/>
-                                    <CheckBox Grid.Column="1" IsChecked="{Binding AuditDetail}" Visibility="{Binding ElementName=AuditExpender, Path=IsExpanded, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                        <lang:LocalizedLabel Text="{}{Detail}"/>
-                                    </CheckBox>
-                                </Grid>
-                            </Expander.Header>
-                            <mvvm:ViewLocator 
-                                Grid.Row="1"
-                                Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
-                                ViewClass="{x:Type annotations:IViewClassContent}"
-                                Model="{Binding AuditTrail}"
-                            />
-                        </Expander>
-                <!--</views1:DetailView>-->
+                
+                <audittrails:EntityAuditTrailListView/>
+                
                 <!-- RECORD -->            
                 <core.Views:DetailView EditMode="{Binding EditMode}" Text="{}{Record}" IconPath = "Icons/Sample/Folder">
 

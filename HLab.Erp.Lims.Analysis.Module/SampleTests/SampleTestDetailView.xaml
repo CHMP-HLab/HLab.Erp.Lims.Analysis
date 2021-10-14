@@ -14,7 +14,7 @@
              xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
              xmlns:wpf1="clr-namespace:HLab.Icons.Wpf;assembly=HLab.Icons.Wpf"
              xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
-             xmlns:entities="clr-namespace:HLab.Erp.Lims.Analysis.Data.Entities;assembly=HLab.Erp.Lims.Analysis.Data"
+             xmlns:entities="clr-namespace:HLab.Erp.Lims.Analysis.Data.Entities;assembly=HLab.Erp.Lims.Analysis.Data" xmlns:audittrails="clr-namespace:HLab.Erp.Acl.AuditTrails;assembly=HLab.Erp.Acl.Wpf"
              Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
              d:DataContext="{d:DesignInstance {x:Type sampleTests:SampleTestViewModelDesign}, IsDesignTimeCreatable=True}"             
              mc:Ignorable="d" 
@@ -31,26 +31,7 @@
         <controlsEx:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
                 
-                <Expander x:Name="AuditExpender">
-                    <Expander.Header>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <lang:LocalizedLabel Grid.Column="0" Text="{}{Audit}"/>
-                            <CheckBox Grid.Column="1" IsChecked="{Binding AuditDetail}" Visibility="{Binding ElementName=AuditExpender, Path=IsExpanded, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <lang:LocalizedLabel Text="{}{Detail}"/>
-                            </CheckBox>
-                        </Grid>
-                    </Expander.Header>
-                    <mvvm:ViewLocator 
-                        Grid.Row="1"
-                        Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
-                        ViewClass="{x:Type annotations:IViewClassContent}"
-                        Model="{Binding AuditTrail}"
-                    />
-                </Expander>
+                <audittrails:EntityAuditTrailListView/>
                 
                 <views:DetailView 
                     IconPath="{Binding Model.TestClass.IconPath}" 
