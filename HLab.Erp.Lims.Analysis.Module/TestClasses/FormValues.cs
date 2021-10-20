@@ -29,14 +29,17 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             }
         }
 
-        public void Migrate(string oldName, string newName)
+        public string Migrate(string oldName,params string[] newNames)
         {
             if(_dict.TryGetValue(oldName, out var value))
             {
-                _dict.TryAdd(newName,value);
+                foreach(var newName in newNames) _dict.TryAdd(newName,value);
                 _dict.Remove(oldName);
+                return value;
             }
+            return null;
         }
+
         public void Migrate(string oldName, string newName, string trueValue)
         {
             if(_dict.TryGetValue(oldName, out var value))

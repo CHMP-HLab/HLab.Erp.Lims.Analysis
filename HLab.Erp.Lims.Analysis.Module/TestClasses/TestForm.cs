@@ -197,6 +197,15 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 action();
             }
         }
+        private void SetBrush(FrameworkElement element, Brush brush)
+        {
+            if(element is Control control)
+                SetBrush(control, brush);
+            else
+            if(element is TextBlock textBlock)
+                SetBrush(textBlock, brush);
+            
+        }
 
         private void SetBrush(Control control, Brush brush)
         {
@@ -214,45 +223,29 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         private void SetBrush(TextBlock control, Brush brush)
         {
             var oldBrush = control.Background;
-            //var oldThickness = control.BorderThickness;
             control.Background = brush;
-            //control.BorderThickness = OnThickness;
             _cache.Add(() =>
             {
                 control.Background = oldBrush;
-                //control.BorderThickness = oldThickness;
             });
         }
 
-        public void NotConform(Control control)
+        public void NotConform(params FrameworkElement[] elements)
         {
             Target.ConformityId = ConformityState.NotConform;
-            SetBrush(control, NotConformBrush);
+            foreach(var element in elements) SetBrush(element, NotConformBrush);
         }
-        public void Conform(Control control)
+
+        public void Conform(params FrameworkElement[] elements)
         {
             Target.ConformityId = ConformityState.Conform;
-            SetBrush(control, ConformBrush);
+            foreach(var element in elements) SetBrush(element, ConformBrush);
         }
-        public void Invalid(Control control)
+
+        public void Invalid(params FrameworkElement[] elements)
         {
             Target.ConformityId = ConformityState.Invalid;
-            SetBrush(control, InvalidBrush);
-        }
-        public void NotConform(TextBlock control)
-        {
-            Target.ConformityId = ConformityState.NotConform;
-            SetBrush(control, NotConformBrush);
-        }
-        public void Conform(TextBlock control)
-        {
-            Target.ConformityId = ConformityState.Conform;
-            SetBrush(control, ConformBrush);
-        }
-        public void Invalid(TextBlock control)
-        {
-            Target.ConformityId = ConformityState.Invalid;
-            SetBrush(control, InvalidBrush);
+            foreach(var element in elements) SetBrush(element, InvalidBrush);
         }
 
         public abstract string GetPackedValues();
@@ -516,6 +509,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
         public static double Csd(string str)
         {
+            if(String.IsNullOrWhiteSpace(str)) return 0.0;
+
             str = str.Replace(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator, ".", StringComparison.InvariantCulture);
             try
             {
