@@ -47,8 +47,12 @@
        </Style.Triggers>-->
     </Style>
 
-    <Style TargetType="{x:Type wpf:TextBoxEx}" x:Key="{x:Type wpf:TextBoxEx}" BasedOn="{StaticResource {x:Type TextBox}}">
-        <!--<EventSetter Event="DoubleChange" Handler="TextBoxEx_DoubleChange" />-->
+    <Style TargetType="{x:Type wpf:TextBoxEx}" x:Key="{x:Type wpf:TextBoxEx}" BasedOn="{StaticResource {x:Type TextBox}}"/>
+
+    <Style TargetType="{x:Type lang:Localize}" x:Key="{x:Type lang:Localize}">
+        <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.SemiTransparentGray}"/>
+        <Setter Property="FontSize" Value="3"/>
+        <Setter Property="Padding" Value="0"/>
     </Style>
 
     <Style TargetType="{x:Type CheckBox}" x:Key="{x:Type CheckBox}">

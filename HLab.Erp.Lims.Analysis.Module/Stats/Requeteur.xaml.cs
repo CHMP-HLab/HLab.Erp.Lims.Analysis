@@ -52,71 +52,6 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void BT_Executer_Click(object sender, RoutedEventArgs e)
-        {
-            // Démarre le chronomètre
-            Stopwatch chrono = new Stopwatch();
-            chrono.Start();
-
-            try
-            {
-                // Requete
-                String requete = TB_Requeteur.Text;// new TextRange(RTB_Requeteur.Document.ContentStart, RTB_Requeteur.Document.ContentEnd).Text;
-                requete = requete.Replace("{1}", TB_Parametre1.Text);
-                requete = requete.Replace("{2}", TB_Parametre2.Text);
-                requete = requete.Replace("{3}", TB_Parametre3.Text);
-                requete = requete.Replace("{4}", TB_Parametre4.Text);
-                requete = requete.Replace("\r", "").Replace("\n", " ");
-
-
-                // Execute la requete
-                //Sql.Lit lit = new Sql.Lit(requete);
-                using var con = new NpgsqlConnection(_data.ConnectionString);
-                DG_Resultats.Columns.Clear();
-                con.Open();
-                using var cmd = new NpgsqlCommand(Requete.Query, con);
-                var reader = cmd.ExecuteReader();
-                if (!reader.HasRows)
-                    throw new Exception("Résultat vide");
-
-                var cols = reader.GetColumnSchema();
-                for (int i = 1; i < cols.Count; i++)
-                {
-                    //Console.WriteLine(lit._Proprietes[i]);
-                    DataGridTextColumn colonne = new DataGridTextColumn();
-                    colonne.Header = cols[i].ColumnName;
-                    colonne.Binding = new Binding(cols[i].ColumnName);
-                    colonne.Width = new DataGridLength(1.0 / cols.Count, DataGridLengthUnitType.Star);
-                    DG_Resultats.Columns.Add(colonne);
-                }
-
-                var list = new ObservableCollection<Ligne>();
-
-                while (reader.Read())
-                {
-                    var ligne = new Ligne{
-                        _Proprietes=cols.Select(c => c.ColumnName).ToArray(),
-                        _Valeurs = new String[cols.Count]
-                        };
-                    for (int i = 1; i < cols.Count; i++)
-                    {
-                        ligne._Valeurs[i] = reader.GetFieldValue<string>(i);
-                    }
-                    list.Add(ligne);
-                }
-
-                DG_Resultats.ItemsSource = list;
-                L_NbResultats.Content = reader.RecordsAffected.ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "ERREUR dans la requete", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-            // Arrête le chronomètre
-            chrono.Stop();
-            Console.WriteLine(chrono.Elapsed.TotalMilliseconds.ToString("0,0.00") + " ms");
-        }
 
 
         /********************************************************************************************************************************************************************************************************************************************************************************
@@ -355,43 +290,6 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void BT_Excel_Click(object sender, RoutedEventArgs e)
-        {
-            // Vérifie qu'il y a bien quelque chose à exporter
-            if (DG_Resultats.Items.Count == 0)
-            {
-                MessageBox.Show("Aucun résultat à exporter !", "Exportation Excel", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            // Emplacement du fichier
-            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-            dlg.FileName = "Export"; // Default file name
-            dlg.DefaultExt = ".csv"; // Default file extension
-            dlg.Filter = "Spérateur point-virgule (.csv)|*.csv"; // Filter files by extension
-            if (dlg.ShowDialog() != true)
-                return;
-
-            // Les colonnes
-            StringBuilder contenu = new StringBuilder(10000000);
-            int nbColonnes = DG_Resultats.Columns.Count;
-            for (int c = 0; c < nbColonnes - 1; c++)
-                contenu.Append(ValeurPourCsv(DG_Resultats.Columns[c].Header) + ";");
-            contenu.Append(ValeurPourCsv(DG_Resultats.Columns[nbColonnes - 1].Header) + "\r\n");
-
-
-            // Les lignes
-            //foreach (Sql.Ligne ligne in DG_Resultats.Items)
-            //{
-            //    for (int c = 1; c < nbColonnes; c++)
-            //        contenu.Append(ValeurPourCsv(ligne[c]) + ";");
-            //    contenu.Append(ValeurPourCsv(ligne[nbColonnes]) + "\r\n");
-            //}
-
-            // Enregistre le fichier
-            File.WriteAllText(dlg.FileName, contenu.ToString(), Encoding.UTF8);
-        }
-
 
         /********************************************************************************************************************************************************************************************************************************************************************************
         * 
@@ -399,24 +297,6 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private string ValeurPourCsv(object value)
-        {
-            if (value == null) return "";
-            //if(value is Nullable && ((INullable)value).IsNull) return "";
-
-            if (value is DateTime)
-            {
-                if (((DateTime)value).TimeOfDay.TotalSeconds == 0)
-                    return ((DateTime)value).ToString("dd/MM/yyyy");
-                return ((DateTime)value).ToString("dd/MM/yyyy HH:mm:ss");
-            }
-            string output = value.ToString();
-
-            if (output.Contains(";") || output.Contains("\""))
-                output = '"' + output.Replace("\"", "\"\"") + '"';
-
-            return output;
-        }
 
 
         /********************************************************************************************************************************************************************************************************************************************************************************

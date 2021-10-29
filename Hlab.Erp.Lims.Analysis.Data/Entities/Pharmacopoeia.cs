@@ -25,6 +25,13 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
         }
         private readonly IProperty<string> _abbreviation = H.Property<string>(c => c.Default(""));
 
+        public string LastVersion
+        {
+            get => _lastVersion.Get();
+            set => _lastVersion.Set(value);
+        }
+        private readonly IProperty<string> _lastVersion = H.Property<string>(c => c.Default(""));
+
 
         public string Url
         {
