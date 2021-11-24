@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -11,6 +12,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Module.Stats;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Application;
 
@@ -23,13 +25,10 @@ namespace Outils
     /// <summary>
     /// Logique d'interaction pour Requeteur.xaml
     /// </summary>
-    public partial class Requeteur : UserControl, IView<Requete> , IViewClassDocument
+    public partial class StatQueryView : UserControl, IView<QueryViewModel> , IViewClassDocument
     {
-        DataService _data;
-        public Requeteur(DataService data)
+        public StatQueryView()
         {
-            _data = data;
-
             InitializeComponent();
 
             if (DesignerProperties.GetIsInDesignMode(this))
@@ -37,9 +36,46 @@ namespace Outils
 
             G_Requete.Visibility = System.Windows.Visibility.Collapsed;
             RafraichieRequetes();
+
+            this.DataContextChanged += StatQueryView_DataContextChanged;
         }
 
-        private Requete Requete => DataContext as Requete;
+        private void StatQueryView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if(e.OldValue is QueryViewModel oldVm)
+            {
+                oldVm.Columns.CollectionChanged -= Columns_CollectionChanged;
+                DG_Resultats.Columns.Clear();
+            }
+            if(e.NewValue is QueryViewModel vm)
+            {
+                vm.Columns.CollectionChanged += Columns_CollectionChanged;
+            }
+        }
+
+        private void Columns_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch(e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach(var name in e.NewItems.OfType<string>()) AddColumn(name);
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    DG_Resultats.Columns.Clear();
+                    break;
+            }
+        }
+
+        private void AddColumn(string name)
+        {
+            DataGridTextColumn colonne = new();
+            colonne.Header = name;
+            colonne.Binding = new Binding(name);
+            colonne.Width = new DataGridLength(1.0, DataGridLengthUnitType.Star);
+            DG_Resultats.Columns.Add(colonne);
+        }
 
         private int IdRequete = int.MinValue;
 

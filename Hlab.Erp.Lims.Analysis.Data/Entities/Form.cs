@@ -1,7 +1,6 @@
 using HLab.Erp.Data;
 using HLab.Mvvm.Application;
 using HLab.Notify.PropertyChanged;
-using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data.Entities
 {
@@ -36,11 +35,11 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
         }
         private readonly IProperty<string> _iconPath = H.Property<string>();
 
-        [Ignore]
-        public string Caption => Name;
+        public string Caption => _caption.Get();
         private readonly IProperty<string> _caption = H.Property<string>(c => c
+            .Set(e => string.IsNullOrWhiteSpace(e.Name)?"{New product form}":e.Name)
             .On(e => e.Name)
-            .Set(e => e.Name)
+            .Update()
         );
 
     }

@@ -1,13 +1,14 @@
 ﻿using System;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Data;
+using HLab.Mvvm.Application;
 using HLab.Notify.PropertyChanged;
 using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data.Entities
 {
     using H = HD<SampleForm>;
-    public class SampleForm : Entity, IFormTarget
+    public class SampleForm : Entity, IFormTarget, IListableModel
     {
         public SampleForm() => H.Initialize(this);
         
@@ -100,5 +101,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             get => FormClass.Name;
             set => FormClass.Name = value;
         }
+
+        public string Caption => throw new NotImplementedException();
     }
 }

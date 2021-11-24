@@ -3,8 +3,8 @@
     public enum FormMode
     {
         NotSet = 0,
-        Specification,
-        Capture,
-        ReadOnly
+        ReadOnly = 1,
+        Specification = 2,
+        Capture = 3,
     }
 }

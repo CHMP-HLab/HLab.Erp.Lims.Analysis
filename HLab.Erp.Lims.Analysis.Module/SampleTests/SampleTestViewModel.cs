@@ -360,13 +360,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .Update()
         );
 
-        public string ConformityIconPath => _conformityIconPath.Get();
-
-        private readonly IProperty<string> _conformityIconPath = H.Property<string>(c => c
-            .Set(e => (e.Model.Result?.ConformityId??ConformityState.NotChecked).IconPath())         
-            .On(e => e.Model.Result.ConformityId)
-            .Update()
-        );
 
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {

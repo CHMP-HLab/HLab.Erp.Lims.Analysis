@@ -136,10 +136,23 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         public IForm Create()
         {
             var form = _type != null ? (IForm)Activator.CreateInstance(_type) : new DummyForm();
+            var ui = GetXamlUi();
+
+            List<FrameworkElement> namedElements = new ();
+            foreach(var element in NamedElements)
+            {
+                var obj = ui.FindName(element.Key);
+                if(obj is FrameworkElement fe)
+                    namedElements.Add(fe);
+                else
+                    throw new Exception("Element not found");
+
+                form.NamedElements = namedElements;
+            }
 
             if(form is UserControl e)
             {
-                e.Content = GetXamlUi();
+                e.Content = ui;
             }
 
             return form;
@@ -172,9 +185,11 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         protected virtual CompileError TranslateXamlError(CompileError error) => error;
         protected virtual CompileError TranslateCsError(CompileError error) => error;
 
+
         private Dictionary<string,ElementInfo> GetNamedElements(FrameworkElement e) => e
             .FindLogicalChildren<FrameworkElement>()
             .Where(fe => !string.IsNullOrEmpty(fe.Name) && fe.Name!= "formulaContainerElement")
+            .GroupBy(fe => fe.Name).Where(g => g.Count()==1).Select(g => g.First())
             .ToDictionary(fe => fe.Name, fe => new ElementInfo(fe.Name, fe.GetType(), GetElementLevel(fe)));
 
         protected ElementLevel GetElementLevel(FrameworkElement fe)
@@ -234,34 +249,42 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         protected string BuildGetPacketValuesFunction(string functionName,params ElementLevel[] levels)
         {
             StringBuilder sb = new();
-            sb.Append($"public override string {functionName}()=>new StringBuilder()");
+            sb.Append($"public override string {functionName}()=>$\"");
 
             foreach (var e in NamedElements.Values.Where(e => levels.Contains(e.Level)))
             {
                 sb.Append(AppendValue(e));
             }
 
-            sb.Append(".ToString();");
+            sb.Append("\";");
             return sb.ToString();
         }
 
         private static string AppendValue(ElementInfo element)
         {
             if(element.Type.IsAssignableTo(typeof(TextBlock)))
-                    return $".Append($\"{element.Name}={{Sanitize({element.Name}.Text)}}■\")";// Le séparateur est un ALT + 254
-            if (element.Type.IsAssignableTo(typeof(TextBoxEx)))
-                    return $".Append($\"{element.Name}={{{element.Name}.Double}}■\")";// Le séparateur est un ALT + 254
+                    return $"{element.Name}={{Sanitize({element.Name}.Text)}}■";// Le séparateur est un ALT + 254
+
+            if (element.Type.IsAssignableTo(typeof(IDoubleProvider)))
+                    return $"{element.Name}={{{element.Name}.Double}}■";// Le séparateur est un ALT + 254
+
             if (element.Type.IsAssignableTo(typeof(TextBox)))
-                    return $".Append($\"{element.Name}={{Sanitize({element.Name}.Text)}}■\")";
+                    return $"{element.Name}={{Sanitize({element.Name}.Text)}}■";
+
             if (element.Type.IsAssignableTo(typeof(CheckBox)))
                 if (element.Name.Contains("__"))
                 {
                     var cbValue = element.Name.Replace("__", "=");
-                    return $".Append({element.Name}.IsChecked==true?\"{cbValue}■\":\"\")";
+
+                    //CheckBox cb = new CheckBox();
+                    //var test = $"{(cb.IsChecked==true?$"{cbValue}■":"")}";
+                    return $"{{({element.Name}.IsChecked==true?$\"{cbValue}■\":\"\")}}";
                 }
                 else
                 {
-                    return $".Append(\"{element.Name}\").Append({element.Name}.IsChecked switch {{null => \"=N■\", false => \"=0■\", true => \"=1■\"}})";
+                    //CheckBox cb = new CheckBox();
+                    //var test = $"={cb.IsChecked switch {null => 'N', false => '0', true => '1'}}■";
+                    return $"{element.Name}={{{element.Name}.IsChecked switch {{null => 'N', false => '0', true => '1'}}}}■";
                 }
             return "";
         }

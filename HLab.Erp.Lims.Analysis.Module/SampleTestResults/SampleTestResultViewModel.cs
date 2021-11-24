@@ -3,7 +3,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Xaml;
+using System.Xml;
 using HLab.Base.Extensions;
 using HLab.Erp.Acl;
 using HLab.Erp.Conformity.Annotations;
@@ -115,31 +120,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             .Update()
         );
 
-        public string Conformity => _conformity.Get();
-        private readonly IProperty<string> _conformity = H.Property<string>(c => c
-            .Set(e =>
-                {
-                    return e.Model.ConformityId switch
-                    {
-                        ConformityState.NotChecked => "{Not Started}",
-                        ConformityState.Running => "{Running}",
-                        ConformityState.NotConform => "{Not Conform}",
-                        ConformityState.Conform => "{Conform}",
-                        ConformityState.Invalid => "{Not Valid}",
-                        _ => throw new NotImplementedException(),
-                    };
-                }
-            )
-            .On(e => e.Model.ConformityId)
-            .Update()
-        );
-
-        public string ConformityIconPath => _conformityIconPath.Get();
-        private readonly IProperty<string> _conformityIconPath = H.Property<string>(c => c
-            .Set(e => e.Model.ConformityId.IconPath())
-            .On(e => e.Model.ConformityId)
-            .Update()
-        );
 
         public SampleTestViewModel Parent
         {
@@ -191,6 +171,47 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             .Action((e, t) => e.OpenDocument(e.LinkedDocuments.Selected))
             .On(e => e.Workflow.CurrentStage).CheckCanExecute()
         );
+        public ICommand PrintCommand { get; } = H.Command(c => c
+            //.CanExecute(e => e._addDocumentCanExecute())
+            .Action((e, t) => e.Print())
+            .On(e => e.Workflow.CurrentStage).CheckCanExecute()
+        );
+
+        private void Print()
+        {
+            PrintDialog printDialog = new PrintDialog();
+            if (printDialog.ShowDialog() == true)
+            {
+                if (FormHelper.Form is Control visual)
+                {
+                    var f = visual.Foreground;
+                    var b = visual.Background;
+
+                    visual.Foreground = Brushes.Black;
+                    visual.Background = Brushes.White;
+
+                    var dic = new ResourceDictionary { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Themes/light.blue.xaml") };
+
+                    visual.Resources.MergedDictionaries.Add(dic);
+                     //           < ResourceDictionary Source = "pack://application:,,,/MahApps.Metro;component/Styles/Themes/light.blue.xaml" />
+
+                     //string xaml = XamlServices.Save(visual);
+
+                     //StringReader stringReader = new StringReader(xaml);
+                     //XmlReader xmlReader = XmlReader.Create(stringReader);
+                     //Visual visual2 = (Visual)XamlServices.Load(xmlReader);
+
+                     printDialog.PrintVisual( visual, "My First Print Job");
+
+                    visual.Foreground = f;
+                    visual.Background = b;
+
+                    visual.Resources.MergedDictionaries.Remove(dic);
+
+
+                }
+            }
+        }
 
         private void OpenDocument(LinkedDocument selected)
         {

@@ -13,5 +13,6 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         {
             InitializeComponent();
         }
+
     }
 }

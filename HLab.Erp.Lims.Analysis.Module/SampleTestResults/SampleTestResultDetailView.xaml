@@ -11,7 +11,7 @@
              xmlns:sampleTestResults="clr-namespace:HLab.Erp.Lims.Analysis.Module.SampleTestResults"
              xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
              xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
-             xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf" xmlns:audittrails="clr-namespace:HLab.Erp.Acl.AuditTrails;assembly=HLab.Erp.Acl.Wpf"
+             xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf" xmlns:audittrails="clr-namespace:HLab.Erp.Acl.AuditTrails;assembly=HLab.Erp.Acl.Wpf" xmlns:module="clr-namespace:HLab.Erp.Lims.Analysis.Module"
              Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
              d:DataContext="{d:DesignInstance {x:Type sampleTestResults:SampleTestResultViewModelDesign}, IsDesignTimeCreatable=True}"             
              mc:Ignorable="d" 
@@ -23,12 +23,20 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <workflows:WorkflowLockerView/>
+        <StackPanel>
+            <workflows:WorkflowLockerView/>
+            <audittrails:EntityAuditTrailListView/>
+            <Button HorizontalAlignment="Right" Command="{Binding PrintCommand}">
+                <icons:IconView Path="Icons/Printer" Height="30">
+                    <lang:Localize Id="{}{Print}"/>
+                </icons:IconView>
+            </Button>
+        </StackPanel>
 
         <controlsEx:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
                 
-                <audittrails:EntityAuditTrailListView/>
+                
                 
                 <views:DetailView
                                   EditMode="{Binding EditMode}"
@@ -39,10 +47,10 @@
                     <TextBox FontSize="16" HorizontalAlignment="Left" Text="{Binding Model.Name}" VerticalAlignment="Center" />
 
                     <lang:LocalizedLabel Text="{}{Start} : " HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
-                    <wpf:DateEx HorizontalAlignment="Left" Width="200" EmptyDayAllowed="False" ShowTime="True" Date="{Binding Model.Start}"/>
+                    <wpf:DateEx HorizontalAlignment="Left" Width="200" EmptyDayAllowed="False" ShowTime="True" DateUtc="{Binding Model.Start}"/>
 
                     <lang:LocalizedLabel Text="{}{End} : " HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
-                    <wpf:DateEx HorizontalAlignment="Left" Width="200" ShowTime="True" Date="{Binding Model.End}"/>
+                    <wpf:DateEx HorizontalAlignment="Left" Width="200" ShowTime="True" DateUtc="{Binding Model.End}"/>
 
                     <Grid Grid.ColumnSpan="2">
                         <Grid.ColumnDefinitions>
@@ -72,16 +80,13 @@
 
 
                     <lang:LocalizedLabel Text="{}{Conformity} : " HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                        <icons:IconView 
-                            Path="{Binding ConformityIconPath}" 
-                            IconMaxHeight="25"
-                            >
-                            <StackPanel>
-                                <lang:LocalizedLabel HorizontalAlignment="Left" Text="{Binding Conformity,Mode=OneWay}"/>
-                                <lang:LocalizedLabel HorizontalAlignment="Left" Text="{Binding ConformityIconPath,Mode=OneWay}"/>
-                            </StackPanel>
-                        </icons:IconView>
-                        <Label/>
+                    <module:ConformityIcon 
+                        Conformity="{Binding Model.ConformityId}" 
+                        IconMaxHeight="25"
+                        ShowCaption="True"
+                        />
+                    
+                    <Label/>
                </views:DetailView>
                 
                 <!-- DOCUMENTS -->

@@ -31,7 +31,11 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<int?> _priority = H.Property<int?>();
         [Ignore]
-        public string Caption => Name;
+        public string Caption => _caption.Get();
+        private readonly IProperty<string> _caption = H.Property<string>(c => c
+            .On(e => e.Name)
+            .Set(e => string.IsNullOrWhiteSpace(e.Name)?"{New test category}":$"{{Test category}}\n{e.Name}")
+        );
         public string IconPath
         {
             get => _iconPath.Get();

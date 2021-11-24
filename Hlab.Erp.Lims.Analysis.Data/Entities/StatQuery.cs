@@ -5,11 +5,11 @@ using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
-    using H = H<Requete>;
+    using H = H<StatQuery>;
 
-    public partial class Requete : Entity, IListableModel, ILocalCache
+    public partial class StatQuery : Entity, IListableModel, ILocalCache
     {
-        public Requete() => H.Initialize(this);
+        public StatQuery() => H.Initialize(this);
 
         public override string ToString() => Nom;
 
@@ -38,27 +38,26 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _p4.Get(); set => _p4.Set(value);
         }
         private readonly IProperty<string> _p4 = H.Property<string>(c => c.Default(""));
-        public string T1
+        public int T1
         {
             get => _t1.Get(); set => _t1.Set(value);
         }
-        private readonly IProperty<string> _t1 = H.Property<string>(c => c.Default(""));
-        public string T2
+        private readonly IProperty<int> _t1 = H.Property<int>();
+        public int T2
         {
-            get => _t2.Get(); set => _p2.Set(value);
+            get => _t2.Get(); set => _t2.Set(value);
         }
-        private readonly IProperty<string> _t2 = H.Property<string>(c => c.Default(""));
-        public string T3
+        private readonly IProperty<int> _t2 = H.Property<int>();
+        public int T3
         {
             get => _t3.Get(); set => _t3.Set(value);
         }
-        private readonly IProperty<string> _t3 = H.Property<string>(c => c.Default(""));
-        public string T4
+        private readonly IProperty<int> _t3 = H.Property<int>();
+        public int T4
         {
             get => _t4.Get(); set => _t4.Set(value);
         }
-        private readonly IProperty<string> _t4 = H.Property<string>(c => c.Default(""));
-        [Column("Requete")]
+        private readonly IProperty<int> _t4 = H.Property<int>();
         public string Query
         {
             get => _query.Get(); set => _query.Set(value);
@@ -74,19 +73,23 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _taillesColonnes.Get(); set => _taillesColonnes.Set(value);
         }
         private readonly IProperty<string> _taillesColonnes = H.Property<string>(c => c.Default(""));
-        public string Droit
-        {
-            get => _droit.Get(); set => _droit.Set(value);
-        }
-        private readonly IProperty<string> _droit = H.Property<string>(c => c.Default(""));
-        public string Cache
-        {
-            get => _cache.Get(); set => _cache.Set(value);
-        }
-        private readonly IProperty<string> _cache = H.Property<string>(c => c.Default(""));
+        //public string Droit
+        //{
+        //    get => _droit.Get(); set => _droit.Set(value);
+        //}
+        //private readonly IProperty<string> _droit = H.Property<string>(c => c.Default(""));
+        //public string Cache
+        //{
+        //    get => _cache.Get(); set => _cache.Set(value);
+        //}
+        //private readonly IProperty<string> _cache = H.Property<string>(c => c.Default(""));
 
         [Ignore]
-        public string Caption => "";
+        public string Caption => _caption.Get();
+        private readonly IProperty<string> _caption = H.Property<string>(c => c
+            .On(e => e.Nom)
+            .Set(e => string.IsNullOrWhiteSpace(e.Nom)?"{New motivation}":$"{{Motivation}}\n{e.Nom}")
+        );
 
         [Ignore]
         public string IconPath => "";

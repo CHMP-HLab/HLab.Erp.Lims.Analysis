@@ -1,4 +1,6 @@
 using System;
+
+using HLab.Base.Extensions;
 using HLab.Erp.Acl;
 using HLab.Erp.Base.Data;
 using HLab.Erp.Conformity.Annotations;
@@ -8,7 +10,6 @@ using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Mvvm.Application;
 using HLab.Notify.PropertyChanged;
-using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
@@ -30,7 +31,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _user.Id.Get(); 
             set => _user.Id.Set(value);
         }
-        [Ignore]
         public User User
         {
             get => _user.Get(); 
@@ -65,8 +65,8 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         public DateTime? ReceptionDate
         {
-            get => _receptionDate.Get();
-            set => _receptionDate.Set(value);
+            get => _receptionDate.Get().ToUniversalTime();
+            set => _receptionDate.Set(value.ToUniversalTime());
         }
         private readonly IProperty<DateTime?> _receptionDate = H.Property<DateTime?>();
 
@@ -98,8 +98,8 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         public DateTime? ExpirationDate
         {
-            get => _expirationDate.Get();
-            set => _expirationDate.Set(value);
+            get => _expirationDate.Get().ToUniversalTime();
+            set => _expirationDate.Set(value.ToUniversalTime());
         }
         private readonly IProperty<DateTime?> _expirationDate = H.Property<DateTime?>();
 
@@ -114,8 +114,8 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         public DateTime? ManufacturingDate
         {
-            get => _manufacturingDate.Get();
-            set => _manufacturingDate.Set(value);
+            get => _manufacturingDate.Get().ToUniversalTime();
+            set => _manufacturingDate.Set(value.ToUniversalTime());
         }
         private readonly IProperty<DateTime?> _manufacturingDate = H.Property<DateTime?>();
 
@@ -130,8 +130,8 @@ namespace HLab.Erp.Lims.Analysis.Data
         
         public DateTime? SamplingDate
         {
-            get => _samplingDate.Get();
-            set => _samplingDate.Set(value);
+            get => _samplingDate.Get().ToUniversalTime();
+            set => _samplingDate.Set(value.ToUniversalTime());
         }
         private readonly IProperty<DateTime?> _samplingDate = H.Property<DateTime?>();
 
@@ -266,8 +266,8 @@ namespace HLab.Erp.Lims.Analysis.Data
 
          public DateTime? NotificationDate
         {
-            get => _notificationDate.Get();
-            set => _notificationDate.Set(value);
+            get => _notificationDate.Get().ToUniversalTime();
+            set => _notificationDate.Set(value.ToUniversalTime());
         }
         private readonly IProperty<DateTime?> _notificationDate = H.Property<DateTime?>();
 
@@ -278,8 +278,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _validator.Id.Set(value);
         }
 
-
-        [Ignore]
         public User Validator
         {
             get => _validator.Get();
@@ -311,13 +309,13 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<ConformityState> _conformityId = H.Property<ConformityState>();
 
-        [Column("Stage")]
         public string StageId
         {
             get => _stageId.Get();
             set => _stageId.Set(value);
         }
         private readonly IProperty<string> _stageId = H.Property<string>();
+
         public string PreviousStageId
         {
             get => _previousStageId.Get();
@@ -325,7 +323,6 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<string> _previousStageId = H.Property<string>();
 
-        [Ignore]
         public SampleWorkflow.Stage Stage
         {
             get => _stage.Get();
@@ -343,11 +340,10 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _customer.Id.Get();
             set => _customer.Id.Set(value);
         }
-        [Ignore]
         public Customer Customer
         {
             get => _customer.Get();
-            set => CustomerId = value.Id;
+            set => CustomerId = value?.Id;
         }
         private readonly IForeign<Customer> _customer = H.Foreign<Customer>();
 
@@ -357,7 +353,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _manufacturer.Id.Get();
             set => _manufacturer.Id.Set(value);
         }
-        [Ignore]
         public virtual Manufacturer Manufacturer
         {
             get => _manufacturer.Get();
@@ -371,7 +366,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _pharmacopoeia.Id.Get();
             set => _pharmacopoeia.Id.Set(value);
         }
-        [Ignore]
         public Pharmacopoeia Pharmacopoeia
         {
             get => _pharmacopoeia.Get();
@@ -385,7 +379,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _product.Id.Get();
             set => _product.Id.Set(value);
         }
-        [Ignore]
         public Product Product
         {
             get => _product.Get();
@@ -398,7 +391,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _analysisMotivation.Id.Get();
             set => _analysisMotivation.Id.Set(value);
         }
-        [Ignore]
         public AnalysisMotivation AnalysisMotivation
         {
             get => _analysisMotivation.Get();
@@ -406,13 +398,12 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IForeign<AnalysisMotivation> _analysisMotivation = H.Foreign<AnalysisMotivation>( );
 
-        [Ignore] public ObservableQuery<SampleTest> SampleTests => _sampleTests.Get();
+        public ObservableQuery<SampleTest> SampleTests => _sampleTests.Get();
         private readonly IProperty<ObservableQuery<SampleTest>> _sampleTests = H.Property<ObservableQuery<SampleTest>>(c => c
             .Foreign(e => e.SampleId)
         );
 
         
-        [Ignore]
         public static Sample DesignModel => new Sample
         {
                 Reference = "0042/11/2019",
@@ -446,7 +437,6 @@ namespace HLab.Erp.Lims.Analysis.Data
         }
         private readonly IProperty<string> _invoiceNo = H.Property<string>();
 
-        [Ignore]
         public bool Expired => _expired.Get();
         private readonly IProperty<bool> _expired = H.Property<bool>(c =>
             c.On(e => e.ExpirationDate).Set(e =>
@@ -455,7 +445,6 @@ namespace HLab.Erp.Lims.Analysis.Data
                 return DateTime.Now > e.ExpirationDate;
             }));
 
-        [Ignore]
         public TimeSpan Life => _life.Get();
         private readonly IProperty<TimeSpan> _life = H.Property<TimeSpan>(c => c
             .On(e => e.ExpirationDate)
@@ -470,7 +459,6 @@ namespace HLab.Erp.Lims.Analysis.Data
                 return e.ExpirationDate.Value - e.ManufacturingDate.Value;
             }));
 
-        [Ignore]
         public bool EndOfLife => _endOfLife.Get();
         private readonly IProperty<bool> _endOfLife = H.Property<bool>(c => c
             .On(e => e.ExpirationDate)
@@ -481,10 +469,11 @@ namespace HLab.Erp.Lims.Analysis.Data
                 return DateTime.Now > e.ExpirationDate.Value.Subtract(new TimeSpan(e.Life.Ticks / 3));
             }));
 
-        [Ignore]
-        public string Caption => Reference;
+        public string Caption => _caption.Get();
+        private readonly IProperty<string> _caption = H.Property<string>(c => c
+            .On(e => e.Reference)
+            .Set(e => string.IsNullOrWhiteSpace(e.Reference)?"{New sample}":e.Reference)
+        );
 
-        [Ignore]
-        public string IconPath => "Icons/Entities/Sample";
     }
 }

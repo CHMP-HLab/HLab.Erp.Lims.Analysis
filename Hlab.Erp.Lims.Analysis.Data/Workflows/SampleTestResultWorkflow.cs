@@ -86,7 +86,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
         public static Action AskForCorrection3 = Action.Create(c => c
             .Caption("{Ask for correction}").Icon("Icons/Workflows/Correct")
             .FromStage(() => Validated, () => Invalidated)
-            .When(w => w.Target.SampleTest?.Stage == SampleTestWorkflow.Running)
+            .When(w => w.Target.SampleTest?.Stage == SampleTestWorkflow.Running) // Todo : ajouter un motif
             .ToStage(() => CorrectionNeeded).Backward().Motivate()
             .NeedRight(() => AnalysisRights.AnalysisResultValidate)
         );

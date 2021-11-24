@@ -47,13 +47,13 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
             return c
                     .StaticFilter(u =>u.TestClassId == testClass.Id && list.Id>=0)
-                .Column()
+                .Column("Name")
                 .Header("{Name}").Width(200)
                 .Link(s => s.Name)
                     .Filter()
-                .Column()
-                .Id("error").Header("{Error}").Content(s => list._failedTests.Contains(s.Id) ? list._errors[s.Id] : "OK").Width(150)
-                            .Icon(s => list._failedTests.Contains(s.Id) ? "Icons/Conformity/CheckFailed" : list._passedTests.Contains(s.Id) ? "Icons/Conformity/CheckPassed" : "Icons/Conformity/Invalid")
+                .Column("error")
+                    .Header("{Error}").Content(s => list._failedTests.Contains(s.Id) ? list._errors[s.Id] : "OK").Width(150)
+                    .Icon(s => list._failedTests.Contains(s.Id) ? "Icons/Conformity/CheckFailed" : list._passedTests.Contains(s.Id) ? "Icons/Conformity/CheckPassed" : "Icons/Conformity/Invalid")
                 ;
         }
         )

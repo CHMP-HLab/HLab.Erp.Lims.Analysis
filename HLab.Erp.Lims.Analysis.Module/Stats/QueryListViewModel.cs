@@ -6,7 +6,7 @@ using HLab.Erp.Lims.Analysis.Data;
 
 namespace HLab.Erp.Lims.Analysis.Module.Stats
 {
-    public class QueryListViewModel : EntityListViewModel<Requete>
+    public class QueryListViewModel : EntityListViewModel<StatQuery>
     {
         public class Bootloader : NestedBootloader
         {
@@ -14,7 +14,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
         }
 
         public QueryListViewModel() : base(c => c
-            .Column()
+            .Column("Name")
                 .Header("{Name}")
                 .Width(500)
                 .Link(s => s.Nom)

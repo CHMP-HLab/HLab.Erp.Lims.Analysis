@@ -1,7 +1,6 @@
 ﻿using HLab.Erp.Data;
 using HLab.Mvvm.Application;
 using HLab.Notify.PropertyChanged;
-using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data.Entities
 {
@@ -53,8 +52,11 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
         }
         private readonly IProperty<int?> _priority = H.Property<int?>();
 
-        [Ignore]
-        public string Caption => Name;
+        public string Caption => _caption.Get();
+        private readonly IProperty<string> _caption = H.Property<string>(c => c
+            .On(e => e.Name)
+            .Set(e => string.IsNullOrWhiteSpace(e.Name)?"{New product category}":e.Name)
+        );
         public string IconPath
         {
             get => _iconPath.Get();

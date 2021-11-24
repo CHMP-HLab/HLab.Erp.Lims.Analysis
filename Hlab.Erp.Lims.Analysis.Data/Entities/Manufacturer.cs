@@ -2,7 +2,6 @@ using HLab.Erp.Base.Data;
 using HLab.Erp.Data;
 using HLab.Mvvm.Application;
 using HLab.Notify.PropertyChanged;
-using NPoco;
 
 namespace HLab.Erp.Lims.Analysis.Data
 {
@@ -12,16 +11,14 @@ namespace HLab.Erp.Lims.Analysis.Data
     {
         public Manufacturer() => H.Initialize(this);
 
-        [Ignore]
         public string Caption => _caption.Get();
         private readonly IProperty<string> _caption = H.Property<string>(c => c
+            .Set(e => string.IsNullOrWhiteSpace(e.Name)?"{New manufacturer}":e.Name)
             .On(e => e.Name)
-            .On(e => e.Id)
-            //TODO : localize
-            .Set(e => (e.Id < 0 && string.IsNullOrEmpty(e.Name)) ? "Nouveau client" : e.Name)
+            .Update()
         );
 
-        [Ignore] public string IconPath => _iconPath.Get();
+        public string IconPath => _iconPath.Get();
         private readonly IProperty<string> _iconPath = H.Property<string>(c => c
             .Set(e => e.Country?.IconPath)
             .On(e => e.Country.IconPath)

@@ -22,43 +22,43 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         public SamplesListViewModel() : base(c => c
 
-                .Column()
+                .Column("Reference")
                     .Header("{Reference}")
                     .Width(80)
                     .Link(s => s.Reference)
                         .Filter()
                         .IconPath("Icons/Entities/Sample")
 
-                .Column()
+                .Column("FieldId")
                     .Header("{FileId}")
                     .Width(100)
                     .OrderBy(s => s.FileId)
                     .Link(s => s.FileId)
                         .Filter()
 
-                .Column()
+                .Column("Reception")
                 .Header("{Reception}")
                 .Width(75)
 //                .OrderByOrder(0)
                 .Link(s => s.ReceptionDate)
                 .Filter()
 
-                .Column(e => e.Customer).Mvvm().Width(250)
+                .Column(e => e.Customer, "Customer").Mvvm().Width(250)
 
-                .Column(e => e.Product).Mvvm().Width(550)
+                .Column(e => e.Product, "Product").Mvvm().Width(550)
 
                 //.PostLinkedColumn(s => s.Product?.Form, s => s.Product?.FormId)
 
 
-                .Column(e => e.Manufacturer).Mvvm().Width(250)
+                .Column(e => e.Manufacturer, "Manufacturer").Mvvm().Width(250)
 
-                .Column()
+                .Column("Qty")
                 .Header("{Qty}")
                 .Width(50)
                 .Content(s => s.ReceivedQuantity)
                 // TODO :create IntFilter                        .Filter()
 
-                .Column()
+                .Column("Expiration")
                 .Header("{Expiration}")
                 .Width(75)
                 .OrderBy(s => s.ExpirationDate)
@@ -72,7 +72,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 .IconPath("Icons/Sample/Date")
                 .Link(s => s.ExpirationDate)
 
-                .Column()
+                .Column("Notification")
                 .Header("{Notification}")
                 .Width(75)
                 .Content(s => s.NotificationDate?.ToString("dd/MM/yyyy") ?? "")
@@ -82,7 +82,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                         .MaxDate(DateTime.Now.AddYears(10))
                         .IconPath("Icons/Sample/Notification|Icons/Sample/Date")
 
-                .Column()
+                .Column("Validator")
                     .Header("{Validator}")
                     .Width(140)
                     .Content(s => s.Validator)
@@ -94,18 +94,18 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
                 .StageColumn(default(SampleWorkflow), s => s.StageId)
 
-                .Column().Hidden()
+                .Column("Pharmacopoeia").Hidden()
                     .Header("{Pharmacopoeia}")
                     .Link(s => s.Pharmacopoeia).Mvvm()
                     .Filter().IconPath("Icons/Entities/Pharmacopoeia")
 
-                .Column().Hidden()
+                .Column("Batch").Hidden()
                     .Header("{Batch}")
                     .Link(s => s.Batch)
                     .Filter()
                     .IconPath("Icons/Sample/BarCode")
 
-                .Column().Hidden()
+                .Column("Manufacturing").Hidden()
                     .Header("{Manufacturing}")
                     .IconPath("Icons/Entities/Manufacturer|Icons/Sample/Date")
                     .Link(s => s.ManufacturingDate)
@@ -113,7 +113,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                         .MinDate(DateTime.Now.AddYears(-10))
                         .MaxDate(DateTime.Now.AddYears(10))
 
-                .Column().Hidden()
+                .Column("Sampling").Hidden()
                     .Header("{Sampling}")
                     .IconPath("Icons/Sample/Sampling|Icons/Sample/Date")
                     .Link(s => s.SamplingDate)
@@ -121,13 +121,13 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                         .MinDate(DateTime.Now.AddYears(-10))
                         .MaxDate(DateTime.Now.AddYears(10))
 
-                .Column().Hidden()
+                .Column("Origin").Hidden()
                     .Header("{Origin}")
                     .Link(s => s.SamplingOrigin)
                     .Filter()
                         .IconPath("Icons/Sample/Location")
 
-                .Column().Hidden()
+                .Column("CommercialName").Hidden()
                     .Header("{Commercial Name}")
                     .Link(s => s.CommercialName)
                     .Filter()

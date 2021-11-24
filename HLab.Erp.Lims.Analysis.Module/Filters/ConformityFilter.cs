@@ -4,6 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Xml;
+using System.Xml.Linq;
+
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core.Wpf.ListFilters;
 using HLab.Erp.Workflows;
@@ -78,5 +81,26 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
 
             return t => values.Contains(getter(t));
         }
+        public override XElement ToXml()
+        {
+            var element = base.ToXml();
+
+            foreach(var value in List)
+            {
+                if(value.Selected)
+                {
+                    var xState = new XElement(value.State.ToString());
+                    element.Add(xState);
+                }
+            }
+            return element;
+        }
+        public override void FromXml(XElement element)
+        {
+            foreach(var state in _list)
+            {
+                state.Selected = element.Elements().Any(e => e.Name == state.State.ToString());
+            }
+        }    
     }
 }

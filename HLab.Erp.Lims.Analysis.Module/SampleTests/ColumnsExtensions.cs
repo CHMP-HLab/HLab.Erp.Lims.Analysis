@@ -8,7 +8,6 @@ using HLab.Erp.Core.Wpf.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Core.Wpf.ListFilters;
 using HLab.Erp.Data;
-using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Erp.Lims.Analysis.Module.Filters;
 using HLab.Erp.Workflows;
@@ -26,8 +25,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             var stageName = stageNameExpression.Compile();
             Func<T,IWorkflowStage> stage = e => stageFromName(stageName(e));
 
-            return c.Column()
-                .Id("Stage")
+            return c.Column("Stage")
                 .Header("{Stage}")
                 .Width(180)
                 .Content(s => stage(s).GetCaption(null))
@@ -46,7 +44,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         {
             var getter = getForm.Compile();
 
-            return c.Column()
+            return c.Column("Form")
                 .Header("{Form}")
                 .Width(160)
                 .LinkNullable(getForm)
@@ -82,7 +80,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         {
             var getState = getStateExpression.Compile();
 
-            return c.Column()
+            return c.Column("ConformityId")
                 .Header("{Conformity}").Width(130)
                 .Link(getStateExpression)
                 .Content(s => $"{{{getState(s)}}}").Localize()
@@ -93,13 +91,15 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 .IconPath("Icons/Conformity");
         }
         public static IColumnConfigurator<T,ConformityState,ConformityFilter> ConformityColumnPostLinked<T, TLink, TFilter>(
-            this IColumnConfigurator<T, TLink, TFilter> c, Expression<Func<T, ConformityState>> getStateExpression)
+            this IColumnConfigurator<T, TLink, TFilter> c, 
+            Expression<Func<T, ConformityState>> getStateExpression
+            )
             where T : class, IEntity, new()
             where TFilter : IFilter<TLink>
         {
             var getState = getStateExpression.Compile();
 
-            return c.Column()
+            return c.Column("ConformityId")
                 .Header("{Conformity}").Width(130)
                 .IconPath("Icons/Conformity")
                 .PostLink(getState)
@@ -118,7 +118,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             where TFilter : IFilter<TLink>
         {
             var getter = getProgress.Compile();
-            return c.Column()
+            return c.Column("Progress")
                            .Header("{Progress}").Width(80)
                            .Content(s => new ProgressView { Value = getter(s) ?? 0.0 })
                            .UpdateOn(getProgress)
@@ -126,11 +126,14 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         }
 
         public static IColumnConfigurator<T, object, IFilter<object>> DescriptionColumn<T, TLink, TFilter>(this IColumnConfigurator<T, TLink, TFilter> c,
-            Func<T, string> getTitle, Func<T, string> getDescription) 
+            Func<T, string> getTitle, 
+            Func<T, string> getDescription,
+            string id = null
+            ) 
             
             where T : class, IEntity, new()
             where TFilter : IFilter<TLink>
-            => c.Column()
+            => c.Column(id)
                 .Content(s => new ColumnDescriptionBlock()
                 {
                     VerticalAlignment = VerticalAlignment.Top,

@@ -7,16 +7,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 {
     using H = H<ProductViewModel>;
 
-    internal class ProductViewModel: EntityViewModel<Product>
+    internal class ProductViewModel: ListableEntityViewModel<Product>
     {
         public ProductViewModel() => H.Initialize(this);
 
-        public override string Header => _header.Get();
-        private readonly IProperty<string> _header = H.Property<string>(c => c
-        .Set(e => string.IsNullOrWhiteSpace(e.Model?.Name) ? "{New product}" : e.Model.Name)
-        .On(e => e.Model.Name)
-        .Update()
-        );
 
         public string SubTitle => _subTitle.Get();
         private readonly IProperty<string> _subTitle = H.Property<string>(c => c

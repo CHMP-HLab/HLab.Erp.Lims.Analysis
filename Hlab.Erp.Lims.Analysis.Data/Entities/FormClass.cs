@@ -51,7 +51,11 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
         private readonly IProperty<byte[]> _codeHash = H.Property<byte[]>();
 
         [Ignore]
-        public string Caption => Name;
+        public string Caption => _caption.Get();
+        private readonly IProperty<string> _caption = H.Property<string>(c => c
+            .On(e => e.Name)
+            .Set(e => string.IsNullOrWhiteSpace(e.Name)?"{New form class}":$"{{Form class}}\n{e.Name}")
+        );
 
     }
 }

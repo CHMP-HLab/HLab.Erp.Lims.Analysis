@@ -19,22 +19,22 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 //.DeleteAllowed()
                 .StaticFilter(e => e.SampleId == sample.Id)
 
-                .DescriptionColumn(s => s.TestName, s => s.Description)
+                .DescriptionColumn(s => s.TestName, s => s.Description,"Test")
                     .Header("{Test}")//.Mvvm<IDescriptionViewClass>()
                 .Width(300)
                 .Icon(s => s.IconPath)
                 .OrderBy(s => s.Order).UpdateOn(s => s.TestName).UpdateOn(s => s.Description)
 
-                .DescriptionColumn(s => "", s => s.Specification)
+                .DescriptionColumn(s => "", s => s.Specification,"Specification")
                     .Header("{Specifications}")
                 .Width(200)
                 .OrderBy(s => s.Specification).UpdateOn(s => s.Specification)
 
-                .DescriptionColumn(s => "", s => s.Result?.Result ?? "")
+                .DescriptionColumn(s => "", s => s.Result?.Result ?? "","Result")
 
                     .Header("{Result}").Width(200).OrderBy(s => s.Result?.Result ?? "").UpdateOn(s => s.Result.Result)
 
-                .DescriptionColumn(s => "", s => s.Result?.Conformity ?? "")
+                .DescriptionColumn(s => "", s => s.Result?.Conformity ?? "","Conformity")
 
                     .Header("{Conformity}").Width(200).OrderBy(s => s.Result?.Conformity ?? "").UpdateOn(s => s.Result.Conformity)
 
@@ -43,8 +43,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
                 .StageColumn(default(SampleTestWorkflow), s => s.StageId)
 
-                .Column().Hidden().Id("IsValid").Content(s => s.Stage != SampleTestWorkflow.InvalidatedResults)
-                .Column().Hidden().Id("Group").Content(s => s.TestClassId)
+                .Column("IsValid").Hidden().Content(s => s.Stage != SampleTestWorkflow.InvalidatedResults)
+                .Column("Group").Hidden().Content(s => s.TestClassId)
 
         )
         {
@@ -56,9 +56,12 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
         }
 
+        public bool EditMode { get=> _editMode.Get(); set=>_editMode.Set(value); }
+        private IProperty<bool> _editMode = H.Property<bool>(c => c.Default(false));
 
         protected override bool CanExecuteDelete(SampleTest sampleTest, Action<string> errorAction)
         {
+            if(!EditMode) return false;
             if (sampleTest == null) return false;
             var stage =  sampleTest.Stage.IsAny( errorAction, SampleTestWorkflow.Specifications);
             var granted = Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest);
@@ -71,6 +74,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .On(e => e.Sample.Stage)
             .On(e => e.Sample.Pharmacopoeia)
             .On(e => e.Sample.PharmacopoeiaVersion)
+            .On(e => e.EditMode)
             .Do(e => (e.AddCommand as CommandPropertyHolder)?.CheckCanExecute())
         );
 
@@ -84,6 +88,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         protected override bool CanExecuteAdd(Action<string> errorAction)
         {
+            if(!EditMode) return false;
             if (!Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest)) return false;
             if (Sample.Pharmacopoeia == null)
             {
@@ -95,7 +100,12 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 errorAction("{Missing} : {Pharmacopoeia version}");
                 return false;
             }
-            return Sample.Stage.IsAny(errorAction,SampleWorkflow.Monograph);
+            if (! Sample.Stage.IsAny(errorAction,SampleWorkflow.Monograph))
+            {
+                errorAction("{requier stage} : {Monograph}");
+                return false;
+            }
+            return true;
         }
 
         protected override async Task AddEntityAsync(object arg)

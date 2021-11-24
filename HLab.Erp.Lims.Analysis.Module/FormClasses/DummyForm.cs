@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Lims.Analysis.Module.TestClasses;
@@ -22,6 +23,8 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         public FormMode Mode { get; set; }
 
         public string Version => "";
+
+        public IEnumerable<FrameworkElement> NamedElements { get; set; }
 
         public void SetFormMode(FormMode formMode)
         {

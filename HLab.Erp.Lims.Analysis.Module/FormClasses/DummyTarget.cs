@@ -7,20 +7,25 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
     {
         public DummyTarget() => H<DummyTarget>.Initialize(this);
 
-        public string Result { get; set; }
+        public string Result
+        {
+            get => _result.Get();
+            set => _result.Set(value);
+        }
+        private readonly IProperty<string> _result = H<DummyTarget>.Property<string>();
 
         public ConformityState ConformityId
         {
             get =>_conformityId.Get(); 
             set =>_conformityId.Set(value); 
         }
+        private readonly IProperty<ConformityState> _conformityId = H<DummyTarget>.Property<ConformityState>();
 
         public void Reset()
         {
             throw new System.NotImplementedException();
         }
 
-        private readonly IProperty<ConformityState> _conformityId = H<DummyTarget>.Property<ConformityState>();
 
         public byte[] Code => null;
 
@@ -54,11 +59,41 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
 
         public string DefaultTestName => "Dummy";
-        public string TestName { get; set; }
-        public string Description { get; set; }
-        public string Specification { get; set; }
-        public string Conformity { get; set; }
-        IFormClass IFormTarget.FormClass { get => null; set => throw new System.NotImplementedException(); }
-        string IFormTarget.Name { get => "Dummy"; set => throw new System.NotImplementedException(); }
+        public string TestName
+        {
+            get => _testName.Get();
+            set => _testName.Set(value);
+        }
+        private readonly IProperty<string> _testName = H<DummyTarget>.Property<string>();
+
+        public string Description
+        {
+            get => _description.Get();
+            set => _description.Set(value);
+        }
+        private readonly IProperty<string> _description = H<DummyTarget>.Property<string>();
+
+        public string Specification
+        {
+            get => _specification.Get();
+            set => _specification.Set(value);
+        }
+        private readonly IProperty<string> _specification = H<DummyTarget>.Property<string>();
+
+        public string Conformity
+        {
+            get => _conformity.Get();
+            set => _conformity.Set(value);
+        }
+        private readonly IProperty<string> _conformity = H<DummyTarget>.Property<string>();
+
+         IFormClass IFormTarget.FormClass { get => null; set => throw new System.NotImplementedException(); }
+
+        public string Name
+        {
+            get => _name.Get();
+            set => _name.Set(value);
+        }
+        private readonly IProperty<string> _name = H<DummyTarget>.Property<string>(c => c.Default("Dummy"));
     }
 }

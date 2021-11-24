@@ -161,6 +161,16 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
             .Progress(0.3).Action(w => w.Target.Progress = 0.3)
         );
 
+        public static Action AskForMonographCorrection = Action.Create(c => c
+           .Caption(w => "{Ask for correction}").Icon(w => "Icons/Workflows/Monograph|Icons/Workflows/Correct")
+           .NeedRight(() => AnalysisRights.AnalysisMonographValidate)
+           .FromStage(() => Monograph, () => MonographClosed, () => Planning, () => Production)
+           .ToStage(() => MonographReviewNeeded)
+            .Sign()
+            .Motivate()
+            .Backward()
+            );
+
         public static Action ValidateMonograph = Action.Create(c => c
            .Caption(w => "{Validate monograph}").Icon(w => "Icons/Workflows/Monograph|Icons/Validations/Validated")
            .NeedRight(() => AnalysisRights.AnalysisMonographValidate)
@@ -234,7 +244,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action ValidateProduction = Action.Create(c => c
            .Caption(w => "{Put into production}").Icon(w => "Icons/Workflows/Production")
-           .FromStage(() => Planning)
+           .FromStage(() => Planning, () => MonographClosed)
            .ToStage(() => Production)
            .NeedRight(() => AnalysisRights.AnalysisSchedule)
         );
@@ -248,13 +258,6 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
             .WhenStageAllowed(() => MonographClosed)
         );
 
-        public static Action AskForMonographCorrection = Action.Create(c => c
-           .Caption(w => "{Ask for Monograph correction}").Icon(w => "Icons/Workflows/Monograph|Icons/Workflows/Correct")
-           .FromStage(() => Production)
-           .ToStage(() => MonographReviewNeeded)
-           .NeedRight(() => AnalysisRights.AnalysisResultEnter)
-           .Sign().Motivate().Backward()
-        );
 
         //########################################################
         // CERTIFICAT

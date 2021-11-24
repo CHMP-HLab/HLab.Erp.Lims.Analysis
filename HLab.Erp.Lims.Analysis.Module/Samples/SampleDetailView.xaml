@@ -125,7 +125,7 @@
                     <lang:LocalizedLabel Text="{}{Date} :" />
                     <wpf:DateEx
                             HorizontalAlignment="Left"
-                            Date="{Binding Model.ReceptionDate}" 
+                            DateUtc="{Binding Model.ReceptionDate}" 
                             DayValid="True"
                             MaxWidth="130"/>
 
@@ -157,14 +157,14 @@
                             Value="{Binding Model.ReceivedQuantity,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                         <Label HorizontalAlignment="Right" Grid.Column="1">
-                            <lang:Localize Id="{}{Date} :"/>
+                            <lang:Localize Id="{}{Sampling date} :"/>
                         </Label>
 
                         <wpf:DateEx  Grid.Column="2"
                         
                             HorizontalAlignment="Left"
                             Width="120"
-                            Date ="{Binding Model.SamplingDate, UpdateSourceTrigger=PropertyChanged}" 
+                            DateUtc ="{Binding Model.SamplingDate, UpdateSourceTrigger=PropertyChanged}" 
                             DayValid="{Binding Model.SamplingDayValid}"/>
                     </Grid>
 
@@ -206,7 +206,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <wpf:DateEx Date="{Binding Model.ExpirationDate}" DayValid="{Binding Model.ExpirationDayValid}" EmptyDayAllowed="True"/>
+                        <wpf:DateEx DateUtc="{Binding Model.ExpirationDate}" DayValid="{Binding Model.ExpirationDayValid}" EmptyDayAllowed="True"/>
                         <icons:IconView Grid.Column="1" Path="icons/sample/expired" Height="25" Margin="2">
                             <icons:IconView.Style>
                                 <Style TargetType="icons:IconView">
@@ -232,7 +232,7 @@
                         </Label>
                         <wpf:DateEx 
                     Grid.Column="3" 
-                    Date="{Binding Model.ManufacturingDate, UpdateSourceTrigger=PropertyChanged}" 
+                    DateUtc="{Binding Model.ManufacturingDate, UpdateSourceTrigger=PropertyChanged}" 
                     DayValid="{Binding Model.ManufacturingDayValid}" EmptyDayAllowed="True"/>
                     </Grid>
 

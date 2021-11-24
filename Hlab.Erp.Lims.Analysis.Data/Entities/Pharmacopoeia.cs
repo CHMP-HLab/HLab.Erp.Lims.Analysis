@@ -25,12 +25,12 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
         }
         private readonly IProperty<string> _abbreviation = H.Property<string>(c => c.Default(""));
 
-        public string LastVersion
-        {
-            get => _lastVersion.Get();
-            set => _lastVersion.Set(value);
-        }
-        private readonly IProperty<string> _lastVersion = H.Property<string>(c => c.Default(""));
+        //public string LastVersion
+        //{
+        //    get => _lastVersion.Get();
+        //    set => _lastVersion.Set(value);
+        //}
+        //private readonly IProperty<string> _lastVersion = H.Property<string>(c => c.Default(""));
 
 
         public string Url
@@ -67,7 +67,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
         public string Caption => _caption.Get();
         private readonly IProperty<string> _caption = H.Property<string>(c => c
             .On(e => e.Name)
-            .Set(e => e.Name)
+            .Set(e => string.IsNullOrWhiteSpace(e.Name)?"{New pharmacopoeia}":e.Name)
         );
         
 

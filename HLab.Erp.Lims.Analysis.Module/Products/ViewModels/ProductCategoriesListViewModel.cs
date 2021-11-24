@@ -16,7 +16,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         public ProductCategoriesListViewModel() : base(c => c
             // TODO .AddAllowed()
             //.DeleteAllowed()
-            .Column()
+            .Column("Name")
             .Header("{Name}").Localize()
             .Width(250).Content(e => e.Name)
                     .Localize()

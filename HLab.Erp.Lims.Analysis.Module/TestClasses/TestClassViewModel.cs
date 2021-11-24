@@ -13,12 +13,14 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
     using H = H<TestClassViewModel>;
 
-    public class TestClassViewModel : EntityViewModel<TestClass>, IFormHelperProvider
+    public class TestClassViewModel : ListableEntityViewModel<TestClass>, IFormHelperProvider
     {
         public override string Header => _header.Get();
-        private readonly IProperty<string> _header = H.Property<string>(c => c.Bind(e => e.Model.Name));
-
-        public override string IconPath => Model.IconPath;
+        private readonly IProperty<string> _header = H.Property<string>(c => c
+            .Set(e => $"{{Test class}}\n{e.Model.Caption}")
+            .On(e => e.Model.Caption)
+            .Update()
+        );
 
         public TestClassViewModel(IDataService data, Func<TestClass, TestClassUnitTestListViewModel> getUnitTests, FormHelper formHelper)
         {
@@ -128,6 +130,11 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             await FormHelper.CompileAsync();
             Model.Code = await FormHelper.PackCodeAsync();
         }
+
+        public ICommand FormatCommand { get; } = H.Command(c => c
+            //.CanExecute(e => !e.FormHelper.FormUpToDate )
+            .Action(async e => await e.FormHelper.FormatAsync())
+        );
 
         /// <summary>
         /// Try to recompile the form

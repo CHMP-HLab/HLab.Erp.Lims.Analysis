@@ -37,21 +37,21 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             .StaticFilter(e => e.EntityId == sampleTestId)
             .StaticFilter(e => e.EntityClass == "SampleTestResult")
 
-             .Column()
+             .Column("Stage")
             .Header("{Stage}").Width(150).Content(at => $"{GetStage(at.Log)}").Localize()
             .Icon(at => at.IconPath,20)
 
-            .Column()
+            .Column("Date")
             .Header("{Date}").Width(110).Content(at => at.TimeStamp)
             
-             .Column()
+             .Column("User")
             .Header("{User}").Width(150).Content(at => at.UserCaption)
            
-            .Column()
+            .Column("Motivation")
             .Header("{Motivation}").Width(250)
             .Content(at => at.Motivation)
 
-             .Column()
+             .Column("Log")
             .Header("{Log}").Width(150).Content(at => $"{at.Log}").Localize()
         )
         {

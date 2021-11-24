@@ -33,7 +33,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
     }
 
-    public class SampleViewModel : EntityViewModel<Sample>
+    public class SampleViewModel : ListableEntityViewModel<Sample>
     {
 
         public class Design : SampleViewModel, IViewModelDesign
@@ -59,15 +59,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             _getTests = getTests;
             H.Initialize(this);
             _getForms = getForms;
+
+            
         }
 
-        public override object Header => _header.Get();
-        private readonly IProperty<object> _header = H.Property<object>(c => c
-            .Set(e => (object)e.Model?.Reference ?? "{New sample}")
-            .On(e => e.Model.Reference)
-            .NotNull(e => e.Model)
-            .Update()
-        );
         public string SubTitle => _subTitle.Get();
         private readonly IProperty<string> _subTitle = H.Property<string>(c => c
             .Set(e => e.Model?.Customer?.Name ?? "{Customer}" + "\n" + e.Model?.Product?.Caption ?? "{Product}")
@@ -124,6 +119,15 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .On(e => e.Locker.IsActive)
             .On(e => e.Workflow.CurrentStage)
             .Update()
+        );
+
+        private readonly ITrigger OnEditMode = H.Trigger(c => c
+            .On(e => e.Locker.IsActive)
+            .Do(e =>
+            {
+                if(e.Tests!=null)
+                    e.Tests.EditMode = e.Locker.IsActive;
+            })
         );
 
         public Visibility CustomerVisibility => _customerVisibility.Get();
@@ -206,13 +210,34 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         private ITrigger _ = H.Trigger(c => c
             .NotNull(e => e.Tests)
             .Do(e => e.UpdateConformity(e.Tests.List))
-            .On(e => e.Tests)
+            .On(e => e.Tests.List.Item().Result.ConformityId)
             .Update()
         );
 
-        public void UpdateConformity(IEnumerable<SampleTest> tests)
+        protected override void BeforeSaving(Sample entity)
+        {
+            base.BeforeSaving(entity);
+            UpdateConformity();
+        }
+
+        private  void UpdateConformity()
         {
             var conformity = ConformityState.NotChecked;
+
+            foreach (var sampleTest in Tests.List)
+            {
+                conformity = UpdateConformity(conformity, sampleTest.Result?.ConformityId ?? ConformityState.NotChecked);
+            }
+
+            if (Model.ConformityId != conformity)
+            {
+                Model.ConformityId = conformity;
+            }
+        }
+
+        public void UpdateConformity(IEnumerable<SampleTest> tests)
+        {
+            var conformity = ConformityState.None;
 
             foreach (var sampleTest in tests)
             {
@@ -226,13 +251,6 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             }
         }
 
-        public string ConformityIconPath => _conformityIconPath.Get();
-        private readonly IProperty<string> _conformityIconPath = H.Property<string>(c => c
-            .Set(e => e.Model.ConformityId.IconPath())
-                .On(e => e.Model.ConformityId)
-                .Update()
-        );
-
         private static ConformityState UpdateConformity(ConformityState currentState, ConformityState testState)
         {
             switch (testState)
@@ -240,6 +258,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 case ConformityState.NotChecked:
                     return currentState switch
                     {
+                        ConformityState.None => ConformityState.NotChecked,
                         ConformityState.NotChecked => ConformityState.NotChecked,
                         ConformityState.Running => ConformityState.Running,
                         ConformityState.NotConform => ConformityState.NotConform,
@@ -250,6 +269,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 case ConformityState.Running:
                     return currentState switch
                     {
+                        ConformityState.None => ConformityState.Running,
                         ConformityState.NotChecked => ConformityState.Running,
                         ConformityState.Running => ConformityState.Running,
                         ConformityState.Conform => ConformityState.Running,
@@ -260,6 +280,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 case ConformityState.NotConform:
                     return currentState switch
                     {
+                        ConformityState.None => ConformityState.NotConform,
                         ConformityState.NotChecked => ConformityState.NotConform,
                         ConformityState.Running => ConformityState.NotConform,
                         ConformityState.Conform => ConformityState.NotConform,
@@ -270,6 +291,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 case ConformityState.Conform:
                     return currentState switch
                     {
+                        ConformityState.None => ConformityState.Conform,
                         ConformityState.NotChecked => ConformityState.Running,
                         ConformityState.Running => ConformityState.Running,
                         ConformityState.Conform => ConformityState.Conform,
@@ -280,6 +302,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 case ConformityState.Invalid:
                     return currentState switch
                     {
+                        ConformityState.None => ConformityState.Invalid,
                         ConformityState.NotChecked => ConformityState.Invalid,
                         ConformityState.Running => ConformityState.Invalid,
                         ConformityState.Conform => ConformityState.Invalid,

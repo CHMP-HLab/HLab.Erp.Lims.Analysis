@@ -18,19 +18,19 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 
         public TestsListViewModel() : base(c => c
 
-                   .Column(e => e.Sample)
+                   .Column(e => e.Sample,"Sample")
 
                    //.Column(s => s.Sample.Product)
 
-                   .Column(e => e.Pharmacopoeia).Mvvm()
+                   .Column(e => e.Pharmacopoeia,"Pharmacopoeia").Mvvm()
 
-                   .Column(e => e.TestClass).Mvvm()
+                   .Column(e => e.TestClass,"TestClass").Mvvm()
 
-                .DescriptionColumn(t => "", t => t.Specification)
+                .DescriptionColumn(t => "", t => t.Specification,"Specification")
                     .Header("{Specifications}")
                     .OrderBy(s => s.Specification).UpdateOn(s => s.Specification)
 
-                .DescriptionColumn(t => "", t => t.Result?.Result)
+                .DescriptionColumn(t => "", t => t.Result?.Result,"Result")
                     .Header("{Result}")
                     .OrderBy(s => s.Result?.Result ?? "").UpdateOn(s => s.Result.Result)
 

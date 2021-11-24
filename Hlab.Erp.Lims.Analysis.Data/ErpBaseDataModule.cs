@@ -106,6 +106,24 @@ namespace HLab.Erp.Lims.Analysis.Data
                         .Version("2.3.0.0");
                         ;
                     break;
+                case "2.3.0.0":
+                    builder
+                        .Table<StatQuery>()
+                            .RenamedFrom("Requete")
+                            .RenameColumn("Requete",t=>t.Query)
+
+                        .Version("2.4.0.0");
+                        ;
+                    break;
+                case "2.4.0.0":
+                    builder
+                        .Table<Sample>()
+                            .RenameColumn("Stage",t=>t.StageId)
+
+                        .Version("2.5.0.0");
+                        ;
+                    break;
+
 
             }
             return base.GetSqlUpdater(version, builder);

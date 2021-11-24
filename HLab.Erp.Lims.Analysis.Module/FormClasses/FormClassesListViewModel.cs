@@ -29,14 +29,14 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         }
 
         public FormClassesListViewModel() : base(c => c
-            .Column()
+            .Column("Name")
             .Header("{Name}")
             .Width(200)
             .Content(s => s.Name)
             .Icon( s => s.IconPath)
 
-            .Column()
-            .Header("{class}")
+            .Column("Class")
+            .Header("{Class}")
             .Width(100).Content(s => s.Class??"")
                     .OrderBy(s => s.Class)
         )

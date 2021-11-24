@@ -5,16 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:lang="clr-namespace:HLab.Localization.Wpf.Lang;assembly=HLab.Localization.Wpf"
              xmlns:sampleTests="clr-namespace:HLab.Erp.Lims.Analysis.Module.SampleTests"
-             xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
-             xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
              xmlns:workflows="clr-namespace:HLab.Erp.Workflows;assembly=HLab.Erp.Workflows.Wpf"
-             xmlns:data="clr-namespace:HLab.Erp.Lims.Analysis.Data;assembly=HLab.Erp.Lims.Analysis.Data"
              xmlns:views="clr-namespace:HLab.Erp.Core.Wpf.Views;assembly=HLab.Erp.Core.Wpf"
-             xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf" xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
+             xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf" 
+             xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
              xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
-             xmlns:wpf1="clr-namespace:HLab.Icons.Wpf;assembly=HLab.Icons.Wpf"
              xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
-             xmlns:entities="clr-namespace:HLab.Erp.Lims.Analysis.Data.Entities;assembly=HLab.Erp.Lims.Analysis.Data" xmlns:audittrails="clr-namespace:HLab.Erp.Acl.AuditTrails;assembly=HLab.Erp.Acl.Wpf"
+             xmlns:entities="clr-namespace:HLab.Erp.Lims.Analysis.Data.Entities;assembly=HLab.Erp.Lims.Analysis.Data" xmlns:audittrails="clr-namespace:HLab.Erp.Acl.AuditTrails;assembly=HLab.Erp.Acl.Wpf" xmlns:module="clr-namespace:HLab.Erp.Lims.Analysis.Module"
              Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
              d:DataContext="{d:DesignInstance {x:Type sampleTests:SampleTestViewModelDesign}, IsDesignTimeCreatable=True}"             
              mc:Ignorable="d" 
@@ -50,8 +47,13 @@
                         Text="{Binding Model.PharmacopoeiaVersion, UpdateSourceTrigger=PropertyChanged}" 
                         HorizontalContentAlignment="Right" 
                         HorizontalAlignment="Stretch"/>
+                    
+                    <Label Grid.ColumnSpan="2"/>
+                    
+                    <lang:LocalizedLabel Text="{}{Name} : " VerticalAlignment="Top"/>
+                    <TextBlock Margin="0,5" Text="{Binding Model.TestName}" VerticalAlignment="Top"/>
 
-                    <Grid Grid.ColumnSpan="2" Margin="0,20">
+                    <Grid Grid.ColumnSpan="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -80,7 +82,7 @@
                         <lang:LocalizedLabel FontWeight="Bold" Text="{}{Conformity}" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="3" />
                         <lang:LocalizedLabel Margin="5" HorizontalAlignment="Center" Text="{Binding Model.Result.Conformity}" Grid.Row="1" Grid.Column="3"/>
 
-                        <icons:IconView Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="4" Path="{Binding ConformityIconPath}" MaxHeight="40"/>
+                        <module:ConformityIcon Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="4" Path="{Binding Model.Result.ConformityId}" MaxHeight="40"/>
                     </Grid>
                 </views:DetailView>
                 <views:DetailView 
@@ -92,7 +94,7 @@
                     <lang:LocalizedLabel Text="{}{Date} :" />
                     <wpf:DateEx
                         HorizontalAlignment="Left"
-                        Date="{Binding Model.ScheduledDate}" 
+                        DateUtc="{Binding Model.ScheduledDate}" 
                         DayValid="True"
                         MaxWidth="130"/>
 
@@ -106,7 +108,7 @@
                     <lang:LocalizedLabel Text="{}{Start} :" />
                     <wpf:DateEx
                         HorizontalAlignment="Left"
-                        Date="{Binding Model.StartDate}" 
+                        DateUtc="{Binding Model.StartDate}" 
                         ShowTime="True"
                         DayValid="True"
                         EmptyDayAllowed="False"
@@ -115,7 +117,7 @@
                     <lang:LocalizedLabel Text="{}{End} :" />
                     <wpf:DateEx
                         HorizontalAlignment="Left"
-                        Date="{Binding Model.EndDate}" 
+                        DateUtc="{Binding Model.EndDate}" 
                         ShowTime="True"
                         DayValid="True"
                         EmptyDayAllowed="False"
@@ -157,23 +159,6 @@
                     <TextBlock Margin="15,0,0,0" Text="{Binding Model.Sample.Customer.Caption}" VerticalAlignment="Center"/>
                 </views:DetailView>
 
-                <!-- TEST CLASS -->
-                <views:DetailView 
-                    IconPath="{Binding Model.TestClass.IconPath}" 
-                    Text="{Binding Model.TestClass.Name}"
-                    EditMode="{Binding EditMode}">
-
-                    <lang:LocalizedLabel Text="{}{OOS} : " VerticalAlignment="Top"/>
-                    <TextBlock Margin="0,5" Text="{Binding Model.OosNo}" VerticalAlignment="Top"/>
-
-                    <lang:LocalizedLabel Text="{}{Name} : " VerticalAlignment="Top"/>
-                    <TextBlock Margin="0,5" Text="{Binding Model.TestName}" VerticalAlignment="Top"/>
-
-
-
-                    <!--<lang:LocalizedLabel Text="{}{Method} : " />
-                    <TextBox Text="{Binding Model.Method}"/>-->
-                </views:DetailView>
 
             </StackPanel>
         </controlsEx:ScrollViewerEx>

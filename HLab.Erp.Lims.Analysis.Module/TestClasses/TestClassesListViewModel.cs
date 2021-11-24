@@ -68,7 +68,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
 
         public TestClassesListViewModel() : base(c => c
-            .Column()
+            .Column("Name")
             .Header("{Name}").Width(200)
             .Content(s => s.Name)
             .Icon(s => s.IconPath)
@@ -77,7 +77,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
             .Column().Link(c => c.Version).Filter()
 
-            .Column()
+            .Column("Category")
             .Header("{Category}")
             .Width(150).Content(s => s.Category?.Name??"")
                     .OrderBy(s => s.Category?.Name)           

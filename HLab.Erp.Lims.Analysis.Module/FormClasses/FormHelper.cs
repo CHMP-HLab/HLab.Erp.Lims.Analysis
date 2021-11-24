@@ -2,19 +2,65 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Linq;
+
 using HLab.Compiler.Wpf;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Notify.PropertyChanged;
 
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
     using H = H<FormHelper>;
+    public static class Extensions
+    {
+        public static XElement IgnoreNamespace(this XElement xelem)
+        {
+            XNamespace xmlns = "";
+            var name = xmlns + xelem.Name.LocalName;
+            return new XElement(name,
+                            from e in xelem.Elements()
+                            select e.IgnoreNamespace(),
+                            xelem.Attributes()
+                            );
+        }
+        public static XNode StripNamespaces(this XNode n)
+        {
+            var xe = n as XElement;
+            if(xe == null)
+                return n;
+            var contents = 
+                // add in all attributes there were on the original
+                xe.Attributes()
+                // eliminate the default namespace declaration
+                .Where(xa => xa.Name.LocalName != "xmlns")
+                .Cast<object>()
+                // add in all other element children (nodes and elements, not just elements)
+                .Concat(xe.Nodes().Select(node => node.StripNamespaces()).Cast<object>()).ToArray();
+            var result = new XElement(XNamespace.None + xe.Name.LocalName, contents);
+            return result;
 
+        }
+
+    #if !LINQPAD
+        public static T Dump<T>(this T t, string description = null)
+        {
+            if(description != null)
+                Console.WriteLine(description);
+            Console.WriteLine(t);
+            return t;
+        }
+    #endif
+    }
     public class FormHelper : NotifierBase
     {
         public FormHelper() => H.Initialize(this);
@@ -289,6 +335,58 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             catch (Exception ex)
             {
                 CsMessage += ex.Message;
+            }
+        }
+            private const string XamlHeader = @"
+<UserControl 
+    xmlns = ""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x = ""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:mc = ""http://schemas.openxmlformats.org/markup-compatibility/2006""
+    xmlns:d = ""http://schemas.microsoft.com/expression/blend/2008""
+    xmlns:o = ""clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf""
+    xmlns:lang=""clr-namespace:HLab.Localization.Wpf.Lang;assembly=HLab.Localization.Wpf""
+    xmlns:math=""clr-namespace:WpfMath.Controls;assembly=WpfMath""
+    UseLayoutRounding = ""False"" >
+
+    <UserControl.Resources>
+        <ResourceDictionary Source = ""pack://application:,,,/HLab.Erp.Lims.Analysis.Module;component/FormClasses/FormsDictionary.xaml"" />          
+    </UserControl.Resources >
+    <Grid>
+    <Grid.LayoutTransform>
+        <ScaleTransform 
+                ScaleX=""{Binding Scale,FallbackValue=4}"" 
+                ScaleY=""{Binding Scale,FallbackValue=4}""/>
+        </Grid.LayoutTransform>
+<!--Content-->
+    </Grid>
+</UserControl>";
+        
+        public async Task FormatAsync()
+        {
+            var tree = CSharpSyntaxTree.ParseText(Cs);
+            var root = tree.GetRoot().NormalizeWhitespace();
+            Cs = root.ToFullString();
+
+            try
+            {
+                var doc = XDocument.Parse(XamlHeader.Replace("<!--Content-->",$"{Xaml}"));
+                var r = ((XElement)doc.FirstNode).FirstNode.NextNode;
+                r = ((XElement)r).FirstNode.NextNode;
+
+
+                var xaml = ((XElement)r).ToString();
+
+                xaml = xaml.Replace(" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"","");
+                xaml = xaml.Replace(" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"","");
+                xaml = xaml.Replace(" xmlns:o=\"clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf\"","");
+                xaml = xaml.Replace(" xmlns:lang=\"clr-namespace:HLab.Localization.Wpf.Lang;assembly=HLab.Localization.Wpf\"","");
+                xaml = xaml.Replace(" xmlns:math=\"clr-namespace:WpfMath.Controls;assembly=WpfMath\"","");
+
+                Xaml = xaml;
+            }
+            catch (Exception)
+            {
+                // Handle and throw if fatal exception here; don't just ignore them
             }
         }
 

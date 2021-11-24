@@ -1,5 +1,7 @@
-﻿using HLab.Erp.Data;
+﻿using HLab.Erp.Acl;
+using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Mvvm;
 using HLab.Notify.PropertyChanged;
 
@@ -22,30 +24,62 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
 {
     using H = H<QueryViewModel>;
 
-    public class QueryViewModel : ViewModel<Requete>
+    public class QueryViewModel : ListableEntityViewModel<StatQuery>
     {
-        private DataService _data;
-        public QueryViewModel(DataService data)
+        public QueryViewModel()
         {
-            _data = data;
-
             H.Initialize(this);
         }
+
+        public override AclRight EditRight => AnalysisRights.AnalysisStatQueryCreate;
 
         public ObservableCollection<DataObject> Items {get;} = new ObservableCollection<DataObject>();
         public ObservableCollection<string> Columns {get;} = new ObservableCollection<string>();
 
-        public string Param1 {get; set;}
-        public string Param2 {get; set;}
-        public string Param3 {get; set;}
-        public string Param4 {get; set;}
 
+        public string ParameterName1 {get => _parameterName1.Get(); set => _parameterName1.Set(value);}
+        private IProperty<string> _parameterName1 = H.Property<string>();
+        public string ParameterName2 {get => _parameterName2.Get(); set => _parameterName2.Set(value);}
+        private IProperty<string> _parameterName2 = H.Property<string>();
+        public string ParameterName3 {get => _parameterName3.Get(); set => _parameterName3.Set(value);}
+        private IProperty<string> _parameterName3 = H.Property<string>();
+        public string ParameterName4 {get => _parameterName4.Get(); set => _parameterName4.Set(value);}
+        private IProperty<string> _parameterName4 = H.Property<string>();
+
+
+        public string Parameter1 {get => _parameter1.Get(); set => _parameter1.Set(value);}
+        private IProperty<string> _parameter1 = H.Property<string>();
+        public string Parameter2 {get => _parameter2.Get(); set => _parameter2.Set(value);}
+        private IProperty<string> _parameter2 = H.Property<string>();
+        public string Parameter3 {get => _parameter3.Get(); set => _parameter3.Set(value);}
+        private IProperty<string> _parameter3 = H.Property<string>();
+        public string Parameter4 {get => _parameter4.Get(); set => _parameter4.Set(value);}
+        private IProperty<string> _parameter4 = H.Property<string>();
+
+        private ITrigger OnQuery = H.Trigger(c => c
+            .On(e => e.Model.Query)
+            .Do(e => e.SetParamNames())
+        );
+
+        private void SetParamNames()
+        {
+            ParameterName1 = GetParamName(Model.Query,1);
+            ParameterName2 = GetParamName(Model.Query,2);
+            ParameterName3 = GetParamName(Model.Query,3);
+            ParameterName4 = GetParamName(Model.Query,4);
+        }
+
+        public string ErrorMessage {get => _errorMessage.Get(); set => _errorMessage.Set(value);}
+        private IProperty<string> _errorMessage = H.Property<string>();
+
+
+        public ICommand ExportCommand {get; } = H.Command(c => c.Action(e => e.Export()));
         private void Export()
         {
             // Vérifie qu'il y a bien quelque chose à exporter
             if (Items.Count == 0)
             {
-                MessageBox.Show("Aucun résultat à exporter !", "Exportation Excel", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ErrorMessage = "{Nothing to export}";
                 return;
             }
 
@@ -97,29 +131,37 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
 
         private string SetParam(string source, int num,string value)
         {
-           Regex x = new Regex(@$"(/\*{num}\*/])(.*?)(/\*\*/)");
+           if(value==null) return source;
+
+           Regex x = new Regex(@$"(/\*{num}:.*?\*)(.*?)(/\*\*/)");
            return x.Replace(source, "$1"+value+"$3");
         }
+        private string GetParamName(string source, int num)
+        {
+           Regex x = new Regex(@$"(/\*{num}:)(.*?)(\*/)");
+           var match = x.Match(source);
+           return match.Groups[2].Value;
+        }
 
-        ICommand RunCommand {get; } = H.Command(c => c.Action(e => e.Run()));
+        public ICommand RunCommand {get; } = H.Command(c => c.Action(e => e.Run()));
 
         private void Run()
         {
+            ErrorMessage = "";
+
             try
             {
-
                 // Requete
                 string requete = Model.Query;// new TextRange(RTB_Requeteur.Document.ContentStart, RTB_Requeteur.Document.ContentEnd).Text;
-                requete = SetParam (requete, 1, Param1);
-                requete = SetParam (requete, 2, Param2);
-                requete = SetParam (requete, 3, Param3);
-                requete = SetParam (requete, 4, Param4);
+                requete = SetParam (requete, 1, Parameter1);
+                requete = SetParam (requete, 2, Parameter2);
+                requete = SetParam (requete, 3, Parameter3);
+                requete = SetParam (requete, 4, Parameter4);
 
                 requete = requete.Replace("\r", "").Replace("\n", " ");
 
-                // Execute la requete
-                //Sql.Lit lit = new Sql.Lit(requete);
-                using var con = new NpgsqlConnection(_data.ConnectionString);
+                // Execute query
+                using var con = new NpgsqlConnection(Data.ConnectionString);
                 Columns.Clear();
                 con.Open();
                 using var cmd = new NpgsqlCommand(Model.Query, con);
@@ -132,24 +174,16 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
                 {
                     Columns.Add(cols[i].ColumnName);
                 }
-                /*
-                    DataGridTextColumn colonne = new DataGridTextColumn();
-                    colonne.Header = cols[i].ColumnName;
-                    colonne.Binding = new Binding(cols[i].ColumnName);
-                    colonne.Width = new DataGridLength(1.0 / cols.Count, DataGridLengthUnitType.Star);
-                    DG_Resultats.Columns.Add(colonne);
-                 
-                 */
 
                 while (reader.Read())
                 {
                     var ligne = new DataObject{
-                        _Proprietes=cols.Select(c => c.ColumnName).ToArray(),
-                        _Valeurs = new string[cols.Count]
+                        Properties=cols.Select(c => c.ColumnName).ToArray(),
+                        Values = new string[cols.Count]
                         };
                     for (int i = 1; i < cols.Count; i++)
                     {
-                        ligne._Valeurs[i] = reader.GetFieldValue<string>(i);
+                        ligne.Values[i] = reader.GetFieldValue<string>(i);
                     }
                     Items.Add(ligne);
                 }
@@ -158,7 +192,15 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "ERREUR dans la requete", MessageBoxButton.OK, MessageBoxImage.Error);
+                var e = ex;
+                ErrorMessage = "";
+                while (e!=null)
+                {
+                    ErrorMessage += ex.Message + Environment.NewLine;
+                    e = e.InnerException;
+                }
+
+                //MessageBox.Show(ex.Message, "ERREUR dans la requete", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
@@ -166,19 +208,19 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
 
     public class DataObject : DynamicObject
         {
-            public object[] _Valeurs;
-            public string[] _Proprietes;
+            public object[] Values;
+            public string[] Properties;
 
             public object this[string champ]
             {
                 get
                 {
                     // Recherche l'index du champ
-                    for (int i = 0; i < _Proprietes.Length; i++)
+                    for (int i = 0; i < Properties.Length; i++)
                     {
                         // Si le nom de la propriété est trouvée, donne la valeur
-                        if (_Proprietes[i] == champ)
-                            return _Valeurs[i];
+                        if (Properties[i] == champ)
+                            return Values[i];
                     }
 
                     // Si il ne le trouve pas
@@ -189,11 +231,11 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
                 set
                 {
                     // Recherche l'index du champ
-                    for (int i = 0; i < _Proprietes.Length; i++)
+                    for (int i = 0; i < Properties.Length; i++)
                     {
                         // Si le nom de la propriété est trouvée, attribue nouvelle la valeur
-                        if (_Proprietes[i] == champ)
-                            _Valeurs[i] = value;
+                        if (Properties[i] == champ)
+                            Values[i] = value;
                     }
                 }
             }
@@ -202,12 +244,12 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
             {
                 get
                 {
-                    return _Valeurs[index];
+                    return Values[index];
                 }
 
                 set
                 {
-                    _Valeurs[index] = value;
+                    Values[index] = value;
                 }
             }
 
@@ -221,13 +263,13 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
             public override bool TryGetMember(GetMemberBinder binder, out object result)
             {
                 // Recherche l'index du champ
-                for (int i = 0; i < _Proprietes.Length; i++)
+                for (int i = 0; i < Properties.Length; i++)
                 {
                     // Si le nom de la propriété est trouvée
-                    if (_Proprietes[i] == binder.Name)
+                    if (Properties[i] == binder.Name)
                     {
                         // Donne la valeur
-                        result = _Valeurs[i];
+                        result = Values[i];
                         return true;
                     }
                 }
@@ -246,13 +288,13 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
             public override bool TrySetMember(SetMemberBinder binder, object value)
             {
                 // Recherche l'index du champ
-                for (int i = 0; i < _Proprietes.Length; i++)
+                for (int i = 0; i < Properties.Length; i++)
                 {
                     // Si le nom de la propriété est trouvée
-                    if (_Proprietes[i] == binder.Name)
+                    if (Properties[i] == binder.Name)
                     {
                         // Donne la valeur
-                        _Valeurs[i] = value;
+                        Values[i] = value;
                         return true;
                     }
                 }

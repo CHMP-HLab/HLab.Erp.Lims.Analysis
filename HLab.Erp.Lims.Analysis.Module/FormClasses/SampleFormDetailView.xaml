@@ -8,7 +8,7 @@
              xmlns:views="clr-namespace:HLab.Erp.Core.Wpf.Views;assembly=HLab.Erp.Core.Wpf"
              xmlns:sampleTestResults="clr-namespace:HLab.Erp.Lims.Analysis.Module.SampleTestResults"
              xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
-             xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
+             xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf" xmlns:module="clr-namespace:HLab.Erp.Lims.Analysis.Module"
              Background="#FF402800"
              d:DataContext="{d:DesignInstance {x:Type sampleTestResults:SampleTestResultViewModelDesign}, IsDesignTimeCreatable=True}"             
              mc:Ignorable="d" 
@@ -46,7 +46,7 @@
 
                     <lang:LocalizedLabel Text="{}{Conformity} : " HorizontalAlignment="Right" VerticalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal">
-                        <icons:IconView Path="{Binding ConformityIconPath}" MaxHeight="25"/>
+                        <module:ConformityIcon Path="{Binding Model.ConformityId}" MaxHeight="25"/>
                         <Label/>
                         <lang:Localize Id="{Binding Conformity}" VerticalAlignment="Center"/>
                     </StackPanel>

@@ -26,16 +26,19 @@
         </Grid>-->
         <GridSplitter Grid.Column="1"/>
 
-        <TabControl Grid.Column="2" TabStripPlacement="Bottom">
-            <TabItem Header="xaml">
+        <TabControl 
+            Grid.Column="2" 
+            TabStripPlacement="Top" 
+            Style="{DynamicResource MahApps.Styles.TabControl.Animated}"
+            
+            >
+            <TabItem Header="XAML">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <!--<WindowsFormsHost>
-                            <fctb1:FastColoredTextBox x:Name="TB_Xaml" Language="HTML" ShowFoldingLines="True" TabLength="3" ChangedLineColor="Yellow" CurrentLineColor="LightBlue" HighlightingRangeType="VisibleRange"/>
-                        </WindowsFormsHost>-->
+                    
                     <wpf:TextEditorEx x:Name="XamlEditor"
                             LineNumbersForeground="Black"
                             ShowLineNumbers="True"
@@ -176,6 +179,7 @@
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding FormatCommand}">Format code</Button>
             <Button Command="{Binding TryCommand}">Try</Button>
             <Button Command="{Binding SpecificationModeCommand}">Specifications</Button>
             <Button Command="{Binding CaptureModeCommand}">Capture</Button>

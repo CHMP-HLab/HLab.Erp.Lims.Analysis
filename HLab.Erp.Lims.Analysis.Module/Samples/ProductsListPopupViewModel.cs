@@ -13,13 +13,13 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         }
 
         public ProductsListPopupViewModel() : base(c => c
-                    .Column()
+                    .Column("Name")
                         .Header("{Name}")
                         .Width(200)
                         .Link(p => p.Name)
                         .Filter()
 
-                    .Column()
+                    .Column("Variant")
                         .Header("{Variant}")
                         .Width(100)
                         .Link(p => p.Variant)

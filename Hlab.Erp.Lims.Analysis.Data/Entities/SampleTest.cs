@@ -1,4 +1,6 @@
 using System;
+
+using HLab.Base.Extensions;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
@@ -152,14 +154,14 @@ namespace HLab.Erp.Lims.Analysis.Data
         public DateTime? ScheduledDate
         {
             get => _scheduledDate.Get();
-            set => _scheduledDate.Set(value);
+            set => _scheduledDate.Set(value.ToUniversalTime());
         }
         private readonly IProperty<DateTime?> _scheduledDate = H.Property<DateTime?>();
 
         public DateTime? StartDate
         {
             get => _startDate.Get();
-            set => _startDate.Set(value);
+            set => _startDate.Set(value.ToUniversalTime());
         }
         private readonly IProperty<DateTime?> _startDate = H.Property<DateTime?>();
 
@@ -167,7 +169,7 @@ namespace HLab.Erp.Lims.Analysis.Data
         public DateTime? EndDate
         {
             get => _endDate.Get();
-            set => _endDate.Set(value);
+            set => _endDate.Set(value.ToUniversalTime());
         }
         private readonly IProperty<DateTime?> _endDate = H.Property<DateTime?>();
 

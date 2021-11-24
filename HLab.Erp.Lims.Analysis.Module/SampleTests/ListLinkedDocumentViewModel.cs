@@ -17,7 +17,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             ) : base(c => c
             .StaticFilter(e => e.SampleTestResultId == result.Id)
             //.DeleteAllowed()
-            .Column()
+            .Column("Name")
             .Header("{Name}").Width(200).Content(s => s.Name)
         )
         {

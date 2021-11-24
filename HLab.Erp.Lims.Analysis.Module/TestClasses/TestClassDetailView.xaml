@@ -9,7 +9,7 @@
              xmlns:views="clr-namespace:HLab.Erp.Core.Wpf.Views;assembly=HLab.Erp.Core.Wpf"
               xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
              xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
-             xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
+             xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf" xmlns:module="clr-namespace:HLab.Erp.Lims.Analysis.Module"
              d:DataContext="{d:DesignInstance {x:Type testClasses:TestClassViewModelDesign}, IsDesignTimeCreatable=True}"             
              Background="#FF005040"
              mc:Ignorable="d" 
@@ -58,38 +58,21 @@
                     </Label>
                     <TextBox Text="{Binding FormHelper.Form.Test.TestName}" HorizontalContentAlignment="Center" />
 
+                    <lang:LocalizedLabel Text="{}{Description} : " HorizontalContentAlignment="Right"/>
+                    <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Target.Description}"/>
 
-                    <Grid Grid.ColumnSpan="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
+                    <lang:LocalizedLabel Text="{}{Specifications} : " HorizontalContentAlignment="Right"/>
+                    <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Target.Specification}"/>
 
-                        <lang:LocalizedLabel Text="{}{Description} : " HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="0"/>
-                        <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Target.Description}" Grid.Row="1" Grid.Column="0"/>
+                    <lang:LocalizedLabel Text="{}{Result}" HorizontalContentAlignment="Center"/>
+                    <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Target.Result}"/>
 
-                        <lang:LocalizedLabel Text="{}{Specifications} : " HorizontalContentAlignment="Right" Grid.Row="0" Grid.Column="1"/>
-                        <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Target.Specification}" Grid.Row="1" Grid.Column="1"/>
+                    <lang:LocalizedLabel Text="{}{Conformity}" HorizontalContentAlignment="Center"/>
+                    <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Target.Conformity}"/>
 
-                        <lang:LocalizedLabel Text="{}{Result}" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="2"/>
-                        <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Target.Result}" Grid.Row="1" Grid.Column="2"/>
+                    <lang:LocalizedLabel Text="{}{Icon}" HorizontalContentAlignment="Center"/>
+                    <module:ConformityIcon Margin="0,5" HorizontalAlignment="Center" VerticalAlignment="Center" Path="{Binding FormHelper.Form.Target.ConformityId}" MaxHeight="40"/>
 
-                        <lang:LocalizedLabel Text="{}{Conformity}" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="3" />
-                        <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding FormHelper.Form.Target.Conformity}" Grid.Row="1" Grid.Column="3"/>
-
-                        <icons:IconView Margin="0,5" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="3" Path="{Binding ConformityIconPath}" MaxHeight="40"/>
-                    </Grid>
-
-
-                    <lang:LocalizedLabel HorizontalContentAlignment="Right" Text="{}{State}"/>
-                    <TextBox Text="{Binding FormHelper.Form.Target.Conformity}" HorizontalContentAlignment="Center" />
 
                     <Label Style="{DynamicResource Separator}" HorizontalContentAlignment="Stretch">
                         <Grid VerticalAlignment="Center">

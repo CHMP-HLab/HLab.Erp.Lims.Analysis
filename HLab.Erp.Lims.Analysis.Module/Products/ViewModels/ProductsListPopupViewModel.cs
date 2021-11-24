@@ -15,17 +15,17 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         public ProductsListPopupViewModel() : base(c => c
                 .Header("{Products}")
                 //.AddAllowed()
-                .Column()
+                .Column("Reference")
                     .Header("{Ref}")
                     .Link(p => p.Caption)
                 
-                .Column()
+                .Column("Name")
                     .Header("{Name}")
                     .Link(p => p.Name)
                     .Filter()
                     .IconPath("Icons/Entities/Products/Inn")
 
-                .Column()
+                .Column("Variant")
                     .Header("{Dose}")
                     .Link(p => p.Variant)
                     .Filter()

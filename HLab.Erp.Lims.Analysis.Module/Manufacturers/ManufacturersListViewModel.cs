@@ -15,15 +15,14 @@ namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
         { }
 
         public ManufacturersListViewModel() : base(c => c
-            .Column()
+            .Column("Name")
             .Header("{Name}")
             .Width(250).Link(e => e.Name)
                 .Filter()
                     .Header("{Name}")
 
-            .Column()
-                .Icon(m => m.Country?.IconPath ?? "")
-                .OrderBy(s => s.Country.Name)
+
+            .Column(e => e.Country, "Country").Mvvm().Width(150)
         )
         {
         }

@@ -19,27 +19,27 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         public TestResultsListViewModel(SampleTest sampleTest) : base(c => c
                 .StaticFilter(e => e.SampleTestId == sampleTest.Id)
 
-                .Column()
+                .Column("Selected")
                     .Header("{Selected}")
                     .Icon(s => (s.SampleTest.ResultId == s.Id) ? "Icons/Conformity/Selected" : "Icons/Conformity/NotSelected",20)
                     .Width(70)
 
-                .Column()
+                .Column("Name")
                     .Header("{Name}")
                     .Link(s => s.Name)
                     .Width(70)
 
-                .Column()
+                .Column("Start")
                     .Header("{Start}")
                     .Link(s => s.Start)
                     .Width(100)//.OrderByOrder(0)
                 
-                .Column()
+                .Column("End")
                     .Header("{End}")
                     .Link(s => s.End)
                     .Width(100)
 
-                .Column()
+                .Column("Result")
                     .Header("{Result}")
                     .Link(s => s.Result)
                     .Width(80)
@@ -48,14 +48,12 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                 
                 .StageColumn(default(SampleTestResultWorkflow), s => s.StageId)
 
-                .Column()
+                .Column("IsSelected")
                     .Hidden()
-                    .Id("IsSelected")
                     .Content(s => s.Id == s.SampleTest.Result?.Id)
 
-                .Column()
+                .Column("IsValid")
                     .Hidden()
-                    .Id("IsValid")
                     .Content(s => s.Stage != SampleTestResultWorkflow.Invalidated)
 
         )

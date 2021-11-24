@@ -16,16 +16,18 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         {
             foreach (var value in values.Split('■'))// Le séparateur est un ALT + 254
             {
-                var v = value.Split("=");
-                if (v.Length > 1)
+                if(!string.IsNullOrEmpty(value))
                 {
-                    TryAdd(v[0], v[1]);
+                    var v = value.Split("=");
+                    if (v.Length > 1)
+                    {
+                        TryAdd(v[0], v[1]);
+                    }
+                    else if (v.Length == 1)
+                    {
+                        TryAdd(v[0], "");
+                    }
                 }
-                else if (v.Length == 1)
-                {
-                    TryAdd(v[0], "");
-                }
-
             }
         }
 

@@ -80,8 +80,6 @@
     <Page Remove="Icons\Entities\FormClass.xaml" />
     <Page Remove="Icons\Entities\Manufacturer.xaml" />
     <Page Remove="Icons\Entities\Product.xaml" />
-    <Page Remove="Icons\Forms\Drugs.xaml" />
-    <Page Remove="Icons\Forms\Skin solution.xaml" />
     <Page Remove="Icons\Conformity\Conform.xaml" />
     <Page Remove="Icons\Conformity\NotChecked.xaml" />
     <Page Remove="Icons\Tests\AssayHplc.xaml" />
@@ -97,25 +95,6 @@
     <Page Remove="Icons\Tests\Sterility.xaml" />
     <Page Remove="Icons\Tests\Weighting.xaml" />
     <Page Remove="Icons\Edit.xaml" />
-    <Page Remove="Icons\Forms\Capsule.xaml" />
-    <Page Remove="Icons\Forms\Capsules.xaml" />
-    <Page Remove="Icons\Forms\Cream.xaml" />
-    <Page Remove="Icons\Forms\Gel.xaml" />
-    <Page Remove="Icons\Forms\Granulates.xaml" />
-    <Page Remove="Icons\Forms\Infusion preparation.xaml" />
-    <Page Remove="Icons\Forms\Injection.xaml" />
-    <Page Remove="Icons\Forms\Medical devices.xaml" />
-    <Page Remove="Icons\Forms\Mosquito net.xaml" />
-    <Page Remove="Icons\Forms\Ointment.xaml" />
-    <Page Remove="Icons\Forms\Ophtalmic drops.xaml" />
-    <Page Remove="Icons\Forms\Ophthalmic ointment.xaml" />
-    <Page Remove="Icons\Forms\Oral solution.xaml" />
-    <Page Remove="Icons\Forms\Oral suspension.xaml" />
-    <Page Remove="Icons\Forms\Pessaries.xaml" />
-    <Page Remove="Icons\Forms\powder for oral suspension.xaml" />
-    <Page Remove="Icons\Forms\powder.xaml" />
-    <Page Remove="Icons\Forms\Suppository.xaml" />
-    <Page Remove="Icons\Forms\Tablet.xaml" />
     <Page Remove="Icons\Logo.xaml" />
     <Page Remove="Icons\LogoBackground.xaml" />
     <Page Remove="Icons\result.xaml" />
@@ -156,8 +135,9 @@
 
   <ItemGroup>
     <PackageReference Include="ControlzEx" Version="5.0.1" />
+    <PackageReference Include="Dirkster.NumericUpDownLib" Version="3.0.0" />
     <PackageReference Include="Mages" Version="2.0.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.11.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" />
     <PackageReference Include="WpfMath" Version="0.11.0" />
   </ItemGroup>
 
@@ -211,17 +191,14 @@
     <Resource Include="Icons\Entities\Form.svg" />
     <Resource Include="Icons\Entities\Products\Inn.svg" />
     <Resource Include="Icons\Entities\SampleTest.svg" />
-    <Resource Include="Icons\Forms\NewFolder\Skin solution.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
     <Resource Include="Icons\Conformity\Invalid.svg" />
     <Resource Include="Icons\Conformity\Invalid2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
     <Resource Include="Icons\Printer.svg" />
-    <Resource Include="Icons\Sample\commercial.svg" />
-    <Resource Include="Icons\Sample\date.svg" />
+    <Resource Include="Icons\Sample\Commercial.svg" />
+    <Resource Include="Icons\Sample\Date.svg" />
     <Resource Include="Icons\Sample\location.svg" />
     <Resource Include="Icons\Sample\Notification.svg" />
     <Resource Include="Icons\Workflows\Aborted.svg" />
@@ -293,82 +270,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Resource>
     <Resource Include="Icons\Edit.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\Capsule.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\Capsules.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\NewFolder\Cream.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\NewFolder\Gel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\Granulates.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\Infusion preparation.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\Injection.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\Medical devices.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\Mosquito net.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\Ointment.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\Ophtalmic drops.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\Ophthalmic ointment.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\NewFolder\Oral solution.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\Oral suspension.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\Pessaries.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\powder for oral suspension.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\NewFolder\powder.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\Suppository.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Icons\Forms\NewFolder\Tablet.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>

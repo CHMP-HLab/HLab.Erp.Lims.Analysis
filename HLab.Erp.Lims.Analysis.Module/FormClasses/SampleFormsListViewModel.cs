@@ -16,7 +16,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         public Sample Sample {get; }
         public SampleFormsListViewModel(Sample sample) : base(c => c
                 .StaticFilter(e =>e.SampleId == sample.Id)
-                .Column()
+                .Column("Name")
                     .Header("{Name}")
                     .Width(200)
                     .Content(s => s.FormClass.Name)

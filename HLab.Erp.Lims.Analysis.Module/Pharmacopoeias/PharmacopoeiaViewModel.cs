@@ -14,7 +14,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
             Model = Pharmacopoeia.DesignModel;
         }
     }
-    public class PharmacopoeiaViewModel : EntityViewModel<Pharmacopoeia>
+    public class PharmacopoeiaViewModel : ListableEntityViewModel<Pharmacopoeia>
     {
 
     }

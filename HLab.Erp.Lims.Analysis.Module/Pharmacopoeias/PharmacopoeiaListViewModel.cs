@@ -20,7 +20,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
         protected override bool CanExecuteDelete(Pharmacopoeia pharmacopoeia, Action<string> errorAction) => true;
 
         public PharmacopoeiasListViewModel() : base(c => c
-            .Column()
+            .Column("Name")
             .Header("{Name}").Localize()
             .Width(250).Content(e => e.Name)
                     .Localize()
@@ -28,7 +28,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
                     .Link(e => e.Name)
                         .Filter()
 
-                .Column()
+                .Column("Abbreviation")
                     .Header("{Abbreviation}").Localize()
                     .Width(250)
                     .Link(e => e.Abbreviation)

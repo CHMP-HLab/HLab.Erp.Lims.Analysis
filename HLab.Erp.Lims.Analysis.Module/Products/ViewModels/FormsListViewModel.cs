@@ -19,12 +19,12 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         protected override bool CanExecuteDelete(Form form, Action<string> errorAction) => true;
 
         public ProductFormsListViewModel() : base(c => c
-            .Column()
+            .Column("Name")
                 .Header("{Name}")
                 .Link(e => e.Name)
                 .Filter()
                     .Link(e => e.Name)
-            .Column()
+            .Column("Icon")
                 .Header("{Icon}")
                 .Icon((s) => s.IconPath)
                 .OrderBy(s => s.Name)            

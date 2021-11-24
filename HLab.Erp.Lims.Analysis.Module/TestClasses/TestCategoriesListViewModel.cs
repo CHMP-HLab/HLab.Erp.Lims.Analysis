@@ -10,10 +10,10 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         public TestCategoriesListViewModel() : base(c => c
                 //.AddAllowed()
                 //.DeleteAllowed()
-                .Column()
+                .Column("Icon")
                     .Width(80)
                     .Icon(s => s.IconPath, 30 )
-                .Column()
+                .Column("Name")
                     .Header("{Name}")
                     .Width(200)
                     .Content(s => s.Name)

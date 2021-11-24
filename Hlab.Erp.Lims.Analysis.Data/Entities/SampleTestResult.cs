@@ -1,4 +1,6 @@
 ﻿using System;
+
+using HLab.Base.Extensions;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
@@ -73,15 +75,15 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         public DateTime? Start
         {
-            get => _start.Get();
-            set => _start.Set(value);
+            get => _start.Get().ToUniversalTime();
+            set => _start.Set(value.ToUniversalTime());
         }
         private readonly IProperty<DateTime?> _start = H.Property<DateTime?>();
 
         public DateTime? End
         {
-            get => _end.Get();
-            set => _end.Set(value);
+            get => _end.Get().ToUniversalTime();
+            set => _end.Set(value.ToUniversalTime());
         }
 
         private readonly IProperty<DateTime?> _end = H.Property<DateTime?>();
@@ -96,8 +98,9 @@ namespace HLab.Erp.Lims.Analysis.Data
                 if (_conformityId.Get() != default && _conformityId.Get() != value)
                 {
                     if (Stage != SampleTestResultWorkflow.Running)
-                    { }
-//                        throw new Exception("Invalid state");
+                    {
+                        throw new Exception("Invalid state");
+                    }
                 }
                 #endif
                 _conformityId.Set(value);

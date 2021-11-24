@@ -46,7 +46,11 @@ namespace HLab.Erp.Lims.Analysis.Data
             .On(e => e.Name)
             .On(e => e.Variant)
             .On(e => e.Form)
-            .Set(e => e.Name + " - " + (e.Form?.Caption??"") +  " (" + e.Variant + ")")
+            .Set(e =>
+            {
+                if(string.IsNullOrEmpty(e.Name)) return "{New product}";
+                return e.Name + " - " + (e.Form?.Caption ?? "") + " (" + e.Variant + ")";
+            })
         );
 
         [Ignore]

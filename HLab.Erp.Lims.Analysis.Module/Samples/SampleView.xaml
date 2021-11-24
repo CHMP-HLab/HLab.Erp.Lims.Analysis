@@ -144,7 +144,7 @@
                         </RadioButton>
                     </StackPanel>-->
 
-                    <icons:IconView Path="{Binding ConformityIconPath}"/>
+                    <local:ConformityIcon Conformity="{Binding Model.ConformityId}"/>
 
                     <StackPanel Grid.Column="1" VerticalAlignment="Top">
                         <lang:LocalizedLabel DockPanel.Dock="Top" Text="{}{Conclusion}"/>

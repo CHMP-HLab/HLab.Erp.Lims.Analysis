@@ -13,21 +13,21 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
     {
         public class Bootloader : NestedBootloader { }
         public ProductsListViewModel() : base(c => c
-               .Column()
+               .Column("Category")
                .Header("{Category}")
                .Width(100)
                .Content(e => e.Category == null ? "" : e.Category.Name)
                .OrderBy(e => e.Category?.Name)
 
-               .Column()
-               .Header("{Inn}")
+               .Column("Name")
+               .Header("{Name}")
                .IconPath("Icons/Entities/Products/Inn")
                .Width(300)
                .Link(e => e.Name)
                .OrderBy(e => e.Name)
                 .Filter()
 
-               .Column()
+               .Column("Variant")
                .Header("{Dose}")
                .IconPath("Icons/Entities/Products/Dose")
                .Width(200)

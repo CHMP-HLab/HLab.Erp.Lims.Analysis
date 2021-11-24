@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+
 using HLab.Base.Wpf;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
@@ -14,7 +15,7 @@ using HLab.Notify.Wpf;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
-    public abstract class TestForm : UserControlNotifier
+    public abstract class TestForm : UserControlNotifier, IForm
     {
         protected static readonly Brush ConformBrush = Brushes.Green;
         protected static readonly Brush NotConformBrush = Brushes.Red;
@@ -35,67 +36,83 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             H<TestForm>.Initialize(this);
         }
 
-        public virtual string Version => "";
-
-        public virtual void Upgrade(FormValues values) { }
-
-        private IEnumerable<FrameworkElement> _namedElements;
+        public IEnumerable<FrameworkElement> NamedElements {get; set;}
 
         private bool _allowProcess = false;
 
-        private IForm Form
-        {
-            get
-            {
-                if (this is not IForm form) throw new Exception("TestForm should imlement IForm");
-                return form;
-            }
-        }
+        //private IForm Form
+        //{
+        //    get
+        //    {
+        //        if (this is IForm form) return form;
+        //        throw new Exception("TestForm should imlement IForm");
 
+        //    }
+        //}
+
+
+        private ConformityState _conformityState = ConformityState.NotChecked;
+        private bool _reenteringTest = false;
         public void TryProcess(object sender, RoutedEventArgs args)
         {
-            if(!_allowProcess) return;
+            if (!_allowProcess) return;
+
+            if(_reenteringTest) {}
+            _reenteringTest = true;
 
             try
-            {
-                Form.Process(sender, args);
+            { 
+                SetErrorMessage(new TextBlock { Text="Ok" });
+
+                _conformityState = ConformityState.NotChecked;
+                ResetBrush();
+
+                ((IForm)this).Process(sender, args);
+
+                Target.ConformityId = _conformityState;
                 SetFormMode(Mode);
             }
             catch (Exception e)
             {
                 SetErrorMessage(new ExceptionView { DataContext = e });
             }
+            finally
+            {
+                _reenteringTest = false;
+            }
         }
-
-        private bool IsNamedElement(FrameworkElement e) => !string.IsNullOrWhiteSpace(e.Name) && e.Name != "formulaContainerElement";
 
         protected override void OnContentChanged(object oldContent, object newContent)
         {
             try
             {
-                var form = Form;
+                //var form = Form;
 
                 if (newContent is not FrameworkElement content) return;
 
                 var checkboxes = new Dictionary<string, List<CheckBox>>();
 
-                _namedElements = content.FindLogicalChildren<FrameworkElement>()
-                    .Where(e => IsNamedElement(e)).ToList();
-
                 var i = 0;
 
-                foreach (var element in _namedElements)
+                foreach (var element in NamedElements)
                 {
-                    form.Connect(i, element);
+                    ((IForm)this).Connect(i, element);
 
                     switch (element)
                     {
+                        case DoubleBox doubleBox:
+                            if(!doubleBox.IsReadOnly)
+                            doubleBox.DoubleChanged += TryProcess;
+                            break;
+
                         case TextBoxEx textBoxEx:
-                            textBoxEx.DoubleChange += form.TryProcess;
+                            if(!textBoxEx.IsReadOnly)
+                            textBoxEx.TextChanged += TryProcess;
                             break;
 
                         case TextBox textBox:
-                            textBox.TextChanged += form.TryProcess;
+                            if(!textBox.IsReadOnly)
+                            textBox.TextChanged += TryProcess;
                             break;
 
                         case CheckBox checkBox:
@@ -116,21 +133,34 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                                 {
                                     args.Handled = true;
                                     CheckGroup(sender, chk.ToArray());
-                                    form.TryProcess(sender, args);
+                                    TryProcess(sender, args);
                                 };
                             }
                             else
-                                checkBox.PreviewMouseDown += (a, f) =>
                             {
-                                f.Handled = true;
-                                form.TryProcess(a, f);
-                            };
+                                checkBox.Checked += (a, f) =>
+                                {
+                                    //f.Handled = true;
+                                    TryProcess(a, f);
+                                };
+
+                                checkBox.Unchecked += (a, f) =>
+                                {
+                                    //f.Handled = true;
+                                    TryProcess(a, f);
+                                };
+
+                            }
 
                             break;
 
                         case Button button:
-                            button.Click += form.TryProcess;
+                            button.Click += TryProcess;
                             break;
+
+                            //case ComboBox cbo:
+                            //    cbo.SelectionChanged += form.TryProcess;
+                            //    break;
                     }
                     i++;
                 }
@@ -190,7 +220,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         private readonly ConcurrentBag<Action> _cache = new();
 
-        public void Reset()
+        public void ResetBrush()
         {
             while (_cache.TryTake(out var action))
             {
@@ -199,12 +229,12 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
         private void SetBrush(FrameworkElement element, Brush brush)
         {
-            if(element is Control control)
+            if (element is Control control)
                 SetBrush(control, brush);
             else
-            if(element is TextBlock textBlock)
+            if (element is TextBlock textBlock)
                 SetBrush(textBlock, brush);
-            
+
         }
 
         private void SetBrush(Control control, Brush brush)
@@ -232,20 +262,85 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         public void NotConform(params FrameworkElement[] elements)
         {
-            Target.ConformityId = ConformityState.NotConform;
-            foreach(var element in elements) SetBrush(element, NotConformBrush);
+            switch (_conformityState)
+            {
+                case ConformityState.NotChecked:
+                    _conformityState = ConformityState.NotConform;
+                    break;
+                case ConformityState.Running:
+                    _conformityState = ConformityState.NotConform;
+                    break;
+                case ConformityState.NotConform:
+                    break;
+                case ConformityState.Conform:
+                    _conformityState = ConformityState.NotConform;
+                    break;
+                case ConformityState.Invalid:
+                    break;
+            }
+            foreach (var element in elements) SetBrush(element, NotConformBrush);
         }
 
         public void Conform(params FrameworkElement[] elements)
         {
-            Target.ConformityId = ConformityState.Conform;
-            foreach(var element in elements) SetBrush(element, ConformBrush);
+            switch (_conformityState)
+            {
+                case ConformityState.NotChecked:
+                    _conformityState = ConformityState.Conform;
+                    break;
+                case ConformityState.Running:
+                    break;
+                case ConformityState.NotConform:
+                    break;
+                case ConformityState.Conform:
+                    break;
+                case ConformityState.Invalid:
+                    break;
+            }
+
+            foreach (var element in elements) SetBrush(element, ConformBrush);
         }
 
         public void Invalid(params FrameworkElement[] elements)
         {
-            Target.ConformityId = ConformityState.Invalid;
-            foreach(var element in elements) SetBrush(element, InvalidBrush);
+            switch (_conformityState)
+            {
+                case ConformityState.NotChecked:
+                    _conformityState = ConformityState.Invalid;
+                    break;
+                case ConformityState.Running:
+                    break;
+                case ConformityState.NotConform:
+                    _conformityState = ConformityState.Invalid;
+                    break;
+                case ConformityState.Conform:
+                    _conformityState = ConformityState.Invalid;
+                    break;
+                case ConformityState.Invalid:
+                    break;
+            }
+            foreach (var element in elements) SetBrush(element, InvalidBrush);
+        }
+        public void Running(params FrameworkElement[] elements)
+        {
+            switch (_conformityState)
+            {
+                case ConformityState.NotChecked:
+                    _conformityState = ConformityState.Running;
+                    break;
+                case ConformityState.Running:
+                    break;
+                case ConformityState.NotConform:
+                    _conformityState = ConformityState.Running;
+                    break;
+                case ConformityState.Conform:
+                    _conformityState = ConformityState.Running;
+                    break;
+                case ConformityState.Invalid:
+                    _conformityState = ConformityState.Running;
+                    break;
+            }
+            foreach (var element in elements) SetBrush(element, InvalidBrush);
         }
 
         public abstract string GetPackedValues();
@@ -281,9 +376,9 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         public void SetFormMode(FormMode mode)
         {
-            var specificationNeeded = 0;
-            var mandatoryNeeded = 0;
-            var optionalEmpty = 0;
+            var todoSpecification = 0;
+            var todoMandatory = 0;
+            var todoOptional = 0;
 
             var specificationDone = 0;
             var mandatoryDone = 0;
@@ -292,7 +387,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             List<string> todoList = new();
 
 
-            foreach (var element in _namedElements)
+            foreach (var element in NamedElements)
             {
                 var spec = HasLevel(element, ElementLevel.Specification);
                 var mandatory = HasLevel(element, ElementLevel.Mandatory);
@@ -311,16 +406,16 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
                 Action todo;
 
-                if (spec) todo = () => specificationNeeded++;
+                if (spec) todo = () => todoSpecification++;
                 else if (mandatory)
                 {
                     todo = () =>
                     {
-                        mandatoryNeeded++;
+                        todoMandatory++;
                         todoList.Add(element.Name);
                     };
                 }
-                else todo = () => optionalEmpty++;
+                else todo = () => todoOptional++;
 
                 Action done;
                 if (spec) done = () => specificationDone++;
@@ -333,6 +428,19 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
                 switch (element)
                 {
+                    // DoubleBox
+                    case DoubleBox doubleBox when Math.Abs(doubleBox.Double) > double.Epsilon:
+                        doubleBox.Background = doneBrush;
+                        doubleBox.IsEnabled = enabled;
+                        done();
+                        break;
+
+                    case DoubleBox doubleBox:
+                        doubleBox.Background = todoBrush;
+                        doubleBox.IsEnabled = enabled;
+                        todo();
+                        break;
+
                     // TextBoxEx
                     case TextBoxEx tb when Math.Abs(tb.Double) > double.Epsilon:
                         tb.Background = doneBrush;
@@ -378,7 +486,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                         done();
                         break;
 
-                    case ComboBox cbo :
+                    case ComboBox cbo:
                         cbo.Background = todoBrush;
                         cbo.IsEnabled = enabled;
                         todo();
@@ -392,53 +500,63 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
             if (Target != null)
             {
-                switch (mode)
+                if (mode == FormMode.Specification)
                 {
-                    case FormMode.Specification:
-                        {
-                            Target.SpecificationValues = GetSpecPackedValues();
-                            if (specificationNeeded > 0)
-                            {
-                                if (Target != null)
-                                    Target.ConformityId = ConformityState.NotChecked;
+                    //Store specification values
+                    try
+                    {
+                        Target.SpecificationValues = $"{GetSpecPackedValues()}Version={((IForm)this).Version}■";
+                    }
+                    catch(Exception e)
+                    {
+                        SetErrorMessage(new ExceptionView { DataContext = e });
+                    }
+                    if (todoSpecification > 0)
+                    {
+                        Target.ConformityId = ConformityState.NotChecked;
+                        Target.SpecificationDone = false;
+                    }
+                    else Target.SpecificationDone = true;
 
-                                Target.SpecificationDone = false;
-                            }
-                            else Target.SpecificationDone = true;
+                    if (string.IsNullOrWhiteSpace(Target.TestName))
+                    {
+                        Target.TestName = Target.DefaultTestName;
+                    }
+                }
+                else if (mode == FormMode.Capture)
+                {
+                    //Store result values
+                    try
+                    {
+                        Target.ResultValues = $"{GetPackedValues()}Version={((IForm)this).Version}■";
+                    }
+                    catch(Exception e)
+                    {
+                        SetErrorMessage(new ExceptionView { DataContext = e });
+                    }
+                    if (todoMandatory > 0)
+                    {
+                        Target.ConformityId = mandatoryDone > 0 ? ConformityState.Running : ConformityState.NotChecked;
+                        Target.MandatoryDone = false;
+                    }
+                    else Target.MandatoryDone = true;
 
-                            break;
-                        }
-                    case FormMode.Capture:
-                        {
-                            Target.ResultValues = GetPackedValues();
-                            if (mandatoryNeeded > 0)
-                            {
-                                if (Target != null)
-                                    Target.ConformityId = mandatoryDone > 0 ? ConformityState.Running : ConformityState.NotChecked;
-                                Target.MandatoryDone = false;
-                            }
-                            else Target.MandatoryDone = true;
-
-                            break;
-                        }
+                    if (string.IsNullOrWhiteSpace(Target.Conformity) || GetConformities().Contains(Target.Conformity))
+                    {
+                        Target.Conformity = Target.ConformityId.Caption();
+                    }
                 }
 
-                if (Target.ConformityId > ConformityState.Running)
-                {
-                    if (specificationNeeded > 0) Target.ConformityId = ConformityState.NotChecked;
-                    if (mandatoryNeeded > 0) Target.ConformityId = ConformityState.Running;
-                }
-
-                if (string.IsNullOrWhiteSpace(Target.Conformity))
-                {
-                    Target.Conformity = Target.ConformityId.Caption();
-                }
-
-                if (string.IsNullOrWhiteSpace(Target.TestName))
-                {
-                    Target.TestName = Target.DefaultTestName;
-                }
             }
+        }
+
+        private static IEnumerable<string> GetConformities()
+        {
+            yield return ConformityState.Running.Caption();
+            yield return ConformityState.Conform.Caption();
+            yield return ConformityState.Invalid.Caption();
+            yield return ConformityState.NotChecked.Caption();
+            yield return ConformityState.NotConform.Caption();
         }
 
         public bool PreventProcess()
@@ -457,12 +575,13 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         {
             var allowProcess = PreventProcess();
 
-            if (values == null) return;
+            if (string.IsNullOrWhiteSpace(values)) return;
+
             var formValues = new FormValues(values);
 
-            if(Form.Version != formValues.Version)
+            if (((IForm)this).Version != formValues.Version)
             {
-                Form.Upgrade(formValues);
+                ((IForm)this).Upgrade(formValues);
             }
 
             LoadValues(formValues);
@@ -473,7 +592,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         public void LoadValues(FormValues values)
         {
-            foreach (var c in _namedElements)
+            foreach (var c in NamedElements)
             {
                 var name = c.Name;
                 var idx = name.IndexOf("__", StringComparison.Ordinal);
@@ -483,24 +602,30 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 if (values.TryGetValue(name, out var value))
                     switch (c)
                     {
-                        case TextBoxEx tbe:
-                            tbe.Double = Csd(value);
+                        case DoubleBox doubleBox:
+                            doubleBox.Double = Csd(value);
                             break;
-                        case TextBox tb:
-                            tb.Text = value;
+
+                        case TextBoxEx textBoxEx:
+                            textBoxEx.Double = Csd(value);
                             break;
-                        case CheckBox cb:
+
+                        case TextBox textBox:
+                            textBox.Text = value;
+                            break;
+
+                        case CheckBox checkBox:
                             if (isBool)
                             {
-                                cb.IsChecked = c.Name == $"{name}__{value}";
+                                checkBox.IsChecked = c.Name == $"{name}__{value}";
                             }
                             else
-                                cb.IsChecked = value switch
+                                checkBox.IsChecked = value switch
                                 {
                                     "N" => null,
                                     "0" => false,
                                     "1" => true,
-                                    _ => cb.IsChecked
+                                    _ => checkBox.IsChecked
                                 };
 
                             break;
@@ -509,7 +634,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
         public static double Csd(string str)
         {
-            if(String.IsNullOrWhiteSpace(str)) return 0.0;
+            if (String.IsNullOrWhiteSpace(str)) return 0.0;
 
             str = str.Replace(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator, ".", StringComparison.InvariantCulture);
             try

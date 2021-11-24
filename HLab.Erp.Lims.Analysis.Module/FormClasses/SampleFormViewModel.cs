@@ -21,7 +21,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         }
     }
 
-    public class SampleFormViewModel : EntityViewModel<SampleForm>
+    public class SampleFormViewModel : ListableEntityViewModel<SampleForm>
     {
         public SampleFormViewModel(IErpServices erp, Func<FormHelper> getFormHelper)
         {
@@ -58,14 +58,6 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
         private readonly IProperty<string> _conformity = H.Property<string>(c => c
             .Set(e => e.Model.ConformityId.ToString())
-            .On(e => e.Model.ConformityId)
-            .Update()
-        );
-
-        public string ConformityIconPath => _conformityIconPath.Get();
-
-        private readonly IProperty<string> _conformityIconPath = H.Property<string>(c => c
-            .Set(e =>e.Model.ConformityId.IconPath())
             .On(e => e.Model.ConformityId)
             .Update()
         );
@@ -116,13 +108,6 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
         }
 
-        public override string Header => _header.Get();
-        private readonly IProperty<string> _header = H.Property<string>(c => c
-            .Set(e => e.Model.Sample?.Reference + " - " + e.Model.FormClass.Name)
-            .On(e => e.Model.Sample.Reference)
-            .On(e => e.Model.FormClass.Name)
-            .Update()
-            );
 
         //public string SubTitle => _subTitle.Get();
         //private readonly IProperty<string> _subTitle = H.Property<string>(c => c
