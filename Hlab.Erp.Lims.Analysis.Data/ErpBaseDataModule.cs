@@ -123,6 +123,19 @@ namespace HLab.Erp.Lims.Analysis.Data
                         .Version("2.5.0.0");
                         ;
                     break;
+                case "2.5.0.0":
+                    builder
+                        .Table<ProductComponent>()
+                            .Create()
+                        .Table<Inn>()
+                            .AddColumn(t => t.CasNumber)
+                            .AddColumn(t => t.Density)
+                            .AddColumn(t => t.Caption)
+                            .AddColumn(t => t.MolarMass)
+                            .AddColumn(t => t.UnitGroup)
+                        //.Version("2.6.0.0");
+                        ;
+                    break;
 
 
             }

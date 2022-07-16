@@ -1,15 +1,16 @@
+using HLab.Erp.Base.Data;
 using HLab.Erp.Data;
+using HLab.Mvvm.Application;
 using HLab.Notify.PropertyChanged;
 using NPoco;
 
-namespace HLab.Erp.Lims.Analysis.Data
+namespace HLab.Erp.Lims.Analysis.Data.Entities
 {
-    using H1 = HD<ProductProductComponent>;
-//    using H2 = HD<Inn>;
+    using H = HD<ProductComponent>;
 
-    public class ProductProductComponent : Entity
+    public class ProductComponent : Entity, IListableModel
     {
-        public ProductProductComponent() => H1.Initialize(this);
+        public ProductComponent() => H.Initialize(this);
 
         public int? ProductId
         {
@@ -17,14 +18,53 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _product.Id.Set(value);
         }
 
+        public int? InnId
+        {
+            get => _inn.Id.Get();
+            set => _inn.Id.Set(value);
+        }
+        public double Quantity
+        {
+            get => _quantity.Get();
+            set => _quantity.Set(value);
+        }
+        private readonly IProperty<double> _quantity = H.Property<double>(c => c.Default(0.0));
+        public int? UnitId
+        {
+            get => _unit.Id.Get();
+            set => _unit.Id.Set(value);
+        }
+        [Ignore]
+        public Unit Unit
+        {
+            set => _unit.Set(value);
+            get => _unit.Get();
+        }
+        private readonly IForeign<Unit> _unit = H.Foreign<Unit>();
+
         [Ignore]
         public Product Product
         {
             set => _product.Set(value);
             get => _product.Get();
         }
-        private readonly IForeign<Product> _product = H1.Foreign<Product>();
+        private readonly IForeign<Product> _product = H.Foreign<Product>();
 
+        [Ignore]
+        public Inn Inn
+        {
+            set => _inn.Set(value);
+            get => _inn.Get();
+        }
+        private readonly IForeign<Inn> _inn = H.Foreign<Inn>();
+
+        public static ProductComponent DesignModel => new()
+        {
+            Inn = Inn.DesignModel,
+            Product = Product.DesignModel,
+            Quantity = 100.0,
+            Unit = Unit.DesignModel
+        };
     }
 
     //public class Inn : Entity

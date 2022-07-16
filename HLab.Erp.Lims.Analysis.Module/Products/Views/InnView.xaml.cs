@@ -9,9 +9,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.Views
     /// <summary>
     /// Logique d'interaction pour ProductView.xaml
     /// </summary>
-    public partial class ProductView : UserControl, IView<ProductViewModel>, IViewClassDetail, IViewClassDocument
+    public partial class InnView : UserControl, IView<InnViewModel>, IViewClassDetail, IViewClassDocument
     {
-        public ProductView()
+        public InnView()
         {
             InitializeComponent();
         }

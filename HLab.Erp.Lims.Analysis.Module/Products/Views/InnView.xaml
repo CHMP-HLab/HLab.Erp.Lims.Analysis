@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="HLab.Erp.Lims.Analysis.Module.Products.Views.ProductView"
+﻿<UserControl x:Class="HLab.Erp.Lims.Analysis.Module.Products.Views.InnView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -15,7 +15,7 @@
              xmlns:viewModels="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products.ViewModels"
              mc:Ignorable="d" 
              Background="#FF93A03F"
-             d:DataContext="{d:DesignInstance {x:Type viewModels:ProductViewModelDesign}, IsDesignTimeCreatable=True}"             
+             d:DataContext="{d:DesignInstance {x:Type viewModels:InnViewModelDesign}, IsDesignTimeCreatable=True}"             
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
 <Grid.RowDefinitions>
@@ -29,54 +29,36 @@
         <StackPanel Grid.Row="1" Orientation="Vertical">
             <views:DetailView 
                 
-                Text="{}{Product}" 
+                Text="{}{Inn}" 
                 IconPath="Icons/Sample/Drugs"
                 EditMode="{Binding Locker.IsActive}">
                 
-            <lang:LocalizedLabel Text="{}{Category} : "/>
+            <!--<lang:LocalizedLabel Text="{}{Category} : "/>
             <entitySelectors:ForeignView 
                 HorizontalAlignment="Left"
                 Model="{Binding Model.Category}"
                 ModelClass="{x:Type entities:ProductCategory}" 
-                ListClass="{x:Type viewModels:ProductCategoriesListViewModel}"/>
+                ListClass="{x:Type viewModels:ProductCategoriesListViewModel}"/>-->
                 
-            <StackPanel Orientation="Horizontal">
-                <lang:LocalizedLabel Text="{Binding Model.Category.NamePropertyName}"/>
-                <Label Content=" : "/>
-            </StackPanel>
+            <lang:LocalizedLabel Text="{}{Name} : "/>
             <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Name}" HorizontalContentAlignment="Center" />
                 
-            <StackPanel Orientation="Horizontal">
-                <lang:LocalizedLabel Text="{Binding Model.Category.VariantPropertyName}"/>
-                <lang:LocalizedLabel Text=" : "/>
-            </StackPanel>
-                
-            <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Variant}" HorizontalContentAlignment="Center" />
+            <lang:LocalizedLabel Text="{}{CAS} : "/>
+            <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.CasNumber}" HorizontalContentAlignment="Center" />
+              
+            <lang:LocalizedLabel Text="{}{Density} : "/>
+            <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Density}" HorizontalContentAlignment="Center" />
 
-            <lang:LocalizedLabel Text="{}{Complement} : "/>
-            <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Complement}" HorizontalContentAlignment="Center" />
-                
-            <lang:LocalizedLabel Text="{}{Form} : "/>
-            <entitySelectors:ForeignView
-                    HorizontalAlignment="Left"
-                    ModelClass="{x:Type entities:Form}"
-                    Model ="{Binding Model.Form}"
-                    />
+            <lang:LocalizedLabel Text="{}{Molar Mass} : "/>
+            <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.MolarMass}" HorizontalContentAlignment="Center" />
+
+            <lang:LocalizedLabel Text="{}{Unit Group} : "/>
+            <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.UnitGroup}" HorizontalContentAlignment="Center" />
+
+            <lang:LocalizedLabel Text="{}{Wikipedia}"/>
+            <Button Command="{Binding WikiCommand}"><lang:LocalizedLabel Text="{}{Wikipedia}"/></Button>
             </views:DetailView>
             
-            <views:DetailView 
-                Text="{}{Components}" 
-                IconPath="Icons/Sample/Drugs"
-                EditMode="{Binding Locker.IsActive}">
-                
-                <lang:LocalizedLabel Text="{}{Components} : "/>
-                <Grid Grid.Row="2" VerticalAlignment="Top">
-                    <mvvm:ViewLocator 
-                        ViewClass="{x:Type annotations:IViewClassContent}"
-                        Model="{Binding Components}"
-                        />
-                </Grid>
-            </views:DetailView>
         </StackPanel>
 
     </Grid>

@@ -8,6 +8,7 @@ using System;
 using System.Windows.Input;
 using HLab.Notify.PropertyChanged;
 using System.Threading.Tasks;
+using HLab.Erp.Lims.Analysis.Data.Entities;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {

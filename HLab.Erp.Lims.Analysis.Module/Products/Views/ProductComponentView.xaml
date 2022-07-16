@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="HLab.Erp.Lims.Analysis.Module.Products.Views.ProductComponentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products"
+             xmlns:lang="clr-namespace:HLab.Localization.Wpf.Lang;assembly=HLab.Localization.Wpf"
+             xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
+             xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
+             xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
+             xmlns:data="clr-namespace:HLab.Erp.Lims.Analysis.Data;assembly=HLab.Erp.Lims.Analysis.Data"
+             xmlns:views="clr-namespace:HLab.Erp.Core.Wpf.Views;assembly=HLab.Erp.Core.Wpf"
+             xmlns:products="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products"
+             xmlns:entities="clr-namespace:HLab.Erp.Lims.Analysis.Data.Entities;assembly=HLab.Erp.Lims.Analysis.Data"
+             xmlns:viewModels="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products.ViewModels"
+             xmlns:pharmacopoeias="clr-namespace:HLab.Erp.Lims.Analysis.Module.Pharmacopoeias"
+             xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
+             xmlns:units="clr-namespace:HLab.Erp.Base.Data;assembly=HLab.Erp.Base.Data"
+             mc:Ignorable="d" 
+             Background="#FF93A03F"
+             d:DataContext="{d:DesignInstance {x:Type viewModels:ProductComponentViewModelDesign}, IsDesignTimeCreatable=True}"             
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+<Grid.RowDefinitions>
+    <RowDefinition Height="Auto"/>
+    <RowDefinition Height="*"/>
+    <RowDefinition Height="Auto"/>
+</Grid.RowDefinitions>
+
+<mvvm:ViewLocator Height="50" Model="{Binding Locker}"/>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <views:DetailView 
+                
+                Text="{}{Product}" 
+                IconPath="Icons/Sample/Drugs"
+                EditMode="{Binding Locker.IsActive}">
+                
+            <lang:LocalizedLabel Text="{}{Product} : "/>
+            <entitySelectors:ForeignView 
+                HorizontalAlignment="Left"
+                Model="{Binding Model.Product}"
+                ModelClass="{x:Type data:Product}" 
+                ListClass="{x:Type viewModels:ProductsListViewModel}"/>
+                
+            <lang:LocalizedLabel Text="{}{Inn} : "/>
+            <entitySelectors:ForeignView 
+                HorizontalAlignment="Left"
+                Model="{Binding Model.Inn}"
+                ModelClass="{x:Type entities:Inn}" 
+                ListClass="{x:Type viewModels:InnsListViewModel}"/>
+
+            <lang:LocalizedLabel Text="{}{Quantity} : "/>
+            <wpf:NumTextBox Value="{Binding Model.Quantity}"/>
+
+            <lang:LocalizedLabel Text="{}{Unit} : "/>
+            <entitySelectors:ForeignView 
+                HorizontalAlignment="Left"
+                Model="{Binding Model.Unit}"
+                ModelClass="{x:Type units:Unit}" 
+                />
+                
+            </views:DetailView>
+            
+        </StackPanel>
+
+    </Grid>
+</UserControl>

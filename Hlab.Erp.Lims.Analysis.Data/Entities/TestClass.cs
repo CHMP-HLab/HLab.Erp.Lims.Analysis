@@ -5,7 +5,7 @@ using HLab.Mvvm.Application;
 using HLab.Notify.PropertyChanged;
 using NPoco;
 
-namespace HLab.Erp.Lims.Analysis.Data
+namespace HLab.Erp.Lims.Analysis.Data.Entities
 {
     using H = HD<TestClass>;
 
@@ -108,7 +108,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _iconPath.Get();
             set => _iconPath.Set(value);
         }
-
         private readonly IProperty<string> _iconPath = H.Property<string>();
 
         public static TestClass DesignModel => new TestClass

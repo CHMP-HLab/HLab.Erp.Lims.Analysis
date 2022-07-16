@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -136,6 +137,9 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         public IForm Create()
         {
             var form = _type != null ? (IForm)Activator.CreateInstance(_type) : new DummyForm();
+
+            if (form == null) throw new InvalidOperationException($"Unable to create {_type.Name}");
+
             var ui = GetXamlUi();
 
             List<FrameworkElement> namedElements = new ();
@@ -146,9 +150,8 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                     namedElements.Add(fe);
                 else
                     throw new Exception("Element not found");
-
-                form.NamedElements = namedElements;
             }
+            form.NamedElements = namedElements;
 
             if(form is UserControl e)
             {

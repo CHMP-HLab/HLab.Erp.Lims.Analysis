@@ -1,5 +1,6 @@
 ﻿using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Data;
+using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Notify.PropertyChanged;
 using NPoco;
 
