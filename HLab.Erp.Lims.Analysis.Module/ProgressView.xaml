@@ -30,7 +30,7 @@
                     x:Name="Label"
                     FontWeight="Bold"
                     HorizontalAlignment="Center"
-                    Foreground="White"
+                    Foreground="{DynamicResource HLab.Brushes.Foreground}"
                     FontSize="12"
                     ContentStringFormat="{}{0:P00}"/>
             </StackPanel>

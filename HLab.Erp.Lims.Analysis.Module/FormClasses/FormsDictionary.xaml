@@ -68,7 +68,7 @@
                                 <!--<Rectangle 
                                     Width="3" 
                                     Height="3" 
-                                    Stroke="{DynamicResource MahApps.Brushes.ThemeForeground}" 
+                                    Stroke="{DynamicResource HLab.Brushes.Foreground}" 
                                     StrokeThickness="0.25" 
                                     VerticalAlignment="Center" 
                                     HorizontalAlignment="Left" 
@@ -85,7 +85,7 @@
                                 <Border 
                                     Width="3.5" 
                                     Height="3.5" 
-                                    BorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}" 
+                                    BorderBrush="{DynamicResource HLab.Brushes.Foreground}" 
                                     CornerRadius="0.5"
                                     BorderThickness="0.25" 
                                     VerticalAlignment="Center" 
@@ -101,7 +101,7 @@
 
                                 </Border>
 
-                                <!--<Rectangle Name="coche" Visibility="Collapsed" Width="2" Height="2" Fill="{DynamicResource MahApps.Brushes.ThemeForeground}" StrokeThickness="0" VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+                                <!--<Rectangle Name="coche" Visibility="Collapsed" Width="2" Height="2" Fill="{DynamicResource HLab.Brushes.Foreground}" StrokeThickness="0" VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
                                     <Rectangle.RenderTransform>
                                         <TransformGroup>
                                             <TranslateTransform Y="0" X="0.5"/>
@@ -109,7 +109,7 @@
                                     </Rectangle.RenderTransform>
                                 </Rectangle>-->
 
-                                <Border CornerRadius="0.5" Name="coche" Visibility="Collapsed" Width="2.2" Height="2.5" Background="{DynamicResource MahApps.Brushes.ThemeForeground}" BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+                                <Border CornerRadius="0.5" Name="coche" Visibility="Collapsed" Width="2.2" Height="2.5" Background="{DynamicResource HLab.Brushes.Foreground}" BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
                                     <Border.RenderTransform>
                                         <TransformGroup>
                                             <TranslateTransform Y="0" X="0.55"/>
@@ -143,8 +143,8 @@
                             <ToggleButton.Template>
                                 <ControlTemplate>
                                     <Grid>
-                                        <Rectangle Name="bouton" Stroke="{DynamicResource MahApps.Brushes.ThemeForeground}" StrokeThickness="0.25" Fill="{DynamicResource MahApps.Brushes.Gray5}" />
-                                        <Path Fill="{DynamicResource MahApps.Brushes.ThemeForeground}" Data="M 1,1.2 H 3 L2,3 Z" StrokeThickness="0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                        <Rectangle Name="bouton" Stroke="{DynamicResource HLab.Brushes.Foreground}" StrokeThickness="0.25" Fill="{DynamicResource MahApps.Brushes.Gray5}" />
+                                        <Path Fill="{DynamicResource HLab.Brushes.Foreground}" Data="M 1,1.2 H 3 L2,3 Z" StrokeThickness="0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                                     </Grid>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="ToggleButton.IsMouseOver" Value="true">
@@ -162,7 +162,7 @@
                             <Grid MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{TemplateBinding ActualWidth}" x:Name="DropDown">
                                 <Border x:Name="DropDownBorder" Background="{DynamicResource MahApps.Brushes.Badged.Background}" BorderBrush="{DynamicResource MahApps.Brushes.Badged.Background.Disabled}" BorderThickness="1" CornerRadius="0" />
                                 <controlsEx:ScrollViewerEx Margin="1">
-                                    <StackPanel KeyboardNavigation.DirectionalNavigation="Contained" IsItemsHost="True" TextBlock.Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" />
+                                    <StackPanel KeyboardNavigation.DirectionalNavigation="Contained" IsItemsHost="True" TextBlock.Foreground="{DynamicResource HLab.Brushes.Foreground}" />
                                 </controlsEx:ScrollViewerEx>
                             </Grid>
                         </Popup>
@@ -187,7 +187,7 @@
 
                     <Border Name="Border" Padding="0" SnapsToDevicePixels="true">
 
-                        <TextBlock Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" x:Name="txt1" Text="{TemplateBinding Content}"></TextBlock>
+                        <TextBlock Foreground="{DynamicResource HLab.Brushes.Foreground}" x:Name="txt1" Text="{TemplateBinding Content}"></TextBlock>
 
                     </Border>
 

@@ -42,7 +42,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             xaml = ApplyLanguage(xaml);
 
             xaml = xaml
-                .Replace("\"Black\"", "\"{DynamicResource MahApps.Brushes.ThemeForeground}\"")
+                .Replace("\"Black\"", "\"{DynamicResource HLab.Brushes.Foreground}\"")
                 .Replace("\"White\"", "\"{DynamicResource MahApps.Brushes.ThemeBackground}\"")
                 ;
             return base.PrepareXaml(xaml);

@@ -53,7 +53,7 @@
             <lang:LocalizedLabel Text="{}{Quantity} : "/>
             <StackPanel Orientation="Horizontal">
                 <wpf:DoubleBox
-                    Foreground="White"
+                    Foreground="{DynamicResource HLab.Brushes.Foreground}"
                     Double="{Binding Model.Quantity, UpdateSourceTrigger=PropertyChanged}" 
                     MinWidth="50"/>
                 <entitySelectors:ForeignView 
