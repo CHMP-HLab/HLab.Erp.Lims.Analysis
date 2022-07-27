@@ -6,8 +6,6 @@ using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Data.Workflows
 {
-
-
     public class SampleWorkflow : Workflow<SampleWorkflow, Sample>
     {
         readonly ObservableQuery<SampleTest> _sampleTests;
