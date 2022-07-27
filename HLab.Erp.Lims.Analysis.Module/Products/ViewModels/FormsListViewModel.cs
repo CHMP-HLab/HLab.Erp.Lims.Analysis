@@ -7,7 +7,7 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 {
-    public class ProductFormsListViewModel: EntityListViewModel<Form>, IMvvmContextProvider
+    public class ProductFormsListViewModel: Core.EntityLists.EntityListViewModel<Form>, IMvvmContextProvider
     {
         public class Bootloader : NestedBootloader
         {
@@ -18,7 +18,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         protected override bool CanExecuteAdd(Action<string> errorAction) => true;
         protected override bool CanExecuteDelete(Form form, Action<string> errorAction) => true;
 
-        public ProductFormsListViewModel() : base(c => c
+        public ProductFormsListViewModel(Injector i) : base(i, c => c
             .Column("Name")
                 .Header("{Name}")
                 .Link(e => e.Name)

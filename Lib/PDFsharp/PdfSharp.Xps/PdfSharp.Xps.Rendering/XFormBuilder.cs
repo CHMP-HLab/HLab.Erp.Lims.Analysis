@@ -8,7 +8,7 @@ namespace PdfSharp.Xps.Rendering
     /// <summary>
     /// TODO: Rename to XFormBuilder
     /// </summary>
-    class XFormBuilder : BuilderBase
+    internal class XFormBuilder : BuilderBase
   {
     XFormBuilder(DocumentRenderingContext context)
       : base(context)

@@ -325,7 +325,7 @@ namespace PdfSharp.Drawing.Pdf
     /// <summary>
     /// The realized current transformation matrix.
     /// </summary>
-    private XMatrix realizedCtm;
+    XMatrix realizedCtm;
 
     /// <summary>
     /// The unrealized current transformation matrix.

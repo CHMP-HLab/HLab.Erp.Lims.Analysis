@@ -7,7 +7,7 @@
 
 	[Description("WhoFunctionDescription")]
 	[Kind(PopularKinds.System)]
-    sealed class WhoFunction : SystemFunction
+    internal sealed class WhoFunction : SystemFunction
     {
         public WhoFunction(ParseContext context)
             : base(context)

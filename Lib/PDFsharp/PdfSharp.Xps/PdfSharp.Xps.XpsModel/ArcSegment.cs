@@ -5,7 +5,7 @@ namespace PdfSharp.Xps.XpsModel
     /// <summary>
     /// Represents an elliptical arc between two points.
     /// </summary>
-    class ArcSegment : PathSegment
+    internal class ArcSegment : PathSegment
   {
     /// <summary>
     /// Gets the smallest rectangle that completely contains all points of the segments.

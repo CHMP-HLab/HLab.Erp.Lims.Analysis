@@ -319,7 +319,7 @@ namespace PdfSharp.Drawing
       return filename;
     }
 
-    private static string UrlDecodeStringFromStringInternal(string s/*, Encoding e*/)
+    static string UrlDecodeStringFromStringInternal(string s/*, Encoding e*/)
     {
       int length = s.Length;
       string result = "";
@@ -370,7 +370,7 @@ namespace PdfSharp.Drawing
       return result;
     }
 
-    private static int HexToInt(char h)
+    static int HexToInt(char h)
     {
       if ((h >= '0') && (h <= '9'))
       {
@@ -759,7 +759,8 @@ namespace PdfSharp.Drawing
       get { return false; } // AGHACK
 #endif
     }
-    private bool? isJpeg;
+
+    bool? isJpeg;
 
     /// <summary>
     /// Gets a value indicating whether this image is cmyk.
@@ -774,7 +775,8 @@ namespace PdfSharp.Drawing
       get { return false; } // AGHACK
 #endif
     }
-    private bool? isCmyk;
+
+    bool? isCmyk;
 
 #if !SILVERLIGHT
     /// <summary>
@@ -791,7 +793,7 @@ namespace PdfSharp.Drawing
     /// <summary>
     /// Determines if an image is JPEG w/o creating an Image object.
     /// </summary>
-    private void InitializeJpegQuickTest()
+    void InitializeJpegQuickTest()
     {
       isJpeg = TestJpeg(GetImageFilename(wpfImage));
     }
@@ -801,7 +803,7 @@ namespace PdfSharp.Drawing
     /// We use GDI+ to detect if image is JPEG.
     /// If so, we also determine if it's CMYK and we read the image bytes.
     /// </summary>
-    private void InitializeGdiHelper()
+    void InitializeGdiHelper()
     {
       if (!isCmyk.HasValue)
       {

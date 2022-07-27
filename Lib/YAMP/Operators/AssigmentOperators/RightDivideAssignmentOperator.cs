@@ -3,7 +3,7 @@
     /// <summary>
     /// This is the class for the standard /= operator.
     /// </summary>
-    class RightDivideAssignmentOperator : AssignmentPrefixOperator
+    internal class RightDivideAssignmentOperator : AssignmentPrefixOperator
     {
         public RightDivideAssignmentOperator() : 
             base(new RightDivideOperator())

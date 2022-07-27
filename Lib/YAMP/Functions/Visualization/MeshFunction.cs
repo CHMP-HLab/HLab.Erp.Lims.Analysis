@@ -2,7 +2,7 @@
 {
     [Description("MeshFunctionDescription")]
     [Kind(PopularKinds.Plot)]
-    sealed class MeshFunction : VisualizationFunction
+    internal sealed class MeshFunction : VisualizationFunction
     {
         public MeshFunction(ParseContext context)
             : base(context)

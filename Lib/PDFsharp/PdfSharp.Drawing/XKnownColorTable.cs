@@ -68,7 +68,7 @@ namespace PdfSharp.Drawing
       return (XKnownColor)(-1);
     }
 
-    private static void InitColorTable()
+    static void InitColorTable()
     {
       // Same values as in GDI+ and System.Windows.Media.XColors
       // Note that Magenta is the same as Fuchsia and Zyan is the same as Aqua.

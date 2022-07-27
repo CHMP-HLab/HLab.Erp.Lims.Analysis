@@ -1,6 +1,6 @@
 ﻿namespace PdfSharp.Xps.Rendering
 {
-    class XPFont : XPObject
+    internal class XPFont : XPObject
   {
     protected XPFont()
     {

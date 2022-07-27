@@ -46,7 +46,7 @@ namespace NPoco.fastJSON
             return ParseValue(false);
         }
 
-        private Dictionary<string, object> ParseObject()
+        Dictionary<string, object> ParseObject()
         {
             Dictionary<string, object> table = new Dictionary<string, object>();
 
@@ -87,7 +87,7 @@ namespace NPoco.fastJSON
             }
         }
 
-        private List<object> ParseArray()
+        List<object> ParseArray()
         {
             List<object> array = new List<object>();
             ConsumeToken(); // [
@@ -111,7 +111,7 @@ namespace NPoco.fastJSON
             }
         }
 
-        private object ParseValue(bool val)
+        object ParseValue(bool val)
         {
             switch (LookAhead())
             {
@@ -143,7 +143,7 @@ namespace NPoco.fastJSON
             throw new Exception("Unrecognized token at index" + index);
         }
 
-        private string ParseString(bool val)
+        string ParseString(bool val)
         {
             ConsumeToken(); // "
 
@@ -251,7 +251,7 @@ namespace NPoco.fastJSON
             throw new Exception("Unexpectedly reached end of string");
         }
 
-        private uint ParseSingleChar(char c1, uint multipliyer)
+        uint ParseSingleChar(char c1, uint multipliyer)
         {
             uint p1 = 0;
             if (c1 >= '0' && c1 <= '9')
@@ -263,7 +263,7 @@ namespace NPoco.fastJSON
             return p1;
         }
 
-        private uint ParseUnicode(char c1, char c2, char c3, char c4)
+        uint ParseUnicode(char c1, char c2, char c3, char c4)
         {
             uint p1 = ParseSingleChar(c1, 0x1000);
             uint p2 = ParseSingleChar(c2, 0x100);
@@ -273,7 +273,7 @@ namespace NPoco.fastJSON
             return p1 + p2 + p3 + p4;
         }
 
-        private long CreateLong(string s)
+        long CreateLong(string s)
         {
             long num = 0;
             bool neg = false;
@@ -293,7 +293,7 @@ namespace NPoco.fastJSON
             return neg ? -num : num;
         }
 
-        private object ParseNumber()
+        object ParseNumber()
         {
             ConsumeToken();
 
@@ -331,19 +331,19 @@ namespace NPoco.fastJSON
             }
         }
 
-        private Token LookAhead()
+        Token LookAhead()
         {
             if (lookAheadToken != Token.None) return lookAheadToken;
 
             return lookAheadToken = NextTokenCore();
         }
 
-        private void ConsumeToken()
+        void ConsumeToken()
         {
             lookAheadToken = Token.None;
         }
 
-        private Token NextToken()
+        Token NextToken()
         {
             var result = lookAheadToken != Token.None ? lookAheadToken : NextTokenCore();
 
@@ -352,7 +352,7 @@ namespace NPoco.fastJSON
             return result;
         }
 
-        private Token NextTokenCore()
+        Token NextTokenCore()
         {
             char c;
 

@@ -6,7 +6,7 @@
     [Description("OmegaConstantDescription")]
     [Kind(PopularKinds.Constant)]
     [Link("OmegaConstantLink")]
-    sealed class OmegaConstant : BaseConstant
+    internal sealed class OmegaConstant : BaseConstant
     {
         static readonly ScalarValue omega = new ScalarValue(0.5671432904097838729999686622);
 

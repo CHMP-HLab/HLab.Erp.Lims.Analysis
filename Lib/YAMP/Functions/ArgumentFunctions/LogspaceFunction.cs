@@ -4,7 +4,7 @@ namespace YAMP
 
     [Description("LogspaceFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class LogspaceFunction : ArgumentFunction
+    internal sealed class LogspaceFunction : ArgumentFunction
 	{
 		[Description("LogspaceFunctionDescriptionForScalarScalarScalar")]
 		[Example("logspace(2, 3, 5)")]

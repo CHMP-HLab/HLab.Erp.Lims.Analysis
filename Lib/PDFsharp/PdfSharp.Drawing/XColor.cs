@@ -749,19 +749,19 @@ namespace PdfSharp.Drawing
         throw new ArgumentException(PSSR.InvalidValue(val, name, 0, 255));
     }
 
-    private XColorSpace cs;
+    XColorSpace cs;
 
-    private float a;  // alpha
+    float a;  // alpha
 
-    private byte r;   // \
-    private byte g;   // |--- RGB
-    private byte b;   // /
+    byte r;   // \
+    byte g;   // |--- RGB
+    byte b;   // /
 
-    private float c;  // \
-    private float m;  // |--- CMYK
-    private float y;  // |
-    private float k;  // /
+    float c;  // \
+    float m;  // |--- CMYK
+    float y;  // |
+    float k;  // /
 
-    private float gs; // >--- gray scale
+    float gs; // >--- gray scale
   }
 }

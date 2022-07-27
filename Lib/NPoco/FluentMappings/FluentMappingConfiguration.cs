@@ -41,7 +41,7 @@ namespace NPoco.FluentMappings
             return Configure(CreateMappings(scannerSettings, null));
         }
 
-        private static Mappings CreateMappings(ConventionScannerSettings scannerSettings, Type[] typesOverride)
+        static Mappings CreateMappings(ConventionScannerSettings scannerSettings, Type[] typesOverride)
         {
             var types = typesOverride ?? FindTypes(scannerSettings);
             var config = new Dictionary<Type, TypeDefinition>();
@@ -83,7 +83,7 @@ namespace NPoco.FluentMappings
             return pocoMappings;
         }
 
-        private static IEnumerable<ColumnDefinition> GetColumnDefinitions(ConventionScannerSettings scannerSettings, Type type, List<MemberInfo> memberInfos, bool isReferenceProperty = false)
+        static IEnumerable<ColumnDefinition> GetColumnDefinitions(ConventionScannerSettings scannerSettings, Type type, List<MemberInfo> memberInfos, bool isReferenceProperty = false)
         {
             var capturedMembers = memberInfos.ToArray();
             foreach (var member in ReflectionUtils.GetFieldsAndPropertiesForClasses(type))
@@ -156,7 +156,7 @@ namespace NPoco.FluentMappings
             }
         }
 
-        private static ConventionScannerSettings ProcessSettings(Action<IConventionScanner> scanner)
+        static ConventionScannerSettings ProcessSettings(Action<IConventionScanner> scanner)
         {
             var defaultScannerSettings = new ConventionScannerSettings
             {
@@ -188,7 +188,7 @@ namespace NPoco.FluentMappings
             return defaultScannerSettings;
         }
 
-        private static IEnumerable<Type> FindTypes(ConventionScannerSettings scannerSettings)
+        static IEnumerable<Type> FindTypes(ConventionScannerSettings scannerSettings)
         {
             if (scannerSettings.TheCallingAssembly)
                 scannerSettings.Assemblies.Add(FindTheCallingAssembly());
@@ -201,7 +201,7 @@ namespace NPoco.FluentMappings
             return types;
         }
 
-        private static void MergeAttributeOverrides(Dictionary<Type, TypeDefinition> config)
+        static void MergeAttributeOverrides(Dictionary<Type, TypeDefinition> config)
         {
             foreach (var typeDefinition in config)
             {
@@ -231,7 +231,7 @@ namespace NPoco.FluentMappings
             }
         }
 
-        private static void MergeOverrides(Dictionary<Type, TypeDefinition> config, Mappings overrideMappings)
+        static void MergeOverrides(Dictionary<Type, TypeDefinition> config, Mappings overrideMappings)
         {
             if (overrideMappings == null)
                 return;
@@ -282,7 +282,7 @@ namespace NPoco.FluentMappings
             }
         }
 
-        private static FluentConfig SetFactory(Mappings mappings, Action<IConventionScanner> scanner)
+        static FluentConfig SetFactory(Mappings mappings, Action<IConventionScanner> scanner)
         {
             var maps = mappings;
             var scana = scanner;
@@ -304,7 +304,7 @@ namespace NPoco.FluentMappings
         }
 
         // Helper method if code is in seperate assembly
-        private static Assembly FindTheCallingAssembly()
+        static Assembly FindTheCallingAssembly()
         {
             if (!typeof(FluentMappingConfiguration).Assembly.FullName.StartsWith("NPoco,"))
                 return Assembly.GetCallingAssembly();

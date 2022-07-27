@@ -1,6 +1,6 @@
 ﻿namespace PdfSharp.Xps.XpsModel
 {
-    enum TileMode
+    internal enum TileMode
   {
     None,
     Tile,

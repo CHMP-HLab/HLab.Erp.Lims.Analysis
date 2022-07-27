@@ -17,7 +17,7 @@ namespace NPoco
         public TableInfo TableInfo { get; protected internal set; }
         public Dictionary<string, PocoColumn> Columns { get; protected internal set; }
         public List<PocoMember> Members { get; protected internal set; }
-        private IFastCreate CreateDelegate { get; }
+        IFastCreate CreateDelegate { get; }
 
         // This is used on a per query basis, if we have cache PocoData then this will need to change.
         public bool IsQueryGenerated { get; set; }
@@ -39,7 +39,7 @@ namespace NPoco
             return GetAllMembers(Members);
         }
 
-        private IEnumerable<PocoMember> GetAllMembers(IEnumerable<PocoMember> pocoMembers)
+        IEnumerable<PocoMember> GetAllMembers(IEnumerable<PocoMember> pocoMembers)
         {
             foreach (var member in pocoMembers)
             {
@@ -51,8 +51,9 @@ namespace NPoco
             }
         }
 
-        private Func<object, object[]> _primaryKeyValues;
-        private Func<object, object[]> PrimaryKeyValues
+        Func<object, object[]> _primaryKeyValues;
+
+        Func<object, object[]> PrimaryKeyValues
         {
             get
             {

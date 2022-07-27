@@ -4,7 +4,7 @@
 
     [Description("FplotFunctionDescription")]
 	[Kind(PopularKinds.Plot)]
-	sealed class FplotFunction : VisualizationFunction
+    internal sealed class FplotFunction : VisualizationFunction
 	{
         public FplotFunction(ParseContext context)
             : base(context)

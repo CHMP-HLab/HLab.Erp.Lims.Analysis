@@ -4,7 +4,7 @@
 
 	[Kind(PopularKinds.Function)]
 	[Description("DiagFunctionDescription")]
-    sealed class DiagFunction : ArgumentFunction
+    internal sealed class DiagFunction : ArgumentFunction
     {
         [Description("DiagFunctionDescriptionForMatrix")]
         [Example("diag(rand(5))", "DiagFunctionExampleForMatrix1")]

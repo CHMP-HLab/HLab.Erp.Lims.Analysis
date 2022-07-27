@@ -32,7 +32,7 @@ namespace PdfSharp.Drawing
   /// <summary>
   /// Indicates how to handle the first point of a path.
   /// </summary>
-  enum PathStart
+  internal enum PathStart
   {
     /// <summary>
     /// Set the current position to the first point.

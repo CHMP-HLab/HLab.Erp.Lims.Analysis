@@ -3,7 +3,7 @@
     [Description("DiffFunctionDescription")]
     [Kind(PopularKinds.Function)]
     [Link("DiffFunctionLink")]
-    sealed class DiffFunction : ArgumentFunction
+    internal sealed class DiffFunction : ArgumentFunction
 	{
 		[Description("DiffFunctionDescriptionForMatrix")]
         [Example("diff([0,1,3,6,8;0,2,3,3,2])", "DiffFunctionExampleForMatrix1")]

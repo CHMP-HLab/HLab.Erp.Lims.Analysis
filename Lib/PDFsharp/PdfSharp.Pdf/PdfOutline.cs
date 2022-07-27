@@ -472,8 +472,8 @@ namespace PdfSharp.Pdf
         return outlines.GetEnumerator();
       }
 
-      private PdfOutline parent;
-      private List<PdfOutline> outlines = new List<PdfOutline>();
+      PdfOutline parent;
+      List<PdfOutline> outlines = new List<PdfOutline>();
     }
 
     /// <summary>

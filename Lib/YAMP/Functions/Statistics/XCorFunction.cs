@@ -5,7 +5,7 @@
     [Description("XCorFunctionDescription")]
     [Kind(PopularKinds.Statistic)]
     [Link("XCorFunctionLink")]
-    sealed class XCorFunction : ArgumentFunction
+    internal sealed class XCorFunction : ArgumentFunction
 	{
         [Description("XCorFunctionDescriptionForMatrixMatrix")]
         [Example("xcor(3 + randn(100, 1), 10 + 2 * randn(100, 1))", "XCorFunctionExampleForMatrixMatrix1")]

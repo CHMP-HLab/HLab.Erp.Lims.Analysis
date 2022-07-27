@@ -226,7 +226,7 @@ namespace HTMLConverter
 
         #region Private Methods
 
-        private static void InitializeInlineElements()
+        static void InitializeInlineElements()
         {
             _htmlInlineElements = new ArrayList();
             _htmlInlineElements.Add("a");
@@ -260,7 +260,7 @@ namespace HTMLConverter
             _htmlInlineElements.Add("var"); // indicates an instance of a program variable
         }
 
-        private static void InitializeBlockElements()
+        static void InitializeBlockElements()
         {
             _htmlBlockElements = new ArrayList();
 
@@ -303,7 +303,7 @@ namespace HTMLConverter
         /// initializes _htmlEmptyElements with empty elements in HTML 4 spec at
         /// http://www.w3.org/TR/REC-html40/index/elements.html
         /// </summary>
-        private static void InitializeEmptyElements()
+        static void InitializeEmptyElements()
         {
             // Build a list of empty (no-scope) elements 
             // (element not requiring closing tags, and not accepting any content)
@@ -322,8 +322,8 @@ namespace HTMLConverter
             _htmlEmptyElements.Add("meta");
             _htmlEmptyElements.Add("param");
         }
-        
-        private static void InitializeOtherOpenableElements()
+
+        static void InitializeOtherOpenableElements()
         {
             // It is a list of known html elements which we
             // want to allow to produce bt HTML parser,
@@ -358,7 +358,7 @@ namespace HTMLConverter
         /// we assume that for any element for which closing tags are optional, the element closes when it's outer element
         /// (in which it is nested) does
         /// </summary>
-        private static void InitializeElementsClosingOnParentElementEnd()
+        static void InitializeElementsClosingOnParentElementEnd()
         {
             _htmlElementsClosingOnParentElementEnd = new ArrayList();
             _htmlElementsClosingOnParentElementEnd.Add("body");
@@ -377,7 +377,7 @@ namespace HTMLConverter
             _htmlElementsClosingOnParentElementEnd.Add("tr");
         }
 
-        private static void InitializeElementsClosingOnNewElementStart()
+        static void InitializeElementsClosingOnNewElementStart()
         {
             _htmlElementsClosingColgroup = new ArrayList();
             _htmlElementsClosingColgroup.Add("colgroup");
@@ -454,7 +454,7 @@ namespace HTMLConverter
         /// <summary>
         /// initializes _htmlCharacterEntities hashtable with the character corresponding to entity names
         /// </summary>
-        private static void InitializeHtmlCharacterEntities()
+        static void InitializeHtmlCharacterEntities()
         {
             _htmlCharacterEntities = new Hashtable();
             _htmlCharacterEntities["Aacute"] = (char)193;
@@ -719,52 +719,52 @@ namespace HTMLConverter
 
         // html element names
         // this is an array list now, but we may want to make it a hashtable later for better performance
-        private static ArrayList _htmlInlineElements;
+        static ArrayList _htmlInlineElements;
 
-        private static ArrayList _htmlBlockElements;
+        static ArrayList _htmlBlockElements;
 
-        private static ArrayList _htmlOtherOpenableElements;
+        static ArrayList _htmlOtherOpenableElements;
 
         // list of html empty element names
-        private static ArrayList _htmlEmptyElements;
+        static ArrayList _htmlEmptyElements;
 
         // names of html elements for which closing tags are optional, and close when the outer nested element closes
-        private static ArrayList _htmlElementsClosingOnParentElementEnd;
+        static ArrayList _htmlElementsClosingOnParentElementEnd;
 
         // names of elements that close certain optional closing tag elements when they start
         
         // names of elements closing the colgroup element
-        private static ArrayList _htmlElementsClosingColgroup;
+        static ArrayList _htmlElementsClosingColgroup;
 
         // names of elements closing the dd element
-        private static ArrayList _htmlElementsClosingDD;
+        static ArrayList _htmlElementsClosingDD;
 
         // names of elements closing the dt element
-        private static ArrayList _htmlElementsClosingDT;
+        static ArrayList _htmlElementsClosingDT;
 
         // names of elements closing the li element
-        private static ArrayList _htmlElementsClosingLI;
+        static ArrayList _htmlElementsClosingLI;
 
         // names of elements closing the tbody element
-        private static ArrayList _htmlElementsClosingTbody;
+        static ArrayList _htmlElementsClosingTbody;
 
         // names of elements closing the td element
-        private static ArrayList _htmlElementsClosingTD;
+        static ArrayList _htmlElementsClosingTD;
 
         // names of elements closing the tfoot element
-        private static ArrayList _htmlElementsClosingTfoot;
+        static ArrayList _htmlElementsClosingTfoot;
 
         // names of elements closing the thead element
-        private static ArrayList _htmlElementsClosingThead;
+        static ArrayList _htmlElementsClosingThead;
 
         // names of elements closing the th element
-        private static ArrayList _htmlElementsClosingTH;
+        static ArrayList _htmlElementsClosingTH;
 
         // names of elements closing the tr element
-        private static ArrayList _htmlElementsClosingTR;
+        static ArrayList _htmlElementsClosingTR;
 
         // html character entities hashtable
-        private static Hashtable _htmlCharacterEntities;
+        static Hashtable _htmlCharacterEntities;
 
         #endregion Private Fields
     }

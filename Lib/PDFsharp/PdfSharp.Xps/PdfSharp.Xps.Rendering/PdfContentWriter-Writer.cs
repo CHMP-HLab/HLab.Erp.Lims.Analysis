@@ -8,7 +8,7 @@ using PdfSharp.Drawing;
 
 namespace PdfSharp.Xps.Rendering
 {
-    partial class PdfContentWriter
+    internal partial class PdfContentWriter
   {
     /// <summary>
     /// Writes a string literally to the content stream.

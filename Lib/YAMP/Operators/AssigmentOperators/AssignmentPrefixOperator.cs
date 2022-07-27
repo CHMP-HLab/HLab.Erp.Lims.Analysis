@@ -7,7 +7,7 @@
     /// This class represents the abstract basis for all combined
     /// assignment operators (binary operator and =).
     /// </summary>
-    abstract class AssignmentPrefixOperator : AssignmentOperator
+    internal abstract class AssignmentPrefixOperator : AssignmentOperator
     {        
         readonly BinaryOperator _child;
 

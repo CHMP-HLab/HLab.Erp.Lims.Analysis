@@ -5,7 +5,7 @@ namespace YAMP
     /// <summary>
     /// The basic equals == operator.
     /// </summary>
-	class EqOperator : LogicOperator
+    internal class EqOperator : LogicOperator
 	{
         #region Mapping
 

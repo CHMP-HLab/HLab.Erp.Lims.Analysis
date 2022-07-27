@@ -26,7 +26,7 @@ namespace HLab.Erp.Lims.Analysis.Data
             return false;
         }
 
-        private class Entry
+        class Entry
         {
             public string Name;
             public string Reference;
@@ -35,7 +35,7 @@ namespace HLab.Erp.Lims.Analysis.Data
             public override string ToString() => $@"{Name} = {Reference} <> {Value}";
         }
 
-        private static IEnumerable<Entry> CompareValues(string v1, string v2)
+        static IEnumerable<Entry> CompareValues(string v1, string v2)
         {
             var a1 = v1.Split("■").ToHashSet();
             var a2 = v2.Split("■").ToHashSet();
@@ -128,7 +128,8 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _formClass.Get();
             set => _formClass.Set(value);
         }
-        private readonly IProperty<IFormClass> _formClass = H.Property<IFormClass>();
+
+        readonly IProperty<IFormClass> _formClass = H.Property<IFormClass>();
 
 
         [Ignore] byte[] IFormTarget.Code => FormClass?.Code;
@@ -139,21 +140,24 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _name.Get();
             set => _name.Set(value);
         }
-        private readonly IProperty<string> _name = H.Property<string>(c => c.Default(""));
+
+        readonly IProperty<string> _name = H.Property<string>(c => c.Default(""));
 
         public string ResultValues
         {
             get => _resultValues.Get();
             set => _resultValues.Set(value);
         }
-        private readonly IProperty<string> _resultValues = H.Property<string>(c => c.Default(""));
+
+        readonly IProperty<string> _resultValues = H.Property<string>(c => c.Default(""));
 
         public string SpecificationValues
         {
             get => _specificationValues.Get();
             set => _specificationValues.Set(value);
         }
-        private readonly IProperty<string> _specificationValues = H.Property<string>(c => c.Default(""));
+
+        readonly IProperty<string> _specificationValues = H.Property<string>(c => c.Default(""));
 
         public string TestName
         {
@@ -161,35 +165,39 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _testName.Set(value);
         }
 
-        private readonly IProperty<string> _testName = H.Property<string>(c => c.Default(""));
+        readonly IProperty<string> _testName = H.Property<string>(c => c.Default(""));
 
         public string Description
         {
             get => _description.Get();
             set => _description.Set(value);
         }
-        private readonly IProperty<string> _description = H.Property<string>(c => c.Default(""));
+
+        readonly IProperty<string> _description = H.Property<string>(c => c.Default(""));
 
         public string Specification
         {
             get => _specification.Get();
             set => _specification.Set(value);
         }
-        private readonly IProperty<string> _specification = H.Property<string>(c => c.Default(""));
+
+        readonly IProperty<string> _specification = H.Property<string>(c => c.Default(""));
         
         public bool SpecificationDone
         {
             get => _specificationDone.Get();
             set => _specificationDone.Set(value);
         }
-        private readonly IProperty<bool> _specificationDone = H.Property<bool>(c => c.Default(false));
+
+        readonly IProperty<bool> _specificationDone = H.Property<bool>(c => c.Default(false));
 
         public string Result
         {
             get => _result.Get();
             set => _result.Set(value);
         }
-        private readonly IProperty<string> _result = H.Property<string>(c => c.Default(""));
+
+        readonly IProperty<string> _result = H.Property<string>(c => c.Default(""));
 
         public ConformityState ConformityId
         {
@@ -202,21 +210,23 @@ namespace HLab.Erp.Lims.Analysis.Data
             throw new System.NotImplementedException();
         }
 
-        private readonly IProperty<ConformityState> _conformityId = H.Property<ConformityState>(c => c.Default(ConformityState.NotChecked));
+        readonly IProperty<ConformityState> _conformityId = H.Property<ConformityState>(c => c.Default(ConformityState.NotChecked));
 
         public bool MandatoryDone
         {
             get => _mandatoryDone.Get();
             set => _mandatoryDone.Set(value);
         }
-        private readonly IProperty<bool> _mandatoryDone = H.Property<bool>(c => c.Default(false));
+
+        readonly IProperty<bool> _mandatoryDone = H.Property<bool>(c => c.Default(false));
 
         public string Conformity
         {
             get => _conformity.Get();
             set => _conformity.Set(value);
         }
-        private readonly IProperty<string> _conformity = H.Property<string>(c => c.Default(""));
+
+        readonly IProperty<string> _conformity = H.Property<string>(c => c.Default(""));
 
 
 

@@ -3,7 +3,7 @@
 	[Description("IsPrimeFunctionDescription")]
 	[Kind(PopularKinds.Logic)]
     [Link("IsPrimeFunctionLink")]
-    sealed class IsPrimeFunction : StandardFunction
+    internal sealed class IsPrimeFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

@@ -6,7 +6,7 @@
     [Description("BetaFunctionDescription")]
     [Kind(PopularKinds.Function)]
     [Link("BetaFunctionLink")]
-    sealed class BetaFunction : ArgumentFunction
+    internal sealed class BetaFunction : ArgumentFunction
     {
         [Description("BetaFunctionDescriptionForScalarScalar")]
         [Example("beta(5, 3)", "BetaFunctionExampleForScalarScalar1")]

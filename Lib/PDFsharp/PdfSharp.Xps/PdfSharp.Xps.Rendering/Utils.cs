@@ -5,7 +5,7 @@ namespace PdfSharp.Xps.Rendering
     /// <summary>
     /// Some temporary stuff.
     /// </summary>
-    static class Utils
+    internal static class Utils
   {
     public static Color AlphaToGray(Color color)
     {

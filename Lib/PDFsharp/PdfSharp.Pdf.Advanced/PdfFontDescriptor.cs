@@ -36,7 +36,7 @@ namespace PdfSharp.Pdf.Advanced
     /// The PDF font descriptor flags.
     /// </summary>
     [Flags]
-  enum PdfFontDescriptorFlags
+    internal enum PdfFontDescriptorFlags
   {
     /// <summary>
     /// All glyphs have the same width (as opposed to proportional or variable-pitch

@@ -36,7 +36,7 @@ namespace PdfSharp.Fonts.OpenType
     /// <summary>
     /// Global table of TrueType font faces.
     /// </summary>
-    class FontDataStock  // TODO: rename
+    internal class FontDataStock  // TODO: rename
   {
     FontDataStock()
     {
@@ -64,7 +64,8 @@ namespace PdfSharp.Fonts.OpenType
       }
       return fontData;
     }
-    private FontData lastEntry;
+
+    FontData lastEntry;
 
     public bool UnregisterFontData(FontData fontData)
     {

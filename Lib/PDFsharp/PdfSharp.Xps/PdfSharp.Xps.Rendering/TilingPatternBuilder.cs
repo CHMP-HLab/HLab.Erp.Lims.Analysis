@@ -9,7 +9,7 @@ namespace PdfSharp.Xps.Rendering
     /// <summary>
     /// Constructs a PdfTilingPattern from ImageBrush or VisualBrush.
     /// </summary>
-    class TilingPatternBuilder : PatternOrShadingBuilder
+    internal class TilingPatternBuilder : PatternOrShadingBuilder
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TilingPatternBuilder"/> class.

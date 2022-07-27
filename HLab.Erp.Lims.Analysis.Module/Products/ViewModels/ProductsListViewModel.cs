@@ -9,10 +9,10 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 {
-    public class ProductsListViewModel : EntityListViewModel<Product>, IMvvmContextProvider
+    public class ProductsListViewModel : Core.EntityLists.EntityListViewModel<Product>, IMvvmContextProvider
     {
         public class Bootloader : NestedBootloader { }
-        public ProductsListViewModel() : base(c => c
+        public ProductsListViewModel(Injector i) : base(i, c => c
                .Column("Category")
                .Header("{Category}")
                .Width(100)
@@ -40,9 +40,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         {
         }
 
-        protected override bool CanExecuteAdd(Action<string> errorAction) => Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
-        protected override bool CanExecuteDelete(Product product, Action<string> errorAction) => Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
-        protected override bool CanExecuteImport(Action<string> errorAction) => Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
+        protected override bool CanExecuteAdd(Action<string> errorAction) => Injected.Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
+        protected override bool CanExecuteDelete(Product product, Action<string> errorAction) => Injected.Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
+        protected override bool CanExecuteImport(Action<string> errorAction) => Injected.Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
         protected override bool CanExecuteExport(Action<string> errorAction) => true;
 
         public void ConfigureMvvmContext(IMvvmContext ctx)

@@ -4,7 +4,7 @@ namespace YAMP
 
     [Description("LogFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class LogFunction : ArgumentFunction
+    internal sealed class LogFunction : ArgumentFunction
 	{
         [Description("LogFunctionDescriptionForScalar")]
         [Example("log(e)", "LogFunctionExampleForScalar1")]

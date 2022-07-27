@@ -477,8 +477,8 @@ namespace PdfSharp.SharpZipLib.Zip.Compression
 			}
 			return true;
 		}
-		
-		private bool DeflateFast(bool flush, bool finish)
+
+        bool DeflateFast(bool flush, bool finish)
 		{
 			if (lookahead < MIN_LOOKAHEAD && !flush) {
 				return false;

@@ -77,7 +77,7 @@ namespace NPoco
             return this;
         }
 
-        private SqlJoinClause<TContext> Join(string joinType, string table)
+        SqlJoinClause<TContext> Join(string joinType, string table)
         {
             Append(joinType + table);
             return new SqlJoinClause<TContext>(this);
@@ -89,7 +89,7 @@ namespace NPoco
 
         public class SqlJoinClause<T>
         {
-            private readonly Sql<T> _sql;
+            readonly Sql<T> _sql;
 
             public SqlJoinClause(Sql<T> sql)
             {

@@ -31,6 +31,9 @@
 
             <lang:Localize Id="{}{Icon} : " StringFormat="{}{0} : " />
             <TextBox Text="{Binding Model.IconPath}" HorizontalContentAlignment="Center" />
+
+            <lang:Localize Id="{}{Duration} : " StringFormat="{}{0} : " />
+            <TextBlock Text="{Binding FormHelper.Form.CreationDuration, Mode=OneWay}"/>
         </views:DetailView>
 
         <views:DetailView 

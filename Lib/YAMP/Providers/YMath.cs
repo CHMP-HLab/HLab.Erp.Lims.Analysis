@@ -6,7 +6,7 @@
     /// <summary>
     /// Capsulates an ensemble of internally (frequently) used math functions.
     /// </summary>
-    static class YMath
+    internal static class YMath
     {
         public static Value Average(MatrixValue M)
         {

@@ -32,14 +32,14 @@ namespace NPoco
 
     public class Relator
     {
-        private PropertyInfo property1;
+        PropertyInfo property1;
         
         public T OneToMany<T, TSub>(T main, TSub sub, Func<T, object> idFunc)
         {
             return OneToMany(main, sub, idFunc, null);
         }
 
-        private static object GetDefault(Type type)
+        static object GetDefault(Type type)
         {
             if (type.GetTypeInfo().IsValueType)
             {
@@ -49,7 +49,7 @@ namespace NPoco
             return null;
         }
 
-        private object onetomanycurrent;
+        object onetomanycurrent;
         public T OneToMany<T, TSub>(T main, TSub sub, Func<T, object> idFunc, Func<TSub, object> subIdFunc)
         {
             if (main == null)
@@ -77,7 +77,7 @@ namespace NPoco
             return prev;
         }
 
-        private static void ThrowPropertyNotFoundException<T, TSub1>()
+        static void ThrowPropertyNotFoundException<T, TSub1>()
         {
             throw new Exception(string.Format("No Property of type {0} found on object of type: {1}", typeof(TSub1).Name, typeof(T).Name));
         }

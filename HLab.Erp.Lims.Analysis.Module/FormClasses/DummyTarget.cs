@@ -12,14 +12,16 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             get => _result.Get();
             set => _result.Set(value);
         }
-        private readonly IProperty<string> _result = H<DummyTarget>.Property<string>();
+
+        readonly IProperty<string> _result = H<DummyTarget>.Property<string>();
 
         public ConformityState ConformityId
         {
             get =>_conformityId.Get(); 
             set =>_conformityId.Set(value); 
         }
-        private readonly IProperty<ConformityState> _conformityId = H<DummyTarget>.Property<ConformityState>();
+
+        readonly IProperty<ConformityState> _conformityId = H<DummyTarget>.Property<ConformityState>();
 
         public void Reset()
         {
@@ -34,28 +36,32 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             get => _specificationValues.Get(); 
             set => _specificationValues.Set(value);
         }
-        private readonly IProperty<string> _specificationValues = H<DummyTarget>.Property<string>();
+
+        readonly IProperty<string> _specificationValues = H<DummyTarget>.Property<string>();
 
         public bool SpecificationDone
         {
             get => _specificationDone.Get(); 
             set => _specificationDone.Set(value);
         }
-        private readonly IProperty<bool> _specificationDone = H<DummyTarget>.Property<bool>();
+
+        readonly IProperty<bool> _specificationDone = H<DummyTarget>.Property<bool>();
 
         public string ResultValues
         {
             get => _resultValues.Get(); 
             set => _resultValues.Set(value);
         }
-        private readonly IProperty<string> _resultValues = H<DummyTarget>.Property<string>();
+
+        readonly IProperty<string> _resultValues = H<DummyTarget>.Property<string>();
 
         public bool MandatoryDone
         {
             get => _mandatoryDone.Get(); 
             set => _mandatoryDone.Set(value);
         }
-        private readonly IProperty<bool> _mandatoryDone = H<DummyTarget>.Property<bool>();
+
+        readonly IProperty<bool> _mandatoryDone = H<DummyTarget>.Property<bool>();
 
 
         public string DefaultTestName => "Dummy";
@@ -64,28 +70,32 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             get => _testName.Get();
             set => _testName.Set(value);
         }
-        private readonly IProperty<string> _testName = H<DummyTarget>.Property<string>();
+
+        readonly IProperty<string> _testName = H<DummyTarget>.Property<string>();
 
         public string Description
         {
             get => _description.Get();
             set => _description.Set(value);
         }
-        private readonly IProperty<string> _description = H<DummyTarget>.Property<string>();
+
+        readonly IProperty<string> _description = H<DummyTarget>.Property<string>();
 
         public string Specification
         {
             get => _specification.Get();
             set => _specification.Set(value);
         }
-        private readonly IProperty<string> _specification = H<DummyTarget>.Property<string>();
+
+        readonly IProperty<string> _specification = H<DummyTarget>.Property<string>();
 
         public string Conformity
         {
             get => _conformity.Get();
             set => _conformity.Set(value);
         }
-        private readonly IProperty<string> _conformity = H<DummyTarget>.Property<string>();
+
+        readonly IProperty<string> _conformity = H<DummyTarget>.Property<string>();
 
          IFormClass IFormTarget.FormClass { get => null; set => throw new System.NotImplementedException(); }
 
@@ -94,6 +104,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             get => _name.Get();
             set => _name.Set(value);
         }
-        private readonly IProperty<string> _name = H<DummyTarget>.Property<string>(c => c.Default("Dummy"));
+
+        readonly IProperty<string> _name = H<DummyTarget>.Property<string>(c => c.Default("Dummy"));
     }
 }

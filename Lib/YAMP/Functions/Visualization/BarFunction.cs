@@ -2,7 +2,7 @@
 {
     [Description("BarFunctionDescription")]
     [Kind(PopularKinds.Plot)]
-    sealed class BarFunction : VisualizationFunction
+    internal sealed class BarFunction : VisualizationFunction
     {
         public BarFunction(ParseContext context)
             : base(context)

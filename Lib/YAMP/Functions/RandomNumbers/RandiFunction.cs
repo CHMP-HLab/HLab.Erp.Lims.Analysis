@@ -5,7 +5,7 @@ namespace YAMP
     [Description("RandiFunctionDescription")]
     [Kind(PopularKinds.Random)]
     [Link("RandiFunctionLink")]
-    sealed class RandiFunction : ArgumentFunction
+    internal sealed class RandiFunction : ArgumentFunction
 	{
 		readonly DiscreteUniformDistribution Distribution = new DiscreteUniformDistribution(Rng);
 

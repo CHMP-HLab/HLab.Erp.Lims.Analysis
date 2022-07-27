@@ -6,7 +6,7 @@ namespace PdfSharp.Xps.XpsModel
     /// <summary>
     /// Represents a collection of Point objecs.
     /// </summary>
-    class PointStopCollection : List<Point>
+    internal class PointStopCollection : List<Point>
   {
     // Currently just a placeholder of a generic list.
 

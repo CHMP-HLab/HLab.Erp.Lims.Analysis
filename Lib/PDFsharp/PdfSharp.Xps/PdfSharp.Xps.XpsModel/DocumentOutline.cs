@@ -4,7 +4,7 @@
     /// Specifies a list of meaningful indices into the XPS Document, similar to a table of contents,
     /// or to external URIs, such as web addresses.
     /// </summary>
-    class DocumentOutline : XpsElement
+    internal class DocumentOutline : XpsElement
   {
     /// <summary>
     /// This attribute specifies the default language used for any child element contained within

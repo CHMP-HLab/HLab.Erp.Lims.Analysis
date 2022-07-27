@@ -3,7 +3,7 @@
     [Description("TanhFunctionDescription")]
     [Kind(PopularKinds.Trigonometric)]
     [Link("TanhFunctionLink")]
-    sealed class TanhFunction : StandardFunction
+    internal sealed class TanhFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

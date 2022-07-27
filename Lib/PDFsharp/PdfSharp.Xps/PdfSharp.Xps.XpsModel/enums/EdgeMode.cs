@@ -1,6 +1,6 @@
 ﻿namespace PdfSharp.Xps.XpsModel
 {
-    enum EdgeMode
+    internal enum EdgeMode
   {
     Aliased,
   }

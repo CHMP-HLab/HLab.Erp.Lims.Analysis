@@ -5,7 +5,7 @@ namespace YAMP
     /// <summary>
     /// The usual - operator.
     /// </summary>
-	class MinusOperator : BinaryOperator
+    internal class MinusOperator : BinaryOperator
     {
         #region Mapping
 

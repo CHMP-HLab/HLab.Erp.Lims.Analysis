@@ -13,10 +13,10 @@ using HLab.Erp.Lims.Analysis.Data.Entities;
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
     using H = H<SampleSampleTestListViewModel>;
-    public class SampleSampleTestListViewModel : EntityListViewModel<SampleTest>, IMvvmContextProvider
+    public class SampleSampleTestListViewModel : Core.EntityLists.EntityListViewModel<SampleTest>, IMvvmContextProvider
     {
         public Sample Sample {get;}
-        public SampleSampleTestListViewModel(Sample sample) : base(c => c
+        public SampleSampleTestListViewModel(Injector i, Sample sample) : base(i, c => c
                 //.DeleteAllowed()
                 .StaticFilter(e => e.SampleId == sample.Id)
 
@@ -58,20 +58,20 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         }
 
         public bool EditMode { get=> _editMode.Get(); set=>_editMode.Set(value); }
-        private IProperty<bool> _editMode = H.Property<bool>(c => c.Default(false));
+        IProperty<bool> _editMode = H.Property<bool>(c => c.Default(false));
 
         protected override bool CanExecuteDelete(SampleTest sampleTest, Action<string> errorAction)
         {
             if(!EditMode) return false;
             if (sampleTest == null) return false;
             var stage =  sampleTest.Stage.IsAny( errorAction, SampleTestWorkflow.Specifications);
-            var granted = Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest);
+            var granted = Injected.Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest);
             return stage && granted;
         }
 
         public override Type AddArgumentClass => typeof(TestClass);
 
-        private readonly ITrigger _1 = H.Trigger(c => c
+        readonly ITrigger _1 = H.Trigger(c => c
             .On(e => e.Sample.Stage)
             .On(e => e.Sample.Pharmacopoeia)
             .On(e => e.Sample.PharmacopoeiaVersion)
@@ -90,7 +90,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         protected override bool CanExecuteAdd(Action<string> errorAction)
         {
             if(!EditMode) return false;
-            if (!Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest)) return false;
+            if (!Injected.Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest)) return false;
             if (Sample.Pharmacopoeia == null)
             {
                 errorAction("{Missing} : {Pharmacopoeia}");
@@ -113,7 +113,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         {
             if (!(arg is TestClass testClass)) return;
 
-            var test = await Erp.Data.AddAsync<SampleTest>(st =>
+            var test = await Injected.Erp.Data.AddAsync<SampleTest>(st =>
             {
                 st.Sample = Sample;
                 st.TestClass = testClass;

@@ -5,7 +5,7 @@ namespace YAMP
     /// <summary>
     /// This is the factorial operator !.
     /// </summary>
-	class FactorialOperator : RightUnaryOperator
+    internal class FactorialOperator : RightUnaryOperator
 	{
         #region Mapping
 

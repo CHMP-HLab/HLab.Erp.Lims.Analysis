@@ -1,6 +1,6 @@
 ﻿namespace PdfSharp.Xps.Rendering
 {
-    enum RenderMode
+    internal enum RenderMode
   {
     Default,
 

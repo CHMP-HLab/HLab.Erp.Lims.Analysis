@@ -2,7 +2,7 @@
 {
     [Description("ObjectFunctionDescription")]
     [Kind(PopularKinds.Function)]
-    sealed class ObjectFunction : ArgumentFunction
+    internal sealed class ObjectFunction : ArgumentFunction
     {
         [Description("ObjectFunctionDescriptionForVoid")]
         [Example("object()", "ObjectFunctionExampleForVoid1")]

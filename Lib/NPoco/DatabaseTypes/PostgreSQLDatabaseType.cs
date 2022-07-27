@@ -24,8 +24,8 @@ namespace NPoco.DatabaseTypes
         {
             return string.Format("\"{0}\"", str);
         }
-        
-        private void AdjustSqlInsertCommandText(DbCommand cmd, string primaryKeyName)
+
+        void AdjustSqlInsertCommandText(DbCommand cmd, string primaryKeyName)
         {
             cmd.CommandText += string.Format(" returning {0} as NewID", EscapeSqlIdentifier(primaryKeyName));
         }

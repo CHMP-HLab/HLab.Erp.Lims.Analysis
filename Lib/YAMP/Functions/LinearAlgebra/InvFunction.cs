@@ -2,7 +2,7 @@ namespace YAMP
 {
 	[Description("InvFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class InvFunction : ArgumentFunction
+    internal sealed class InvFunction : ArgumentFunction
 	{
 		[Description("InvFunctionDescriptionForScalar")]
 		[Example("inv(5)", "InvFunctionExampleForScalar1")]

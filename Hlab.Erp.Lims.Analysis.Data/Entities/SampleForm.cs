@@ -23,7 +23,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             set => _formClass.Set(value);
             get => _formClass.Get();
         }
-        private readonly IForeign<FormClass> _formClass = H.Foreign<FormClass>();
+
+        readonly IForeign<FormClass> _formClass = H.Foreign<FormClass>();
 
         [Ignore] IFormClass IFormTarget.FormClass 
         {
@@ -43,7 +44,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             set => _sample.Set(value);
             get => _sample.Get();
         }
-        private readonly IForeign<Sample> _sample = H.Foreign<Sample>();
+
+        readonly IForeign<Sample> _sample = H.Foreign<Sample>();
 
 
         public ConformityState ConformityId
@@ -57,7 +59,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             throw new NotImplementedException();
         }
 
-        private readonly IProperty<ConformityState> _conformityId = H.Property<ConformityState>();
+        readonly IProperty<ConformityState> _conformityId = H.Property<ConformityState>();
 
 
         public string SpecificationValues
@@ -65,28 +67,32 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             get => _specificationValues.Get(); 
             set => _specificationValues.Set(value);
         }
-        private readonly IProperty<string> _specificationValues = H.Property<string>();
+
+        readonly IProperty<string> _specificationValues = H.Property<string>();
 
         public string ResultValues
         {
             get => _resultValues.Get(); 
             set => _resultValues.Set(value);
         }
-        private readonly IProperty<string> _resultValues = H.Property<string>();
+
+        readonly IProperty<string> _resultValues = H.Property<string>();
 
         public bool MandatoryDone
         {
             get => _mandatoryDone.Get(); 
             set => _mandatoryDone.Set(value);
         }
-        private readonly IProperty<bool> _mandatoryDone = H.Property<bool>();
+
+        readonly IProperty<bool> _mandatoryDone = H.Property<bool>();
 
         public bool SpecificationDone
         {
             get => _specificationDone.Get(); 
             set => _specificationDone.Set(value);
         }
-        private readonly IProperty<bool> _specificationDone = H.Property<bool>();
+
+        readonly IProperty<bool> _specificationDone = H.Property<bool>();
 
         byte[] IFormTarget.Code => FormClass.Code;
         string IFormTarget.TestName { get; set; }
@@ -102,6 +108,6 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             set => FormClass.Name = value;
         }
 
-        public string Caption => throw new NotImplementedException();
+        public string Caption => FormClass?.Name;
     }
 }

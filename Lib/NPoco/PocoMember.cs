@@ -70,9 +70,9 @@ namespace NPoco
             set;
         }
 
-        private FastCreate _creator;
-        private MemberAccessor _memberAccessor;
-        private Type _listType;
+        FastCreate _creator;
+        MemberAccessor _memberAccessor;
+        Type _listType;
 
         public virtual object Create(DbDataReader dataReader)
         {

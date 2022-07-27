@@ -3,7 +3,7 @@
     /// <summary>
     /// This is the class for the \= operator.
     /// </summary>
-    class LeftDivideAssignmentOperator : AssignmentPrefixOperator
+    internal class LeftDivideAssignmentOperator : AssignmentPrefixOperator
     {
         public LeftDivideAssignmentOperator() 
             : base(new LeftDivideOperator())

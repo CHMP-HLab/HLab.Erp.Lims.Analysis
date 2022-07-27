@@ -10,7 +10,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
     public class SampleWorkflow : Workflow<SampleWorkflow, Sample>
     {
-        private readonly ObservableQuery<SampleTest> _sampleTests;
+        readonly ObservableQuery<SampleTest> _sampleTests;
         public SampleWorkflow(Sample sample, IDataLocker<Sample> locker, ObservableQuery<SampleTest> sampleTests) : base(sample, locker)
         {
             _sampleTests = sampleTests;
@@ -42,7 +42,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
             set => Target.PreviousStageId = value.Name;
         }
 
-        private ITrigger _ = H<SampleWorkflow>.Trigger(c => c
+        ITrigger _ = H<SampleWorkflow>.Trigger(c => c
 
             .On(e => e.Target.Stage)
             .Do((a, p) =>

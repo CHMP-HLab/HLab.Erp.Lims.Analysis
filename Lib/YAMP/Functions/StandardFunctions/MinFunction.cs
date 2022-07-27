@@ -5,7 +5,7 @@
 
 	[Description("MinFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class MinFunction : StandardFunction
+    internal sealed class MinFunction : StandardFunction
 	{
 		public override Value Perform(Value argument)
 		{

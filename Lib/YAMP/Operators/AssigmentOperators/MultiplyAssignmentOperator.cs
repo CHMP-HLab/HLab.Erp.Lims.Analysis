@@ -3,7 +3,7 @@
     /// <summary>
     /// This is the class representing the *= operator.
     /// </summary>
-    class MultiplyAssignmentOperator : AssignmentPrefixOperator
+    internal class MultiplyAssignmentOperator : AssignmentPrefixOperator
     {
         public MultiplyAssignmentOperator() :
             base(new MultiplyOperator())

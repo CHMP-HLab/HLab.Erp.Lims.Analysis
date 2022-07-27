@@ -5,7 +5,7 @@ namespace PdfSharp.Xps.XpsModel
     /// <summary>
     /// Groups <FixedPage> descendant elements together.
     /// </summary>
-    class Canvas : XpsElement
+    internal class Canvas : XpsElement
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="Canvas"/> class.

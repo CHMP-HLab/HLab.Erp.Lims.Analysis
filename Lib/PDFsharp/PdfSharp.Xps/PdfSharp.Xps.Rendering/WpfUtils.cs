@@ -7,7 +7,7 @@ namespace PdfSharp.Xps.Rendering
     /// <summary>
     /// Some temporary stuff.
     /// </summary>
-    static class WpfUtils
+    internal static class WpfUtils
   {
     /// <summary>
     /// Converts a PolyQuadraticBezierSegment into a PolyLineSegment because I currently have no muse to calculate

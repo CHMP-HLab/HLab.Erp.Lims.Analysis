@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    static class ExpressionExtensions
+    internal static class ExpressionExtensions
     {
         public static void CollectSymbols(this Expression expression, List<SymbolExpression> list)
         {

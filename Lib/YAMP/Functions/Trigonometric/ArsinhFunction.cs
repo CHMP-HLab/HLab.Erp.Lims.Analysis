@@ -3,7 +3,7 @@
     [Description("ArsinhFunctionDescription")]
     [Kind(PopularKinds.Trigonometric)]
     [Link("ArsinhFunctionLink")]
-    sealed class ArsinhFunction : StandardFunction
+    internal sealed class ArsinhFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

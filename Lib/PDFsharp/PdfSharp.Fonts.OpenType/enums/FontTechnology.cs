@@ -33,7 +33,7 @@ namespace PdfSharp.Fonts.OpenType
     /// <summary>
     /// Identifies the technology of an OpenType font file.
     /// </summary>
-    enum FontTechnology
+    internal enum FontTechnology
   {
     /// <summary>
     /// Font is Adobe Postscript font in CFF.

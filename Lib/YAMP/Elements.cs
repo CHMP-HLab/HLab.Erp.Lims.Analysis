@@ -8,7 +8,7 @@ namespace YAMP
     /// <summary>
     /// Provides internal access to the elements and handles the element registration and variable assignment.
     /// </summary>
-    sealed class Elements : IElementMapping
+    internal sealed class Elements : IElementMapping
     {
         #region Fields
 

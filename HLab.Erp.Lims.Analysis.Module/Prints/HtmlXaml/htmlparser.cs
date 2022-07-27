@@ -88,7 +88,7 @@ namespace HTMLConverter
         /// <param name="inputString">
         /// string to parsed into well-formed Html
         /// </param>
-        private HtmlParser(string inputString)
+        HtmlParser(string inputString)
         {
             // Create an output xml document
             _document = new XmlDocument();
@@ -246,7 +246,7 @@ namespace HTMLConverter
 
         #region Private Methods
 
-        private void InvariantAssert(bool condition, string message)
+        void InvariantAssert(bool condition, string message)
         {
             if (!condition)
             {
@@ -260,7 +260,7 @@ namespace HTMLConverter
         /// Returns XmlElement representing the top-level
         /// html element
         /// </summary>
-        private XmlElement ParseHtmlContent()
+        XmlElement ParseHtmlContent()
         {
             // Create artificial root elelemt to be able to group multiple top-level elements
             // We create "html" element which may be a duplicate of real HTML element, which is ok, as HtmlConverter will swallow it painlessly..
@@ -355,7 +355,7 @@ namespace HTMLConverter
             return htmlRootElement;
         }
 
-        private XmlElement CreateElementCopy(XmlElement htmlElement)
+        XmlElement CreateElementCopy(XmlElement htmlElement)
         {
             XmlElement htmlElementCopy = _document.CreateElement(htmlElement.LocalName, XhtmlNamespace);
             for (int i = 0; i < htmlElement.Attributes.Count; i++)
@@ -366,20 +366,20 @@ namespace HTMLConverter
             return htmlElementCopy;
         }
 
-        private void AddEmptyElement(XmlElement htmlEmptyElement)
+        void AddEmptyElement(XmlElement htmlEmptyElement)
         {
             InvariantAssert(_openedElements.Count > 0, "AddEmptyElement: Stack of opened elements cannot be empty, as we have at least one artificial root element");
             XmlElement htmlParent = _openedElements.Peek();
             htmlParent.AppendChild(htmlEmptyElement);
         }
 
-        private void OpenInlineElement(XmlElement htmlInlineElement)
+        void OpenInlineElement(XmlElement htmlInlineElement)
         {
             _pendingInlineElements.Push(htmlInlineElement);
         }
 
         // Opens structurig element such as Div or Table etc.
-        private void OpenStructuringElement(XmlElement htmlElement)
+        void OpenStructuringElement(XmlElement htmlElement)
         {
             // Close all pending inline elements
             // All block elements are considered as delimiters for inline elements
@@ -422,7 +422,7 @@ namespace HTMLConverter
             _openedElements.Push(htmlElement);
         }
 
-        private bool IsElementOpened(string htmlElementName)
+        bool IsElementOpened(string htmlElementName)
         {
             foreach (XmlElement openedElement in _openedElements)
             {
@@ -434,7 +434,7 @@ namespace HTMLConverter
             return false;
         }
 
-        private void CloseElement(string htmlElementName)
+        void CloseElement(string htmlElementName)
         {
             // Check if the element is opened and already added to the parent
             InvariantAssert(_openedElements.Count > 0, "CloseElement: Stack of opened elements cannot be empty, as we have at least one artificial root element");
@@ -474,7 +474,7 @@ namespace HTMLConverter
             return;
         }
 
-        private void AddTextContent(string textContent)
+        void AddTextContent(string textContent)
         {
             OpenPendingInlineElements();
 
@@ -485,7 +485,7 @@ namespace HTMLConverter
             htmlParent.AppendChild(textNode);
         }
 
-        private void AddComment(string comment)
+        void AddComment(string comment)
         {
             OpenPendingInlineElements();
 
@@ -498,7 +498,7 @@ namespace HTMLConverter
 
         // Moves all inline elements pending for opening to actual document
         // and adds them to current open stack.
-        private void OpenPendingInlineElements()
+        void OpenPendingInlineElements()
         {
             if (_pendingInlineElements.Count > 0)
             {
@@ -514,7 +514,7 @@ namespace HTMLConverter
             }
         }
 
-        private void ParseAttributes(XmlElement xmlElement)
+        void ParseAttributes(XmlElement xmlElement)
         {
             while (_htmlLexicalAnalyzer.NextTokenType != HtmlTokenType.EOF && //
                 _htmlLexicalAnalyzer.NextTokenType != HtmlTokenType.TagEnd && //
@@ -548,10 +548,10 @@ namespace HTMLConverter
 
         internal const string XhtmlNamespace = "http://www.w3.org/1999/xhtml";
 
-        private HtmlLexicalAnalyzer _htmlLexicalAnalyzer;
+        HtmlLexicalAnalyzer _htmlLexicalAnalyzer;
 
         // document from which all elements are created
-        private XmlDocument _document;
+        XmlDocument _document;
 
         // stack for open elements
         Stack<XmlElement> _openedElements;

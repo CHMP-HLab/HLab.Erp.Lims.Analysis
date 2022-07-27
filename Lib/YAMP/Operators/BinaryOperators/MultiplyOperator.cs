@@ -5,7 +5,7 @@ namespace YAMP
     /// <summary>
     /// The class for the standard multiply operator.
     /// </summary>
-	class MultiplyOperator : BinaryOperator
+    internal class MultiplyOperator : BinaryOperator
     {
         #region Mapping
 

@@ -5,9 +5,9 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
-    class TestCategoriesListViewModel : EntityListViewModel<TestCategory>, IMvvmContextProvider
+    internal class TestCategoriesListViewModel : Core.EntityLists.EntityListViewModel<TestCategory>, IMvvmContextProvider
     {
-        public TestCategoriesListViewModel() : base(c => c
+        public TestCategoriesListViewModel(Injector i) : base(i, c => c
                 //.AddAllowed()
                 //.DeleteAllowed()
                 .Column("Icon")

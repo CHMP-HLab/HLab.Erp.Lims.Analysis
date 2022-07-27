@@ -23,14 +23,14 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
     using H = H<FormHelper>;
     public static class Extensions
     {
-        public static XElement IgnoreNamespace(this XElement xelem)
+        public static XElement IgnoreNamespace(this XElement xElem)
         {
             XNamespace xmlns = "";
-            var name = xmlns + xelem.Name.LocalName;
+            var name = xmlns + xElem.Name.LocalName;
             return new XElement(name,
-                            from e in xelem.Elements()
+                            from e in xElem.Elements()
                             select e.IgnoreNamespace(),
-                            xelem.Attributes()
+                            xElem.Attributes()
                             );
         }
         public static XNode StripNamespaces(this XNode n)
@@ -71,7 +71,6 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             Cs = @"using System;
             using System.Windows;
             using System.Windows.Controls;
-            using FM;
             namespace Lims
             {
                 public class TestIdentification
@@ -93,14 +92,16 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             get => _form.Get();
             set => _form.Set(value);
         }
-        private readonly IProperty<IForm> _form = H.Property<IForm>();
+
+        readonly IProperty<IForm> _form = H.Property<IForm>();
 
         public ITestResultProvider Result
         {
             get => _result.Get();
             set => _result.Set(value);
         }
-        private readonly IProperty<ITestResultProvider> _result = H.Property<ITestResultProvider>();
+
+        readonly IProperty<ITestResultProvider> _result = H.Property<ITestResultProvider>();
 
         public string Xaml
         {
@@ -108,7 +109,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             set { if(_xaml.Set(value)) FormUpToDate = false; }
         }
 
-        private readonly IProperty<string> _xaml = H.Property<string>();
+        readonly IProperty<string> _xaml = H.Property<string>();
 
         public string Cs
         {
@@ -116,21 +117,23 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             set { if (_cs.Set(value)) FormUpToDate = false; }
         }
 
-        private readonly IProperty<string> _cs = H.Property<string>();
+        readonly IProperty<string> _cs = H.Property<string>();
 
         public string XamlMessage
         {
             get => _xamlMessage.Get();
             set => _xamlMessage.Set(value);
         }
-        private readonly IProperty<string> _xamlMessage = H.Property<string>();
+
+        readonly IProperty<string> _xamlMessage = H.Property<string>();
 
         public string CsMessage
         {
             get => _csMessage.Get();
             set => _csMessage.Set(value);
         }
-        private readonly IProperty<string> _csMessage = H.Property<string>();
+
+        readonly IProperty<string> _csMessage = H.Property<string>();
 
         public ObservableCollection<CompileError> XamlErrors { get; } = new();
         public ObservableCollection<CompileError> CsErrors { get; } = new();
@@ -141,37 +144,37 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             get => _selectedXamlError.Get();
             set => _selectedXamlError.Set(value);
         }
-        private readonly IProperty<CompileError> _selectedXamlError = H.Property<CompileError>();
+
+        readonly IProperty<CompileError> _selectedXamlError = H.Property<CompileError>();
 
         public CompileError SelectedCsError
         {
             get => _selectedCsError.Get();
             set => _selectedCsError.Set(value);
         }
-        private readonly IProperty<CompileError> _selectedCsError = H.Property<CompileError>();
+
+        readonly IProperty<CompileError> _selectedCsError = H.Property<CompileError>();
 
         public CompileError SelectedDebugError
         {
             get => _selectedDebugError.Get();
             set => _selectedDebugError.Set(value);
         }
-        private readonly IProperty<CompileError> _selectedDebugError = H.Property<CompileError>();
+        readonly IProperty<CompileError> _selectedDebugError = H.Property<CompileError>();
 
         public bool FormUpToDate
         {
             get => _formUpToDate.Get();
             set => _formUpToDate.Set(value);
         }
-        private readonly IProperty<bool> _formUpToDate = H.Property<bool>();
+        readonly IProperty<bool> _formUpToDate = H.Property<bool>();
 
         public int CsErrorPos
         {
             get => _csErrorPos.Get();
             set => _csErrorPos.Set(value);
         }
-        private readonly IProperty<int> _csErrorPos = H.Property<int>();
-
-
+        readonly IProperty<int> _csErrorPos = H.Property<int>();
 
         public SampleTestFormClassProvider Provider { get; private set; }
 
@@ -188,7 +191,9 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                 return;
             }
 
-            Provider = new SampleTestFormClassProvider(Xaml, Cs);
+            Provider = new SampleTestFormClassProvider();
+            await Provider.BuildCsAsync(Cs);
+            await Provider.BuildXamlAsync(Xaml);
                 
             XamlErrors.Clear();
             CsErrors.Clear();
@@ -206,7 +211,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                 foreach (var e in Provider.DebugErrors)
                     DebugErrors.Add(e);
 
-            Form = Provider.Create();
+            Form = await Provider.CreateAsync();
 
             Form.Target = target;
 
@@ -240,7 +245,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             return await BytesToGZip(bytes);
         }
 
-        private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
+        readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
         public async Task LoadAsync(IFormTarget target)
         {
             await _lock.WaitAsync();
@@ -274,7 +279,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         }
 
 
-        private static async Task<byte[]> GzipToBytes(object gz)
+        static async Task<byte[]> GzipToBytes(object gz)
         {
             if (gz is byte[] bytes)
             {
@@ -294,7 +299,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             return null;
         }
 
-        private static async Task<byte[]> BytesToGZip(byte[] bytes)
+        static async Task<byte[]> BytesToGZip(byte[] bytes)
         {
             if (bytes.Length == 0)
                 return null;
@@ -320,12 +325,12 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
             await LoadFormAsync(new DummyTarget()).ConfigureAwait(true);
 
-            var old = Form.PreventProcess();
+            Form.PreventProcess();
 
             Form.LoadValues(specs);
             Form.LoadValues(values);
 
-            /*if(old)*/ Form.AllowProcess();
+            Form.AllowProcess();
 
             try
             {
@@ -337,29 +342,30 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                 CsMessage += ex.Message;
             }
         }
-            private const string XamlHeader = @"
-<UserControl 
-    xmlns = ""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-    xmlns:x = ""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:mc = ""http://schemas.openxmlformats.org/markup-compatibility/2006""
-    xmlns:d = ""http://schemas.microsoft.com/expression/blend/2008""
-    xmlns:o = ""clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf""
-    xmlns:lang=""clr-namespace:HLab.Localization.Wpf.Lang;assembly=HLab.Localization.Wpf""
-    xmlns:math=""clr-namespace:WpfMath.Controls;assembly=WpfMath""
-    UseLayoutRounding = ""False"" >
 
-    <UserControl.Resources>
-        <ResourceDictionary Source = ""pack://application:,,,/HLab.Erp.Lims.Analysis.Module;component/FormClasses/FormsDictionary.xaml"" />          
-    </UserControl.Resources >
-    <Grid>
-    <Grid.LayoutTransform>
-        <ScaleTransform 
-                ScaleX=""{Binding Scale,FallbackValue=4}"" 
-                ScaleY=""{Binding Scale,FallbackValue=4}""/>
-        </Grid.LayoutTransform>
-<!--Content-->
-    </Grid>
-</UserControl>";
+        const string XamlHeader = @"
+        <UserControl 
+            xmlns = ""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+            xmlns:x = ""http://schemas.microsoft.com/winfx/2006/xaml""
+            xmlns:mc = ""http://schemas.openxmlformats.org/markup-compatibility/2006""
+            xmlns:d = ""http://schemas.microsoft.com/expression/blend/2008""
+            xmlns:o = ""clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf""
+            xmlns:lang=""clr-namespace:HLab.Localization.Wpf.Lang;assembly=HLab.Localization.Wpf""
+            xmlns:math=""clr-namespace:WpfMath.Controls;assembly=WpfMath""
+            UseLayoutRounding = ""False"" >
+
+            <UserControl.Resources>
+                <ResourceDictionary Source = ""pack://application:,,,/HLab.Erp.Lims.Analysis.Module;component/FormClasses/FormsDictionary.xaml"" />          
+            </UserControl.Resources >
+            <Grid>
+            <Grid.LayoutTransform>
+                <ScaleTransform 
+                        ScaleX=""{Binding Scale,FallbackValue=4}"" 
+                        ScaleY=""{Binding Scale,FallbackValue=4}""/>
+                </Grid.LayoutTransform>
+        <!--Content-->
+            </Grid>
+        </UserControl>";
         
         public async Task FormatAsync()
         {

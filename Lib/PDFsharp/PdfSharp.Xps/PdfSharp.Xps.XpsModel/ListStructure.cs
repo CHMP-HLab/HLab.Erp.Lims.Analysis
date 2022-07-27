@@ -3,7 +3,7 @@
     /// <summary>
     /// Contains a collection of items that are group together in a list.
     /// </summary>
-    class ListStructure : XpsElement
+    internal class ListStructure : XpsElement
   {
   }
 }

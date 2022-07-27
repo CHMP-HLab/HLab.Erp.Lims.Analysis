@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
-    public class SampleTestResultAuditTrailViewModel : EntityListViewModel<AuditTrail>
+    public class SampleTestResultAuditTrailViewModel : Core.EntityLists.EntityListViewModel<AuditTrail>
     {
-        private static string GetStage(string log)
+        static string GetStage(string log)
         {
             var lines = log.Replace("\r","").Split('\n');
             foreach (var line in lines)
@@ -33,7 +33,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             return "NA";
         }
 
-        public SampleTestResultAuditTrailViewModel(int sampleTestId) : base(c => c
+        public SampleTestResultAuditTrailViewModel(Injector i, int sampleTestId) : base(i, c => c
             .StaticFilter(e => e.EntityId == sampleTestId)
             .StaticFilter(e => e.EntityClass == "SampleTestResult")
 
@@ -57,7 +57,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         {
         }
 
-        private string LogAbstract(string log, int size)
+        string LogAbstract(string log, int size)
         {
             const string suffix = "...";
 

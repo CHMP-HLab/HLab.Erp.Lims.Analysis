@@ -3,7 +3,7 @@
     /// <summary>
     /// A single signature definition.
     /// </summary>
-    class SignatureDefinition : XpsElement
+    internal class SignatureDefinition : XpsElement
   {
     /// <summary>
     /// A globally unique identifier for this signature spot.

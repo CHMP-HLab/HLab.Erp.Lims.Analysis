@@ -314,12 +314,12 @@ namespace PdfSharp.Pdf.Advanced
 #endif
     }
 
-    private static int ReadWord(byte[] ab, int offset)
+    static int ReadWord(byte[] ab, int offset)
     {
       return ab[offset] + 256 * ab[offset + 1];
     }
 
-    private static int ReadDWord(byte[] ab, int offset)
+    static int ReadDWord(byte[] ab, int offset)
     {
       return ReadWord(ab, offset) + 0x10000 * ReadWord(ab, offset + 2);
     }
@@ -330,7 +330,7 @@ namespace PdfSharp.Pdf.Advanced
     /// <param name="components">4 (32bpp RGB), 3 (24bpp RGB, 32bpp ARGB)</param>
     /// <param name="bits">8</param>
     /// <param name="hasAlpha">true (ARGB), false (RGB)</param>
-    private void ReadTrueColorMemoryBitmap(int components, int bits, bool hasAlpha)
+    void ReadTrueColorMemoryBitmap(int components, int bits, bool hasAlpha)
     {
 #if DEBUG_
       image.image.Save("$$$.bmp", ImageFormat.Bmp);
@@ -512,7 +512,7 @@ namespace PdfSharp.Pdf.Advanced
         } BITMAPINFOHEADER, *PBITMAPINFOHEADER; 
     */
 
-    private void ReadIndexedMemoryBitmap(int bits/*, ref bool hasAlpha*/)
+    void ReadIndexedMemoryBitmap(int bits/*, ref bool hasAlpha*/)
     {
 #if DEBUG_
       image.image.Save("$$$.bmp", ImageFormat.Bmp);
@@ -1082,13 +1082,13 @@ namespace PdfSharp.Pdf.Advanced
   /// <summary>
   /// Helper class for creating bitmap masks (8 pels per byte).
   /// </summary>
-  class MonochromeMask
+  internal class MonochromeMask
   {
-    private readonly int sizeX;
-    private readonly int sizeY;
-    private int writeOffset;
-    private int byteBuffer;
-    private int bitsWritten;
+      readonly int sizeX;
+      readonly int sizeY;
+      int writeOffset;
+      int byteBuffer;
+      int bitsWritten;
 
     /// <summary>
     /// Returns the bitmap mask that will be written to PDF.
@@ -1097,7 +1097,8 @@ namespace PdfSharp.Pdf.Advanced
     {
       get { return maskData; }
     }
-    private readonly byte[] maskData;
+
+    readonly byte[] maskData;
 
     /// <summary>
     /// Creates a bitmap mask.

@@ -8,10 +8,9 @@ using HLab.Erp.Lims.Analysis.Data.Workflows;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
-    public class SampleAuditTrailViewModel : EntityListViewModel<AuditTrail>
+    public class SampleAuditTrailViewModel : Core.EntityLists.EntityListViewModel<AuditTrail>
     {
-
-        private static string GetStage(string log)
+        static string GetStage(string log)
         {
             var lines = log.Replace("\r","").Split('\n');
             foreach (var line in lines)
@@ -31,7 +30,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             return "NA";
         }
 
-        public SampleAuditTrailViewModel(int sampleId) : base(c => c
+        public SampleAuditTrailViewModel(Injector i, int sampleId) : base(i, c => c
             .StaticFilter(e => e.EntityId == sampleId)
             .StaticFilter(e => e.EntityClass == "Sample")
             //.StaticFilter(e => e.Motivation != null || e.Log.Contains("Stage="))
@@ -60,7 +59,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         {
         }
 
-        private string LogAbstract(string log, int size)
+        string LogAbstract(string log, int size)
         {
             const string suffix = "...";
 

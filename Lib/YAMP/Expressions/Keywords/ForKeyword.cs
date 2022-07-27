@@ -9,7 +9,7 @@
     /// The for keyword with the corresponding loop construct. Basic syntax:
     /// for ( INIT ; CONDITION ; END ) STATEMENT
     /// </summary>
-    class ForKeyword : BreakableKeyword
+    internal class ForKeyword : BreakableKeyword
     {
         #region Fields
 

@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Windows;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core;
+using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.Wpf.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Core.Wpf.ListFilters;
@@ -141,7 +142,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
                     Description = getDescription(s)
                 });
 
-        private static string GetEntityName<T>() => typeof(T).Name;
+        static string GetEntityName<T>() => typeof(T).Name;
 
 
 

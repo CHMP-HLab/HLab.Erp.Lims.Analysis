@@ -3,7 +3,7 @@
     [Description("NcrFunctionDescription")]
     [Kind(PopularKinds.Function)]
     [Link("NcrFunctionLink")]
-    sealed class NcrFunction : ArgumentFunction
+    internal sealed class NcrFunction : ArgumentFunction
     {
         [Description("NcrFunctionDescriptionForScalarScalar")]
         [Example("ncr(8, 2)", "NcrFunctionExampleForScalarScalar1")]

@@ -3,7 +3,7 @@
     /// <summary>
     /// Provides an arbitrary grouping of content structural markup elements.
     /// </summary>
-    class SectionStructure : XpsElement
+    internal class SectionStructure : XpsElement
   {
   }
 }

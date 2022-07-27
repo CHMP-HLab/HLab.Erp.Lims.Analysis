@@ -58,12 +58,12 @@ namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
   /// </summary>
   internal class StreamManipulator
   {
-    private byte[] window;
-    private int window_start = 0;
-    private int window_end = 0;
+      byte[] window;
+      int window_start = 0;
+      int window_end = 0;
 
-    private uint buffer = 0;
-    private int bits_in_buffer = 0;
+      uint buffer = 0;
+      int bits_in_buffer = 0;
 
     /// <summary>
     /// Get the next n bits but don't increase input pointer.  n must be

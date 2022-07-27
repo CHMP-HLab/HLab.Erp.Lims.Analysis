@@ -7,7 +7,7 @@ namespace YAMP
     /// <summary>
     /// Operator for arguments () for symbols (usually functions!).
     /// </summary>
-    class ArgsOperator : RightUnaryOperator
+    internal class ArgsOperator : RightUnaryOperator
     {
         #region Mapping
 

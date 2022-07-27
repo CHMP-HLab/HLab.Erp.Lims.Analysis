@@ -2,7 +2,7 @@
 {
 	[Description("SignFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class SignFunction : StandardFunction
+    internal sealed class SignFunction : StandardFunction
     {
         public override Value Perform(Value argument)
         {

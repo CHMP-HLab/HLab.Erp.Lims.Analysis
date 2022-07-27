@@ -7,7 +7,7 @@
     /// The matrix column operator , - used to seperate various columns in the
     /// entered matrix.
     /// </summary>
-	class ColumnOperator : BinaryOperator
+    internal class ColumnOperator : BinaryOperator
     {
         #region Mapping
 

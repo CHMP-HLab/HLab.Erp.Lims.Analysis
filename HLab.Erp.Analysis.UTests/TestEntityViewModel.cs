@@ -5,6 +5,7 @@ using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using HLab.Notify.PropertyChanged;
+using NPoco.Expressions;
 
 namespace HLab.Erp.Analysis.UTests
 {
@@ -13,9 +14,9 @@ namespace HLab.Erp.Analysis.UTests
     public class TestEntityViewModel : EntityViewModel<SampleTestResult>
     {
         public TestEntityViewModel(
-            Func<FormHelper> getFormHelper, 
-            Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> getWorkflow,
-            Func<SampleTestResult, LinkedDocumentsListViewModel> getDocuments)
+            Func<FormHelper> getFormHelper,
+            Func<SampleTestResult, IDataLocker<SampleTestResult>, SampleTestResultWorkflow> getWorkflow,
+            Func<SampleTestResult, LinkedDocumentsListViewModel> getDocuments):base(null)
         {
             _getFormHelper = getFormHelper;
             _getWorkflow = getWorkflow;
@@ -23,10 +24,11 @@ namespace HLab.Erp.Analysis.UTests
 
             H.Initialize(this);
         }
-        private readonly Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> _getWorkflow;
+
+        readonly Func<SampleTestResult, IDataLocker<SampleTestResult>, SampleTestResultWorkflow> _getWorkflow;
         public SampleTestResultWorkflow Workflow => _workflow.Get();
 
-        private readonly IProperty<SampleTestResultWorkflow> _workflow = H.Property<SampleTestResultWorkflow>(c => c
+        readonly IProperty<SampleTestResultWorkflow> _workflow = H.Property<SampleTestResultWorkflow>(c => c
             .NotNull(e => e.Locker)
             .NotNull(e => e.Model)
             .Set(e => e._getWorkflow?.Invoke(e.Model, e.Locker))
@@ -37,13 +39,14 @@ namespace HLab.Erp.Analysis.UTests
 
 
         public bool EditMode => _editMode.Get();
-        private readonly IProperty<bool> _editMode = H.Property<bool>(c => c
+
+        readonly IProperty<bool> _editMode = H.Property<bool>(c => c
             .NotNull(e => e.Workflow)
             .NotNull(e => e.Locker)
             .Set(e =>
                 e.Locker.IsActive
                 && e.Workflow.CurrentStage == SampleTestResultWorkflow.Running
-                && e.Acl.IsGranted(AnalysisRights.AnalysisResultEnter)
+                && e.Injected.Acl.IsGranted(AnalysisRights.AnalysisResultEnter)
             )
             .On(e => e.Locker.IsActive)
             .On(e => e.Workflow.CurrentStage)
@@ -51,15 +54,13 @@ namespace HLab.Erp.Analysis.UTests
         );
 
 
-
-        private readonly Func<FormHelper> _getFormHelper;
+        readonly Func<FormHelper> _getFormHelper;
         public FormHelper FormHelper => _formHelper.Get();
-        private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c
+
+        readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c
             .Set(e => e._getFormHelper?.Invoke()));
 
 
-
-
-        private readonly Func<SampleTestResult, LinkedDocumentsListViewModel> _getDocuments;
+        readonly Func<SampleTestResult, LinkedDocumentsListViewModel> _getDocuments;
     }
 }

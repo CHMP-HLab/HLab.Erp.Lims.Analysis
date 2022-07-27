@@ -18,31 +18,36 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _name.Get();
             set => _name.Set(value);
         }
-        private readonly IProperty<string> _name = H.Property<string>(c => c.Default(""));
+
+        readonly IProperty<string> _name = H.Property<string>(c => c.Default(""));
 
         public string Variant
         {
             get => _variant.Get();
             set => _variant.Set(value);
         }
-        private readonly IProperty<string> _variant = H.Property<string>(c => c.Default(""));
+
+        readonly IProperty<string> _variant = H.Property<string>(c => c.Default(""));
 
         public string Complement
         {
             get => _complement.Get();
             set => _complement.Set(value);
         }
-        private readonly IProperty<string> _complement = H.Property<string>(c => c.Default(""));
+
+        readonly IProperty<string> _complement = H.Property<string>(c => c.Default(""));
 
         public string Note
         {
             get => _note.Get();
             set => _note.Set(value);
         }
-        private readonly IProperty<string> _note = H.Property<string>(c => c.Default(""));
+
+        readonly IProperty<string> _note = H.Property<string>(c => c.Default(""));
         [Ignore]
         public string Caption => _caption.Get();
-        private readonly IProperty<string> _caption = H.Property<string>(c => c
+
+        readonly IProperty<string> _caption = H.Property<string>(c => c
             .On(e => e.Name)
             .On(e => e.Variant)
             .On(e => e.Form)
@@ -55,7 +60,8 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         [Ignore]
         public string IconPath => _iconPath.Get();
-        private readonly IProperty<string> _iconPath = H.Property<string>(c => c
+
+        readonly IProperty<string> _iconPath = H.Property<string>(c => c
         .Set(e => e.Form?.IconPath)
             .On(e => e.Form.IconPath).Update()
         );
@@ -73,7 +79,8 @@ namespace HLab.Erp.Lims.Analysis.Data
             set => _form.Set(value);
             get => _form.Get();
         }
-        private readonly IForeign<Form> _form = H.Foreign<Form>();
+
+        readonly IForeign<Form> _form = H.Foreign<Form>();
 
         public int? CategoryId
         {
@@ -87,7 +94,8 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _category.Get();
             set => _category.Set(value);
         }
-        private readonly IForeign<ProductCategory> _category = H.Foreign<ProductCategory>();
+
+        readonly IForeign<ProductCategory> _category = H.Foreign<ProductCategory>();
 
 
         public static Product DesignModel => new Product

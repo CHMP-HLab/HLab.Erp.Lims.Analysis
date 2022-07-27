@@ -2,7 +2,7 @@
 {
 	[Description("RealFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class RealFunction : StandardFunction
+    internal sealed class RealFunction : StandardFunction
 	{
 		protected override ScalarValue GetValue(ScalarValue value)
 		{

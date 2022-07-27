@@ -6,7 +6,7 @@
     [Description("PochFunctionDescription")]
     [Kind(PopularKinds.Function)]
     [Link("PochFunctionLink")]
-    sealed class PochFunction : ArgumentFunction
+    internal sealed class PochFunction : ArgumentFunction
     {
         [Description("PochFunctionDescriptionForScalarScalar")]
         [Example("poch(1, 0.5)", "PochFunctionExampleForScalarScalar1")]

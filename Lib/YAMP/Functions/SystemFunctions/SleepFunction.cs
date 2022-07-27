@@ -5,7 +5,7 @@
 
 	[Description("SleepFunctionDescription")]
 	[Kind(PopularKinds.System)]
-    sealed class SleepFunction : SystemFunction
+    internal sealed class SleepFunction : SystemFunction
 	{
         public SleepFunction(ParseContext context)
             : base(context)

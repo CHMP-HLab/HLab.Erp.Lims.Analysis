@@ -68,7 +68,7 @@ namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
     protected int len;
 
     // Used for reading single bytes the ReadByte() call
-    private byte[] onebytebuffer = new byte[1];
+    byte[] onebytebuffer = new byte[1];
 
     /// <summary>
     /// Base stream the inflater reads from.

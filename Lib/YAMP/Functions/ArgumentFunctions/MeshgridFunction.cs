@@ -2,7 +2,7 @@
 {
     [Description("MeshgridFunctionDescription")]
     [Kind(PopularKinds.Function)]
-    sealed class MeshgridFunction : ArgumentFunction
+    internal sealed class MeshgridFunction : ArgumentFunction
     {
         [Description("MeshgridFunctionDescriptionForMatrix")]
         [Returns(typeof(MatrixValue), "MeshgridFunctionReturnForMatrix1", 0)]

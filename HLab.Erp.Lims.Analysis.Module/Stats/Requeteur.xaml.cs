@@ -40,7 +40,7 @@ namespace Outils
             this.DataContextChanged += StatQueryView_DataContextChanged;
         }
 
-        private void StatQueryView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        void StatQueryView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if(e.OldValue is QueryViewModel oldVm)
             {
@@ -53,7 +53,7 @@ namespace Outils
             }
         }
 
-        private void Columns_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        void Columns_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch(e.Action)
             {
@@ -68,7 +68,7 @@ namespace Outils
             }
         }
 
-        private void AddColumn(string name)
+        void AddColumn(string name)
         {
             DataGridTextColumn colonne = new();
             colonne.Header = name;
@@ -77,7 +77,7 @@ namespace Outils
             DG_Resultats.Columns.Add(colonne);
         }
 
-        private int IdRequete = int.MinValue;
+        int IdRequete = int.MinValue;
 
         public event EventHandler OnObjetSelect;
 
@@ -96,7 +96,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void DG_Resultats_CellMouseMove(object sender, MouseEventArgs e)
+        void DG_Resultats_CellMouseMove(object sender, MouseEventArgs e)
         {
 
             if(sender is DataGridCell d && d.Content is TextBlock tb)
@@ -123,7 +123,7 @@ namespace Outils
             }
         }
 
-        private void DG_Resultats_MouseLeave(object sender, MouseEventArgs e)
+        void DG_Resultats_MouseLeave(object sender, MouseEventArgs e)
         {
             Pop_Cellule.IsOpen = false;
         }
@@ -135,7 +135,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void CB_Requete_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        void CB_Requete_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
             IdRequete = 0;//_SqlRequetes.Int32b("IdRequete");
@@ -178,7 +178,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void CK_VoirRequete_Checked(object sender, RoutedEventArgs e)
+        void CK_VoirRequete_Checked(object sender, RoutedEventArgs e)
         {
             G_Requete.Visibility = CK_VoirRequete.IsChecked == true ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
         }
@@ -190,25 +190,25 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void TB_LibelleParametre1_TextChanged(object sender, TextChangedEventArgs e)
+        void TB_LibelleParametre1_TextChanged(object sender, TextChangedEventArgs e)
         {
             TB_Parametre1.Tag = TB_LibelleParametre1.Text;
             TB_Parametre1.Visibility = TB_LibelleParametre1.Text.Length > 0 ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
         }
 
-        private void TB_LibelleParametre2_TextChanged(object sender, TextChangedEventArgs e)
+        void TB_LibelleParametre2_TextChanged(object sender, TextChangedEventArgs e)
         {
             TB_Parametre2.Tag = TB_LibelleParametre2.Text;
             TB_Parametre2.Visibility = TB_LibelleParametre2.Text.Length > 0 ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
         }
 
-        private void TB_LibelleParametre3_TextChanged(object sender, TextChangedEventArgs e)
+        void TB_LibelleParametre3_TextChanged(object sender, TextChangedEventArgs e)
         {
             TB_Parametre3.Tag = TB_LibelleParametre3.Text;
             TB_Parametre3.Visibility = TB_LibelleParametre3.Text.Length > 0 ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
         }
 
-        private void TB_LibelleParametre4_TextChanged(object sender, TextChangedEventArgs e)
+        void TB_LibelleParametre4_TextChanged(object sender, TextChangedEventArgs e)
         {
             TB_Parametre4.Tag = TB_LibelleParametre4.Text;
             TB_Parametre4.Visibility = TB_LibelleParametre4.Text.Length > 0 ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
@@ -221,7 +221,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void BT_Enregistrer_Click(object sender, RoutedEventArgs e)
+        void BT_Enregistrer_Click(object sender, RoutedEventArgs e)
         {
             // Crée la transaction
             //Sql.Transaction(() =>
@@ -251,7 +251,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void RafraichieRequetes()
+        void RafraichieRequetes()
         {
             //_SqlRequetes = new Sql.Lit("SELECT IdRequete, Libelle, Requete, Parametres, TaillesColonnes FROM Requete ORDER BY Libelle");
             //CB_Requete.ItemsSource = _SqlRequetes;
@@ -269,7 +269,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void BT_Nouveau_Click(object sender, RoutedEventArgs e)
+        void BT_Nouveau_Click(object sender, RoutedEventArgs e)
         {
             IdRequete = int.MinValue;
             TB_Libelle.Text = "";
@@ -310,7 +310,7 @@ namespace Outils
             }
         }
 
-        private void DG_Resultats_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        void DG_Resultats_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (DG_Resultats.CurrentCell == null || !(DG_Resultats.CurrentCell.Item is ""/*Sql.Ligne*/))
                 return;
@@ -341,7 +341,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void BT_Imprimer_Click(object sender, RoutedEventArgs e)
+        void BT_Imprimer_Click(object sender, RoutedEventArgs e)
         {
 
         }

@@ -27,10 +27,10 @@ using HLab.Erp.Lims.Analysis.Data.Entities;
 namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 {
     using H = H<InnProductComponentListViewModel>;
-    public class InnProductComponentListViewModel : EntityListViewModel<ProductComponent>, IMvvmContextProvider
+    public class InnProductComponentListViewModel : Core.EntityLists.EntityListViewModel<ProductComponent>, IMvvmContextProvider
     {
         public Inn Inn { get; }
-        public InnProductComponentListViewModel(Inn inn) : base(c => c
+        public InnProductComponentListViewModel(Injector i, Inn inn) : base(i, c => c
                 //.DeleteAllowed()
                 .StaticFilter(e => e.InnId == inn.Id)
 
@@ -61,7 +61,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         }
 
         public bool EditMode { get => _editMode.Get(); set => _editMode.Set(value); }
-        private readonly IProperty<bool> _editMode = H.Property<bool>(c => c.Default(false));
+        readonly IProperty<bool> _editMode = H.Property<bool>(c => c.Default(false));
 
         protected override bool CanExecuteDelete(ProductComponent sampleTest, Action<string> errorAction)
         {
@@ -75,7 +75,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 
         public override Type AddArgumentClass => typeof(Inn);
 
-        private readonly ITrigger _1 = H.Trigger(c => c
+        readonly ITrigger _1 = H.Trigger(c => c
             //.On(e => e.Sample.Stage)
             //.On(e => e.Sample.Pharmacopoeia)
             //.On(e => e.Sample.PharmacopoeiaVersion)
@@ -94,7 +94,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         protected override bool CanExecuteAdd(Action<string> errorAction)
         {
             if (!EditMode) return false;
-            if (!Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest)) return false;
+            if (!Injected.Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest)) return false;
             //if (Sample.Pharmacopoeia == null)
             //{
             //    errorAction("{Missing} : {Pharmacopoeia}");
@@ -117,7 +117,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         {
             //if (!(arg is TestClass testClass)) return;
 
-            var component = await Erp.Data.AddAsync<ProductComponent>(pc =>
+            var component = await Injected.Erp.Data.AddAsync<ProductComponent>(pc =>
             {
                 pc.Inn = Inn;
                 //st.TestClass = testClass;

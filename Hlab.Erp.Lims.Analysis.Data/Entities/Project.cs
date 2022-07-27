@@ -13,7 +13,8 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _parentId.Get();
             set => _parentId.Set(value);
         }
-        private readonly IProperty<int?> _parentId = H.Property<int?>();
+
+        readonly IProperty<int?> _parentId = H.Property<int?>();
 
 
         public Project Parent
@@ -21,13 +22,15 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _parent.Get();
             set => _parent.Set(value);
         }
-        private readonly IProperty<Project> _parent = H.Property<Project>(c => c.Foreign(e => e.ParentId));
+
+        readonly IProperty<Project> _parent = H.Property<Project>(c => c.Foreign(e => e.ParentId));
         public string Name
         {
             get => _name.Get();
             set => _name.Set(value);
         }
-        private readonly IProperty<string> _name = H.Property<string>();
+
+        readonly IProperty<string> _name = H.Property<string>();
 
     }
 }

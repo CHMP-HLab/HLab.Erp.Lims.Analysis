@@ -2,7 +2,7 @@
 {
 	[Description("PrecisionFunctionDescription")]
 	[Kind(PopularKinds.System)]
-    sealed class PrecisionFunction : SystemFunction
+    internal sealed class PrecisionFunction : SystemFunction
     {
         public PrecisionFunction(ParseContext context)
             : base(context)

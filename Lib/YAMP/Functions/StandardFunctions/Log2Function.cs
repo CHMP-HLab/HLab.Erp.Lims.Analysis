@@ -2,7 +2,7 @@
 {
     [Description("Log2FunctionDescription")]
     [Kind(PopularKinds.Function)]
-    sealed class Log2Function : StandardFunction
+    internal sealed class Log2Function : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

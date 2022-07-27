@@ -331,7 +331,7 @@ namespace HTMLConverter
         /// Throws InvalidOperationException if attempted to be called on EndOfStream
         /// condition.
         /// </remarks>
-        private void GetNextCharacter()
+        void GetNextCharacter()
         {
             if (_nextCharacterCode == -1)
             {
@@ -430,7 +430,7 @@ namespace HTMLConverter
             }
         }
 
-        private void ReadLookAheadCharacter()
+        void ReadLookAheadCharacter()
         {
             if (_lookAheadCharacterCode != -1)
             {
@@ -444,7 +444,7 @@ namespace HTMLConverter
         /// leaves the first non-whitespace character available in the NextCharacter property
         /// this may be the end-of-file character, it performs no checking 
         /// </summary>
-        private void SkipWhiteSpace()
+        void SkipWhiteSpace()
         {
             // TODO: handle character entities while processing comments, cdata, and directives
             // TODO: SUGGESTION: we could check if lookahead and previous characters are entities also
@@ -501,7 +501,7 @@ namespace HTMLConverter
         /// true if the character can be the first character in a name
         /// false otherwise
         /// </returns>
-        private bool IsGoodForNameStart(char character)
+        bool IsGoodForNameStart(char character)
         {
             return character == '_' || Char.IsLetter(character);
         }
@@ -517,7 +517,7 @@ namespace HTMLConverter
         /// <returns>
         /// true if the character can be a valid part of a name
         /// </returns>
-        private bool IsGoodForName(char character)
+        bool IsGoodForName(char character)
         {
             // we are not concerned with escaped characters in names
             // we assume that character entities are allowed as part of a name
@@ -542,7 +542,7 @@ namespace HTMLConverter
         /// <returns>
         /// true if the character is a combining character, false otherwise
         /// </returns>
-        private bool IsCombiningCharacter(char character)
+        bool IsCombiningCharacter(char character)
         {
             // TODO: put actual code with checks against all combining characters here
             return false;
@@ -559,7 +559,7 @@ namespace HTMLConverter
         /// <returns>
         /// true if the character is an extender, false otherwise
         /// </returns>
-        private bool IsExtender(char character)
+        bool IsExtender(char character)
         {
             // TODO: put actual code with checks against all extenders here
             return false;
@@ -568,7 +568,7 @@ namespace HTMLConverter
         /// <summary>
         /// skips dynamic content starting with '<![' and ending with ']>' 
         /// </summary>
-        private void ReadDynamicContent()
+        void ReadDynamicContent()
         {
             // verify that we are at dynamic content, which may include CDATA
             Debug.Assert(_previousCharacter == '<' && _nextCharacter == '!' && _lookAheadCharacter == '[');
@@ -609,7 +609,7 @@ namespace HTMLConverter
         /// the "<!-"  sequence and ending in "!>" or "->", because in practice many html pages do not
         /// use the full comment specifying conventions
         /// </summary>
-        private void ReadComment()
+        void ReadComment()
         {
             // verify that we are at a comment
             Debug.Assert(_previousCharacter == '<' && _nextCharacter == '!' && _lookAheadCharacter == '-');
@@ -666,7 +666,7 @@ namespace HTMLConverter
         /// ignores content of such directives until the next ">" character
         /// applies to directives such as DOCTYPE, etc that we do not presently support
         /// </summary>
-        private void ReadUnknownDirective()
+        void ReadUnknownDirective()
         {
             // verify that we are at an unknown directive
             Debug.Assert(_previousCharacter == '<' && _nextCharacter == '!' && !(_lookAheadCharacter == '-' || _lookAheadCharacter == '['));
@@ -696,7 +696,7 @@ namespace HTMLConverter
         /// NOTE: 10/14/2004: IE also ends processing directives with a />, so this function is
         /// being modified to recognize that condition as well
         /// </summary>
-        private void SkipProcessingDirective()
+        void SkipProcessingDirective()
         {
             // verify that we are at a processing directive
             Debug.Assert(_nextCharacter == '<' && _lookAheadCharacter == '?');
@@ -733,7 +733,7 @@ namespace HTMLConverter
 
         #region Private Properties
 
-        private char NextCharacter
+        char NextCharacter
         {
             get
             {
@@ -741,7 +741,7 @@ namespace HTMLConverter
             }
         }
 
-        private bool IsAtEndOfStream
+        bool IsAtEndOfStream
         {
             get
             {
@@ -749,7 +749,7 @@ namespace HTMLConverter
             }
         }
 
-        private bool IsAtTagStart
+        bool IsAtTagStart
         {
             get
             {
@@ -757,7 +757,7 @@ namespace HTMLConverter
             }
         }
 
-        private bool IsAtTagEnd
+        bool IsAtTagEnd
         {
             // check if at end of empty tag or regular tag
             get
@@ -766,7 +766,7 @@ namespace HTMLConverter
             }
         }
 
-        private bool IsAtDirectiveStart
+        bool IsAtDirectiveStart
         {
             get
             {
@@ -774,7 +774,7 @@ namespace HTMLConverter
             }
         }
 
-        private bool IsNextCharacterEntity
+        bool IsNextCharacterEntity
         {
             // check if next character is an entity
             get
@@ -794,16 +794,16 @@ namespace HTMLConverter
         #region Private Fields
 
         // string reader which will move over input text
-        private StringReader _inputStringReader;
+        StringReader _inputStringReader;
         // next character code read from input that is not yet part of any token
         // and the character it represents
-        private int _nextCharacterCode;
-        private char _nextCharacter;
-        private int _lookAheadCharacterCode;
-        private char _lookAheadCharacter;
-        private char _previousCharacter;
-        private bool _ignoreNextWhitespace;
-        private bool _isNextCharacterEntity;
+        int _nextCharacterCode;
+        char _nextCharacter;
+        int _lookAheadCharacterCode;
+        char _lookAheadCharacter;
+        char _previousCharacter;
+        bool _ignoreNextWhitespace;
+        bool _isNextCharacterEntity;
 
         // store token and type in local variables before copying them to output parameters
         StringBuilder _nextToken;

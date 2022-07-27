@@ -35,7 +35,7 @@ namespace PdfSharp.Internal
     /// <summary>
     /// Required native Win32 calls. Don't know what to do under Mono.
     /// </summary>
-    static class NativeMethods
+    internal static class NativeMethods
   {
     /// <summary>
     /// Reflected from System.Drawing.SafeNativeMethods+LOGFONT

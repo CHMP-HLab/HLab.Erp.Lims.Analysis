@@ -5,12 +5,12 @@ using System.Text;
 
 namespace NPoco
 {
-    static class Singleton<T> where T : new()
+    internal static class Singleton<T> where T : new()
     {
         public static T Instance = new T();
     }
 
-    class DynamicDatabaseType
+    internal class DynamicDatabaseType
     {
         public static Cache<string, DatabaseType> cache = Cache<string, DatabaseType>.CreateStaticCache();
 

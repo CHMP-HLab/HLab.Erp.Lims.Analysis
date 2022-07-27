@@ -5,7 +5,7 @@
 
     [Description("SphereFunctionDescription")]
     [Kind(PopularKinds.Function)]
-    sealed class SphereFunction : ArgumentFunction
+    internal sealed class SphereFunction : ArgumentFunction
     {
         [Description("SphereFunctionDescriptionForVoid")]
         [Example("[X, Y, Z] = sphere()", "SphereFunctionExampleForVoid1")]

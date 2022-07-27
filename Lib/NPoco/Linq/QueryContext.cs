@@ -8,9 +8,9 @@ namespace NPoco.Linq
 {
     public class QueryContext<T>
     {
-        private readonly Database _database;
-        private readonly PocoData _pocoData;
-        private readonly Dictionary<string, JoinData> _joinExpressions;
+        readonly Database _database;
+        readonly PocoData _pocoData;
+        readonly Dictionary<string, JoinData> _joinExpressions;
 
         public QueryContext(Database database, PocoData pocoData, Dictionary<string, JoinData> joinExpressions)
         {

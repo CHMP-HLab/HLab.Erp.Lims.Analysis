@@ -3,7 +3,7 @@
 	[Description("TraceFunctionDescription")]
     [Kind(PopularKinds.Function)]
     [Link("TraceFunctionLink")]
-    sealed class TraceFunction : ArgumentFunction
+    internal sealed class TraceFunction : ArgumentFunction
 	{
 		[Description("TraceFunctionDescriptionForMatrix")]
 		[Example("trace([1,2;3,4])", "TraceFunctionExampleForMatrix1")]

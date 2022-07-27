@@ -55,7 +55,8 @@ namespace PdfSharp.Pdf
         this.privateFontCollection = value;
       }
     }
-    private XPrivateFontCollection privateFontCollection;
+
+    XPrivateFontCollection privateFontCollection;
 
 
     /// <summary>

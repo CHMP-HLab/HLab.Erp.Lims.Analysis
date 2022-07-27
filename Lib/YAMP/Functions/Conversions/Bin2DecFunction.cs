@@ -6,7 +6,7 @@
 
     [Description("Bin2DecFunctionDescription")]
     [Kind(PopularKinds.Conversion)]
-    sealed class Bin2DecFunction : ArgumentFunction
+    internal sealed class Bin2DecFunction : ArgumentFunction
     {
         [Description("Bin2DecFunctionDescriptionForString")]
         [Example("bin2dec(\"010111\")", "Bin2DecFunctionExampleForString1")]

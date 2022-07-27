@@ -12,7 +12,13 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         public DummyForm()
         { }
 
+        public DummyForm(string message)
+        {
+            Content = new TextBlock { Text = message };
+        }
+
         public IFormTarget Target { get; set; }
+        public long CreationDuration { get; set; }
 
         public void Connect(int connectionId, object target){ }
 

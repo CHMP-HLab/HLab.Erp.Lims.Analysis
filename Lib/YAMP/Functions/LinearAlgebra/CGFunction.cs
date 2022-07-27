@@ -5,7 +5,7 @@
     [Description("CGFunctionDescription")]
 	[Kind(PopularKinds.Function)]
     [Link("CGFunctionLink")]
-    sealed class CGFunction : ArgumentFunction
+    internal sealed class CGFunction : ArgumentFunction
     {
         [Description("CGFunctionDescriptionForMatrixMatrix")]
         [Example("cg([1,2,1;2,3,4;1,4,2], rand(3,1))", "CGFunctionExampleForMatrixMatrix1")]

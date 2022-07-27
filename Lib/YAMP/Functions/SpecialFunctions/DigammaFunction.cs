@@ -4,7 +4,7 @@
 
     [Description("DigammaFunctionDescription")]
     [Kind(PopularKinds.Function)]
-    sealed class DigammaFunction : StandardFunction
+    internal sealed class DigammaFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

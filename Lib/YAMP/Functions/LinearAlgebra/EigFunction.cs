@@ -5,7 +5,7 @@
     [Description("EigFunctionDescription")]
     [Kind(PopularKinds.Function)]
     [Link("EigFunctionLink")]
-    sealed class EigFunction : ArgumentFunction
+    internal sealed class EigFunction : ArgumentFunction
 	{
 		[Description("EigFunctionDescriptionForMatrix")]
         [Example("eig([1,2,3;4,5,6;7,8,9])", "EigFunctionExampleForMatrix1")]

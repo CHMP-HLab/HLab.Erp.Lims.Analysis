@@ -4,7 +4,7 @@
     /// Represents the abstract base class for any keyword that allows the break keyword
     /// to be used in an inner scope.
     /// </summary>
-    abstract class BreakableKeyword : BodyKeyword
+    internal abstract class BreakableKeyword : BodyKeyword
     {
         #region Fields
 

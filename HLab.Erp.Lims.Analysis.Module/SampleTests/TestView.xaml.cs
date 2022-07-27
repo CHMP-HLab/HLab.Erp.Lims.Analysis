@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using HLab.Erp.Core.EntityLists;
 using HLab.Erp.Core.Wpf.EntityLists;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm;
@@ -6,7 +7,7 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
-    class SampleTestInlineViewModel : ViewModel<SampleTest>
+    internal class SampleTestInlineViewModel : ViewModel<SampleTest>
     {
 
     }

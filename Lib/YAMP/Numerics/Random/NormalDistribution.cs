@@ -42,7 +42,7 @@ namespace YAMP.Numerics
         /// <summary>
         /// Stores the parameter mu which is used for generation of normal distributed random numbers.
         /// </summary>
-        private double mu;
+        double mu;
 
         /// <summary>
 		/// Gets or sets the parameter sigma which is used for generation of normal distributed random numbers.
@@ -67,7 +67,7 @@ namespace YAMP.Numerics
 		/// <summary>
 		/// Stores the parameter sigma which is used for generation of normal distributed random numbers.
 		/// </summary>
-		private double sigma;
+        double sigma;
 
         /// <summary>
         /// Stores a precomputed normal distributed random number that will be returned the next time 
@@ -76,7 +76,7 @@ namespace YAMP.Numerics
         /// <remarks>
         /// Two new normal distributed random numbers are generated every other call to <see cref="NextDouble"/>.
         /// </remarks>
-        private double helper1;
+        double helper1;
 
         /// <summary>
         /// Stores a value indicating whether <see cref="NextDouble"/> was called twice since last generation of 
@@ -85,7 +85,7 @@ namespace YAMP.Numerics
         /// <remarks>
         /// Two new normal distributed random numbers are generated every other call to <see cref="NextDouble"/>.
         /// </remarks>
-        private bool helper2;
+        bool helper2;
 		#endregion
 
 		#region construction
@@ -146,7 +146,7 @@ namespace YAMP.Numerics
 		/// Updates the helper variables that store intermediate results for generation of normal distributed random 
 		///   numbers.
 		/// </summary>
-		private void UpdateHelpers()
+        void UpdateHelpers()
 		{
 			this.helper1 = 0.0;
 			this.helper2 = false;

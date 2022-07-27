@@ -12,14 +12,16 @@ namespace HLab.Erp.Lims.Analysis.Data
         public Manufacturer() => H.Initialize(this);
 
         public string Caption => _caption.Get();
-        private readonly IProperty<string> _caption = H.Property<string>(c => c
+
+        readonly IProperty<string> _caption = H.Property<string>(c => c
             .Set(e => string.IsNullOrWhiteSpace(e.Name)?"{New manufacturer}":e.Name)
             .On(e => e.Name)
             .Update()
         );
 
         public string IconPath => _iconPath.Get();
-        private readonly IProperty<string> _iconPath = H.Property<string>(c => c
+
+        readonly IProperty<string> _iconPath = H.Property<string>(c => c
             .Set(e => e.Country?.IconPath)
             .On(e => e.Country.IconPath)
             .Update()

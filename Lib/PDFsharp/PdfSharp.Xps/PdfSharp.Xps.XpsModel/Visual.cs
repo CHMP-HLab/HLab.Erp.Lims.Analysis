@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the content of a VisualBrush.
     /// </summary>
-    class Visual : XpsElement
+    internal class Visual : XpsElement
   {
     /// <summary>
     /// A collection of Path, Glyphs, and Canvas objects.

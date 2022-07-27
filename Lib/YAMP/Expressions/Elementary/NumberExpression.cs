@@ -6,7 +6,7 @@ namespace YAMP
     /// <summary>
     /// This class evaluates and creates number 012345 expressions.
     /// </summary>
-	class NumberExpression : Expression
+    internal class NumberExpression : Expression
     {
         #region Fields
 

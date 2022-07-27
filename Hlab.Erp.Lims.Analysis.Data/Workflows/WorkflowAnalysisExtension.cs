@@ -10,7 +10,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 {
     public class WorkFlowBootloader : IBootloader
     {
-        private readonly IAclService _acl;
+        readonly IAclService _acl;
 
         public WorkFlowBootloader(IAclService acl)
         {

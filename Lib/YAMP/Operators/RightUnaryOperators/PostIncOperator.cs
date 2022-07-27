@@ -6,7 +6,7 @@
     /// <summary>
     /// This is the postfix increment operator ++.
     /// </summary>
-    class PostIncOperator : RightUnaryOperator
+    internal class PostIncOperator : RightUnaryOperator
     {
         public static readonly String Symbol = OpDefinitions.PostIncOperator;
         public static readonly int OpLevel = OpDefinitions.PostIncOperatorLevel;

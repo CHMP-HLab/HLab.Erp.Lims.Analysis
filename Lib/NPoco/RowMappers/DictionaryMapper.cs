@@ -7,7 +7,7 @@ namespace NPoco.RowMappers
 {
     public class DictionaryMapper : RowMapper
     {
-        private PosName[] _posNames;
+        PosName[] _posNames;
 
         public override bool ShouldMap(PocoData pocoData)
         {

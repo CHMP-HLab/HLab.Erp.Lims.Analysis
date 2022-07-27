@@ -33,7 +33,7 @@ namespace PdfSharp.Fonts.OpenType
     /// <summary>
     /// TrueType font table names.
     /// </summary>
-    static class TableTagNames
+    internal static class TableTagNames
   {
     // --- Required Tables ---
 

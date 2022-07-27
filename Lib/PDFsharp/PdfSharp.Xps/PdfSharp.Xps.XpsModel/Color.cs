@@ -6,7 +6,7 @@ using PdfSharp.Internal;
 
 namespace PdfSharp.Xps.XpsModel
 {
-    struct Color
+    internal struct Color
   {
     public byte A
     {

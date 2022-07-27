@@ -7,7 +7,7 @@
     /// Returns the given scalar(s) with a switched sign. This operator is a unary operator,
     /// but is used as a binary one with a pseudo expression on the left side.
     /// </summary>
-    class NegateOperator : LeftUnaryOperator
+    internal class NegateOperator : LeftUnaryOperator
     {
         public static readonly String Symbol = OpDefinitions.NegateOperator;
         public static readonly int OpLevel = OpDefinitions.NegateOperatorLevel;

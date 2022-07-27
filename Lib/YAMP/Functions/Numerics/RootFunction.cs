@@ -7,7 +7,7 @@
 	[Description("RootFunctionDescription")]
 	[Kind(PopularKinds.Function)]
     [Link("RootFunctionLink")]
-    sealed class RootFunction : SystemFunction
+    internal sealed class RootFunction : SystemFunction
 	{
         public RootFunction(ParseContext context)
             : base(context)

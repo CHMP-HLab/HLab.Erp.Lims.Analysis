@@ -4,7 +4,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
     public class FormValues
     {
-        private Dictionary<string, string> _dict = new();
+        Dictionary<string, string> _dict = new();
 
         public string Version
         {

@@ -4,7 +4,7 @@
 
     [Description("Bessel0FunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class Bessel0Function : StandardFunction
+    internal sealed class Bessel0Function : StandardFunction
 	{
 		protected override ScalarValue GetValue(ScalarValue value)
 		{

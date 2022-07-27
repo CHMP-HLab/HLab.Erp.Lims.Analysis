@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    static class ObjectExtensions
+    internal static class ObjectExtensions
     {
         public static Dictionary<String, Value> ToDictionary(this Object values)
         {

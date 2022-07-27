@@ -28,7 +28,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             get => _quantity.Get();
             set => _quantity.Set(value);
         }
-        private readonly IProperty<double> _quantity = H.Property<double>(c => c.Default(0.0));
+
+        readonly IProperty<double> _quantity = H.Property<double>(c => c.Default(0.0));
         public int? UnitId
         {
             get => _unit.Id.Get();
@@ -40,7 +41,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             set => _unit.Set(value);
             get => _unit.Get();
         }
-        private readonly IForeign<Unit> _unit = H.Foreign<Unit>();
+
+        readonly IForeign<Unit> _unit = H.Foreign<Unit>();
 
         [Ignore]
         public Product Product
@@ -48,7 +50,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             set => _product.Set(value);
             get => _product.Get();
         }
-        private readonly IForeign<Product> _product = H.Foreign<Product>();
+
+        readonly IForeign<Product> _product = H.Foreign<Product>();
 
         [Ignore]
         public Inn Inn
@@ -56,7 +59,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             set => _inn.Set(value);
             get => _inn.Get();
         }
-        private readonly IForeign<Inn> _inn = H.Foreign<Inn>();
+
+        readonly IForeign<Inn> _inn = H.Foreign<Inn>();
 
         public static ProductComponent DesignModel => new()
         {

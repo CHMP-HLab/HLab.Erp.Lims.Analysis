@@ -3,7 +3,7 @@
     /// <summary>
     /// Contains a list of resources that are safe for a consumer to discard.
     /// </summary>
-    class DiscardControl : XpsElement
+    internal class DiscardControl : XpsElement
   {
   }
 }

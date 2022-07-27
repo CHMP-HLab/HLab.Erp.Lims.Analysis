@@ -211,7 +211,7 @@ namespace NPoco.Linq
             return this;
         }
 
-        private IAsyncQueryProviderWithIncludes<T> QueryProviderWithIncludes(Expression expression, string tableAlias, JoinType joinType, string joinTableHint)
+        IAsyncQueryProviderWithIncludes<T> QueryProviderWithIncludes(Expression expression, string tableAlias, JoinType joinType, string joinTableHint)
         {
             var joinExpressions = _buildComplexSql.GetJoinExpressions(expression, tableAlias, joinType, joinTableHint);
             foreach (var joinExpression in joinExpressions)
@@ -237,7 +237,7 @@ namespace NPoco.Linq
             return ExecuteQueryAsync(BuildSql());
         }
 
-        private IAsyncEnumerable<T> ExecuteQueryAsync(Sql sql)
+        IAsyncEnumerable<T> ExecuteQueryAsync(Sql sql)
         {
             return _database.QueryAsync<T>(default, _listExpression, null, sql, _pocoData);
         }
@@ -388,7 +388,7 @@ namespace NPoco.Linq
             return this;
         }
 
-        private void ThrowIfOneToMany()
+        void ThrowIfOneToMany()
         {
             if (_listExpression != null)
             {
@@ -631,8 +631,8 @@ namespace NPoco.Linq
         {
             return ExecuteQuery(BuildSql());
         }
-        
-        private IEnumerable<T> ExecuteQuery(Sql sql)
+
+        IEnumerable<T> ExecuteQuery(Sql sql)
         {
             return _database.QueryImp(default(T), _listExpression, null, sql, _pocoData);
         }

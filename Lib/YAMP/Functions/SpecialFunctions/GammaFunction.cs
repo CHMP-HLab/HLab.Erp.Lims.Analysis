@@ -4,7 +4,7 @@
 
     [Description("GammaFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class GammaFunction : StandardFunction
+    internal sealed class GammaFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

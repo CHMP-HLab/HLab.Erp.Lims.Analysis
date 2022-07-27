@@ -1,6 +1,6 @@
 ﻿namespace PdfSharp.Xps.Rendering
 {
-    class XPVisual: XPObject
+    internal class XPVisual: XPObject
   {
     public XPVisual()
     {

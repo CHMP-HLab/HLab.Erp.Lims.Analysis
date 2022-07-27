@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines a single story and where each of its story fragments appear in the XPS Document.
     /// </summary>
-    class Story : XpsElement
+    internal class Story : XpsElement
   {
     /// <summary>
     /// The name used by story fragments to identify they belong to this story.

@@ -9,12 +9,12 @@ using HLab.Erp.Lims.Analysis.Data.Workflows;
 
 namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
 {
-    public class ManufacturersListViewModel : EntityListViewModel<Manufacturer>, IMvvmContextProvider
+    public class ManufacturersListViewModel : Core.EntityLists.EntityListViewModel<Manufacturer>, IMvvmContextProvider
     {
         public class Bootloader : NestedBootloader
         { }
 
-        public ManufacturersListViewModel() : base(c => c
+        public ManufacturersListViewModel(Injector i) : base(i, c => c
             .Column("Name")
             .Header("{Name}")
             .Width(250).Link(e => e.Name)
@@ -27,8 +27,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
         {
         }
 
-        protected override bool CanExecuteAdd(Action<string> errorAction) => Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisManufacturerCreate);
-        protected override bool CanExecuteDelete(Manufacturer manufacturer, Action<string> errorAction) => Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisManufacturerCreate);
+        protected override bool CanExecuteAdd(Action<string> errorAction) => Injected.Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisManufacturerCreate);
+        protected override bool CanExecuteDelete(Manufacturer manufacturer, Action<string> errorAction) => Injected.Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisManufacturerCreate);
 
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {

@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines a reference from a fixed document to a part that contains a <FixedPage> element.
     /// </summary>
-    class PageContent : XpsElement
+    internal class PageContent : XpsElement
   {
     /// <summary>
     /// Specifies a URI that refers to the page content, held in a distinct part within the package.

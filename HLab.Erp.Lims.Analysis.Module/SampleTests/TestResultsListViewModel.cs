@@ -12,11 +12,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
     using H = H<TestResultsListViewModel>;
 
-    public class TestResultsListViewModel : EntityListViewModel<SampleTestResult>, IMvvmContextProvider
+    public class TestResultsListViewModel : Core.EntityLists.EntityListViewModel<SampleTestResult>, IMvvmContextProvider
     {
         public SampleTest SampleTest { get; }
 
-        public TestResultsListViewModel(SampleTest sampleTest) : base(c => c
+        public TestResultsListViewModel(Injector i, SampleTest sampleTest) : base(i, c => c
                 .StaticFilter(e => e.SampleTestId == sampleTest.Id)
 
                 .Column("Selected")
@@ -88,7 +88,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             }
 
 
-            var result = await Erp.Data.AddAsync<SampleTestResult>(r =>
+            var result = await Injected.Erp.Data.AddAsync<SampleTestResult>(r =>
            {
                r.Name = $"R{i + 1}";
                r.SampleTestId = SampleTest.Id;
@@ -101,14 +101,14 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             if (result != null)
             {
                 await List.UpdateAsync();
-                await Erp.Docs.OpenDocumentAsync(result);
+                await Injected.Erp.Docs.OpenDocumentAsync(result);
             }
         }
 
         protected override bool CanExecuteDelete(SampleTestResult result, Action<string> errorAction)
         {
             if (Selected == null) return false;
-            if (!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
+            if (!Injected.Erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
             if (SampleTest.Stage != SampleTestWorkflow.Running) return false;
             if (Selected.Stage != null && Selected.Stage != SampleTestResultWorkflow.Running) return false;
             if (SampleTest.Result == null) return true;
@@ -116,14 +116,14 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
             return true;
         }
 
-        private readonly ITrigger _ = H.Trigger(c => c
+        readonly ITrigger _ = H.Trigger(c => c
             .On(e => e.SampleTest.Stage).Do(e => (e.AddCommand as CommandPropertyHolder)?.CheckCanExecute())
         );
 
         protected override bool CanExecuteAdd(Action<string> errorAction)
         {
             if (SampleTest.Stage != SampleTestWorkflow.Running) return false;
-            if (!Erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
+            if (!Injected.Erp.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
             return true;
         }
 

@@ -14,15 +14,15 @@ namespace NPoco.fastJSON
 {
     internal sealed class JSONSerializer
     {
-        private StringBuilder _output = new StringBuilder();
+        StringBuilder _output = new StringBuilder();
         //private StringBuilder _before = new StringBuilder();
-        private int _before;
-        private int _MAX_DEPTH = 20;
+        int _before;
+        int _MAX_DEPTH = 20;
         int _current_depth = 0;
-        private Dictionary<string, int> _globalTypes = new Dictionary<string, int>();
-        private Dictionary<object, int> _cirobj = new Dictionary<object, int>();
-        private JSONParameters _params;
-        private bool _useEscapedUnicode = false;
+        Dictionary<string, int> _globalTypes = new Dictionary<string, int>();
+        Dictionary<object, int> _cirobj = new Dictionary<object, int>();
+        JSONParameters _params;
+        bool _useEscapedUnicode = false;
 
         internal JSONSerializer(JSONParameters param)
         {
@@ -56,7 +56,7 @@ namespace NPoco.fastJSON
             return _output.ToString();
         }
 
-        private void WriteValue(object obj)
+        void WriteValue(object obj)
         {
             if (obj == null || obj is DBNull)
                 _output.Append("null");
@@ -159,7 +159,7 @@ namespace NPoco.fastJSON
                 WriteObject(obj);
         }
 
-        private void WriteDateTimeOffset(DateTimeOffset d)
+        void WriteDateTimeOffset(DateTimeOffset d)
         {
             DateTime dt = _params.UseUTCDateTime ? d.UtcDateTime : d.DateTime;
             
@@ -185,7 +185,7 @@ namespace NPoco.fastJSON
             _output.Append('\"');
         }
 
-        private void WriteNV(NameValueCollection nameValueCollection)
+        void WriteNV(NameValueCollection nameValueCollection)
         {
             _output.Append('{');
 
@@ -209,7 +209,7 @@ namespace NPoco.fastJSON
             _output.Append('}');
         }
 
-        private void WriteSD(StringDictionary stringDictionary)
+        void WriteSD(StringDictionary stringDictionary)
         {
             _output.Append('{');
 
@@ -235,14 +235,14 @@ namespace NPoco.fastJSON
             _output.Append('}');
         }
 
-        private void WriteCustom(object obj)
+        void WriteCustom(object obj)
         {
             Serialize s;
             Reflection.Instance._customSerializer.TryGetValue(obj.GetType(), out s);
             WriteStringFast(s(obj));
         }
 
-        private void WriteEnum(Enum e)
+        void WriteEnum(Enum e)
         {
             // FEATURE : optimize enum write
             if (_params.UseValuesOfEnums)
@@ -251,7 +251,7 @@ namespace NPoco.fastJSON
                 WriteStringFast(e.ToString());
         }
 
-        private void WriteGuid(Guid g)
+        void WriteGuid(Guid g)
         {
             if (_params.UseFastGuid == false)
                 WriteStringFast(g.ToString());
@@ -259,7 +259,7 @@ namespace NPoco.fastJSON
                 WriteBytes(g.ToByteArray());
         }
 
-        private void WriteBytes(byte[] bytes)
+        void WriteBytes(byte[] bytes)
         {
 #if !DNXCORE50
             WriteStringFast(Convert.ToBase64String(bytes, 0, bytes.Length, Base64FormattingOptions.None));
@@ -268,7 +268,7 @@ namespace NPoco.fastJSON
 #endif
         }
 
-        private void WriteDateTime(DateTime dateTime)
+        void WriteDateTime(DateTime dateTime)
         {
             // datetime format standard : yyyy-MM-dd HH:mm:ss
             DateTime dt = dateTime;
@@ -289,7 +289,7 @@ namespace NPoco.fastJSON
             _output.Append('\"');
         }
 
-        private void write_date_value(DateTime dt)
+        void write_date_value(DateTime dt)
         {
             _output.Append('\"');
             _output.Append(dt.Year.ToString("0000", NumberFormatInfo.InvariantInfo));
@@ -306,7 +306,7 @@ namespace NPoco.fastJSON
         }
 
 #if !DNXCORE50
-        private DatasetSchema GetSchema(DataTable ds)
+        DatasetSchema GetSchema(DataTable ds)
         {
             if (ds == null) return null;
 
@@ -325,7 +325,7 @@ namespace NPoco.fastJSON
             return m;
         }
 
-        private DatasetSchema GetSchema(DataSet ds)
+        DatasetSchema GetSchema(DataSet ds)
         {
             if (ds == null) return null;
 
@@ -347,7 +347,7 @@ namespace NPoco.fastJSON
             return m;
         }
 
-        private string GetXmlSchema(DataTable dt)
+        string GetXmlSchema(DataTable dt)
         {
             using (var writer = new StringWriter())
             {
@@ -356,7 +356,7 @@ namespace NPoco.fastJSON
             }
         }
 
-        private void WriteDataset(DataSet ds)
+        void WriteDataset(DataSet ds)
         {
             _output.Append('{');
             if (_params.UseExtensions)
@@ -375,7 +375,7 @@ namespace NPoco.fastJSON
             _output.Append('}');
         }
 
-        private void WriteDataTableData(DataTable table)
+        void WriteDataTableData(DataTable table)
         {
             _output.Append('\"');
             _output.Append(table.TableName);
@@ -418,7 +418,8 @@ namespace NPoco.fastJSON
 #endif
 
         bool _TypesWritten = false;
-        private void WriteObject(object obj)
+
+        void WriteObject(object obj)
         {
             int i = 0;
             if (_cirobj.TryGetValue(obj, out i) == false)
@@ -512,7 +513,7 @@ namespace NPoco.fastJSON
             _current_depth--;
         }
 
-        private void WritePairFast(string name, string value)
+        void WritePairFast(string name, string value)
         {
             WriteStringFast(name);
 
@@ -521,7 +522,7 @@ namespace NPoco.fastJSON
             WriteStringFast(value);
         }
 
-        private void WritePair(string name, object value)
+        void WritePair(string name, object value)
         {
             WriteString(name);
 
@@ -530,7 +531,7 @@ namespace NPoco.fastJSON
             WriteValue(value);
         }
 
-        private void WriteArray(IEnumerable array)
+        void WriteArray(IEnumerable array)
         {
             _output.Append('[');
 
@@ -547,7 +548,7 @@ namespace NPoco.fastJSON
             _output.Append(']');
         }
 
-        private void WriteStringDictionary(IDictionary dic)
+        void WriteStringDictionary(IDictionary dic)
         {
             _output.Append('{');
 
@@ -573,7 +574,7 @@ namespace NPoco.fastJSON
             _output.Append('}');
         }
 
-        private void WriteStringDictionary(IEnumerable<KeyValuePair<string, object>> dic)
+        void WriteStringDictionary(IEnumerable<KeyValuePair<string, object>> dic)
         {
             _output.Append('{');
             bool pendingSeparator = false;
@@ -597,7 +598,7 @@ namespace NPoco.fastJSON
             _output.Append('}');
         }
 
-        private void WriteDictionary(IDictionary dic)
+        void WriteDictionary(IDictionary dic)
         {
             _output.Append('[');
 
@@ -617,14 +618,14 @@ namespace NPoco.fastJSON
             _output.Append(']');
         }
 
-        private void WriteStringFast(string s)
+        void WriteStringFast(string s)
         {
             _output.Append('\"');
             _output.Append(s);
             _output.Append('\"');
         }
 
-        private void WriteString(string s)
+        void WriteString(string s)
         {
             _output.Append('\"');
 

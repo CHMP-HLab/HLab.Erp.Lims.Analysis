@@ -2,7 +2,7 @@
 {
     [Description("HeatmapFunctionDescription")]
     [Kind(PopularKinds.Plot)]
-    sealed class HeatmapFunction : VisualizationFunction
+    internal sealed class HeatmapFunction : VisualizationFunction
     {
         public HeatmapFunction(ParseContext context)
             : base(context)

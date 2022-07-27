@@ -8,7 +8,7 @@
     /// The class representing the do keyword for do {...} while(...); loops. Basic syntax:
     /// do STATEMENT while ( CONDITION) ;
     /// </summary>
-    class DoKeyword : BreakableKeyword
+    internal class DoKeyword : BreakableKeyword
     {
         #region Fields
 

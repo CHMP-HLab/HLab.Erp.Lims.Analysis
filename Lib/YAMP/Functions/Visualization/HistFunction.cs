@@ -4,7 +4,7 @@
 
     [Description("HistFunctionDescription")]
 	[Kind(PopularKinds.Plot)]
-	sealed class HistFunction : VisualizationFunction
+    internal sealed class HistFunction : VisualizationFunction
 	{
         public HistFunction(ParseContext context)
             : base(context)

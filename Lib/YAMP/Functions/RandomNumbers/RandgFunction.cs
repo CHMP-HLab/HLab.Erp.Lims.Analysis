@@ -6,7 +6,7 @@
     [Description("RandgFunctionDescription")]
     [Kind(PopularKinds.Random)]
     [Link("RandgFunctionLink")]
-    sealed class RandgFunction : ArgumentFunction
+    internal sealed class RandgFunction : ArgumentFunction
     {
         readonly GammaDistribution Distribution = new GammaDistribution(Rng);
 

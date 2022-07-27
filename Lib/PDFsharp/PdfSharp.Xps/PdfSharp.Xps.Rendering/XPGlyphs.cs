@@ -1,6 +1,6 @@
 ﻿namespace PdfSharp.Xps.Rendering
 {
-    class XPGlyphs : XPVisual
+    internal class XPGlyphs : XPVisual
   {
     public XPGlyphs()
     {

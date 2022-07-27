@@ -35,7 +35,7 @@ namespace PdfSharp.Pdf
   /// Identifies the state of the document
   /// </summary>
   [Flags]
-  enum DocumentState
+  internal enum DocumentState
   {
     /// <summary>
     /// The document was created from scratch.

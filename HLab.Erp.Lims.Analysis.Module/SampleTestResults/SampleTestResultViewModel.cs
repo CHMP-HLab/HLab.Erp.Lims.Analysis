@@ -25,17 +25,18 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
     public class SampleTestResultViewModel : EntityViewModel<SampleTestResult>
     {
-        private readonly Func<Sample, DataLocker<Sample>> _getSampleLocker;
-        private readonly Func<SampleTest, DataLocker<SampleTest>> _getSampleTestLocker;
+        readonly Func<Sample, IDataLocker<Sample>> _getSampleLocker;
+        readonly Func<SampleTest, IDataLocker<SampleTest>> _getSampleTestLocker;
 
         public SampleTestResultViewModel(
+            Injector i,
             Func<FormHelper> getFormHelper, 
             Func<int, SampleTestResultAuditTrailViewModel> getAudit,
-            Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> getWorkflow,
+            Func<SampleTestResult, IDataLocker<SampleTestResult>, SampleTestResultWorkflow> getWorkflow,
             Func<SampleTestResult, LinkedDocumentsListViewModel> getDocuments,
-            Func<Sample, DataLocker<Sample>> getSampleLocker,
-            Func<SampleTest, DataLocker<SampleTest>> getSampleTestLocker
-            )
+            Func<Sample, IDataLocker<Sample>> getSampleLocker,
+            Func<SampleTest, IDataLocker<SampleTest>> getSampleTestLocker
+            ):base(i)
         {
             _getFormHelper = getFormHelper;
             _getAudit = getAudit;
@@ -48,9 +49,10 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         }
 
         // Audit Trail
-        private readonly Func<int, SampleTestResultAuditTrailViewModel> _getAudit;
+        readonly Func<int, SampleTestResultAuditTrailViewModel> _getAudit;
         public SampleTestResultAuditTrailViewModel AuditTrail => _auditTrail.Get();
-        private readonly IProperty<SampleTestResultAuditTrailViewModel> _auditTrail = H.Property<SampleTestResultAuditTrailViewModel>(c => c
+
+        readonly IProperty<SampleTestResultAuditTrailViewModel> _auditTrail = H.Property<SampleTestResultAuditTrailViewModel>(c => c
             .NotNull(e => e.Model)
             .Set(e => e._getAudit?.Invoke(e.Model.Id))
             .On(e => e.Model)
@@ -62,9 +64,10 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             get => _auditDetail.Get();
             set => _auditDetail.Set(value);
         }
-        private readonly IProperty<bool> _auditDetail = H.Property<bool>();
 
-        private ITrigger _onAuditDetail = H.Trigger(c => c
+        readonly IProperty<bool> _auditDetail = H.Property<bool>();
+
+        ITrigger _onAuditDetail = H.Trigger(c => c
         .On(e => e.AuditDetail)
         .On(e => e.AuditTrail)
         .NotNull(e => e.AuditTrail)
@@ -78,17 +81,18 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             e.AuditTrail.List.Update();
         }));
 
-        private ITrigger _modelTrigger = H.Trigger(c => c
+        ITrigger _modelTrigger = H.Trigger(c => c
             .On(e => e.Model)
             .Do(e => e.Locker.AddDependencyLocker(
                 e._getSampleLocker(e.Model.SampleTest.Sample),
                 e._getSampleTestLocker(e.Model.SampleTest)
                 )));
 
-        private readonly Func<SampleTestResult, DataLocker<SampleTestResult>, SampleTestResultWorkflow> _getWorkflow;
+        readonly Func<SampleTestResult, IDataLocker<SampleTestResult>, SampleTestResultWorkflow> _getWorkflow;
 
         public SampleTestResultWorkflow Workflow => _workflow.Get();
-        private readonly IProperty<SampleTestResultWorkflow> _workflow = H.Property<SampleTestResultWorkflow>(c => c
+
+        readonly IProperty<SampleTestResultWorkflow> _workflow = H.Property<SampleTestResultWorkflow>(c => c
             .NotNull(e => e.Locker)
             .NotNull(e => e.Model)
             .Set(e => e._getWorkflow?.Invoke(e.Model, e.Locker))
@@ -98,14 +102,16 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         );
 
         public bool IsReadOnly => _isReadOnly.Get();
-        private readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
+
+        readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
             .Set(e => !e.EditMode)
             .On(e => e.EditMode)
             .Update()
         );
 
         public bool EditMode => _editMode.Get();
-        private readonly IProperty<bool> _editMode = H.Property<bool>(c => c
+
+        readonly IProperty<bool> _editMode = H.Property<bool>(c => c
             .NotNull(e => e.Workflow)
             .NotNull(e => e.Locker)
             .Set(e =>
@@ -113,7 +119,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
                 && e.Workflow.CurrentStage == SampleTestResultWorkflow.Running
                 && e.Model.SampleTest.Stage == SampleTestWorkflow.Running
                 && e.Model.SampleTest.Sample.Stage == SampleWorkflow.Production
-                && e.Acl.IsGranted(AnalysisRights.AnalysisResultEnter)
+                && e.Injected.Acl.IsGranted(AnalysisRights.AnalysisResultEnter)
             )
             .On(e => e.Locker.IsActive)
             .On(e => e.Workflow.CurrentStage)
@@ -126,16 +132,18 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             get => _parent.Get();
             set => _parent.Set(value);
         }
-        private readonly IProperty<SampleTestViewModel> _parent = H.Property<SampleTestViewModel>();
+
+        readonly IProperty<SampleTestViewModel> _parent = H.Property<SampleTestViewModel>();
 
 
-        private readonly Func<FormHelper> _getFormHelper;
+        readonly Func<FormHelper> _getFormHelper;
 
         public FormHelper FormHelper => _formHelper.Get();
-        private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c
+
+        readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c
             .Set(e => e._getFormHelper?.Invoke()));
 
-        private readonly ITrigger _ = H.Trigger(c => c
+        readonly ITrigger _ = H.Trigger(c => c
             .On(e => e.Model.Stage)
             //            .On(e => e.Model.Values)
             .On(e => e.EditMode)
@@ -150,10 +158,11 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
         }
 
         // LINKED DOCUMENTS
-        private readonly Func<SampleTestResult, LinkedDocumentsListViewModel> _getDocuments;
+        readonly Func<SampleTestResult, LinkedDocumentsListViewModel> _getDocuments;
 
         public LinkedDocumentsListViewModel LinkedDocuments => _linkedDocuments.Get();
-        private readonly IProperty<LinkedDocumentsListViewModel> _linkedDocuments = H.Property<LinkedDocumentsListViewModel>(c => c
+
+        readonly IProperty<LinkedDocumentsListViewModel> _linkedDocuments = H.Property<LinkedDocumentsListViewModel>(c => c
             .NotNull(e => e.Model)
             .Set(e => e._getDocuments?.Invoke(e.Model).FluentAction(vm => vm.SetOpenAction(d => e.OpenDocument(e.LinkedDocuments.Selected))))
             .On(e => e.Model)
@@ -177,7 +186,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             .On(e => e.Workflow.CurrentStage).CheckCanExecute()
         );
 
-        private void Print()
+        void Print()
         {
             PrintDialog printDialog = new PrintDialog();
             if (printDialog.ShowDialog() == true)
@@ -213,7 +222,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             }
         }
 
-        private void OpenDocument(LinkedDocument selected)
+        void OpenDocument(LinkedDocument selected)
         {
             var path = Path.GetTempFileName() + "_" + selected.Name;
 
@@ -227,15 +236,15 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             Process.Start(psi);
         }
 
-        private bool _addDocumentCanExecute()
+        bool _addDocumentCanExecute()
         {
-            if (!Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
+            if (!Injected.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
             if (Workflow.CurrentStage != SampleTestResultWorkflow.Running) return false;
 
             return true;
         }
 
-        private void AddDocument()
+        void AddDocument()
         {
             // Create OpenFileDialog 
             Microsoft.Win32.OpenFileDialog dlg = new();
@@ -252,7 +261,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             // Get the selected file name and display in a TextBox 
             if (result == true)
             {
-                var doc = Data.Add<LinkedDocument>(r =>
+                var doc = Injected.Data.Add<LinkedDocument>(r =>
                 {
                     r.Name = dlg.FileName.Split('\\').Last();
                     r.SampleTestResult = Model;
@@ -273,7 +282,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 
 
         public override string Header => _header.Get();
-        private readonly IProperty<string> _header = H.Property<string>(c => c
+
+        readonly IProperty<string> _header = H.Property<string>(c => c
             .Set(e => e.Model.SampleTest?.Sample?.Reference + " - " + e.Model.Name)
             .On(e => e.Model.SampleTest.Sample.Reference)
             .On(e => e.Model.Name)
@@ -281,7 +291,8 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             );
 
         public string SubTitle => _subTitle.Get();
-        private readonly IProperty<string> _subTitle = H.Property<string>(c => c
+
+        readonly IProperty<string> _subTitle = H.Property<string>(c => c
             .Set(e => e.Model.SampleTest?.TestName + "\n" + e.Model.SampleTest?.Description.TrimEnd('\r', '\n', ' '))
             .On(e => e.Model.SampleTest.TestName)
             .On(e => e.Model.SampleTest.Description)

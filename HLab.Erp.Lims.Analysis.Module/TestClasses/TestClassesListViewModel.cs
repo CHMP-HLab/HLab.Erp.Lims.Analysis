@@ -15,7 +15,7 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
-    public class TestClassesListViewModel : EntityListViewModel<TestClass>, IMvvmContextProvider
+    public class TestClassesListViewModel : Core.EntityLists.EntityListViewModel<TestClass>, IMvvmContextProvider
     {
         public class Bootloader : NestedBootloader
         {
@@ -23,20 +23,19 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
 
         protected override bool CanExecuteAdd(Action<string> errorAction) =>
-            Erp.Acl.IsGranted(AnalysisRights.AnalysisTestClassCreate, errorAction);
+            Injected.Erp.Acl.IsGranted(AnalysisRights.AnalysisTestClassCreate, errorAction);
 
         protected override bool CanExecuteDelete(TestClass arg, Action<string> errorAction) =>
-            arg!=null && Erp.Acl.IsGranted(AnalysisRights.AnalysisTestClassCreate, errorAction);
+            arg!=null && Injected.Erp.Acl.IsGranted(AnalysisRights.AnalysisTestClassCreate, errorAction);
 
         protected override bool CanExecuteExport(Action<string> errorAction) =>
-            Erp.Acl.IsGranted(AnalysisRights.AnalysisTestClassCreate, errorAction);
+            Injected.Erp.Acl.IsGranted(AnalysisRights.AnalysisTestClassCreate, errorAction);
 
         protected override bool CanExecuteImport(Action<string> errorAction) =>
-            Erp.Acl.IsGranted(AnalysisRights.AnalysisTestClassCreate, errorAction);
+            Injected.Erp.Acl.IsGranted(AnalysisRights.AnalysisTestClassCreate, errorAction);
 
 
-
-        private static async Task ImportAsync(IDataService data, TestClass import, TestClass current)
+        static async Task ImportAsync(IDataService data, TestClass import, TestClass current)
         {
             current.IconPath = import.IconPath;
             current.Version = import.Version;
@@ -68,7 +67,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             }
         }
 
-        public TestClassesListViewModel() : base(c => c
+        public TestClassesListViewModel(Injector i) : base(i, c => c
             .Column("Name")
             .Header("{Name}").Width(200)
             .Content(s => s.Name)

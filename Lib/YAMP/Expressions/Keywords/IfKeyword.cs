@@ -9,7 +9,7 @@
     /// The class for the if keyword. Basic syntax:
     /// if ( CONDITION ) STATEMENT
     /// </summary>
-	class IfKeyword : BodyKeyword
+    internal class IfKeyword : BodyKeyword
     {
         #region ctor
 

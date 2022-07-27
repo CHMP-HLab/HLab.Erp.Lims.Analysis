@@ -4,8 +4,8 @@ namespace NPoco.fastJSON
 {
     public sealed class SafeDictionary<TKey, TValue>
     {
-        private readonly object _Padlock = new object();
-        private readonly Dictionary<TKey, TValue> _Dictionary;
+        readonly object _Padlock = new object();
+        readonly Dictionary<TKey, TValue> _Dictionary;
 
         public SafeDictionary(int capacity)
         {

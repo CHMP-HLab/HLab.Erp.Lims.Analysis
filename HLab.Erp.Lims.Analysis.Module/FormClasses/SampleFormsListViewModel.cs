@@ -11,10 +11,10 @@ using HLab.Notify.PropertyChanged;
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
     using H = H<SampleFormsListViewModel>;
-    public class SampleFormsListViewModel : EntityListViewModel<SampleForm>, IMvvmContextProvider
+    public class SampleFormsListViewModel : Core.EntityLists.EntityListViewModel<SampleForm>, IMvvmContextProvider
     {
         public Sample Sample {get; }
-        public SampleFormsListViewModel(Sample sample) : base(c => c
+        public SampleFormsListViewModel(Injector i, Sample sample) : base(i, c => c
                 .StaticFilter(e =>e.SampleId == sample.Id)
                 .Column("Name")
                     .Header("{Name}")
@@ -28,7 +28,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             H.Initialize(this);
         }
 
-        private readonly ITrigger _ = H.Trigger(c => c
+        readonly ITrigger _ = H.Trigger(c => c
             .On(e => e.Sample.Stage)
             .On(e => e.Sample.Id)
             .Do(e => (e.AddCommand as CommandPropertyHolder)?.CheckCanExecute())
@@ -42,7 +42,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             };
             
             var stage = Sample.Stage.IsAny(errorAction,SampleWorkflow.Reception);
-            var granted = Erp.Acl.IsGranted(errorAction,AnalysisRights.AnalysisReceptionSign);
+            var granted = Injected.Erp.Acl.IsGranted(errorAction,AnalysisRights.AnalysisReceptionSign);
             return stage && granted;
         }
 
@@ -63,7 +63,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                 }
             }
 
-            var form = await Erp.Data.AddAsync<SampleForm>(st =>
+            var form = await Injected.Erp.Data.AddAsync<SampleForm>(st =>
             {
                 st.Sample = Sample;
                 st.FormClass = formClass;
@@ -77,7 +77,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
         {
             if (target?.Sample == null) return false;
             var stage = target.Sample.Stage.IsAny(errorAction, SampleWorkflow.Reception);
-            var granted = Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisReceptionCreate);
+            var granted = Injected.Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisReceptionCreate);
             return stage && granted;
         }
 

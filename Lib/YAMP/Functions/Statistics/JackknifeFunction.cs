@@ -5,7 +5,7 @@
     [Description("JackknifeFunctionDescription")]
     [Kind(PopularKinds.Statistic)]
     [Link("JackknifeFunctionLink")]
-    sealed class JackknifeFunction : SystemFunction
+    internal sealed class JackknifeFunction : SystemFunction
     {
         public JackknifeFunction(ParseContext context)
             : base(context)

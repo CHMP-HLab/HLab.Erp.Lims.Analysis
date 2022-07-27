@@ -7,7 +7,7 @@ namespace NPoco.RowMappers
 {
     public class ValueTypeMapper : RowMapper
     {
-        private Func<object, object> _converter;
+        Func<object, object> _converter;
 
         public override bool ShouldMap(PocoData pocoData)
         {

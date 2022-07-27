@@ -935,6 +935,6 @@ namespace PdfSharp.Pdf.IO
     StringBuilder token;
     Symbol symbol = Symbol.None;
 
-    private Stream pdf;
+    Stream pdf;
   }
 }

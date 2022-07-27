@@ -12,12 +12,13 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
     public class FormClassViewModel : ListableEntityViewModel<FormClass>, IFormHelperProvider
     {
 
-        public FormClassViewModel(FormHelper formHelper)
+        public FormClassViewModel(Injector i, FormHelper formHelper):base(i)
         {
             FormHelper = formHelper;
             H.Initialize(this);
         }
-        private ITrigger _init = H.Trigger(c => c
+
+        ITrigger _init = H.Trigger(c => c
             .On(e => e.Model)
             .Do(async (e, f) =>
             {
@@ -62,7 +63,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             .CheckCanExecute()
         );
 
-        private async Task TryAsync()
+        async Task TryAsync()
         {
             await FormHelper.CompileAsync();
             Model.Code = await FormHelper.PackCodeAsync();

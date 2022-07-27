@@ -21,75 +21,75 @@ namespace YAMP.Numerics
         /// Represents the number of unsigned random numbers generated at one time. This field is constant.
         /// </summary>
         /// <remarks>The value of this constant is 624.</remarks>
-        private const int N = 624;
+        const int N = 624;
 
         /// <summary>
         /// Represents a constant used for generation of unsigned random numbers. This field is constant.
         /// </summary>
         /// <remarks>The value of this constant is 397.</remarks>
-        private const int M = 397;
+        const int M = 397;
         
         /// <summary>
         /// Represents the constant vector a. This field is constant.
         /// </summary>
         /// <remarks>The value of this constant is 0x9908b0dfU.</remarks>
-        private const uint VectorA = 0x9908b0dfU; 
+        const uint VectorA = 0x9908b0dfU; 
 
         /// <summary>
         /// Represents the most significant w-r bits. This field is constant.
         /// </summary>
         /// <remarks>The value of this constant is 0x80000000.</remarks>
-        private const uint UpperMask = 0x80000000U;
+        const uint UpperMask = 0x80000000U;
         
         /// <summary>
         /// Represents the least significant r bits. This field is constant.
         /// </summary>
         /// <remarks>The value of this constant is 0x7fffffff.</remarks>
-        private const uint LowerMask = 0x7fffffffU;
+        const uint LowerMask = 0x7fffffffU;
 
         /// <summary>
         /// Represents the multiplier that computes a double-precision floating point number greater than or equal to 0.0 
         ///   and less than 1.0 when it gets applied to a nonnegative 32-bit signed integer.
         /// </summary>
-        private const double IntToDoubleMultiplier = 1.0 / ((double)int.MaxValue + 1.0);
+        const double IntToDoubleMultiplier = 1.0 / ((double)int.MaxValue + 1.0);
 
         /// <summary>
         /// Represents the multiplier that computes a double-precision floating point number greater than or equal to 0.0 
         ///   and less than 1.0  when it gets applied to a 32-bit unsigned integer.
         /// </summary>
-        private const double UIntToDoubleMultiplier = 1.0 / ((double)uint.MaxValue + 1.0);
+        const double UIntToDoubleMultiplier = 1.0 / ((double)uint.MaxValue + 1.0);
         #endregion
 
         #region instance fields
         /// <summary>
         /// Stores the state vector array.
         /// </summary>
-        private uint[] mt;
+        uint[] mt;
 
         /// <summary>
         /// Stores an index for the state vector array element that will be accessed next.
         /// </summary>
-        private uint mti;
+        uint mti;
 
         /// <summary>
         /// Stores the used seed value.
         /// </summary>
-        private uint seed;
+        uint seed;
 
         /// <summary>
         /// Stores the used seed array.
         /// </summary>
-        private uint[] seedArray;
+        uint[] seedArray;
 
         /// <summary>
         /// Stores an <see cref="uint"/> used to generate up to 32 random <see cref="Boolean"/> values.
         /// </summary>
-        private uint bitBuffer;
+        uint bitBuffer;
 
         /// <summary>
         /// Stores how many random <see cref="Boolean"/> values still can be generated from <see cref="bitBuffer"/>.
         /// </summary>
-        private int bitCount;
+        int bitCount;
         #endregion
 
         #region construction
@@ -165,7 +165,7 @@ namespace YAMP.Numerics
         /// <summary>
         /// Resets the <see cref="MT19937Generator"/>, so that it produces the same pseudo-random number sequence again.
         /// </summary>
-        private void ResetGenerator()
+        void ResetGenerator()
         {
             this.mt[0] = this.seed & 0xffffffffU;
             for (this.mti = 1; this.mti < MT19937Generator.N; this.mti++)
@@ -190,7 +190,7 @@ namespace YAMP.Numerics
         /// <summary>
         /// Extends resetting of the <see cref="MT19937Generator"/> using the <see cref="seedArray"/>.
         /// </summary>
-        private void ResetBySeedArray()
+        void ResetBySeedArray()
         {
             uint i = 1;
             uint j = 0;
@@ -231,7 +231,7 @@ namespace YAMP.Numerics
         /// Generated random numbers are 32-bit unsigned integers greater than or equal to <see cref="UInt32.MinValue"/> 
         ///   and less than or equal to <see cref="UInt32.MaxValue"/>.
         /// </remarks>
-        private void GenerateNUInts()
+        void GenerateNUInts()
         {
             int kk;
             uint y;

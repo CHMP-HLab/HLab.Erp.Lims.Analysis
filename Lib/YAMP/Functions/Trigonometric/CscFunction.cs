@@ -3,7 +3,7 @@ namespace YAMP
     [Description("CscFunctionDescription")]
     [Kind(PopularKinds.Trigonometric)]
     [Link("CscFunctionLink")]
-	sealed class CscFunction : StandardFunction
+    internal sealed class CscFunction : StandardFunction
 	{
         protected override ScalarValue GetValue(ScalarValue value)
         {

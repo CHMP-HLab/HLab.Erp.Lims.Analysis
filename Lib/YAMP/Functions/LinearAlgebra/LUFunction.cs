@@ -5,7 +5,7 @@
     [Kind(PopularKinds.Function)]
     [Link("LUFunctionLink")]
 	[Description("LUFunctionDescription")]
-    sealed class LUFunction : ArgumentFunction
+    internal sealed class LUFunction : ArgumentFunction
 	{
 		[Description("LUFunctionDescriptionForMatrix")]
 		[Example("lu([4, 3; 6, 3])", "LUFunctionExampleForMatrix1")]

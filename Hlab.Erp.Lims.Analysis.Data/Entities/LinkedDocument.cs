@@ -15,7 +15,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             set => _name.Set(value);
         }
 
-        private readonly IProperty<string> _name = HD<LinkedDocument>.Property<string>(c => c.Default(""));
+        readonly IProperty<string> _name = HD<LinkedDocument>.Property<string>(c => c.Default(""));
         public int? SampleTestResultId
         {
             get => _sampleTestResult.Id.Get();
@@ -27,13 +27,15 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             get => _sampleTestResult.Get();
             set => _sampleTestResult.Set(value);
         }
-        private readonly IForeign<SampleTestResult> _sampleTestResult = HD<LinkedDocument>.Foreign<SampleTestResult>();
+
+        readonly IForeign<SampleTestResult> _sampleTestResult = HD<LinkedDocument>.Foreign<SampleTestResult>();
 
         public byte[] File
         {
             get => _file.Get();
             set => _file.Set(value);
         }
-        private readonly IProperty<byte[]> _file = HD<LinkedDocument>.Property<byte[]>();
+
+        readonly IProperty<byte[]> _file = HD<LinkedDocument>.Property<byte[]>();
     }
 }

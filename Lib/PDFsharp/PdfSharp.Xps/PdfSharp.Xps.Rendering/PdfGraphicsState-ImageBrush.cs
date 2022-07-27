@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace PdfSharp.Xps.Rendering
 {
-    partial class PdfGraphicsState
+    internal partial class PdfGraphicsState
   {
     [Obsolete]
     void RealizeImageBrush(ImageBrush brush, ref XForm xform, ref XImage xImage)

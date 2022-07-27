@@ -8,7 +8,7 @@
     /// The let keyword to create local variables. Basic syntax:
     /// let NAME [OP STATEMENT];
     /// </summary>
-    class LetKeyword : Keyword
+    internal class LetKeyword : Keyword
     {
         #region Fields
 

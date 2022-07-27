@@ -5,7 +5,7 @@
     [Description("IsNaNFunctionDescription")]
     [Kind(PopularKinds.Logic)]
     [Link("IsNaNFunctionLink")]
-    sealed class IsNaNFunction : StandardFunction
+    internal sealed class IsNaNFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

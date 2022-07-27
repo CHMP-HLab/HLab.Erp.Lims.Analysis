@@ -6,7 +6,7 @@
     /// <summary>
     /// This is the prefix decrement operator --.
     /// </summary>
-    class PreDecOperator : LeftUnaryOperator
+    internal class PreDecOperator : LeftUnaryOperator
     {
         public static readonly String Symbol = OpDefinitions.PreDecOperator;
         public static readonly int OpLevel = OpDefinitions.PreDecOperatorLevel;

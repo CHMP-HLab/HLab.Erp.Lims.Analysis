@@ -4,7 +4,7 @@
 
     [Description("SolveFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class SolveFunction : ArgumentFunction
+    internal sealed class SolveFunction : ArgumentFunction
 	{
 		[Description("SolveFunctionDescriptionForMatrixMatrix")]
 		[Example("solve(rand(3), rand(3,1))", "SolveFunctionExampleForMatrixMatrix1")]

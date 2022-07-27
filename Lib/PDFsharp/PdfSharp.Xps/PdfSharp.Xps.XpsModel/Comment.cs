@@ -3,7 +3,7 @@
     /// <summary>
     /// Pseudo element that represents an XML comment in an XPS file.
     /// </summary>
-    class Comment : XpsElement
+    internal class Comment : XpsElement
   {
     /// <summary>
     /// Gets or sets the comment text.

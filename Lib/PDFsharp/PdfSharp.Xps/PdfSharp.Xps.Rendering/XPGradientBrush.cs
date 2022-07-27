@@ -2,7 +2,7 @@
 
 namespace PdfSharp.Xps.Rendering
 {
-    abstract class XPGradientBrush : XPBrush
+    internal abstract class XPGradientBrush : XPBrush
   {
     protected XPGradientBrush(Brush brush)
       : base(brush)

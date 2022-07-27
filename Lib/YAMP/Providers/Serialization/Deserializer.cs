@@ -7,7 +7,7 @@
     /// <summary>
     /// The deserializer class for helping in the serialization process.
     /// </summary>
-    sealed class Deserializer : IDisposable
+    internal sealed class Deserializer : IDisposable
     {
         #region Fields
 
@@ -18,7 +18,7 @@
 
         #region ctor
 
-        private Deserializer(Byte[] content)
+        Deserializer(Byte[] content)
         {
             _length = content.Length;
             _stream = new MemoryStream(content);

@@ -38,7 +38,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         public IEnumerable<FrameworkElement> NamedElements {get; set;}
 
-        private bool _allowProcess = false;
+        bool _allowProcess = false;
 
         //private IForm Form
         //{
@@ -51,8 +51,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         //}
 
 
-        private ConformityState _conformityState = ConformityState.NotChecked;
-        private bool _reenteringTest = false;
+        ConformityState _conformityState = ConformityState.NotChecked;
+        bool _reenteringTest = false;
         public void TryProcess(object sender, RoutedEventArgs args)
         {
             if (!_allowProcess) return;
@@ -102,17 +102,17 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                     {
                         case DoubleBox doubleBox:
                             if(!doubleBox.IsReadOnly)
-                            doubleBox.DoubleChanged += TryProcess;
+                                doubleBox.DoubleChanged += TryProcess;
                             break;
 
                         case TextBoxEx textBoxEx:
                             if(!textBoxEx.IsReadOnly)
-                            textBoxEx.TextChanged += TryProcess;
+                                textBoxEx.TextChanged += TryProcess;
                             break;
 
                         case TextBox textBox:
                             if(!textBox.IsReadOnly)
-                            textBox.TextChanged += TryProcess;
+                                textBox.TextChanged += TryProcess;
                             break;
 
                         case CheckBox checkBox:
@@ -138,17 +138,9 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                             }
                             else
                             {
-                                checkBox.Checked += (a, f) =>
-                                {
-                                    //f.Handled = true;
-                                    TryProcess(a, f);
-                                };
+                                checkBox.Checked += TryProcess;
 
-                                checkBox.Unchecked += (a, f) =>
-                                {
-                                    //f.Handled = true;
-                                    TryProcess(a, f);
-                                };
+                                checkBox.Unchecked += TryProcess;
 
                             }
 
@@ -176,7 +168,10 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             get => _target.Get();
             set => _target.Set(value);
         }
-        private readonly IProperty<IFormTarget> _target = H<TestForm>.Property<IFormTarget>();
+
+        public long CreationDuration { get; set; }
+
+        readonly IProperty<IFormTarget> _target = H<TestForm>.Property<IFormTarget>();
 
         public FormMode Mode
         {
@@ -187,7 +182,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                     SetFormMode(value);
             }
         }
-        private readonly IProperty<FormMode> _mode = H<TestForm>.Property<FormMode>();
+
+        readonly IProperty<FormMode> _mode = H<TestForm>.Property<FormMode>();
 
 
 
@@ -217,8 +213,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         }
 
 
-
-        private readonly ConcurrentBag<Action> _cache = new();
+        readonly ConcurrentBag<Action> _cache = new();
 
         public void ResetBrush()
         {
@@ -227,7 +222,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                 action();
             }
         }
-        private void SetBrush(FrameworkElement element, Brush brush)
+
+        void SetBrush(FrameworkElement element, Brush brush)
         {
             if (element is Control control)
                 SetBrush(control, brush);
@@ -237,7 +233,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         }
 
-        private void SetBrush(Control control, Brush brush)
+        void SetBrush(Control control, Brush brush)
         {
             var oldBrush = control.BorderBrush;
             var oldThickness = control.BorderThickness;
@@ -250,7 +246,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             });
         }
 
-        private void SetBrush(TextBlock control, Brush brush)
+        void SetBrush(TextBlock control, Brush brush)
         {
             var oldBrush = control.Background;
             control.Background = brush;
@@ -550,7 +546,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             }
         }
 
-        private static IEnumerable<string> GetConformities()
+        static IEnumerable<string> GetConformities()
         {
             yield return ConformityState.Running.Caption();
             yield return ConformityState.Conform.Caption();

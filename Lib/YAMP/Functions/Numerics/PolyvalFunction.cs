@@ -5,7 +5,7 @@
     [Description("PolyvalFunctionDescription")]
     [Kind(PopularKinds.Function)]
     [Link("PolyvalFunctionLink")]
-    sealed class PolyvalFunction : ArgumentFunction
+    internal sealed class PolyvalFunction : ArgumentFunction
     {
         [Description("PolyvalFunctionDescriptionForMatrixMatrix")]
         [Example("polyval([1 2 3], [5 7 9])", "PolyvalFunctionExampleForMatrixMatrix1")]

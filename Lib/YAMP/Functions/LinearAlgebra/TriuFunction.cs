@@ -4,7 +4,7 @@
 
     [Description("TriuFunctionDescription")]
     [Kind(PopularKinds.Function)]
-    sealed class TriuFunction : ArgumentFunction
+    internal sealed class TriuFunction : ArgumentFunction
     {
         [Description("TriuFunctionDescriptionForMatrix")]
         [Example("triu(rand(4))", "TriuFunctionExampleForMatrix1")]

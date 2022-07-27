@@ -9,7 +9,7 @@ namespace NPoco
     /// </summary>
     internal class BitStream : Stream
     {
-        private byte[] Source { get; set; }
+        byte[] Source { get; set; }
 
         /// <summary>
         /// Initialize the stream with capacity
@@ -213,7 +213,7 @@ namespace NPoco
 
     public static class Base62
     {
-        private static string Base62CodingSpace = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        static string Base62CodingSpace = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
         /// <summary>
         /// Convert a byte array

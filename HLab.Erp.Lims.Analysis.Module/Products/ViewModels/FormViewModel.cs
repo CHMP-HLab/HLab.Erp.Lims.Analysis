@@ -7,13 +7,19 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 {
     using H = H<FormViewModel>;
 
-    class FormViewModel: ListableEntityViewModel<Form>
+    internal class FormViewModel: ListableEntityViewModel<Form>
     {
+        public FormViewModel(Injector i) : base(i)
+        {
+        }
     }
 
-    class FormViewModelDesign : FormViewModel, IViewModelDesign
+    internal class FormViewModelDesign : FormViewModel, IViewModelDesign
     {
         public new Form Model { get; } = Form.DesignModel;
 
+        public FormViewModelDesign() : base(null)
+        {
+        }
     }
 }

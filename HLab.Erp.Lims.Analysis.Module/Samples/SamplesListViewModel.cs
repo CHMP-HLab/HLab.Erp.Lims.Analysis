@@ -12,7 +12,7 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.Samples
 {
-    public class SamplesListViewModel : EntityListViewModel<Sample>, IMvvmContextProvider
+    public class SamplesListViewModel : Core.EntityLists.EntityListViewModel<Sample>, IMvvmContextProvider
     {
         public class Bootloader : NestedBootloader
         { }
@@ -20,7 +20,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         protected override bool CanExecuteAdd(Action<string> errorAction) => true;
         protected override bool CanExecuteDelete(Sample target,Action<string> errorAction) => Selected!=null || (SelectedIds?.Any()??false);
 
-        public SamplesListViewModel() : base(c => c
+        public SamplesListViewModel(Injector i) : base(i, c => c
 
                 .Column("Reference")
                     .Header("{Reference}")

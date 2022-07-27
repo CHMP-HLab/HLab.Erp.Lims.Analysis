@@ -86,7 +86,7 @@ namespace NPoco.RowMappers
                 .FirstOrDefault(x => IsPocoMemberEqual(x, prefix, name));
         }
 
-        private static bool IsPocoMemberEqual(PocoMember pocoMember, string prefix, string name)
+        static bool IsPocoMemberEqual(PocoMember pocoMember, string prefix, string name)
         {
             if (pocoMember.PocoColumn == null)
                 return PropertyMapper.IsEqual(name, pocoMember.Name, false);
@@ -103,7 +103,7 @@ namespace NPoco.RowMappers
             return PropertyMapper.IsEqual(name, pocoMember.Name, pocoMember.PocoColumn.ExactColumnNameMatch);
         }
 
-        private static IEnumerable<PocoMemberLevel> FlattenPocoMembers(List<PocoMember> pocoMembers, int levelMonitor = 1)
+        static IEnumerable<PocoMemberLevel> FlattenPocoMembers(List<PocoMember> pocoMembers, int levelMonitor = 1)
         {
             foreach (var pocoMember in pocoMembers.OrderBy(x => x.PocoMemberChildren.Count != 0))
             {

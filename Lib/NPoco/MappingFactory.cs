@@ -9,9 +9,9 @@ namespace NPoco
 {
     public class MappingFactory
     {
-        public static List<Func<MapperCollection, IRowMapper>> RowMappers { get; private set; } 
-        private readonly PocoData _pocoData;
-        private readonly IRowMapper _rowMapper;
+        public static List<Func<MapperCollection, IRowMapper>> RowMappers { get; private set; }
+        readonly PocoData _pocoData;
+        readonly IRowMapper _rowMapper;
 
         static MappingFactory()
         {

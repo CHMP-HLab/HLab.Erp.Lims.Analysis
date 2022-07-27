@@ -24,7 +24,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             DataContextChanged += TestClassView_DataContextChanged;
         }
 
-        private void TestClassView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        void TestClassView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue is IFormHelperProvider oldVm)
                 oldVm.FormHelper.PropertyChanged -= FormHelper_PropertyChanged;
@@ -34,7 +34,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             }
         }
 
-        private void FormHelper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        void FormHelper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (sender is not FormHelper helper) return;
             switch (e.PropertyName)
@@ -55,8 +55,8 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
         class MarkError : DocumentColorizingTransformer
         {
-            private readonly int _line;
-            private readonly int _pos;
+            readonly int _line;
+            readonly int _pos;
 
             public MarkError(int line, int pos)
             {
@@ -75,7 +75,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             }
         }
 
-        private void DeleteErrors(TextEditor editor)
+        void DeleteErrors(TextEditor editor)
         {
             foreach (var markSameWord in editor.TextArea.TextView.LineTransformers.OfType<MarkError>().ToList())
             {
@@ -83,7 +83,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             }
         }
 
-        private void HighlightError(TextEditor editor, CompileError error)
+        void HighlightError(TextEditor editor, CompileError error)
         {
             DeleteErrors(editor);
             if (error == null) return;

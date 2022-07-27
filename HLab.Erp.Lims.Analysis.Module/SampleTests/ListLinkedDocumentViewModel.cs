@@ -7,14 +7,14 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
-    public class LinkedDocumentsListViewModel : EntityListViewModel<LinkedDocument>, IMvvmContextProvider
+    public class LinkedDocumentsListViewModel : Core.EntityLists.EntityListViewModel<LinkedDocument>, IMvvmContextProvider
     {
 //        private Action<LinkedDocument> _createAction;
-        public LinkedDocumentsListViewModel(
+        public LinkedDocumentsListViewModel(Injector i,
             SampleTestResult result
 //            Expression<Func<LinkedDocument,bool>> filter,
 //            Action<LinkedDocument> createAction = null
-            ) : base(c => c
+                ) : base(i, c => c
             .StaticFilter(e => e.SampleTestResultId == result.Id)
             //.DeleteAllowed()
             .Column("Name")

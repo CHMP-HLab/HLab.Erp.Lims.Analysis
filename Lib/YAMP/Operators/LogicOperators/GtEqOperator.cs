@@ -5,7 +5,7 @@
     /// <summary>
     /// The basic greater equals operator.
     /// </summary>
-    class GtEqOperator : LogicOperator
+    internal class GtEqOperator : LogicOperator
     {
         #region Mapping
 

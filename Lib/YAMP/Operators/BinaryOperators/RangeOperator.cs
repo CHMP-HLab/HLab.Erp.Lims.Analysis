@@ -8,7 +8,7 @@ namespace YAMP
     /// This is the class for the range operator : - this one is also
     /// available as a stand-alone expression.
     /// </summary>
-	class RangeOperator : BinaryOperator
+    internal class RangeOperator : BinaryOperator
 	{
         #region Mapping
 

@@ -11,7 +11,7 @@ using PdfSharp.Xps.XpsModel;
 
 namespace PdfSharp.Xps.Rendering
 {
-    partial class PdfGraphicsState
+    internal partial class PdfGraphicsState
   {
     [Obsolete]
     void RealizeLinearGradientBrush(LinearGradientBrush brush, XForm xform)

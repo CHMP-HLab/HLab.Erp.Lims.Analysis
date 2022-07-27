@@ -4,7 +4,7 @@
 
     [Description("CplotFunctionDescription")]
     [Kind(PopularKinds.Plot)]
-    sealed class CplotFunction : VisualizationFunction
+    internal sealed class CplotFunction : VisualizationFunction
     {
         public CplotFunction(ParseContext context)
             : base(context)

@@ -9,7 +9,7 @@ namespace YAMP
     /// This class represents the basis of the assignment operators
     /// as well as the simple assignment operator (=).
     /// </summary>
-	class AssignmentOperator : BinaryOperator
+    internal class AssignmentOperator : BinaryOperator
     {
         #region ctor
 

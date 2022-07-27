@@ -6,7 +6,7 @@ namespace NPoco.FluentMappings
 {
     public class Map<T> : IMap
     {
-        private readonly TypeDefinition _petaPocoTypeDefinition;
+        readonly TypeDefinition _petaPocoTypeDefinition;
 
         public Map() : this(new TypeDefinition(typeof(T)))
         {

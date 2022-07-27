@@ -84,7 +84,7 @@ namespace PdfSharp.Pdf
   /// Internal wrapper for PdfStringEncoding.
   /// </summary>
   [Flags]
-  enum PdfStringFlags
+  internal enum PdfStringFlags
   {
     RawEncoding = 0x00,
     StandardEncoding = 0x01,  // not used by PDFsharp

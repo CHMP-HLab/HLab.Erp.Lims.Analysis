@@ -4,7 +4,7 @@
 
 	[Description("TimerFunctionDescription")]
 	[Kind(PopularKinds.System)]
-    sealed class TimerFunction : SystemFunction
+    internal sealed class TimerFunction : SystemFunction
 	{
 	    static Int32 _startMilliSecs = 0;
 	    static Int32 _elapsedMilliSecs = 0;

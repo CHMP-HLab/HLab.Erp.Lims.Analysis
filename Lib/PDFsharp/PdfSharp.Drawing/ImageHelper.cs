@@ -40,7 +40,7 @@ namespace PdfSharp.Drawing
     /// <summary>
     /// Helper class for processing image files.
     /// </summary>
-    static class ImageHelper
+    internal static class ImageHelper
   {
 #if WPF && GDI
     /// <summary>

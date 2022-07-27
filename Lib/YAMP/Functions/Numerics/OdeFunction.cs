@@ -7,7 +7,7 @@
     [Description("OdeFunctionDescription")]
 	[Kind(PopularKinds.Function)]
     [Link("OdeFunctionLink")]
-    sealed class OdeFunction : SystemFunction
+    internal sealed class OdeFunction : SystemFunction
 	{
         public OdeFunction(ParseContext context)
             : base(context)

@@ -6,7 +6,7 @@
     /// <summary>
     /// This is the postfix decrement operator --.
     /// </summary>
-    class PostDecOperator : RightUnaryOperator
+    internal class PostDecOperator : RightUnaryOperator
     {
         public static readonly String Symbol = OpDefinitions.PostDecOperator;
         public static readonly int OpLevel = OpDefinitions.PostDecOperatorLevel;

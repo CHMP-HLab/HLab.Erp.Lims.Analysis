@@ -12,7 +12,7 @@ namespace PdfSharp.Xps.Parsing
     /// Simple XPS parser.
     /// The parser is not a syntax checker and therefore expects well-defined XPS XML to work properly.
     /// </summary>
-    partial class XpsParser
+    internal partial class XpsParser
   {
     XpsParser(XmlTextReader rdr)
     {

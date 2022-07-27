@@ -5,7 +5,7 @@
     [Kind(PopularKinds.Function)]
     [Link("SvdFunctionLink")]
 	[Description("SvdFunctionDescription")]
-    sealed class SvdFunction : ArgumentFunction
+    internal sealed class SvdFunction : ArgumentFunction
 	{
 		[Description("SvdFunctionDescriptionForMatrix")]
 		[Example("svd([1, 0, 0, 0, 2; 0, 0, 3, 0, 0; 0, 0, 0, 0, 0; 0, 4, 0, 0, 0])", "SvdFunctionExampleForMatrix1")]

@@ -4,7 +4,7 @@
 
 	[Description("NotifyFunctionDescription")]
 	[Kind(PopularKinds.System)]
-    sealed class NotifyFunction : SystemFunction
+    internal sealed class NotifyFunction : SystemFunction
 	{
         public NotifyFunction(ParseContext context)
             : base(context)

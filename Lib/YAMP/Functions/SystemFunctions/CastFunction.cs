@@ -2,7 +2,7 @@
 {
     [Description("CastFunctionDescription")]
     [Kind(PopularKinds.System)]
-    sealed class CastFunction : SystemFunction
+    internal sealed class CastFunction : SystemFunction
     {
         public CastFunction(ParseContext context)
             : base(context)

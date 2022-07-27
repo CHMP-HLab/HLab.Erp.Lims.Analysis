@@ -5,7 +5,7 @@
 
     [Description("SplitFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class SplitFunction : ArgumentFunction
+    internal sealed class SplitFunction : ArgumentFunction
 	{
         [Description("SplitFunctionDescriptionForStringArguments")]
 		[Example("tokens = split(\"hello world!\", \"o\", \"e\")", "SplitFunctionExampleForStringArguments1")]

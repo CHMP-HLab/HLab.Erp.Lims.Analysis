@@ -12,8 +12,8 @@ namespace NPoco
     {
         public static IColumnSerializer ColumnSerializer = new FastJsonColumnSerializer();
 
-        private DatabaseFactoryConfigOptions _options;
-        private IPocoDataFactory _cachedPocoDataFactory;
+        DatabaseFactoryConfigOptions _options;
+        IPocoDataFactory _cachedPocoDataFactory;
 
         public DatabaseFactory() { }
 
@@ -45,12 +45,12 @@ namespace NPoco
             return database;
         }
 
-        private void ConfigureInterceptors(IDatabase database)
+        void ConfigureInterceptors(IDatabase database)
         {
             database.Interceptors.AddRange(_options.Interceptors);
         }
 
-        private void ConfigurePocoDataFactoryAndMappers(IDatabase database, MapperCollection mappers)
+        void ConfigurePocoDataFactoryAndMappers(IDatabase database, MapperCollection mappers)
         {
             database.Mappers = mappers;
             if (_options.PocoDataFactory != null)
@@ -59,7 +59,7 @@ namespace NPoco
             }
         }
 
-        private MapperCollection BuildMapperCollection(IDatabase database)
+        MapperCollection BuildMapperCollection(IDatabase database)
         {
             var mc = new MapperCollection();
             mc.ColumnSerializer = _options.ColumnSerializer ?? ColumnSerializer;
@@ -111,7 +111,7 @@ namespace NPoco
 
     public class DatabaseFactoryConfig
     {
-        private readonly DatabaseFactoryConfigOptions _options;
+        readonly DatabaseFactoryConfigOptions _options;
 
         public DatabaseFactoryConfig(DatabaseFactoryConfigOptions options)
         {

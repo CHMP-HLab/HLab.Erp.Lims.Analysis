@@ -4,7 +4,7 @@
 
     [Description("HistogramFunctionDescription")]
     [Kind(PopularKinds.Statistic)]
-    sealed class HistogramFunction : ArgumentFunction
+    internal sealed class HistogramFunction : ArgumentFunction
     {
         [Description("HistogramFunctionDescriptionForMatrix")]
         [Example("histogram(rand(100, 1))", "HistogramFunctionExampleForMatrix1")]

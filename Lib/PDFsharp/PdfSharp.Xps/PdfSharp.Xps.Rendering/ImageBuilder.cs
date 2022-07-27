@@ -5,7 +5,7 @@ using BitmapSource = System.Windows.Media.Imaging.BitmapSource;
 
 namespace PdfSharp.Xps.Rendering
 {
-    class ImageBuilder : BuilderBase
+    internal class ImageBuilder : BuilderBase
   {
     ImageBuilder(DocumentRenderingContext context) :
       base(context)

@@ -17,7 +17,7 @@ namespace NPoco
 
         public string Value { get; private set; }
         public string SequenceName { get; set; }
-        private bool _autoIncrement;
+        bool _autoIncrement;
         public bool AutoIncrement
         {
             get { return _autoIncrement; }

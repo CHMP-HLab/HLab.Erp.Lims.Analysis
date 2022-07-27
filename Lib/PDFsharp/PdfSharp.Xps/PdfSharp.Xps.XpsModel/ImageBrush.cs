@@ -3,7 +3,7 @@
     /// <summary>
     /// Fills a region with an image.
     /// </summary>
-    class ImageBrush : Brush
+    internal class ImageBrush : Brush
   {
     /// <summary>
     /// Defines the uniform transparency of the brush fill. Values range from 0 (fully transparent)

@@ -5,7 +5,7 @@ namespace YAMP
     /// <summary>
     /// The class for the standard + operator.
     /// </summary>
-	class PlusOperator : BinaryOperator
+    internal class PlusOperator : BinaryOperator
     {
         #region Mapping
 

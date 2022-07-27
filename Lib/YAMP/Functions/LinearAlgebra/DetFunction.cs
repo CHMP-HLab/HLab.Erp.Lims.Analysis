@@ -3,7 +3,7 @@ namespace YAMP
 	[Description("DetFunctionDescription")]
 	[Kind(PopularKinds.Function)]
     [Link("DetFunctionLink")]
-    sealed class DetFunction : ArgumentFunction
+    internal sealed class DetFunction : ArgumentFunction
 	{
 		[Description("DetFunctionDescriptionForMatrix")]
 		[Example("det([1,3;-1,0])", "DetFunctionExampleForMatrix1")]

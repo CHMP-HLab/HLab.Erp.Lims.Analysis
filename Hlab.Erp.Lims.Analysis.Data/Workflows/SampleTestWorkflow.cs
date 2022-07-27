@@ -9,7 +9,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 {
     public class SampleTestWorkflow : Workflow<SampleTestWorkflow, SampleTest>
     {
-        private readonly ObservableQuery<SampleTestResult> _testResults;
+        readonly ObservableQuery<SampleTestResult> _testResults;
         public SampleTestWorkflow(SampleTest test, IDataLocker locker, ObservableQuery<SampleTestResult> testResults) : base(test, locker)
         {
             _testResults = testResults;
@@ -28,7 +28,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
             Update();
         }
 
-        private ITrigger _ = H<SampleTestWorkflow>.Trigger(c => c
+        ITrigger _ = H<SampleTestWorkflow>.Trigger(c => c
 
             .On(e => e.Target.Stage)
             .Do((a, b) => a.SetStage(a.Target.Stage))

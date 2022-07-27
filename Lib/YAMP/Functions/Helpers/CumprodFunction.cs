@@ -2,7 +2,7 @@
 {
     [Description("CumprodFunctionDescription")]
     [Kind(PopularKinds.Function)]
-    sealed class CumprodFunction : ArgumentFunction
+    internal sealed class CumprodFunction : ArgumentFunction
     {
         [Description("CumprodFunctionDescriptionForScalar")]
         public ScalarValue Function(ScalarValue x)

@@ -38,7 +38,7 @@ namespace HLab.Erp.Lims.Analysis.Module
             get => (bool)GetValue(ShowCaptionProperty);
         }
 
-        private void Update()
+        void Update()
         {
             Path = $"Icons/Conformity/{Conformity}";
             if(ShowCaption)

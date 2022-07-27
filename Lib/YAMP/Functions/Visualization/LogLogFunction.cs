@@ -2,7 +2,7 @@
 {
     [Description("LogLogFunctionDescription")]
 	[Kind(PopularKinds.Plot)]
-	sealed class LogLogFunction : VisualizationFunction
+    internal sealed class LogLogFunction : VisualizationFunction
 	{
         public LogLogFunction(ParseContext context)
             : base(context)

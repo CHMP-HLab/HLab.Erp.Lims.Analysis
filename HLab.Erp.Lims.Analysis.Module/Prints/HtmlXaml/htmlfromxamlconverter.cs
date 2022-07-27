@@ -79,7 +79,7 @@ namespace HTMLConverter
         /// <param name="htmlWriter">
         /// XmlTextWriter producing resulting html
         /// </param>
-        private static bool WriteFlowDocument(XmlTextReader xamlReader, XmlTextWriter htmlWriter)
+        static bool WriteFlowDocument(XmlTextReader xamlReader, XmlTextWriter htmlWriter)
         {
             if (!ReadNextToken(xamlReader))
             {
@@ -126,7 +126,7 @@ namespace HTMLConverter
         /// <param name="inlineStyle">
         /// String builder for collecting css properties for inline STYLE attribute.
         /// </param>
-        private static void WriteFormattingProperties(XmlTextReader xamlReader, XmlTextWriter htmlWriter, StringBuilder inlineStyle)
+        static void WriteFormattingProperties(XmlTextReader xamlReader, XmlTextWriter htmlWriter, StringBuilder inlineStyle)
         {
             Debug.Assert(xamlReader.NodeType == XmlNodeType.Element);
 
@@ -248,7 +248,7 @@ namespace HTMLConverter
             Debug.Assert(xamlReader.NodeType == XmlNodeType.Element);
         }
 
-        private static string ParseXamlColor(string color)
+        static string ParseXamlColor(string color)
         {
             if (color.StartsWith("#"))
             {
@@ -258,7 +258,7 @@ namespace HTMLConverter
             return color;
         }
 
-        private static string ParseXamlThickness(string thickness)
+        static string ParseXamlThickness(string thickness)
         {
             string[] values = thickness.Split(',');
 
@@ -309,7 +309,7 @@ namespace HTMLConverter
         /// <param name="inlineStyle">
         /// StringBuilder used for collecting css properties for inline STYLE attribute.
         /// </param>
-        private static void WriteElementContent(XmlTextReader xamlReader, XmlTextWriter htmlWriter, StringBuilder inlineStyle)
+        static void WriteElementContent(XmlTextReader xamlReader, XmlTextWriter htmlWriter, StringBuilder inlineStyle)
         {
             Debug.Assert(xamlReader.NodeType == XmlNodeType.Element);
 
@@ -390,7 +390,7 @@ namespace HTMLConverter
         /// <param name="inlineStyle">
         /// StringBuilder containing a value for STYLE attribute.
         /// </param>
-        private static void AddComplexProperty(XmlTextReader xamlReader, StringBuilder inlineStyle)
+        static void AddComplexProperty(XmlTextReader xamlReader, StringBuilder inlineStyle)
         {
             Debug.Assert(xamlReader.NodeType == XmlNodeType.Element);
 
@@ -417,7 +417,7 @@ namespace HTMLConverter
         /// <param name="inlineStyle">
         /// StringBuilder used for collecting css properties for inline STYLE attributes on every level.
         /// </param>
-        private static void WriteElement(XmlTextReader xamlReader, XmlTextWriter htmlWriter, StringBuilder inlineStyle)
+        static void WriteElement(XmlTextReader xamlReader, XmlTextWriter htmlWriter, StringBuilder inlineStyle)
         {
             Debug.Assert(xamlReader.NodeType == XmlNodeType.Element);
 
@@ -518,7 +518,7 @@ namespace HTMLConverter
         /// <returns>
         /// True if new token is available; false if end of stream reached.
         /// </returns>
-		private static bool ReadNextToken(XmlReader xamlReader)
+        static bool ReadNextToken(XmlReader xamlReader)
 		{
 			while (xamlReader.Read())
 			{

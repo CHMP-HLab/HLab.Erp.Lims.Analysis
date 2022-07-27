@@ -3,7 +3,7 @@
     /// <summary>
     /// Identifies the StoryFragments part where this individual story fragment is defined.
     /// </summary>
-    class StoryFragmentReference : XpsElement
+    internal class StoryFragmentReference : XpsElement
   {
     /// <summary>
     /// Used to distingush between multiple story fragments from the same story on a single page.

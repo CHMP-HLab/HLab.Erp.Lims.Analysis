@@ -5,7 +5,7 @@ namespace YAMP
     /// <summary>
     /// Just returns the given value.
     /// </summary>
-    class PosateOperator : LeftUnaryOperator
+    internal class PosateOperator : LeftUnaryOperator
     {
         public static readonly String Symbol = OpDefinitions.PosateOperator;
         public static readonly int OpLevel = OpDefinitions.PosateOperatorLevel;

@@ -70,31 +70,33 @@ namespace NPoco.fastJSON
     internal sealed class Reflection
     {
         // Singleton pattern 4 from : http://csharpindepth.com/articles/general/singleton.aspx
-        private static readonly Reflection instance = new Reflection();
+        static readonly Reflection instance = new Reflection();
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit
         static Reflection()
         {
         }
-        private Reflection()
+
+        Reflection()
         {
         }
         public static Reflection Instance { get { return instance; } }
 
         internal delegate object GenericSetter(object target, object value);
         internal delegate object GenericGetter(object obj);
-        private delegate object CreateObject();
 
-        private SafeDictionary<Type, string> _tyname = new SafeDictionary<Type, string>();
-        private SafeDictionary<string, Type> _typecache = new SafeDictionary<string, Type>();
-        private SafeDictionary<Type, CreateObject> _constrcache = new SafeDictionary<Type, CreateObject>();
-        private SafeDictionary<Type, Getters[]> _getterscache = new SafeDictionary<Type, Getters[]>();
-        private SafeDictionary<string, Dictionary<string, myPropInfo>> _propertycache = new SafeDictionary<string, Dictionary<string, myPropInfo>>();
-        private SafeDictionary<Type, Type[]> _genericTypes = new SafeDictionary<Type, Type[]>();
-        private SafeDictionary<Type, Type> _genericTypeDef = new SafeDictionary<Type, Type>();
-        private static SafeDictionary<short, OpCode> _opCodes;
+        delegate object CreateObject();
 
-        private static bool TryGetOpCode(short code, out OpCode opCode)
+        SafeDictionary<Type, string> _tyname = new SafeDictionary<Type, string>();
+        SafeDictionary<string, Type> _typecache = new SafeDictionary<string, Type>();
+        SafeDictionary<Type, CreateObject> _constrcache = new SafeDictionary<Type, CreateObject>();
+        SafeDictionary<Type, Getters[]> _getterscache = new SafeDictionary<Type, Getters[]>();
+        SafeDictionary<string, Dictionary<string, myPropInfo>> _propertycache = new SafeDictionary<string, Dictionary<string, myPropInfo>>();
+        SafeDictionary<Type, Type[]> _genericTypes = new SafeDictionary<Type, Type[]>();
+        SafeDictionary<Type, Type> _genericTypeDef = new SafeDictionary<Type, Type>();
+        static SafeDictionary<short, OpCode> _opCodes;
+
+        static bool TryGetOpCode(short code, out OpCode opCode)
         {
             if (_opCodes != null)
                 return _opCodes.TryGetValue(code, out opCode);
@@ -246,7 +248,7 @@ namespace NPoco.fastJSON
             }
         }
 
-        private myPropInfo CreateMyProp(Type t, string name)
+        myPropInfo CreateMyProp(Type t, string name)
         {
             myPropInfo d = new myPropInfo();
             myPropInfoType d_type = myPropInfoType.Unknown;
@@ -304,7 +306,7 @@ namespace NPoco.fastJSON
             return d;
         }
 
-        private Type GetChangeType(Type conversionType)
+        Type GetChangeType(Type conversionType)
         {
             if (conversionType.GetTypeInfo().IsGenericType && conversionType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
                 return Reflection.Instance.GetGenericArguments(conversionType)[0];

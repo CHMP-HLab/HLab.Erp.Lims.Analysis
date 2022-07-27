@@ -17,21 +17,22 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
     public class TestClassViewModel : ListableEntityViewModel<TestClass>, IFormHelperProvider
     {
         public override string Header => _header.Get();
-        private readonly IProperty<string> _header = H.Property<string>(c => c
+
+        readonly IProperty<string> _header = H.Property<string>(c => c
             .Set(e => $"{{Test class}}\n{e.Model.Caption}")
             .On(e => e.Model.Caption)
             .Update()
         );
 
-        public TestClassViewModel(IDataService data, Func<TestClass, TestClassUnitTestListViewModel> getUnitTests, FormHelper formHelper)
+        public TestClassViewModel(Injector i, Func<TestClass, TestClassUnitTestListViewModel> getUnitTests, FormHelper formHelper):base(i)
         {
-            _data = data;
             _getUnitTests = getUnitTests;
             FormHelper = formHelper;
 
             H.Initialize(this);
         }
-        private ITrigger _init = H.Trigger(c => c.On(e => e.Model).Do(async (e, f) =>
+
+        ITrigger _init = H.Trigger(c => c.On(e => e.Model).Do(async (e, f) =>
         {
             if (e.Model.Code != null)
             {
@@ -44,7 +45,6 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
                     using System;
                     using System.Windows;
                     using System.Windows.Controls;
-                    using Outils;
                     using System.Linq;
                     using System.Collections.Generic;
                     namespace Lims
@@ -63,8 +63,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         #region Imports
 
-        private readonly IDataService _data;
-        private readonly Func<TestClass, TestClassUnitTestListViewModel> _getUnitTests;
+        readonly Func<TestClass, TestClassUnitTestListViewModel> _getUnitTests;
         public FormHelper FormHelper { get; }
 
         #endregion
@@ -80,7 +79,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             get => _newName.Get();
             set => _newName.Set(value);
         }
-        private readonly IProperty<string> _newName = H.Property<string>();
+
+        readonly IProperty<string> _newName = H.Property<string>();
 
 
 
@@ -88,13 +88,15 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         /// List of unit tests
         /// </summary>
         public TestClassUnitTestListViewModel UnitTests => _unitTests.Get();
-        private readonly IProperty<TestClassUnitTestListViewModel> _unitTests = H.Property<TestClassUnitTestListViewModel>(c => c
+
+        readonly IProperty<TestClassUnitTestListViewModel> _unitTests = H.Property<TestClassUnitTestListViewModel>(c => c
             .NotNull(e => e.Model)
             .Set(e => e.SetUnitTests())
             .On(e => e.Model)
             .Update()
         );
-        private TestClassUnitTestListViewModel SetUnitTests()
+
+        TestClassUnitTestListViewModel SetUnitTests()
         {
             var vm =  _getUnitTests(Model);
             vm.SetSelectAction(async r =>
@@ -126,7 +128,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             .CheckCanExecute()
         );
 
-        private async Task TryAsync()
+        async Task TryAsync()
         {
             await FormHelper.CompileAsync();
             Model.Code = await FormHelper.PackCodeAsync();
@@ -156,9 +158,10 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             .On(e => e.Locker.IsActive)
             .CheckCanExecute()
         );
-        private async Task AddUnitTestAsync()
+
+        async Task AddUnitTestAsync()
         {
-            await _data.AddAsync<TestClassUnitTest>(u =>
+            await Injected.Data.AddAsync<TestClassUnitTest>(u =>
             {
                 u.TestClass = Model;
                 u.Name = NewName;
@@ -186,7 +189,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
         public ICommand CheckUnitTestsCommand { get; } = H.Command(c => c
             .Action(e => e.CheckUnitTestsAsync())
         );
-        private async Task CheckUnitTestsAsync()
+
+        async Task CheckUnitTestsAsync()
         {
             foreach (var t in UnitTests.List.ToList())
             {

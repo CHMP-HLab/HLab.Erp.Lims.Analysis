@@ -4,7 +4,7 @@ namespace YAMP
 
 	[Description("AbsFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class AbsFunction : StandardFunction
+    internal sealed class AbsFunction : StandardFunction
 	{		
 		public override Value Perform (Value argument)
 		{

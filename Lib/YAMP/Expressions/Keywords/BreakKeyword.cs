@@ -8,7 +8,7 @@
     /// This is the class responsible for the break keyword. Basic syntax:
     /// break;
     /// </summary>
-    class BreakKeyword : Keyword
+    internal class BreakKeyword : Keyword
     {
         #region ctor
 

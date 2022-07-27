@@ -7,7 +7,7 @@ namespace NPoco.FluentMappings
 {
     public class FluentMappingsPocoDataBuilder : PocoDataBuilder
     {
-        private readonly Mappings _mappings;
+        readonly Mappings _mappings;
 
         public FluentMappingsPocoDataBuilder(Type type, Mappings mappings, MapperCollection mapper) : 
             base(type, mapper)

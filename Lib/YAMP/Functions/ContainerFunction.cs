@@ -8,7 +8,7 @@
     /// </summary>
     [Description("ContainerFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    class ContainerFunction : IFunction
+    internal class ContainerFunction : IFunction
     {
         #region Fields
 

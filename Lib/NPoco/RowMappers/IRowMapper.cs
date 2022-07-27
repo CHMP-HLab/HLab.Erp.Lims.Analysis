@@ -21,7 +21,7 @@ namespace NPoco.RowMappers
         {
         }
 
-        private PosName[] _columnNames;
+        PosName[] _columnNames;
 
         protected PosName[] GetColumnNames(DbDataReader dataReader, PocoData pocoData)
         {

@@ -73,7 +73,7 @@ namespace PdfSharp.Drawing.BarCodes
     /// representing the specified digit.
     /// </summary>
     /// <param name="ch">The character to represent.</param>
-    private static bool[] ThickThinLines(char ch)
+    static bool[] ThickThinLines(char ch)
     {
       return Lines["0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%*".IndexOf(ch)];
     }
@@ -241,13 +241,13 @@ namespace PdfSharp.Drawing.BarCodes
       gfx.Restore(state);
     }
 
-    private void RenderNextChar(BarCodeRenderInfo info)
+    void RenderNextChar(BarCodeRenderInfo info)
     {
       RenderChar(info, this.text[info.CurrPosInString]);
       ++info.CurrPosInString;
     }
 
-    private void RenderChar(BarCodeRenderInfo info, char ch)
+    void RenderChar(BarCodeRenderInfo info, char ch)
     {
       bool[] thickThinLines = ThickThinLines(ch);
       int idx = 0;
@@ -260,13 +260,13 @@ namespace PdfSharp.Drawing.BarCodes
       }
     }
 
-    private void RenderStart(BarCodeRenderInfo info)
+    void RenderStart(BarCodeRenderInfo info)
     {
       RenderChar(info, '*');
       RenderGap(info, false);
     }
 
-    private void RenderStop(BarCodeRenderInfo info)
+    void RenderStop(BarCodeRenderInfo info)
     {
       RenderChar(info, '*');
     }

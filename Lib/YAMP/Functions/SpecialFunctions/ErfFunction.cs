@@ -4,7 +4,7 @@
 
     [Description("ErfFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class ErfFunction : StandardFunction
+    internal sealed class ErfFunction : StandardFunction
 	{
 		protected override ScalarValue GetValue(ScalarValue value)
 		{

@@ -5,7 +5,7 @@
 
     [Description("EvalFunctionDescription")]
     [Kind(PopularKinds.System)]
-    sealed class EvalFunction : SystemFunction
+    internal sealed class EvalFunction : SystemFunction
     {
         public EvalFunction(ParseContext context)
             : base(context)

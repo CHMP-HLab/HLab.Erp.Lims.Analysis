@@ -9,10 +9,10 @@ namespace NPoco.Linq
 {
     public class ComplexSqlBuilder<T>
     {
-        private readonly IDatabase _database;
-        private readonly PocoData _pocoData;
-        private readonly SqlExpression<T> _sqlExpression;
-        private readonly Dictionary<string, JoinData> _joinSqlExpressions;
+        readonly IDatabase _database;
+        readonly PocoData _pocoData;
+        readonly SqlExpression<T> _sqlExpression;
+        readonly Dictionary<string, JoinData> _joinSqlExpressions;
 
         public ComplexSqlBuilder(IDatabase database, PocoData pocoData, SqlExpression<T> sqlExpression, Dictionary<string, JoinData> joinSqlExpressions)
         {
@@ -113,7 +113,7 @@ namespace NPoco.Linq
             return new Sql(newsql, _sqlExpression.Context.Params);
         }
 
-        private static string BuildJoinSql(IDatabase database, List<JoinData> joinSqlExpressions, ref List<StringPocoCol> cols)
+        static string BuildJoinSql(IDatabase database, List<JoinData> joinSqlExpressions, ref List<StringPocoCol> cols)
         {
             var joins = new List<string>();
 

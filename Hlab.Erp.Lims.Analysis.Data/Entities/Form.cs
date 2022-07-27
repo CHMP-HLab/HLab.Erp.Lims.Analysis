@@ -19,24 +19,28 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
         {
             get => _name.Get(); set => _name.Set(value);
         }
-        private readonly IProperty<string> _name = H.Property<string>(c => c.Default(""));
+
+        readonly IProperty<string> _name = H.Property<string>(c => c.Default(""));
 
         public string EnglishName
         {
             get => _englishName.Get();
             set => _englishName.Set(value);
         }
-        private readonly IProperty<string> _englishName = H.Property<string>(c => c.Default(""));
+
+        readonly IProperty<string> _englishName = H.Property<string>(c => c.Default(""));
 
         public string IconPath
         {
             get => _iconPath.Get();
             set => _iconPath.Set(value);
         }
-        private readonly IProperty<string> _iconPath = H.Property<string>();
+
+        readonly IProperty<string> _iconPath = H.Property<string>();
 
         public string Caption => _caption.Get();
-        private readonly IProperty<string> _caption = H.Property<string>(c => c
+
+        readonly IProperty<string> _caption = H.Property<string>(c => c
             .Set(e => string.IsNullOrWhiteSpace(e.Name)?"{New product form}":e.Name)
             .On(e => e.Name)
             .Update()

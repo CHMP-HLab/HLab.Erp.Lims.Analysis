@@ -92,7 +92,7 @@ namespace PdfSharp.Pdf.Content.Objects
   /// <summary>
   /// Static class with all PDF op-codes.
   /// </summary>
-  sealed class OpCodes
+  internal sealed class OpCodes
   {
     OpCodes() { }
 

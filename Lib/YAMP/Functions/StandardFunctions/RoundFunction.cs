@@ -4,7 +4,7 @@
 
     [Description("RoundFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class RoundFunction : StandardFunction
+    internal sealed class RoundFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

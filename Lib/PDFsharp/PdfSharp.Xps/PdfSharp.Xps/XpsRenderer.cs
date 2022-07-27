@@ -13,7 +13,7 @@ namespace PdfSharp.Xps
     /// <summary>
     /// Provides functionality to convert WPF graphic to PDF files.
     /// </summary>
-    static class XpsRenderer // declare deprecated
+    internal static class XpsRenderer // declare deprecated
   {
     /// <summary>
     /// A first hack to do the job...

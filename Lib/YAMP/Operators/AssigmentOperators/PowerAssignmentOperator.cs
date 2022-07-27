@@ -3,7 +3,7 @@
     /// <summary>
     /// This class represents the ^= operator.
     /// </summary>
-    class PowerAssignmentOperator : AssignmentPrefixOperator
+    internal class PowerAssignmentOperator : AssignmentPrefixOperator
     {
         public PowerAssignmentOperator() : 
             base(new PowerOperator())

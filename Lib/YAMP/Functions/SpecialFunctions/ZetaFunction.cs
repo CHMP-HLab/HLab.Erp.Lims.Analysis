@@ -4,7 +4,7 @@
 
     [Description("ZetaFunctionDescription")]
     [Kind(PopularKinds.Function)]
-    sealed class ZetaFunction : StandardFunction
+    internal sealed class ZetaFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

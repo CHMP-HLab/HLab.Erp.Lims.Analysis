@@ -2,7 +2,7 @@
 {
     [Description("SubplotFunctionDescription")]
     [Kind(PopularKinds.Plot)]
-    sealed class SubplotFunction : VisualizationFunction
+    internal sealed class SubplotFunction : VisualizationFunction
     {
         public SubplotFunction(ParseContext context)
             : base(context)

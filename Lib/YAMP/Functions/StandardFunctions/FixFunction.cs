@@ -4,7 +4,7 @@
 
     [Description("FixFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class FixFunction : StandardFunction
+    internal sealed class FixFunction : StandardFunction
 	{
 		protected override ScalarValue GetValue(ScalarValue value)
 		{

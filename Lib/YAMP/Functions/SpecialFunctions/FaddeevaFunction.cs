@@ -4,7 +4,7 @@
 
     [Description("FaddeevaFunctionDescription")]
     [Kind(PopularKinds.Function)]
-    sealed class FaddeevaFunction : StandardFunction
+    internal sealed class FaddeevaFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

@@ -2,7 +2,7 @@
 
 namespace PdfSharp.Xps.Rendering
 {
-    class XPVisualBrush : XPTilingBrush
+    internal class XPVisualBrush : XPTilingBrush
   {
     public XPVisualBrush(ImageBrush brush)
       : base(brush)

@@ -139,7 +139,7 @@ namespace PdfSharp.Drawing.BarCodes
       info.ThinBarWidth = this.Size.Width / thinLineAmount;
     }
 
-    private void RenderStart(BarCodeRenderInfo info)
+    void RenderStart(BarCodeRenderInfo info)
     {
       RenderBar(info, false);
       RenderGap(info, false);
@@ -147,7 +147,7 @@ namespace PdfSharp.Drawing.BarCodes
       RenderGap(info, false);
     }
 
-    private void RenderStop(BarCodeRenderInfo info)
+    void RenderStop(BarCodeRenderInfo info)
     {
       RenderBar(info, true);
       RenderGap(info, false);
@@ -157,7 +157,7 @@ namespace PdfSharp.Drawing.BarCodes
     /// <summary>
     /// Renders the next digit pair as bar code element.
     /// </summary>
-    private void RenderNextPair(BarCodeRenderInfo info)
+    void RenderNextPair(BarCodeRenderInfo info)
     {
       int digitForLines = int.Parse(this.text[info.CurrPosInString].ToString());
       int digitForGaps = int.Parse(this.text[info.CurrPosInString + 1].ToString());

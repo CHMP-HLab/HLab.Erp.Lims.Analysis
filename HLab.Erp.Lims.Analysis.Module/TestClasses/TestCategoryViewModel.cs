@@ -5,6 +5,8 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
     public class TestCategoryViewModel : ListableEntityViewModel<TestCategory>
     {
-
+        public TestCategoryViewModel(Injector i) : base(i)
+        {
+        }
     }
 }

@@ -3,7 +3,7 @@
     [Kind(PopularKinds.Statistic)]
     [Description("AvgFunctionDescription")]
     [Link("AvgFunctionLink")]
-    sealed class AvgFunction : ArgumentFunction
+    internal sealed class AvgFunction : ArgumentFunction
     {
         [Description("AvgFunctionDescriptionForMatrix")]
         [Example("avg([1, 4, 8])", "AvgFunctionExampleForMatrix1")]

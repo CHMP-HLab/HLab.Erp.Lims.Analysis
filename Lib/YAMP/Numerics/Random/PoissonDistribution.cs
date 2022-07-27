@@ -43,7 +43,7 @@ namespace YAMP.Numerics
 		/// <summary>
         /// Stores the the parameter lambda which is used for generation of poisson distributed random numbers.
 		/// </summary>
-		private double lambda;
+        double lambda;
 
         /// <summary>
         /// Stores an intermediate result for generation of poisson distributed random numbers.
@@ -52,7 +52,7 @@ namespace YAMP.Numerics
         /// Speeds up random number generation cause this value only depends on distribution parameters 
         ///   and therefor doesn't need to be recalculated in successive executions of <see cref="NextDouble"/>.
         /// </remarks>
-        private double helper1;
+        double helper1;
 		#endregion
 
 		#region construction
@@ -101,7 +101,7 @@ namespace YAMP.Numerics
         /// Updates the helper variables that store intermediate results for generation of beta distributed random 
         ///   numbers.
         /// </summary>
-        private void UpdateHelpers()
+        void UpdateHelpers()
         {
             this.helper1 = Math.Exp(-1.0 * this.lambda);
         }

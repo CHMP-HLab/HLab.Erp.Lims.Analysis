@@ -2,7 +2,7 @@
 {
     [Description("AnyFunctionDescription")]
     [Kind(PopularKinds.Logic)]
-    sealed class AnyFunction : ArgumentFunction
+    internal sealed class AnyFunction : ArgumentFunction
     {
         [Description("AnyFunctionDescriptionForMatrix")]
         [Example("any([0, 0; 0, 0])", "AnyFunctionExampleForMatrix1")]

@@ -52,7 +52,7 @@ namespace YAMP
 		/// <summary>
 		/// Just a stupid dummy!
 		/// </summary>
-        private QueryContext(ParseContext context)
+        QueryContext(ParseContext context)
         {
             _context = context;
 		}

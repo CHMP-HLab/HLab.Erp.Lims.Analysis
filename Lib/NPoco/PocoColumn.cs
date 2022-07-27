@@ -23,7 +23,7 @@ namespace NPoco
 
         public List<MemberInfo> MemberInfoChain { get; set; }
 
-        private string _memberInfoKey;
+        string _memberInfoKey;
         public string MemberInfoKey { get { return _memberInfoKey ?? (_memberInfoKey = GenerateKey(MemberInfoChain)); } }
 
         public MemberInfoData MemberInfoData { get; set; }
@@ -33,12 +33,12 @@ namespace NPoco
         public VersionColumnType VersionColumnType;
         public bool ComputedColumn;
         public ComputedColumnType ComputedColumnType;
-        private Type _columnType;
-        private MemberAccessor _memberAccessor;
-        private List<MemberAccessor> _memberAccessorChain = new List<MemberAccessor>();
-        private Action<object, object> valueObjectSetter;
-        private Func<object, object> valueObjectGetter;
-        private FastCreate fastCreate;
+        Type _columnType;
+        MemberAccessor _memberAccessor;
+        List<MemberAccessor> _memberAccessorChain = new List<MemberAccessor>();
+        Action<object, object> valueObjectSetter;
+        Func<object, object> valueObjectGetter;
+        FastCreate fastCreate;
 
         public Type ColumnType
         {
@@ -92,7 +92,7 @@ namespace NPoco
             return valueObjectGetter?.Invoke(valueObject);
         }
 
-        private object GetRecursiveValue(object target)
+        object GetRecursiveValue(object target)
         {
             foreach (var memberAccessor in _memberAccessorChain)
             {

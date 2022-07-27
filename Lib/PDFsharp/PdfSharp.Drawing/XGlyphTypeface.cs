@@ -90,7 +90,8 @@ namespace PdfSharp.Drawing
     {
       get { return this.fontData; }
     }
-    private FontData fontData;
+
+    FontData fontData;
 
     /// <summary>
     /// Gets the English family name of the font.

@@ -6,14 +6,14 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 {
-    public class ProductCategoriesListViewModel : EntityListViewModel<ProductCategory>, IMvvmContextProvider
+    public class ProductCategoriesListViewModel : Core.EntityLists.EntityListViewModel<ProductCategory>, IMvvmContextProvider
     {
         public class Bootloader : NestedBootloader
         {
             public override string MenuPath => "param";
         }
 
-        public ProductCategoriesListViewModel() : base(c => c
+        public ProductCategoriesListViewModel(Injector i) : base(i, c => c
             // TODO .AddAllowed()
             //.DeleteAllowed()
             .Column("Name")

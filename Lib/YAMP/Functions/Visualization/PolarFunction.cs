@@ -2,7 +2,7 @@
 {
     [Description("PolarFunctionDescription")]
 	[Kind(PopularKinds.Plot)]
-	sealed class PolarFunction : VisualizationFunction
+    internal sealed class PolarFunction : VisualizationFunction
 	{
         public PolarFunction(ParseContext context)
             : base(context)

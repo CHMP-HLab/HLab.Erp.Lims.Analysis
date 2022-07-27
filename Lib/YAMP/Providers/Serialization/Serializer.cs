@@ -7,7 +7,7 @@
     /// <summary>
     /// Helper class for the serialization process.
     /// </summary>
-    sealed class Serializer : IDisposable
+    internal sealed class Serializer : IDisposable
     {
         #region Fields
 
@@ -17,7 +17,7 @@
 
         #region ctor
 
-        private Serializer()
+        Serializer()
         {
             _stream = new MemoryStream();
         }

@@ -45,7 +45,7 @@ namespace PdfSharp.Drawing
     /// <summary>
     /// Helper class for Geometry paths.
     /// </summary>
-    static class GeometryHelper
+    internal static class GeometryHelper
   {
 #if WPF
     /// <summary>

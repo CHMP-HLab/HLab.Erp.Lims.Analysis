@@ -32,7 +32,7 @@
         <StackPanel Grid.Row="1" Orientation="Vertical">
             <views:DetailView 
                 
-                Text="{}{Product}" 
+                Text="{}{Component}" 
                 IconPath="Icons/Sample/Drugs"
                 EditMode="{Binding Locker.IsActive}">
                 
@@ -51,15 +51,19 @@
                 ListClass="{x:Type viewModels:InnsListViewModel}"/>
 
             <lang:LocalizedLabel Text="{}{Quantity} : "/>
-            <wpf:NumTextBox Value="{Binding Model.Quantity}"/>
-
-            <lang:LocalizedLabel Text="{}{Unit} : "/>
-            <entitySelectors:ForeignView 
-                HorizontalAlignment="Left"
-                Model="{Binding Model.Unit}"
-                ModelClass="{x:Type units:Unit}" 
-                />
-                
+            <StackPanel Orientation="Horizontal">
+                <wpf:DoubleBox
+                    Foreground="White"
+                    Double="{Binding Model.Quantity, UpdateSourceTrigger=PropertyChanged}" 
+                    MinWidth="50"/>
+                <entitySelectors:ForeignView 
+                    HorizontalAlignment="Left"
+                    Model="{Binding Model.Unit}"
+                    ModelClass="{x:Type units:Unit}" 
+                    />
+     
+            </StackPanel>
+            
             </views:DetailView>
             
         </StackPanel>

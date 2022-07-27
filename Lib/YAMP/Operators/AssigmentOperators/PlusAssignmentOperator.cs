@@ -3,7 +3,7 @@
     /// <summary>
     /// This class represents the += operator.
     /// </summary>
-    class PlusAssignmentOperator : AssignmentPrefixOperator
+    internal class PlusAssignmentOperator : AssignmentPrefixOperator
     {
         public PlusAssignmentOperator() : 
             base(new PlusOperator())

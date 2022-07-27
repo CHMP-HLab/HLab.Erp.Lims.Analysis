@@ -26,7 +26,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
 
     public class QueryViewModel : ListableEntityViewModel<StatQuery>
     {
-        public QueryViewModel()
+        public QueryViewModel(Injector i):base(i)
         {
             H.Initialize(this);
         }
@@ -38,30 +38,30 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
 
 
         public string ParameterName1 {get => _parameterName1.Get(); set => _parameterName1.Set(value);}
-        private IProperty<string> _parameterName1 = H.Property<string>();
+        IProperty<string> _parameterName1 = H.Property<string>();
         public string ParameterName2 {get => _parameterName2.Get(); set => _parameterName2.Set(value);}
-        private IProperty<string> _parameterName2 = H.Property<string>();
+        IProperty<string> _parameterName2 = H.Property<string>();
         public string ParameterName3 {get => _parameterName3.Get(); set => _parameterName3.Set(value);}
-        private IProperty<string> _parameterName3 = H.Property<string>();
+        IProperty<string> _parameterName3 = H.Property<string>();
         public string ParameterName4 {get => _parameterName4.Get(); set => _parameterName4.Set(value);}
-        private IProperty<string> _parameterName4 = H.Property<string>();
+        IProperty<string> _parameterName4 = H.Property<string>();
 
 
         public string Parameter1 {get => _parameter1.Get(); set => _parameter1.Set(value);}
-        private IProperty<string> _parameter1 = H.Property<string>();
+        IProperty<string> _parameter1 = H.Property<string>();
         public string Parameter2 {get => _parameter2.Get(); set => _parameter2.Set(value);}
-        private IProperty<string> _parameter2 = H.Property<string>();
+        IProperty<string> _parameter2 = H.Property<string>();
         public string Parameter3 {get => _parameter3.Get(); set => _parameter3.Set(value);}
-        private IProperty<string> _parameter3 = H.Property<string>();
+        IProperty<string> _parameter3 = H.Property<string>();
         public string Parameter4 {get => _parameter4.Get(); set => _parameter4.Set(value);}
-        private IProperty<string> _parameter4 = H.Property<string>();
+        IProperty<string> _parameter4 = H.Property<string>();
 
-        private ITrigger OnQuery = H.Trigger(c => c
+        ITrigger OnQuery = H.Trigger(c => c
             .On(e => e.Model.Query)
             .Do(e => e.SetParamNames())
         );
 
-        private void SetParamNames()
+        void SetParamNames()
         {
             ParameterName1 = GetParamName(Model.Query,1);
             ParameterName2 = GetParamName(Model.Query,2);
@@ -70,11 +70,12 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
         }
 
         public string ErrorMessage {get => _errorMessage.Get(); set => _errorMessage.Set(value);}
-        private IProperty<string> _errorMessage = H.Property<string>();
+        IProperty<string> _errorMessage = H.Property<string>();
 
 
         public ICommand ExportCommand {get; } = H.Command(c => c.Action(e => e.Export()));
-        private void Export()
+
+        void Export()
         {
             // Vérifie qu'il y a bien quelque chose à exporter
             if (Items.Count == 0)
@@ -110,7 +111,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
             File.WriteAllText(dlg.FileName, contenu.ToString(), Encoding.UTF8);
         }
 
-        private string CsvValue(object value)
+        string CsvValue(object value)
         {
             if (value == null) return "";
             //if(value is Nullable && ((INullable)value).IsNull) return "";
@@ -129,14 +130,15 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
             return output;
         }
 
-        private string SetParam(string source, int num,string value)
+        string SetParam(string source, int num,string value)
         {
            if(value==null) return source;
 
            Regex x = new Regex(@$"(/\*{num}:.*?\*)(.*?)(/\*\*/)");
            return x.Replace(source, "$1"+value+"$3");
         }
-        private string GetParamName(string source, int num)
+
+        string GetParamName(string source, int num)
         {
            Regex x = new Regex(@$"(/\*{num}:)(.*?)(\*/)");
            var match = x.Match(source);
@@ -145,7 +147,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
 
         public ICommand RunCommand {get; } = H.Command(c => c.Action(e => e.Run()));
 
-        private void Run()
+        void Run()
         {
             ErrorMessage = "";
 
@@ -161,7 +163,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Stats
                 requete = requete.Replace("\r", "").Replace("\n", " ");
 
                 // Execute query
-                using var con = new NpgsqlConnection(Data.ConnectionString);
+                using var con = new NpgsqlConnection(Injected.Data.ConnectionString);
                 Columns.Clear();
                 con.Open();
                 using var cmd = new NpgsqlCommand(Model.Query, con);

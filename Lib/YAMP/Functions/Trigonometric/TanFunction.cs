@@ -3,7 +3,7 @@
     [Description("TanFunctionDescription")]
     [Kind(PopularKinds.Trigonometric)]
     [Link("TanFunctionLink")]
-    sealed class TanFunction : StandardFunction
+    internal sealed class TanFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

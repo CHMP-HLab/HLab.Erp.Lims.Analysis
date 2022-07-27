@@ -3,7 +3,7 @@
     [Description("SinhFunctionDescription")]
     [Kind(PopularKinds.Trigonometric)]
     [Link("SinhFunctionLink")]
-    sealed class SinhFunction : StandardFunction
+    internal sealed class SinhFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

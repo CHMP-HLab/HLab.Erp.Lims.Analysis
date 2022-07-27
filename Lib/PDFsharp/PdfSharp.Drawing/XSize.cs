@@ -335,7 +335,7 @@ namespace PdfSharp.Drawing
     }
 #endif
 
-    private static XSize CreateEmptySize()
+      static XSize CreateEmptySize()
     {
       XSize size = new XSize();
       size.width = double.NegativeInfinity;
@@ -350,6 +350,6 @@ namespace PdfSharp.Drawing
 
     internal double width;
     internal double height;
-    private static readonly XSize s_empty;
+    static readonly XSize s_empty;
   }
 }

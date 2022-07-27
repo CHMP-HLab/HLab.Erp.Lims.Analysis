@@ -6,7 +6,7 @@ namespace NPoco
 {
     public class PocoExpando : System.Dynamic.DynamicObject, IDictionary<string, object>, IDictionary
     {
-        private readonly IDictionary<string, object> Dictionary =
+        readonly IDictionary<string, object> Dictionary =
             new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
         public void Add(KeyValuePair<string, object> item)

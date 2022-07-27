@@ -13,11 +13,11 @@ namespace NPoco
     /// </summary>
     public class MemberAccessor
     {
-        private readonly Type _targetType;
-        private readonly Type _memberType;
-        private readonly MemberInfo _member;
+        readonly Type _targetType;
+        readonly Type _memberType;
+        readonly MemberInfo _member;
 
-        private static readonly Hashtable _mTypeHash = new Hashtable
+        static readonly Hashtable _mTypeHash = new Hashtable
         {
             [typeof(sbyte)] = OpCodes.Ldind_I1,
             [typeof(byte)] = OpCodes.Ldind_U1,
@@ -79,9 +79,9 @@ namespace NPoco
             }
         }
 
-        private Func<object, object> GetDelegate = null;
+        Func<object, object> GetDelegate = null;
 
-        private Action<object, object> SetDelegate = null;
+        Action<object, object> SetDelegate = null;
 
         /// <summary>
         /// Sets the property for the specified target.
@@ -98,7 +98,7 @@ namespace NPoco
             return GetDelegate?.Invoke(target);
         }
 
-        private Action<object, object> GetSetDelegate()
+        Action<object, object> GetSetDelegate()
         {
             Type[] setParamTypes = new Type[] { typeof(object), typeof(object) };
             Type setReturnType = null;
@@ -162,7 +162,7 @@ namespace NPoco
             return del as Action<object, object>;
         }
 
-        private Func<object, object> GetGetDelegate()
+        Func<object, object> GetGetDelegate()
         {
             Type setParamType = typeof(object);
             Type[] setParamTypes = { setParamType };

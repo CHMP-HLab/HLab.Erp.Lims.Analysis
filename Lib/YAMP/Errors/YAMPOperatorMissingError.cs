@@ -5,7 +5,7 @@
     /// <summary>
     /// The operator missing error.
     /// </summary>
-    class YAMPOperatorMissingError : YAMPParseError
+    internal class YAMPOperatorMissingError : YAMPParseError
     {
         public YAMPOperatorMissingError(Int32 line, Int32 column)
             : base(line, column, "An expected operator was not found.")

@@ -788,6 +788,6 @@ namespace PdfSharp.Drawing
     internal double y;
     internal double width;
     internal double height;
-    private static readonly XRect s_empty;
+    static readonly XRect s_empty;
   }
 }

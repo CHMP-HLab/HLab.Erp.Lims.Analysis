@@ -1,6 +1,6 @@
 ﻿namespace PdfSharp.Xps.XpsModel
 {
-    enum ColorType
+    internal enum ColorType
   {
     /// <summary>
     /// "#RRGGBB"

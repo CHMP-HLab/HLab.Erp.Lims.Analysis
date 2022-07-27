@@ -3,7 +3,7 @@ namespace YAMP
     /// <summary>
     /// The .^ operator.
     /// </summary>
-    class DotPowerOperator : DotOperator
+    internal class DotPowerOperator : DotOperator
     {
         public DotPowerOperator() : base(new PowerOperator())
         {

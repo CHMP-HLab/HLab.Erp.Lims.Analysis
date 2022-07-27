@@ -6,7 +6,7 @@
     [Description("LinfitFunctionDescription")]
     [Kind(PopularKinds.Function)]
     [Link("LinfitFunctionLink")]
-    sealed class LinfitFunction : SystemFunction
+    internal sealed class LinfitFunction : SystemFunction
     {
         public LinfitFunction(ParseContext context)
             : base(context)

@@ -519,7 +519,7 @@ namespace Outils
          return Math.Round(t, r).ToString() + " " + unite[u];
       }
 
-      private const string CharList = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      const string CharList = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
       /// <summary>
       /// Encode the given number into a Base36 string
@@ -777,7 +777,8 @@ namespace Outils
          {
             _Position = position;
          }
-         private Int64 _Position;
+
+         Int64 _Position;
 
          public Int64 Position
          {
@@ -1045,7 +1046,7 @@ namespace Outils
 
    public class Chrono
    {
-      private System.Diagnostics.Stopwatch m_StopWatch;
+       System.Diagnostics.Stopwatch m_StopWatch;
 
       //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       public Chrono()

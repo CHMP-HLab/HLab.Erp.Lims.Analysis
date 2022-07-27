@@ -5,7 +5,7 @@
     [Description("GcdFunctionDescription")]
 	[Kind(PopularKinds.Function)]
     [Link("GcdFunctionLink")]
-    sealed class GcdFunction : ArgumentFunction
+    internal sealed class GcdFunction : ArgumentFunction
 	{
 		[Description("GcdFunctionDescriptionForMatrix")]
 		[Example("gcd([54, 24])", "GcdFunctionExampleForMatrix1")]

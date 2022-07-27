@@ -6,7 +6,7 @@ namespace YAMP
     /// <summary>
     /// This is the operator for adjungating a matrix.
     /// </summary>
-	class AdjungateOperator : RightUnaryOperator
+    internal class AdjungateOperator : RightUnaryOperator
 	{
         public static readonly String Symbol = OpDefinitions.AdjungateOperator;
         public static readonly int OpLevel = OpDefinitions.AdjungateOperatorLevel;

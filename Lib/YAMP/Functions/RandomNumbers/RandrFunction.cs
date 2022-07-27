@@ -6,7 +6,7 @@
     [Description("RandrFunctionDescription")]
     [Kind(PopularKinds.Random)]
     [Link("RandrFunctionLink")]
-    sealed class RandrFunction : ArgumentFunction
+    internal sealed class RandrFunction : ArgumentFunction
     {
         readonly RayleighDistribution Distribution = new RayleighDistribution(Rng);
 

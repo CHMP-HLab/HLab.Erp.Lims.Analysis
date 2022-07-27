@@ -15,7 +15,7 @@ namespace NPoco.DatabaseTypes
             return base.MapParameterValue(value);
         }
 
-        private void AdjustSqlInsertCommandText(DbCommand cmd)
+        void AdjustSqlInsertCommandText(DbCommand cmd)
         {
             cmd.CommandText += ";\nSELECT last_insert_rowid();";
         }

@@ -5,7 +5,7 @@ namespace PdfSharp.Xps.XpsModel
     /// <summary>
     /// Defines a single graphical effect to be rendered to the page. It paints a geometry with a brush and draws a stroke around it.
     /// </summary>
-    class Path : XpsElement
+    internal class Path : XpsElement
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="Path"/> class.

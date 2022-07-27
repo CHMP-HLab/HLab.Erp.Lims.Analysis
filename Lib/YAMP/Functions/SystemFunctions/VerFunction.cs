@@ -2,7 +2,7 @@
 {
     [Description("VerFunctionDescription")]
     [Kind(PopularKinds.System)]
-    sealed class VerFunction : SystemFunction
+    internal sealed class VerFunction : SystemFunction
     {
         public VerFunction(ParseContext context)
             : base(context)

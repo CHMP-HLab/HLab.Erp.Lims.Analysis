@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies the document structural markup that appears on the current page for a single story block.
     /// </summary>
-    class StoryFragment : XpsElement
+    internal class StoryFragment : XpsElement
   {
     /// <summary>
     /// Identifies the story that this story fragment belongs to.

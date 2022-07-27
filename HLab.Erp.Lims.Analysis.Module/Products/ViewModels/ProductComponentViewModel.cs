@@ -33,7 +33,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 
         //private string GetIconPath => Model?.Form?.IconPath??Model?.IconPath??base.IconPath;
 
-        public ProductComponentViewModel()
+        public ProductComponentViewModel(Injector i):base(i)
         {
             H.Initialize(this);
         }
@@ -47,9 +47,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         //    .Set(vm => new ProductWorkflow(vm.Model,vm.Locker))
         //);
     }
-    class ProductComponentViewModelDesign : ProductComponentViewModel, IViewModelDesign
+
+    internal class ProductComponentViewModelDesign : ProductComponentViewModel, IViewModelDesign
     {
-        public ProductComponentViewModelDesign() : base()
+        public ProductComponentViewModelDesign() : base(null)
         {
         }
 

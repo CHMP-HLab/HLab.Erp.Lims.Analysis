@@ -4,7 +4,7 @@
 
     [Description("FormatFunctionDescription")]
     [Kind(PopularKinds.System)]
-    sealed class FormatFunction : SystemFunction
+    internal sealed class FormatFunction : SystemFunction
     {
         public FormatFunction(ParseContext context)
             : base(context)

@@ -2,7 +2,7 @@
 {
 	[Description("TypeFunctionDescription")]
 	[Kind(PopularKinds.System)]
-    sealed class TypeFunction : StandardFunction
+    internal sealed class TypeFunction : StandardFunction
     {
         [Description("TypeFunctionDescriptionForValue")]
         [Example("type(x)", "TypeFunctionExampleForValue1")]

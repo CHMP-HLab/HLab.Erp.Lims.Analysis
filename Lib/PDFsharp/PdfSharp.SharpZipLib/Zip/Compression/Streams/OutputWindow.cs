@@ -49,12 +49,12 @@ namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
   /// </summary>
   internal class OutputWindow
   {
-    private static int WINDOW_SIZE = 1 << 15;
-    private static int WINDOW_MASK = WINDOW_SIZE - 1;
+      static int WINDOW_SIZE = 1 << 15;
+      static int WINDOW_MASK = WINDOW_SIZE - 1;
 
-    private byte[] window = new byte[WINDOW_SIZE]; //The window is 2^15 bytes
-    private int windowEnd = 0;
-    private int windowFilled = 0;
+      byte[] window = new byte[WINDOW_SIZE]; //The window is 2^15 bytes
+      int windowEnd = 0;
+      int windowFilled = 0;
 
     /// <summary>
     /// Write a byte to this output window
@@ -74,7 +74,7 @@ namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
     }
 
 
-    private void SlowRepeat(int repStart, int len, int dist)
+    void SlowRepeat(int repStart, int len, int dist)
     {
       while (len-- > 0)
       {

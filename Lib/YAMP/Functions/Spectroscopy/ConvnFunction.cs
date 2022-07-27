@@ -3,7 +3,7 @@
     [Description("ConvnFunctionDescription")]
     [Link("ConvnFunctionLink")]
     [Kind(PopularKinds.Function)]
-    sealed class ConvnFunction : ArgumentFunction
+    internal sealed class ConvnFunction : ArgumentFunction
     {
         [Description("ConvnFunctionDescriptionForMatrixMatrix")]
         [Example("convn([0,0,5,5,0,0], [0,0,3,3,0,0])", "ConvnFunctionExampleForMatrixMatrix1")]

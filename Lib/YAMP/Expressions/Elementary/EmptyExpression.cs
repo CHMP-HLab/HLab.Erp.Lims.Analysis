@@ -6,7 +6,7 @@
     /// <summary>
     /// The empty expression - just a dummy!
     /// </summary>
-    sealed class EmptyExpression : Expression
+    internal sealed class EmptyExpression : Expression
     {
         #region ctor
 

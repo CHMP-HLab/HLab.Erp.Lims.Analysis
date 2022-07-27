@@ -13,12 +13,12 @@ using PdfSharp.Fonts.OpenType;
 
 namespace PdfSharp.Xps.Rendering
 {
-    partial class PdfContentWriter  // TODO: refactor to a PdfGlyphsWriter class
+    internal partial class PdfContentWriter  // TODO: refactor to a PdfGlyphsWriter class
   {
     /// <summary>
     /// Writes a Glyphs to the content stream.
     /// </summary>
-    private void WriteGlyphs(Glyphs glyphs)
+    void WriteGlyphs(Glyphs glyphs)
     {
       WriteSaveState("begin Glyphs", glyphs.Name);
 
@@ -168,7 +168,7 @@ namespace PdfSharp.Xps.Rendering
     }
 
     // ...on the way to handle Indices...
-    private void WriteGlyphsInternal(Glyphs glyphs, string text)
+    void WriteGlyphsInternal(Glyphs glyphs, string text)
     {
       GlyphIndicesComplexity complexity = GlyphIndicesComplexity.None;
       if (glyphs.Indices != null)
@@ -192,17 +192,17 @@ namespace PdfSharp.Xps.Rendering
       }
     }
 
-    private void WriteGlyphs_None(Glyphs glyphs, string text)
+    void WriteGlyphs_None(Glyphs glyphs, string text)
     {
       // TODO:
     }
 
-    private void WriteGlyphs_DistanceOnly(Glyphs glyphs, string text)
+    void WriteGlyphs_DistanceOnly(Glyphs glyphs, string text)
     {
       // TODO:
     }
 
-    private void WriteGlyphs_GlyphIndicesAndDistanceOnly(Glyphs glyphs, string text)
+    void WriteGlyphs_GlyphIndicesAndDistanceOnly(Glyphs glyphs, string text)
     {
       // TODO:
     }
@@ -211,7 +211,7 @@ namespace PdfSharp.Xps.Rendering
     /// <summary>
     /// This is just a draft to see what to do in detail.
     /// </summary>
-    private void WriteGlyphs_DistanceOnly(Glyphs glyphs)
+    void WriteGlyphs_DistanceOnly(Glyphs glyphs)
     {
       string unicodeString = glyphs.UnicodeString;
 #if DEBUG_
@@ -348,7 +348,7 @@ namespace PdfSharp.Xps.Rendering
     /// <summary>
     /// This is just a draft to see what to do in detail.
     /// </summary>
-    private void WriteGlyphs_ClusterMapping(Glyphs glyphs)
+    void WriteGlyphs_ClusterMapping(Glyphs glyphs)
     {
       string unicodeString = glyphs.UnicodeString;
 #if DEBUG_

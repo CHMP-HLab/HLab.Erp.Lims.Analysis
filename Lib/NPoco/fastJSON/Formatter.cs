@@ -4,7 +4,7 @@ namespace NPoco.fastJSON
 {
     internal static class Formatter
     {
-        private static string _indent = "   ";
+        static string _indent = "   ";
 
         public static void AppendIndent(StringBuilder sb, int count)
         {

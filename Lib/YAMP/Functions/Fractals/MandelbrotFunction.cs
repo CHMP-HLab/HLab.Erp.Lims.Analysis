@@ -6,7 +6,7 @@
     [Description("MandelbrotFunctionDescription")]
     [Kind(PopularKinds.Function)]
     [Link("MandelbrotFunctionLink")]
-    sealed class MandelbrotFunction : ArgumentFunction
+    internal sealed class MandelbrotFunction : ArgumentFunction
     {
         [Description("MandelbrotFunctionDescriptionForVoid")]
         [Example("mandelbrot()", "MandelbrotFunctionExampleForVoid1")]

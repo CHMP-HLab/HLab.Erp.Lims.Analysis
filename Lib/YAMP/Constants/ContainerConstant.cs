@@ -8,7 +8,7 @@
     /// </summary>
 	[Description("ContainerConstantDescription")]
 	[Kind(PopularKinds.Constant)]
-	sealed class ContainerConstant : IConstants
+    internal sealed class ContainerConstant : IConstants
 	{
 		readonly String _name;
 		readonly Value _value;

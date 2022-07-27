@@ -3,7 +3,7 @@ namespace YAMP
     [Description("SecFunctionDescription")]
     [Kind(PopularKinds.Trigonometric)]
     [Link("SecFunctionLink")]
-	sealed class SecFunction : StandardFunction
+    internal sealed class SecFunction : StandardFunction
 	{
         protected override ScalarValue GetValue(ScalarValue value)
         {

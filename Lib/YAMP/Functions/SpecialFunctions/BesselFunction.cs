@@ -5,7 +5,7 @@
 
     [Description("BesselFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class BesselFunction : ArgumentFunction
+    internal sealed class BesselFunction : ArgumentFunction
 	{
 		[Description("BesselFunctionDescriptionForScalarScalar")]
 		[Example("bessel(3, 0.4)", "BesselFunctionExampleForScalarScalar1")]

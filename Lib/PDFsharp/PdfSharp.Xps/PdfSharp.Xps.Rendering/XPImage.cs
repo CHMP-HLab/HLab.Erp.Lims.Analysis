@@ -4,7 +4,7 @@ using BitmapSource = System.Windows.Media.Imaging.BitmapSource;
 
 namespace PdfSharp.Xps.Rendering
 {
-    class XPImage : XPObject
+    internal class XPImage : XPObject
   {
     public XPImage(BitmapSource bitmapSource)
     {

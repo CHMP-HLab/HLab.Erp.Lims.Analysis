@@ -6,7 +6,7 @@
 
     [Description("HelpFunctionDescription")]
 	[Kind(PopularKinds.System)]
-    sealed class HelpFunction : SystemFunction
+    internal sealed class HelpFunction : SystemFunction
     {
         const String SPACING = "   ";
 

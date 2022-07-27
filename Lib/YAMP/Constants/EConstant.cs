@@ -8,7 +8,7 @@
 	[Description("EConstantDescription")]
     [Kind(PopularKinds.Constant)]
     [Link("EConstantLink")]
-	sealed class EConstant : BaseConstant
+    internal sealed class EConstant : BaseConstant
 	{
 		static readonly ScalarValue e = new ScalarValue(Math.E);
 

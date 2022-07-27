@@ -2,7 +2,7 @@
 {
     [Description("SemiLogYFunctionDescription")]
 	[Kind(PopularKinds.Plot)]
-	sealed class SemiLogYFunction : VisualizationFunction
+    internal sealed class SemiLogYFunction : VisualizationFunction
 	{
         public SemiLogYFunction(ParseContext context)
             : base(context)

@@ -5,7 +5,7 @@
 
     [Description("Cart2PolFunctionDescription")]
     [Kind(PopularKinds.Conversion)]
-    sealed class Cart2PolFunction : ArgumentFunction
+    internal sealed class Cart2PolFunction : ArgumentFunction
     {
         [Description("Cart2PolFunctionDescriptionForScalarScalar")]
         [Example("cart2pol(3, 2)", "Cart2PolFunctionExampleForScalarScalar1")]

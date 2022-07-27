@@ -7,7 +7,7 @@
     /// This class is only used as a dummy placeholder for operators
     /// that have not been found.
     /// </summary>
-    sealed class VoidOperator : Operator
+    internal sealed class VoidOperator : Operator
     {
         public VoidOperator() 
             : base("")

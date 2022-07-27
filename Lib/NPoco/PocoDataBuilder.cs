@@ -16,14 +16,14 @@ namespace NPoco
 
     public class PocoDataBuilder : InitializedPocoDataBuilder
     {
-        private readonly Cache<string, Type> _aliasToType = Cache<string, Type>.CreateStaticCache();
-        private IFastCreate _generator;
+        readonly Cache<string, Type> _aliasToType = Cache<string, Type>.CreateStaticCache();
+        IFastCreate _generator;
 
         protected Type Type { get; set; }
-        private MapperCollection Mapper { get; set; }
+        MapperCollection Mapper { get; set; }
 
-        private List<PocoMemberPlan> _memberPlans { get; set; }
-        private TableInfoPlan _tableInfoPlan { get; set; }
+        List<PocoMemberPlan> _memberPlans { get; set; }
+        TableInfoPlan _tableInfoPlan { get; set; }
 
         public delegate PocoMember PocoMemberPlan(TableInfo tableInfo);
         protected delegate TableInfo TableInfoPlan();
@@ -101,7 +101,7 @@ namespace NPoco
             return ColumnInfo.FromMemberInfo(mi);
         }
 
-        private static IEnumerable<PocoColumn> GetPocoColumns(IEnumerable<PocoMember> members)
+        static IEnumerable<PocoColumn> GetPocoColumns(IEnumerable<PocoMember> members)
         {
             foreach (var member in members)
             {
@@ -233,7 +233,7 @@ namespace NPoco
             }
         }
 
-        private static void SetupValueObject(PocoColumn pc, FastCreate fastCreate)
+        static void SetupValueObject(PocoColumn pc, FastCreate fastCreate)
         {
             var memberName = "Value";
             var hasIValueObject = pc.MemberInfoData.MemberType.GetTypeWithGenericTypeDefinitionOf(typeof(IValueObject<>));
@@ -247,7 +247,7 @@ namespace NPoco
             pc.ColumnType = type;
         }
 
-        private static FastCreate GetFastCreate(Type memberType, MapperCollection mapperCollection, bool isList, bool isDynamic)
+        static FastCreate GetFastCreate(Type memberType, MapperCollection mapperCollection, bool isList, bool isDynamic)
         {
             return memberType.IsAClass() || isDynamic
                        ? (new FastCreate(isList
@@ -256,7 +256,7 @@ namespace NPoco
                        : null;
         }
 
-        private static Type GetListType(Type memberType, bool isList)
+        static Type GetListType(Type memberType, bool isList)
         {
             return isList
                 ? (memberType.GetGenericArguments().Length > 0

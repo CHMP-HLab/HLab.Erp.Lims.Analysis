@@ -4,7 +4,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
     public class FormClassViewModelDesign : FormClassViewModel, IViewModelDesign
     {
-        public FormClassViewModelDesign():base(null)
+        public FormClassViewModelDesign() : base(null,null)
         {
 //            Model = FormClass.DesignModel;
             FormHelper.Xaml = "<xml></xml>";

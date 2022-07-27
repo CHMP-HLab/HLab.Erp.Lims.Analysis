@@ -7,9 +7,9 @@ namespace NPoco.FluentMappings
 {
     public static class Inflector
     {
-        private static readonly List<InflectorRule> _plurals = new List<InflectorRule>();
-        private static readonly List<InflectorRule> _singulars = new List<InflectorRule>();
-        private static readonly List<string> _uncountables = new List<string>();
+        static readonly List<InflectorRule> _plurals = new List<InflectorRule>();
+        static readonly List<InflectorRule> _singulars = new List<InflectorRule>();
+        static readonly List<string> _uncountables = new List<string>();
 
         static Inflector()
         {
@@ -75,23 +75,23 @@ namespace NPoco.FluentMappings
             AddUnknownCountRule("sheep");
         }
 
-        private static void AddIrregularRule(string singular, string plural)
+        static void AddIrregularRule(string singular, string plural)
         {
             AddPluralRule(String.Concat("(", singular[0], ")", singular.Substring(1), "$"), String.Concat("$1", plural.Substring(1)));
             AddSingularRule(String.Concat("(", plural[0], ")", plural.Substring(1), "$"), String.Concat("$1", singular.Substring(1)));
         }
 
-        private static void AddUnknownCountRule(string word)
+        static void AddUnknownCountRule(string word)
         {
             _uncountables.Add(word.ToLower());
         }
 
-        private static void AddPluralRule(string rule, string replacement)
+        static void AddPluralRule(string rule, string replacement)
         {
             _plurals.Add(new InflectorRule(rule, replacement));
         }
 
-        private static void AddSingularRule(string rule, string replacement)
+        static void AddSingularRule(string rule, string replacement)
         {
             _singulars.Add(new InflectorRule(rule, replacement));
         }
@@ -106,7 +106,7 @@ namespace NPoco.FluentMappings
             return ApplyRules(_singulars, word);
         }
 
-        private static string ApplyRules(IList<InflectorRule> rules, string word)
+        static string ApplyRules(IList<InflectorRule> rules, string word)
         {
             string result = word;
             if (!_uncountables.Contains(word.ToLower()))
@@ -189,7 +189,7 @@ namespace NPoco.FluentMappings
 
         #region Nested type: InflectorRule
 
-        private class InflectorRule
+        class InflectorRule
         {
             public readonly Regex regex;
             public readonly string replacement;

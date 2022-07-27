@@ -3,7 +3,7 @@
     [Description("CschFunctionDescription")]
     [Kind(PopularKinds.Trigonometric)]
     [Link("CschFunctionLink")]
-    sealed class CschFunction : StandardFunction
+    internal sealed class CschFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

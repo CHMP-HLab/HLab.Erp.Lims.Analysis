@@ -6,7 +6,7 @@
     [Description("PolyfitFunctionDescription")]
     [Kind(PopularKinds.Function)]
     [Link("PolyfitFunctionLink")]
-    sealed class PolyfitFunction : ArgumentFunction
+    internal sealed class PolyfitFunction : ArgumentFunction
     {
         [Description("PolyfitFunctionDescriptionForMatrixMatrixScalar")]
         [Example("polyfit(0:0.1:2.5, erf(0:0.1:2.5), 6)", "PolyfitFunctionExampleForMatrixMatrixScalar1")]

@@ -7,7 +7,7 @@
     /// Represents the return keyword to cancel the current execution and return
     /// the given expression [if any].
     /// </summary>
-    class ReturnKeyword : BodyKeyword
+    internal class ReturnKeyword : BodyKeyword
     {
         #region ctor
 

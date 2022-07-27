@@ -4,7 +4,7 @@
 
     [Description("ZerosFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class ZerosFunction : ArgumentFunction
+    internal sealed class ZerosFunction : ArgumentFunction
     {
         [Description("ZerosFunctionDescriptionForVoid")]
         public MatrixValue Function()

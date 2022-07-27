@@ -213,7 +213,7 @@ namespace PdfSharp.Drawing.BarCodes
     }
   }
 
-  struct Ecc200Block
+    internal struct Ecc200Block
   {
     public int Height;
     public int Width;

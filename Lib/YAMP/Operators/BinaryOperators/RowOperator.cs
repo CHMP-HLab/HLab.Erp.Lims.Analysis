@@ -6,7 +6,7 @@
     /// <summary>
     /// This class represents the matrix row seperator operator ;.
     /// </summary>
-	class RowOperator : BinaryOperator
+    internal class RowOperator : BinaryOperator
     {
         #region Mapping
 

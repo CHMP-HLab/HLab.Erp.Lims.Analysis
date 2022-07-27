@@ -5,7 +5,7 @@
     /// <summary>
     /// This is the representation of a lighter or equal to operator.
     /// </summary>
-    class LtEqOperator : LogicOperator
+    internal class LtEqOperator : LogicOperator
     {
         #region Mapping
 

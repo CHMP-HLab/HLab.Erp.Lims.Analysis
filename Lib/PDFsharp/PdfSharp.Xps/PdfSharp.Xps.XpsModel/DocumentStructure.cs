@@ -3,7 +3,7 @@
     /// <summary>
     /// The root element of the DocumentStructure part.
     /// </summary>
-    class DocumentStructure : XpsElement
+    internal class DocumentStructure : XpsElement
   {
     /// <summary>
     /// Contains a structured document outline that provides a list of links into the document

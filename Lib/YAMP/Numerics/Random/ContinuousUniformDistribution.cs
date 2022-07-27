@@ -41,7 +41,7 @@ namespace YAMP.Numerics
         /// <summary>
         /// Stores the parameter alpha which is used for generation of uniformly distributed random numbers.
         /// </summary>
-        private double alpha;
+        double alpha;
 
         /// <summary>
         /// Gets or sets the parameter beta which is used for generation of uniformly distributed random numbers.
@@ -66,7 +66,7 @@ namespace YAMP.Numerics
         /// <summary>
         /// Stores the parameter beta which is used for generation of uniformly distributed random numbers.
         /// </summary>
-        private double beta;
+        double beta;
 
         /// <summary>
         /// Stores an intermediate result for generation of uniformly distributed random numbers.
@@ -75,7 +75,7 @@ namespace YAMP.Numerics
         /// Speeds up random number generation cause this value only depends on distribution parameters 
         ///   and therefor doesn't need to be recalculated in successive executions of <see cref="NextDouble"/>.
         /// </remarks>
-        private double helper1;
+        double helper1;
         #endregion
 
         #region construction
@@ -136,7 +136,7 @@ namespace YAMP.Numerics
         /// Updates the helper variables that store intermediate results for generation of uniformly distributed random 
         ///   numbers.
         /// </summary>
-        private void UpdateHelpers()
+        void UpdateHelpers()
         {
             this.helper1 = this.beta - this.alpha;
         }

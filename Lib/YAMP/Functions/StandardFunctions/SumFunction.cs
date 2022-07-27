@@ -2,7 +2,7 @@ namespace YAMP
 {
 	[Description("SumFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class SumFunction : ArgumentFunction
+    internal sealed class SumFunction : ArgumentFunction
     {
         [Description("SumFunctionDescriptionForScalar")]
         public ScalarValue Function(ScalarValue x)

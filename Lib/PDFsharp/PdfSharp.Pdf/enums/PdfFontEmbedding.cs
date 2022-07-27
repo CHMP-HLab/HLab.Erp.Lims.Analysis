@@ -55,7 +55,7 @@ namespace PdfSharp.Pdf
     Automatic,
   }
 
-  class DocumentFontOptions
+  internal class DocumentFontOptions
   {
     //public int SubsettingLimit;
     //public int SubSetMinSize;

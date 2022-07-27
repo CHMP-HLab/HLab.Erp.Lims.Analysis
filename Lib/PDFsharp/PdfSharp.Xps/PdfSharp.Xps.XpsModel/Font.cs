@@ -5,7 +5,7 @@ namespace PdfSharp.Xps.XpsModel
     /// <summary>
     /// Represents a font or font subset.
     /// </summary>
-    class Font
+    internal class Font
   {
     public Font(string name, byte[] fontData)
     {

@@ -41,8 +41,7 @@ using PdfSharp.SharpZipLib.Zip.Compression.Streams;
 
 namespace PdfSharp.SharpZipLib.Zip.Compression 
 {
-	
-	class InflaterDynHeader
+    internal class InflaterDynHeader
 	{
 		const int LNUM   = 0;
 		const int DNUM   = 1;

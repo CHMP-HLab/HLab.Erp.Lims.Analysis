@@ -28,24 +28,25 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 
 
         public override string IconPath => _iconPath.Get();
-        private readonly IProperty<string> _iconPath = H.Property<string>(c => c
+
+        readonly IProperty<string> _iconPath = H.Property<string>(c => c
         .Set(e => e.GetIconPath )
         .On(e => e.Model.IconPath)
         .Update()
         );
 
-        private string GetIconPath => Model?.IconPath??Model?.IconPath??base.IconPath;
+        string GetIconPath => Model?.IconPath??Model?.IconPath??base.IconPath;
 
 
-        private readonly Func<Inn, InnProductComponentListViewModel> _getComponents;
+        readonly Func<Inn, InnProductComponentListViewModel> _getComponents;
 
-        public InnViewModel(Func<Inn, InnProductComponentListViewModel> getComponents)
+        public InnViewModel(Injector i, Func<Inn, InnProductComponentListViewModel> getComponents):base(i)
         {
             _getComponents = getComponents;
             H.Initialize(this);
         }
 
-        private readonly ITrigger _onEditMode = H.Trigger(c => c
+        readonly ITrigger _onEditMode = H.Trigger(c => c
             .On(e => e.Locker.IsActive)
             .Do(e =>
             {
@@ -55,7 +56,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         );
 
         public InnProductComponentListViewModel Components => _components.Get();
-        private readonly IProperty<InnProductComponentListViewModel> _components = H.Property<InnProductComponentListViewModel>(c => c
+
+        readonly IProperty<InnProductComponentListViewModel> _components = H.Property<InnProductComponentListViewModel>(c => c
             .NotNull(e => e.Model)
             .Set(e =>
            {
@@ -69,7 +71,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 
         public ICommand WikiCommand { get; } = H.Command(c => c.Action(e => e.Wiki()));
 
-        private void Wiki()
+        void Wiki()
         {
             var url = $"https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles={Model.Name}&rvslots=*&rvprop=content&formatversion=2&format=xml";
             XmlDocument doc = new XmlDocument();
@@ -129,7 +131,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
     }
     public class InnViewModelDesign : InnViewModel, IViewModelDesign
     {
-        public InnViewModelDesign() : base(p => null)
+        public InnViewModelDesign() : base(null, p => null)
         {
         }
 

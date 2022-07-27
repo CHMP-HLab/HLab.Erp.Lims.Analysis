@@ -5,7 +5,7 @@
     [Description("IsInfiniteFunctionDescription")]
     [Kind(PopularKinds.Logic)]
     [Link("IsInfiniteFunctionLink")]
-    sealed class IsInfiniteFunction : StandardFunction
+    internal sealed class IsInfiniteFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

@@ -6,7 +6,7 @@
     [Description("BootstrapFunctionDescription")]
     [Kind(PopularKinds.Statistic)]
     [Link("BootstrapFunctionLink")]
-    sealed class BootstrapFunction : SystemFunction
+    internal sealed class BootstrapFunction : SystemFunction
     {
         public BootstrapFunction(ParseContext context)
             : base(context)

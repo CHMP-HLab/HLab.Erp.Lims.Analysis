@@ -8,7 +8,7 @@
     /// <summary>
     /// Holds information about a stored plugin.
     /// </summary>
-    sealed class Plugin
+    internal sealed class Plugin
     {
         #region Fields
 

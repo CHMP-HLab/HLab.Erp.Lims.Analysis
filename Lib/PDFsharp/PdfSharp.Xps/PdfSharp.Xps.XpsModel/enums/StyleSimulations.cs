@@ -1,6 +1,6 @@
 ﻿namespace PdfSharp.Xps.XpsModel
 {
-    enum StyleSimulations
+    internal enum StyleSimulations
   {
     None,
     ItalicSimulation,

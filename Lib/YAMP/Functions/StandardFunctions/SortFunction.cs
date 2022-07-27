@@ -2,7 +2,7 @@
 {
 	[Description("SortFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class SortFunction : ArgumentFunction
+    internal sealed class SortFunction : ArgumentFunction
 	{
 		[Description("SortFunctionDescriptionForMatrix")]
 		[Example("sort([1, 2, 0, 9, 5])", "SortFunctionExampleForMatrix1")]

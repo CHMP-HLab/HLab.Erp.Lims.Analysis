@@ -10,9 +10,9 @@ namespace NPoco.RowMappers
 {
     public class PropertyMapper : RowMapper
     {
-        private List<GroupResult<PosName>> _groupedNames;
-        private MapPlan _mapPlan;
-        private bool _mappingOntoExistingInstance;
+        List<GroupResult<PosName>> _groupedNames;
+        MapPlan _mapPlan;
+        bool _mappingOntoExistingInstance;
 
         public override bool ShouldMap(PocoData pocoData)
         {
@@ -58,7 +58,7 @@ namespace NPoco.RowMappers
 
         public delegate bool MapPlan(DbDataReader dataReader, object[] values, object instance);
 
-        private MapPlan BuildMapPlan(DbDataReader dataReader, PocoData pocoData)
+        MapPlan BuildMapPlan(DbDataReader dataReader, PocoData pocoData)
         {
             var plans = _groupedNames.SelectMany(x => BuildMapPlans(x, dataReader, pocoData, pocoData.Members)).ToArray();
             return (reader, values, instance) =>
@@ -71,7 +71,7 @@ namespace NPoco.RowMappers
             };
         }
 
-        private IEnumerable<MapPlan> BuildMapPlans(GroupResult<PosName> groupedName, DbDataReader dataReader, PocoData pocoData, List<PocoMember> pocoMembers)
+        IEnumerable<MapPlan> BuildMapPlans(GroupResult<PosName> groupedName, DbDataReader dataReader, PocoData pocoData, List<PocoMember> pocoMembers)
         {
             // find pocomember by property name
             var pocoMember = pocoMembers.FirstOrDefault(x => IsEqual(groupedName.Item, x.Name, x.PocoColumn?.ExactColumnNameMatch ?? false) 
@@ -137,7 +137,7 @@ namespace NPoco.RowMappers
                 || (!exactMatch && string.Equals(value, name.Replace("_", ""), StringComparison.OrdinalIgnoreCase));
         }
 
-        private bool MapValue(GroupResult<PosName> posName, object[] values, Func<object, object> converter, object instance, PocoColumn pocoColumn, object defaultValue)
+        bool MapValue(GroupResult<PosName> posName, object[] values, Func<object, object> converter, object instance, PocoColumn pocoColumn, object defaultValue)
         {
             var value = values[posName.Key.Pos];
             if (!Equals(value, DBNull.Value))
@@ -154,7 +154,7 @@ namespace NPoco.RowMappers
             return false;
         }
 
-        private static List<PocoMember> CreateDynamicDictionaryPocoMembers(IEnumerable<GroupResult<PosName>> subItems, PocoData pocoData, Type type)
+        static List<PocoMember> CreateDynamicDictionaryPocoMembers(IEnumerable<GroupResult<PosName>> subItems, PocoData pocoData, Type type)
         {
             var isDict = type != typeof(object);
             var dataType = isDict ? type.GetGenericArguments().Last() : type;

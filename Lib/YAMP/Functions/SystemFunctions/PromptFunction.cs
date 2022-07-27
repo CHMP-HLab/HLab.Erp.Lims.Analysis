@@ -4,7 +4,7 @@
 
     [Description("PromptFunctionDescription")]
     [Kind(PopularKinds.System)]
-    sealed class PromptFunction : SystemFunction
+    internal sealed class PromptFunction : SystemFunction
     {
         public PromptFunction(ParseContext context)
             : base(context)

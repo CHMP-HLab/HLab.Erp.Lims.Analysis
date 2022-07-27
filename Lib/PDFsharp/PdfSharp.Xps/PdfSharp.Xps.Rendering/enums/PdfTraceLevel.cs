@@ -1,6 +1,6 @@
 ﻿namespace PdfSharp.Xps.Rendering
 {
-    enum PdfTraceLevel
+    internal enum PdfTraceLevel
   {
     None,
 

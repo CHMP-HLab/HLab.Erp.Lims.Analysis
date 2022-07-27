@@ -9,7 +9,7 @@ namespace HLab.Erp.Lims.Analysis.Data
 {
     public class LanguageParser
     {
-        private readonly Dictionary<string, string> _dict = new Dictionary<string, string>();
+        readonly Dictionary<string, string> _dict = new Dictionary<string, string>();
         public LanguageParser(string source)
         {
             var regex = new Regex("{(.*?)}");
@@ -45,7 +45,7 @@ namespace HLab.Erp.Lims.Analysis.Data
     }
     public class FormParametersParser
     {
-        private readonly Dictionary<string, string> _dict = new Dictionary<string, string>();
+        readonly Dictionary<string, string> _dict = new Dictionary<string, string>();
         public FormParametersParser(string source)
         {
             source.Split('■').Select(e => e.Split('=')).ToList().ForEach(e =>

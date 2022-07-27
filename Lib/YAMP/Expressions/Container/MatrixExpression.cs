@@ -7,7 +7,7 @@
     /// <summary>
     /// The matrix [ ... ] expression.
     /// </summary>
-    class MatrixExpression : TreeExpression
+    internal class MatrixExpression : TreeExpression
     {
         #region ctor
 

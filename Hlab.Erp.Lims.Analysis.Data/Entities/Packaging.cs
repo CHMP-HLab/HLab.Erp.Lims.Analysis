@@ -15,7 +15,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             get => _secondary.Get();
             set => _secondary.Set(value);
         }
-        private readonly IProperty<bool> _secondary = H.Property<bool>();
+
+        readonly IProperty<bool> _secondary = H.Property<bool>();
 
 
         [Column("Nom")]
@@ -24,7 +25,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             get => _name.Get();
             set => _name.Set(value);
         }
-        private readonly IProperty<string> _name = H.Property<string>();
+
+        readonly IProperty<string> _name = H.Property<string>();
 
     }
 }

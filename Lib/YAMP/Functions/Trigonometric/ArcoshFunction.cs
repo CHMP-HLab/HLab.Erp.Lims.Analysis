@@ -3,7 +3,7 @@
     [Description("ArcoshFunctionDescription")]
     [Kind(PopularKinds.Trigonometric)]
     [Link("ArcoshFunctionLink")]
-    sealed class ArcoshFunction : StandardFunction
+    internal sealed class ArcoshFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

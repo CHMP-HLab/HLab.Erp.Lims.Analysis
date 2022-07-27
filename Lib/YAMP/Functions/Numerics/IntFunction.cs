@@ -3,7 +3,7 @@
     [Description("IntFunctionDescription")]
     [Kind(PopularKinds.Function)]
     [Link("IntFunctionLink")]
-    sealed class IntFunction : ArgumentFunction
+    internal sealed class IntFunction : ArgumentFunction
 	{
 		[Description("IntFunctionDescriptionForMatrix")]
         [Example("int([1,2,3,2;2,1,0,-1])", "IntFunctionExampleForMatrix1")]

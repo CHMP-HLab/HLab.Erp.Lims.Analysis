@@ -13,7 +13,7 @@ namespace YAMP
         //[ThreadStatic]
         //private static Value _this = Value.Empty;
 
-        private Value _this = Value.Empty;
+        Value _this = Value.Empty;
 
         #endregion
 

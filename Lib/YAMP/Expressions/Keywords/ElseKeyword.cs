@@ -10,7 +10,7 @@
     /// Basic syntax: else STATEMENT
     /// Can only be used after an IF or ELSE IF
     /// </summary>
-    class ElseKeyword : BodyKeyword
+    internal class ElseKeyword : BodyKeyword
     {
         #region ctor
 

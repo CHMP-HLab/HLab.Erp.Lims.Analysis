@@ -3,7 +3,7 @@
 	[Description("IsComplexFunctionDescription")]
 	[Kind(PopularKinds.Logic)]
     [Link("IsComplexFunctionLink")]
-    sealed class IsComplexFunction : StandardFunction
+    internal sealed class IsComplexFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

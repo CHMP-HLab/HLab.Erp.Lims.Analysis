@@ -4,7 +4,7 @@ namespace YAMP
 
     [Description("FloorFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class FloorFunction : StandardFunction
+    internal sealed class FloorFunction : StandardFunction
 	{
 		protected override ScalarValue GetValue(ScalarValue value)
 		{

@@ -5,7 +5,7 @@
 
     [Description("RGBToImgFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class RGBToImgFunction : ArgumentFunction
+    internal sealed class RGBToImgFunction : ArgumentFunction
     {
         const Int32 rfactor = 256 * 256;
         const Int32 gfactor = 256;

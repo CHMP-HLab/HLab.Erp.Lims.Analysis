@@ -4,7 +4,7 @@ namespace YAMP
 
     [Description("DimFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class DimFunction : ArgumentFunction
+    internal sealed class DimFunction : ArgumentFunction
 	{
 		[Description("DimFunctionDescriptionForMatrix")]
 		[Example("dim([1,2,3,4,5])", "DimFunctionExampleForMatrix1")]

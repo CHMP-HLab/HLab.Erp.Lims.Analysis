@@ -13,35 +13,38 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
     {
 
         public string SubTitle => _subTitle.Get();
-        private readonly IProperty<string> _subTitle = H.Property<string>(c => c
+
+        readonly IProperty<string> _subTitle = H.Property<string>(c => c
             .Set(e => e.GetSubTitle )
             .On(e => e.Model.Variant)
             .On(e => e.Model.Form.Name)
             .Update()
         );
-        private string GetSubTitle => $"{Model?.Variant}\n{Model?.Form?.Name}";
+
+        string GetSubTitle => $"{Model?.Variant}\n{Model?.Form?.Name}";
 
 
         public override string IconPath => _iconPath.Get();
-        private readonly IProperty<string> _iconPath = H.Property<string>(c => c
+
+        readonly IProperty<string> _iconPath = H.Property<string>(c => c
         .Set(e => e.GetIconPath )
         .On(e => e.Model.Form.IconPath)
         .On(e => e.Model.IconPath)
         .Update()
         );
 
-        private string GetIconPath => Model?.Form?.IconPath??Model?.IconPath??base.IconPath;
+        string GetIconPath => Model?.Form?.IconPath??Model?.IconPath??base.IconPath;
 
 
-        private readonly Func<Product, ProductProductComponentListViewModel> _getComponents;
+        readonly Func<Product, ProductProductComponentsListViewModel> _getComponents;
 
-        public ProductViewModel(Func<Product, ProductProductComponentListViewModel> getComponents)
+        public ProductViewModel(Injector i, Func<Product, ProductProductComponentsListViewModel> getComponents):base(i)
         {
             _getComponents = getComponents;
             H.Initialize(this);
         }
 
-        private readonly ITrigger _onEditMode = H.Trigger(c => c
+        readonly ITrigger _onEditMode = H.Trigger(c => c
             .On(e => e.Locker.IsActive)
             .Do(e =>
             {
@@ -50,8 +53,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
             })
         );
 
-        public ProductProductComponentListViewModel Components => _components.Get();
-        private readonly IProperty<ProductProductComponentListViewModel> _components = H.Property<ProductProductComponentListViewModel>(c => c
+        public ProductProductComponentsListViewModel Components => _components.Get();
+
+        readonly IProperty<ProductProductComponentsListViewModel> _components = H.Property<ProductProductComponentsListViewModel>(c => c
             .NotNull(e => e.Model)
             .Set(e =>
            {
@@ -70,9 +74,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         //    .Set(vm => new ProductWorkflow(vm.Model,vm.Locker))
         //);
     }
-    class ProductViewModelDesign : ProductViewModel, IViewModelDesign
+
+    internal class ProductViewModelDesign : ProductViewModel, IViewModelDesign
     {
-        public ProductViewModelDesign() : base(p => null)
+        public ProductViewModelDesign() : base(null,p => null)
         {
         }
 

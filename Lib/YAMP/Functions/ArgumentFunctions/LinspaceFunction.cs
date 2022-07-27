@@ -4,7 +4,7 @@ namespace YAMP
 
     [Description("LinspaceFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class LinspaceFunction : ArgumentFunction
+    internal sealed class LinspaceFunction : ArgumentFunction
 	{
 		[Description("LinspaceFunctionDescriptionForScalarScalarScalar")]
 		[Example("linspace(0, 10, 5)", "LinspaceFunctionExampleForScalarScalarScalar1")]

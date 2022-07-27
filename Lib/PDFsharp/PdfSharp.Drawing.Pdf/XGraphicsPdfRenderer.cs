@@ -50,7 +50,7 @@ namespace PdfSharp.Drawing.Pdf
     /// <summary>
     /// Represents a drawing surface for PdfPages.
     /// </summary>
-    class XGraphicsPdfRenderer : IXGraphicsRenderer
+    internal class XGraphicsPdfRenderer : IXGraphicsRenderer
   {
     public XGraphicsPdfRenderer(PdfPage page, XGraphics gfx, XGraphicsPdfPageOptions options)
     {

@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Reflection;
 
-    static class TypeExtensions
+    internal static class TypeExtensions
     {
         public static bool IsCastableTo(this Type from, Type to)
         {

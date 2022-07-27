@@ -6,7 +6,7 @@ namespace YAMP
     /// <summary>
     /// This is the class that represents some special expressions (like :).
     /// </summary>
-	class SpecialExpression : Expression
+    internal class SpecialExpression : Expression
     {
         #region Fields
 

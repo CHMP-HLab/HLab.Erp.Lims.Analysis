@@ -2,7 +2,7 @@
 {
     [Description("ErrorbarFunctionDescription")]
     [Kind(PopularKinds.Plot)]
-    sealed class ErrorbarFunction : VisualizationFunction
+    internal sealed class ErrorbarFunction : VisualizationFunction
     {
         public ErrorbarFunction(ParseContext context)
             : base(context)

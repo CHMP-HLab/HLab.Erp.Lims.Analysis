@@ -2,7 +2,7 @@
 {
     [Description("Plot3FunctionDescription")]
     [Kind(PopularKinds.Plot)]
-    sealed class Plot3Function : VisualizationFunction
+    internal sealed class Plot3Function : VisualizationFunction
     {
         public Plot3Function(ParseContext context)
             : base(context)

@@ -5,7 +5,7 @@ namespace YAMP
     /// <summary>
     /// The standard right divide / operator.
     /// </summary>
-	class RightDivideOperator : BinaryOperator
+    internal class RightDivideOperator : BinaryOperator
     {
         #region Mapping
 

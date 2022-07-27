@@ -16,7 +16,7 @@ namespace PdfSharp.Xps.Rendering
     /// <summary>
     /// Provides the funtionality to write a PDF content stream for a PdfPage or an XForm.
     /// </summary>
-    partial class PdfContentWriter
+    internal partial class PdfContentWriter
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="PdfContentWriter"/> class
@@ -150,7 +150,7 @@ namespace PdfSharp.Xps.Rendering
     /// <summary>
     /// Writes a Canvas to the content stream.
     /// </summary>
-    private void WriteCanvas(Canvas canvas)
+    void WriteCanvas(Canvas canvas)
     {
       WriteSaveState("begin Canvas", canvas.Name);
 
@@ -342,7 +342,7 @@ namespace PdfSharp.Xps.Rendering
     /// <summary>
     /// Writes a Path to the content stream.
     /// </summary>
-    private void WritePath(Path path)
+    void WritePath(Path path)
     {
       if (WriteSingleLineStrokeWithSpecialCaps(path))
         return;
@@ -576,7 +576,7 @@ namespace PdfSharp.Xps.Rendering
     /// <summary>
     /// Strokes the path geometry with the Stroke brush.
     /// </summary>
-    private void WriteStrokeGeometry(Path path)
+    void WriteStrokeGeometry(Path path)
     {
       if (path.Stroke == null)
         return;
@@ -674,7 +674,7 @@ namespace PdfSharp.Xps.Rendering
     /// <summary>
     /// If the path is a single line with different start and end caps, convert the line into an area.
     /// </summary>
-    private bool WriteSingleLineStrokeWithSpecialCaps(Path path)
+    bool WriteSingleLineStrokeWithSpecialCaps(Path path)
     {
       if (path.StrokeStartLineCap == path.StrokeEndLineCap && path.StrokeStartLineCap != LineCap.Triangle)
         return false;

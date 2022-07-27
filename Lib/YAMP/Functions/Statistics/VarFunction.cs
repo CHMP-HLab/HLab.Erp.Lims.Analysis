@@ -3,7 +3,7 @@
     [Description("VarFunctionDescription")]
     [Kind(PopularKinds.Statistic)]
     [Link("VarFunctionLink")]
-    sealed class VarFunction : ArgumentFunction
+    internal sealed class VarFunction : ArgumentFunction
     {
         [Description("VarFunctionDescriptionForMatrix")]
         [Example("var([1, 2, 3, 4, 5, 6])", "VarFunctionExampleForMatrix1")]

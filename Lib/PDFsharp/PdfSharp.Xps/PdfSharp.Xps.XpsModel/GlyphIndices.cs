@@ -4,7 +4,7 @@ using PdfSharp.Xps.Parsing;
 
 namespace PdfSharp.Xps.XpsModel
 {
-    enum GlyphIndicesComplexity
+    internal enum GlyphIndicesComplexity
   {
     None = 1,
     DistanceOnly = 2,
@@ -15,7 +15,7 @@ namespace PdfSharp.Xps.XpsModel
   /// <summary>
   /// Represents parsed Indices attribute. See 5.1.3.
   /// </summary>
-  class GlyphIndices
+  internal class GlyphIndices
   {
     /// <summary>
     /// Initializes an empty GlyphMapping.
@@ -204,7 +204,7 @@ namespace PdfSharp.Xps.XpsModel
   /// <summary>
   /// Converts an indices string into a GlyphMapping array.
   /// </summary>
-  class GlyphIndicesParser
+  internal class GlyphIndicesParser
   {
     public static GlyphIndices.GlyphMapping[] Parse(string indices)
     {

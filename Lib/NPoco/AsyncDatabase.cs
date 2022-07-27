@@ -57,7 +57,7 @@ namespace NPoco
             return InsertAsyncImp(pd, tableName, primaryKeyName, autoIncrement, poco, false);
         }
 
-        private async Task<object> InsertAsyncImp<T>(PocoData pocoData, string tableName, string primaryKeyName, bool autoIncrement, T poco, bool sync)
+        async Task<object> InsertAsyncImp<T>(PocoData pocoData, string tableName, string primaryKeyName, bool autoIncrement, T poco, bool sync)
         {
             if (!OnInsertingInternal(new InsertContext(poco, tableName, autoIncrement, primaryKeyName)))
                 return 0;
@@ -128,7 +128,7 @@ namespace NPoco
             return InsertBatchAsyncImp(pocos, options, false);
         }
 
-        private async Task<int> InsertBatchAsyncImp<T>(IEnumerable<T> pocos, BatchOptions options, bool sync)
+        async Task<int> InsertBatchAsyncImp<T>(IEnumerable<T> pocos, BatchOptions options, bool sync)
         {
             options = options ?? new BatchOptions();
             var result = 0;
@@ -208,7 +208,7 @@ namespace NPoco
             return UpdateBatchAsyncImp(pocos, options, false);
         }
 
-        private async Task<int> UpdateBatchAsyncImp<T>(IEnumerable<UpdateBatch<T>> pocos, BatchOptions options, bool sync)
+        async Task<int> UpdateBatchAsyncImp<T>(IEnumerable<UpdateBatch<T>> pocos, BatchOptions options, bool sync)
         {
             options = options ?? new BatchOptions();
             int result = 0;
@@ -333,7 +333,7 @@ namespace NPoco
             }
         }
 
-        private async Task<bool> PocoExistsAsync<T>(T poco, bool sync)
+        async Task<bool> PocoExistsAsync<T>(T poco, bool sync)
         {
             var sql = GetExistsSql<T>(poco, true);
             var result = sync 
@@ -342,7 +342,7 @@ namespace NPoco
             return result > 0;
         }
 
-        private async Task<bool> ExistsAsync<T>(object primaryKey, bool sync)
+        async Task<bool> ExistsAsync<T>(object primaryKey, bool sync)
         {
             var sql = GetExistsSql<T>(primaryKey, false);
             var result = sync 
@@ -351,7 +351,7 @@ namespace NPoco
             return result > 0;
         }
 
-        private Sql GetExistsSql<T>(object primaryKeyorPoco, bool isPoco)
+        Sql GetExistsSql<T>(object primaryKeyorPoco, bool isPoco)
         {
             var index = 0;
             var pd = PocoDataFactory.ForType(typeof(T));

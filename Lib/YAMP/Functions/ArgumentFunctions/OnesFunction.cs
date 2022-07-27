@@ -4,7 +4,7 @@
 
     [Description("OnesFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class OnesFunction : ArgumentFunction
+    internal sealed class OnesFunction : ArgumentFunction
     {
         [Description("OnesFunctionDescriptionForVoid")]
         public MatrixValue Function()

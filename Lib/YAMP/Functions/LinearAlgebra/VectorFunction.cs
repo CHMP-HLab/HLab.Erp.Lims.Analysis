@@ -2,7 +2,7 @@
 {
     [Description("VectorFunctionDescription")]
     [Kind(PopularKinds.Function)]
-    sealed class VectorFunction : ArgumentFunction
+    internal sealed class VectorFunction : ArgumentFunction
     {
         [Description("VectorFunctionDescriptionForMatrix")]
         [Example("vector([1,2;3,4])", "VectorFunctionExampleForMatrix1")]

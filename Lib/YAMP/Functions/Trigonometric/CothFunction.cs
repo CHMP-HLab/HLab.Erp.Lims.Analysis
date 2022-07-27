@@ -3,7 +3,7 @@
     [Description("CothFunctionDescription")]
     [Kind(PopularKinds.Trigonometric)]
     [Link("CothFunctionLink")]
-    sealed class CothFunction : StandardFunction
+    internal sealed class CothFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

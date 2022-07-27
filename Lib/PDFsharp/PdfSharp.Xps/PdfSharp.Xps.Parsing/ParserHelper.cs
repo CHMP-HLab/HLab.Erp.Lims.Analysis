@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace PdfSharp.Xps.Parsing
 {
-    static class ParserHelper
+    internal static class ParserHelper
   {
     /// <summary>
     /// Parses a double value element.

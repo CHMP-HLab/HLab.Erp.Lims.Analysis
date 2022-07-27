@@ -8,7 +8,7 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 {
-    public class UnitsListViewModel: EntityListViewModel<Unit>, IMvvmContextProvider
+    public class UnitsListViewModel: Core.EntityLists.EntityListViewModel<Unit>, IMvvmContextProvider
     {
         public class Bootloader : NestedBootloader
         {
@@ -19,7 +19,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         protected override bool CanExecuteAdd(Action<string> errorAction) => true;
         protected override bool CanExecuteDelete(Unit inn, Action<string> errorAction) => true;
 
-        public UnitsListViewModel() : base(c => c
+        public UnitsListViewModel(Injector i) : base(i, c => c
             .Column("Name")
             .Header("{Name}").Localize().IconPath("Icons/Entities/Products/Unit")
             .Width(250).Content(e => e.Name)

@@ -6,7 +6,7 @@
     [Description("RandbFunctionDescription")]
     [Kind(PopularKinds.Random)]
     [Link("RandbFunctionLink")]
-    sealed class RandbFunction : ArgumentFunction
+    internal sealed class RandbFunction : ArgumentFunction
     {
         readonly BinomialDistribution Distribution = new BinomialDistribution(Rng);
 

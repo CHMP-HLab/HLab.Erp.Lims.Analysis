@@ -5,7 +5,7 @@ namespace PdfSharp.Xps.XpsModel
     /// <summary>
     /// Represents a run of text from a single font.
     /// </summary>
-    class Glyphs : XpsElement
+    internal class Glyphs : XpsElement
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="Glyphs"/> class.

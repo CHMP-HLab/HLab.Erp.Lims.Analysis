@@ -16,7 +16,7 @@ namespace NPoco.Extensions
             }
         }
 
-        private static IEnumerable<T> Take<T>(IEnumerator<T> enumerator, int num)
+        static IEnumerable<T> Take<T>(IEnumerator<T> enumerator, int num)
         {
             do
             {

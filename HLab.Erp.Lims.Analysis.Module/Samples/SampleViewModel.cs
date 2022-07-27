@@ -30,7 +30,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
     public class SampleViewModelDesign : SampleViewModel.Design
     {
-
+        public SampleViewModelDesign(Injector i, Func<Sample, SampleSampleTestListViewModel> getTests, Func<Sample, SampleFormsListViewModel> getForms, Func<int, SampleAuditTrailViewModel> getAudit, Func<Sample, IDataLocker<Sample>, SampleWorkflow> getSampleWorkflow) : base(i, getTests, getForms, getAudit, getSampleWorkflow)
+        {
+        }
     }
 
     public class SampleViewModel : ListableEntityViewModel<Sample>
@@ -39,20 +41,24 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public class Design : SampleViewModel, IViewModelDesign
         {
             public new Sample Model { get; } = Sample.DesignModel;
+
+            public Design(Injector i, Func<Sample, SampleSampleTestListViewModel> getTests, Func<Sample, SampleFormsListViewModel> getForms, Func<int, SampleAuditTrailViewModel> getAudit, Func<Sample, IDataLocker<Sample>, SampleWorkflow> getSampleWorkflow) : base(i, getTests, getForms, getAudit, getSampleWorkflow)
+            {
+            }
         }
 
         public Type ListProductType => typeof(ProductsListPopupViewModel);
 
-        private readonly Func<Sample, IDataLocker<Sample>, SampleWorkflow> _getSampleWorkflow;
+        readonly Func<Sample, IDataLocker<Sample>, SampleWorkflow> _getSampleWorkflow;
 
-        private SampleViewModel() { }
 
         public SampleViewModel(
+            Injector i,
             Func<Sample, SampleSampleTestListViewModel> getTests,
             Func<Sample, SampleFormsListViewModel> getForms,
             Func<int, SampleAuditTrailViewModel> getAudit,
             Func<Sample, IDataLocker<Sample>, SampleWorkflow> getSampleWorkflow
-            )
+            ):base(i)
         {
             _getAudit = getAudit;
             _getSampleWorkflow = getSampleWorkflow;
@@ -64,7 +70,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         }
 
         public string SubTitle => _subTitle.Get();
-        private readonly IProperty<string> _subTitle = H.Property<string>(c => c
+
+        readonly IProperty<string> _subTitle = H.Property<string>(c => c
             .Set(e => e.Model?.Customer?.Name ?? "{Customer}" + "\n" + e.Model?.Product?.Caption ?? "{Product}")
             .On(e => e.Model.Customer.Name)
             .On(e => e.Model.Product.Caption)
@@ -73,7 +80,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         );
  
         public bool IsReadOnly => _isReadOnly.Get();
-        private readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
+
+        readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
             .Set(e => !e.EditMode)
             .On(e => e.EditMode)
             .Update()
@@ -81,7 +89,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         // Audit Trail
         public SampleAuditTrailViewModel AuditTrail => _auditTrail.Get();
-        private readonly IProperty<SampleAuditTrailViewModel> _auditTrail = H.Property<SampleAuditTrailViewModel>(c => c
+
+        readonly IProperty<SampleAuditTrailViewModel> _auditTrail = H.Property<SampleAuditTrailViewModel>(c => c
             .NotNull(e => e.Model)
             .Set(e => e._getAudit?.Invoke(e.Model.Id))
             .On(e => e.Model)
@@ -93,9 +102,10 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             get => _auditDetail.Get();
             set => _auditDetail.Set(value);
         }
-        private readonly IProperty<bool> _auditDetail = H.Property<bool>();
 
-        private ITrigger _onAuditDetail = H.Trigger(c => c
+        readonly IProperty<bool> _auditDetail = H.Property<bool>();
+
+        ITrigger _onAuditDetail = H.Trigger(c => c
         .On(e => e.AuditDetail)
         .On(e => e.AuditTrail)
         .NotNull(e => e.AuditTrail)
@@ -110,18 +120,19 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         }));
 
         public bool EditMode => _editMode.Get();
-        private readonly IProperty<bool> _editMode = H.Property<bool>(c => c
+
+        readonly IProperty<bool> _editMode = H.Property<bool>(c => c
             .NotNull(e => e.Locker)
             .NotNull(e => e.Workflow)
             .Set(e => e.Locker.IsActive
                        && e.Workflow.CurrentStage == SampleWorkflow.Reception
-                       && e.Acl.IsGranted(AnalysisRights.AnalysisReceptionSign))
+                       && e.Injected.Acl.IsGranted(AnalysisRights.AnalysisReceptionSign))
             .On(e => e.Locker.IsActive)
             .On(e => e.Workflow.CurrentStage)
             .Update()
         );
 
-        private readonly ITrigger OnEditMode = H.Trigger(c => c
+        readonly ITrigger OnEditMode = H.Trigger(c => c
             .On(e => e.Locker.IsActive)
             .Do(e =>
             {
@@ -131,28 +142,31 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         );
 
         public Visibility CustomerVisibility => _customerVisibility.Get();
-        private readonly IProperty<Visibility> _customerVisibility = H.Property<Visibility>(c => c
-            .Set(e => e.Acl.IsGranted(ErpRights.ErpViewCustomer) ? Visibility.Visible : Visibility.Hidden)
-            .On(e => e.Acl.Connection.User)
+
+        readonly IProperty<Visibility> _customerVisibility = H.Property<Visibility>(c => c
+            .Set(e => e.Injected.Acl.IsGranted(ErpRights.ErpViewCustomer) ? Visibility.Visible : Visibility.Hidden)
+            .On(e => e.Injected.Acl.Connection.User)
             .Update()
         );
 
         public bool IsReadOnlyMonograph => _isReadOnlyMonograph.Get();
-        private readonly IProperty<bool> _isReadOnlyMonograph = H.Property<bool>(c => c
+
+        readonly IProperty<bool> _isReadOnlyMonograph = H.Property<bool>(c => c
             .Set(e => !e.MonographMode)
             .On(e => e.MonographMode)
             .Update()
         );
 
         public bool MonographMode => _monographMode.Get();
-        private readonly IProperty<bool> _monographMode = H.Property<bool>(c => c
+
+        readonly IProperty<bool> _monographMode = H.Property<bool>(c => c
             .Set(e =>
             {
                 if (e.Locker == null) return false;
                 if (e.Workflow == null) return false;
                 return e.Locker.IsActive
                        && e.Workflow.CurrentStage == SampleWorkflow.Monograph
-                       && e.Acl.IsGranted(AnalysisRights.AnalysisMonographSign);
+                       && e.Injected.Acl.IsGranted(AnalysisRights.AnalysisMonographSign);
             })
             .On(e => e.Locker.IsActive)
             .On(e => e.Workflow.CurrentStage)
@@ -162,33 +176,36 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         );
 
         public bool IsReadOnlyProduction => _isReadOnlyProduction.Get();
-        private readonly IProperty<bool> _isReadOnlyProduction = H.Property<bool>(c => c
+
+        readonly IProperty<bool> _isReadOnlyProduction = H.Property<bool>(c => c
             .Set(e => !e.ProductionMode)
             .On(e => e.ProductionMode)
             .Update()
         );
 
         public bool ProductionMode => _productionMode.Get();
-        private readonly IProperty<bool> _productionMode = H.Property<bool>(c => c
+
+        readonly IProperty<bool> _productionMode = H.Property<bool>(c => c
             .Set(e =>
             {
                 if (e.Locker == null) return false;
                 if (e.Workflow == null) return false;
                 return e.Locker.IsActive
                        && e.Workflow.CurrentStage == SampleWorkflow.Production
-                       && e.Acl.IsGranted(AnalysisRights.AnalysisCertificateCreate);
+                       && e.Injected.Acl.IsGranted(AnalysisRights.AnalysisCertificateCreate);
             })
             .On(e => e.Locker.IsActive)
             .On(e => e.Workflow.CurrentStage)
             .Update()
         );
 
-        private readonly Func<Sample, SampleSampleTestListViewModel> _getTests;
-        private readonly Func<Sample, SampleFormsListViewModel> _getForms;
-        private readonly Func<int, SampleAuditTrailViewModel> _getAudit;
+        readonly Func<Sample, SampleSampleTestListViewModel> _getTests;
+        readonly Func<Sample, SampleFormsListViewModel> _getForms;
+        readonly Func<int, SampleAuditTrailViewModel> _getAudit;
 
         public SampleSampleTestListViewModel Tests => _tests.Get();
-        private readonly IProperty<SampleSampleTestListViewModel> _tests = H.Property<SampleSampleTestListViewModel>(c => c
+
+        readonly IProperty<SampleSampleTestListViewModel> _tests = H.Property<SampleSampleTestListViewModel>(c => c
             .NotNull(e => e.Model)
             .Set(e =>
            {
@@ -200,14 +217,14 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             .Update()
         );
 
-        private void List_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        void List_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (sender is IEnumerable<SampleTest> tests)
                 UpdateConformity(tests);
 
         }
 
-        private ITrigger _ = H.Trigger(c => c
+        ITrigger _ = H.Trigger(c => c
             .NotNull(e => e.Tests)
             .Do(e => e.UpdateConformity(e.Tests.List))
             .On(e => e.Tests.List.Item().Result.ConformityId)
@@ -220,7 +237,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             UpdateConformity();
         }
 
-        private  void UpdateConformity()
+        void UpdateConformity()
         {
             var conformity = ConformityState.NotChecked;
 
@@ -247,11 +264,11 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             if (Model.ConformityId != conformity)
             {
                 Model.ConformityId = conformity;
-                Data.UpdateAsync(Model, "ConformityId");
+                Injected.Data.UpdateAsync(Model, "ConformityId");
             }
         }
 
-        private static ConformityState UpdateConformity(ConformityState currentState, ConformityState testState)
+        static ConformityState UpdateConformity(ConformityState currentState, ConformityState testState)
         {
             switch (testState)
             {
@@ -317,7 +334,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         }
 
         public SampleFormsListViewModel Forms => _forms.Get();
-        private readonly IProperty<SampleFormsListViewModel> _forms = H.Property<SampleFormsListViewModel>(c => c
+
+        readonly IProperty<SampleFormsListViewModel> _forms = H.Property<SampleFormsListViewModel>(c => c
             .NotNull(e => e.Model)
             .Set(e => e._getForms?.Invoke(e.Model))
             .On(e => e.Model)
@@ -332,23 +350,24 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         public ObservableCollection<string> StorageConditionsList { get; } = new();
 
 
-        private readonly ITrigger _1 = H.Trigger(c => c
+        readonly ITrigger _1 = H.Trigger(c => c
             .On(e => e.Model.Customer)
             .On(e => e.Locker.IsActive)
             .Do(async e => await e.GetOrigins())
         );
-        private readonly ITrigger _2 = H.Trigger(c => c
+
+        readonly ITrigger _2 = H.Trigger(c => c
             .On(e => e.Model.Product)
             .On(e => e.Locker.IsActive)
             .Do(async e => await e.UpdateProductLists())
         );
 
-        private async Task GetOrigins()
+        async Task GetOrigins()
         {
             if (!Locker.IsActive) return;
             if (Model.Stage != SampleWorkflow.Reception) return;
 
-            var list = await Data.SelectDistinctAsync<Sample, string>(s => s.CustomerId == Model.CustomerId /*&& !string.IsNullOrWhiteSpace(s.SamplingOrigin)*/,
+            var list = await Injected.Data.SelectDistinctAsync<Sample, string>(s => s.CustomerId == Model.CustomerId /*&& !string.IsNullOrWhiteSpace(s.SamplingOrigin)*/,
                 s => s.SamplingOrigin).ToListAsync();
             Origins.Clear();
 
@@ -358,12 +377,12 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             }
         }
 
-        private async Task UpdateProductLists()
+        async Task UpdateProductLists()
         {
             if (!Locker.IsActive) return;
             if (Model.Stage != SampleWorkflow.Reception) return;
 
-            var commercialNamesList = await Data.SelectDistinctAsync<Sample, string>(s => s.ProductId == Model.ProductId /*&& !string.IsNullOrWhiteSpace(s.SamplingOrigin)*/,
+            var commercialNamesList = await Injected.Data.SelectDistinctAsync<Sample, string>(s => s.ProductId == Model.ProductId /*&& !string.IsNullOrWhiteSpace(s.SamplingOrigin)*/,
                 s => s.CommercialName).ToListAsync();
             CommercialNames.Clear();
 
@@ -372,7 +391,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 CommercialNames.Add(s);
             }
 
-            var primaryList = await Data.SelectDistinctAsync<Sample, string>(s => s.ProductId == Model.ProductId /*&& !string.IsNullOrWhiteSpace(s.SamplingOrigin)*/,
+            var primaryList = await Injected.Data.SelectDistinctAsync<Sample, string>(s => s.ProductId == Model.ProductId /*&& !string.IsNullOrWhiteSpace(s.SamplingOrigin)*/,
                 s => s.PrimaryPackaging).ToListAsync();
             PrimaryPackagingList.Clear();
 
@@ -381,7 +400,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 PrimaryPackagingList.Add(s);
             }
 
-            var secondaryList = await Data.SelectDistinctAsync<Sample, string>(s => s.ProductId == Model.ProductId /*&& !string.IsNullOrWhiteSpace(s.SamplingOrigin)*/,
+            var secondaryList = await Injected.Data.SelectDistinctAsync<Sample, string>(s => s.ProductId == Model.ProductId /*&& !string.IsNullOrWhiteSpace(s.SamplingOrigin)*/,
                 s => s.SecondaryPackaging).ToListAsync();
             SecondaryPackagingList.Clear();
 
@@ -390,7 +409,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
                 SecondaryPackagingList.Add(s);
             }
 
-            var storageList = await Data.SelectDistinctAsync<Sample, string>(s => s.ProductId == Model.ProductId /*&& !string.IsNullOrWhiteSpace(s.SamplingOrigin)*/,
+            var storageList = await Injected.Data.SelectDistinctAsync<Sample, string>(s => s.ProductId == Model.ProductId /*&& !string.IsNullOrWhiteSpace(s.SamplingOrigin)*/,
                 s => s.StorageConditions).ToListAsync();
             StorageConditionsList.Clear();
 
@@ -401,7 +420,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         }
 
         public SampleWorkflow Workflow => _workflow.Get();
-        private readonly IProperty<SampleWorkflow> _workflow = H.Property<SampleWorkflow>(c => c
+
+        readonly IProperty<SampleWorkflow> _workflow = H.Property<SampleWorkflow>(c => c
             .NotNull(e => e.Model)
             .NotNull(e => e.Locker)
             .Set(vm => vm._getSampleWorkflow?.Invoke(vm.Model, vm.Locker))
@@ -415,7 +435,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
             //.CanExecute(e => e._acl.IsGranted(AnalysisRights.AnalysisCertificateCreate))
             .Action(e =>
             {
-                var preview = !(e.Acl.IsGranted(AnalysisRights.AnalysisCertificateCreate)
+                var preview = !(e.Injected.Acl.IsGranted(AnalysisRights.AnalysisCertificateCreate)
                                 &&
                                 (e.Model.Stage == SampleWorkflow.Closed || e.Model.Stage == SampleWorkflow.Certificate));
 
@@ -430,12 +450,12 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
         );
 
 
-        private void PrintCertificate(String language, bool preview = false)
+        void PrintCertificate(String language, bool preview = false)
         {
             if (Model.Id == -1)
                 return;
 
-            var template = Data.FetchOne<Xaml>(e => e.Name == "Certificate");
+            var template = Injected.Data.FetchOne<Xaml>(e => e.Name == "Certificate");
 
             // Prépare l'impression
             var ip = new Print("Certificate", template.Page, language);
@@ -579,7 +599,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Samples
 
         }
 
-        private static string DateToString(string language, DateTime date)
+        static string DateToString(string language, DateTime date)
         {
             return (language == "EN" || language == "US") ? date.ToString("MM/dd/yyyy") : date.ToString("dd/MM/yyyy");
         }

@@ -6,7 +6,7 @@
     [Description("RandpFunctionDescription")]
     [Kind(PopularKinds.Random)]
     [Link("RandpFunctionLink")]
-    sealed class RandpFunction : ArgumentFunction
+    internal sealed class RandpFunction : ArgumentFunction
     {
         readonly PoissonDistribution Distribution = new PoissonDistribution(Rng);
 

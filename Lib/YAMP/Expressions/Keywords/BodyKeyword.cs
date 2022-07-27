@@ -3,7 +3,7 @@
     /// <summary>
     /// The abstract base class for all keywords with a body.
     /// </summary>
-    abstract class BodyKeyword : Keyword
+    internal abstract class BodyKeyword : Keyword
     {
         #region ctor
 

@@ -20,7 +20,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             get => _name.Get();
             set => _name.Set(value);
         }
-        private readonly IProperty<string> _name = H.Property<string>(c => c.Default(""));
+
+        readonly IProperty<string> _name = H.Property<string>(c => c.Default(""));
 
 
         public string Version
@@ -28,7 +29,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             get => _version.Get();
             set => _version.Set(value);
         }
-        private readonly IProperty<string> _version = H.Property<string>(c => c.Default(""));
+
+        readonly IProperty<string> _version = H.Property<string>(c => c.Default(""));
 
 
         public byte[] Code
@@ -36,7 +38,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             get => _code.Get();
             set => _code.Set(value);
         }
-        private readonly IProperty<byte[]> _code = H.Property<byte[]>();
+
+        readonly IProperty<byte[]> _code = H.Property<byte[]>();
 
 
         public int? Order
@@ -44,7 +47,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             get => _order.Get();
             set => _order.Set(value);
         }
-        private readonly IProperty<int?> _order = H.Property<int?>();
+
+        readonly IProperty<int?> _order = H.Property<int?>();
 
 
         public int? CategoryId
@@ -58,7 +62,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             get => _category.Get();
             set => _category.Set(value);
         }
-        private readonly IForeign<TestCategory> _category = H.Foreign<TestCategory>();
+
+        readonly IForeign<TestCategory> _category = H.Foreign<TestCategory>();
 
         [Ignore]
         public virtual ICollection<SampleTest> SampleTests { get; set; }
@@ -69,7 +74,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             set => _durationFirst.Set(value);
         }
 
-        private readonly IProperty<int?> _durationFirst = H.Property<int?>();
+        readonly IProperty<int?> _durationFirst = H.Property<int?>();
 
         public int? DurationNext
         {
@@ -77,7 +82,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             set => _durationNext.Set(value);
         }
 
-        private readonly IProperty<int?> _durationNext = H.Property<int?>();
+        readonly IProperty<int?> _durationNext = H.Property<int?>();
 
         public int? DurationAdmin
         {
@@ -85,7 +90,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             set => _durationAdmin.Set(value);
         }
 
-        private readonly IProperty<int?> _durationAdmin = H.Property<int?>();
+        readonly IProperty<int?> _durationAdmin = H.Property<int?>();
 
 
         //[Column]
@@ -98,7 +103,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
 
         [Ignore]
         public string Caption => _caption.Get();
-        private readonly IProperty<string> _caption = H.Property<string>(c => c
+
+        readonly IProperty<string> _caption = H.Property<string>(c => c
             .On(e => e.Name)
             .Set(e => string.IsNullOrWhiteSpace(e.Name)?"{New test class}":e.Name)
         );
@@ -108,7 +114,8 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             get => _iconPath.Get();
             set => _iconPath.Set(value);
         }
-        private readonly IProperty<string> _iconPath = H.Property<string>();
+
+        readonly IProperty<string> _iconPath = H.Property<string>();
 
         public static TestClass DesignModel => new TestClass
         {

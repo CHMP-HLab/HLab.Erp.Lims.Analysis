@@ -3,7 +3,7 @@
     [Description("EyeFunctionDescription")]
 	[Kind(PopularKinds.Function)]
     [Link("EyeFunctionLink")]
-    sealed class EyeFunction : ArgumentFunction
+    internal sealed class EyeFunction : ArgumentFunction
     {
         [Description("EyeFunctionDescriptionForVoid")]
         public MatrixValue Function()

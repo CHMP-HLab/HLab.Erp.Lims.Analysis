@@ -28,8 +28,8 @@ namespace NPoco
                 return item;
             });
         }
-        
-        private static string ProcessParam(ref string sql, string rawParam, object[] args_src, List<object> args_dest, bool reuseParameters)
+
+        static string ProcessParam(ref string sql, string rawParam, object[] args_src, List<object> args_dest, bool reuseParameters)
         {
             string param = rawParam.Substring(1);
 

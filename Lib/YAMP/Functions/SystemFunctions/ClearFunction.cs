@@ -4,7 +4,7 @@
 
     [Description("ClearFunctionDescription")]
 	[Kind(PopularKinds.System)]
-    sealed class ClearFunction : SystemFunction
+    internal sealed class ClearFunction : SystemFunction
     {
         public ClearFunction(ParseContext context)
             : base(context)

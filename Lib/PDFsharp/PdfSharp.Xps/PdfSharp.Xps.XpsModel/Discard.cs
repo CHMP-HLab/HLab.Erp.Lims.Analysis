@@ -3,7 +3,7 @@
     /// <summary>
     /// Identifies a resource that can be safely discarded by a resource-constrained consumer.
     /// </summary>
-    class Discard : XpsElement
+    internal class Discard : XpsElement
   {
     /// <summary>
     /// The first fixed page that no longer needs the identified resource in order to be processed.

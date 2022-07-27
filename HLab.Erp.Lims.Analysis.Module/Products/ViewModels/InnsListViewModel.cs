@@ -7,7 +7,7 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 {
-    public class InnsListViewModel: EntityListViewModel<Inn>, IMvvmContextProvider
+    public class InnsListViewModel: Core.EntityLists.EntityListViewModel<Inn>, IMvvmContextProvider
     {
         public class Bootloader : NestedBootloader
         {
@@ -17,7 +17,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         protected override bool CanExecuteAdd(Action<string> errorAction) => true;
         protected override bool CanExecuteDelete(Inn inn, Action<string> errorAction) => true;
 
-        public InnsListViewModel() : base(c => c
+        public InnsListViewModel(Injector i) : base(i, c => c
             .Column("Name")
             .Header("{Name}").Localize().IconPath("Icons/Entities/Products/Inn")
             .Width(250).Content(e => e.Name)

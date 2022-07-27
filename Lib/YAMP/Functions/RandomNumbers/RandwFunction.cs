@@ -6,7 +6,7 @@
     [Description("RandwFunctionDescription")]
     [Kind(PopularKinds.Random)]
     [Link("RandwFunctionLink")]
-    sealed class RandwFunction : ArgumentFunction
+    internal sealed class RandwFunction : ArgumentFunction
     {
         readonly WeibullDistribution Distribution = new WeibullDistribution(Rng);
 

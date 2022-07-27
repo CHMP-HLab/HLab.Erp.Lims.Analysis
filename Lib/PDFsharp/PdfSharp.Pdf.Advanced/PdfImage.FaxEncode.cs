@@ -347,7 +347,7 @@ namespace PdfSharp.Pdf.Advanced
     /// </summary>
     /// <param name="reader">The reader.</param>
     /// <param name="bitsLeft">The bits left.</param>
-    private static uint CountOneBits(BitReader reader, uint bitsLeft)
+    static uint CountOneBits(BitReader reader, uint bitsLeft)
     {
       uint found = 0;
       for (; ; )
@@ -373,7 +373,7 @@ namespace PdfSharp.Pdf.Advanced
     /// </summary>
     /// <param name="reader">The reader.</param>
     /// <param name="bitsLeft">The bits left.</param>
-    private static uint CountZeroBits(BitReader reader, uint bitsLeft)
+    static uint CountZeroBits(BitReader reader, uint bitsLeft)
     {
       uint found = 0;
       for (; ; )
@@ -405,7 +405,7 @@ namespace PdfSharp.Pdf.Advanced
     /// <param name="bitEnd">The offset of the end bit.</param>
     /// <param name="searchOne">If set to <c>true</c> searches "one" (i. e. white), otherwise searches black.</param>
     /// <returns>The offset of the first non-matching bit.</returns>
-    private static uint FindDifference(BitReader reader, uint bitStart, uint bitEnd, bool searchOne)
+    static uint FindDifference(BitReader reader, uint bitStart, uint bitEnd, bool searchOne)
     {
       // Translated from LibTiff
       reader.SetPosition(bitStart);
@@ -425,7 +425,7 @@ namespace PdfSharp.Pdf.Advanced
     /// <param name="bitEnd">The offset of the end bit.</param>
     /// <param name="searchOne">If set to <c>true</c> searches "one" (i. e. white), otherwise searches black.</param>
     /// <returns>The offset of the first non-matching bit.</returns>
-    private static uint FindDifferenceWithCheck(BitReader reader, uint bitStart, uint bitEnd, bool searchOne)
+    static uint FindDifferenceWithCheck(BitReader reader, uint bitStart, uint bitEnd, bool searchOne)
     {
       // Translated from LibTiff
       return ((bitStart < bitEnd) ? FindDifference(reader, bitStart, bitEnd, searchOne) : bitEnd);
@@ -523,7 +523,7 @@ namespace PdfSharp.Pdf.Advanced
     /// <param name="width">The width of the image.</param>
     /// <param name="height">The height of the image.</param>
     /// <returns>The size of the fax encoded image (0 on failure).</returns>
-    private static int DoFaxEncoding(ref byte[] imageData, byte[] imageBits, uint bytesFileOffset, uint width, uint height)
+    static int DoFaxEncoding(ref byte[] imageData, byte[] imageBits, uint bytesFileOffset, uint width, uint height)
     {
       try
       {
@@ -625,7 +625,7 @@ namespace PdfSharp.Pdf.Advanced
     /// <param name="width">The width of the image.</param>
     /// <param name="height">The height of the image.</param>
     /// <returns>The size of the fax encoded image (0 on failure).</returns>
-    private static int DoFaxEncodingGroup4(ref byte[] imageData, byte[] imageBits, uint bytesFileOffset, uint width, uint height)
+    static int DoFaxEncodingGroup4(ref byte[] imageData, byte[] imageBits, uint bytesFileOffset, uint width, uint height)
     {
       try
       {
@@ -651,7 +651,7 @@ namespace PdfSharp.Pdf.Advanced
     /// <param name="writer">The writer.</param>
     /// <param name="count">The count of bits (pels) to encode.</param>
     /// <param name="white">The color of the pels.</param>
-    private static void WriteSample(BitWriter writer, uint count, bool white)
+    static void WriteSample(BitWriter writer, uint count, bool white)
     {
       uint[] terminatingCodes = white ? WhiteTerminatingCodes : BlackTerminatingCodes;
       uint[] makeUpCodes = white ? WhiteMakeUpCodes : BlackMakeUpCodes;
@@ -677,7 +677,7 @@ namespace PdfSharp.Pdf.Advanced
   /// <summary>
   /// The BitReader class is a helper to read bits from an in-memory bitmap file.
   /// </summary>
-  class BitReader
+  internal class BitReader
   {
     readonly byte[] imageBits;
     uint bytesOffsetRead;
@@ -773,7 +773,7 @@ namespace PdfSharp.Pdf.Advanced
   /// <summary>
   /// A helper class for writing groups of bits into an array of bytes.
   /// </summary>
-  class BitWriter
+  internal class BitWriter
   {
     int bytesOffsetWrite;
     readonly byte[] imageData;

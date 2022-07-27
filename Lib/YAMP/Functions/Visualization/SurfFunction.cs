@@ -2,7 +2,7 @@
 {
     [Description("SurfFunctionDescription")]
     [Kind(PopularKinds.Plot)]
-    sealed class SurfFunction : VisualizationFunction
+    internal sealed class SurfFunction : VisualizationFunction
     {
         public SurfFunction(ParseContext context)
             : base(context)

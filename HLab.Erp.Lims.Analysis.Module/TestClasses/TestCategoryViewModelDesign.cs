@@ -5,7 +5,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
     public class TestCategoryViewModelDesign : TestCategoryViewModel, IViewModelDesign
     {
-        public TestCategoryViewModelDesign()
+        public TestCategoryViewModelDesign():base(null)
         {
             Model = TestCategory.DesignModel;
         }

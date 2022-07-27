@@ -41,7 +41,7 @@ namespace PdfSharp
     /// <summary>
     /// The Pdf-Sharp-String-Resources.
     /// </summary>
-    static class PSSR
+    internal static class PSSR
   {
     // How to use:
     // Create a function or property for each message text, depending on how many parameters are

@@ -2,7 +2,7 @@
 {
     [Description("SizeFunctionDescription")]
     [Kind(PopularKinds.Function)]
-    sealed class SizeFunction : ArgumentFunction
+    internal sealed class SizeFunction : ArgumentFunction
     {
         [Description("SizeFunctionDescriptionForMatrix")]
         [Example("size([1,2,3,4,5])", "SizeFunctionExampleForMatrix1")]

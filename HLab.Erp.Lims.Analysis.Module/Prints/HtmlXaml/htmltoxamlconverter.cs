@@ -161,7 +161,7 @@ namespace HTMLConverter
         /// it could one of its following siblings.
         /// The caller must use this node to get to next sibling from it.
         /// </returns>
-        private static XmlNode AddBlock(XmlElement xamlParentElement, XmlNode htmlNode, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static XmlNode AddBlock(XmlElement xamlParentElement, XmlNode htmlNode, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             if (htmlNode is XmlComment)
             {
@@ -291,7 +291,7 @@ namespace HTMLConverter
         //
         // .............................................................
 
-        private static void AddBreak(XmlElement xamlParentElement, string htmlElementName)
+        static void AddBreak(XmlElement xamlParentElement, string htmlElementName)
         {
             // Create new xaml element corresponding to this html element
             XmlElement xamlLineBreak = xamlParentElement.OwnerDocument.CreateElement(/*prefix:*/null, /*localName:*/HtmlToXamlConverter.Xaml_LineBreak, _xamlNamespace);
@@ -327,7 +327,7 @@ namespace HTMLConverter
         /// <param name="sourceContext"></param>
         /// true indicates that a content added by this call contains at least one block element
         /// </param>
-        private static void AddSection(XmlElement xamlParentElement, XmlElement htmlElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static void AddSection(XmlElement xamlParentElement, XmlElement htmlElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             // Analyze the content of htmlElement to decide what xaml element to choose - Section or Paragraph.
             // If this Div has at least one block child then we need to use Section, otherwise use Paragraph
@@ -401,7 +401,7 @@ namespace HTMLConverter
         /// <param name="sourceContext"></param>
         /// true indicates that a content added by this call contains at least one block element
         /// </param>
-        private static void AddParagraph(XmlElement xamlParentElement, XmlElement htmlElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static void AddParagraph(XmlElement xamlParentElement, XmlElement htmlElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             // Create currentProperties as a compilation of local and inheritedProperties, set localProperties
             Hashtable localProperties;
@@ -441,7 +441,7 @@ namespace HTMLConverter
         /// <returns>
         /// The last htmlNode added to the implicit paragraph
         /// </returns>
-        private static XmlNode AddImplicitParagraph(XmlElement xamlParentElement, XmlNode htmlNode, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static XmlNode AddImplicitParagraph(XmlElement xamlParentElement, XmlNode htmlNode, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             // Collect all non-block elements and wrap them into implicit Paragraph
             XmlElement xamlParagraph = xamlParentElement.OwnerDocument.CreateElement(/*prefix:*/null, /*localName:*/HtmlToXamlConverter.Xaml_Paragraph, _xamlNamespace);
@@ -496,7 +496,7 @@ namespace HTMLConverter
         //
         // .............................................................
 
-        private static void AddInline(XmlElement xamlParentElement, XmlNode htmlNode, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static void AddInline(XmlElement xamlParentElement, XmlNode htmlNode, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             if (htmlNode is XmlComment)
             {
@@ -552,7 +552,7 @@ namespace HTMLConverter
             }
         }
 
-        private static void AddSpanOrRun(XmlElement xamlParentElement, XmlElement htmlElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static void AddSpanOrRun(XmlElement xamlParentElement, XmlElement htmlElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             // Decide what XAML element to use for this inline element.
             // Check whether it contains any nested inlines
@@ -592,7 +592,7 @@ namespace HTMLConverter
         }
 
         // Adds a text run to a xaml tree
-        private static void AddTextRun(XmlElement xamlElement, string textData)
+        static void AddTextRun(XmlElement xamlElement, string textData)
         {
             // Remove control characters
             for (int i = 0; i < textData.Length; i++)
@@ -613,7 +613,7 @@ namespace HTMLConverter
             }
         }
 
-        private static void AddHyperlink(XmlElement xamlParentElement, XmlElement htmlElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static void AddHyperlink(XmlElement xamlParentElement, XmlElement htmlElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             // Convert href attribute into NavigateUri and TargetName
             string href = GetAttribute(htmlElement, "href");
@@ -654,12 +654,12 @@ namespace HTMLConverter
         }
 
         // Stores a parent xaml element for the case when selected fragment is inline.
-        private static XmlElement InlineFragmentParentElement;
+        static XmlElement InlineFragmentParentElement;
 
         // Called when html comment is encountered to store a parent element
         // for the case when the fragment is inline - to extract it to a separate
         // Span wrapper after the conversion.
-        private static void DefineInlineFragmentParent(XmlComment htmlComment, XmlElement xamlParentElement)
+        static void DefineInlineFragmentParent(XmlComment htmlComment, XmlElement xamlParentElement)
         {
             if (htmlComment.Value == "StartFragment")
             {
@@ -682,7 +682,7 @@ namespace HTMLConverter
         // into a separate Span wrapper.
         // Note: when selected content does not cross paragraph boundaries,
         // the fragment is marked within
-        private static XmlElement ExtractInlineFragment(XmlElement xamlFlowDocumentElement)
+        static XmlElement ExtractInlineFragment(XmlElement xamlFlowDocumentElement)
         {
             if (InlineFragmentParentElement != null)
             {
@@ -711,7 +711,7 @@ namespace HTMLConverter
         //
         // .............................................................
 
-        private static void AddImage(XmlElement xamlParentElement, XmlElement htmlElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static void AddImage(XmlElement xamlParentElement, XmlElement htmlElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             //  Implement images
         }
@@ -737,7 +737,7 @@ namespace HTMLConverter
         /// </param>
         /// <param name="stylesheet"></param>
         /// <param name="sourceContext"></param>
-        private static void AddList(XmlElement xamlParentElement, XmlElement htmlListElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static void AddList(XmlElement xamlParentElement, XmlElement htmlListElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             string htmlListElementName = htmlListElement.LocalName.ToLower();
 
@@ -806,7 +806,7 @@ namespace HTMLConverter
         /// <returns>
         /// XmlNode representing the first non-li node in the input after one or more li's have been processed.
         /// </returns>
-        private static XmlElement AddOrphanListItems(XmlElement xamlParentElement, XmlElement htmlLIElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static XmlElement AddOrphanListItems(XmlElement xamlParentElement, XmlElement htmlLIElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             Debug.Assert(htmlLIElement.LocalName.ToLower() == "li");
 
@@ -858,7 +858,7 @@ namespace HTMLConverter
         /// <param name="inheritedProperties">
         /// Properties inherited from parent context
         /// </param>
-        private static void AddListItem(XmlElement xamlListElement, XmlElement htmlLIElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static void AddListItem(XmlElement xamlListElement, XmlElement htmlLIElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             // Parameter validation
             Debug.Assert(xamlListElement != null);
@@ -903,7 +903,7 @@ namespace HTMLConverter
         /// <param name="inheritedProperties">
         /// Hashtable representing properties inherited from parent context. 
         /// </param>
-        private static void AddTable(XmlElement xamlParentElement, XmlElement htmlTableElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static void AddTable(XmlElement xamlParentElement, XmlElement htmlTableElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             // Parameter validation
             Debug.Assert(htmlTableElement.LocalName.ToLower() == "table");
@@ -1007,7 +1007,7 @@ namespace HTMLConverter
             }
         }
 
-        private static XmlElement GetCellFromSingleCellTable(XmlElement htmlTableElement)
+        static XmlElement GetCellFromSingleCellTable(XmlElement htmlTableElement)
         {
             XmlElement singleCell = null;
 
@@ -1085,7 +1085,7 @@ namespace HTMLConverter
         /// <param name="currentProperties"></param>
         /// <param name="stylesheet"></param>
         /// <param name="sourceContext"></param>
-        private static void AddColumnInformation(XmlElement htmlTableElement, XmlElement xamlTableElement, ArrayList columnStartsAllRows, Hashtable currentProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static void AddColumnInformation(XmlElement htmlTableElement, XmlElement xamlTableElement, ArrayList columnStartsAllRows, Hashtable currentProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             // Add column information
             if (columnStartsAllRows != null)
@@ -1137,7 +1137,7 @@ namespace HTMLConverter
         /// <param name="inheritedProperties">
         /// Properties inherited from parent context
         /// </param>
-        private static void AddTableColumnGroup(XmlElement xamlTableElement, XmlElement htmlColgroupElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static void AddTableColumnGroup(XmlElement xamlTableElement, XmlElement htmlColgroupElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             Hashtable localProperties;
             Hashtable currentProperties = GetElementProperties(htmlColgroupElement, inheritedProperties, out localProperties, stylesheet, sourceContext);
@@ -1167,7 +1167,7 @@ namespace HTMLConverter
         /// </param>
         /// <param name="stylesheet"></param>
         /// <param name="sourceContext"></param>
-        private static void AddTableColumn(XmlElement xamlTableElement, XmlElement htmlColElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static void AddTableColumn(XmlElement xamlTableElement, XmlElement htmlColElement, Hashtable inheritedProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             Hashtable localProperties;
             Hashtable currentProperties = GetElementProperties(htmlColElement, inheritedProperties, out localProperties, stylesheet, sourceContext);
@@ -1200,7 +1200,7 @@ namespace HTMLConverter
         /// <returns>
         /// XmlNode representing the current position of the iterator among tr elements
         /// </returns>
-        private static XmlNode AddTableRowsToTableBody(XmlElement xamlTableBodyElement, XmlNode htmlTRStartNode, Hashtable currentProperties, ArrayList columnStarts, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static XmlNode AddTableRowsToTableBody(XmlElement xamlTableBodyElement, XmlNode htmlTRStartNode, Hashtable currentProperties, ArrayList columnStarts, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             // Parameter validation
             Debug.Assert(xamlTableBodyElement.LocalName == Xaml_TableRowGroup);
@@ -1280,7 +1280,7 @@ namespace HTMLConverter
         /// <returns>
         /// XmlElement representing the current position of the iterator among the children of the parent Html tbody/tr element
         /// </returns>
-        private static XmlNode AddTableCellsToTableRow(XmlElement xamlTableRowElement, XmlNode htmlTDStartNode, Hashtable currentProperties, ArrayList columnStarts, ArrayList activeRowSpans, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static XmlNode AddTableCellsToTableRow(XmlElement xamlTableRowElement, XmlNode htmlTDStartNode, Hashtable currentProperties, ArrayList columnStarts, ArrayList activeRowSpans, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             // parameter validation
             Debug.Assert(xamlTableRowElement.LocalName == Xaml_TableRow);
@@ -1376,7 +1376,7 @@ namespace HTMLConverter
         /// <param name="currentProperties">
         /// Current properties for the html td/th element corresponding to xamlTableCellElement
         /// </param>
-        private static void AddDataToTableCell(XmlElement xamlTableCellElement, XmlNode htmlDataStartNode, Hashtable currentProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static void AddDataToTableCell(XmlElement xamlTableCellElement, XmlNode htmlDataStartNode, Hashtable currentProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             // Parameter validation
             Debug.Assert(xamlTableCellElement.LocalName == Xaml_TableCell);
@@ -1401,7 +1401,7 @@ namespace HTMLConverter
         /// all the points which are the starting position of any column in the table, ordered from left to right.
         /// In case if analisys was impossible we return null.
         /// </returns>
-        private static ArrayList AnalyzeTableStructure(XmlElement htmlTableElement, CssStylesheet stylesheet)
+        static ArrayList AnalyzeTableStructure(XmlElement htmlTableElement, CssStylesheet stylesheet)
         {
             // Parameter validation
             Debug.Assert(htmlTableElement.LocalName.ToLower() == "table");
@@ -1501,7 +1501,7 @@ namespace HTMLConverter
         /// Calculated width of a tbody.
         /// In case of non-analizable column width structure return 0;
         /// </returns>
-        private static double AnalyzeTbodyStructure(XmlElement htmlTbodyElement, ArrayList columnStarts, ArrayList activeRowSpans, double tableWidth, CssStylesheet stylesheet)
+        static double AnalyzeTbodyStructure(XmlElement htmlTbodyElement, ArrayList columnStarts, ArrayList activeRowSpans, double tableWidth, CssStylesheet stylesheet)
         {
             // Parameter validation
             Debug.Assert(htmlTbodyElement.LocalName.ToLower() == "tbody");
@@ -1567,7 +1567,7 @@ namespace HTMLConverter
         /// Double value representing the current width of the table.
         /// Return 0 if analisys was insuccessful.
         /// </param>
-        private static double AnalyzeTRStructure(XmlElement htmlTRElement, ArrayList columnStarts, ArrayList activeRowSpans, double tableWidth, CssStylesheet stylesheet)
+        static double AnalyzeTRStructure(XmlElement htmlTRElement, ArrayList columnStarts, ArrayList activeRowSpans, double tableWidth, CssStylesheet stylesheet)
         {
             double columnWidth;
 
@@ -1723,7 +1723,7 @@ namespace HTMLConverter
         /// <param name="htmlTDElement">
         /// Html td element to be searched for rowspan attribute
         /// </param>
-        private static int GetRowSpan(XmlElement htmlTDElement)
+        static int GetRowSpan(XmlElement htmlTDElement)
         {
             string rowSpanAsString;
             int rowSpan;
@@ -1762,7 +1762,7 @@ namespace HTMLConverter
         /// in the array and we can jsut return columnIndex.
         /// </param>
         /// <returns></returns>
-        private static int GetNextColumnIndex(int columnIndex, double columnWidth, ArrayList columnStarts, ArrayList activeRowSpans)
+        static int GetNextColumnIndex(int columnIndex, double columnWidth, ArrayList columnStarts, ArrayList activeRowSpans)
         {
             double columnStart;
             int spannedColumnIndex;
@@ -1799,7 +1799,7 @@ namespace HTMLConverter
         /// <param name="activeRowSpans">
         /// ArrayList representing currently active row spans
         /// </param>
-        private static void ClearActiveRowSpans(ArrayList activeRowSpans)
+        static void ClearActiveRowSpans(ArrayList activeRowSpans)
         {
             for (int columnIndex = 0; columnIndex < activeRowSpans.Count; columnIndex++)
             {
@@ -1816,7 +1816,7 @@ namespace HTMLConverter
         /// <param name="count">
         /// Size to be give to array list
         /// </param>
-        private static void InitializeActiveRowSpans(ArrayList activeRowSpans, int count)
+        static void InitializeActiveRowSpans(ArrayList activeRowSpans, int count)
         {
             for (int columnIndex = 0; columnIndex < count; columnIndex++)
             {
@@ -1835,7 +1835,7 @@ namespace HTMLConverter
         /// <param name="columnStart">
         /// Starting position of current column
         /// </param>
-        private static double GetNextColumnStart(XmlElement htmlTDElement, double columnStart)
+        static double GetNextColumnStart(XmlElement htmlTDElement, double columnStart)
         {
             double columnWidth;
             double nextColumnStart;
@@ -1861,7 +1861,7 @@ namespace HTMLConverter
         }
 
 
-        private static double GetColumnWidth(XmlElement htmlTDElement)
+        static double GetColumnWidth(XmlElement htmlTDElement)
         {
             string columnWidthAsString;
             double columnWidth;
@@ -1897,7 +1897,7 @@ namespace HTMLConverter
         /// <param name="columnStarts">
         /// ArrayList repsenting starting coordinates of all columns
         /// </param>
-        private static int CalculateColumnSpan(int columnIndex, double columnWidth, ArrayList columnStarts)
+        static int CalculateColumnSpan(int columnIndex, double columnWidth, ArrayList columnStarts)
         {
             // Current status of column width. Indicates the amount of width that has been scanned already
             double columnSpanningValue;
@@ -1938,7 +1938,7 @@ namespace HTMLConverter
         /// <param name="columnStarts">
         /// ArrayList representing starting coordinates of all columns
         /// </param>
-        private static void VerifyColumnStartsAscendingOrder(ArrayList columnStarts)
+        static void VerifyColumnStartsAscendingOrder(ArrayList columnStarts)
         {
             Debug.Assert(columnStarts != null);
 
@@ -1968,7 +1968,7 @@ namespace HTMLConverter
         /// <param name="localProperties">
         /// Hashtable representing local properties of Html element that is converted into xamlElement
         /// </param>
-        private static void ApplyLocalProperties(XmlElement xamlElement, Hashtable localProperties, bool isBlock)
+        static void ApplyLocalProperties(XmlElement xamlElement, Hashtable localProperties, bool isBlock)
         {
             bool marginSet = false;
             string marginTop = "0";
@@ -2213,7 +2213,7 @@ namespace HTMLConverter
         }
 
         // Create syntactically optimized four-value Thickness
-        private static void ComposeThicknessProperty(XmlElement xamlElement, string propertyName, string left, string right, string top, string bottom)
+        static void ComposeThicknessProperty(XmlElement xamlElement, string propertyName, string left, string right, string top, string bottom)
         {
             // Xaml syntax:
             // We have a reasonable interpreation for one value (all four edges), two values (horizontal, vertical),
@@ -2251,7 +2251,7 @@ namespace HTMLConverter
             xamlElement.SetAttribute(propertyName, thickness);
         }
 
-        private static void SetPropertyValue(XmlElement xamlElement, DependencyProperty property, string stringValue)
+        static void SetPropertyValue(XmlElement xamlElement, DependencyProperty property, string stringValue)
         {
             System.ComponentModel.TypeConverter typeConverter = System.ComponentModel.TypeDescriptor.GetConverter(property.PropertyType);
             try
@@ -2286,7 +2286,7 @@ namespace HTMLConverter
         /// returns a combination of previous context with local set of properties.
         /// This value is not used in the current code - inntended for the future development.
         /// </returns>
-        private static Hashtable GetElementProperties(XmlElement htmlElement, Hashtable inheritedProperties, out Hashtable localProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
+        static Hashtable GetElementProperties(XmlElement htmlElement, Hashtable inheritedProperties, out Hashtable localProperties, CssStylesheet stylesheet, List<XmlElement> sourceContext)
         {
             // Start with context formatting properties
             Hashtable currentProperties = new Hashtable();
@@ -2438,7 +2438,7 @@ namespace HTMLConverter
         /// A string rrepresentation of an attribute value if found;
         /// null if there is no such attribute in a given string.
         /// </returns>
-        private static string GetCssAttribute(string cssStyle, string attributeName)
+        static string GetCssAttribute(string cssStyle, string attributeName)
         {
             //  This is poor man's attribute parsing. Replace it by real css parsing
             if (cssStyle != null)
@@ -2476,7 +2476,7 @@ namespace HTMLConverter
         /// </param>
         /// <param name="length"></param>
         /// <returns></returns>
-        private static bool TryGetLengthValue(string lengthAsString, out double length)
+        static bool TryGetLengthValue(string lengthAsString, out double length)
         {
             length = Double.NaN;
 
@@ -2523,7 +2523,7 @@ namespace HTMLConverter
         //
         // .................................................................
 
-        private static string GetColorValue(string colorValue)
+        static string GetColorValue(string colorValue)
         {
             // TODO: Implement color conversion
             return colorValue;
@@ -2541,7 +2541,7 @@ namespace HTMLConverter
         /// <remarks>
         /// TODO: Use the processed properties for htmlChildNode instead of using the node itself 
         /// </remarks>
-        private static void ApplyPropertiesToTableCellElement(XmlElement htmlChildNode, XmlElement xamlTableCellElement)
+        static void ApplyPropertiesToTableCellElement(XmlElement htmlChildNode, XmlElement xamlTableCellElement)
         {
             // Parameter validation
             Debug.Assert(htmlChildNode.LocalName.ToLower() == "td" || htmlChildNode.LocalName.ToLower() == "th");

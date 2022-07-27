@@ -6,7 +6,7 @@ namespace YAMP
     /// <summary>
     /// Represents a transpose operator (in analogy to the adjungate operator).
     /// </summary>
-	class TransposeOperator : RightUnaryOperator
+    internal class TransposeOperator : RightUnaryOperator
 	{
         public static readonly String Symbol = OpDefinitions.TransposeOperator;
         public static readonly int OpLevel = OpDefinitions.TransposeOperatorLevel;

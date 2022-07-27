@@ -2,7 +2,7 @@
 {
     public partial class SampleTestFormClassProvider
     {
-        private const string CsHeader = 
+        const string CsHeader = 
             "using System.Runtime;"
             + "using System.ComponentModel;"
             + "using System.Text;"
@@ -16,7 +16,7 @@
             + "using Outils;" 
             + "/*Content*/";
 
-        private static string AddCsHeader(string cs)
+        protected override string PrepareCs(string cs)
         {
             cs = CsHeader.Replace("/*Content*/", cs);
 
@@ -29,11 +29,9 @@
                 cs = cs.Replace("void Traitement(", "void Process(");
             }
 
-            return cs;
+            return base.PrepareCs(cs);
         }
 
-        public SampleTestFormClassProvider(string xaml, string cs) : base(AddXamlHeader(xaml), AddCsHeader(cs))
-        {
-        }
+
     }
 }

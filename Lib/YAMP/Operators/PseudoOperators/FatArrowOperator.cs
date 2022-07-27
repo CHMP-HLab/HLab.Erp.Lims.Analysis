@@ -8,7 +8,7 @@
     /// <summary>
     /// The fat arrow used for lambda expressions.
     /// </summary>
-    class FatArrowOperator : BinaryOperator
+    internal class FatArrowOperator : BinaryOperator
     {
         public static readonly String Symbol = OpDefinitions.FatArrowOperator;
         public static readonly int OpLevel = OpDefinitions.FatArrowOperatorLevel;

@@ -6,7 +6,7 @@
     /// <summary>
     /// This is the prefix increment operator ++.
     /// </summary>
-    class PreIncOperator : LeftUnaryOperator
+    internal class PreIncOperator : LeftUnaryOperator
     {
         public static readonly String Symbol = OpDefinitions.PreIncOperator;
         public static readonly int OpLevel = OpDefinitions.PreIncOperatorLevel;

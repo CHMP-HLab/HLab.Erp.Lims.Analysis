@@ -12,7 +12,7 @@ using Xunit;
 
 namespace HLab.Erp.Analysis.UTests
 {
-    class Acl : AclServiceBase
+    internal class Acl : AclServiceBase
     {
         public override bool IsGranted(AclRight right, object grantedTo = null, object grantedOn = null)
         {
@@ -31,17 +31,19 @@ namespace HLab.Erp.Analysis.UTests
             SampleTestResultWorkflow GetSampleTestResultWorkflow(SampleTestResult s, IDataLocker<SampleTestResult> d) => new SampleTestResultWorkflow(s, d);
             FormHelper GetFormHelper() => new FormHelper();
 
-            var vm = new TestEntityViewModel(GetFormHelper,GetSampleTestResultWorkflow,null);
-
-            vm.Inject(
-                null,
-                r => new DataLocker<SampleTestResult>(r, null, acl, null, null, null), 
-                acl, null
-
-                );
-
-            vm.Model = new SampleTestResult();
-            vm.Workflow.CurrentStage = SampleTestResultWorkflow.Running;
+            var vm = new TestEntityViewModel(GetFormHelper,GetSampleTestResultWorkflow,null)
+            {
+                //    );
+                //    acl, null
+                //    r => new DataLocker<SampleTestResult>(r, null, acl, null, null, null), 
+                //    null,
+                //vm.Inject(
+                Model = new SampleTestResult(),
+                Workflow =
+                {
+                    CurrentStage = SampleTestResultWorkflow.Running
+                }
+            };
 
             await vm.Locker.ActivateAsync();
             Assert.True(vm.EditMode);
@@ -73,14 +75,14 @@ namespace HLab.Erp.Analysis.UTests
                 where T : class, IEntity<int>
                 => new DataLocker<T>(l, null, acl, null, null, null);
 
-            var vm = new SampleTestResultViewModel(GetFormHelper, null,  GetSampleTestResultWorkflow, null, GetDataLocker, GetDataLocker);
+            var vm = new SampleTestResultViewModel(null, GetFormHelper, null,  GetSampleTestResultWorkflow, null, GetDataLocker, GetDataLocker);
 
 
-            vm.Inject(
-                null,
-                r => new DataLocker<SampleTestResult>(r, null, acl, null, null, null), 
-                acl, null
-                );
+            //vm.Inject(
+            //    null,
+            //    r => new DataLocker<SampleTestResult>(r, null, acl, null, null, null), 
+            //    acl, null
+            //    );
 
 
             await vm.FormHelper.LoadDefaultFormAsync();
@@ -117,16 +119,16 @@ namespace HLab.Erp.Analysis.UTests
                 where T : class, IEntity<int>
                 => new DataLocker<T>(l, null, acl, null, null, null);
 
-            var vm = new SampleTestViewModel(null, null, null, GetFormHelper, GetSampleTestWorkflow, GetDataLocker);
+            var vm = new SampleTestViewModel(null, null, null, null, GetFormHelper, GetSampleTestWorkflow, GetDataLocker)
+                {
+                    //    );
+                    //    acl, null
+                    //    GetDataLocker, 
+                    //    null,
+                    //vm.Inject(
+                    Model = new SampleTest()
+                };
 
-            vm.Inject(
-                null,
-                GetDataLocker, 
-                acl, null
-
-                );
-
-            vm.Model = new SampleTest();
             await vm.FormHelper.LoadDefaultFormAsync().ConfigureAwait(true);
             vm.Workflow.CurrentStage = SampleTestWorkflow.Specifications;
 
@@ -143,17 +145,19 @@ namespace HLab.Erp.Analysis.UTests
 
             SampleWorkflow GetSampleWorkflow(Sample s, IDataLocker<Sample> d) => new SampleWorkflow(s, d, null);
 
-            var vm = new SampleViewModel(null, null, null, GetSampleWorkflow);
-
-            vm.Inject(
-                null,
-                r => new DataLocker<Sample>(r, null, acl, null, null, null), 
-                acl, null
-                );
-
-            vm.Model = new Sample();
-
-            vm.Workflow.CurrentStage = SampleWorkflow.Reception;
+            var vm = new SampleViewModel(null, null, null, null, GetSampleWorkflow)
+            {
+                //    );
+                //    acl, null
+                //    r => new DataLocker<Sample>(r, null, acl, null, null, null), 
+                //    null,
+                //vm.Inject(
+                Model = new Sample(),
+                Workflow =
+                {
+                    CurrentStage = SampleWorkflow.Reception
+                }
+            };
 
             await vm.Locker.ActivateAsync();
             Assert.True(vm.EditMode);

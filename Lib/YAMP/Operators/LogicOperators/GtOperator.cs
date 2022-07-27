@@ -5,7 +5,7 @@ namespace YAMP
     /// <summary>
     /// The construction scheme for a greater than operator.
     /// </summary>
-	class GtOperator : LogicOperator
+    internal class GtOperator : LogicOperator
 	{
         #region Mapping
 

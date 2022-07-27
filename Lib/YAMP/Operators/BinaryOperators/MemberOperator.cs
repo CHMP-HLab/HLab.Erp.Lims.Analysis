@@ -7,7 +7,7 @@
     /// <summary>
     /// The member (dot) operator used to access members of objects.
     /// </summary>
-    class MemberOperator : BinaryOperator
+    internal class MemberOperator : BinaryOperator
     {
         #region Mapping
 

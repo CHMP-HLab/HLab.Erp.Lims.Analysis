@@ -4,7 +4,7 @@ namespace YAMP
 
     [Description("CeilFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class CeilFunction : StandardFunction
+    internal sealed class CeilFunction : StandardFunction
 	{
 		protected override ScalarValue GetValue(ScalarValue value)
 		{

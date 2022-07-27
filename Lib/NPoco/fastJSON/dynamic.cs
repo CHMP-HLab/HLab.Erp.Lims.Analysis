@@ -9,8 +9,8 @@ namespace NPoco.fastJSON
 {
     internal class DynamicJson : DynamicObject, IEnumerable
     {
-        private IDictionary<string, object> _dictionary { get; set; }
-        private List<object> _list { get; set; }
+        IDictionary<string, object> _dictionary { get; set; }
+        List<object> _list { get; set; }
 
         public DynamicJson(string json)
         {
@@ -22,7 +22,7 @@ namespace NPoco.fastJSON
                 _list = (List<object>)parse;
         }
 
-        private DynamicJson(object dictionary)
+        DynamicJson(object dictionary)
         {
             if (dictionary is IDictionary<string, object>)
                 _dictionary = (IDictionary<string, object>)dictionary;

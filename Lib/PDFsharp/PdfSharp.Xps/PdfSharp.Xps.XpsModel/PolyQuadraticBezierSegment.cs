@@ -5,7 +5,7 @@ namespace PdfSharp.Xps.XpsModel
     /// <summary>
     /// A series of quadratic Bézier segments.
     /// </summary>
-    class PolyQuadraticBezierSegment : PathSegment
+    internal class PolyQuadraticBezierSegment : PathSegment
   {
     /// <summary>
     /// Gets the smallest rectangle that completely contains all points of the segments.

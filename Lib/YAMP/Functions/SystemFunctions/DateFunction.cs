@@ -4,7 +4,7 @@
 
 	[Description("DateFunctionDescription")]
 	[Kind(PopularKinds.System)]
-	sealed class DateFunction : SystemFunction
+    internal sealed class DateFunction : SystemFunction
 	{
         public DateFunction(ParseContext context)
             : base(context)

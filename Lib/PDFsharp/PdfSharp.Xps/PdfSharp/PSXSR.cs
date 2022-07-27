@@ -39,7 +39,7 @@ namespace PdfSharp
     /// <summary>
     /// The Pdf-Sharp-XPS-String-Resources.
     /// </summary>
-    static class PSXSR
+    internal static class PSXSR
   {
     #region General messages
 

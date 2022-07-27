@@ -3,7 +3,7 @@
     /// <summary>
     /// Fills defined geometric regions with a solid color.
     /// </summary>
-    class SolidColorBrush : Brush
+    internal class SolidColorBrush : Brush
   {
     public SolidColorBrush()
     {

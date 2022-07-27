@@ -3,7 +3,7 @@
     /// <summary>
     /// Contains an enumeration of various special matrix formats.
     /// </summary>
-    enum SpecialMatrixFormat
+    internal enum SpecialMatrixFormat
     {
         None,
         Square,

@@ -34,7 +34,7 @@ namespace PdfSharp.Internal
 {
     // Relected from WPF to ensure compatibility
     // Use netmassdownloader -d "C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\v3.0" -output g:\cachetest -v
-    class TokenizerHelper
+    internal class TokenizerHelper
   {
     internal char PeekNextCharacter()
     {
@@ -44,7 +44,7 @@ namespace PdfSharp.Internal
       return ch;
     }
 
-    private static readonly IFormatProvider NeutralCulture = CultureInfo.InvariantCulture; //.GetCultureInfo("en-us");
+    static readonly IFormatProvider NeutralCulture = CultureInfo.InvariantCulture; //.GetCultureInfo("en-us");
 
     public TokenizerHelper(string str)
       : this(str, NeutralCulture)
@@ -179,7 +179,7 @@ namespace PdfSharp.Internal
       return GetCurrentToken();
     }
 
-    private void ScanToNextToken(char separator)
+    void ScanToNextToken(char separator)
     {
       if (this.charIndex < this.strLen)
       {
@@ -216,14 +216,15 @@ namespace PdfSharp.Internal
     {
       get { return this.foundSeparator; }
     }
-    private bool foundSeparator;
 
-    private char argSeparator;
-    private int charIndex;
+    bool foundSeparator;
+
+    char argSeparator;
+    int charIndex;
     internal int currentTokenIndex;
     internal int currentTokenLength;
-    private char quoteChar;
-    private string str;
-    private int strLen;
+    char quoteChar;
+    string str;
+    int strLen;
   }
 }

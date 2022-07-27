@@ -2,7 +2,7 @@
 {
     [Description("ImgToRGBFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class ImgToRGBFunction : ArgumentFunction
+    internal sealed class ImgToRGBFunction : ArgumentFunction
     {
         const int rfactor = 256 * 256;
         const int gfactor = 256;

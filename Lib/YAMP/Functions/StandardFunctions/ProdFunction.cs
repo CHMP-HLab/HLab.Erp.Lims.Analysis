@@ -2,7 +2,7 @@ namespace YAMP
 {
 	[Description("ProdFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class ProdFunction : ArgumentFunction
+    internal sealed class ProdFunction : ArgumentFunction
     {
         [Description("ProdFunctionDescriptionForScalar")]
         public Value Function(ScalarValue x)

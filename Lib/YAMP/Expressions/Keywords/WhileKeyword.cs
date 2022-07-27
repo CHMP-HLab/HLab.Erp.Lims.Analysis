@@ -9,7 +9,7 @@
     /// The while keyword has its logic defined here. The basic syntax:
     /// while ( CONDITION ) STATEMENT
     /// </summary>
-    class WhileKeyword : BreakableKeyword
+    internal class WhileKeyword : BreakableKeyword
     {
         #region Fields
 

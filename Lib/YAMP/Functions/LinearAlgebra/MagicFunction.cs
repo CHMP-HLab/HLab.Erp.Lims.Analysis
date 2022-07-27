@@ -6,7 +6,7 @@
 
     [Description("MagicFunctionDescription")]
     [Kind(PopularKinds.Function)]
-    sealed class MagicFunction : ArgumentFunction
+    internal sealed class MagicFunction : ArgumentFunction
     {
         [Description("MagicFunctionDescriptionForScalar")]
         [Example("magic(3)", "MagicFunctionExampleForScalar1")]

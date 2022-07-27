@@ -3,7 +3,7 @@ namespace YAMP
     /// <summary>
     /// The right divide operator ./
     /// </summary>
-	class DotDivideOperator : DotOperator
+    internal class DotDivideOperator : DotOperator
 	{
 		public DotDivideOperator () : base(new RightDivideOperator())
 		{

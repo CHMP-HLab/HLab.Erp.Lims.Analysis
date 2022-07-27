@@ -33,7 +33,7 @@ namespace NPoco.Expressions
             return Eval(expression, PartialEvaluator.CanBeEvaluatedLocally);
         }
 
-        private static bool CanBeEvaluatedLocally(Expression expression)
+        static bool CanBeEvaluatedLocally(Expression expression)
         {
             return expression.NodeType != ExpressionType.Parameter;
         }
@@ -45,7 +45,7 @@ namespace NPoco.Expressions
         {
             HashSet<Expression> candidates;
 
-            private SubtreeEvaluator(HashSet<Expression> candidates)
+            SubtreeEvaluator(HashSet<Expression> candidates)
             {
                 this.candidates = candidates;
             }
@@ -68,7 +68,7 @@ namespace NPoco.Expressions
                 return base.Visit(exp);
             }
 
-            private Expression Evaluate(Expression e)
+            Expression Evaluate(Expression e)
             {
                 if (e.NodeType == ExpressionType.Constant)
                 {
@@ -95,7 +95,7 @@ namespace NPoco.Expressions
             HashSet<Expression> candidates;
             bool cannotBeEvaluated;
 
-            private Nominator(Func<Expression, bool> fnCanBeEvaluated)
+            Nominator(Func<Expression, bool> fnCanBeEvaluated)
             {
                 this.candidates = new HashSet<Expression>();
                 this.fnCanBeEvaluated = fnCanBeEvaluated;

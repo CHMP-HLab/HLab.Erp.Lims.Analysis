@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    static class ContainerExtensions
+    internal static class ContainerExtensions
     {
         public static Boolean IsAssigned(this ContainerExpression container, SymbolExpression symbol)
         {

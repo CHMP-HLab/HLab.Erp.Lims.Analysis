@@ -81,11 +81,11 @@ namespace NPoco
             _paramPrefix = _dbType.GetParameterPrefix(_connectionString);
         }
 
-        private readonly DatabaseType _dbType;
+        readonly DatabaseType _dbType;
         public DatabaseType DatabaseType => _dbType;
         public IsolationLevel IsolationLevel => _isolationLevel;
 
-        private IDictionary<string, object>? _data;
+        IDictionary<string, object>? _data;
         public IDictionary<string, object> Data => _data ??= new Dictionary<string, object>();
 
         // Automatically close connection
@@ -98,7 +98,7 @@ namespace NPoco
         // Set to true to keep the first opened connection alive until this object is disposed
         public bool KeepConnectionAlive { get; set; }
 
-        private bool ShouldCloseConnectionAutomatically { get; set; }
+        bool ShouldCloseConnectionAutomatically { get; set; }
 
         // Open a connection (can be nested)
         public IDatabase OpenSharedConnection()
@@ -107,12 +107,12 @@ namespace NPoco
             return this;
         }
 
-        private void OpenSharedConnectionInternal()
+        void OpenSharedConnectionInternal()
         {
             OpenSharedConnectionImp(true);
         }
 
-        private void OpenSharedConnectionImp(bool isInternal)
+        void OpenSharedConnectionImp(bool isInternal)
         {
             if (_connectionPassedIn && _sharedConnection != null && _sharedConnection.State != ConnectionState.Open)
                 throw new Exception("You must explicitly open the connection before executing anything when passing in a DbConnection to Database");
@@ -146,7 +146,7 @@ namespace NPoco
             }
         }
 
-        private void CloseSharedConnectionInternal()
+        void CloseSharedConnectionInternal()
         {
             if (ShouldCloseConnectionAutomatically && _transaction == null)
                 CloseSharedConnection();
@@ -207,7 +207,7 @@ namespace NPoco
             _transaction = tran;
         }
 
-        private void OnBeginTransactionInternal()
+        void OnBeginTransactionInternal()
         {
 #if DEBUG
             System.Diagnostics.Debug.WriteLine("Created new transaction using isolation level of " + _transaction?.IsolationLevel + ".");
@@ -223,7 +223,7 @@ namespace NPoco
         {
         }
 
-        private void OnAbortTransactionInternal()
+        void OnAbortTransactionInternal()
         {
 #if DEBUG
             System.Diagnostics.Debug.WriteLine("Rolled back a transaction");
@@ -239,7 +239,7 @@ namespace NPoco
         {
         }
 
-        private void OnCompleteTransactionInternal()
+        void OnCompleteTransactionInternal()
         {
 #if DEBUG
             System.Diagnostics.Debug.WriteLine("Committed the transaction");
@@ -353,7 +353,7 @@ namespace NPoco
         internal bool TransactionIsAborted { get; set; }
         internal int TransactionCount { get; set; }
 
-        private bool TransactionIsOk()
+        bool TransactionIsOk()
         {
             return _sharedConnection != null
                 && _transaction != null
@@ -388,7 +388,7 @@ namespace NPoco
         }
        
         // Create a command
-        private DbCommand CreateCommand(DbConnection connection, string sql, params object[] args)
+        DbCommand CreateCommand(DbConnection connection, string sql, params object[] args)
         {
             return CreateCommand(connection, CommandType.Text, sql, args);
         }
@@ -427,7 +427,7 @@ namespace NPoco
         }
 
         // Override this to log/capture exceptions
-        private void OnExceptionInternal(Exception exception)
+        void OnExceptionInternal(Exception exception)
         {
 #if DEBUG
             System.Diagnostics.Debug.WriteLine("***** EXCEPTION *****" + Environment.NewLine + Environment.NewLine + exception.Message + Environment.NewLine + exception.StackTrace);
@@ -446,7 +446,7 @@ namespace NPoco
             return conn;
         }
 
-        private DbConnection OnConnectionOpenedInternal(DbConnection conn)
+        DbConnection OnConnectionOpenedInternal(DbConnection conn)
         {
             var newConnection = OnConnectionOpened(conn);
             foreach (var interceptor in Interceptors.OfType<IConnectionInterceptor>())
@@ -460,7 +460,7 @@ namespace NPoco
         {
         }
 
-        private void OnConnectionClosingInternal(DbConnection conn)
+        void OnConnectionClosingInternal(DbConnection conn)
         {
             OnConnectionClosing(conn);
             foreach (var interceptor in Interceptors.OfType<IConnectionInterceptor>())
@@ -474,7 +474,7 @@ namespace NPoco
 
         }
 
-        private void OnExecutingCommandInternal(DbCommand cmd)
+        void OnExecutingCommandInternal(DbCommand cmd)
         {
             OnExecutingCommand(cmd);
             foreach (var interceptor in Interceptors.OfType<IExecutingInterceptor>())
@@ -488,7 +488,7 @@ namespace NPoco
 
         }
 
-        private void OnExecutedCommandInternal(DbCommand cmd)
+        void OnExecutedCommandInternal(DbCommand cmd)
         {
 #if DEBUG
             System.Diagnostics.Debug.WriteLine(LastCommand);
@@ -505,7 +505,7 @@ namespace NPoco
             return true;
         }
 
-        private bool OnInsertingInternal(InsertContext insertContext)
+        bool OnInsertingInternal(InsertContext insertContext)
         {
             var result = OnInserting(insertContext);
             return result && Interceptors.OfType<IDataInterceptor>().All(x => x.OnInserting(this, insertContext));
@@ -516,7 +516,7 @@ namespace NPoco
             return true;
         }
 
-        private bool OnUpdatingInternal(UpdateContext updateContext)
+        bool OnUpdatingInternal(UpdateContext updateContext)
         {
             var result = OnUpdating(updateContext);
             return result && Interceptors.OfType<IDataInterceptor>().All(x => x.OnUpdating(this, updateContext));
@@ -527,7 +527,7 @@ namespace NPoco
             return true;
         }
 
-        private bool OnDeletingInternal(DeleteContext deleteContext)
+        bool OnDeletingInternal(DeleteContext deleteContext)
         {
             var result = OnDeleting(deleteContext);
             return result && Interceptors.OfType<IDataInterceptor>().All(x => x.OnDeleting(this, deleteContext));
@@ -754,7 +754,7 @@ namespace NPoco
             return Query(default(T)!, Sql);
         }
 
-        private async IAsyncEnumerable<T> ReadAsync<T>(object instance, DbDataReader r, PocoData pd)
+        async IAsyncEnumerable<T> ReadAsync<T>(object instance, DbDataReader r, PocoData pd)
         {
             var factory = new MappingFactory(pd, r);
             while (true)
@@ -775,7 +775,7 @@ namespace NPoco
             }
         }
 
-        private async IAsyncEnumerable<T> ReadOneToManyAsync<T>(T instance, DbDataReader r, Expression<Func<T, IList>> listExpression, Func<T, object[]> idFunc, PocoData pocoData)
+        async IAsyncEnumerable<T> ReadOneToManyAsync<T>(T instance, DbDataReader r, Expression<Func<T, IList>> listExpression, Func<T, object[]> idFunc, PocoData pocoData)
         {
             Func<T, IList>? listFunc = null;
             PocoMember? pocoMember = null;
@@ -831,7 +831,7 @@ namespace NPoco
             }
         }
 
-        private IEnumerable<T> Read<T>(object? instance, DbDataReader r, PocoData pd)
+        IEnumerable<T> Read<T>(object? instance, DbDataReader r, PocoData pd)
         {
             var factory = new MappingFactory(pd, r);
             while (true)
@@ -852,7 +852,7 @@ namespace NPoco
             }
         }
 
-        private IEnumerable<T> ReadOneToMany<T>(T instance, DbDataReader r, Expression<Func<T, IList>> listExpression, Func<T, object[]>? idFunc, PocoData pocoData)
+        IEnumerable<T> ReadOneToMany<T>(T instance, DbDataReader r, Expression<Func<T, IList>> listExpression, Func<T, object[]>? idFunc, PocoData pocoData)
         {
             Func<T, IList>? listFunc = null;
             PocoMember? pocoMember = null;
@@ -936,7 +936,7 @@ namespace NPoco
             return FetchMultiple<T, T1, T2, T3>(sql1.Concat(sql2, ";").Concat(sql3, ";").Concat(sql4, ";"));
         }
 
-        private IEnumerable<T> Query<T>(T instance, Sql Sql)
+        IEnumerable<T> Query<T>(T instance, Sql Sql)
         {
             return QueryImp(instance, null, null, Sql);
         }
@@ -1006,7 +1006,7 @@ namespace NPoco
             }
         }
 
-        private async Task<DbDataReader> ExecuteDataReader(DbCommand cmd, bool sync)
+        async Task<DbDataReader> ExecuteDataReader(DbCommand cmd, bool sync)
         {
             DbDataReader r;
             try
@@ -1047,7 +1047,7 @@ namespace NPoco
         }
 
         // Actual implementation of the multi-poco paging
-        private async Task<Page<T>> PageImpAsync<T>(long page, long itemsPerPage, string sql, object[] args, bool sync)
+        async Task<Page<T>> PageImpAsync<T>(long page, long itemsPerPage, string sql, object[] args, bool sync)
         {
             if (page <= 0 || itemsPerPage <= 0)
             {
@@ -1099,7 +1099,7 @@ namespace NPoco
         public class DontMap { }
 
         // Actual implementation of the multi query
-        private async Task<TRet> FetchMultipleImp<T1, T2, T3, T4, TRet>(Type[] types, object cb, Sql Sql, bool sync)
+        async Task<TRet> FetchMultipleImp<T1, T2, T3, T4, TRet>(Type[] types, object cb, Sql Sql, bool sync)
         {
             var sql = Sql.SQL;
             var args = Sql.Arguments;
@@ -1191,7 +1191,7 @@ namespace NPoco
             return SingleOrDefault<T>(sql);
         }
 
-        private Sql GenerateSingleByIdSql<T>(object primaryKey)
+        Sql GenerateSingleByIdSql<T>(object primaryKey)
         {
             var index = 0;
             var pd = PocoDataFactory.ForType(typeof(T));
@@ -1327,7 +1327,7 @@ namespace NPoco
         }
 
         // Update a record with values from a poco.  primary key value can be either supplied or read from the poco
-        private async Task<int> UpdateImpAsync(string tableName, string primaryKeyName, object poco, object? primaryKeyValue, IEnumerable<string>? columns, bool sync)
+        async Task<int> UpdateImpAsync(string tableName, string primaryKeyName, object poco, object? primaryKeyValue, IEnumerable<string>? columns, bool sync)
         {
             if (!OnUpdatingInternal(new UpdateContext(poco, tableName, primaryKeyName, primaryKeyValue, columns)))
                 return 0;
@@ -1480,7 +1480,7 @@ namespace NPoco
             return DeleteImpAsync(tableName, primaryKeyName, poco, primaryKeyValue, true).RunSync();
         }
 
-        private async Task<int> DeleteImpAsync(string tableName, string primaryKeyName, object? poco, object? primaryKeyValue, bool sync)
+        async Task<int> DeleteImpAsync(string tableName, string primaryKeyName, object? poco, object? primaryKeyValue, bool sync)
         {
             if (!OnDeletingInternal(new DeleteContext(poco, tableName, primaryKeyName, primaryKeyValue)))
                 return 0;
@@ -1553,7 +1553,7 @@ namespace NPoco
             return IsNewAsync(poco, true).RunSync();
         }
 
-        private async Task<bool> IsNewAsync<T>(T poco, bool sync)
+        async Task<bool> IsNewAsync<T>(T poco, bool sync)
         {
             if (poco == null) throw new ArgumentNullException(nameof(poco));
             if (poco is System.Dynamic.ExpandoObject || poco is PocoExpando)
@@ -1664,17 +1664,17 @@ namespace NPoco
             return _dbType.FormatCommand(sql, args);
         }
 
-        private List<IInterceptor>? _interceptors;
+        List<IInterceptor>? _interceptors;
         public List<IInterceptor> Interceptors => _interceptors ??= new List<IInterceptor>();
 
-        private MapperCollection? _mappers;
+        MapperCollection? _mappers;
         public MapperCollection Mappers
         {
             get => _mappers ??= new MapperCollection();
             set => _mappers = value;
         }
 
-        private IPocoDataFactory? _pocoDataFactory;
+        IPocoDataFactory? _pocoDataFactory;
         public IPocoDataFactory PocoDataFactory
         {
             get => _pocoDataFactory ??= new PocoDataFactory(Mappers);
@@ -1684,16 +1684,16 @@ namespace NPoco
         public string ConnectionString => _connectionString;
 
         // Member variables
-        private readonly string _connectionString;
-        private readonly string _providerName;
-        private DbProviderFactory? _factory;
-        private DbConnection _sharedConnection;
-        private DbTransaction? _transaction;
-        private IsolationLevel _isolationLevel;
-        private string? _lastSql;
-        private object[]? _lastArgs;
-        private string _paramPrefix = "@";
-        private readonly bool _connectionPassedIn;
+        readonly string _connectionString;
+        readonly string _providerName;
+        DbProviderFactory? _factory;
+        DbConnection _sharedConnection;
+        DbTransaction? _transaction;
+        IsolationLevel _isolationLevel;
+        string? _lastSql;
+        object[]? _lastArgs;
+        string _paramPrefix = "@";
+        readonly bool _connectionPassedIn;
 
         internal int ExecuteNonQueryHelper(DbCommand cmd)
         {

@@ -5,7 +5,7 @@ namespace YAMP
     /// <summary>
     /// This class contains the construction plan for a power operator.
     /// </summary>
-	class PowerOperator : BinaryOperator
+    internal class PowerOperator : BinaryOperator
     {
         #region Mapping
 

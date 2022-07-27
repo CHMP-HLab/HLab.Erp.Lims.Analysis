@@ -7,9 +7,9 @@
     /// </summary>
     public class VariableInfo
     {
-        private readonly String _name;
-        private readonly Boolean _assigned;
-        private readonly ParseContext _context;
+        readonly String _name;
+        readonly Boolean _assigned;
+        readonly ParseContext _context;
 
         /// <summary>
         /// Creates a new variable info.

@@ -47,7 +47,7 @@ namespace PdfSharp.Drawing
     /// <summary>
     /// The Get WPF Value flags.
     /// </summary>
-    enum GWV
+    internal enum GWV
   {
     GetCellAscent,
     GetCellDescent,
@@ -59,7 +59,7 @@ namespace PdfSharp.Drawing
   /// <summary>
   /// Helper class for fonts.
   /// </summary>
-  static class FontHelper
+  internal static class FontHelper
   {
     //private const string testFontName = "Times New Roman";
     //const string testFontName = "Segoe Condensed";

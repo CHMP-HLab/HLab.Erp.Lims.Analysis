@@ -8,7 +8,7 @@ namespace NPoco.FluentMappings
 {
     public class ColumnConfigurationBuilder<T>
     {
-        private readonly Dictionary<string, ColumnDefinition> _columnDefinitions;
+        readonly Dictionary<string, ColumnDefinition> _columnDefinitions;
 
         public ColumnConfigurationBuilder(Dictionary<string, ColumnDefinition> columnDefinitions)
         {
@@ -65,7 +65,7 @@ namespace NPoco.FluentMappings
 
     public class ManyColumnBuilder<TModel> : IManyColumnBuilder<TModel>
     {
-        private readonly ColumnDefinition _columnDefinition;
+        readonly ColumnDefinition _columnDefinition;
 
         public ManyColumnBuilder(ColumnDefinition columnDefinition)
         {
@@ -122,7 +122,7 @@ namespace NPoco.FluentMappings
 
     public class ColumnBuilder<TModel> : IColumnBuilder<TModel>
     {
-        private readonly ColumnDefinition _columnDefinition;
+        readonly ColumnDefinition _columnDefinition;
 
         public ColumnBuilder(ColumnDefinition columnDefinition)
         {

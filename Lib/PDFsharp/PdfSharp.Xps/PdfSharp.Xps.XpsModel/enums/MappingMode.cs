@@ -1,6 +1,6 @@
 ﻿namespace PdfSharp.Xps.XpsModel
 {
-    enum MappingMode
+    internal enum MappingMode
   {
     Absolute,
   }

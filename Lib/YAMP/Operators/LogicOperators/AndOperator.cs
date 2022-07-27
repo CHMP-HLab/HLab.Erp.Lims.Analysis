@@ -5,7 +5,7 @@
     /// <summary>
     /// The basic and &amp;&amp; operator.
     /// </summary>
-    class AndOperator : LogicOperator
+    internal class AndOperator : LogicOperator
     {
         #region Mapping
 

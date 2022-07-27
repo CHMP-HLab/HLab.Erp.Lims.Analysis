@@ -4,7 +4,7 @@
 
 	[Description("PrintfFunctionDescription")]
 	[Kind(PopularKinds.System)]
-    sealed class PrintfFunction : SystemFunction
+    internal sealed class PrintfFunction : SystemFunction
 	{
         public PrintfFunction(ParseContext context)
             : base(context)

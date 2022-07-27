@@ -3,7 +3,7 @@
     [Kind(PopularKinds.Statistic)]
 	[Description("MeanFunctionDescription")]
     [Link("MeanFunctionLink")]
-    sealed class MeanFunction : ArgumentFunction
+    internal sealed class MeanFunction : ArgumentFunction
 	{
 		[Description("MeanFunctionDescriptionForMatrix")]
 		[Example("mean([1, 4, 8])", "MeanFunctionExampleForMatrix1")]

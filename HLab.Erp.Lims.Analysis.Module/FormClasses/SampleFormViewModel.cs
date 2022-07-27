@@ -23,31 +23,29 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
     public class SampleFormViewModel : ListableEntityViewModel<SampleForm>
     {
-        public SampleFormViewModel(IErpServices erp, Func<FormHelper> getFormHelper)
+        public SampleFormViewModel(Injector i, Func<FormHelper> getFormHelper) : base(i)
         {
-            Erp = erp;
             H.Initialize(this);
             FormHelper = getFormHelper();
         }
 
-        public IErpServices Erp { get; }
 
         public bool IsReadOnly => _isReadOnly.Get();
 
-        private readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
+        readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
             .Set(e => !e.EditMode)
             .On(e => e.EditMode)
             .Update()
         );
         public bool EditMode => _editMode.Get();
 
-        private readonly IProperty<bool> _editMode = H.Property<bool>(c => c
+        readonly IProperty<bool> _editMode = H.Property<bool>(c => c
             .NotNull(e => e.Locker)
             .NotNull(e => e.Model.Sample)
             .Set(e => 
                 e.Locker.IsActive 
                 && e.Model.Sample.Stage == SampleWorkflow.Reception
-                && e.Erp.Acl.IsGranted(AnalysisRights.AnalysisResultEnter)
+                && e.Injected.Acl.IsGranted(AnalysisRights.AnalysisResultEnter)
             )
             .On(e => e.Locker.IsActive)
             .Update()
@@ -56,7 +54,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
         public string Conformity => _conformity.Get();
 
-        private readonly IProperty<string> _conformity = H.Property<string>(c => c
+        readonly IProperty<string> _conformity = H.Property<string>(c => c
             .Set(e => e.Model.ConformityId.ToString())
             .On(e => e.Model.ConformityId)
             .Update()
@@ -67,16 +65,18 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             get => _parent.Get();
             set => _parent.Set(value);
         }
-        private readonly IProperty<SampleViewModel> _parent = H.Property<SampleViewModel>();
+
+        readonly IProperty<SampleViewModel> _parent = H.Property<SampleViewModel>();
 
         public FormHelper FormHelper
         {
             get => _formHelper.Get();
             set => _formHelper.Set(value);
         }
-        private readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>();
 
-        private readonly ITrigger _ = H.Trigger(c => c
+        readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>();
+
+        readonly ITrigger _ = H.Trigger(c => c
             .On(e => e.Model.Sample.Stage)
 //            .On(e => e.Model.Values)
             .On(e => e.EditMode)

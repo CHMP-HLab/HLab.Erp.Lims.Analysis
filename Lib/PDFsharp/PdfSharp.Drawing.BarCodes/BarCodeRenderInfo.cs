@@ -32,7 +32,7 @@ namespace PdfSharp.Drawing.BarCodes
     /// <summary>
     /// Holds all temporary information needed during rendering.
     /// </summary>
-    class BarCodeRenderInfo
+    internal class BarCodeRenderInfo
   {
     public BarCodeRenderInfo(XGraphics gfx, XBrush brush, XFont font, XPoint position)
     {

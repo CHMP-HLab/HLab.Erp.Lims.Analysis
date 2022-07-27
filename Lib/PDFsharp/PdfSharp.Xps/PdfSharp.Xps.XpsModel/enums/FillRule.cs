@@ -1,6 +1,6 @@
 ﻿namespace PdfSharp.Xps.XpsModel
 {
-    enum FillRule
+    internal enum FillRule
   {
     EvenOdd,
     NonZero,

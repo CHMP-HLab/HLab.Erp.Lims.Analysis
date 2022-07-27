@@ -10,13 +10,13 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.SampleTests
 {
-    public class TestsListViewModel : EntityListViewModel<SampleTest>, IMvvmContextProvider
+    public class TestsListViewModel : Core.EntityLists.EntityListViewModel<SampleTest>, IMvvmContextProvider
     {
         public class Bootloader : NestedBootloader
         {
         }
 
-        public TestsListViewModel() : base(c => c
+        public TestsListViewModel(Injector i) : base(i, c => c
 
                    .Column(e => e.Sample,"Sample")
 
@@ -51,7 +51,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTests
         {
             if (sampleTest == null) return false;
             var stage = sampleTest.Stage.IsAny(errorAction, SampleTestWorkflow.Specifications);
-            var granted = Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest);
+            var granted = Injected.Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest);
             return stage && granted;
         }
 

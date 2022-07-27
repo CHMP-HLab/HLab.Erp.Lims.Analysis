@@ -5,7 +5,7 @@
     [Description("SimpsFunctionDescription")]
 	[Kind(PopularKinds.Function)]
     [Link("SimpsFunctionLink")]
-    sealed class SimpsFunction : ArgumentFunction
+    internal sealed class SimpsFunction : ArgumentFunction
     {
         [Description("SimpsFunctionDescriptionForMatrixMatrix")]
         [Example("simps(sin(0:0.1:Pi), 0:0.1:Pi)", "SimpsFunctionExampleForMatrixMatrix1")]

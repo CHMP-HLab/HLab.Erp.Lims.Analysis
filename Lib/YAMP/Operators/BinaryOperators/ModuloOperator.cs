@@ -5,7 +5,7 @@
     /// <summary>
     /// The class for the standard modulo operator.
     /// </summary>
-	class ModuloOperator : BinaryOperator
+    internal class ModuloOperator : BinaryOperator
     {
         #region Mapping
 

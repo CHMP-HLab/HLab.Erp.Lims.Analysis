@@ -7,7 +7,7 @@
     /// <summary>
     /// The bracket expression (...).
     /// </summary>
-    class BracketExpression : TreeExpression
+    internal class BracketExpression : TreeExpression
     {
         #region ctor
 

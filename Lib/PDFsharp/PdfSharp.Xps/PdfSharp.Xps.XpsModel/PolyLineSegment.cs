@@ -5,7 +5,7 @@ namespace PdfSharp.Xps.XpsModel
     /// <summary>
     /// Specifies a set of points between which lines are drawn.
     /// </summary>
-    class PolyLineSegment : PathSegment
+    internal class PolyLineSegment : PathSegment
   {
     /// <summary>
     /// Gets the smallest rectangle that completely contains all points of the segments.

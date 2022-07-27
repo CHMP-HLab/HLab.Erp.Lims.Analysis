@@ -8,7 +8,7 @@ using System;
 using System.Windows.Input;
 using HLab.Notify.PropertyChanged;
 using System.Threading.Tasks;
-
+using HLab.Erp.Base.Data;
 /* Modification non fusionnée à partir du projet 'HLab.Erp.Lims.Analysis.Module (net6.0-windows)'
 Avant :
 using HLab.Erp.Lims.Analysis.Data.Entities;
@@ -27,11 +27,11 @@ using HLab.Erp.Lims.Analysis.Module.Pharmacopoeias;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 {
-    using H = H<ProductProductComponentListViewModel>;
-    public class ProductProductComponentListViewModel : EntityListViewModel<ProductComponent>, IMvvmContextProvider
+    using H = H<ProductProductComponentsListViewModel>; 
+    public class ProductProductComponentsListViewModel : Core.EntityLists.EntityListViewModel<ProductComponent>, IMvvmContextProvider
     {
         public Product Product { get; }
-        public ProductProductComponentListViewModel(Product product) : base(c => c
+        public ProductProductComponentsListViewModel(Injector i, Product product) : base(i, c => c
                 //.DeleteAllowed()
                 .StaticFilter(e => e.ProductId == product.Id)
 
@@ -50,8 +50,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
                .Column("Unit")
                .Header("{Unit}")
                .Width(100)
-               .Content(e => e.Quantity)
-               .OrderBy(e => e.Quantity)
+               .Content(e => e.Unit?.Symbol)
+               .OrderBy(e => e.Unit?.Symbol)
         )
         {
 
@@ -62,7 +62,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         }
 
         public bool EditMode { get => _editMode.Get(); set => _editMode.Set(value); }
-        private readonly IProperty<bool> _editMode = H.Property<bool>(c => c.Default(false));
+        readonly IProperty<bool> _editMode = H.Property<bool>(c => c.Default(false));
 
         protected override bool CanExecuteDelete(ProductComponent sampleTest, Action<string> errorAction)
         {
@@ -75,8 +75,9 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         }
 
         public override Type AddArgumentClass => typeof(Inn);
+        public Type AddListClass => typeof(InnsListViewModel);
 
-        private readonly ITrigger _1 = H.Trigger(c => c
+        readonly ITrigger _1 = H.Trigger(c => c
             //.On(e => e.Sample.Stage)
             //.On(e => e.Sample.Pharmacopoeia)
             //.On(e => e.Sample.PharmacopoeiaVersion)
@@ -95,7 +96,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         protected override bool CanExecuteAdd(Action<string> errorAction)
         {
             if (!EditMode) return false;
-            if (!Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest)) return false;
+            if (!Injected.Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest)) return false;
             //if (Sample.Pharmacopoeia == null)
             //{
             //    errorAction("{Missing} : {Pharmacopoeia}");
@@ -118,16 +119,13 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
         {
             if (arg is not Inn inn) return;
 
-            var component = await Erp.Data.AddAsync<ProductComponent>(pc =>
+            var unit = await Injected.Erp.Data.FetchOneAsync<Unit>(e => e.Symbol=="mg");
+
+            var component = await Injected.Erp.Data.AddAsync<ProductComponent>(pc =>
             {
                 pc.Product = Product;
-                //st.TestClass = testClass;
-                //st.Pharmacopoeia = Sample.Pharmacopoeia;
-                //st.PharmacopoeiaVersion = Sample.PharmacopoeiaVersion;
-                ////st.Code = testClass.Code;
-                //st.Description = "";
-                //st.TestName = testClass.Name;
-                //st.Stage = SampleTestWorkflow.DefaultStage;
+                pc.Inn = inn;
+                pc.Unit = unit;
             });
 
             if (component != null) List.Update();

@@ -5,7 +5,7 @@
     [Description("ACorFunctionDescription")]
     [Kind(PopularKinds.Statistic)]
     [Link("ACorFunctionLink")]
-    sealed class ACorFunction : ArgumentFunction
+    internal sealed class ACorFunction : ArgumentFunction
     {
         [Description("ACorFunctionDescriptionForMatrix")]
         [Example("acor(3 + randn(100, 1))", "ACorFunctionExampleForMatrix1")]

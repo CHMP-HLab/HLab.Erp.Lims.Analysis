@@ -6,7 +6,7 @@ namespace YAMP
     [Description("RandeFunctionDescription")]
     [Kind(PopularKinds.Random)]
     [Link("RandeFunctionLink")]
-    sealed class RandeFunction : ArgumentFunction
+    internal sealed class RandeFunction : ArgumentFunction
 	{
 		readonly ExponentialDistribution Distribution = new ExponentialDistribution(Rng);
 

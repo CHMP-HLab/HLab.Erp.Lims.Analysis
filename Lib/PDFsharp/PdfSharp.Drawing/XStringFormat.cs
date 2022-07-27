@@ -228,7 +228,8 @@ namespace PdfSharp.Drawing
 #endif
       }
     }
-    private XStringFormatFlags formatFlags;
+
+    XStringFormatFlags formatFlags;
 
 #if GDI
     internal StringFormat RealizeGdiStringFormat()

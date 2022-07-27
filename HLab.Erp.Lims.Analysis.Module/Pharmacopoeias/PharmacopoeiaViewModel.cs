@@ -9,13 +9,15 @@ namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
     {
 
 
-        public PharmacopoeiaViewModelDesign()
+        public PharmacopoeiaViewModelDesign():base(null)
         {
             Model = Pharmacopoeia.DesignModel;
         }
     }
     public class PharmacopoeiaViewModel : ListableEntityViewModel<Pharmacopoeia>
     {
-
+        public PharmacopoeiaViewModel(Injector i) : base(i)
+        {
+        }
     }
 }

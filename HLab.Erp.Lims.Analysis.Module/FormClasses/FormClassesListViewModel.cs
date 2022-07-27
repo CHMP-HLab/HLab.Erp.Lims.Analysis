@@ -10,7 +10,7 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
-    public class FormClassesListViewModel : EntityListViewModel<FormClass>, IMvvmContextProvider
+    public class FormClassesListViewModel : Core.EntityLists.EntityListViewModel<FormClass>, IMvvmContextProvider
     {
         public class Bootloader : NestedBootloader
         {
@@ -19,16 +19,16 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
         protected override bool CanExecuteAdd(Action<string> errorAction)
         {
-            return Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
+            return Injected.Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
         }
 
         protected override bool CanExecuteDelete(FormClass target,Action<string> errorAction)
         {
             RemoveErrorMessage("Delete");
-            return Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
+            return Injected.Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisProductCreate);
         }
 
-        public FormClassesListViewModel() : base(c => c
+        public FormClassesListViewModel(Injector i) : base(i, c => c
             .Column("Name")
             .Header("{Name}")
             .Width(200)

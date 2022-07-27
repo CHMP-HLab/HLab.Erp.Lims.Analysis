@@ -46,7 +46,7 @@ namespace NPoco
 
             readonly string sql;
             readonly SqlBuilder builder;
-            private List<object> finalParams = new List<object>();
+            List<object> finalParams = new List<object>();
             int dataSeq;
 
             public Template(SqlBuilder builder, string sql, params object[] parameters)
@@ -79,7 +79,7 @@ namespace NPoco
                 }
             }
 
-            private void ReplaceDefaults()
+            void ReplaceDefaults()
             {
                 if (TokenReplacementRequired)
                 {
@@ -121,7 +121,7 @@ namespace NPoco
                 });
             }
 
-            private static string GetFullTokenRegexPattern(string key)
+            static string GetFullTokenRegexPattern(string key)
             {
                 return @"/\*\*" + key + @"\*\*/";
             }

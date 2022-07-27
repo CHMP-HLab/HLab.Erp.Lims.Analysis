@@ -4,7 +4,7 @@
 
     [Description("TrilFunctionDescription")]
     [Kind(PopularKinds.Function)]
-    sealed class TrilFunction : ArgumentFunction
+    internal sealed class TrilFunction : ArgumentFunction
     {
         [Description("TrilFunctionDescriptionForMatrix")]
         [Example("tril(rand(4))", "TrilFunctionExampleForMatrix1")]

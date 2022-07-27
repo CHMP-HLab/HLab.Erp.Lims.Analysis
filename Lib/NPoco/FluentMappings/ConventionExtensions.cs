@@ -23,7 +23,7 @@ namespace NPoco.FluentMappings
             scanner.Columns.ForceDateTimesToUtcWhere(x => x.GetMemberInfoType() == typeof(DateTime) || x.GetMemberInfoType() == typeof(DateTime?));
         }
 
-        private static string ToLowerIf(string s, bool clause)
+        static string ToLowerIf(string s, bool clause)
         {
             return clause ? s.ToLowerInvariant() : s;
         }

@@ -3,7 +3,7 @@
     /// <summary>
     /// Base class of all five brush types
     /// </summary>
-    class Brush : XpsElement
+    internal class Brush : XpsElement
   {
     internal static Brush Parse(string value)
     {

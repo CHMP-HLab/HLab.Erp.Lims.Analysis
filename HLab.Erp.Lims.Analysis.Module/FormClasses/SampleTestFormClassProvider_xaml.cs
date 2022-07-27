@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Windows.Navigation;
 using HLab.Compiler.Wpf;
 
 namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 {
     public partial class SampleTestFormClassProvider : FormClassProvider
     {
-        private const string XamlHeader = @"
+        const string XamlHeader = @"
             <UserControl 
             xmlns = ""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
             xmlns:x = ""http://schemas.microsoft.com/winfx/2006/xaml""
@@ -32,9 +33,9 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             ";
 
 
-        private readonly int _headerLength = LineCount(XamlHeader.Substring(0, XamlHeader.IndexOf("<!--Content-->", StringComparison.InvariantCulture)))-1;
+        readonly int _headerLength = LineCount(XamlHeader.Substring(0, XamlHeader.IndexOf("<!--Content-->", StringComparison.InvariantCulture)))-1;
 
-        private static string AddXamlHeader(string xaml)
+        protected override string PrepareXaml(string xaml)
         {
             xaml = XamlHeader.Replace("<!--Content-->", xaml);
 
@@ -44,7 +45,7 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
                 .Replace("\"Black\"", "\"{DynamicResource MahApps.Brushes.ThemeForeground}\"")
                 .Replace("\"White\"", "\"{DynamicResource MahApps.Brushes.ThemeBackground}\"")
                 ;
-            return xaml;
+            return base.PrepareXaml(xaml);
         }
 
         static string ApplyLanguage(String text, string language = "")
@@ -55,10 +56,6 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
 
                 return Regex.Replace(Regex.Replace(text, @"\{US=[\s|!-\|~-■]*}", ""), @"\{FR=([\s|!-\|~-■]*)}", "$1"); // En français
             }
-
-        public SampleTestFormClassProvider(Assembly assembly, string xaml) : base(assembly, AddXamlHeader(xaml))
-        {
-        }
 
         protected override CompileError TranslateXamlError(CompileError error)
         {

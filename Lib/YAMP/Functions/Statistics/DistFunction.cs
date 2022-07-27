@@ -5,7 +5,7 @@
 
     [Description("DistFunctionDescription")]
     [Kind(PopularKinds.Statistic)]
-    sealed class DistFunction : SystemFunction
+    internal sealed class DistFunction : SystemFunction
     {
         public DistFunction(ParseContext context)
             : base(context)

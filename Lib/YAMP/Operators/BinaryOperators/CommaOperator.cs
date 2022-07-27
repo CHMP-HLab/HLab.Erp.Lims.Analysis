@@ -6,7 +6,7 @@
     /// This is the class used for the operator that seperated various arguments
     /// in round brackets.
     /// </summary>
-	class CommaOperator : BinaryOperator
+    internal class CommaOperator : BinaryOperator
     {
         #region Mapping
 

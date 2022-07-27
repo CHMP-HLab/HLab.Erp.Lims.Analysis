@@ -5,7 +5,7 @@
     /// <summary>
     /// The basic or || operator.
     /// </summary>
-    class OrOperator : LogicOperator
+    internal class OrOperator : LogicOperator
     {
         #region Mapping
 

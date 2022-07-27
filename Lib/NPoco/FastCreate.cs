@@ -15,10 +15,10 @@ namespace NPoco
 
     public class FastCreate : IFastCreate
     {
-        private readonly Type _type;
-        private readonly MapperCollection _mapperCollection;
-        private ConstructorInfo _constructorInfo;
-        private Func<DbDataReader, object> _createDelegate;
+        readonly Type _type;
+        readonly MapperCollection _mapperCollection;
+        ConstructorInfo _constructorInfo;
+        Func<DbDataReader, object> _createDelegate;
 
         public FastCreate(Type type, MapperCollection mapperCollection)
         {
@@ -40,7 +40,7 @@ namespace NPoco
             }
         }
 
-        private Func<DbDataReader, object> GetCreateDelegate()
+        Func<DbDataReader, object> GetCreateDelegate()
         {
             if (_mapperCollection.HasFactory(_type))
                 return dataReader => _mapperCollection.GetFactory(_type)(dataReader);
@@ -55,7 +55,7 @@ namespace NPoco
             return x => create(parameters);
         }
 
-        private static Func<object[], object> CreateObjectFactoryMethodWithCtorParams(ConstructorInfo ctor)
+        static Func<object[], object> CreateObjectFactoryMethodWithCtorParams(ConstructorInfo ctor)
         {
             var dm = new DynamicMethod(string.Format("_ObjectFactory_{0}", Guid.NewGuid()), typeof(object), new Type[] { typeof(object[]) }, true);
             var il = dm.GetILGenerator();
@@ -78,7 +78,7 @@ namespace NPoco
             return (Func<object[], object>)dm.CreateDelegate(typeof(Func<object[], object>));
         }
 
-        private static void EmitInt32(ILGenerator il, int value)
+        static void EmitInt32(ILGenerator il, int value)
         {
             switch (value)
             {
@@ -105,7 +105,7 @@ namespace NPoco
             }
         }
 
-        private static ConstructorInfo GetConstructorInfo(Type type)
+        static ConstructorInfo GetConstructorInfo(Type type)
         {
             var constructorParameters = type
                 .GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)

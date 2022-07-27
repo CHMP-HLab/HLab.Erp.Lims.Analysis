@@ -17,42 +17,49 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             get => _name.Get();
             set => _name.Set(value);
         }
-        private readonly IProperty<string> _name = H.Property<string>();
+
+        readonly IProperty<string> _name = H.Property<string>();
         public byte[] Code
         {
             get => _code.Get();
             set => _code.Set(value);
         }
-        private readonly IProperty<byte[]> _code = H.Property<byte[]>();
+
+        readonly IProperty<byte[]> _code = H.Property<byte[]>();
         public string Class
         {
             get => _class.Get();
             set => _class.Set(value);
         }
-        private readonly IProperty<string> _class = H.Property<string>();
+
+        readonly IProperty<string> _class = H.Property<string>();
         public string IconPath
         {
             get => _iconPath.Get();
             set => _iconPath.Set(value);
         }
-        private readonly IProperty<string> _iconPath = H.Property<string>();
+
+        readonly IProperty<string> _iconPath = H.Property<string>();
         public string Version
         {
             get => _version.Get();
             set => _version.Set(value);
         }
-        private readonly IProperty<string> _version = H.Property<string>();
+
+        readonly IProperty<string> _version = H.Property<string>();
 
         public byte[] CodeHash
         {
             get => _codeHash.Get();
             set => _codeHash.Set(value);
         }
-        private readonly IProperty<byte[]> _codeHash = H.Property<byte[]>();
+
+        readonly IProperty<byte[]> _codeHash = H.Property<byte[]>();
 
         [Ignore]
         public string Caption => _caption.Get();
-        private readonly IProperty<string> _caption = H.Property<string>(c => c
+
+        readonly IProperty<string> _caption = H.Property<string>(c => c
             .On(e => e.Name)
             .Set(e => string.IsNullOrWhiteSpace(e.Name)?"{New form class}":$"{{Form class}}\n{e.Name}")
         );

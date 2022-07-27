@@ -399,11 +399,11 @@ namespace PdfSharp.Pdf
       return new PdfPagesEnumerator(this);
     }
 
-    private class PdfPagesEnumerator : IEnumerator
+    class PdfPagesEnumerator : IEnumerator
     {
-      private PdfPage currentElement;
-      private int index;
-      private PdfPages list;
+        PdfPage currentElement;
+        int index;
+        PdfPages list;
 
       internal PdfPagesEnumerator(PdfPages list)
       {

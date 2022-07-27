@@ -8,7 +8,7 @@
     /// <summary>
     /// This class represents a group of statements.
     /// </summary>
-    class GroupExpression : Expression
+    internal class GroupExpression : Expression
     {
         #region Fields
 

@@ -8,7 +8,7 @@ namespace YAMP
     /// <summary>
     /// Presents the class for string expressions "...".
     /// </summary>
-	class StringExpression : Expression
+    internal class StringExpression : Expression
     {
         #region Fields
 

@@ -116,49 +116,50 @@ namespace PdfSharp.SharpZipLib.Zip.Compression
       *
       */
 
-    private static int IS_SETDICT = 0x01;
-    private static int IS_FLUSHING = 0x04;
-    private static int IS_FINISHING = 0x08;
+    static int IS_SETDICT = 0x01;
+    static int IS_FLUSHING = 0x04;
+    static int IS_FINISHING = 0x08;
 
-    private static int INIT_STATE = 0x00;
-    private static int SETDICT_STATE = 0x01;
+    static int INIT_STATE = 0x00;
+
+    static int SETDICT_STATE = 0x01;
     //		private static  int INIT_FINISHING_STATE    = 0x08;
     //		private static  int SETDICT_FINISHING_STATE = 0x09;
-    private static int BUSY_STATE = 0x10;
-    private static int FLUSHING_STATE = 0x14;
-    private static int FINISHING_STATE = 0x1c;
-    private static int FINISHED_STATE = 0x1e;
-    private static int CLOSED_STATE = 0x7f;
+    static int BUSY_STATE = 0x10;
+    static int FLUSHING_STATE = 0x14;
+    static int FINISHING_STATE = 0x1c;
+    static int FINISHED_STATE = 0x1e;
+    static int CLOSED_STATE = 0x7f;
 
     /// <summary>
     /// Compression level.
     /// </summary>
-    private int level;
+    int level;
 
     /// <summary>
     /// If true no Zlib/RFC1950 headers or footers are generated
     /// </summary>
-    private bool noZlibHeaderOrFooter;
+    bool noZlibHeaderOrFooter;
 
     /// <summary>
     /// The current state.
     /// </summary>
-    private int state;
+    int state;
 
     /// <summary>
     /// The total bytes of output written.
     /// </summary>
-    private long totalOut;
+    long totalOut;
 
     /// <summary>
     /// The pending output.
     /// </summary>
-    private DeflaterPending pending;
+    DeflaterPending pending;
 
     /// <summary>
     /// The deflater engine.
     /// </summary>
-    private DeflaterEngine engine;
+    DeflaterEngine engine;
 
     /// <summary>
     /// Creates a new deflater with default compression level.

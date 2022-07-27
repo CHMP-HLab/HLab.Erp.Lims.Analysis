@@ -37,7 +37,7 @@ namespace NPoco
         string _sqlFinal;
         object[] _argsFinal;
 
-        private void Build()
+        void Build()
         {
             // already built?
             if (_sqlFinal != null)
@@ -108,7 +108,7 @@ namespace NPoco
             return sql?._sql != null && sql._sql.StartsWith(sqltype, StringComparison.OrdinalIgnoreCase);
         }
 
-        private void Build(StringBuilder sb, List<object> args, Sql lhs)
+        void Build(StringBuilder sb, List<object> args, Sql lhs)
         {
             if (!string.IsNullOrEmpty(_sql))
             {
@@ -160,7 +160,7 @@ namespace NPoco
             return this;
         }
 
-        private SqlJoinClause Join(string joinType, string table)
+        SqlJoinClause Join(string joinType, string table)
         {
             Append(joinType + table);
             return new SqlJoinClause(this);
@@ -172,7 +172,7 @@ namespace NPoco
 
         public class SqlJoinClause
         {
-            private readonly Sql _sql;
+            readonly Sql _sql;
 
             public SqlJoinClause(Sql sql)
             {

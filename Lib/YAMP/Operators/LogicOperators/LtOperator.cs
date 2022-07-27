@@ -5,7 +5,7 @@ namespace YAMP
     /// <summary>
     /// This is the lighter than operator.
     /// </summary>
-	class LtOperator : LogicOperator
+    internal class LtOperator : LogicOperator
 	{
         #region Mapping
 

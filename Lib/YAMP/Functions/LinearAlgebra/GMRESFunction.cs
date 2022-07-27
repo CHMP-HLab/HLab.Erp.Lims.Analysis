@@ -5,7 +5,7 @@
     [Description("GMRESFunctionDescription")]
     [Kind(PopularKinds.Function)]
     [Link("GMRESFunctionLink")]
-    sealed class GMRESFunction : ArgumentFunction
+    internal sealed class GMRESFunction : ArgumentFunction
     {
         [Description("GMRESFunctionDescriptionForMatrixMatrix")]
         [Example("gmres(rand(3), rand(3,1))", "GMRESFunctionExampleForMatrixMatrix1")]

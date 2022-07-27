@@ -2,7 +2,7 @@
 
 namespace PdfSharp.Xps.Parsing
 {
-    partial class XpsParser
+    internal partial class XpsParser
   {
     /// <summary>
     /// Parses a GradientStop element.

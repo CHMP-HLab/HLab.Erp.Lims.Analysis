@@ -2,7 +2,7 @@
 {
     [Description("ContourFunctionDescription")]
 	[Kind(PopularKinds.Plot)]
-	sealed class ContourFunction : VisualizationFunction
+    internal sealed class ContourFunction : VisualizationFunction
 	{
         public ContourFunction(ParseContext context)
             : base(context)

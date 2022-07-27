@@ -24,7 +24,7 @@ namespace NPoco
             AddCaseInsensitiveString(seed);
         }
 
-        private long _combinedHash = 5381L;
+        long _combinedHash = 5381L;
 
         internal HashCodeCombiner AddInt(int i)
         {

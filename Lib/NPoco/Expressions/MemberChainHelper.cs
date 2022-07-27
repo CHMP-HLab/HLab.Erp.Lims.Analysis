@@ -8,7 +8,7 @@ namespace NPoco.Expressions
 {
     public class MemberChainHelper
     {
-        private static MemberExpression GetMemberExpression(Expression method)
+        static MemberExpression GetMemberExpression(Expression method)
         {
             MemberExpression memberExpr = null;
             LambdaExpression lambda = method as LambdaExpression;

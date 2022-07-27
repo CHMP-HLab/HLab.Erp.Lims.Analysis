@@ -1,6 +1,6 @@
 ﻿namespace PdfSharp.Xps.Rendering
 {
-    class XPCanvas:XPVisual
+    internal class XPCanvas:XPVisual
   {
     public XPCanvas()
     {

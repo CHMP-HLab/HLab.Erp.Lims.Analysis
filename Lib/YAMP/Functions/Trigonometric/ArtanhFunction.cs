@@ -3,7 +3,7 @@
     [Description("ArtanhFunctionDescription")]
     [Kind(PopularKinds.Trigonometric)]
     [Link("ArtanhFunctionLink")]
-    sealed class ArtanhFunction : StandardFunction
+    internal sealed class ArtanhFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

@@ -3,7 +3,7 @@
     [Description("ArccotFunctionDescription")]
     [Kind(PopularKinds.Trigonometric)]
     [Link("ArccotFunctionLink")]
-    sealed class ArccotFunction : StandardFunction
+    internal sealed class ArccotFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue z)
         {

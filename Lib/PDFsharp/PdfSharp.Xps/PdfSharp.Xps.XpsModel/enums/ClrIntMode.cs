@@ -1,6 +1,6 @@
 ﻿namespace PdfSharp.Xps.XpsModel
 {
-    enum ClrIntMode
+    internal enum ClrIntMode
   {
     ScRgbLinearInterpolation,
     SRgbLinearInterpolation,

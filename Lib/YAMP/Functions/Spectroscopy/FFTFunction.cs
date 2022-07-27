@@ -5,7 +5,7 @@
     [Description("FFTFunctionDescription")]
 	[Kind(PopularKinds.Function)]
     [Link("FFTFunctionLink")]
-    sealed class FFTFunction : ArgumentFunction
+    internal sealed class FFTFunction : ArgumentFunction
 	{
 		[Description("FFTFunctionDescriptionForMatrix")]
 		[Example("fft([0,1,0,5])", "FFTFunctionExampleForMatrix1")]

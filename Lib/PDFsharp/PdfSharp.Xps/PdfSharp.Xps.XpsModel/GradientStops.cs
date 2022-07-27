@@ -3,7 +3,7 @@
     /// <summary>
     /// Indicates a location and range of color progression for rendering a gradien
     /// </summary>
-    class GradientStop : XpsElement
+    internal class GradientStop : XpsElement
   {
     /// <summary>
     /// Specifies the gradient stop color. An sRGB color value specified as a 6-digit hexadecimal number

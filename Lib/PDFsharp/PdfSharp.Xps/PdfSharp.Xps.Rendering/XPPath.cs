@@ -1,6 +1,6 @@
 ﻿namespace PdfSharp.Xps.Rendering
 {
-    class XPPath : XPVisual
+    internal class XPPath : XPVisual
   {
     public XPPath()
     {

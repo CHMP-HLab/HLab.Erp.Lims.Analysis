@@ -3,7 +3,7 @@
     /// <summary>
     /// 
     /// </summary>
-    class Template : XpsElement
+    internal class Template : XpsElement
   {
     /// <summary>
     /// 

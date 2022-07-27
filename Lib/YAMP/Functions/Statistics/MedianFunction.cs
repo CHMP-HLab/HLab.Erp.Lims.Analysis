@@ -3,7 +3,7 @@
 	[Description("MedianFunctionDescription")]
     [Kind(PopularKinds.Statistic)]
     [Link("MedianFunctionLink")]
-    sealed class MedianFunction : ArgumentFunction
+    internal sealed class MedianFunction : ArgumentFunction
 	{
 		[Description("MedianFunctionDescriptionForMatrix")]
 		[Example("median([1, 5, 2, 8, 7])", "MedianFunctionExampleForMatrix1")]

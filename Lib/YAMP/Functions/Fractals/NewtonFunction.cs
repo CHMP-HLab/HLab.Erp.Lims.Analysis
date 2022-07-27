@@ -6,7 +6,7 @@
     [Description("NewtonFunctionDescription")]
     [Kind(PopularKinds.Function)]
     [Link("NewtonFunctionLink")]
-    sealed class NewtonFunction : ArgumentFunction
+    internal sealed class NewtonFunction : ArgumentFunction
     {
         [Description("NewtonFunctionDescriptionForVoid")]
         [Example("newton()", "NewtonFunctionExampleForVoid1")]

@@ -5,7 +5,7 @@
 
 	[Description("MaxFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class MaxFunction : StandardFunction
+    internal sealed class MaxFunction : StandardFunction
 	{
 		public override Value Perform(Value argument)
 		{

@@ -32,7 +32,7 @@ namespace PdfSharp.Drawing
     ///<summary>
     /// Determines whether rendering based on GDI+ or WPF. For internal use only.
     /// </summary>
-    enum XGraphicTargetContext
+    internal enum XGraphicTargetContext
   {
     /// <summary>
     /// Renders using GDI+.

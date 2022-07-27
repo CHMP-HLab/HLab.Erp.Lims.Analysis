@@ -5,7 +5,7 @@
 
     [Description("FindFunctionDescription")]
     [Kind(PopularKinds.Function)]
-    sealed class FindFunction : ArgumentFunction
+    internal sealed class FindFunction : ArgumentFunction
     {
         [Description("FindFunctionDescriptionForMatrix")]
         [Example("find(isprime(1:1000))", "FindFunctionExampleForMatrix1")]

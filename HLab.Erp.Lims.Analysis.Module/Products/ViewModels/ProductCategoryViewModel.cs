@@ -4,7 +4,10 @@ using HLab.Notify.PropertyChanged;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 {
-    class ProductCategoryViewModel: ListableEntityViewModel<ProductCategory>
+    internal class ProductCategoryViewModel: ListableEntityViewModel<ProductCategory>
     {
+        public ProductCategoryViewModel(Injector i) : base(i)
+        {
+        }
     }
 }

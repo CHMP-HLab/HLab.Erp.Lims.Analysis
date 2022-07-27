@@ -4,7 +4,7 @@
 
     [Description("PauseFunctionDescription")]
     [Kind(PopularKinds.System)]
-    sealed class PauseFunction : SystemFunction
+    internal sealed class PauseFunction : SystemFunction
     {
         public PauseFunction(ParseContext context)
             : base(context)

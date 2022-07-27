@@ -6,7 +6,7 @@
 
     [Description("Hex2DecFunctionDescription")]
     [Kind(PopularKinds.Conversion)]
-    sealed class Hex2DecFunction : ArgumentFunction
+    internal sealed class Hex2DecFunction : ArgumentFunction
     {
         [Description("Hex2DecFunctionDescriptionForString")]
         [Example("hex2dec(\"FF\")", "Hex2DecFunctionExampleForString1")]

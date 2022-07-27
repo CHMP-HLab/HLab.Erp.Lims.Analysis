@@ -23,16 +23,19 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _name.Get();
             set => _name.Set(value);
         }
-        private readonly IProperty<string> _name = H.Property<string>(c => c.Default(""));
+
+        readonly IProperty<string> _name = H.Property<string>(c => c.Default(""));
         public int? Priority
         {
             get => _priority.Get();
             set => _priority.Set(value);
         }
-        private readonly IProperty<int?> _priority = H.Property<int?>();
+
+        readonly IProperty<int?> _priority = H.Property<int?>();
         [Ignore]
         public string Caption => _caption.Get();
-        private readonly IProperty<string> _caption = H.Property<string>(c => c
+
+        readonly IProperty<string> _caption = H.Property<string>(c => c
             .On(e => e.Name)
             .Set(e => string.IsNullOrWhiteSpace(e.Name)?"{New test category}":$"{{Test category}}\n{e.Name}")
         );
@@ -41,7 +44,8 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _iconPath.Get();
             set => _iconPath.Set(value);
         }
-        private readonly IProperty<string> _iconPath = H.Property<string>(c => c.Default(""));
+
+        readonly IProperty<string> _iconPath = H.Property<string>(c => c.Default(""));
     }
 
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// Contains the elements that occupy a single cell of a table.
     /// </summary>
-    class TableCellStructure : XpsElement
+    internal class TableCellStructure : XpsElement
   {
     /// <summary>
     /// Indicates the number of rows this cell spans, or merges into a single cell.

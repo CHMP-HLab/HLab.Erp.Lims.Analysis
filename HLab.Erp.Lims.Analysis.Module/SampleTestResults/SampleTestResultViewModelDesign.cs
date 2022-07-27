@@ -4,7 +4,7 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
 {
     public class SampleTestResultViewModelDesign : SampleTestResultViewModel, IViewModelDesign
     {
-        public SampleTestResultViewModelDesign() : base(null, null, null, null,null, null )
+        public SampleTestResultViewModelDesign() : base(null, null, null, null, null,null, null )
         {
         }
     }

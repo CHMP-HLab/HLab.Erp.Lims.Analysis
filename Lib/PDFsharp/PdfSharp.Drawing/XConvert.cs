@@ -40,7 +40,7 @@ namespace PdfSharp.Drawing
     /// <summary>
     /// Converts XGraphics enums to GDI+ enums.
     /// </summary>
-    static class XConvert
+    internal static class XConvert
   {
 #if GDI
     /// <summary>

@@ -2,7 +2,7 @@
 {
     [Description("ConjFunctionDescription")]
     [Kind(PopularKinds.Function)]
-    sealed class ConjFunction : StandardFunction
+    internal sealed class ConjFunction : StandardFunction
     {
         protected override ScalarValue GetValue(ScalarValue value)
         {

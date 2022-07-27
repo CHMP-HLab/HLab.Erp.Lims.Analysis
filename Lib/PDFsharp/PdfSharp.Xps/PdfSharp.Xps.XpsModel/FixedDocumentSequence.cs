@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies a sequence of fixed documents.
     /// </summary>
-    class FixedDocumentSequence : XpsElement
+    internal class FixedDocumentSequence : XpsElement
   {
     /// <summary>
     /// A collection of document references.

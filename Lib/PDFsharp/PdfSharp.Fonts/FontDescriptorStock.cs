@@ -38,7 +38,7 @@ namespace PdfSharp.Fonts
     /// <summary>
     /// Global table of TrueType fontdescriptor objects.
     /// </summary>
-    class FontDescriptorStock
+    internal class FontDescriptorStock
   {
     FontDescriptorStock()
     {

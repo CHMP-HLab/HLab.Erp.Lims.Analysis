@@ -5,7 +5,7 @@ namespace NPoco.FluentMappings
 {
     public class ConventionScanner : IConventionScanner
     {
-        private readonly ConventionScannerSettings _scannerSettings;
+        readonly ConventionScannerSettings _scannerSettings;
 
         public ConventionScanner(ConventionScannerSettings scannerSettings)
         {

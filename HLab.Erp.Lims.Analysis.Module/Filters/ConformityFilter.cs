@@ -16,7 +16,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
 {
     public class ConformityFilter : Filter<ConformityState>, IWorkflowFilter
     {
-        private static readonly MethodInfo ContainsMethod = typeof(List<ConformityState>).GetMethod("Contains", new[] { typeof(ConformityState) });
+        static readonly MethodInfo ContainsMethod = typeof(List<ConformityState>).GetMethod("Contains", new[] { typeof(ConformityState) });
 
         public class ConformityEntry : NotifierBase
         {
@@ -27,7 +27,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
                 get => _selected.Get();
                 set => _selected.Set(value);
             }
-            private readonly IProperty<bool> _selected = H<ConformityEntry>.Property<bool>();
+
+            readonly IProperty<bool> _selected = H<ConformityEntry>.Property<bool>();
 
             public ConformityState State { get; set; }
 
@@ -36,7 +37,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
         }
 
         public ReadOnlyObservableCollection<ConformityEntry> List { get; }
-        private readonly ObservableCollection<ConformityEntry> _list = new();
+        readonly ObservableCollection<ConformityEntry> _list = new();
 
         public ConformityFilter()
         {
@@ -51,7 +52,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Filters
             }
         }
 
-        private ITrigger _ = H<ConformityFilter>.Trigger(c => c
+        ITrigger _ = H<ConformityFilter>.Trigger(c => c
             .On(e => e.List.Item().Selected)
             .On(e => e.Enabled)
             .Do(e => e.Update?.Invoke())

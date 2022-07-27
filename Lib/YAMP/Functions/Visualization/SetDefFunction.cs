@@ -5,7 +5,7 @@
 
     [Description("SetDefFunctionDescription")]
     [Kind(PopularKinds.Plot)]
-    sealed class SetDefFunction : VisualizationFunction
+    internal sealed class SetDefFunction : VisualizationFunction
     {
         public SetDefFunction(ParseContext context)
             : base(context)

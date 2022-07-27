@@ -11,7 +11,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Prints
    /// </summary>
    public partial class Formatter : Popup
    {
-      private RichTextBox _RichTextBox = null;
+       RichTextBox _RichTextBox = null;
 
       public RichTextBox RichTextBox
       {
@@ -114,7 +114,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Prints
 
       public static readonly DependencyProperty RichTextBoxProperty = DependencyProperty.Register("RichTextBox", typeof(RichTextBox), typeof(Formatter), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnRichTextBoxChanged)));
 
-      private static void OnRichTextBoxChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+      static void OnRichTextBoxChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
       {
          //Console.WriteLine("OnRichTextBoxChanged");     
     
@@ -130,7 +130,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Prints
          StaysOpen = false;
       }
 
-      private void BT_Gras_Click(object sender, RoutedEventArgs e)
+      void BT_Gras_Click(object sender, RoutedEventArgs e)
       {
          if(_RichTextBox.Selection.GetPropertyValue(TextElement.FontWeightProperty).Equals(FontWeights.Bold))
             _RichTextBox.Selection.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
@@ -139,7 +139,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Prints
          _RichTextBox.Focus();
       }
 
-      private void BT_Italique_Click(object sender, RoutedEventArgs e)
+      void BT_Italique_Click(object sender, RoutedEventArgs e)
       {
          if(_RichTextBox.Selection.GetPropertyValue(TextElement.FontStyleProperty).Equals(FontStyles.Italic))
             _RichTextBox.Selection.ApplyPropertyValue(TextElement.FontStyleProperty, FontStyles.Normal);
@@ -148,7 +148,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Prints
          _RichTextBox.Focus();
       }
 
-      private void BT_Souligne_Click(object sender, RoutedEventArgs e)
+      void BT_Souligne_Click(object sender, RoutedEventArgs e)
       {
          if(_RichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Underline))
             _RichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, null);
@@ -157,7 +157,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Prints
          _RichTextBox.Focus();
       }
 
-      private void BT_Barre_Click(object sender, RoutedEventArgs e)
+      void BT_Barre_Click(object sender, RoutedEventArgs e)
       {
          if(_RichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Strikethrough))
             _RichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, null);
@@ -166,31 +166,31 @@ namespace HLab.Erp.Lims.Analysis.Module.Prints
          _RichTextBox.Focus();
       }
 
-      private void BT_Gauche_Click(object sender, RoutedEventArgs e)
+      void BT_Gauche_Click(object sender, RoutedEventArgs e)
       {
          _RichTextBox.Selection.ApplyPropertyValue(Paragraph.TextAlignmentProperty, TextAlignment.Left);
          _RichTextBox.Focus();
       }
 
-      private void BT_Centre_Click(object sender, RoutedEventArgs e)
+      void BT_Centre_Click(object sender, RoutedEventArgs e)
       {
          _RichTextBox.Selection.ApplyPropertyValue(Paragraph.TextAlignmentProperty, TextAlignment.Center);
          _RichTextBox.Focus();
       }
 
-      private void BT_Droite_Click(object sender, RoutedEventArgs e)
+      void BT_Droite_Click(object sender, RoutedEventArgs e)
       {
          _RichTextBox.Selection.ApplyPropertyValue(Paragraph.TextAlignmentProperty, TextAlignment.Right);
          _RichTextBox.Focus();
       }
 
-      private void BT_Jutifie_Click(object sender, RoutedEventArgs e)
+      void BT_Jutifie_Click(object sender, RoutedEventArgs e)
       {
          _RichTextBox.Selection.ApplyPropertyValue(Paragraph.TextAlignmentProperty, TextAlignment.Justify);
          _RichTextBox.Focus();
       }
 
-      private void BT_IndenteMoins_Click(object sender, RoutedEventArgs e)
+      void BT_IndenteMoins_Click(object sender, RoutedEventArgs e)
       {
          object o = _RichTextBox.Selection.GetPropertyValue(Paragraph.MarginProperty);
 
@@ -205,7 +205,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Prints
          _RichTextBox.Focus();
       }
 
-      private void BT_IndentePlus_Click(object sender, RoutedEventArgs e)
+      void BT_IndentePlus_Click(object sender, RoutedEventArgs e)
       {
          object o = _RichTextBox.Selection.GetPropertyValue(Paragraph.MarginProperty);
 
@@ -218,7 +218,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Prints
          _RichTextBox.Focus();
       }
 
-      private void BT_Indice_Click(object sender, RoutedEventArgs e)
+      void BT_Indice_Click(object sender, RoutedEventArgs e)
       {
          if(_RichTextBox.Selection.GetPropertyValue(Typography.VariantsProperty).Equals(FontVariants.Subscript))
             _RichTextBox.Selection.ApplyPropertyValue(Typography.VariantsProperty, FontVariants.Normal);
@@ -227,7 +227,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Prints
          _RichTextBox.Focus();
       }
 
-      private void BT_Exposant_Click(object sender, RoutedEventArgs e)
+      void BT_Exposant_Click(object sender, RoutedEventArgs e)
       {
          if(_RichTextBox.Selection.GetPropertyValue(Typography.VariantsProperty).Equals(FontVariants.Ordinal))
             _RichTextBox.Selection.ApplyPropertyValue(Typography.VariantsProperty, FontVariants.Normal);

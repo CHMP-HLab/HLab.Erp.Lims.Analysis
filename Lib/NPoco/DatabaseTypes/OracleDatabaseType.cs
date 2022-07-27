@@ -47,7 +47,7 @@ namespace NPoco.DatabaseTypes
             return null;
         }
 
-        private DbParameter AdjustSqlInsertCommandText(DbCommand cmd, string primaryKeyName)
+        DbParameter AdjustSqlInsertCommandText(DbCommand cmd, string primaryKeyName)
         {
             cmd.CommandText += string.Format(" returning {0} into :newid", EscapeSqlIdentifier(primaryKeyName));
             var param = cmd.CreateParameter();

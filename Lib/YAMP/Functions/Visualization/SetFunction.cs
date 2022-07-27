@@ -7,7 +7,7 @@
 
 	[Kind(PopularKinds.Plot)]
     [Description("SetFunctionDescription")]
-	sealed class SetFunction : SystemFunction
+    internal sealed class SetFunction : SystemFunction
     {
         public SetFunction(ParseContext context)
             : base(context)

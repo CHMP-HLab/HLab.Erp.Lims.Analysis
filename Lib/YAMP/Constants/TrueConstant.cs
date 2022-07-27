@@ -5,7 +5,7 @@
     /// </summary>
     [Description("TrueConstantDescription")]
     [Kind(PopularKinds.Constant)]
-    sealed class TrueConstant : BaseConstant
+    internal sealed class TrueConstant : BaseConstant
     {
         public override Value Value
         {

@@ -5,7 +5,7 @@ namespace PdfSharp.Xps.XpsModel
     /// <summary>
     /// Represents a collection of GradientStop objecs.
     /// </summary>
-    class GradientStopCollection : List<GradientStop>
+    internal class GradientStopCollection : List<GradientStop>
   {
     // Currently just a placeholder of a generic list.
 

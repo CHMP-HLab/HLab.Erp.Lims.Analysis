@@ -35,18 +35,23 @@
                 </Label>
                 <ContentPresenter Content="{Binding Workflow}"/>-->
 
-                    <lang:Localize Id="{}{Name} : " />
+                    <Label><lang:Localize Id="{}{Name} : " /></Label>
                     <TextBox Text="{Binding Model.Name,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
 
-                    <lang:Localize Id="{}{Version} : " />
+                    <Label><lang:Localize Id="{}{Version} : " /></Label>
                     <TextBox Text="{Binding Model.Version,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
 
-                    <lang:Localize Id="{}{Icon} : " StringFormat="{}{0} : " />
+                    <Label><lang:Localize Id="{}{Icon} : " /></Label>
                     <TextBox Text="{Binding Model.IconPath,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
+
+                    <Label><lang:Localize Id="{}{Compilation} : "/></Label>
+                    <TextBox Text="{Binding FormHelper.Provider.CompileDuration,Mode=OneWay}" HorizontalContentAlignment="Center" />
+
+                    <lang:LocalizedLabel Text="{}{Creation} : "/>
+                    <TextBox Text="{Binding FormHelper.Form.CreationDuration,Mode=OneWay}" HorizontalContentAlignment="Center" />
                 </views:DetailView>
 
                 <views:DetailView 
-                Grid.Row="2" 
                 Text="{}{Results}" 
                 IconPath="Icons/Sample/Folder"
                 EditMode="{Binding Locker.IsActive}">

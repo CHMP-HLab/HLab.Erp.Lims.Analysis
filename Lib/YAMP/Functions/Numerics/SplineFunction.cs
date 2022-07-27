@@ -5,7 +5,7 @@
     [Description("SplineFunctionDescription")]
 	[Kind(PopularKinds.Function)]
     [Link("SplineFunctionLink")]
-    sealed class SplineFunction : ArgumentFunction
+    internal sealed class SplineFunction : ArgumentFunction
     {
         [Description("SplineFunctionDescriptionForMatrixScalar")]
         [Example("spline([-3,9;-2,4;-1,1;0,0;1,1;3,9], 2)", "SplineFunctionExampleForMatrixScalar1")]

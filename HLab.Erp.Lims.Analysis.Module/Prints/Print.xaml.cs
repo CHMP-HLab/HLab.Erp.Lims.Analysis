@@ -58,20 +58,20 @@ namespace Outils
         public static String SmtpMotDePasse = null;
         public ElementInterne Element = new ElementInterne();
 
-        private String _Langue = null;
-        private String _XamlPage = null;
-        private string _XamlElement;
-        private String _XamlElementCourant = null;
-        private List<Page> _Page = new List<Page>();
-        private List<UIElement> _Elements = new List<UIElement>();
-        private List<ItemImprimante> _Imprimante = new List<ItemImprimante>();
-        private int _PageCourante = 0;
-        private Page _PageFrame = new Page();
-        private String _Dossier = null;
-        private String _CheminDefaut = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        private ObservableCollection<ItemAdresse> _Destinataire = new ObservableCollection<ItemAdresse>();
+        String _Langue = null;
+        String _XamlPage = null;
+        string _XamlElement;
+        String _XamlElementCourant = null;
+        List<Page> _Page = new List<Page>();
+        List<UIElement> _Elements = new List<UIElement>();
+        List<ItemImprimante> _Imprimante = new List<ItemImprimante>();
+        int _PageCourante = 0;
+        Page _PageFrame = new Page();
+        String _Dossier = null;
+        String _CheminDefaut = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        ObservableCollection<ItemAdresse> _Destinataire = new ObservableCollection<ItemAdresse>();
 
-        private const double _CoeffRichTextBox = 2.6 / 12.0;
+        const double _CoeffRichTextBox = 2.6 / 12.0;
 
 
         /*##################################################################################################################################################################################################################################################################################################################################################################
@@ -125,7 +125,7 @@ namespace Outils
             }
         }
 
-        private static bool GetValue(object data, string[] path, out string value)
+        static bool GetValue(object data, string[] path, out string value)
         {
             var i = 0;
             while (data != null && i<path.Length)
@@ -149,9 +149,9 @@ namespace Outils
             return true;
         }
 
-        private static bool GetValue(object data, string path, out string value) => GetValue(data,path.Split('.'), out value);
+        static bool GetValue(object data, string path, out string value) => GetValue(data,path.Split('.'), out value);
 
-        private static IEnumerable<string> Fields(string source)
+        static IEnumerable<string> Fields(string source)
         {
             foreach (var match in Regex.Matches(source, @"\{(.*?)\}").WhereNotNull())
             {
@@ -169,7 +169,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private int AffichePage
+        int AffichePage
         {
             set
             {
@@ -404,7 +404,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void CalculerPage()
+        void CalculerPage()
         {
             if (_XamlPage == null)
                 return;
@@ -630,7 +630,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void CalculerElement()
+        void CalculerElement()
         {
             if (_XamlElementCourant == null)
                 return;
@@ -650,7 +650,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void HideLastPageElements(DependencyObject depObj)
+        void HideLastPageElements(DependencyObject depObj)
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
             {
@@ -674,7 +674,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void PagesTotales(DependencyObject dependency)
+        void PagesTotales(DependencyObject dependency)
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(dependency); i++)
             {
@@ -694,7 +694,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private Page CreatePage(string xaml)
+        Page CreatePage(string xaml)
         {
             try
             {
@@ -732,7 +732,7 @@ namespace Outils
             xaml = xaml.Replace("{" + champ + "}", valeur);
         }
 
-        private static void ReplaceZone(ref String xaml, String zone, String valeur)
+        static void ReplaceZone(ref String xaml, String zone, String valeur)
         {
             string sStart = $"<!--{zone}.Start-->";
             string sEnd = $"<!--{zone}.End-->";
@@ -794,7 +794,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void G_Font_SizeChanged(object sender, SizeChangedEventArgs e)
+        void G_Font_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             double largeur = e.NewSize.Height * 210.0 / 297.0;
             if (largeur > e.NewSize.Width - 100.0)
@@ -813,7 +813,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void BT_Imprimer_Click(object sender, RoutedEventArgs e)
+        void BT_Imprimer_Click(object sender, RoutedEventArgs e)
         {
             LogText += "Impression du certificat d'analyse" + TB_Chemin.Text;
             // Ferme la fenêtre
@@ -844,7 +844,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void ReattribuePage()
+        void ReattribuePage()
         {
             object contenu = _PageFrame.Content;
             _PageFrame.Content = null;
@@ -859,7 +859,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private MemoryStream Fichier(bool pdf = false)
+        MemoryStream Fichier(bool pdf = false)
         {
             // Crée le fichier Xps en mémoire
             MemoryStream ms = new MemoryStream();
@@ -943,7 +943,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void Adresse_TextChanged(object sender, TextChangedEventArgs e)
+        void Adresse_TextChanged(object sender, TextChangedEventArgs e)
         {
             // Cherche si il y a des adresses vides
             ItemAdresse vide = null;
@@ -976,7 +976,7 @@ namespace Outils
 
         public String LogText = "";
 
-        private void BT_Email_Click(object sender, RoutedEventArgs e)
+        void BT_Email_Click(object sender, RoutedEventArgs e)
         {
             // Prépare le message
             MailMessage mail = new MailMessage();
@@ -1077,7 +1077,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void BT_Fichier_Click(object sender, RoutedEventArgs e)
+        void BT_Fichier_Click(object sender, RoutedEventArgs e)
         {
             if (TB_Chemin.Text != null)
                 LogText += "Sauvegarde fichier : " + TB_Chemin.Text;
@@ -1107,7 +1107,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void LB_PieceJointe_DragOver(object sender, DragEventArgs e)
+        void LB_PieceJointe_DragOver(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 e.Effects = DragDropEffects.Copy;
@@ -1122,7 +1122,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void LB_PieceJointe_Drop(object sender, DragEventArgs e)
+        void LB_PieceJointe_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -1142,7 +1142,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void SupprimerPj_MouseDown(object sender, MouseButtonEventArgs e)
+        void SupprimerPj_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Console.WriteLine(sender);
         }
@@ -1154,7 +1154,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void BT_Precedent_Click(object sender, RoutedEventArgs e)
+        void BT_Precedent_Click(object sender, RoutedEventArgs e)
         {
             AffichePage--;
         }
@@ -1166,7 +1166,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void BT_Suivante_Click(object sender, RoutedEventArgs e)
+        void BT_Suivante_Click(object sender, RoutedEventArgs e)
         {
             AffichePage++;
         }
@@ -1178,7 +1178,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void TB_Page_DoubleChange(object sender, RoutedEventArgs e)
+        void TB_Page_DoubleChange(object sender, RoutedEventArgs e)
         {
             AffichePage = (int)TB_Page.Double;
         }
@@ -1190,7 +1190,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void TB_PageSelection_DoubleChange(object sender, RoutedEventArgs e)
+        void TB_PageSelection_DoubleChange(object sender, RoutedEventArgs e)
         {
             RB_Plage.IsChecked = true;
         }
@@ -1202,12 +1202,12 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private void RB_Pdf_Checked(object sender, RoutedEventArgs e)
+        void RB_Pdf_Checked(object sender, RoutedEventArgs e)
         {
             BT_Fichier.Tag = "Pdf";
         }
 
-        private void RB_Xps_Checked(object sender, RoutedEventArgs e)
+        void RB_Xps_Checked(object sender, RoutedEventArgs e)
         {
             BT_Fichier.Tag = "Xps";
         }
@@ -1253,7 +1253,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private class ItemImprimante
+        class ItemImprimante
         {
             public PrintQueue _Pq = null;
             BitmapImage _Defaut = null;
@@ -1290,7 +1290,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private class ItemAdresse
+        class ItemAdresse
         {
             public String Adresse { get; set; }
             public String Nom { get; set; }
@@ -1309,7 +1309,7 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private class ItemPj
+        class ItemPj
         {
             //BitmapImage _TypeFichier = null;
 
@@ -1341,11 +1341,11 @@ namespace Outils
         * 
         ***********************************************************************************************************************************************************************************************************************************************************************************/
 
-        private class Pagination : DocumentPaginator
+        class Pagination : DocumentPaginator
         {
-            private List<Page> _Page = null;
-            private int _PremierePage = 0;
-            private int _NbPages = 0;
+            List<Page> _Page = null;
+            int _PremierePage = 0;
+            int _NbPages = 0;
 
             public Pagination(List<Page> page, int premierePage = 0, int dernierePage = 0)
             {

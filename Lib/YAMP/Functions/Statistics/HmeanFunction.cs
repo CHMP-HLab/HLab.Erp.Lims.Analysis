@@ -3,7 +3,7 @@
     [Kind(PopularKinds.Statistic)]
     [Description("HmeanFunctionDescription")]
     [Link("HmeanFunctionLink")]
-    sealed class HmeanFunction : ArgumentFunction
+    internal sealed class HmeanFunction : ArgumentFunction
     {
         [Description("HmeanFunctionDescriptionForMatrix")]
         [Example("hmean([1, 4, 8])", "HmeanFunctionExampleForMatrix1")]

@@ -6,7 +6,7 @@
 
     [Description("Oct2DecFunctionDescription")]
     [Kind(PopularKinds.Conversion)]
-    sealed class Oct2DecFunction : ArgumentFunction
+    internal sealed class Oct2DecFunction : ArgumentFunction
     {
         [Description("Oct2DecFunctionDescriptionForString")]
         [Example("oct2dec(\"1627\")", "Oct2DecFunctionExampleForString1")]

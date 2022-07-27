@@ -3,7 +3,7 @@ namespace YAMP
     /// <summary>
     /// The .* operator.
     /// </summary>
-    class DotMultiplyOperator : DotOperator
+    internal class DotMultiplyOperator : DotOperator
     {
         public DotMultiplyOperator() : base(new MultiplyOperator())
         {

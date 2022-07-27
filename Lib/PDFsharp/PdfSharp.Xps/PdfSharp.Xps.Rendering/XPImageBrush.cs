@@ -5,7 +5,7 @@ using PdfSharp.Drawing;
 
 namespace PdfSharp.Xps.Rendering
 {
-    class XPImageBrush : XPTilingBrush
+    internal class XPImageBrush : XPTilingBrush
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="XPObjectBase"/> class.

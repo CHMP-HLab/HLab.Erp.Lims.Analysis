@@ -8,7 +8,7 @@ namespace YAMP
     /// The absolute expression |...| which returns the absolute value
     /// of the evaluated value inside.
     /// </summary>
-    class AbsExpression : TreeExpression
+    internal class AbsExpression : TreeExpression
     {
         #region ctor
 

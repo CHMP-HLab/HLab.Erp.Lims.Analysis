@@ -10,7 +10,7 @@
     /// Represents the syntax for a function keyword. The basic syntax is
     /// function NAME ( ARGS ) STATEMENT
     /// </summary>
-    class FunctionKeyword : BodyKeyword
+    internal class FunctionKeyword : BodyKeyword
     {
         #region Fields
 

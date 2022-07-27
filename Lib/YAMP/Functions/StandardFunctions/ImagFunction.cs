@@ -2,7 +2,7 @@
 {
 	[Description("ImagFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class ImagFunction : StandardFunction
+    internal sealed class ImagFunction : StandardFunction
 	{
 		protected override ScalarValue GetValue(ScalarValue value)
 		{

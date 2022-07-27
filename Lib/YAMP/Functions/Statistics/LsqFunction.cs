@@ -6,7 +6,7 @@
 	[Description("LsqFunctionDescription")]
     [Kind(PopularKinds.Statistic)]
     [Link("LsqFunctionLink")]
-    sealed class LsqFunction : ArgumentFunction
+    internal sealed class LsqFunction : ArgumentFunction
 	{
 		[Description("LsqFunctionDescriptionForMatrix")]
 		[Example("lsq([1,6;2,5;3,7;4,10])", "LsqFunctionExampleForMatrix1")]

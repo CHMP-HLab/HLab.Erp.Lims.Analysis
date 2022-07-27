@@ -6,7 +6,7 @@
     [Description("RandlFunctionDescription")]
     [Kind(PopularKinds.Random)]
     [Link("RandlFunctionLink")]
-    sealed class RandlFunction : ArgumentFunction
+    internal sealed class RandlFunction : ArgumentFunction
     {
         readonly LaplaceDistribution Distribution = new LaplaceDistribution(Rng);
 

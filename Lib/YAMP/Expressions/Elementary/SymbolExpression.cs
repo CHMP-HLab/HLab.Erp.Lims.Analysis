@@ -7,7 +7,7 @@ namespace YAMP
     /// <summary>
     /// Class for scanning and building symbol expressions
     /// </summary>
-	class SymbolExpression : Expression
+    internal class SymbolExpression : Expression
     {
         #region Fields
 

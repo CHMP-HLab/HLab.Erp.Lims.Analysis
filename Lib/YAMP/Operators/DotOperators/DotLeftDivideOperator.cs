@@ -3,7 +3,7 @@ namespace YAMP
     /// <summary>
     /// The .\ operator.
     /// </summary>
-    class DotLeftDivideOperator : DotOperator
+    internal class DotLeftDivideOperator : DotOperator
     {
         public DotLeftDivideOperator() : base(new LeftDivideOperator())
         {

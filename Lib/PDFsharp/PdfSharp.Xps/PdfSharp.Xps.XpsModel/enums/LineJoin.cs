@@ -1,6 +1,6 @@
 ﻿namespace PdfSharp.Xps.XpsModel
 {
-    enum LineJoin
+    internal enum LineJoin
   {
     Miter,
     Bevel,

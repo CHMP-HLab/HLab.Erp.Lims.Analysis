@@ -1,6 +1,6 @@
 ﻿namespace YAMP
 {
-    abstract class LeftUnaryOperator : UnaryOperator
+    internal abstract class LeftUnaryOperator : UnaryOperator
     {
         public LeftUnaryOperator(string op, int level) : base(op, level)
         {

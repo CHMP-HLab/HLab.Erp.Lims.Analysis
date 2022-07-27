@@ -1,6 +1,6 @@
 ﻿namespace PdfSharp.Xps.XpsModel
 {
-    enum SpreadMethod
+    internal enum SpreadMethod
   {
     Pad,
     Reflect,

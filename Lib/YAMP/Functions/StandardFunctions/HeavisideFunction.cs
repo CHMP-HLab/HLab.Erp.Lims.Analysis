@@ -2,7 +2,7 @@
 {
 	[Description("HeavisideFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class HeavisideFunction : StandardFunction
+    internal sealed class HeavisideFunction : StandardFunction
     {
         public override Value Perform(Value argument)
         {

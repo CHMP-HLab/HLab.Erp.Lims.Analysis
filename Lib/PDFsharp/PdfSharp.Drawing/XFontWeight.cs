@@ -56,7 +56,8 @@ namespace PdfSharp.Drawing
     {
       get { return (this.weight); }
     }
-    private int weight;
+
+    int weight;
 
     //public static XFontWeight FromOpenTypeWeight(int weightValue)
     //{
@@ -158,7 +159,7 @@ namespace PdfSharp.Drawing
       return ConvertToString(format, provider);
     }
 
-    private string ConvertToString(string format, IFormatProvider provider)
+    string ConvertToString(string format, IFormatProvider provider)
     {
       string str;
       if (!XFontWeights.FontWeightToString(Weight, out str))

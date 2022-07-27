@@ -6,13 +6,13 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
 {
-    public class ProductsListPopupViewModel : EntityListViewModel<Product>, IMvvmContextProvider
+    public class ProductsListPopupViewModel : Core.EntityLists.EntityListViewModel<Product>, IMvvmContextProvider
     {
         public void ConfigureMvvmContext(IMvvmContext ctx)
         {
         }
 
-        public ProductsListPopupViewModel() : base(c => c
+        public ProductsListPopupViewModel(Injector i) : base(i, c => c
                 .Header("{Products}")
                 //.AddAllowed()
                 .Column("Reference")

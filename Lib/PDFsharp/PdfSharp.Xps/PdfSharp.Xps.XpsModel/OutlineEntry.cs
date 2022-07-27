@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents an index to a specific location in the document.
     /// </summary>
-    class OutlineEntry : XpsElement
+    internal class OutlineEntry : XpsElement
   {
     /// <summary>
     /// A description of the level where the outline entry exists in the hierarchy.

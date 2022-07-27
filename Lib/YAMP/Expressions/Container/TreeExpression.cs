@@ -4,7 +4,7 @@
     /// This is the abstract base class for expressions that contain other
     /// expressions (and operators), i.e. for containing a container expressions.
     /// </summary>
-    abstract class TreeExpression : ContainerExpression
+    internal abstract class TreeExpression : ContainerExpression
     {
         #region ctor
 

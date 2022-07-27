@@ -4,7 +4,7 @@
 
     [Description("EigValFunctionDescription")]
 	[Kind(PopularKinds.Function)]
-    sealed class EigValFunction : ArgumentFunction
+    internal sealed class EigValFunction : ArgumentFunction
 	{
 		[Description("EigValFunctionDescriptionForMatrix")]
 		[Example("eigval([1,2,3;4,5,6;7,8,9])", "EigValFunctionExampleForMatrix1")]

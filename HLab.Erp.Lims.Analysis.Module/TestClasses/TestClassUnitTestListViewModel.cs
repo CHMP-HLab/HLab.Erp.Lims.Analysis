@@ -10,12 +10,12 @@ using HLab.Mvvm.Annotations;
 
 namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 {
-    public class TestClassUnitTestListViewModel : EntityListViewModel<TestClassUnitTest>, IMvvmContextProvider
+    public class TestClassUnitTestListViewModel : Core.EntityLists.EntityListViewModel<TestClassUnitTest>, IMvvmContextProvider
     {
-        private readonly ObservableCollection<int> _failedTests = new();
-        private readonly Dictionary<int, string> _errors = new();
+        readonly ObservableCollection<int> _failedTests = new();
+        readonly Dictionary<int, string> _errors = new();
 
-        private readonly ObservableCollection<int> _passedTests = new();
+        readonly ObservableCollection<int> _passedTests = new();
 
 
 
@@ -42,7 +42,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
             _passedTests.Add(idx);
         }
 
-        public TestClassUnitTestListViewModel(TestClass testClass) : base(c =>
+        public TestClassUnitTestListViewModel(Injector i, TestClass testClass) : base(i, c =>
         {
             var list = c.Target as TestClassUnitTestListViewModel;
 
@@ -66,7 +66,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         protected override bool CanExecuteDelete(TestClassUnitTest unitTest,Action<string> errorAction) => Selected !=null || (SelectedIds?.Any()??false);
 
-        private void FailedTests_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        void FailedTests_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
         }
 

@@ -5,7 +5,7 @@
 
     [Description("Sph2CartFunctionDescription")]
     [Kind(PopularKinds.Conversion)]
-    sealed class Sph2CartFunction : ArgumentFunction
+    internal sealed class Sph2CartFunction : ArgumentFunction
     {
         [Description("Sph2CartFunctionDescriptionForScalarScalarScalar")]
         [Example("sph2cart(4, pi/2, pi/4)", "Sph2CartFunctionExampleForScalarScalarScalar1")]

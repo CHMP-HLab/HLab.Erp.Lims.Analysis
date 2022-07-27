@@ -5,7 +5,7 @@ namespace YAMP
     /// <summary>
     /// This is the not equal to operator.
     /// </summary>
-	abstract class NeqOperator : LogicOperator
+    internal abstract class NeqOperator : LogicOperator
 	{
         public static readonly int OpLevel = OpDefinitions.NeqOperatorLevel;
 

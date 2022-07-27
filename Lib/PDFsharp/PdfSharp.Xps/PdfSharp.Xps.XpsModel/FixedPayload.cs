@@ -16,7 +16,7 @@ namespace PdfSharp.Xps.XpsModel
     /// The container of fixed documents.
     /// The current implementation assumes only one fixed payload per XPS document.
     /// </summary>
-    class FixedPayload
+    internal class FixedPayload
   {
     public FixedPayload(XpsDocument document)
     {

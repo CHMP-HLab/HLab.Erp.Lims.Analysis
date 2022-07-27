@@ -6,7 +6,7 @@
 	[Description("DeltaConstantDescription")]
     [Kind(PopularKinds.Constant)]
     [Link("DeltaConstantLink")]
-	sealed class DeltaConstant : BaseConstant
+    internal sealed class DeltaConstant : BaseConstant
 	{
         static readonly ScalarValue delta = new ScalarValue(4.66920160910299067185320382046620161);
 

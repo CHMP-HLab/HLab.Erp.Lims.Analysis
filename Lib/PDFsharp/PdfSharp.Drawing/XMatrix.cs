@@ -1347,7 +1347,7 @@ namespace PdfSharp.Drawing
       }
     }
 
-    private bool IsDistinguishedIdentity
+    bool IsDistinguishedIdentity
     {
       get { return (this.type == XMatrixTypes.Identity); }
     }

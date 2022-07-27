@@ -3,7 +3,7 @@
     /// <summary>
     /// Base class for all "Xps to Pdf" objects.
     /// </summary>
-    class XPObject
+    internal class XPObject
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="XPObjectBase"/> class.

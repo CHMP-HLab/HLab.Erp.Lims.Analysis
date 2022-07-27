@@ -394,10 +394,10 @@ namespace NPoco.fastJSON
             _params = param.MakeCopy();
         }
 
-        private JSONParameters _params;
-        private bool _usingglobals = false;
-        private Dictionary<object, int> _circobj = new Dictionary<object, int>();
-        private Dictionary<int, object> _cirrev = new Dictionary<int, object>();
+        JSONParameters _params;
+        bool _usingglobals = false;
+        Dictionary<object, int> _circobj = new Dictionary<object, int>();
+        Dictionary<int, object> _cirrev = new Dictionary<int, object>();
 
         public T ToObject<T>(string json)
         {
@@ -482,7 +482,8 @@ namespace NPoco.fastJSON
         }
 
         #region [   p r i v a t e   m e t h o d s   ]
-        private object RootHashTable(List<object> o)
+
+        object RootHashTable(List<object> o)
         {
             Hashtable h = new Hashtable();
 
@@ -502,7 +503,7 @@ namespace NPoco.fastJSON
             return h;
         }
 
-        private object ChangeType(object value, Type conversionType)
+        object ChangeType(object value, Type conversionType)
         {
             if (conversionType == typeof(int))
             {
@@ -557,7 +558,7 @@ namespace NPoco.fastJSON
             return Convert.ChangeType(value, conversionType, CultureInfo.InvariantCulture);
         }
 
-        private object CreateDateTimeOffset(string value)
+        object CreateDateTimeOffset(string value)
         {
             //                   0123456789012345678 9012 9/3 0/4  1/5
             // datetime format = yyyy-MM-ddTHH:mm:ss .nnn  _   +   00:00
@@ -616,7 +617,7 @@ namespace NPoco.fastJSON
             return CreateDateTimeOffset(year, month, day, hour, min, sec, ms, usTicks, new TimeSpan(th, tm, 0));
         }
 
-        private static DateTimeOffset CreateDateTimeOffset(
+        static DateTimeOffset CreateDateTimeOffset(
             int year, int month, int day, int hour, int min, int sec, int milli, int extraTicks, TimeSpan offset)
         {
             var dt = new DateTimeOffset(year, month, day, hour, min, sec, milli, offset);
@@ -627,19 +628,19 @@ namespace NPoco.fastJSON
             return dt;
         }
 
-        private bool IsNullable(Type t)
+        bool IsNullable(Type t)
         {
             if (!t.GetTypeInfo().IsGenericType) return false;
             Type g = t.GetGenericTypeDefinition();
             return (g.Equals(typeof(Nullable<>)));
         }
 
-        private Type UnderlyingTypeOf(Type t)
+        Type UnderlyingTypeOf(Type t)
         {
             return t.GetGenericArguments()[0];
         }
 
-        private object RootList(object parse, Type type)
+        object RootList(object parse, Type type)
         {
             Type[] gtypes = Reflection.Instance.GetGenericArguments(type);
             IList o = (IList)Reflection.Instance.FastCreateInstance(type);
@@ -647,7 +648,7 @@ namespace NPoco.fastJSON
             return o;
         }
 
-        private void DoParseList(object parse, Type it, IList o)
+        void DoParseList(object parse, Type it, IList o)
         {
             Dictionary<string, object> globals = new Dictionary<string, object>();
             foreach (var k in (IList)parse)
@@ -663,7 +664,7 @@ namespace NPoco.fastJSON
             }
         }
 
-        private object RootArray(object parse, Type type)
+        object RootArray(object parse, Type type)
         {
             Type it = type.GetElementType();
             IList o = (IList)Reflection.Instance.FastCreateInstance(typeof(List<>).MakeGenericType(it));
@@ -674,7 +675,7 @@ namespace NPoco.fastJSON
             return array;
         }
 
-        private object RootDictionary(object parse, Type type)
+        object RootDictionary(object parse, Type type)
         {
             Type[] gtypes = Reflection.Instance.GetGenericArguments(type);
             Type t1 = null;
@@ -878,7 +879,7 @@ namespace NPoco.fastJSON
             return o;
         }
 
-        private long AutoConv(object value)
+        long AutoConv(object value)
         {
             if (value is string)
             {
@@ -891,7 +892,7 @@ namespace NPoco.fastJSON
                 return Convert.ToInt64(value);
         }
 
-        private StringDictionary CreateSD(Dictionary<string, object> d)
+        StringDictionary CreateSD(Dictionary<string, object> d)
         {
             StringDictionary nv = new StringDictionary();
 
@@ -901,7 +902,7 @@ namespace NPoco.fastJSON
             return nv;
         }
 
-        private NameValueCollection CreateNV(Dictionary<string, object> d)
+        NameValueCollection CreateNV(Dictionary<string, object> d)
         {
             NameValueCollection nv = new NameValueCollection();
 
@@ -911,7 +912,7 @@ namespace NPoco.fastJSON
             return nv;
         }
 
-        private void ProcessMap(object obj, Dictionary<string, myPropInfo> props, Dictionary<string, object> dic)
+        void ProcessMap(object obj, Dictionary<string, myPropInfo> props, Dictionary<string, object> dic)
         {
             foreach (KeyValuePair<string, object> kv in dic)
             {
@@ -923,7 +924,7 @@ namespace NPoco.fastJSON
             }
         }
 
-        private long CreateLong(string s, int index, int count)
+        long CreateLong(string s, int index, int count)
         {
             long num = 0;
             bool neg = false;
@@ -946,7 +947,7 @@ namespace NPoco.fastJSON
             return num;
         }
 
-        private int CreateInteger(string s, int index, int count)
+        int CreateInteger(string s, int index, int count)
         {
             int num = 0;
             bool neg = false;
@@ -969,13 +970,13 @@ namespace NPoco.fastJSON
             return num;
         }
 
-        private object CreateEnum(Type pt, object v)
+        object CreateEnum(Type pt, object v)
         {
             // FEATURE : optimize create enum
             return Enum.Parse(pt, v.ToString(), true);
         }
 
-        private Guid CreateGuid(string s)
+        Guid CreateGuid(string s)
         {
             if (s.Length > 30)
                 return new Guid(s);
@@ -983,7 +984,7 @@ namespace NPoco.fastJSON
                 return new Guid(Convert.FromBase64String(s));
         }
 
-        private DateTime CreateDateTime(string value)
+        DateTime CreateDateTime(string value)
         {
             if (value.Length < 19)
                 return DateTime.MinValue;
@@ -1017,7 +1018,7 @@ namespace NPoco.fastJSON
                 return new DateTime(year, month, day, hour, min, sec, ms, DateTimeKind.Utc).ToLocalTime();
         }
 
-        private object CreateArray(List<object> data, Type pt, Type bt, Dictionary<string, object> globalTypes)
+        object CreateArray(List<object> data, Type pt, Type bt, Dictionary<string, object> globalTypes)
         {
             if (bt == null)
                 bt = typeof(object);
@@ -1043,7 +1044,7 @@ namespace NPoco.fastJSON
             return col;
         }
 
-        private object CreateGenericList(List<object> data, Type pt, Type bt, Dictionary<string, object> globalTypes)
+        object CreateGenericList(List<object> data, Type pt, Type bt, Dictionary<string, object> globalTypes)
         {
             if (pt != typeof(object))
             {
@@ -1070,7 +1071,7 @@ namespace NPoco.fastJSON
             return data;
         }
 
-        private object CreateStringKeyDictionary(Dictionary<string, object> reader, Type pt, Type[] types, Dictionary<string, object> globalTypes)
+        object CreateStringKeyDictionary(Dictionary<string, object> reader, Type pt, Type[] types, Dictionary<string, object> globalTypes)
         {
             var col = (IDictionary)Reflection.Instance.FastCreateInstance(pt);
             Type arraytype = null;
@@ -1111,7 +1112,7 @@ namespace NPoco.fastJSON
             return col;
         }
 
-        private object CreateDictionary(List<object> reader, Type pt, Type[] types, Dictionary<string, object> globalTypes)
+        object CreateDictionary(List<object> reader, Type pt, Type[] types, Dictionary<string, object> globalTypes)
         {
             IDictionary col = (IDictionary)Reflection.Instance.FastCreateInstance(pt);
             Type t1 = null;
@@ -1146,7 +1147,7 @@ namespace NPoco.fastJSON
         }
 
 #if !DNXCORE50
-        private DataSet CreateDataset(Dictionary<string, object> reader, Dictionary<string, object> globalTypes)
+        DataSet CreateDataset(Dictionary<string, object> reader, Dictionary<string, object> globalTypes)
         {
             DataSet ds = new DataSet();
             ds.EnforceConstraints = false;
@@ -1188,7 +1189,7 @@ namespace NPoco.fastJSON
             return ds;
         }
 
-        private void ReadDataTable(List<object> rows, DataTable dt)
+        void ReadDataTable(List<object> rows, DataTable dt)
         {
             dt.BeginInit();
             dt.BeginLoadData();

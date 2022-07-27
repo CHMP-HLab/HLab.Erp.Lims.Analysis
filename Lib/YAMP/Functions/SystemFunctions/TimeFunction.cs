@@ -4,7 +4,7 @@
 
     [Description("TimeFunctionDescription")]
     [Kind(PopularKinds.System)]
-    sealed class TimeFunction : SystemFunction
+    internal sealed class TimeFunction : SystemFunction
     {
         public TimeFunction(ParseContext context)
             : base(context)

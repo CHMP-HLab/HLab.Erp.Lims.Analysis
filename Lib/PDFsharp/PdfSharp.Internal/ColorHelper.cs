@@ -36,7 +36,7 @@ using System.Drawing;
 
 namespace PdfSharp.Internal
 {
-    struct SColor
+    internal struct SColor
   {
     public byte a;
     public byte r;
@@ -44,7 +44,7 @@ namespace PdfSharp.Internal
     public byte b;
   }
 
-  struct SCColor
+    internal struct SCColor
   {
     public float a;
     public float r;
@@ -52,7 +52,7 @@ namespace PdfSharp.Internal
     public float b;
   }
 
-  static class ColorHelper
+    internal static class ColorHelper
   {
     public static float sRgbToScRgb(byte bval)
     {

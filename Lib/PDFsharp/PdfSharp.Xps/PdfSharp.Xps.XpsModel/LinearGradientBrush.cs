@@ -3,7 +3,7 @@
     /// <summary>
     /// Fills a region with a linear gradient.
     /// </summary>
-    class LinearGradientBrush : Brush
+    internal class LinearGradientBrush : Brush
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="LinearGradientBrush"/> class.

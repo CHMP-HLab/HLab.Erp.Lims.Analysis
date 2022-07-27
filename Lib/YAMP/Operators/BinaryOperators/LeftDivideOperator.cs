@@ -5,7 +5,7 @@ namespace YAMP
     /// <summary>
     /// This is the left divide operator \
     /// </summary>
-	class LeftDivideOperator : BinaryOperator
+    internal class LeftDivideOperator : BinaryOperator
     {
         #region Mapping
 

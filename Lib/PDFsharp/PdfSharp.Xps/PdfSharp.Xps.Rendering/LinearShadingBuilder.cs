@@ -11,7 +11,7 @@ namespace PdfSharp.Xps.Rendering
     /// <summary>
     /// Constructs a PdfShading from LinearGradientBrush or RadialGradientBrush.
     /// </summary>
-    class LinearShadingBuilder : PatternOrShadingBuilder
+    internal class LinearShadingBuilder : PatternOrShadingBuilder
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="LinearShadingBuilder"/> class.

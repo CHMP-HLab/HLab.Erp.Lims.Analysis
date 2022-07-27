@@ -5,7 +5,7 @@
     /// element, or as a resource reference. Drawing content is expressed using <Canvas>, <Path>,
     /// and <Glyphs> elements. 
     /// </summary>
-    class VisualBrush : Brush
+    internal class VisualBrush : Brush
   {
     public VisualBrush()
     {

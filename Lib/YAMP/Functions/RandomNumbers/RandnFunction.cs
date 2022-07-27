@@ -6,7 +6,7 @@ namespace YAMP
     [Description("RandnFunctionDescription")]
     [Kind(PopularKinds.Random)]
     [Link("RandnFunctionLink")]
-    sealed class RandnFunction : ArgumentFunction
+    internal sealed class RandnFunction : ArgumentFunction
 	{	
 		readonly NormalDistribution Distribution = new NormalDistribution(Rng);
 

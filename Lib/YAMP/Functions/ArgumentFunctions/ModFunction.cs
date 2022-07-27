@@ -3,7 +3,7 @@
 	[Description("ModFunctionDescription")]
 	[Kind(PopularKinds.Function)]
     [Link("ModFunctionLink")]
-    sealed class ModFunction : ArgumentFunction
+    internal sealed class ModFunction : ArgumentFunction
 	{
 		[Description("ModFunctionDescriptionForMatrixScalar")]
 		[Example("mod([1,2;3,4], 2)", "ModFunctionExampleForMatrixScalar1")]

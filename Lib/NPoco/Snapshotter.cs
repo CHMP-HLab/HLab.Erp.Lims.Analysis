@@ -19,9 +19,9 @@ namespace NPoco
 
     public class Snapshot<T>
     {
-        private readonly PocoData _pocoData;
-        private T _trackedObject;
-        private readonly Dictionary<PocoColumn, object> _originalValues = new Dictionary<PocoColumn, object>();
+        readonly PocoData _pocoData;
+        T _trackedObject;
+        readonly Dictionary<PocoColumn, object> _originalValues = new Dictionary<PocoColumn, object>();
 
         public Snapshot(PocoData pocoData, T trackedObject)
         {
@@ -30,7 +30,7 @@ namespace NPoco
             PopulateValues(trackedObject);
         }
 
-        private void PopulateValues(T original)
+        void PopulateValues(T original)
         {
             var clone = original.Copy();
             foreach (var pocoColumn in _pocoData.Columns.Values)
@@ -77,7 +77,7 @@ namespace NPoco
             return list;
         }
 
-        private bool AreEqual(object first, object second)
+        bool AreEqual(object first, object second)
         {
             if (first == null && second == null) return true;
             if (first == null) return false;

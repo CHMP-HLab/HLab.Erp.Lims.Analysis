@@ -73,17 +73,17 @@ namespace NPoco.Expressions
 
     public abstract class SqlExpression<T> : ISqlExpression
     {
-        private Expression<Func<T, bool>> underlyingExpression;
-        private List<string> orderByProperties = new List<string>();
-        private List<OrderByMember> orderByMembers = new List<OrderByMember>();
-        private List<SelectMember> selectMembers = new List<SelectMember>();
-        private List<GeneralMember> generalMembers = new List<GeneralMember>();
-        private string selectExpression = string.Empty;
-        private string whereExpression;
-        private string groupBy = string.Empty;
-        private string havingExpression;
-        private string orderBy = string.Empty;
-        private string tableHint = string.Empty;
+        Expression<Func<T, bool>> underlyingExpression;
+        List<string> orderByProperties = new List<string>();
+        List<OrderByMember> orderByMembers = new List<OrderByMember>();
+        List<SelectMember> selectMembers = new List<SelectMember>();
+        List<GeneralMember> generalMembers = new List<GeneralMember>();
+        string selectExpression = string.Empty;
+        string whereExpression;
+        string groupBy = string.Empty;
+        string havingExpression;
+        string orderBy = string.Empty;
+        string tableHint = string.Empty;
 
         List<OrderByMember> ISqlExpression.OrderByMembers { get { return orderByMembers; } }
         List<SelectMember> ISqlExpression.SelectMembers { get { return selectMembers; } }
@@ -100,13 +100,13 @@ namespace NPoco.Expressions
             return ApplyPaging(sql, columns, joinSqlExpressions);
         }
 
-        private string sep = string.Empty;
+        string sep = string.Empty;
         protected string EscapeChar = "\\";
-        private PocoData _pocoData;
-        private readonly IDatabase _database;
-        private readonly DatabaseType _databaseType;
-        private bool PrefixFieldWithTableName { get; set; }
-        private Type _type { get; set; }
+        PocoData _pocoData;
+        readonly IDatabase _database;
+        readonly DatabaseType _databaseType;
+        bool PrefixFieldWithTableName { get; set; }
+        Type _type { get; set; }
 
         public SqlExpression(IDatabase database, PocoData pocoData, bool prefixTableName)
         {
@@ -121,7 +121,7 @@ namespace NPoco.Expressions
 
         public class SqlExpressionContext
         {
-            private readonly SqlExpression<T> _expression;
+            readonly SqlExpression<T> _expression;
 
             public SqlExpressionContext(SqlExpression<T> expression)
             {
@@ -218,7 +218,7 @@ namespace NPoco.Expressions
             return this;
         }
 
-        private void appendSqlFilter(string sqlFilter)
+        void appendSqlFilter(string sqlFilter)
         {
             if (string.IsNullOrEmpty(whereExpression))
             {
@@ -266,7 +266,7 @@ namespace NPoco.Expressions
             return this;
         }
 
-        private void ProcessInternalExpression(Expression<Func<T, bool>> predicate)
+        void ProcessInternalExpression(Expression<Func<T, bool>> predicate)
         {
             sep = " ";
             var exp = PartialEvaluator.Eval(predicate, CanBeEvaluatedLocally);
@@ -278,7 +278,7 @@ namespace NPoco.Expressions
             }
         }
 
-        private bool CanBeEvaluatedLocally(Expression expression)
+        bool CanBeEvaluatedLocally(Expression expression)
         {
             // any operation on a query can't be done locally
             ConstantExpression cex = expression as ConstantExpression;
@@ -362,7 +362,7 @@ namespace NPoco.Expressions
             return this;
         }
 
-        private void BuildOrderByClauseInternal()
+        void BuildOrderByClauseInternal()
         {
             if (orderByMembers.Count > 0)
             {
@@ -494,7 +494,7 @@ namespace NPoco.Expressions
             return applyPaging ? ApplyPaging(sql.ToString(), ModelDef.QueryColumns.Select(x=> new[] { x.Value }), new Dictionary<string, JoinData>()) : sql.ToString();
         }
 
-        private string GetSelectExpression(bool distinct)
+        string GetSelectExpression(bool distinct)
         {
             var selectMembersFromOrderBys = orderByMembers
                 .Select(x => new SelectMember() { PocoColumn = x.PocoColumn, EntityType = x.EntityType, PocoColumns = new[] { x.PocoColumn }})
@@ -506,7 +506,7 @@ namespace NPoco.Expressions
             return selectsql;
         }
 
-        private string WhereExpression
+        string WhereExpression
         {
             get
             {
@@ -518,7 +518,7 @@ namespace NPoco.Expressions
             }
         }
 
-        private string GroupByExpression
+        string GroupByExpression
         {
             get
             {
@@ -530,7 +530,7 @@ namespace NPoco.Expressions
             }
         }
 
-        private string HavingExpression
+        string HavingExpression
         {
             get
             {
@@ -543,7 +543,7 @@ namespace NPoco.Expressions
         }
 
 
-        private string OrderByExpression
+        string OrderByExpression
         {
             get
             {
@@ -573,8 +573,8 @@ namespace NPoco.Expressions
             }
         }
 
-        private int? Rows { get; set; }
-        private int? Skip { get; set; }
+        int? Rows { get; set; }
+        int? Skip { get; set; }
 
         protected internal PocoData ModelDef
         {
@@ -727,7 +727,7 @@ namespace NPoco.Expressions
             return Visit(lambda.Body);
         }
 
-        private static bool IsNullableMember(MemberExpression m)
+        static bool IsNullableMember(MemberExpression m)
         {
             var member = m.Expression as MemberExpression;
             return member != null
@@ -885,7 +885,7 @@ namespace NPoco.Expressions
             }
         }
 
-        private static BinaryExpression FixExpressionForVb(BinaryExpression b)
+        static BinaryExpression FixExpressionForVb(BinaryExpression b)
         {
             if (b.Left is MethodCallExpression)
             {
@@ -902,7 +902,7 @@ namespace NPoco.Expressions
             return b;
         }
 
-        private static Type GetMemberInfoTypeForEnum(PocoColumn pc)
+        static Type GetMemberInfoTypeForEnum(PocoColumn pc)
         {
             if (pc.MemberInfoData.MemberType.GetTypeInfo().IsEnum)
                 return pc.MemberInfoData.MemberType;
@@ -1017,7 +1017,7 @@ namespace NPoco.Expressions
             return getter();
         }
 
-        private Type GetCorrectType(MemberExpression m)
+        Type GetCorrectType(MemberExpression m)
         {
             var type = m.Member.DeclaringType;
             if (m.Expression.NodeType == ExpressionType.MemberAccess)
@@ -1069,7 +1069,7 @@ namespace NPoco.Expressions
         List<object> _params = new List<object>();
         
         string paramPrefix;
-        private bool _projection;
+        bool _projection;
         public SqlExpressionContext Context { get; private set; }
 
         protected virtual object VisitConstant(ConstantExpression c)
@@ -1126,7 +1126,7 @@ namespace NPoco.Expressions
 
         }
 
-        private bool IsColumnAccess(MethodCallExpression m)
+        bool IsColumnAccess(MethodCallExpression m)
         {
             if (m.Object != null && m.Object as MethodCallExpression != null)
                 return IsColumnAccess(m.Object as MethodCallExpression);
@@ -1158,7 +1158,7 @@ namespace NPoco.Expressions
             return Expression.Lambda(m).Compile().DynamicInvoke();
         }
 
-        private bool VisitInnerMethodCall(MethodCallExpression m)
+        bool VisitInnerMethodCall(MethodCallExpression m)
         {
             bool found = false;
             if (m.Arguments.Any(args => ProcessMethodSearchRecursively(args, ref found)))
@@ -1168,7 +1168,7 @@ namespace NPoco.Expressions
             return found;
         }
 
-        private bool ProcessMethodSearchRecursively(Expression args, ref bool found)
+        bool ProcessMethodSearchRecursively(Expression args, ref bool found)
         {
             if (args.NodeType == ExpressionType.Parameter && args.Type == typeof (T))
             {
@@ -1203,7 +1203,7 @@ namespace NPoco.Expressions
             return false;
         }
 
-        private bool IsStaticArrayMethod(MethodCallExpression m)
+        bool IsStaticArrayMethod(MethodCallExpression m)
         {
             if (m.Object == null && m.Method.Name == "Contains")
             {
@@ -1213,7 +1213,7 @@ namespace NPoco.Expressions
             return false;
         }
 
-        private bool IsEnumerableMethod(MethodCallExpression m)
+        bool IsEnumerableMethod(MethodCallExpression m)
         {
             if (m.Object != null
                 && m.Object.Type.IsOrHasGenericInterfaceTypeOf(typeof(IEnumerable<>))
@@ -1256,7 +1256,7 @@ namespace NPoco.Expressions
             }
         }
 
-        private StringBuilder FlattenList(List<object> inArgs, object partialSqlString)
+        StringBuilder FlattenList(List<object> inArgs, object partialSqlString)
         {
             var sIn = new StringBuilder();
             foreach (object e in inArgs)
@@ -1279,7 +1279,7 @@ namespace NPoco.Expressions
             return sIn;
         }
 
-        private static object FormatParameters(object partialSqlString, object e)
+        static object FormatParameters(object partialSqlString, object e)
         {
             if (partialSqlString is EnumMemberAccess && ((EnumMemberAccess)partialSqlString).PocoColumn.ColumnType == typeof(string))
             {
@@ -1421,7 +1421,7 @@ namespace NPoco.Expressions
             return CreateParam(false);
         }
 
-        private string BuildSelectExpression(List<SelectMember> fields, bool distinct)
+        string BuildSelectExpression(List<SelectMember> fields, bool distinct)
         {
             var cols = fields ?? _pocoData.QueryColumns.Select(x => new SelectMember{ PocoColumn = x.Value, EntityType = _pocoData.Type, PocoColumns = new[] { x.Value }});
             return string.Format("SELECT {0}{1} \nFROM {2}{3}",
@@ -1476,7 +1476,7 @@ namespace NPoco.Expressions
             return sqlPage;
         }
 
-        private string BuildInStatement(Expression m, object quotedColName)
+        string BuildInStatement(Expression m, object quotedColName)
         {
             var member = Expression.Convert(m, typeof(object));
             var lambda = Expression.Lambda<Func<object>>(member);

@@ -3,7 +3,7 @@
     /// <summary>
     /// Contains a reference to a FixedDocument part.
     /// </summary>
-    class DocumentReference : XpsElement
+    internal class DocumentReference : XpsElement
   {
     /// <summary>
     /// Specifies the URI of the fixed document content.

@@ -9,7 +9,7 @@ using HLab.Erp.Lims.Analysis.Data.Entities;
 
 namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
 {
-    public class PharmacopoeiasListViewModel: EntityListViewModel<Pharmacopoeia>, IMvvmContextProvider
+    public class PharmacopoeiasListViewModel: Core.EntityLists.EntityListViewModel<Pharmacopoeia>, IMvvmContextProvider
     {
         public class Bootloader : NestedBootloader
         {
@@ -19,7 +19,7 @@ namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
         protected override bool CanExecuteAdd(Action<string> errorAction) => true;
         protected override bool CanExecuteDelete(Pharmacopoeia pharmacopoeia, Action<string> errorAction) => true;
 
-        public PharmacopoeiasListViewModel() : base(c => c
+        public PharmacopoeiasListViewModel(Injector i) : base(i, c => c
             .Column("Name")
             .Header("{Name}").Localize()
             .Width(250).Content(e => e.Name)

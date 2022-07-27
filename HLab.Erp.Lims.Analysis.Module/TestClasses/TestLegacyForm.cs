@@ -41,7 +41,7 @@ namespace HLab.Erp.Lims.Analysis.Module.TestClasses
 
         public class LegacyHelper
         {
-            private readonly TestLegacyForm _form;
+            readonly TestLegacyForm _form;
             public LegacyHelper(TestLegacyForm form)
             {
                 _form = form;

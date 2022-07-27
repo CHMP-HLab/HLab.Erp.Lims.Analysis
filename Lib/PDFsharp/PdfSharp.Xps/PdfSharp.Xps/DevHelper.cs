@@ -5,7 +5,7 @@ namespace PdfSharp.Xps
     /// <summary>
     /// Helper functions for developing the XPS to PDF converter.
     /// </summary>
-    static class DevHelper
+    internal static class DevHelper
   {
     public static void NotImplemented(string message)
     {

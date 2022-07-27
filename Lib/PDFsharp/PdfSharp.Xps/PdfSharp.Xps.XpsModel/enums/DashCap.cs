@@ -1,6 +1,6 @@
 ﻿namespace PdfSharp.Xps.XpsModel
 {
-    enum DashCap
+    internal enum DashCap
   {
     Flat,
     Round,
