@@ -2,6 +2,7 @@
 using System.Linq;
 using HLab.Erp.Acl;
 using HLab.Erp.Data.Observables;
+using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Erp.Workflows;
 using HLab.Notify.PropertyChanged;
 

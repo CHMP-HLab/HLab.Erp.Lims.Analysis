@@ -2,12 +2,11 @@
 using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Notify.PropertyChanged;
 
-namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
+namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels;
+
+internal class ProductCategoryViewModel: ListableEntityViewModel<ProductCategory>
 {
-    internal class ProductCategoryViewModel: ListableEntityViewModel<ProductCategory>
+    public ProductCategoryViewModel(Injector i) : base(i)
     {
-        public ProductCategoryViewModel(Injector i) : base(i)
-        {
-        }
     }
 }

@@ -1,15 +1,14 @@
 ﻿using System.Windows.Controls;
 
-namespace HLab.Erp.Lims.Analysis.Module.Stats
+namespace HLab.Erp.Lims.Analysis.Module.Stats;
+
+/// <summary>
+/// Logique d'interaction pour QueryView.xaml
+/// </summary>
+public partial class QueryView : UserControl
 {
-    /// <summary>
-    /// Logique d'interaction pour QueryView.xaml
-    /// </summary>
-    public partial class QueryView : UserControl
+    public QueryView()
     {
-        public QueryView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

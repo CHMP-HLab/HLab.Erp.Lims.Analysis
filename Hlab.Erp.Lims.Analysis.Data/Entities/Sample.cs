@@ -1,17 +1,15 @@
 using System;
-
 using HLab.Base.Extensions;
 using HLab.Erp.Acl;
 using HLab.Erp.Base.Data;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
-using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Mvvm.Application;
 using HLab.Notify.PropertyChanged;
 
-namespace HLab.Erp.Lims.Analysis.Data
+namespace HLab.Erp.Lims.Analysis.Data.Entities
 {
     using H = HD<Sample>;
     public partial class Sample : Entity, IListableModel
@@ -23,9 +21,7 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _fileId.Get();
             set => _fileId.Set(value);
         }
-
         readonly IProperty<string> _fileId = H.Property<string>();
-
 
         public int? UserId
         {
@@ -37,27 +33,21 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _user.Get(); 
             set => _user.Set(value);
         }
-
         readonly IForeign<User> _user = H.Foreign<User>(); 
-
 
         public string Reference
         {
             get => _reference.Get();
             set => _reference.Set(value);
         }
-
         readonly IProperty<string> _reference = H.Property<string>();
-
 
         public string CustomerReference
         {
             get => _customerReference.Get();
             set => _customerReference.Set(value);
         }
-
         readonly IProperty<string> _customerReference = H.Property<string>();
-
 
         public string ReportReference
         {

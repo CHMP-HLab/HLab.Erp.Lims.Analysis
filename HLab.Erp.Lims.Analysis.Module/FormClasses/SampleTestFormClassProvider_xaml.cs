@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Navigation;
 using HLab.Compiler.Wpf;
 
-namespace HLab.Erp.Lims.Analysis.Module.FormClasses
+namespace HLab.Erp.Lims.Analysis.Module.FormClasses;
+
+public partial class SampleTestFormClassProvider : FormClassProvider
 {
-    public partial class SampleTestFormClassProvider : FormClassProvider
-    {
-        const string XamlHeader = @"
+    const string XamlHeader = @"
             <UserControl 
             xmlns = ""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
             xmlns:x = ""http://schemas.microsoft.com/winfx/2006/xaml""
@@ -33,48 +34,51 @@ namespace HLab.Erp.Lims.Analysis.Module.FormClasses
             ";
 
 
-        readonly int _headerLength = LineCount(XamlHeader.Substring(0, XamlHeader.IndexOf("<!--Content-->", StringComparison.InvariantCulture)))-1;
+    readonly int _headerLength = LineCount(XamlHeader.Substring(0, XamlHeader.IndexOf("<!--Content-->", StringComparison.InvariantCulture)))-1;
 
-        protected override string PrepareXaml(string xaml)
+    protected override async Task<string> PrepareXamlAsync(string xaml)
+    {
+        await Task.Run(() =>
         {
             xaml = XamlHeader.Replace("<!--Content-->", xaml);
 
             xaml = ApplyLanguage(xaml);
 
             xaml = xaml
-                .Replace("\"Black\"", "\"{DynamicResource HLab.Brushes.Foreground}\"")
-                .Replace("\"White\"", "\"{DynamicResource MahApps.Brushes.ThemeBackground}\"")
+                    .Replace("\"Black\"", "\"{DynamicResource HLab.Brushes.Foreground}\"")
+                    .Replace("\"White\"", "\"{DynamicResource MahApps.Brushes.ThemeBackground}\"")
                 ;
-            return base.PrepareXaml(xaml);
-        }
-
-        static string ApplyLanguage(String text, string language = "")
-            {
-                // Choix de la langue
-                if (language == "en")
-                    return Regex.Replace(Regex.Replace(text, @"\{FR=[\s|!-\|~-■]*}", ""), @"\{US=([\s|!-\|~-■]*)}", "$1"); // En anglais
-
-                return Regex.Replace(Regex.Replace(text, @"\{US=[\s|!-\|~-■]*}", ""), @"\{FR=([\s|!-\|~-■]*)}", "$1"); // En français
-            }
-
-        protected override CompileError TranslateXamlError(CompileError error)
-        {
-            var errorLine = error.Line - _headerLength;
-            var errorPos = error.Pos;
-
-            var oldPos = $"Line {error.Line}, position {error.Pos}.";
-            var newPos = $"Line {errorLine}, position {errorPos}.";
-
-            var message = error.Message.Replace(oldPos, newPos);
-
-            return base.TranslateXamlError(new CompileError
-            {
-                Message = message, 
-                Line = errorLine, 
-                Pos = errorPos, 
-                Length = error.Length
-            });
-        }
-
+        });
+        return await base.PrepareXamlAsync(xaml);
     }
+
+    //TODO : Legacy translation to be replaced
+    static string ApplyLanguage(String text, string language = "")
+    {
+        // Choix de la langue
+        if (language == "en")
+            return Regex.Replace(Regex.Replace(text, @"\{FR=[\s|!-\|~-■]*}", ""), @"\{US=([\s|!-\|~-■]*)}", "$1"); // En anglais
+
+        return Regex.Replace(Regex.Replace(text, @"\{US=[\s|!-\|~-■]*}", ""), @"\{FR=([\s|!-\|~-■]*)}", "$1"); // En français
+    }
+
+    protected override CompileError TranslateXamlError(CompileError error)
+    {
+        var errorLine = error.Line - _headerLength;
+        var errorPos = error.Pos;
+
+        var oldPos = $"Line {error.Line}, position {error.Pos}.";
+        var newPos = $"Line {errorLine}, position {errorPos}.";
+
+        var message = error.Message.Replace(oldPos, newPos);
+
+        return base.TranslateXamlError(new CompileError
+        {
+            Message = message, 
+            Line = errorLine, 
+            Pos = errorPos, 
+            Length = error.Length
+        });
+    }
+
 }

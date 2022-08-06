@@ -4,32 +4,31 @@ using System.Windows;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Lims.Analysis.Module.TestClasses;
 
-namespace HLab.Erp.Lims.Analysis.Module.FormClasses
+namespace HLab.Erp.Lims.Analysis.Module.FormClasses;
+
+public interface IForm
 {
-    public interface IForm
-    {
-        IFormTarget Target { get; set; }
-        long CreationDuration { get; set; }
+    IFormTarget Target { get; set; }
+    long CreationDuration { get; set; }
 
-        void Connect(int connectionId, object target) { }
-        void Process(object sender, RoutedEventArgs e) { }
+    void Connect(int connectionId, object target) { }
+    void Process(object sender, RoutedEventArgs e) { }
 
-        FormMode Mode { get; set; }
-        string Version => string.Empty;
+    FormMode Mode { get; set; }
+    string Version => string.Empty;
 
-        IEnumerable<FrameworkElement> NamedElements {get; set;}
+    IEnumerable<FrameworkElement> NamedElements {get; set;}
 
-        void SetFormMode(FormMode formMode);
+    void SetFormMode(FormMode formMode);
 
-        void LoadValues(string values);
+    void LoadValues(string values);
 
-        bool PreventProcess();
-        void AllowProcess();
+    bool PreventProcess();
+    void AllowProcess();
 
-        void SetErrorMessage(FrameworkElement fe);
+    void SetErrorMessage(FrameworkElement fe);
 
-        public void TryProcess(object sender, RoutedEventArgs args);
+    public void TryProcess(object sender, RoutedEventArgs args);
 
-        void Upgrade(FormValues formValues) { }
-    }
+    void Upgrade(FormValues formValues) { }
 }

@@ -1,25 +1,21 @@
 using System;
-
 using HLab.Base.Extensions;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Data;
 using HLab.Erp.Data.Observables;
-using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Notify.PropertyChanged;
 using NPoco;
 
-namespace HLab.Erp.Lims.Analysis.Data
+namespace HLab.Erp.Lims.Analysis.Data.Entities
 {
     using H = HD<SampleTest>;
-
 
     public partial class SampleTest : Entity
         , IEntityWithIcon
         , IEntityWithColor
         ,IFormTarget
     {
-
         public SampleTest() => H.Initialize(this);
 
         public int? SampleId
@@ -27,13 +23,13 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _sample.Id.Get();
             set => _sample.Id.Set(value);
         }
+
         [Ignore]
         public virtual Sample Sample
         {
             set => SampleId = value.Id;
             get => _sample.Get();
         }
-
         readonly IForeign<Sample> _sample = H.Foreign<Sample>();
 
 
@@ -42,33 +38,28 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _testClass.Id.Get();
             set => _testClass.Id.Set(value);
         }
+
         [Ignore]
         public virtual TestClass TestClass
         {
             set => TestClassId = value.Id;
             get => _testClass.Get();
         }
-
         readonly IForeign<TestClass> _testClass = H.Foreign<TestClass>();
-
 
         public int? TestStateId
         {
             get => _testStateId.Get();
             set => _testStateId.Set(value);
         }
-
         readonly IProperty<int?> _testStateId = H.Property<int?>();
-
 
         public int? UserId
         {
             get => _userId.Get();
             set => _userId.Set(value);
         }
-
         readonly IProperty<int?> _userId = H.Property<int?>();
-
 
         public string Method { get; set; }
 
@@ -85,7 +76,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _note.Get();
             set => _note.Set(value);
         }
-
         readonly IProperty<string> _note = H.Property<string>();
 
         public int? Validation
@@ -93,16 +83,13 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _validation.Get();
             set => _validation.Set(value);
         }
-
         readonly IProperty<int?> _validation = H.Property<int?>();
-
 
         public int? ValidatorId
         {
             get => _validatorId.Get();
             set => _validatorId.Set(value);
         }
-
         readonly IProperty<int?> _validatorId = H.Property<int?>();
 
         public string TestName
@@ -110,18 +97,14 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _testName.Get();
             set => _testName.Set(value);
         }
-
         readonly IProperty<string> _testName = H.Property<string>(c => c.Default(""));
-
 
         public string Version
         {
             get => _version.Get();
             set => _version.Set(value);
         }
-
         readonly IProperty<string> _version = H.Property<string>(c => c.Default(""));
-
 
         //public byte[] Code
         //{
@@ -131,31 +114,25 @@ namespace HLab.Erp.Lims.Analysis.Data
         //private readonly IProperty<byte[]> _code = H.Property<byte[]>();
         byte[] IFormTarget.Code => TestClass.Code;
 
-
         public string Description
         {
             get => _description.Get();
             set => _description.Set(value);
         }
-
         readonly IProperty<string> _description = H.Property<string>(c => c.Default(""));
-
 
         public string Specification
         {
             get => _specification.Get();
             set => _specification.Set(value);
         }
-
         readonly IProperty<string> _specification = H.Property<string>(c => c.Default(""));
-
 
         public string Values
         {
             get => _values.Get();
             set => _values.Set(value);
         }
-
         readonly IProperty<string> _values = H.Property<string>(c => c.Default(""));
 
         string IFormTarget.SpecificationValues
@@ -169,7 +146,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _scheduledDate.Get();
             set => _scheduledDate.Set(value.ToUniversalTime());
         }
-
         readonly IProperty<DateTime?> _scheduledDate = H.Property<DateTime?>();
 
         public DateTime? StartDate
@@ -177,25 +153,20 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _startDate.Get();
             set => _startDate.Set(value.ToUniversalTime());
         }
-
         readonly IProperty<DateTime?> _startDate = H.Property<DateTime?>();
-
 
         public DateTime? EndDate
         {
             get => _endDate.Get();
             set => _endDate.Set(value.ToUniversalTime());
         }
-
         readonly IProperty<DateTime?> _endDate = H.Property<DateTime?>();
-
 
         public string OosNo
         {
             get => _oosNo.Get();
             set => _oosNo.Set(value);
         }
-
         readonly IProperty<string> _oosNo = H.Property<string>(c => c.Default(""));
 
         public int? Order
@@ -203,16 +174,13 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _order.Get();
             set => _order.Set(value);
         }
-
         readonly IProperty<int?> _order = H.Property<int?>();
-
 
         public string PharmacopoeiaVersion
         {
             get => _pharmacopoeiaVersion.Get();
             set => _pharmacopoeiaVersion.Set(value);
         }
-
         readonly IProperty<string> _pharmacopoeiaVersion = H.Property<string>(c => c.Default(""));
 
         public int? PharmacopoeiaId
@@ -227,7 +195,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _pharmacopoeia.Get();
             set => _pharmacopoeia.Set(value);
         }
-
         readonly IForeign<Pharmacopoeia> _pharmacopoeia = H.Foreign<Pharmacopoeia>();
 
         [Column("Stage")]
@@ -236,7 +203,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _stageId.Get();
             set => _stageId.Set(value);
         }
-
         readonly IProperty<string> _stageId = H.Property<string>();
         
         [Ignore]
@@ -257,7 +223,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _specificationDone.Get();
             set => _specificationDone.Set(value);
         }
-
         readonly IProperty<bool> _specificationDone = H.Property<bool>();
 
         // RESULT
@@ -266,13 +231,11 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _result.Id.Get();
             set => _result.Id.Set(value);
         }
-        
         [Ignore]public SampleTestResult Result
         {
             get => _result.Get();
             set => _result.Set(value);
         }
-
         readonly IForeign<SampleTestResult> _result = H.Foreign<SampleTestResult>();
 
         bool IFormTarget.MandatoryDone

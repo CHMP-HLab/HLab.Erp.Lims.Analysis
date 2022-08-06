@@ -4,62 +4,61 @@ using System.Windows.Controls;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Lims.Analysis.Module.TestClasses;
 
-namespace HLab.Erp.Lims.Analysis.Module.FormClasses
+namespace HLab.Erp.Lims.Analysis.Module.FormClasses;
+
+public class DummyForm : UserControl, IForm
 {
-    public class DummyForm : UserControl, IForm
+
+    public DummyForm()
+    { }
+
+    public DummyForm(string message)
     {
+        Content = new TextBlock { Text = message };
+    }
 
-        public DummyForm()
-        { }
+    public IFormTarget Target { get; set; }
+    public long CreationDuration { get; set; }
 
-        public DummyForm(string message)
-        {
-            Content = new TextBlock { Text = message };
-        }
+    public void Connect(int connectionId, object target){ }
 
-        public IFormTarget Target { get; set; }
-        public long CreationDuration { get; set; }
+    public void Process(object sender, RoutedEventArgs e){ }
 
-        public void Connect(int connectionId, object target){ }
+    public IFormClassProvider FormClassProvider { get; set; }
 
-        public void Process(object sender, RoutedEventArgs e){ }
+    public FormMode Mode { get; set; }
 
-        public IFormClassProvider FormClassProvider { get; set; }
+    public string Version => "";
 
-        public FormMode Mode { get; set; }
+    public IEnumerable<FrameworkElement> NamedElements { get; set; }
 
-        public string Version => "";
+    public void SetFormMode(FormMode formMode)
+    {
+    }
 
-        public IEnumerable<FrameworkElement> NamedElements { get; set; }
+    public void LoadValues(string values)
+    {
+    }
 
-        public void SetFormMode(FormMode formMode)
-        {
-        }
+    public void SetErrorMessage(FrameworkElement fe)
+    {
+        Content = fe;
+    }
 
-        public void LoadValues(string values)
-        {
-        }
+    public void Upgrade(FormValues formValues)
+    {
+    }
 
-        public void SetErrorMessage(FrameworkElement fe)
-        {
-            Content = fe;
-        }
+    public bool PreventProcess()
+    {
+        return false;
+    }
 
-        public void Upgrade(FormValues formValues)
-        {
-        }
+    public void AllowProcess()
+    {
+    }
 
-        public bool PreventProcess()
-        {
-            return false;
-        }
-
-        public void AllowProcess()
-        {
-        }
-
-        public void TryProcess(object sender, RoutedEventArgs args)
-        {
-        }
+    public void TryProcess(object sender, RoutedEventArgs args)
+    {
     }
 }

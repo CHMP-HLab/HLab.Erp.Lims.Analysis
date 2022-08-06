@@ -4,21 +4,21 @@ using System.Windows.Controls;
 using HLab.Base.Wpf;
 using HLab.Mvvm.Annotations;
 
-namespace HLab.Erp.Lims.Analysis.Module
-{
-    using H = DependencyHelper<ProgressView>;
-    /// <summary>
-    /// Logique d'interaction pour ProgressView.xaml
-    /// </summary>
-    public partial class ProgressView : UserControl//, IView<ViewModeDefault, ProgressViewModel>
-    {
-        public ProgressView()
-        {
-            InitializeComponent();
-        }
+namespace HLab.Erp.Lims.Analysis.Module;
 
-        public static readonly DependencyProperty ValueProperty =
-            H.Property<double>()
+using H = DependencyHelper<ProgressView>;
+/// <summary>
+/// Logique d'interaction pour ProgressView.xaml
+/// </summary>
+public partial class ProgressView : UserControl//, IView<ViewModeDefault, ProgressViewModel>
+{
+    public ProgressView()
+    {
+        InitializeComponent();
+    }
+
+    public static readonly DependencyProperty ValueProperty =
+        H.Property<double>()
             .OnChange((e, a) =>
             {
                 e.ProgressBar.Value = a.NewValue;
@@ -26,11 +26,10 @@ namespace HLab.Erp.Lims.Analysis.Module
             })
             .Register();
 
-        public double Value
-        {
-            get => (double)GetValue(ValueProperty);
-            set => SetValue(ValueProperty, value);
-        }
-
+    public double Value
+    {
+        get => (double)GetValue(ValueProperty);
+        set => SetValue(ValueProperty, value);
     }
+
 }

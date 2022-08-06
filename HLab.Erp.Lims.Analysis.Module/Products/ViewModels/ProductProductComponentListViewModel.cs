@@ -8,7 +8,9 @@ using System;
 using System.Windows.Input;
 using HLab.Notify.PropertyChanged;
 using System.Threading.Tasks;
+using HLab.Erp.Acl;
 using HLab.Erp.Base.Data;
+using HLab.Erp.Data;
 /* Modification non fusionnée à partir du projet 'HLab.Erp.Lims.Analysis.Module (net6.0-windows)'
 Avant :
 using HLab.Erp.Lims.Analysis.Data.Entities;
@@ -25,115 +27,119 @@ using HLab.Erp.Lims.Analysis.Module.Products.ViewModels;
 using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Erp.Lims.Analysis.Module.Pharmacopoeias;
 
-namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels
+namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels;
+
+using H = H<ProductProductComponentsListViewModel>; 
+public class ProductProductComponentsListViewModel : Core.EntityLists.EntityListViewModel<ProductComponent>, IMvvmContextProvider
 {
-    using H = H<ProductProductComponentsListViewModel>; 
-    public class ProductProductComponentsListViewModel : Core.EntityLists.EntityListViewModel<ProductComponent>, IMvvmContextProvider
+    IDataService _data;
+    IAclService _acl;
+
+    public Product Product { get; }
+    public ProductProductComponentsListViewModel(IDataService data, IAclService acl, Injector i, Product product) : base(i, c => c
+        //.DeleteAllowed()
+        .StaticFilter(e => e.ProductId == product.Id)
+
+        .Column("Inn")
+        .Header("{Inn}")
+        .Width(100)
+        .Content(e => e.Inn == null ? "" : e.Inn.Name)
+        .OrderBy(e => e.Inn?.Name)
+
+        .Column("Dose")
+        .Header("{Dose}")
+        .Width(100)
+        .Content(e => e.Quantity)
+        .OrderBy(e => e.Quantity)
+
+        .Column("Unit")
+        .Header("{Unit}")
+        .Width(100)
+        .Content(e => e.Unit?.Symbol)
+        .OrderBy(e => e.Unit?.Symbol)
+    )
     {
-        public Product Product { get; }
-        public ProductProductComponentsListViewModel(Injector i, Product product) : base(i, c => c
-                //.DeleteAllowed()
-                .StaticFilter(e => e.ProductId == product.Id)
 
-               .Column("Inn")
-               .Header("{Inn}")
-               .Width(100)
-               .Content(e => e.Inn == null ? "" : e.Inn.Name)
-               .OrderBy(e => e.Inn?.Name)
+        Product = product;
+        _data = data;
+        _acl = acl;
 
-               .Column("Dose")
-               .Header("{Dose}")
-               .Width(100)
-               .Content(e => e.Quantity)
-               .OrderBy(e => e.Quantity)
+        H.Initialize(this);
+        // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
+    }
 
-               .Column("Unit")
-               .Header("{Unit}")
-               .Width(100)
-               .Content(e => e.Unit?.Symbol)
-               .OrderBy(e => e.Unit?.Symbol)
-        )
+    public bool EditMode { get => _editMode.Get(); set => _editMode.Set(value); }
+    readonly IProperty<bool> _editMode = H.Property<bool>(c => c.Default(false));
+
+    protected override bool CanExecuteDelete(ProductComponent sampleTest, Action<string> errorAction)
+    {
+        if (!EditMode) return false;
+        if (sampleTest == null) return false;
+        //var stage =  sampleTest.Stage.IsAny( errorAction, SampleTestWorkflow.Specifications);
+        //var granted = Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest);
+        //return stage && granted;
+        return true;
+    }
+
+    public override Type AddArgumentClass => typeof(Inn);
+    public Type AddListClass => typeof(InnsListViewModel);
+
+    readonly ITrigger _1 = H.Trigger(c => c
+        //.On(e => e.Sample.Stage)
+        //.On(e => e.Sample.Pharmacopoeia)
+        //.On(e => e.Sample.PharmacopoeiaVersion)
+        .On(e => e.EditMode)
+        .Do(e => (e.AddCommand as CommandPropertyHolder)?.CheckCanExecute())
+    );
+
+    //private readonly ITrigger _triggerConformity = H.Trigger(c => c
+    //    .On(e => e.List.Item().Result.ConformityId)
+    //    .On(e => e.List.Item().Result.Stage)
+    //    .On(e => e.List.Item().Result.Start)
+    //    .On(e => e.List.Item().Result.End)
+    //    .Do(e => e.List.Refresh())
+    //);
+
+    protected override bool CanExecuteAdd(Action<string> errorAction)
+    {
+        if (!EditMode) return false;
+        if (!_acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest)) return false;
+        //if (Sample.Pharmacopoeia == null)
+        //{
+        //    errorAction("{Missing} : {Pharmacopoeia}");
+        //    return false;
+        //}
+        //if (string.IsNullOrWhiteSpace(Sample.PharmacopoeiaVersion))
+        //{
+        //    errorAction("{Missing} : {Pharmacopoeia version}");
+        //    return false;
+        //}
+        //if (! Sample.Stage.IsAny(errorAction,SampleWorkflow.Monograph))
+        //{
+        //    errorAction("{requier stage} : {Monograph}");
+        //    return false;
+        //}
+        return true;
+    }
+
+    protected override async Task AddEntityAsync(object arg)
+    {
+        if (arg is not Inn inn) return;
+
+        var unit = await _data.FetchOneAsync<Unit>(e => e.Symbol=="mg");
+
+        var component = await _data.AddAsync<ProductComponent>(pc =>
         {
+            pc.Product = Product;
+            pc.Inn = inn;
+            pc.Unit = unit;
+        });
 
-            Product = product;
-
-            H.Initialize(this);
-            // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
-        }
-
-        public bool EditMode { get => _editMode.Get(); set => _editMode.Set(value); }
-        readonly IProperty<bool> _editMode = H.Property<bool>(c => c.Default(false));
-
-        protected override bool CanExecuteDelete(ProductComponent sampleTest, Action<string> errorAction)
-        {
-            if (!EditMode) return false;
-            if (sampleTest == null) return false;
-            //var stage =  sampleTest.Stage.IsAny( errorAction, SampleTestWorkflow.Specifications);
-            //var granted = Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest);
-            //return stage && granted;
-            return true;
-        }
-
-        public override Type AddArgumentClass => typeof(Inn);
-        public Type AddListClass => typeof(InnsListViewModel);
-
-        readonly ITrigger _1 = H.Trigger(c => c
-            //.On(e => e.Sample.Stage)
-            //.On(e => e.Sample.Pharmacopoeia)
-            //.On(e => e.Sample.PharmacopoeiaVersion)
-            .On(e => e.EditMode)
-            .Do(e => (e.AddCommand as CommandPropertyHolder)?.CheckCanExecute())
-        );
-
-        //private readonly ITrigger _triggerConformity = H.Trigger(c => c
-        //    .On(e => e.List.Item().Result.ConformityId)
-        //    .On(e => e.List.Item().Result.Stage)
-        //    .On(e => e.List.Item().Result.Start)
-        //    .On(e => e.List.Item().Result.End)
-        //    .Do(e => e.List.Refresh())
-        //);
-
-        protected override bool CanExecuteAdd(Action<string> errorAction)
-        {
-            if (!EditMode) return false;
-            if (!Injected.Erp.Acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest)) return false;
-            //if (Sample.Pharmacopoeia == null)
-            //{
-            //    errorAction("{Missing} : {Pharmacopoeia}");
-            //    return false;
-            //}
-            //if (string.IsNullOrWhiteSpace(Sample.PharmacopoeiaVersion))
-            //{
-            //    errorAction("{Missing} : {Pharmacopoeia version}");
-            //    return false;
-            //}
-            //if (! Sample.Stage.IsAny(errorAction,SampleWorkflow.Monograph))
-            //{
-            //    errorAction("{requier stage} : {Monograph}");
-            //    return false;
-            //}
-            return true;
-        }
-
-        protected override async Task AddEntityAsync(object arg)
-        {
-            if (arg is not Inn inn) return;
-
-            var unit = await Injected.Erp.Data.FetchOneAsync<Unit>(e => e.Symbol=="mg");
-
-            var component = await Injected.Erp.Data.AddAsync<ProductComponent>(pc =>
-            {
-                pc.Product = Product;
-                pc.Inn = inn;
-                pc.Unit = unit;
-            });
-
-            if (component != null) List.Update();
-        }
+        if (component != null) List.Update();
+    }
 
 
-        public void ConfigureMvvmContext(IMvvmContext ctx)
-        {
-        }
+    public void ConfigureMvvmContext(IMvvmContext ctx)
+    {
     }
 }

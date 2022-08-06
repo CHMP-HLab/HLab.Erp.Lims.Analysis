@@ -1,4 +1,6 @@
-﻿using HLab.Erp.Data;
+﻿using System.Diagnostics;
+using System.IO;
+using HLab.Erp.Data;
 using HLab.Notify.PropertyChanged;
 using NPoco;
 
@@ -8,6 +10,20 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
     {
         public LinkedDocument() => HD<LinkedDocument>.Initialize(this);
         
+        public void OpenDocument()
+        {
+            var path = Path.GetTempFileName() + "_" + Name;
+
+            System.IO.File.WriteAllBytes(path, File);
+
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = path,
+                UseShellExecute = true
+            };
+            Process.Start(psi);
+        }
+
 
         public string Name
         {

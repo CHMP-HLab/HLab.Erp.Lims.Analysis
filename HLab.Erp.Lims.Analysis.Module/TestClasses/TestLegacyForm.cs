@@ -6,114 +6,113 @@ using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using System.Globalization;
 using System;
 
-namespace HLab.Erp.Lims.Analysis.Module.TestClasses
+namespace HLab.Erp.Lims.Analysis.Module.TestClasses;
+
+using H = H<TestLegacyForm>;
+
+public abstract class TestLegacyForm : TestForm
 {
-    using H = H<TestLegacyForm>;
-
-    public abstract class TestLegacyForm : TestForm
+    protected static class TestEtat
     {
-        protected static class TestEtat
+        public static ConformityState NonCommence => ConformityState.NotChecked;
+        public static ConformityState EnCours => ConformityState.Running;
+        public static ConformityState NonConforme => ConformityState.NotConform;
+        public static ConformityState Conforme => ConformityState.Conform;
+        public static ConformityState Invalide => ConformityState.Invalid;
+    }
+
+    protected TestLegacyForm()
+    {
+        Test = new LegacyHelper(this);
+        H.Initialize(this);
+    }
+
+    protected override bool HasLevel(FrameworkElement e,ElementLevel level)
+    {
+        if (e.Tag is not string tag || string.IsNullOrWhiteSpace(tag)) return base.HasLevel(e, level);
+        tag = tag.ToLower();
+        return level switch
         {
-            public static ConformityState NonCommence => ConformityState.NotChecked;
-            public static ConformityState EnCours => ConformityState.Running;
-            public static ConformityState NonConforme => ConformityState.NotConform;
-            public static ConformityState Conforme => ConformityState.Conform;
-            public static ConformityState Invalide => ConformityState.Invalid;
+            ElementLevel.Specification => tag[0] == 'n' || base.HasLevel(e, level),
+            ElementLevel.Mandatory => tag[0] == 'o' || base.HasLevel(e, level),
+            _ => base.HasLevel(e, level)
+        };
+    }
+
+    public class LegacyHelper
+    {
+        readonly TestLegacyForm _form;
+        public LegacyHelper(TestLegacyForm form)
+        {
+            _form = form;
+        }
+        public ConformityState Etat
+        {
+            get => _form.Target.ConformityId;
+            set => _form.Target.ConformityId = value;
         }
 
-        protected TestLegacyForm()
+        public string Conforme
         {
-            Test = new LegacyHelper(this);
-            H.Initialize(this);
+            get => _form.Target.Conformity;
+            set => _form.Target.Conformity = value;
         }
 
-        protected override bool HasLevel(FrameworkElement e,ElementLevel level)
+        public string Norme
         {
-            if (e.Tag is not string tag || string.IsNullOrWhiteSpace(tag)) return base.HasLevel(e, level);
-            tag = tag.ToLower();
-            return level switch
-            {
-                ElementLevel.Specification => tag[0] == 'n' || base.HasLevel(e, level),
-                ElementLevel.Mandatory => tag[0] == 'o' || base.HasLevel(e, level),
-                _ => base.HasLevel(e, level)
-            };
+            get => _form.Target.Specification;
+            set => _form.Target.Specification = value;
         }
 
-        public class LegacyHelper
+        public string NomTest
         {
-            readonly TestLegacyForm _form;
-            public LegacyHelper(TestLegacyForm form)
-            {
-                _form = form;
-            }
-            public ConformityState Etat
-            {
-                get => _form.Target.ConformityId;
-                set => _form.Target.ConformityId = value;
-            }
-
-            public string Conforme
-            {
-                get => _form.Target.Conformity;
-                set => _form.Target.Conformity = value;
-            }
-
-            public string Norme
-            {
-                get => _form.Target.Specification;
-                set => _form.Target.Specification = value;
-            }
-
-            public string NomTest
-            {
-                get => _form.Target.TestName;
-                set => _form.Target.TestName = value;
-            }
-
-            public string Description
-            {
-                get => _form.Target.Description;
-                set => _form.Target.Description = value;
-            }
-
-            public string Resultat
-            {
-                get => _form.Target.Result;
-                set => _form.Target.Result = value;
-            }
-
-            public double Calcul(TextBlock block, double value, int decimals = 2)
-            {
-                if (double.IsInfinity(value) || double.IsNaN(value))
-                {
-                    block.Background = InvalidBrush;
-                    block.Text = "!";
-                }
-
-                block.Background = ValidBrush;
-                block.Text = Math.Round(value, decimals).ToString(CultureInfo.CurrentCulture);
-                return value;
-            }
-
-            public double EvalueFormule(string formula)
-            {
-                try
-                {
-                    var engine = new Mages.Core.Engine();
-                    var result = engine.Interpret(formula);
-
-                    if (result != null)
-                        return (double)result;
-                }
-                catch { }
-
-                return double.NaN;
-            }
-
-            public void CheckGroupe(object sender, params CheckBox[] group) => CheckGroup(sender, group);
-
+            get => _form.Target.TestName;
+            set => _form.Target.TestName = value;
         }
-        protected LegacyHelper Test { get; }
+
+        public string Description
+        {
+            get => _form.Target.Description;
+            set => _form.Target.Description = value;
+        }
+
+        public string Resultat
+        {
+            get => _form.Target.Result;
+            set => _form.Target.Result = value;
+        }
+
+        public double Calcul(TextBlock block, double value, int decimals = 2)
+        {
+            if (double.IsInfinity(value) || double.IsNaN(value))
+            {
+                block.Background = InvalidBrush;
+                block.Text = "!";
+            }
+
+            block.Background = ValidBrush;
+            block.Text = Math.Round(value, decimals).ToString(CultureInfo.CurrentCulture);
+            return value;
+        }
+
+        public double EvalueFormule(string formula)
+        {
+            try
+            {
+                var engine = new Mages.Core.Engine();
+                var result = engine.Interpret(formula);
+
+                if (result != null)
+                    return (double)result;
+            }
+            catch { }
+
+            return double.NaN;
+        }
+
+        public void CheckGroupe(object sender, params CheckBox[] group) => CheckGroup(sender, group);
 
     }
+    protected LegacyHelper Test { get; }
+
 }

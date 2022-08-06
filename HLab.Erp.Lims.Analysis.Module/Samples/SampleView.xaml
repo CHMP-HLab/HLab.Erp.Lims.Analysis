@@ -117,14 +117,22 @@
                     </Button>
                 </StackPanel>-->
 
-
-                <Grid Grid.Row="2" VerticalAlignment="Top">
-                    <mvvm:ViewLocator 
-                        ViewClass="{x:Type annotations:IViewClassContent}"
-                        Model="{Binding Tests}"
-                        />
-                </Grid>
-
+<TabControl Grid.Row="2" >
+    <TabItem>
+        <TabItem.Header><lang:LocalizedLabel>{Tests}</lang:LocalizedLabel></TabItem.Header>
+        <mvvm:ViewLocator 
+            ViewClass="{x:Type annotations:IViewClassContent}"
+            Model="{Binding Tests}"
+            />
+    </TabItem>
+    <TabItem>
+        <TabItem.Header><lang:LocalizedLabel>{Movements}</lang:LocalizedLabel></TabItem.Header>
+        <mvvm:ViewLocator 
+            ViewClass="{x:Type annotations:IViewClassContent}"
+            Model="{Binding Movements}"
+        />
+    </TabItem>
+</TabControl>
                 <Grid Grid.Column="2" Grid.Row="3" Height="80">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>

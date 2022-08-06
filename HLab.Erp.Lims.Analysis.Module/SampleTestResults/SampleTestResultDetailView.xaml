@@ -13,9 +13,9 @@
              xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
              xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf" xmlns:audittrails="clr-namespace:HLab.Erp.Acl.AuditTrails;assembly=HLab.Erp.Acl.Wpf" xmlns:module="clr-namespace:HLab.Erp.Lims.Analysis.Module"
              Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
-             d:DataContext="{d:DesignInstance {x:Type sampleTestResults:SampleTestResultViewModelDesign}, IsDesignTimeCreatable=True}"             
+             d:DataContext="{d:DesignInstance {x:Type sampleTestResults:SampleTestResultViewModel+Design}, IsDesignTimeCreatable=True}"             
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="800" d:DesignWidth="800">
     <Grid Background="{DynamicResource MahApps.Brushes.Accent3}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -88,6 +88,26 @@
                     
                     <Label/>
                </views:DetailView>
+
+                <views:DetailView Text="{}{Movements}" IconPath="Icons/Sample/Folder" EditMode="{Binding EditMode}">
+                    <Label />
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Command="{Binding AddMovementCommand}" HorizontalAlignment="Left">
+                                <lang:Localize>{Add movement}</lang:Localize>
+                            </Button>
+                            <Button Command="{Binding DeleteMovementCommand}" HorizontalAlignment="Left">
+                                <lang:Localize>{Remove movement}</lang:Localize>
+                            </Button>
+                            <Button Command="{Binding OpenMovementCommand}" HorizontalAlignment="Left">
+                                <lang:Localize>{Open movement}</lang:Localize>
+                            </Button>
+                        </StackPanel>
+                        <Grid VerticalAlignment="Top" mvvm:ViewLocator.ViewClass="{x:Type annotations:IViewClassContent}">
+                            <mvvm:ViewLocator Model="{Binding Movements}"/>
+                        </Grid>
+                    </StackPanel>
+                </views:DetailView>
                 
                 <!-- DOCUMENTS -->
                 <views:DetailView Text="{}{Documents}" IconPath="Icons/Sample/Folder" EditMode="{Binding EditMode}">
@@ -97,7 +117,7 @@
                             <Button Command="{Binding AddDocumentCommand}" HorizontalAlignment="Left">
                                 <lang:Localize Id="{}{Add document}"/>
                             </Button>
-                            <Button Command="{Binding DeleteDocumentCommand}" HorizontalAlignment="Left">
+                            <Button Command="{Binding RemoveDocumentCommand}" HorizontalAlignment="Left">
                                 <lang:Localize Id="{}{Remove document}"/>
                             </Button>
                             <Button Command="{Binding OpenDocumentCommand}" HorizontalAlignment="Left">

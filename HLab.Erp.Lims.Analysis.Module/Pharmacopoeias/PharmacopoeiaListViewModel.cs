@@ -7,40 +7,39 @@ using HLab.Mvvm.Annotations;
 using System;
 using HLab.Erp.Lims.Analysis.Data.Entities;
 
-namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
+namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias;
+
+public class PharmacopoeiasListViewModel: Core.EntityLists.EntityListViewModel<Pharmacopoeia>, IMvvmContextProvider
 {
-    public class PharmacopoeiasListViewModel: Core.EntityLists.EntityListViewModel<Pharmacopoeia>, IMvvmContextProvider
+    public class Bootloader : NestedBootloader
     {
-        public class Bootloader : NestedBootloader
-        {
-            public override string MenuPath => "param";
-        }
+        public override string MenuPath => "param";
+    }
 
-        protected override bool CanExecuteAdd(Action<string> errorAction) => true;
-        protected override bool CanExecuteDelete(Pharmacopoeia pharmacopoeia, Action<string> errorAction) => true;
+    protected override bool CanExecuteAdd(Action<string> errorAction) => true;
+    protected override bool CanExecuteDelete(Pharmacopoeia pharmacopoeia, Action<string> errorAction) => true;
 
-        public PharmacopoeiasListViewModel(Injector i) : base(i, c => c
-            .Column("Name")
-            .Header("{Name}").Localize()
-            .Width(250).Content(e => e.Name)
-                    .Localize()
-                    .Icon(p => p.IconPath)
-                    .Link(e => e.Name)
-                        .Filter()
+    public PharmacopoeiasListViewModel(Injector i) : base(i, c => c
+        .Column("Name")
+        .Header("{Name}").Localize()
+        .Width(250).Content(e => e.Name)
+        .Localize()
+        .Icon(p => p.IconPath)
+        .Link(e => e.Name)
+        .Filter()
 
-                .Column("Abbreviation")
-                    .Header("{Abbreviation}").Localize()
-                    .Width(250)
-                    .Link(e => e.Abbreviation)
-                        .Filter()
-        )
-        {
-
-        }
-
-        public void ConfigureMvvmContext(IMvvmContext ctx)
-        {
-        }
+        .Column("Abbreviation")
+        .Header("{Abbreviation}").Localize()
+        .Width(250)
+        .Link(e => e.Abbreviation)
+        .Filter()
+    )
+    {
 
     }
+
+    public void ConfigureMvvmContext(IMvvmContext ctx)
+    {
+    }
+
 }

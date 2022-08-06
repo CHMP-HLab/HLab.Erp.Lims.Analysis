@@ -5,30 +5,29 @@ using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Mvvm.Annotations;
 
-namespace HLab.Erp.Lims.Analysis.Module.SampleTests
+namespace HLab.Erp.Lims.Analysis.Module.SampleTests;
+
+public class LinkedDocumentsListViewModel : Core.EntityLists.EntityListViewModel<LinkedDocument>, IMvvmContextProvider
 {
-    public class LinkedDocumentsListViewModel : Core.EntityLists.EntityListViewModel<LinkedDocument>, IMvvmContextProvider
-    {
 //        private Action<LinkedDocument> _createAction;
-        public LinkedDocumentsListViewModel(Injector i,
-            SampleTestResult result
+    public LinkedDocumentsListViewModel(Injector i,
+        SampleTestResult result
 //            Expression<Func<LinkedDocument,bool>> filter,
 //            Action<LinkedDocument> createAction = null
-                ) : base(i, c => c
-            .StaticFilter(e => e.SampleTestResultId == result.Id)
-            //.DeleteAllowed()
-            .Column("Name")
-            .Header("{Name}").Width(200).Content(s => s.Name)
-        )
-        {
+    ) : base(i, c => c
+        .StaticFilter(e => e.SampleTestResultId == result.Id)
+        //.DeleteAllowed()
+        .Column("Name")
+        .Header("{Name}").Width(200).Content(s => s.Name)
+    )
+    {
 //            _createAction = createAction;
-        }
+    }
 
 
-        protected override bool CanExecuteDelete(LinkedDocument doc, Action<string> errorAction) => Selected != null;
+    protected override bool CanExecuteDelete(LinkedDocument doc, Action<string> errorAction) => Selected != null;
 
-        public void ConfigureMvvmContext(IMvvmContext ctx)
-        {
-        }
+    public void ConfigureMvvmContext(IMvvmContext ctx)
+    {
     }
 }

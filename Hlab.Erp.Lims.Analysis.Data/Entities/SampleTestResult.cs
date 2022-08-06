@@ -3,6 +3,7 @@
 using HLab.Base.Extensions;
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Data;
+using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;

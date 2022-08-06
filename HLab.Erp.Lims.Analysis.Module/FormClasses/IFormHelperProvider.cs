@@ -1,7 +1,6 @@
-﻿namespace HLab.Erp.Lims.Analysis.Module.FormClasses
+﻿namespace HLab.Erp.Lims.Analysis.Module.FormClasses;
+
+public interface IFormHelperProvider
 {
-    public interface IFormHelperProvider
-    {
-        FormHelper FormHelper { get; }
-    }
+    FormHelper FormHelper { get; }
 }

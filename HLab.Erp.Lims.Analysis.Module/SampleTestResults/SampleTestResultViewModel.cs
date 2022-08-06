@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,67 +6,71 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Xaml;
-using System.Xml;
 using HLab.Base.Extensions;
 using HLab.Erp.Acl;
-using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
+using HLab.Erp.Lims.Analysis.Module.SampleMovements;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
+using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
 
-namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
+namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults;
+
+using H = H<SampleTestResultViewModel>;
+
+public class SampleTestResultViewModel : EntityViewModel<SampleTestResult>
 {
-    using H = H<SampleTestResultViewModel>;
+    public class Design :  SampleTestResultViewModel, IViewModelDesign {}
+    SampleTestResultViewModel():base(null) {}
 
-    public class SampleTestResultViewModel : EntityViewModel<SampleTestResult>
+    readonly Func<Sample, IDataLocker<Sample>> _getSampleLocker;
+    readonly Func<SampleTest, IDataLocker<SampleTest>> _getSampleTestLocker;
+
+    public SampleTestResultViewModel(
+        Injector i,
+        Func<FormHelper> getFormHelper, 
+        Func<int, SampleTestResultAuditTrailViewModel> getAudit,
+        Func<SampleTestResult, IDataLocker<SampleTestResult>, SampleTestResultWorkflow> getWorkflow,
+        Func<SampleTestResult, LinkedDocumentsListViewModel> getDocuments,
+        Func<SampleTestResult, SampleMovementsListViewModel> getMovements,
+        Func<Sample, IDataLocker<Sample>> getSampleLocker,
+        Func<SampleTest, IDataLocker<SampleTest>> getSampleTestLocker
+    ):base(i)
     {
-        readonly Func<Sample, IDataLocker<Sample>> _getSampleLocker;
-        readonly Func<SampleTest, IDataLocker<SampleTest>> _getSampleTestLocker;
+        _getFormHelper = getFormHelper;
+        _getAudit = getAudit;
+        _getWorkflow = getWorkflow;
+        _getDocuments = getDocuments;
+        _getMovements = getMovements;
+        _getSampleLocker = getSampleLocker;
+        _getSampleTestLocker = getSampleTestLocker;
 
-        public SampleTestResultViewModel(
-            Injector i,
-            Func<FormHelper> getFormHelper, 
-            Func<int, SampleTestResultAuditTrailViewModel> getAudit,
-            Func<SampleTestResult, IDataLocker<SampleTestResult>, SampleTestResultWorkflow> getWorkflow,
-            Func<SampleTestResult, LinkedDocumentsListViewModel> getDocuments,
-            Func<Sample, IDataLocker<Sample>> getSampleLocker,
-            Func<SampleTest, IDataLocker<SampleTest>> getSampleTestLocker
-            ):base(i)
-        {
-            _getFormHelper = getFormHelper;
-            _getAudit = getAudit;
-            _getWorkflow = getWorkflow;
-            _getDocuments = getDocuments;
-            _getSampleLocker = getSampleLocker;
-            _getSampleTestLocker = getSampleTestLocker;
+        H.Initialize(this);
+    }
 
-            H.Initialize(this);
-        }
+    // Audit Trail
+    readonly Func<int, SampleTestResultAuditTrailViewModel> _getAudit;
+    public SampleTestResultAuditTrailViewModel AuditTrail => _auditTrail.Get();
 
-        // Audit Trail
-        readonly Func<int, SampleTestResultAuditTrailViewModel> _getAudit;
-        public SampleTestResultAuditTrailViewModel AuditTrail => _auditTrail.Get();
+    readonly IProperty<SampleTestResultAuditTrailViewModel> _auditTrail = H.Property<SampleTestResultAuditTrailViewModel>(c => c
+        .NotNull(e => e.Model)
+        .Set(e => e._getAudit?.Invoke(e.Model.Id))
+        .On(e => e.Model)
+        .Update()
+    );
 
-        readonly IProperty<SampleTestResultAuditTrailViewModel> _auditTrail = H.Property<SampleTestResultAuditTrailViewModel>(c => c
-            .NotNull(e => e.Model)
-            .Set(e => e._getAudit?.Invoke(e.Model.Id))
-            .On(e => e.Model)
-            .Update()
-        );
+    public bool AuditDetail
+    {
+        get => _auditDetail.Get();
+        set => _auditDetail.Set(value);
+    }
 
-        public bool AuditDetail
-        {
-            get => _auditDetail.Get();
-            set => _auditDetail.Set(value);
-        }
+    readonly IProperty<bool> _auditDetail = H.Property<bool>();
 
-        readonly IProperty<bool> _auditDetail = H.Property<bool>();
-
-        ITrigger _onAuditDetail = H.Trigger(c => c
+    ITrigger _onAuditDetail = H.Trigger(c => c
         .On(e => e.AuditDetail)
         .On(e => e.AuditTrail)
         .NotNull(e => e.AuditTrail)
@@ -81,225 +84,234 @@ namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults
             e.AuditTrail.List.Update();
         }));
 
-        ITrigger _modelTrigger = H.Trigger(c => c
-            .On(e => e.Model)
-            .Do(e => e.Locker.AddDependencyLocker(
-                e._getSampleLocker(e.Model.SampleTest.Sample),
-                e._getSampleTestLocker(e.Model.SampleTest)
-                )));
+    ITrigger _modelTrigger = H.Trigger(c => c
+        .On(e => e.Model)
+        .Do(e => e.Locker.AddDependencyLocker(
+            e._getSampleLocker(e.Model.SampleTest.Sample),
+            e._getSampleTestLocker(e.Model.SampleTest)
+        )));
 
-        readonly Func<SampleTestResult, IDataLocker<SampleTestResult>, SampleTestResultWorkflow> _getWorkflow;
+    readonly Func<SampleTestResult, IDataLocker<SampleTestResult>, SampleTestResultWorkflow> _getWorkflow;
 
-        public SampleTestResultWorkflow Workflow => _workflow.Get();
+    public SampleTestResultWorkflow Workflow => _workflow.Get();
 
-        readonly IProperty<SampleTestResultWorkflow> _workflow = H.Property<SampleTestResultWorkflow>(c => c
-            .NotNull(e => e.Locker)
-            .NotNull(e => e.Model)
-            .Set(e => e._getWorkflow?.Invoke(e.Model, e.Locker))
-            .On(e => e.Model)
-            .On(e => e.Locker)
-            .Update()
-        );
+    readonly IProperty<SampleTestResultWorkflow> _workflow = H.Property<SampleTestResultWorkflow>(c => c
+        .NotNull(e => e.Locker)
+        .NotNull(e => e.Model)
+        .Set(e => e._getWorkflow?.Invoke(e.Model, e.Locker))
+        .On(e => e.Model)
+        .On(e => e.Locker)
+        .Update()
+    );
 
-        public bool IsReadOnly => _isReadOnly.Get();
+    public bool IsReadOnly => _isReadOnly.Get();
 
-        readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
-            .Set(e => !e.EditMode)
-            .On(e => e.EditMode)
-            .Update()
-        );
+    readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
+        .Set(e => !e.EditMode)
+        .On(e => e.EditMode)
+        .Update()
+    );
 
-        public bool EditMode => _editMode.Get();
+    public bool EditMode => _editMode.Get();
 
-        readonly IProperty<bool> _editMode = H.Property<bool>(c => c
-            .NotNull(e => e.Workflow)
-            .NotNull(e => e.Locker)
-            .Set(e =>
-                e.Locker.IsActive
-                && e.Workflow.CurrentStage == SampleTestResultWorkflow.Running
-                && e.Model.SampleTest.Stage == SampleTestWorkflow.Running
-                && e.Model.SampleTest.Sample.Stage == SampleWorkflow.Production
-                && e.Injected.Acl.IsGranted(AnalysisRights.AnalysisResultEnter)
-            )
-            .On(e => e.Locker.IsActive)
-            .On(e => e.Workflow.CurrentStage)
-            .Update()
-        );
+    readonly IProperty<bool> _editMode = H.Property<bool>(c => c
+        .NotNull(e => e.Workflow)
+        .NotNull(e => e.Locker)
+        .Set(e =>
+            e.Locker.IsActive
+            && e.Workflow.CurrentStage == SampleTestResultWorkflow.Running
+            && e.Model.SampleTest.Stage == SampleTestWorkflow.Running
+            && e.Model.SampleTest.Sample.Stage == SampleWorkflow.Production
+            && e.Injected.Acl.IsGranted(AnalysisRights.AnalysisResultEnter)
+        )
+        .On(e => e.Locker.IsActive)
+        .On(e => e.Workflow.CurrentStage)
+        .Update()
+    );
 
 
-        public SampleTestViewModel Parent
+    public SampleTestViewModel Parent
+    {
+        get => _parent.Get();
+        set => _parent.Set(value);
+    }
+
+    readonly IProperty<SampleTestViewModel> _parent = H.Property<SampleTestViewModel>();
+
+
+    readonly Func<FormHelper> _getFormHelper;
+
+    public FormHelper FormHelper => _formHelper.Get();
+
+    readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c
+        .Set(e => e._getFormHelper?.Invoke()));
+
+    readonly ITrigger _ = H.Trigger(c => c
+        .On(e => e.Model.Stage)
+        //            .On(e => e.Model.Values)
+        .On(e => e.EditMode)
+        .OnNotNull(e => e.Workflow)
+        .Do(async e => await e.LoadResultAsync())
+    );
+
+    public async Task LoadResultAsync()
+    {
+        await FormHelper.LoadAsync(Model).ConfigureAwait(true);
+        FormHelper.Form.Mode = Workflow.CurrentStage == SampleTestResultWorkflow.Running ? FormMode.Capture : FormMode.ReadOnly;
+    }
+
+
+    // Stock Movements
+    readonly Func<SampleTestResult, SampleMovementsListViewModel> _getMovements;
+    public SampleMovementsListViewModel Movements => _movements.Get();
+    readonly IProperty<SampleMovementsListViewModel> _movements = H.Property<SampleMovementsListViewModel>(c => c
+        .NotNull(e => e.Model)
+        .Set(e => e._getMovements?.Invoke(e.Model))
+        .On(e => e.Model)
+        .Update()
+    );
+
+    public ICommand AddMovementCommand { get; } = H.Command(c => c
+        .CanExecute(e => e._addDocumentCanExecute())
+        .Action((e, t) => e.AddDocument())
+        .On(e => e.Workflow.CurrentStage).CheckCanExecute()
+    );
+
+    public ICommand OpenMovementCommand { get; } = H.Command(c => c
+        .CanExecute(e => e._addDocumentCanExecute())
+        .Action(async (e, t) => await e.Injected.Docs.OpenDocumentAsync(e.Movements.Selected))
+        .On(e => e.Workflow.CurrentStage).CheckCanExecute()
+    );
+
+    // LINKED DOCUMENTS
+    readonly Func<SampleTestResult, LinkedDocumentsListViewModel> _getDocuments;
+
+    public LinkedDocumentsListViewModel LinkedDocuments => _linkedDocuments.Get();
+
+    readonly IProperty<LinkedDocumentsListViewModel> _linkedDocuments = H.Property<LinkedDocumentsListViewModel>(c => c
+        .NotNull(e => e.Model)
+        .Set(e => e._getDocuments?.Invoke(e.Model).FluentAction(vm => vm.SetOpenAction(d => e.LinkedDocuments.Selected.OpenDocument())))
+        .On(e => e.Model)
+        .Update()
+    );
+
+    public ICommand AddDocumentCommand { get; } = H.Command(c => c
+        .CanExecute(e => e._addDocumentCanExecute())
+        .Action((e, t) => e.AddDocument())
+        .On(e => e.Workflow.CurrentStage).CheckCanExecute()
+    );
+
+    public ICommand OpenDocumentCommand { get; } = H.Command(c => c
+        .CanExecute(e => e._addDocumentCanExecute())
+        .Action((e, t) => e.LinkedDocuments.Selected.OpenDocument())
+        .On(e => e.Workflow.CurrentStage).CheckCanExecute()
+    );
+    public ICommand PrintCommand { get; } = H.Command(c => c
+        //.CanExecute(e => e._addDocumentCanExecute())
+        .Action((e, t) => e.Print())
+        .On(e => e.Workflow.CurrentStage).CheckCanExecute()
+    );
+
+    void Print()
+    {
+        PrintDialog printDialog = new PrintDialog();
+        if (printDialog.ShowDialog() == true)
         {
-            get => _parent.Get();
-            set => _parent.Set(value);
-        }
-
-        readonly IProperty<SampleTestViewModel> _parent = H.Property<SampleTestViewModel>();
-
-
-        readonly Func<FormHelper> _getFormHelper;
-
-        public FormHelper FormHelper => _formHelper.Get();
-
-        readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c
-            .Set(e => e._getFormHelper?.Invoke()));
-
-        readonly ITrigger _ = H.Trigger(c => c
-            .On(e => e.Model.Stage)
-            //            .On(e => e.Model.Values)
-            .On(e => e.EditMode)
-            .OnNotNull(e => e.Workflow)
-            .Do(async e => await e.LoadResultAsync())
-        );
-
-        public async Task LoadResultAsync()
-        {
-            await FormHelper.LoadAsync(Model).ConfigureAwait(true);
-            FormHelper.Form.Mode = Workflow.CurrentStage == SampleTestResultWorkflow.Running ? FormMode.Capture : FormMode.ReadOnly;
-        }
-
-        // LINKED DOCUMENTS
-        readonly Func<SampleTestResult, LinkedDocumentsListViewModel> _getDocuments;
-
-        public LinkedDocumentsListViewModel LinkedDocuments => _linkedDocuments.Get();
-
-        readonly IProperty<LinkedDocumentsListViewModel> _linkedDocuments = H.Property<LinkedDocumentsListViewModel>(c => c
-            .NotNull(e => e.Model)
-            .Set(e => e._getDocuments?.Invoke(e.Model).FluentAction(vm => vm.SetOpenAction(d => e.OpenDocument(e.LinkedDocuments.Selected))))
-            .On(e => e.Model)
-            .Update()
-        );
-
-        public ICommand AddDocumentCommand { get; } = H.Command(c => c
-            .CanExecute(e => e._addDocumentCanExecute())
-            .Action((e, t) => e.AddDocument())
-            .On(e => e.Workflow.CurrentStage).CheckCanExecute()
-        );
-
-        public ICommand OpenDocumentCommand { get; } = H.Command(c => c
-            .CanExecute(e => e._addDocumentCanExecute())
-            .Action((e, t) => e.OpenDocument(e.LinkedDocuments.Selected))
-            .On(e => e.Workflow.CurrentStage).CheckCanExecute()
-        );
-        public ICommand PrintCommand { get; } = H.Command(c => c
-            //.CanExecute(e => e._addDocumentCanExecute())
-            .Action((e, t) => e.Print())
-            .On(e => e.Workflow.CurrentStage).CheckCanExecute()
-        );
-
-        void Print()
-        {
-            PrintDialog printDialog = new PrintDialog();
-            if (printDialog.ShowDialog() == true)
+            if (FormHelper.Form is Control visual)
             {
-                if (FormHelper.Form is Control visual)
-                {
-                    var f = visual.Foreground;
-                    var b = visual.Background;
+                var f = visual.Foreground;
+                var b = visual.Background;
 
-                    visual.Foreground = Brushes.Black;
-                    visual.Background = Brushes.White;
+                visual.Foreground = Brushes.Black;
+                visual.Background = Brushes.White;
 
-                    var dic = new ResourceDictionary { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Themes/light.blue.xaml") };
+                var dic = new ResourceDictionary { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Themes/light.blue.xaml") };
 
-                    visual.Resources.MergedDictionaries.Add(dic);
-                     //           < ResourceDictionary Source = "pack://application:,,,/MahApps.Metro;component/Styles/Themes/light.blue.xaml" />
+                visual.Resources.MergedDictionaries.Add(dic);
+                //           < ResourceDictionary Source = "pack://application:,,,/MahApps.Metro;component/Styles/Themes/light.blue.xaml" />
 
-                     //string xaml = XamlServices.Save(visual);
+                //string xaml = XamlServices.Save(visual);
 
-                     //StringReader stringReader = new StringReader(xaml);
-                     //XmlReader xmlReader = XmlReader.Create(stringReader);
-                     //Visual visual2 = (Visual)XamlServices.Load(xmlReader);
+                //StringReader stringReader = new StringReader(xaml);
+                //XmlReader xmlReader = XmlReader.Create(stringReader);
+                //Visual visual2 = (Visual)XamlServices.Load(xmlReader);
 
-                     printDialog.PrintVisual( visual, "My First Print Job");
+                printDialog.PrintVisual( visual, "My First Print Job");
 
-                    visual.Foreground = f;
-                    visual.Background = b;
+                visual.Foreground = f;
+                visual.Background = b;
 
-                    visual.Resources.MergedDictionaries.Remove(dic);
+                visual.Resources.MergedDictionaries.Remove(dic);
 
 
-                }
             }
         }
+    }
 
-        void OpenDocument(LinkedDocument selected)
+
+    bool _addDocumentCanExecute()
+    {
+        if (!Injected.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
+        if (Workflow.CurrentStage != SampleTestResultWorkflow.Running) return false;
+
+        return true;
+    }
+
+    void AddDocument()
+    {
+        // Create OpenFileDialog 
+        Microsoft.Win32.OpenFileDialog dlg = new();
+
+        // Set filter for file extension and default file extension 
+        dlg.DefaultExt = ".pdf";
+        dlg.Filter = "PDF Files (*.pdf)|*.pdf|JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
+
+
+        // Display OpenFileDialog by calling ShowDialog method 
+        Nullable<bool> result = dlg.ShowDialog();
+
+
+        // Get the selected file name and display in a TextBox 
+        if (result == true)
         {
-            var path = Path.GetTempFileName() + "_" + selected.Name;
-
-            File.WriteAllBytes(path, selected.File);
-
-            ProcessStartInfo psi = new ProcessStartInfo
+            var doc = Injected.Data.Add<LinkedDocument>(r =>
             {
-                FileName = path,
-                UseShellExecute = true
-            };
-            Process.Start(psi);
+                r.Name = dlg.FileName.Split('\\').Last();
+                r.SampleTestResult = Model;
+                r.File = File.ReadAllBytes(dlg.FileName);
+            });
+
+            if (doc != null)
+                LinkedDocuments.List.Update();
         }
-
-        bool _addDocumentCanExecute()
-        {
-            if (!Injected.Acl.IsGranted(AnalysisRights.AnalysisAddResult)) return false;
-            if (Workflow.CurrentStage != SampleTestResultWorkflow.Running) return false;
-
-            return true;
-        }
-
-        void AddDocument()
-        {
-            // Create OpenFileDialog 
-            Microsoft.Win32.OpenFileDialog dlg = new();
-
-            // Set filter for file extension and default file extension 
-            dlg.DefaultExt = ".pdf";
-            dlg.Filter = "PDF Files (*.pdf)|*.pdf|JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
-
-
-            // Display OpenFileDialog by calling ShowDialog method 
-            Nullable<bool> result = dlg.ShowDialog();
-
-
-            // Get the selected file name and display in a TextBox 
-            if (result == true)
-            {
-                var doc = Injected.Data.Add<LinkedDocument>(r =>
-                {
-                    r.Name = dlg.FileName.Split('\\').Last();
-                    r.SampleTestResult = Model;
-                    r.File = File.ReadAllBytes(dlg.FileName);
-                });
-
-                if (doc != null)
-                    LinkedDocuments.List.Update();
-            }
-
-        }
-
-        /// <summary>
-        /// ///////////////////////////////////////////////////////////////////////////
-        /// </summary>
-
-
-
-
-        public override string Header => _header.Get();
-
-        readonly IProperty<string> _header = H.Property<string>(c => c
-            .Set(e => e.Model.SampleTest?.Sample?.Reference + " - " + e.Model.Name)
-            .On(e => e.Model.SampleTest.Sample.Reference)
-            .On(e => e.Model.Name)
-            .Update()
-            );
-
-        public string SubTitle => _subTitle.Get();
-
-        readonly IProperty<string> _subTitle = H.Property<string>(c => c
-            .Set(e => e.Model.SampleTest?.TestName + "\n" + e.Model.SampleTest?.Description.TrimEnd('\r', '\n', ' '))
-            .On(e => e.Model.SampleTest.TestName)
-            .On(e => e.Model.SampleTest.Description)
-            .Update()
-            );
-
-
 
     }
+
+    /// <summary>
+    /// ///////////////////////////////////////////////////////////////////////////
+    /// </summary>
+
+
+
+
+    public override string Header => _header.Get();
+
+    readonly IProperty<string> _header = H.Property<string>(c => c
+        .Set(e => e.Model.SampleTest?.Sample?.Reference + " - " + e.Model.Name)
+        .On(e => e.Model.SampleTest.Sample.Reference)
+        .On(e => e.Model.Name)
+        .Update()
+    );
+
+    public string SubTitle => _subTitle.Get();
+
+    readonly IProperty<string> _subTitle = H.Property<string>(c => c
+        .Set(e => e.Model.SampleTest?.TestName + "\n" + e.Model.SampleTest?.Description.TrimEnd('\r', '\n', ' '))
+        .On(e => e.Model.SampleTest.TestName)
+        .On(e => e.Model.SampleTest.Description)
+        .Update()
+    );
+
+
+
 }

@@ -9,62 +9,61 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HLab.Erp.Lims.Analysis.Module.SampleTests
-{
-    public class SampleTestResultAuditTrailViewModel : Core.EntityLists.EntityListViewModel<AuditTrail>
-    {
-        static string GetStage(string log)
-        {
-            var lines = log.Replace("\r","").Split('\n');
-            foreach (var line in lines)
-            {
-                var part = line.Split('=');
+namespace HLab.Erp.Lims.Analysis.Module.SampleTests;
 
-                if(part.Length>1)
+public class SampleTestResultAuditTrailViewModel : Core.EntityLists.EntityListViewModel<AuditTrail>
+{
+    static string GetStage(string log)
+    {
+        var lines = log.Replace("\r","").Split('\n');
+        foreach (var line in lines)
+        {
+            var part = line.Split('=');
+
+            if(part.Length>1)
+            {
+                switch(part[0])
                 {
-                    switch(part[0])
-                    {
-                        case "Stage":
-                        case "StageId":
+                    case "Stage":
+                    case "StageId":
                         return SampleTestResultWorkflow.StageFromName(part[1]).GetCaption(null);
-                    }
                 }
             }
-            return "NA";
         }
+        return "NA";
+    }
 
-        public SampleTestResultAuditTrailViewModel(Injector i, int sampleTestId) : base(i, c => c
-            .StaticFilter(e => e.EntityId == sampleTestId)
-            .StaticFilter(e => e.EntityClass == "SampleTestResult")
+    public SampleTestResultAuditTrailViewModel(Injector i, int sampleTestId) : base(i, c => c
+        .StaticFilter(e => e.EntityId == sampleTestId)
+        .StaticFilter(e => e.EntityClass == "SampleTestResult")
 
-             .Column("Stage")
-            .Header("{Stage}").Width(150).Content(at => $"{GetStage(at.Log)}").Localize()
-            .Icon(at => at.IconPath,20)
+        .Column("Stage")
+        .Header("{Stage}").Width(150).Content(at => $"{GetStage(at.Log)}").Localize()
+        .Icon(at => at.IconPath,20)
 
-            .Column("Date")
-            .Header("{Date}").Width(110).Content(at => at.TimeStamp)
+        .Column("Date")
+        .Header("{Date}").Width(110).Content(at => at.TimeStamp)
             
-             .Column("User")
-            .Header("{User}").Width(150).Content(at => at.UserCaption)
+        .Column("User")
+        .Header("{User}").Width(150).Content(at => at.UserCaption)
            
-            .Column("Motivation")
-            .Header("{Motivation}").Width(250)
-            .Content(at => at.Motivation)
+        .Column("Motivation")
+        .Header("{Motivation}").Width(250)
+        .Content(at => at.Motivation)
 
-             .Column("Log")
-            .Header("{Log}").Width(150).Content(at => $"{at.Log}").Localize()
-        )
-        {
-        }
+        .Column("Log")
+        .Header("{Log}").Width(150).Content(at => $"{at.Log}").Localize()
+    )
+    {
+    }
 
-        string LogAbstract(string log, int size)
-        {
-            const string suffix = "...";
+    string LogAbstract(string log, int size)
+    {
+        const string suffix = "...";
 
-            var result = log.Replace('\n', '/').Replace("\r","");
-            if (result.Length < size) return result;
-            result = result.Substring(0, Math.Max(0,size - suffix.Length)) + suffix;
-            return result;
-        }
+        var result = log.Replace('\n', '/').Replace("\r","");
+        if (result.Length < size) return result;
+        result = result.Substring(0, Math.Max(0,size - suffix.Length)) + suffix;
+        return result;
     }
 }

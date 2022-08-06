@@ -75,7 +75,7 @@ namespace HLab.Erp.Analysis.UTests
                 where T : class, IEntity<int>
                 => new DataLocker<T>(l, null, acl, null, null, null);
 
-            var vm = new SampleTestResultViewModel(null, GetFormHelper, null,  GetSampleTestResultWorkflow, null, GetDataLocker, GetDataLocker);
+            var vm = new SampleTestResultViewModel(null, GetFormHelper, null,  GetSampleTestResultWorkflow, null,null, GetDataLocker, GetDataLocker);
 
 
             //vm.Inject(
@@ -145,7 +145,7 @@ namespace HLab.Erp.Analysis.UTests
 
             SampleWorkflow GetSampleWorkflow(Sample s, IDataLocker<Sample> d) => new SampleWorkflow(s, d, null);
 
-            var vm = new SampleViewModel(null, null, null, null, GetSampleWorkflow)
+            var vm = new SampleViewModel(null, null, null,null, null, GetSampleWorkflow)
             {
                 //    );
                 //    acl, null

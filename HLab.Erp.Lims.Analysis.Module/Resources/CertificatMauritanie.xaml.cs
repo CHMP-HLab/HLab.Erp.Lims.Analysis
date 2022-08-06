@@ -1,15 +1,14 @@
 ﻿using System.Windows.Controls;
 
-namespace HLab.Erp.Lims.Analysis.Module.Forms
+namespace HLab.Erp.Lims.Analysis.Module.Forms;
+
+/// <summary>
+/// Logique d'interaction pour CertificatMauritanie.xaml
+/// </summary>
+public partial class CertificatMauritanie : Page
 {
-    /// <summary>
-    /// Logique d'interaction pour CertificatMauritanie.xaml
-    /// </summary>
-    public partial class CertificatMauritanie : Page
+    public CertificatMauritanie()
     {
-        public CertificatMauritanie()
-        {
-            //InitializeComponent();
-        }
+        //InitializeComponent();
     }
 }

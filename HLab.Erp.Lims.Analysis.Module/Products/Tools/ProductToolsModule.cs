@@ -1,44 +1,48 @@
 ﻿using System.Windows.Input;
 using HLab.Core.Annotations;
+using HLab.Erp.Acl;
 using HLab.Erp.Core;
-using HLab.Erp.Lims.Analysis.Module.Products.Tools;
+using HLab.Mvvm.Application;
 using HLab.Notify.PropertyChanged;
 
-namespace HLab.Erp.Acl.Users
+namespace HLab.Erp.Lims.Analysis.Module.Products.Tools;
+
+using H = H<ProductToolsModule>;
+
+public class ProductToolsModule : NotifierBase, IBootloader
 {
-    using H = H<ProductToolsModule>;
+    readonly IDocumentService _docs;
+    readonly IAclService _acl;
+    readonly IMenuService _menu;
 
-    public class ProductToolsModule : NotifierBase, IBootloader
+    public ProductToolsModule(IDocumentService docs, IAclService acl, IMenuService menu)
     {
-        readonly IErpServices _erp;
+        _docs = docs;
+        _acl = acl;
+        _menu = menu;
+        H.Initialize(this);
+    }
 
-        public ProductToolsModule(IErpServices erp)
+    public ICommand OpenCommand { get; } = H.Command(c => c.Action(
+        e => e._docs.OpenDocumentAsync(typeof(ProductToolsViewModel))
+    ).CanExecute(e => true));
+
+    protected virtual string IconPath => "Icons/Entities/";
+
+    public virtual void Load(IBootContext b)
+    {
+        if (b.WaitDependency("BootLoaderErpWpf")) return;
+
+        if (_acl.Connection == null)
         {
-            _erp = erp; 
-            H.Initialize(this);
+            if(!_acl.Cancelled) b.Requeue();
+            return;
         }
 
-        public ICommand OpenCommand { get; } = H.Command(c => c.Action(
-            e => e._erp.Docs.OpenDocumentAsync(typeof(ProductToolsViewModel))
-        ).CanExecute(e => true));
+        if(!_acl.IsGranted(AclRights.ManageUser)) return;
 
-        protected virtual string IconPath => "Icons/Entities/";
-
-        public virtual void Load(IBootContext b)
-        {
-            if (b.WaitDependency("BootLoaderErpWpf")) return;
-
-            if (_erp.Acl.Connection == null)
-            {
-                if(!_erp.Acl.Cancelled) b.Requeue();
-                return;
-            }
-
-            if(!_erp.Acl.IsGranted(AclRights.ManageUser)) return;
-
-            _erp.Menu.RegisterMenu("tools/ProductTools", "{Product Tools}",
-                OpenCommand,
-                "icons/tools/ProductTools");
-        }
+        _menu.RegisterMenu("tools/ProductTools", "{Product Tools}",
+            OpenCommand,
+            "icons/tools/ProductTools");
     }
 }

@@ -2,12 +2,11 @@
 using HLab.Erp.Core;
 using HLab.Erp.Lims.Analysis.Data;
 
-namespace HLab.Erp.Lims.Analysis.Module.Manufacturers
+namespace HLab.Erp.Lims.Analysis.Module.Manufacturers;
+
+public class ManufacturerViewModel : CorporationViewModel<Manufacturer>
 {
-    public class ManufacturerViewModel : CorporationViewModel<Manufacturer>
+    public ManufacturerViewModel(Injector i) : base(i)
     {
-        public ManufacturerViewModel(Injector i) : base(i)
-        {
-        }
     }
 }

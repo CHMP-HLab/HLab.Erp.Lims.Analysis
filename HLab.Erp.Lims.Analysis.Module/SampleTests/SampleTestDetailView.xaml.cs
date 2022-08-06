@@ -2,16 +2,15 @@
 using HLab.Erp.Core.Tools.Details;
 using HLab.Mvvm.Annotations;
 
-namespace HLab.Erp.Lims.Analysis.Module.SampleTests
+namespace HLab.Erp.Lims.Analysis.Module.SampleTests;
+
+/// <summary>
+/// Logique d'interaction pour TestView.xaml
+/// </summary>
+public partial class SampleTestDetailView : UserControl, IView<SampleTestViewModel>, IViewClassDetail
 {
-    /// <summary>
-    /// Logique d'interaction pour TestView.xaml
-    /// </summary>
-    public partial class SampleTestDetailView : UserControl, IView<SampleTestViewModel>, IViewClassDetail
+    public SampleTestDetailView()
     {
-        public SampleTestDetailView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

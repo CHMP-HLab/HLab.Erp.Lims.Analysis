@@ -3,16 +3,15 @@ using HLab.Erp.Core.Tools.Details;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Application;
 
-namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
+namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias;
+
+/// <summary>
+/// Logique d'interaction pour ProductView.xaml
+/// </summary>
+public partial class PharmacopoeiaView : UserControl, IView<PharmacopoeiaViewModel>, IViewClassDetail, IViewClassDocument
 {
-    /// <summary>
-    /// Logique d'interaction pour ProductView.xaml
-    /// </summary>
-    public partial class PharmacopoeiaView : UserControl, IView<PharmacopoeiaViewModel>, IViewClassDetail, IViewClassDocument
+    public PharmacopoeiaView()
     {
-        public PharmacopoeiaView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

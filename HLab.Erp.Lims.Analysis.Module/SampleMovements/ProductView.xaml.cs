@@ -4,14 +4,14 @@ using HLab.Erp.Lims.Analysis.Module.Products.ViewModels;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Application;
 
-namespace HLab.Erp.Lims.Analysis.Module.Products.Views;
+namespace HLab.Erp.Lims.Analysis.Module.SampleMovements;
 
 /// <summary>
 /// Logique d'interaction pour ProductView.xaml
 /// </summary>
-public partial class ProductComponentView : UserControl, IView<ProductComponentViewModel>, IViewClassDetail, IViewClassDocument
+public partial class SampleMovementView : UserControl, IView<SampleMovementViewModel>, IViewClassDetail, IViewClassDocument
 {
-    public ProductComponentView()
+    public SampleMovementView()
     {
         InitializeComponent();
     }

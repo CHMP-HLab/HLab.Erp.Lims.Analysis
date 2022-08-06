@@ -1,10 +1,9 @@
-﻿namespace HLab.Erp.Lims.Analysis.Module.FormClasses
+﻿namespace HLab.Erp.Lims.Analysis.Module.FormClasses;
+
+public enum FormMode
 {
-    public enum FormMode
-    {
-        NotSet = 0,
-        ReadOnly = 1,
-        Specification = 2,
-        Capture = 3,
-    }
+    NotSet = 0,
+    ReadOnly = 1,
+    Specification = 2,
+    Capture = 3,
 }

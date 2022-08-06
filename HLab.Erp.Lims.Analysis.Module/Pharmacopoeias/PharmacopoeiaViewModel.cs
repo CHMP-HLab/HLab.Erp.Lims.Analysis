@@ -3,21 +3,20 @@ using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Mvvm.Annotations;
 
-namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias
+namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias;
+
+public class PharmacopoeiaViewModelDesign : PharmacopoeiaViewModel, IViewModelDesign
 {
-    public class PharmacopoeiaViewModelDesign : PharmacopoeiaViewModel, IViewModelDesign
+
+
+    public PharmacopoeiaViewModelDesign():base(null)
     {
-
-
-        public PharmacopoeiaViewModelDesign():base(null)
-        {
-            Model = Pharmacopoeia.DesignModel;
-        }
+        Model = Pharmacopoeia.DesignModel;
     }
-    public class PharmacopoeiaViewModel : ListableEntityViewModel<Pharmacopoeia>
+}
+public class PharmacopoeiaViewModel : ListableEntityViewModel<Pharmacopoeia>
+{
+    public PharmacopoeiaViewModel(Injector i) : base(i)
     {
-        public PharmacopoeiaViewModel(Injector i) : base(i)
-        {
-        }
     }
 }

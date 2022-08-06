@@ -8,7 +8,10 @@
              xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
              xmlns:wpf="clr-namespace:HLab.Erp.Base.Wpf;assembly=HLab.Erp.Base.Wpf"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance testClasses:TestClassViewModelDesign}">
+             d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance testClasses:TestClassViewModelDesign}"
+             Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
+             
+             >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -40,9 +43,10 @@
                     </Grid.RowDefinitions>
                     
                     <wpf:TextEditorEx x:Name="XamlEditor"
-                            LineNumbersForeground="Black"
+                            Foreground="{DynamicResource HLab.Brushes.Foreground}"
+                            LineNumbersForeground="{DynamicResource HLab.Brushes.Foreground}"
                             ShowLineNumbers="True"
-                            Background="#F0FFFFFF"
+                            Background="{DynamicResource HLab.Brushes.Background}"
                             FontSize="12" 
                             SyntaxHighlighting="XML" 
                             Text="{Binding FormHelper.Xaml}"
@@ -89,8 +93,9 @@
                         </WindowsFormsHost>-->
                     <!--<TextBox x:Name="TB_CS"></TextBox>-->
                     <wpf:TextEditorEx 
-                            Background="#F0FFFFFF"
-                            FontSize="12" 
+                        Foreground="{DynamicResource HLab.Brushes.Foreground}"    
+                        Background="{DynamicResource HLab.Brushes.Background}"
+                        FontSize="12" 
                             FontFamily="Consolas"
                             x:Name="CodeEditor" 
                             ShowLineNumbers="True"
@@ -132,7 +137,9 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <wpf:TextEditorEx 
-                            Background="#F0FFFFFF"
+                            Foreground="{DynamicResource HLab.Brushes.Foreground}"
+                            LineNumbersForeground="{DynamicResource HLab.Brushes.Foreground}"
+                            Background="{DynamicResource HLab.Brushes.Background}"
                             FontSize="12" 
                             FontFamily="Consolas"
                             x:Name="FinalCodeEditor" 

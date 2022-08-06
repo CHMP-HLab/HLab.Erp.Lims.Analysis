@@ -1,15 +1,14 @@
 ﻿using System.Windows.Controls;
 
-namespace HLab.Erp.Lims.Analysis.Module.Forms
+namespace HLab.Erp.Lims.Analysis.Module.Forms;
+
+/// <summary>
+/// Logique d'interaction pour UniformityOfMass.xaml
+/// </summary>
+public partial class UniformityOfMass : UserControl
 {
-    /// <summary>
-    /// Logique d'interaction pour UniformityOfMass.xaml
-    /// </summary>
-    public partial class UniformityOfMass : UserControl
+    public UniformityOfMass()
     {
-        public UniformityOfMass()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }
