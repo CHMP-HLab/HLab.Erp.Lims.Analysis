@@ -133,10 +133,12 @@ namespace HLab.Erp.Lims.Analysis.Data
                             .AddColumn(t => t.Caption)
                             .AddColumn(t => t.MolarMass)
                             .AddColumn(t => t.UnitGroup)
-                        //.Version("2.6.0.0");
                         .Table<SampleMovementMotivation>().Create()
                         .Table<SampleMovement>().Create()
                         .Table<TestClass>().AddColumn(t => t.Binary)
+                        .Table<TestClass>().AddColumn(c => c.ComponentAware)
+                        .Table<SampleTest>().AddColumn(c => c.ProductComponentId)
+                        .Version("2.5.0.1");
                         ;
                     break;
 

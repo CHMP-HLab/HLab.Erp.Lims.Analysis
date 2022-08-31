@@ -43,6 +43,7 @@ public class InnProductComponentListViewModel : Core.EntityLists.EntityListViewM
         .Width(100)
         .Content(e => e.Product == null ? "" : e.Product.Name)
         .OrderBy(e => e.Product?.Name)
+        .OrderByAsc(0)
 
         .Column("Dose")
         .Header("{Dose}")
@@ -119,23 +120,10 @@ public class InnProductComponentListViewModel : Core.EntityLists.EntityListViewM
         return true;
     }
 
-    protected override async Task AddEntityAsync(object arg)
+    protected override Task ConfigureNewEntityAsync(ProductComponent pc, object arg)
     {
-        //if (!(arg is TestClass testClass)) return;
-
-        var component = await _data.AddAsync<ProductComponent>(pc =>
-        {
-            pc.Inn = Inn;
-            //st.TestClass = testClass;
-            //st.Pharmacopoeia = Sample.Pharmacopoeia;
-            //st.PharmacopoeiaVersion = Sample.PharmacopoeiaVersion;
-            ////st.Code = testClass.Code;
-            //st.Description = "";
-            //st.TestName = testClass.Name;
-            //st.Stage = SampleTestWorkflow.DefaultStage;
-        });
-
-        if (component != null) List.Update();
+        pc.Inn = Inn;
+        return base.ConfigureNewEntityAsync(pc, arg);
     }
 
 

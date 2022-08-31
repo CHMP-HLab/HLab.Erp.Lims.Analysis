@@ -44,13 +44,18 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
 
         public static Action AskForCorrection = Action.Create(c => c
             .Caption("{Ask for correction}").Icon("Icons/Workflows/Correct")
-            .FromStage(() => Signed, () => Checked)
-            .ToStage(() => CorrectionNeeded).Motivate().Backward()
+            .WhenStageAllowed(()=>CorrectionNeeded)
+            .FromStage(() => Signed, () => Checked, () => Validated)
+            .ToStage(() => CorrectionNeeded).Motivate().Backward().Sign()
         );
 
         // ERROR
         public static Stage CorrectionNeeded = Stage.Create(c => c
             .Caption("{Correction Needed}").Icon("Icons/Workflows/Correct")
+            .When(w => w.Target.SampleTest.Stage == SampleTestWorkflow.Running)
+            .WithMessage(w=>"{Test not in production}")
+            .When(w => w.Target.SampleTest.Sample.Stage == SampleWorkflow.Production)
+            .WithMessage(w=>"{Sample not in production}")
         );
 
         public static Action Correct = Action.Create(c => c
@@ -75,7 +80,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
             .Caption("{Invalidate}").Icon("Icons/Validations/Invalidated")
             .FromStage(() => Checked, () => Validated)
             .ToStage(() => Invalidated)
-            .NeedRight(() => AnalysisRights.AnalysisResultValidate).Motivate()
+            .NeedRight(() => AnalysisRights.AnalysisResultValidate).Motivate().Sign()
         );
 
         // VALIDATED
@@ -86,7 +91,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
         public static Action AskForCorrection3 = Action.Create(c => c
             .Caption("{Ask for correction}").Icon("Icons/Workflows/Correct")
             .FromStage(() => Validated, () => Invalidated)
-            .When(w => w.Target.SampleTest?.Stage == SampleTestWorkflow.Running) // Todo : ajouter un motif
+            .When(w => w.Target.SampleTest?.Stage == SampleTestWorkflow.Running)
             .ToStage(() => CorrectionNeeded).Backward().Motivate()
             .NeedRight(() => AnalysisRights.AnalysisResultValidate)
         );

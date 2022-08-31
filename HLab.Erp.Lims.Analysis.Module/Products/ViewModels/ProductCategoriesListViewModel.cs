@@ -1,4 +1,5 @@
-﻿using HLab.Erp.Core;
+﻿using HLab.Core.Annotations;
+using HLab.Erp.Core;
 using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Core.Wpf.EntityLists;
 using HLab.Erp.Lims.Analysis.Data.Entities;
@@ -10,18 +11,19 @@ public class ProductCategoriesListViewModel : Core.EntityLists.EntityListViewMod
 {
     public class Bootloader : NestedBootloader
     {
-        public override string MenuPath => "param";
+        public override string MenuPath => "param/products";
     }
 
     public ProductCategoriesListViewModel(Injector i) : base(i, c => c
         // TODO .AddAllowed()
-        //.DeleteAllowed()
+        // TODO .DeleteAllowed()
         .Column("Name")
-        .Header("{Name}").Localize()
-        .Width(250).Content(e => e.Name)
-        .Localize()
+        .Header("{Name}")
+        .Width(250)
+        .Localize(e => e.Name)
         .Icon(p => p.IconPath)
         .Link(e => e.Name)
+        .OrderByAsc(0)
         .Filter()
     )
     {

@@ -5,6 +5,7 @@ using HLab.Erp.Core.ListFilterConfigurators;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Mvvm.Annotations;
 using System;
+using System.Threading.Tasks;
 using HLab.Erp.Acl;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 
@@ -20,12 +21,14 @@ public class ManufacturersListViewModel : Core.EntityLists.EntityListViewModel<M
     public ManufacturersListViewModel(IAclService acl, Injector i) : base(i, c => c
         .Column("Name")
         .Header("{Name}")
-        .Width(250).Link(e => e.Name)
+        .Width(250)
+        .OrderByAsc(0)
+        .Link(e => e.Name)
         .Filter()
         .Header("{Name}")
 
 
-        .Column(e => e.Country, "Country").Mvvm().Width(150)
+        .ColumnListable( e => e.Country , "Country").Width(150)
     )
     {
         _acl = acl;

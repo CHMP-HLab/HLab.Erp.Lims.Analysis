@@ -12,6 +12,7 @@
              xmlns:products="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products"
              xmlns:pharmacopoeias="clr-namespace:HLab.Erp.Lims.Analysis.Module.Pharmacopoeias"
              xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
+             xmlns:wpf="clr-namespace:HLab.Mvvm.Wpf;assembly=HLab.Mvvm.Wpf"
              mc:Ignorable="d" 
              Background="#FF003FA0"
              d:DataContext="{d:DesignInstance {x:Type pharmacopoeias:PharmacopoeiaViewModelDesign}, IsDesignTimeCreatable=True}"             
@@ -23,7 +24,7 @@
     <RowDefinition Height="Auto"/>
 </Grid.RowDefinitions>
 
-<mvvm:ViewLocator Height="50" Model="{Binding Locker}"/>
+<wpf:ViewLocator Height="50" Model="{Binding Locker}"/>
 
             <views:DetailView 
                 Grid.Row="1" 

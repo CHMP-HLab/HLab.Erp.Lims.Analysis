@@ -8,6 +8,7 @@
              xmlns:formClasses="clr-namespace:HLab.Erp.Lims.Analysis.Module.FormClasses"
              xmlns:views="clr-namespace:HLab.Erp.Core.Wpf.Views;assembly=HLab.Erp.Core.Wpf"
              xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
+             xmlns:wpf="clr-namespace:HLab.Mvvm.Wpf;assembly=HLab.Mvvm.Wpf"
              d:DataContext="{d:DesignInstance {x:Type formClasses:FormClassViewModelDesign}, IsDesignTimeCreatable=True}"             
              Background="#FF005040"
              mc:Ignorable="d" 
@@ -18,7 +19,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <mvvm:ViewLocator Height="50"  Model="{Binding Locker}" Grid.ColumnSpan="2"/>
+        <wpf:ViewLocator Height="50"  Model="{Binding Locker}" Grid.ColumnSpan="2"/>
 
         <views:DetailView 
                 Grid.Row="1" 

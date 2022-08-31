@@ -50,7 +50,8 @@ public partial class ConformityIcon : IconView
                 ConformityState.NotConform => "{Not Conform}",
                 ConformityState.Conform => "{Conform}",
                 ConformityState.Invalid => "{Not Valid}",
-                _ => throw new NotImplementedException(),
+                ConformityState.None => "{Unknown}",
+                _ => throw new InvalidOperationException(),
             };
         }
 

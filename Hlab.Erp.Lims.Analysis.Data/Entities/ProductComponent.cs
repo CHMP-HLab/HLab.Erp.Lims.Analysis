@@ -11,6 +11,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
     public class ProductComponent : Entity, IListableModel
     {
         public ProductComponent() => H.Initialize(this);
+        public string Caption => $"{Inn?.Caption} {Quantity,0} {Unit?.Symbol}";
 
         public int? ProductId
         {

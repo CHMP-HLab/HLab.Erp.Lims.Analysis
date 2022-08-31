@@ -44,7 +44,6 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             set => _sample.Set(value);
             get => _sample.Get();
         }
-
         readonly IForeign<Sample> _sample = H.Foreign<Sample>();
 
 
@@ -53,21 +52,13 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             get =>_conformityId.Get(); 
             set =>_conformityId.Set(value); 
         }
-
-        public void Reset()
-        {
-            throw new NotImplementedException();
-        }
-
         readonly IProperty<ConformityState> _conformityId = H.Property<ConformityState>();
-
 
         public string SpecificationValues
         {
             get => _specificationValues.Get(); 
             set => _specificationValues.Set(value);
         }
-
         readonly IProperty<string> _specificationValues = H.Property<string>();
 
         public string ResultValues
@@ -75,7 +66,6 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
             get => _resultValues.Get(); 
             set => _resultValues.Set(value);
         }
-
         readonly IProperty<string> _resultValues = H.Property<string>();
 
         public bool MandatoryDone

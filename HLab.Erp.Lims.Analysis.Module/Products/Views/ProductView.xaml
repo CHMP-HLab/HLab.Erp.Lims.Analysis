@@ -13,6 +13,8 @@
              xmlns:products="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products"
              xmlns:entities="clr-namespace:HLab.Erp.Lims.Analysis.Data.Entities;assembly=HLab.Erp.Lims.Analysis.Data"
              xmlns:viewModels="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products.ViewModels"
+             xmlns:entitySelectors1="clr-namespace:HLab.Erp.Core.Wpf.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
+             xmlns:wpf="clr-namespace:HLab.Mvvm.Wpf;assembly=HLab.Mvvm.Wpf"
              mc:Ignorable="d" 
              Background="#FF93A03F"
              d:DataContext="{d:DesignInstance {x:Type viewModels:ProductViewModelDesign}, IsDesignTimeCreatable=True}"             
@@ -24,7 +26,7 @@
     <RowDefinition Height="Auto"/>
 </Grid.RowDefinitions>
 
-<mvvm:ViewLocator Height="50" Model="{Binding Locker}"/>
+<wpf:ViewLocator Height="50" Model="{Binding Locker}"/>
 
         <StackPanel Grid.Row="1" Orientation="Vertical">
             <views:DetailView 
@@ -34,7 +36,7 @@
                 EditMode="{Binding Locker.IsActive}">
                 
             <lang:LocalizedLabel Text="{}{Category} : "/>
-            <entitySelectors:ForeignView 
+            <entitySelectors1:ForeignView 
                 HorizontalAlignment="Left"
                 Model="{Binding Model.Category}"
                 ModelClass="{x:Type entities:ProductCategory}" 
@@ -57,7 +59,7 @@
             <TextBox TextWrapping="Wrap" FontSize="20" Text="{Binding Model.Complement}" HorizontalContentAlignment="Center" />
                 
             <lang:LocalizedLabel Text="{}{Form} : "/>
-            <entitySelectors:ForeignView
+            <entitySelectors1:ForeignView
                     HorizontalAlignment="Left"
                     ModelClass="{x:Type entities:Form}"
                     Model ="{Binding Model.Form}"
@@ -71,7 +73,7 @@
                 
                 <lang:LocalizedLabel Text="{}{Components} : "/>
                 <Grid Grid.Row="2" VerticalAlignment="Top">
-                    <mvvm:ViewLocator 
+                    <wpf:ViewLocator 
                         ViewClass="{x:Type annotations:IViewClassContent}"
                         Model="{Binding Components}"
                         />

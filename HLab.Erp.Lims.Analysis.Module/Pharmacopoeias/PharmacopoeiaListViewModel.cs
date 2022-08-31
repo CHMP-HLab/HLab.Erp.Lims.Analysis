@@ -11,25 +11,23 @@ namespace HLab.Erp.Lims.Analysis.Module.Pharmacopoeias;
 
 public class PharmacopoeiasListViewModel: Core.EntityLists.EntityListViewModel<Pharmacopoeia>, IMvvmContextProvider
 {
-    public class Bootloader : NestedBootloader
-    {
-        public override string MenuPath => "param";
-    }
+    public class Bootloader : ParamBootloader { }
 
     protected override bool CanExecuteAdd(Action<string> errorAction) => true;
     protected override bool CanExecuteDelete(Pharmacopoeia pharmacopoeia, Action<string> errorAction) => true;
 
     public PharmacopoeiasListViewModel(Injector i) : base(i, c => c
         .Column("Name")
-        .Header("{Name}").Localize()
-        .Width(250).Content(e => e.Name)
-        .Localize()
+        .Header("{Name}")
+        .Width(250)
+        .Localize(e => e.Name)
+        .OrderByAsc(0)
         .Icon(p => p.IconPath)
         .Link(e => e.Name)
         .Filter()
 
         .Column("Abbreviation")
-        .Header("{Abbreviation}").Localize()
+        .Header("{Abbreviation}")
         .Width(250)
         .Link(e => e.Abbreviation)
         .Filter()

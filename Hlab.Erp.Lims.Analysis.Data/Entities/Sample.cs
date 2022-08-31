@@ -483,6 +483,20 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
                 return DateTime.Now > e.ExpirationDate;
             }));
 
+        public string ExpirationString => _expirationString.Get();
+
+        readonly IProperty<string> _expirationString = H.Property<string>(c => c
+            .On(e => e.ExpirationDate)
+            .On(e => e.ExpirationDayValid)
+            
+            .Set(e =>
+            {
+                //Todo date localisation
+                if (e.ExpirationDate == null) return "N/A";
+                if (e.ExpirationDayValid) return e.ExpirationDate.Value.ToString("dd/MM/yyyy");
+                return e.ExpirationDate.Value.ToString("MM/yyyy");
+            }));
+
         public TimeSpan Life => _life.Get();
 
         readonly IProperty<TimeSpan> _life = H.Property<TimeSpan>(c => c

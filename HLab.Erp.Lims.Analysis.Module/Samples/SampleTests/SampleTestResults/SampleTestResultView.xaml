@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="HLab.Erp.Lims.Analysis.Module.SampleTests.SampleTestResultView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HLab.Erp.Lims.Analysis.Module.SampleTests"
+             xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
+             xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
+             xmlns:details="clr-namespace:HLab.Erp.Core.Tools.Details;assembly=HLab.Erp.Core"
+             xmlns:wpf="clr-namespace:HLab.Mvvm.Wpf;assembly=HLab.Mvvm.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance {x:Type local:SampleTestViewModelDesign}, IsDesignTimeCreatable=True}"    
+             Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
+             >
+    <Grid Background="{DynamicResource MahApps.Brushes.Accent4}">
+<Grid.ColumnDefinitions>
+    <ColumnDefinition Width="*"/>
+    <ColumnDefinition Width="5"/>
+    <ColumnDefinition Width="2*"/>
+</Grid.ColumnDefinitions>
+
+        <Grid>
+            <!--<Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>-->
+        <!--<local:SampleTestDetailView/>-->
+            <wpf:ViewLocator ViewClass="{x:Type details:IViewClassDetail}" Model="{Binding}"/>
+
+        <!--<Grid Grid.Row="1" VerticalAlignment="Top" mvvm:ViewLocator.ViewClass="{x:Type annotations:IViewClassContent}">
+            <ContentControl Content="{Binding Results}"/>
+        </Grid>-->
+
+        </Grid>
+
+        <GridSplitter Grid.Column="1"/>
+
+        <Grid Grid.Column="2" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--<mvvm:ViewLocator Model="{Binding Results.Selected}" MinHeight="50"/>-->
+            <controlsEx:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <ContentControl Content="{Binding FormHelper.Form}" IsEnabled="{Binding EditMode}" />
+            </controlsEx:ScrollViewerEx>
+        </Grid>
+            
+    </Grid>
+</UserControl>

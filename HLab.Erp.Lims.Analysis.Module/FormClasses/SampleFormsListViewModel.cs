@@ -20,11 +20,14 @@ public class SampleFormsListViewModel : Core.EntityLists.EntityListViewModel<Sam
 
     public Sample Sample {get; }
     public SampleFormsListViewModel(IDataService data, IAclService acl, Injector i, Sample sample) : base(i, c => c
+        .List<SampleFormsListViewModel>(out var list)
         .StaticFilter(e =>e.SampleId == sample.Id)
         .Column("Name")
         .Header("{Name}")
         .Width(200)
         .Content(s => s.FormClass.Name)
+        .OrderBy(s => s.FormClass?.Name)
+        .OrderByAsc(0)
         .Icon(s => s.FormClass.IconPath)
     )
     {
@@ -56,28 +59,22 @@ public class SampleFormsListViewModel : Core.EntityLists.EntityListViewModel<Sam
     public override Type AddArgumentClass => typeof(FormClass);
 
 
-    protected async override Task AddEntityAsync(object arg)
+    static void Add(SampleFormsListViewModel list, SampleForm sampleForm, object arg)
     {
         if (!(arg is FormClass formClass)) return;
 
         //var exists = await Erp.Data.FetchOneAsync<SampleForm>(sf => sf.SampleId == Sample.Id && sf.FormClassId == formClass.Id);
         //if(exists == null)
-        foreach(var sf in List)
+        foreach(var sf in list.List)
         {
-            if(sf.SampleId == Sample.Id && sf.FormClassId == formClass.Id)
+            if(sf.SampleId == list.Sample.Id && sf.FormClassId == formClass.Id)
             {
                 return;
             }
         }
 
-        var form = await _data.AddAsync<SampleForm>(st =>
-        {
-            st.Sample = Sample;
-            st.FormClass = formClass;
-        });
-
-        if (form != null)
-            List.Update();
+        sampleForm.Sample = list.Sample;
+        sampleForm.FormClass = formClass;
     }
 
     protected override bool CanExecuteDelete(SampleForm target, Action<string> errorAction)

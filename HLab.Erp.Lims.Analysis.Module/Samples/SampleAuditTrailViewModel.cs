@@ -36,7 +36,7 @@ public class SampleAuditTrailViewModel : Core.EntityLists.EntityListViewModel<Au
         //.StaticFilter(e => e.Motivation != null || e.Log.Contains("Stage="))
 
         .Column("Stage")
-        .Header("{Stage}").Width(150).Content(at => $"{GetStage(at.Log)}").Localize()
+        .Header("{Stage}").Width(150).Localize(at => $"{GetStage(at.Log)}")
         .Icon(at => at.IconPath,20)
 
         .Column("Date")
@@ -54,7 +54,7 @@ public class SampleAuditTrailViewModel : Core.EntityLists.EntityListViewModel<Au
             
 
         .Column("Log")
-        .Header("{Log}").Width(150).Content(at => $"{at.Log}").Localize()
+        .Header("{Log}").Width(150).Localize(at => $"{at.Log}")
     )
     {
     }

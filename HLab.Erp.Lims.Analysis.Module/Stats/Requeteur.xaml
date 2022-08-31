@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf" xmlns:lang="clr-namespace:HLab.Localization.Wpf.Lang;assembly=HLab.Localization.Wpf" xmlns:wpf="clr-namespace:HLab.Erp.Base.Wpf;assembly=HLab.Erp.Base.Wpf" xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:base="clr-namespace:HLab.Base;assembly=HLab.Base" xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
+             xmlns:wpf1="clr-namespace:HLab.Mvvm.Wpf;assembly=HLab.Mvvm.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1280">
     <Grid>
@@ -17,7 +18,7 @@
 
         <StackPanel Orientation="Horizontal" Grid.Row="0">
             
-            <mvvm:ViewLocator Height="50" Model="{Binding Locker}"/>   
+            <wpf1:ViewLocator Height="50" Model="{Binding Locker}"/>   
             
             <Button Command="{Binding RunCommand}">
                 <icons:IconView Path="Icons/Conformity/Running">

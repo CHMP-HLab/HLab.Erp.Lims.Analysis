@@ -193,7 +193,6 @@ namespace HLab.Erp.Lims.Analysis.Data.Workflows
             })
             .ToStage(() => ValidatedResults)
             .WhenStageAllowed(() => ValidatedResults)
-            //Todo : reuse toState
             .When(w => w.Target.Sample.Stage == SampleWorkflow.Production)
             .WithMessage(w => "{Sample not in production}")
             .NeedRight(() => AnalysisRights.AnalysisResultValidate)

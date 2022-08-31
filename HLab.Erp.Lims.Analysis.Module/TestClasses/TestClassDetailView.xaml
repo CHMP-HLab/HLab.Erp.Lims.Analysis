@@ -10,6 +10,8 @@
               xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
              xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
              xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf" xmlns:module="clr-namespace:HLab.Erp.Lims.Analysis.Module"
+             xmlns:icons1="clr-namespace:HLab.Mvvm.Application.Wpf.Icons;assembly=HLab.Mvvm.Application.Wpf"
+             xmlns:wpf="clr-namespace:HLab.Mvvm.Wpf;assembly=HLab.Mvvm.Wpf"
              d:DataContext="{d:DesignInstance {x:Type testClasses:TestClassViewModelDesign}, IsDesignTimeCreatable=True}"             
              Background="#FF005040"
              mc:Ignorable="d" 
@@ -21,7 +23,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <mvvm:ViewLocator Height="50"  Model="{Binding Locker}" Grid.ColumnSpan="2"/>
+                <wpf:ViewLocator Height="50"  Model="{Binding Locker}" Grid.ColumnSpan="2"/>
 
                 <controlsEx:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
                     <StackPanel Orientation="Vertical">
@@ -41,8 +43,11 @@
                     <Label><lang:Localize Id="{}{Version} : " /></Label>
                     <TextBox Text="{Binding Model.Version,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
 
-                    <Label><lang:Localize Id="{}{Icon} : " /></Label>
-                    <TextBox Text="{Binding Model.IconPath,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
+                    <lang:LocalizedLabel Text="{}{Icon} : "/>
+                    <icons1:IconSelectorView Path="{Binding Model.IconPath}"/>
+
+                    <Label><lang:Localize Id="{}{Component aware} : " /></Label>
+                    <CheckBox IsChecked="{Binding Model.ComponentAware,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" />
 
                     <Label><lang:Localize Id="{}{Compilation} : "/></Label>
                     <TextBox Text="{Binding FormHelper.Provider.CompileDuration,Mode=OneWay}" HorizontalContentAlignment="Center" />
@@ -98,7 +103,7 @@
                         <lang:LocalizedLabel>{Add}</lang:LocalizedLabel>
 
                     </Button>
-                    <mvvm:ViewLocator Grid.ColumnSpan="2" ViewClass="{x:Type annotations:IViewClassContent}" Model="{Binding UnitTests}"/>
+                    <wpf:ViewLocator Grid.ColumnSpan="2" ViewClass="{x:Type annotations:IViewClassContent}" Model="{Binding UnitTests}"/>
 
                 </views:DetailView>
                         </StackPanel>

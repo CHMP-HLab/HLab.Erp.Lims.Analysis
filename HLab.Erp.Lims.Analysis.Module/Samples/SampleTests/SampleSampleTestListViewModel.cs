@@ -1,0 +1,160 @@
+﻿#nullable enable
+using HLab.Erp.Conformity.Annotations;
+using HLab.Erp.Core.Wpf.EntityLists;
+using HLab.Erp.Core.ListFilterConfigurators;
+using HLab.Erp.Lims.Analysis.Data;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
+using HLab.Mvvm.Annotations;
+using System;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Windows.Input;
+using HLab.Notify.PropertyChanged;
+using System.Threading.Tasks;
+using HLab.Erp.Acl;
+using HLab.Erp.Data;
+using HLab.Erp.Lims.Analysis.Data.Entities;
+
+namespace HLab.Erp.Lims.Analysis.Module.SampleTests;
+
+using H = H<SampleSampleTestListViewModel>;
+public class SampleSampleTestListViewModel : Core.EntityLists.EntityListViewModel<SampleTest>, IMvvmContextProvider
+{
+    readonly IAclService _acl;
+    readonly IDataService _data;
+
+    public Sample Sample { get; }
+
+    public SampleSampleTestListViewModel(IAclService acl, IDataService data, Injector i, Sample sample) : base(i, c => c
+        //.DeleteAllowed()
+        .StaticFilter(e => e.SampleId == sample.Id)
+
+        .Column("Order").Header("{Order").Width(35).IconPath("Icons/Sort/Sort")
+        .Content(s => s.Order)
+        .OrderBy(s => s.Order)
+        .OrderByAsc(0)
+
+        .DescriptionColumn(s => s.TestName, s => s.Description, "Test")
+        .Header("{Test}")//.Mvvm<IDescriptionViewClass>()
+        .IconPath("Icons/Entities/TestClass")
+        .Width(300)
+        .Icon(s => s.IconPath)
+        .OrderBy(s => s.Order).UpdateOn(s => s.TestName).UpdateOn(s => s.Description)
+
+        .DescriptionColumn(s => "", s => s.Specification, "Specification")
+        .Header("{Specifications}")
+        .IconPath("Icons/Workflows/Specifications")
+        .Width(200)
+        .OrderBy(s => s.Specification).UpdateOn(s => s.Specification)
+
+        .DescriptionColumn(s => "", s => s.Result.Result, "Result")
+        .Header("{Result}")
+        .IconPath("Icons/Workflows/Certificate")
+        .Width(200)
+        .OrderBy(s => s.Result.Result)
+        .UpdateOn(s => s.Result.Result)
+
+        .DescriptionColumn(s => "", s => s.Result.Conformity, "Conformity")
+        .Header("{Conformity}")
+        .Width(200)
+        .OrderBy(s => s.Result?.Conformity ?? "")
+        .UpdateOn(s => s.Result.Conformity)
+
+        .ConformityColumn(s => s.Result != null ? s.Result.ConformityId : ConformityState.NotChecked)
+        .UpdateOn(s => s.Result.ConformityId)
+
+        .StageColumn(default(SampleTestWorkflow), s => s.StageId)
+
+        .AddProperty("IsValid", s => s?.Stage != null, s => s.Stage != SampleTestWorkflow.InvalidatedResults)
+        .AddProperty("Group", s => s?.TestClassId != null, s => s.TestClassId)
+
+    )
+    {
+        var n = SampleTestWorkflow.Specifications; // HACK : this is a hack to force top level static constructor
+
+        _acl = acl;
+        _data = data;
+        Sample = sample;
+
+        H.Initialize(this);
+
+        ShowFilters = false;
+        // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
+    }
+
+    public bool EditMode { get => _editMode.Get(); set => _editMode.Set(value); }
+    readonly IProperty<bool> _editMode = H.Property<bool>(c => c.Default(false));
+
+    protected override bool CanExecuteDelete(SampleTest sampleTest, Action<string> errorAction)
+    {
+        if (!EditMode) return false;
+        if (sampleTest == null) return false;
+        var stage = sampleTest.Stage.IsAny(errorAction, SampleTestWorkflow.Specifications);
+        var granted = _acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest);
+        return stage && granted;
+    }
+
+    public override Type AddArgumentClass => typeof(TestClass);
+
+    readonly ITrigger _1 = H.Trigger(c => c
+        .On(e => e.Sample.Stage)
+        .On(e => e.Sample.Pharmacopoeia)
+        .On(e => e.Sample.PharmacopoeiaVersion)
+        .On(e => e.EditMode)
+        .Do(e => (e.AddCommand as CommandPropertyHolder)?.CheckCanExecute())
+    );
+
+    //private readonly ITrigger _triggerConformity = H.Trigger(c => c
+    //    .On(e => e.List.Item().Result.ConformityId)
+    //    .On(e => e.List.Item().Result.Stage)
+    //    .On(e => e.List.Item().Result.Start)
+    //    .On(e => e.List.Item().Result.End)
+    //    .Do(e => e.List.Refresh())
+    //);
+
+    protected override bool CanExecuteAdd(Action<string> errorAction)
+    {
+        AllowManualOrder = false;
+
+        if (!EditMode) return false;
+        if (!_acl.IsGranted(errorAction, AnalysisRights.AnalysisAddTest)) return false;
+        if (Sample.Pharmacopoeia == null)
+        {
+            errorAction("{Missing} : {Pharmacopoeia}");
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(Sample.PharmacopoeiaVersion))
+        {
+            errorAction("{Missing} : {Pharmacopoeia version}");
+            return false;
+        }
+        if (!Sample.Stage.IsAny(errorAction, SampleWorkflow.Monograph))
+        {
+            return false;
+        }
+        AllowManualOrder = true;
+        return true;
+    }
+
+    protected override Task ConfigureNewEntityAsync(SampleTest st, object arg)
+    {
+        if (arg is not TestClass testClass) return Task.CompletedTask;
+
+        st.Sample = Sample;
+        st.TestClass = testClass;
+        st.Pharmacopoeia = Sample.Pharmacopoeia;
+        st.PharmacopoeiaVersion = Sample.PharmacopoeiaVersion;
+        //st.Code = testClass.Code;
+        st.Description = "";
+        st.TestName = testClass.Name;
+        st.Stage = SampleTestWorkflow.DefaultStage;
+
+        return Task.CompletedTask;
+    }
+
+
+
+    public void ConfigureMvvmContext(IMvvmContext ctx)
+    {
+    }
+}

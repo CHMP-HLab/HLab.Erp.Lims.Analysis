@@ -1,0 +1,188 @@
+﻿<UserControl x:Class="HLab.Erp.Lims.Analysis.Module.SampleTestResults.SampleTestResultDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="clr-namespace:HLab.Localization.Wpf.Lang;assembly=HLab.Localization.Wpf"
+             xmlns:mvvm="clr-namespace:HLab.Mvvm;assembly=HLab.Mvvm.Wpf"
+             xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
+             xmlns:workflows="clr-namespace:HLab.Erp.Workflows;assembly=HLab.Erp.Workflows.Wpf"
+             xmlns:views="clr-namespace:HLab.Erp.Core.Wpf.Views;assembly=HLab.Erp.Core.Wpf"
+             xmlns:sampleTestResults="clr-namespace:HLab.Erp.Lims.Analysis.Module.SampleTestResults"
+             xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
+             xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
+             xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf" xmlns:audittrails="clr-namespace:HLab.Erp.Acl.AuditTrails;assembly=HLab.Erp.Acl.Wpf" xmlns:module="clr-namespace:HLab.Erp.Lims.Analysis.Module"
+             xmlns:wpf1="clr-namespace:HLab.Mvvm.Wpf;assembly=HLab.Mvvm.Wpf"
+             Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
+             d:DataContext="{d:DesignInstance {x:Type sampleTestResults:SampleTestResultViewModel+Design}, IsDesignTimeCreatable=True}"             
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="800">
+    <Grid Background="{DynamicResource MahApps.Brushes.Accent3}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <workflows:WorkflowLockerView/>
+            <audittrails:EntityAuditTrailListView/>
+            <Button HorizontalAlignment="Right" Command="{Binding PrintCommand}">
+                <icons:IconView Path="Icons/Printer" Height="30">
+                    <lang:Localize Id="{}{Print}"/>
+                </icons:IconView>
+            </Button>
+        </StackPanel>
+
+        <controlsEx:ScrollViewerEx Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical">
+
+                <views:DetailView 
+                    IconPath="Icons/Entities/Sample" 
+                    Text="{}{Sample}"
+                    EditMode="{Binding EditMode}">
+
+                    <Button HorizontalAlignment="Stretch" Command="{Binding OpenSampleCommand}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <icons:IconView Path="Icons/Entities/Sample" MaxHeight="15" />
+                            <lang:LocalizedLabel Text="{}{Reference}" VerticalAlignment="Center"/>
+                            <icons:IconView Path="Icons/OpenForeign" MaxHeight="10" />
+                        </StackPanel>
+                    </Button>
+                    <TextBlock Margin="15,0,0,0" Text="{Binding Model.SampleTest.Sample.Reference}" VerticalAlignment="Center"/>
+
+                    <Button HorizontalAlignment="Stretch" Command="{Binding OpenProductCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <icons:IconView Path="Icons/Entities/Product" MaxHeight="15" />
+                            <lang:LocalizedLabel Text="{}{Product}" VerticalAlignment="Center"/>
+                            <icons:IconView Path="Icons/OpenForeign" MaxHeight="10" />
+                        </StackPanel>
+                    </Button>
+                    <TextBlock Margin="15,0,0,0" Text="{Binding Model.SampleTest.Sample.Product.Caption}" VerticalAlignment="Center"/>
+
+                    <Button HorizontalAlignment="Stretch" Command="{Binding OpenCustomerCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <icons:IconView Path="Icons/Entities/Customer" MaxHeight="15" />
+                            <lang:LocalizedLabel Text="{}{Customer}" VerticalAlignment="Center"/>
+                            <icons:IconView Path="Icons/OpenForeign" MaxHeight="10" />
+                        </StackPanel>
+                    </Button>
+                    <TextBlock Margin="15,0,0,0" Text="{Binding Model.SampleTest.Sample.Customer.Caption}" VerticalAlignment="Center"/>
+                    <Button HorizontalAlignment="Stretch" Command="{Binding OpenTestCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <icons:IconView Path="Icons/Entities/SampleTest" MaxHeight="15" />
+                            <lang:LocalizedLabel Text="{}{Test}" VerticalAlignment="Center"/>
+                            <icons:IconView Path="Icons/OpenForeign" MaxHeight="10" />
+                        </StackPanel>
+                    </Button>
+                    <StackPanel Margin="15,0,0,0" >
+                        <lang:Localize HorizontalAlignment="Left" Id="{Binding Model.SampleTest.TestName}" VerticalAlignment="Center"/>
+                        <lang:Localize HorizontalAlignment="Left" Id="{Binding Model.SampleTest.ProductComponent.Caption}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </views:DetailView>
+
+
+                <views:DetailView
+                                  EditMode="{Binding EditMode}"
+                                  IconPath="{Binding Model.SampleTest.TestClass.IconPath}" 
+                                  Text="{Binding Model.SampleTest.TestClass.Name}" >
+
+                    <lang:LocalizedLabel Text="{}{Name} : " HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox FontSize="16" HorizontalAlignment="Left" Text="{Binding Model.Name}" VerticalAlignment="Center" />
+
+                    <lang:LocalizedLabel Text="{}{Start} : " HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
+                    <wpf:DateEx HorizontalAlignment="Left" Width="200" EmptyDayAllowed="False" ShowTime="True" DateUtc="{Binding Model.Start}"/>
+
+                    <lang:LocalizedLabel Text="{}{End} : " HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
+                    <wpf:DateEx HorizontalAlignment="Left" Width="200" ShowTime="True" DateUtc="{Binding Model.End}"/>
+
+                    <Grid Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <lang:LocalizedLabel Text="{}{Description}" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="0"/>
+                        <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding Model.SampleTest.Description}" Grid.Row="1" Grid.Column="0"/>
+
+                        <lang:LocalizedLabel Text="{}{Specifications}" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="1"/>
+                        <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding Model.SampleTest.Specification}" Grid.Row="1" Grid.Column="1"/>
+
+                        <lang:LocalizedLabel Text="{}{Result}" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="2"/>
+                        <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding Model.Result}" Grid.Row="1" Grid.Column="2"/>
+
+                        <lang:LocalizedLabel Text="{}{Conformity}" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="3" />
+                        <lang:LocalizedLabel HorizontalAlignment="Center" Text="{Binding Model.Conformity}" Grid.Row="1" Grid.Column="3"/>
+
+                    </Grid>
+
+
+                    <lang:LocalizedLabel Text="{}{Conformity} : " HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <module:ConformityIcon 
+                        Conformity="{Binding Model.ConformityId}" 
+                        IconMaxHeight="25"
+                        ShowCaption="True"
+                        />
+
+                    <Label/>
+                </views:DetailView>
+
+                <views:DetailView Text="{}{Movements}" IconPath="Icons/Entities/SampleMovement" EditMode="{Binding EditMode}">
+                    <Label />
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Command="{Binding AddMovementCommand}" HorizontalAlignment="Left">
+                                <lang:Localize>{Add movement}</lang:Localize>
+                            </Button>
+                            <Button Command="{Binding DeleteMovementCommand}" HorizontalAlignment="Left">
+                                <lang:Localize>{Remove movement}</lang:Localize>
+                            </Button>
+                            <Button Command="{Binding OpenMovementCommand}" HorizontalAlignment="Left">
+                                <lang:Localize>{Open movement}</lang:Localize>
+                            </Button>
+                        </StackPanel>
+                        <Grid VerticalAlignment="Top" wpf1:ViewLocator.ViewClass="{x:Type annotations:IViewClassContent}">
+                            <wpf1:ViewLocator Model="{Binding Movements}"/>
+                        </Grid>
+                    </StackPanel>
+                </views:DetailView>
+
+                <!-- DOCUMENTS -->
+                <views:DetailView Text="{}{Documents}" IconPath="Icons/Sample/Folder" EditMode="{Binding EditMode}">
+                    <Label />
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Command="{Binding AddDocumentCommand}" HorizontalAlignment="Left">
+                                <lang:Localize Id="{}{Add document}"/>
+                            </Button>
+                            <Button Command="{Binding RemoveDocumentCommand}" HorizontalAlignment="Left">
+                                <lang:Localize Id="{}{Remove document}"/>
+                            </Button>
+                            <Button Command="{Binding OpenDocumentCommand}" HorizontalAlignment="Left">
+                                <lang:Localize Id="{}{Open document}"/>
+                            </Button>
+                        </StackPanel>
+                        <Grid VerticalAlignment="Top" wpf1:ViewLocator.ViewClass="{x:Type annotations:IViewClassContent}">
+                            <wpf1:ViewLocator Model="{Binding LinkedDocuments}"/>
+                        </Grid>
+                    </StackPanel>
+                </views:DetailView>
+
+            </StackPanel>
+        </controlsEx:ScrollViewerEx>
+        <views:DetailView 
+            Grid.Row="2" 
+            Text="{}{Note}" 
+            IconPath="Icons/Edit"
+            EditMode="{Binding Locker.IsActive}">
+            <TextBox Margin="50,0,15,0"  Grid.ColumnSpan="2"  Text="{Binding Model.Note, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap"/>
+            <Label />
+        </views:DetailView>
+    </Grid>
+</UserControl>

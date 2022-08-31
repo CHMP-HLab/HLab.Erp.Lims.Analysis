@@ -35,7 +35,7 @@ public class SampleMovement : Entity
     [Ignore] public virtual SampleTestResult SampleTestResult
     {
         get => _sampleTestResult.Get();
-        set => SampleTestResultId = value.Id;
+        set => SampleTestResultId = value?.Id;
     }
     readonly IForeign<SampleTestResult> _sampleTestResult = H.Foreign<SampleTestResult>();
 

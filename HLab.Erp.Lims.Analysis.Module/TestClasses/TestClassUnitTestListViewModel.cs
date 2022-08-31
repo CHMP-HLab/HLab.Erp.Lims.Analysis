@@ -44,9 +44,7 @@ public class TestClassUnitTestListViewModel : Core.EntityLists.EntityListViewMod
 
     public TestClassUnitTestListViewModel(Injector i, TestClass testClass) : base(i, c =>
         {
-            var list = c.Target as TestClassUnitTestListViewModel;
-
-            return c
+            return c.List<TestClassUnitTestListViewModel>(out var list)
                     .StaticFilter(u =>u.TestClassId == testClass.Id && list.Id>=0)
                     .Column("Name")
                     .Header("{Name}").Width(200)

@@ -35,6 +35,8 @@ public class FormClassesListViewModel : Core.EntityLists.EntityListViewModel<For
         .Header("{Name}")
         .Width(200)
         .Content(s => s.Name)
+        .OrderBy(s => s.Name)
+        .OrderByAsc(0)
         .Icon( s => s.IconPath)
 
         .Column("Class")

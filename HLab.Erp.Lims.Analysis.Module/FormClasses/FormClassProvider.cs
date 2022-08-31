@@ -268,11 +268,6 @@ public class FormClassProvider : IFormClassProvider
         };
     }
 
-    Assembly GetAssemblyFromCs()
-    {
-        throw new NotImplementedException();
-    }
-
     protected virtual Exception BuildException(Exception ex) => ex;
 
     protected static int LineCount(string text)

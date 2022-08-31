@@ -3,9 +3,8 @@ using HLab.Erp.Acl;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
-using HLab.Erp.Lims.Analysis.Module.SampleTests;
+using HLab.Erp.Lims.Analysis.Module.Samples.SampleTests;
 using HLab.Notify.PropertyChanged;
-using NPoco.Expressions;
 
 namespace HLab.Erp.Analysis.UTests
 {

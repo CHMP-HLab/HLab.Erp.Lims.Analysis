@@ -13,6 +13,7 @@
              xmlns:products="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products"
              xmlns:entities="clr-namespace:HLab.Erp.Lims.Analysis.Data.Entities;assembly=HLab.Erp.Lims.Analysis.Data"
              xmlns:viewModels="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products.ViewModels"
+             xmlns:wpf="clr-namespace:HLab.Mvvm.Wpf;assembly=HLab.Mvvm.Wpf"
              mc:Ignorable="d" 
              Background="#FF93A03F"
              d:DataContext="{d:DesignInstance {x:Type viewModels:InnViewModelDesign}, IsDesignTimeCreatable=True}"             
@@ -24,7 +25,7 @@
     <RowDefinition Height="Auto"/>
 </Grid.RowDefinitions>
 
-<mvvm:ViewLocator Height="50" Model="{Binding Locker}"/>
+<wpf:ViewLocator Height="50" Model="{Binding Locker}"/>
 
         <StackPanel Grid.Row="1" Orientation="Vertical">
             <views:DetailView 

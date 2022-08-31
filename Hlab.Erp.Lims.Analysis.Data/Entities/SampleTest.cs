@@ -11,7 +11,7 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
 {
     using H = HD<SampleTest>;
 
-    public partial class SampleTest : Entity
+    public partial class SampleTest : Entity, IOrderedEntity
         , IEntityWithIcon
         , IEntityWithColor
         ,IFormTarget
@@ -197,6 +197,19 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
         }
         readonly IForeign<Pharmacopoeia> _pharmacopoeia = H.Foreign<Pharmacopoeia>();
 
+        public int? ProductComponentId
+        {
+            get => _productComponent.Id.Get();
+            set => _productComponent.Id.Set(value);
+        }
+        [Ignore]
+        public ProductComponent ProductComponent
+        {
+            get => _productComponent.Get();
+            set => _productComponent.Set(value);
+        }
+        readonly IForeign<ProductComponent> _productComponent = H.Foreign<ProductComponent>();
+
         [Column("Stage")]
         public string StageId
         {
@@ -326,13 +339,6 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
         [Ignore] string IFormTarget.DefaultTestName => TestClass?.Name;
 
         IFormClass IFormTarget.FormClass { get => TestClass; set => TestClass = (TestClass)value; }
-        string IFormTarget.Name { get => TestClass?.Name; set => throw new NotImplementedException(); }
-
-        public void Reset()
-        {
-            throw new NotImplementedException();
-        }
-
-
+        string IFormTarget.Name { get => TestClass?.Name; set => throw new InvalidOperationException($"Setting {nameof(IFormTarget.Name)} not allowed"); }
     }
 }

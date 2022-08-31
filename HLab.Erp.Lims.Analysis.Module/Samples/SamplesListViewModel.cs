@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using HLab.Erp.Core;
 using HLab.Erp.Core.Wpf.EntityLists;
 using HLab.Erp.Core.ListFilterConfigurators;
+using HLab.Erp.Core.ListFilters;
 using HLab.Erp.Core.Wpf.ListFilters;
 using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Data.Entities;
@@ -21,62 +23,63 @@ public class SamplesListViewModel : Core.EntityLists.EntityListViewModel<Sample>
     protected override bool CanExecuteAdd(Action<string> errorAction) => true;
     protected override bool CanExecuteDelete(Sample target,Action<string> errorAction) => Selected!=null || (SelectedIds?.Any()??false);
 
+    const double Height = 30;
+
     public SamplesListViewModel(Injector i) : base(i, c => c
+
 
             .Column("Reference")
             .Header("{Reference}")
-            .Width(80)
+            .Width(80).Height(Height)
             .Link(s => s.Reference)
+            .OrderByDesc(1)
             .Filter()
             .IconPath("Icons/Entities/Sample")
 
             .Column("FieldId")
             .Header("{FileId}")
-            .Width(100)
+            .Width(100).Height(Height)
             .OrderBy(s => s.FileId)
             .Link(s => s.FileId)
             .Filter()
 
             .Column("Reception")
             .Header("{Reception}")
-            .Width(75)
-//                .OrderByOrder(0)
+            .Width(100).Height(Height)
+            .Date(s => s.ReceptionDate)
+            .OrderByDesc(0)
             .Link(s => s.ReceptionDate)
             .Filter()
 
-            .Column(e => e.Customer, "Customer").Mvvm().Width(250)
+            
+            .ColumnListable(e => e.Customer , "Customer").Width(250).Height(Height)
+ 
+            .ColumnListable(e => e.Product, "Product").Width(550).Height(Height)
 
-            .Column(e => e.Product, "Product").Mvvm().Width(550)
-
-            //.PostLinkedColumn(s => s.Product?.Form, s => s.Product?.FormId)
-
-
-            .Column(e => e.Manufacturer, "Manufacturer").Mvvm().Width(250)
+            .ColumnListable(e => e.Manufacturer, "Manufacturer").Width(250).Height(Height)
 
             .Column("Qty")
             .Header("{Qty}")
-            .Width(50)
+            .Width(50).Height(Height)
             .Content(s => s.ReceivedQuantity)
             // TODO :create IntFilter                        .Filter()
 
             .Column("Expiration")
             .Header("{Expiration}")
-            .Width(75)
+            .Width(100).Height(Height)
             .OrderBy(s => s.ExpirationDate)
-            .Content(s => s.ExpirationDate?.ToString(s.ExpirationDayValid ? "dd/MM/yyyy" : "MM/yyyy"))
+            .Date(s => s.ExpirationDate, s => s.ExpirationDayValid)
             .Link(s => s.ExpirationDate)
             .Filter()
-
-            .Header("{Expiration}")
             .MinDate(DateTime.Now.AddYears(-5))
             .MaxDate(DateTime.Now.AddYears(+5))
             .IconPath("Icons/Sample/Date")
-            .Link(s => s.ExpirationDate)
+            //.Link(s => s.ExpirationDate)
 
             .Column("Notification")
             .Header("{Notification}")
-            .Width(75)
-            .Content(s => s.NotificationDate?.ToString("dd/MM/yyyy") ?? "")
+            .Width(100).Height(Height)
+            .Date(s => s.NotificationDate)
             .Link(s => s.NotificationDate)
             .Filter()
             .MinDate(DateTime.Now.AddYears(-10))
@@ -85,63 +88,72 @@ public class SamplesListViewModel : Core.EntityLists.EntityListViewModel<Sample>
 
             .Column("Validator")
             .Header("{Validator}")
-            .Width(140)
+            .Width(140).Height(Height)
             .Content(s => s.Validator)
             .OrderBy(e => e.Validator.Name)
 
-            .ProgressColumn(s => s.Progress)
+            .ProgressColumn(s => s.Progress).Height(Height)
 
-            .ConformityColumn(s => s.ConformityId)
+            .ConformityColumn(s => s.ConformityId).Height(Height)
 
-            .StageColumn(default(SampleWorkflow), s => s.StageId)
+            .StageColumn(default(SampleWorkflow), s => s.StageId).Height(Height)
 
-            .Column("Pharmacopoeia").Hidden()
-            .Header("{Pharmacopoeia}")
-            .Link(s => s.Pharmacopoeia).Mvvm()
-            .Filter().IconPath("Icons/Entities/Pharmacopoeia")
+            //.Column("Pharmacopoeia")
+            //.Header("{Pharmacopoeia}")
+            //.ColumnListable(s => s.Pharmacopoeia)
+            //.Link(s => s.Pharmacopoeia)
+            //.Filter().IconPath("Icons/Entities/Pharmacopoeia")
 
-            .Column("Batch").Hidden()
+            .Column("Batch").Width(0).Hidden()
             .Header("{Batch}")
             .Link(s => s.Batch)
             .Filter()
-            .IconPath("Icons/Sample/BarCode")
+            .IconPath("Icons/Sample/BarCode").Height(Height)
 
-            .Column("Manufacturing").Hidden()
+            .Column("Manufacturing").Width(0).Hidden()
             .Header("{Manufacturing}")
             .IconPath("Icons/Entities/Manufacturer|Icons/Sample/Date")
+            .Width(100).Height(Height)
+            .Date(s => s.ManufacturingDate)
             .Link(s => s.ManufacturingDate)
             .Filter()
             .MinDate(DateTime.Now.AddYears(-10))
             .MaxDate(DateTime.Now.AddYears(10))
 
-            .Column("Sampling").Hidden()
+            .Column("Sampling").Width(0).Hidden()
             .Header("{Sampling}")
             .IconPath("Icons/Sample/Sampling|Icons/Sample/Date")
+            .Width(100).Height(Height)
+            .Date(s => s.SamplingDate)
             .Link(s => s.SamplingDate)
             .Filter()
             .MinDate(DateTime.Now.AddYears(-10))
             .MaxDate(DateTime.Now.AddYears(10))
 
-            .Column("Origin").Hidden()
-            .Header("{Origin}")
+            .Column("Origin").Width(0).Hidden()
+            .Header("{Origin}").Height(Height)
             .Link(s => s.SamplingOrigin)
             .Filter()
             .IconPath("Icons/Sample/Location")
 
-            .Column("CommercialName").Hidden()
-            .Header("{Commercial Name}")
+            .Column("CommercialName").Width(0).Hidden()
+            .Header("{Commercial Name}").Height(Height)
             .Link(s => s.CommercialName)
             .Filter()
             .IconPath("Icons/Sample/Commercial")
+
+            .AddProperty("IsValid",s=>true,s=>true)
 /**/
     )
     {
-        var n = SampleWorkflow.Reception; // TODO : this is a hack to force top level static constructor
+        var n = SampleWorkflow.Reception; // HACK : this is a hack to force top level static constructor
     }
 
-    protected override void ConfigureEntity(Sample sample)
+    protected override Task ConfigureNewEntityAsync(Sample s, object arg)
     {
-        sample.Stage = SampleWorkflow.DefaultStage;
+        s.Stage = SampleWorkflow.DefaultStage;
+
+        return Task.CompletedTask;
     }
 
     public void ConfigureMvvmContext(IMvvmContext ctx)

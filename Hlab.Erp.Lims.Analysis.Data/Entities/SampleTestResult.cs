@@ -111,21 +111,13 @@ namespace HLab.Erp.Lims.Analysis.Data
                 _conformityId.Set(value);
             }
         }
-
-        void IFormTarget.Reset()
-        {
-            throw new NotImplementedException();
-        }
-
         readonly IProperty<ConformityState> _conformityId = H.Property<ConformityState>();
-
 
         public int? Validation
         {
             get => _validation.Get();
             set => _validation.Set(value);
         }
-
         readonly IProperty<int?> _validation = H.Property<int?>();
 
         [Column("Stage")]
@@ -222,6 +214,6 @@ namespace HLab.Erp.Lims.Analysis.Data
 
         string IFormTarget.DefaultTestName => ((IFormTarget)SampleTest).DefaultTestName;
 
-        IFormClass IFormTarget.FormClass { get => SampleTest.TestClass; set => throw new NotImplementedException(); }
+        IFormClass IFormTarget.FormClass { get => SampleTest.TestClass; set => throw new InvalidOperationException($"Setting {nameof(IFormTarget.FormClass)} not allowed"); }
     }
 }

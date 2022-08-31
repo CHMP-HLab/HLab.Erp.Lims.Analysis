@@ -23,12 +23,6 @@ internal class DummyTarget : NotifierBase, IFormTarget
 
     readonly IProperty<ConformityState> _conformityId = H<DummyTarget>.Property<ConformityState>();
 
-    public void Reset()
-    {
-        throw new System.NotImplementedException();
-    }
-
-
     public byte[] Code => null;
 
     public string SpecificationValues
@@ -97,7 +91,7 @@ internal class DummyTarget : NotifierBase, IFormTarget
 
     readonly IProperty<string> _conformity = H<DummyTarget>.Property<string>();
 
-    IFormClass IFormTarget.FormClass { get => null; set => throw new System.NotImplementedException(); }
+    IFormClass IFormTarget.FormClass { get => null; set => throw new System.InvalidOperationException($"Setting {nameof(IFormTarget.FormClass)} not allowed"); }
 
     public string Name
     {

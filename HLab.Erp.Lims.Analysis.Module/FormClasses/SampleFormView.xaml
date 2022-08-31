@@ -7,6 +7,7 @@
              xmlns:formClasses="clr-namespace:HLab.Erp.Lims.Analysis.Module.FormClasses"
              xmlns:controlsEx="clr-namespace:HLab.Base.Wpf.ControlsEx;assembly=HLab.Base.Wpf"
              xmlns:details="clr-namespace:HLab.Erp.Core.Tools.Details;assembly=HLab.Erp.Core"
+             xmlns:wpf="clr-namespace:HLab.Mvvm.Wpf;assembly=HLab.Mvvm.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance {x:Type formClasses:SampleFormViewModelDesign}, IsDesignTimeCreatable=True}"             
@@ -24,7 +25,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>-->
         <!--<local:SampleTestDetailView/>-->
-            <mvvm:ViewLocator ViewClass="{x:Type details:IViewClassDetail}" Model="{Binding}"/>
+            <wpf:ViewLocator ViewClass="{x:Type details:IViewClassDetail}" Model="{Binding}"/>
 
         <!--<Grid Grid.Row="1" VerticalAlignment="Top" mvvm:ViewLocator.ViewClass="{x:Type annotations:IViewClassContent}">
             <ContentControl Content="{Binding Results}"/>

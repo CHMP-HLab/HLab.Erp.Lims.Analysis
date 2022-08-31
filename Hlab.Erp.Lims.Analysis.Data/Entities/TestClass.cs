@@ -111,6 +111,13 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
         }
         readonly IProperty<string> _iconPath = H.Property<string>();
 
+        public bool ComponentAware
+        {
+            get => _componentAware.Get();
+            set => _componentAware.Set(value);
+        }
+        readonly IProperty<bool> _componentAware = H.Property<bool>();
+
         public static TestClass DesignModel => new TestClass
         {
             Name = "Identification",IconPath = "",Version="1.1.0"

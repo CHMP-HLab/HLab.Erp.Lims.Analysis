@@ -32,8 +32,8 @@ namespace HLab.Erp.Lims.Analysis.Module.Products.ViewModels;
 using H = H<ProductProductComponentsListViewModel>; 
 public class ProductProductComponentsListViewModel : Core.EntityLists.EntityListViewModel<ProductComponent>, IMvvmContextProvider
 {
-    IDataService _data;
-    IAclService _acl;
+    readonly IDataService _data;
+    readonly IAclService _acl;
 
     public Product Product { get; }
     public ProductProductComponentsListViewModel(IDataService data, IAclService acl, Injector i, Product product) : base(i, c => c
@@ -45,6 +45,7 @@ public class ProductProductComponentsListViewModel : Core.EntityLists.EntityList
         .Width(100)
         .Content(e => e.Inn == null ? "" : e.Inn.Name)
         .OrderBy(e => e.Inn?.Name)
+        .OrderByAsc()
 
         .Column("Dose")
         .Header("{Dose}")
@@ -55,8 +56,8 @@ public class ProductProductComponentsListViewModel : Core.EntityLists.EntityList
         .Column("Unit")
         .Header("{Unit}")
         .Width(100)
-        .Content(e => e.Unit?.Symbol)
-        .OrderBy(e => e.Unit?.Symbol)
+        .Content(e => e.Unit.Symbol)
+        .OrderBy(e => e.Unit.Symbol)
     )
     {
 
@@ -65,6 +66,9 @@ public class ProductProductComponentsListViewModel : Core.EntityLists.EntityList
         _acl = acl;
 
         H.Initialize(this);
+
+        ShowFilters = false;
+        ShowMenu = false;
         // List.AddOnCreate(h => h.Entity. = "<Nouveau Critère>").Update();
     }
 
@@ -122,20 +126,15 @@ public class ProductProductComponentsListViewModel : Core.EntityLists.EntityList
         return true;
     }
 
-    protected override async Task AddEntityAsync(object arg)
+    protected override async Task ConfigureNewEntityAsync(ProductComponent pc, object arg)
     {
         if (arg is not Inn inn) return;
 
         var unit = await _data.FetchOneAsync<Unit>(e => e.Symbol=="mg");
 
-        var component = await _data.AddAsync<ProductComponent>(pc =>
-        {
-            pc.Product = Product;
-            pc.Inn = inn;
-            pc.Unit = unit;
-        });
-
-        if (component != null) List.Update();
+        pc.Product = Product;
+        pc.Inn = inn;
+        pc.Unit = unit;
     }
 
 

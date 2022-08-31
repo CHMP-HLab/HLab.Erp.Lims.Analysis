@@ -14,16 +14,16 @@ public class ProductsListPopupViewModel : Core.EntityLists.EntityListViewModel<P
 
     public ProductsListPopupViewModel(Injector i) : base(i, c => c
         .Header("{Products}")
-        //.AddAllowed()
         .Column("Reference")
         .Header("{Ref}")
         .Link(p => p.Caption)
+        .OrderByAsc()
                 
         .Column("Name")
         .Header("{Name}")
         .Link(p => p.Name)
         .Filter()
-        .IconPath("Icons/Entities/Products/Inn")
+        .IconPath("Icons/Entities/Inn")
 
         .Column("Variant")
         .Header("{Dose}")
@@ -34,6 +34,7 @@ public class ProductsListPopupViewModel : Core.EntityLists.EntityListViewModel<P
 
         .FormColumn( p => p.Form)
 
+        //TODO check list it seams strange
     )
     {
     }

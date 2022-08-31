@@ -216,7 +216,6 @@ public class SampleViewModel : ListableEntityViewModel<Sample>
         .Set(e =>
         {
             var movements = e._getMovements?.Invoke(e.Model);
-            //if (movements != null) movements.List.CollectionChanged += e.List_CollectionChanged;
             return movements;
         })
         .On(e => e.Model)
@@ -252,10 +251,9 @@ public class SampleViewModel : ListableEntityViewModel<Sample>
             conformity = UpdateConformity(conformity, sampleTest.Result?.ConformityId ?? ConformityState.NotChecked);
         }
 
-        if (Model.ConformityId != conformity)
-        {
-            Model.ConformityId = conformity;
-        }
+        if (Model.ConformityId == conformity) return;
+
+        Model.ConformityId = conformity;
     }
 
     public void UpdateConformity(IEnumerable<SampleTest> tests)
@@ -267,11 +265,10 @@ public class SampleViewModel : ListableEntityViewModel<Sample>
             conformity = UpdateConformity(conformity, sampleTest.Result?.ConformityId ?? ConformityState.NotChecked);
         }
 
-        if (Model.ConformityId != conformity)
-        {
-            Model.ConformityId = conformity;
-            Injected.Data.UpdateAsync(Model, "ConformityId");
-        }
+        if (Model.ConformityId == conformity) return;
+
+        Model.ConformityId = conformity;
+        Injected.Data.UpdateAsync(Model, "ConformityId");
     }
 
     static ConformityState UpdateConformity(ConformityState currentState, ConformityState testState)

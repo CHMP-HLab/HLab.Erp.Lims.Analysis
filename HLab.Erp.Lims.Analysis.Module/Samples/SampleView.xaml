@@ -13,10 +13,12 @@
              xmlns:data="clr-namespace:HLab.Erp.Lims.Analysis.Data;assembly=HLab.Erp.Lims.Analysis.Data"
              xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
              xmlns:entities="clr-namespace:HLab.Erp.Lims.Analysis.Data.Entities;assembly=HLab.Erp.Lims.Analysis.Data"
+             xmlns:entitySelectors1="clr-namespace:HLab.Erp.Core.Wpf.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
+             xmlns:wpf="clr-namespace:HLab.Mvvm.Wpf;assembly=HLab.Mvvm.Wpf"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance {x:Type samples:SampleViewModelDesign}, IsDesignTimeCreatable=True}"
              d:DesignHeight="1000" d:DesignWidth="1000"
-             mvvm:ViewLocator.ViewClass="{x:Type annotations:IViewClassDefault}"
+             wpf:ViewLocator.ViewClass="{x:Type annotations:IViewClassDefault}"
              Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
              >
 
@@ -68,7 +70,7 @@
                         <Label/>
                         <StackPanel>
                             <lang:LocalizedLabel Text="{}{Technician}"/>
-                            <entitySelectors:ForeignView
+                            <entitySelectors1:ForeignView
                                     IsReadOnly="{Binding IsReadOnlyMonograph}"
                                     Model="{Binding Model.User}"
                                     ModelClass="{x:Type acl:User}"
@@ -77,7 +79,7 @@
                         <Label/>
                         <StackPanel Orientation="Vertical">
                             <lang:LocalizedLabel Text="{}{Pharmacopoeia}"/>
-                            <entitySelectors:ForeignView 
+                            <entitySelectors1:ForeignView 
                                     IsReadOnly="{Binding IsReadOnlyMonograph}"
                                     Model="{Binding Model.Pharmacopoeia}"
                                     ModelClass="{x:Type entities:Pharmacopoeia}"
@@ -117,23 +119,27 @@
                     </Button>
                 </StackPanel>-->
 
-<TabControl Grid.Row="2" >
-    <TabItem>
-        <TabItem.Header><lang:LocalizedLabel>{Tests}</lang:LocalizedLabel></TabItem.Header>
-        <mvvm:ViewLocator 
+                <TabControl Grid.Row="2" >
+                    <TabItem>
+                        <TabItem.Header>
+                            <lang:LocalizedLabel>{Tests}</lang:LocalizedLabel>
+                        </TabItem.Header>
+                        <wpf:ViewLocator 
             ViewClass="{x:Type annotations:IViewClassContent}"
             Model="{Binding Tests}"
             />
-    </TabItem>
-    <TabItem>
-        <TabItem.Header><lang:LocalizedLabel>{Movements}</lang:LocalizedLabel></TabItem.Header>
-        <mvvm:ViewLocator 
+                    </TabItem>
+                    <TabItem>
+                        <TabItem.Header>
+                            <lang:LocalizedLabel>{Movements}</lang:LocalizedLabel>
+                        </TabItem.Header>
+                        <wpf:ViewLocator 
             ViewClass="{x:Type annotations:IViewClassContent}"
             Model="{Binding Movements}"
         />
-    </TabItem>
-</TabControl>
-                <Grid Grid.Column="2" Grid.Row="3" Height="80">
+                    </TabItem>
+                </TabControl>
+                <Grid Grid.Row="3" Height="80">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition/>
@@ -167,18 +173,18 @@
                                  HorizontalContentAlignment="Stretch"
                                  Margin="0,0,5,0" VerticalAlignment="Stretch"/>
                     </StackPanel>
-                                            
-                        <StackPanel Grid.Column="2" Margin="5,0" VerticalAlignment="Top">
-                            <lang:LocalizedLabel Text="{}{Validator}"/>
-                            <entitySelectors:ForeignView
+
+                    <StackPanel Grid.Column="2" Margin="5,0" VerticalAlignment="Top">
+                        <lang:LocalizedLabel Text="{}{Validator}"/>
+                        <entitySelectors1:ForeignView
                                     IsReadOnly="True"
                                     Model="{Binding Model.Validator}"
                                     ModelClass="{x:Type acl:User}"
                                     />
-                        </StackPanel>
+                    </StackPanel>
 
-                    
-                    
+
+
                     <StackPanel Grid.Column="3">
                         <TextBlock>N° de Rapport</TextBlock>
                         <TextBox 
@@ -186,14 +192,14 @@
                                     IsReadOnly="{Binding IsReadOnlyProduction}"
                                     IsEnabled="{Binding ProductionMode}"
                                  />
-                        
-                            <Button
+
+                        <Button
                         
                                     Width="80" 
                                     IsCancel="False" 
                                     Command="{Binding CertificateCommand}">
-                                <lang:Localize Id="{}{Certificate}"/>
-                            </Button>
+                            <lang:Localize Id="{}{Certificate}"/>
+                        </Button>
                     </StackPanel>
                 </Grid>
             </Grid>

@@ -22,14 +22,13 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _testClass.Get();
             set => _testClass.Set(value);
         }
-
         readonly IForeign<TestClass> _testClass = H.Foreign<TestClass>();
+
         [Ignore] IFormClass IFormTarget.FormClass 
         {
             get => TestClass;
             set => TestClass = (TestClass)value;
         }
-
 
         [Ignore] byte[] IFormTarget.Code => TestClass?.Code;
         [Ignore] string IFormTarget.DefaultTestName => TestClass?.Name;
@@ -39,14 +38,13 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _name.Get();
             set => _name.Set(value);
         }
-
         readonly IProperty<string> _name = H.Property<string>(c => c.Default(""));
+
         public string ResultValues
         {
             get => _resultValues.Get();
             set => _resultValues.Set(value);
         }
-
         readonly IProperty<string> _resultValues = H.Property<string>(c => c.Default(""));
 
         public string SpecificationValues
@@ -54,7 +52,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _specificationValues.Get();
             set => _specificationValues.Set(value);
         }
-
         readonly IProperty<string> _specificationValues = H.Property<string>(c => c.Default(""));
 
         public string TestName
@@ -62,7 +59,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _testName.Get();
             set => _testName.Set(value);
         }
-
         readonly IProperty<string> _testName = H.Property<string>(c => c.Default(""));
 
         public string Description
@@ -70,7 +66,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _description.Get();
             set => _description.Set(value);
         }
-
         readonly IProperty<string> _description = H.Property<string>(c => c.Default(""));
 
         public string Specification
@@ -78,7 +73,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _specification.Get();
             set => _specification.Set(value);
         }
-
         readonly IProperty<string> _specification = H.Property<string>(c => c.Default(""));
         
         public bool SpecificationDone
@@ -86,7 +80,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _specificationDone.Get();
             set => _specificationDone.Set(value);
         }
-
         readonly IProperty<bool> _specificationDone = H.Property<bool>(c => c.Default(false));
 
         public string Result
@@ -94,7 +87,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _result.Get();
             set => _result.Set(value);
         }
-
         readonly IProperty<string> _result = H.Property<string>(c => c.Default(""));
 
         public ConformityState ConformityId
@@ -102,12 +94,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _conformityId.Get();
             set => _conformityId.Set(value);
         }
-
-        public void Reset()
-        {
-            throw new System.NotImplementedException();
-        }
-
         readonly IProperty<ConformityState> _conformityId = H.Property<ConformityState>(c => c.Default(ConformityState.NotChecked));
 
         public bool MandatoryDone
@@ -115,7 +101,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _mandatoryDone.Get();
             set => _mandatoryDone.Set(value);
         }
-
         readonly IProperty<bool> _mandatoryDone = H.Property<bool>(c => c.Default(false));
 
         public string Conformity
@@ -123,7 +108,6 @@ namespace HLab.Erp.Lims.Analysis.Data
             get => _conformity.Get();
             set => _conformity.Set(value);
         }
-
         readonly IProperty<string> _conformity = H.Property<string>(c => c.Default(""));
 
 

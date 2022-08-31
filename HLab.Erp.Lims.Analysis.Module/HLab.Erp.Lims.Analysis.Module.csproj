@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFrameworks>net5.0-windows;net6.0-windows</TargetFrameworks>
+	  <TargetFrameworks>net6.0-windows;net7.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <RootNamespace>HLab.Erp.Lims.Analysis.Module</RootNamespace>
     <Platforms>AnyCPU;x64;x86</Platforms>
@@ -31,11 +31,20 @@
 
   <ItemGroup>
     <None Remove="Icons\AppName.svg" />
+    <None Remove="Icons\Conformity\Cancelled.svg" />
+    <None Remove="Icons\Conformity\Cancelled2.svg" />
+    <None Remove="Icons\Conformity\Conform.svg" />
+    <None Remove="Icons\Conformity\ConformHeader.svg" />
+    <None Remove="Icons\Conformity\NotChecked.svg" />
+    <None Remove="Icons\Conformity\NotConform.svg" />
+    <None Remove="Icons\Conformity\Running.svg" />
+    <None Remove="Icons\Conformity\Suspended.svg" />
     <None Remove="Icons\Email.svg" />
     <None Remove="Icons\Entities\Pharmacopoeia.svg" />
     <None Remove="Icons\Entities\Products\dose.svg" />
     <None Remove="Icons\Entities\Products\form.svg" />
     <None Remove="Icons\Entities\Products\inn.svg" />
+    <None Remove="Icons\Entities\SampleMovement.svg" />
     <None Remove="Icons\Entities\SampleTest.svg" />
     <None Remove="Icons\Conformity\Invalid.svg" />
     <None Remove="Icons\Printer.svg" />
@@ -130,14 +139,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Icons\Conformity\Cancelled.svg" />
+    <Resource Include="Icons\Conformity\Cancelled2.svg" />
+    <Resource Include="Icons\Conformity\Conform.svg" />
+    <Resource Include="Icons\Conformity\ConformHeader.svg" />
+    <Resource Include="Icons\Conformity\NotChecked.svg" />
+    <Resource Include="Icons\Conformity\NotConform.svg" />
+    <Resource Include="Icons\Conformity\Running.svg" />
+    <Resource Include="Icons\Conformity\Suspended.svg" />
+    <Resource Include="Icons\Entities\SampleMovement.svg" />
     <Resource Include="Resources\Entete_ANCQ.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="5.0.1" />
     <PackageReference Include="Dirkster.NumericUpDownLib" Version="3.1.0" />
     <PackageReference Include="Mages" Version="2.0.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0-3.final" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0-1.final" />
     <PackageReference Include="WpfMath" Version="0.11.0" />
   </ItemGroup>
 
@@ -170,7 +187,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Conformity\Conformity.xaml">
+    <Resource Include="Icons\Conformity\Old\Conformity.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
@@ -189,7 +206,7 @@
     </Resource>
     <Resource Include="Icons\Entities\Products\Dose.svg" />
     <Resource Include="Icons\Entities\Form.svg" />
-    <Resource Include="Icons\Entities\Products\Inn.svg" />
+    <Resource Include="Icons\Entities\Inn.svg" />
     <Resource Include="Icons\Entities\SampleTest.svg" />
     <Resource Include="Icons\Conformity\Invalid.svg" />
     <Resource Include="Icons\Conformity\Invalid2.xaml">
@@ -288,15 +305,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Conformity\NotChecked.xaml">
+    <Resource Include="Icons\Conformity\Old\NotChecked.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Conformity\NotConform.xaml">
+    <Resource Include="Icons\Conformity\Old\NotConform.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Icons\Conformity\Conform.xaml">
+    <Resource Include="Icons\Conformity\Old\Conform.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
@@ -404,7 +421,7 @@
     <Compile Update="Resources\CertificatNiger.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="SampleTests\ColumnDescriptionBlock.xaml.cs">
+    <Compile Update="Samples\SampleTests\ColumnDescriptionBlock.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="TestClasses\TestCategoryDetailView.xaml.cs">
@@ -478,10 +495,10 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="SampleMovements\ProductView.xaml">
+    <Page Update="Samples\SampleMovements\ProductView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="SampleTests\ColumnDescriptionBlock.xaml">
+    <Page Update="Samples\SampleTests\ColumnDescriptionBlock.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
@@ -491,7 +508,7 @@
     <Page Update="FormClasses\FormClassDetailView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Icons\Conformity\Running.xaml">
+    <Page Update="Icons\Conformity\Old\Running.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ProgressView.xaml">

@@ -10,6 +10,7 @@
              xmlns:icons="clr-namespace:HLab.Mvvm.Application.Wpf.Icons;assembly=HLab.Mvvm.Application.Wpf"
              xmlns:entitySelectors="clr-namespace:HLab.Erp.Core.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
              xmlns:viewModels="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products.ViewModels"
+             xmlns:wpf="clr-namespace:HLab.Mvvm.Wpf;assembly=HLab.Mvvm.Wpf"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance {x:Type viewModels:ProductCategoryViewModel}, IsDesignTimeCreatable=True}"             
              d:DesignHeight="450" d:DesignWidth="800">
@@ -20,7 +21,7 @@
     <RowDefinition Height="Auto"/>
 </Grid.RowDefinitions>
 
-<mvvm:ViewLocator Height="50" Model="{Binding Locker}"/>
+<wpf:ViewLocator Height="50" Model="{Binding Locker}"/>
 
         <views:DetailView 
             Grid.Row="1" 

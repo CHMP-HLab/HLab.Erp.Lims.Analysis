@@ -79,7 +79,7 @@ public class TestClassesListViewModel : Core.EntityLists.EntityListViewModel<Tes
 
         .Column("Category")
         .Header("{Category}")
-        .Width(150).Content(s => s.Category?.Name??"")
+        .Width(150).Content(s => s.Category.Name)
         .OrderBy(s => s.Category?.Name)           
     )
     {

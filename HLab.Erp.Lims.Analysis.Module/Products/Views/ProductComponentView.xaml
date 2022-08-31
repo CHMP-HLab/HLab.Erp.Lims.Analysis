@@ -16,6 +16,8 @@
              xmlns:pharmacopoeias="clr-namespace:HLab.Erp.Lims.Analysis.Module.Pharmacopoeias"
              xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf"
              xmlns:units="clr-namespace:HLab.Erp.Base.Data;assembly=HLab.Erp.Base.Data"
+             xmlns:entitySelectors1="clr-namespace:HLab.Erp.Core.Wpf.EntitySelectors;assembly=HLab.Erp.Core.Wpf"
+             xmlns:wpf1="clr-namespace:HLab.Mvvm.Wpf;assembly=HLab.Mvvm.Wpf"
              mc:Ignorable="d" 
              Background="#FF93A03F"
              d:DataContext="{d:DesignInstance {x:Type viewModels:ProductComponentViewModelDesign}, IsDesignTimeCreatable=True}"             
@@ -27,7 +29,7 @@
     <RowDefinition Height="Auto"/>
 </Grid.RowDefinitions>
 
-<mvvm:ViewLocator Height="50" Model="{Binding Locker}"/>
+<wpf1:ViewLocator Height="50" Model="{Binding Locker}"/>
 
         <StackPanel Grid.Row="1" Orientation="Vertical">
             <views:DetailView 
@@ -37,14 +39,14 @@
                 EditMode="{Binding Locker.IsActive}">
                 
             <lang:LocalizedLabel Text="{}{Product} : "/>
-            <entitySelectors:ForeignView 
+            <entitySelectors1:ForeignView 
                 HorizontalAlignment="Left"
                 Model="{Binding Model.Product}"
                 ModelClass="{x:Type data:Product}" 
                 ListClass="{x:Type viewModels:ProductsListViewModel}"/>
                 
             <lang:LocalizedLabel Text="{}{Inn} : "/>
-            <entitySelectors:ForeignView 
+            <entitySelectors1:ForeignView 
                 HorizontalAlignment="Left"
                 Model="{Binding Model.Inn}"
                 ModelClass="{x:Type entities:Inn}" 
@@ -56,7 +58,7 @@
                     Foreground="{DynamicResource HLab.Brushes.Foreground}"
                     Double="{Binding Model.Quantity, UpdateSourceTrigger=PropertyChanged}" 
                     MinWidth="50"/>
-                <entitySelectors:ForeignView 
+                <entitySelectors1:ForeignView 
                     HorizontalAlignment="Left"
                     Model="{Binding Model.Unit}"
                     ModelClass="{x:Type units:Unit}" 
