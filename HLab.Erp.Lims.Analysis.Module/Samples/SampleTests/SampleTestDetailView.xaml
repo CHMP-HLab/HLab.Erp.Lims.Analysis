@@ -16,8 +16,9 @@
              xmlns:viewModels="clr-namespace:HLab.Erp.Lims.Analysis.Module.Products.ViewModels"
              xmlns:wpf1="clr-namespace:HLab.Mvvm.Wpf;assembly=HLab.Mvvm.Wpf"
              xmlns:annotations="clr-namespace:HLab.Mvvm.Annotations;assembly=HLab.Mvvm.Annotations"
+             xmlns:sampleTests1="clr-namespace:HLab.Erp.Lims.Analysis.Module.Samples.SampleTests"
              Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
-             d:DataContext="{d:DesignInstance {x:Type sampleTests:SampleTestViewModelDesign}, IsDesignTimeCreatable=True}"             
+             d:DataContext="{d:DesignInstance {x:Type sampleTests1:SampleTestViewModelDesign}, IsDesignTimeCreatable=True}"             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="{DynamicResource MahApps.Brushes.Accent3}">
@@ -34,7 +35,7 @@
                 
                 <audittrails:EntityAuditTrailListView/>
                 <!-- LINKS -->
-                <views:DetailView 
+                <!--<views:DetailView 
                     IconPath="Icons/Entities/Sample" 
                     Text="{}{Sample}"
                     EditMode="{Binding EditMode}">
@@ -65,7 +66,7 @@
                         </StackPanel>
                     </Button>
                     <TextBlock Margin="15,0,0,0" Text="{Binding Model.Sample.Customer.Caption}" VerticalAlignment="Center"/>
-                </views:DetailView>
+                </views:DetailView>-->
                 
                 <views:DetailView 
                     IconPath="{Binding Model.TestClass.IconPath}" 
@@ -100,37 +101,6 @@
                     <lang:LocalizedLabel Text="{}{Name} : " VerticalAlignment="Top"/>
                     <TextBlock Margin="0,5" Text="{Binding Model.TestName}" VerticalAlignment="Top"/>
 
-                    <Grid Grid.ColumnSpan="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-
-                        <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Background="#30000000"/>
-                        <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="#30000000"/>
-                        <lang:LocalizedLabel FontWeight="Bold" Text="{}{Description}" HorizontalContentAlignment="Left" Grid.Row="0" Grid.Column="0"/>
-                        <lang:LocalizedLabel Margin="5" HorizontalAlignment="Left" Text="{Binding Model.Description}" Grid.Row="1" Grid.Column="0"/>
-
-                        <lang:LocalizedLabel FontWeight="Bold" Text="{}{Specifications}" HorizontalContentAlignment="Left" Grid.Row="0" Grid.Column="1"/>
-                        <lang:LocalizedLabel Margin="5" HorizontalAlignment="Center" Text="{Binding Model.Specification}" Grid.Row="1" Grid.Column="1"/>
-
-                        <Border Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Background="#30000000"/>
-                        <lang:LocalizedLabel FontWeight="Bold" Text="{}{Result}" HorizontalContentAlignment="Left" Grid.Row="0" Grid.Column="2"/>
-                        <lang:LocalizedLabel Margin="5" HorizontalAlignment="Center" Text="{Binding Model.Result.Result,FallbackValue='{}{Select a result}'}" Grid.Row="1" Grid.Column="2"/>
-
-                        <Border Grid.Column="4" Grid.Row="0" Grid.RowSpan="2" Background="#30000000"/>
-                        <lang:LocalizedLabel FontWeight="Bold" Text="{}{Conformity}" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="3" />
-                        <lang:LocalizedLabel Margin="5" HorizontalAlignment="Center" Text="{Binding Model.Result.Conformity}" Grid.Row="1" Grid.Column="3"/>
-
-                        <module:ConformityIcon Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="4" Path="{Binding Model.Result.ConformityId}" MaxHeight="40"/>
-                    </Grid>
                 </views:DetailView>
                 <views:DetailView 
                     IconPath="Icons/Workflows/Planning" 

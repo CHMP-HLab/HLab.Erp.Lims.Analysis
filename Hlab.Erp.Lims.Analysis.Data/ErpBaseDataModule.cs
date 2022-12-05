@@ -141,7 +141,10 @@ namespace HLab.Erp.Lims.Analysis.Data
                         .Version("2.5.0.1");
                         ;
                     break;
-
+                case "2.5.0.1":
+                    builder.Table<SampleMovement>().AddColumn(s => s.Date);
+                    builder.Table<Sample>().AddColumn(s => s.RemainingQuantity);
+                    break;
 
             }
             return base.GetSqlUpdater(version, builder);

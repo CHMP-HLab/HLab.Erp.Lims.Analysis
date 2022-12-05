@@ -7,29 +7,36 @@ using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
-using HLab.Erp.Lims.Analysis.Module.Samples.SampleTests;
+using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Application;
 using HLab.Notify.PropertyChanged;
 
-namespace HLab.Erp.Lims.Analysis.Module.SampleTests;
+namespace HLab.Erp.Lims.Analysis.Module.Samples.SampleTests;
 
 using H = H<SampleTestViewModel>;
 
 public class SampleTestViewModelDesign : SampleTestViewModel, IViewModelDesign
 {
-    public SampleTestViewModelDesign() : base(null,null, null,null, null, null, null)
+    public SampleTestViewModelDesign() : base(null,null,null, null,null, null, null, null)
     {
     }
 }
 
 public class SampleTestViewModel : EntityViewModel<SampleTest>, IMvvmContextProvider
 {
+    public IDocumentPresenter DocumentPresenter { get; }
     public IDocumentService Docs { get; }
     readonly Func<Sample, DataLocker<Sample>> _getSampleLocker;
+    readonly Func<SampleTest,TestResultsListViewModel> _getResults;
+    readonly Func<SampleTest, IDataLocker<SampleTest>, SampleTestWorkflow> _getSampleTestWorkflow;
+    readonly Func<FormHelper> _getFormHelper;
+    readonly Func<int, SampleTestAuditTrailViewModel> _getAudit;
+
     public SampleTestViewModel(
         Injector i,
         IDocumentService docs,
+        IDocumentPresenter presenter,
         Func<SampleTest, TestResultsListViewModel> getResults,
         Func<int, SampleTestAuditTrailViewModel> getAudit,
         Func<FormHelper> getFormHelper,
@@ -37,6 +44,7 @@ public class SampleTestViewModel : EntityViewModel<SampleTest>, IMvvmContextProv
         Func<Sample, DataLocker<Sample>> getSampleLocker
     ):base(i)
     {
+        DocumentPresenter = presenter;
         Docs = docs;
         _getResults = getResults;
         _getAudit = getAudit;
@@ -47,18 +55,13 @@ public class SampleTestViewModel : EntityViewModel<SampleTest>, IMvvmContextProv
         H.Initialize(this);
     }
 
-    ITrigger _modelTrigger = H.Trigger(c => c.On(e => e.Model).Do(e => e.Locker.AddDependencyLocker(e._getSampleLocker(e.Model.Sample))));
+    ITrigger _modelTrigger = H.Trigger(c => c
+        .On(e => e.Model)
+        .Do(e => e.Locker.AddDependencyLocker(e._getSampleLocker(e.Model.Sample))));
 
-    readonly Func<SampleTest,TestResultsListViewModel> _getResults;
-
-    readonly Func<SampleTest, IDataLocker<SampleTest>, SampleTestWorkflow> _getSampleTestWorkflow;
-
-    readonly Func<FormHelper> _getFormHelper;
     public FormHelper FormHelper => _formHelper.Get();
-
     readonly IProperty<FormHelper> _formHelper = H.Property<FormHelper>(c => c
         .Set(e => e._getFormHelper?.Invoke()));
-
 
     public async Task LoadResultAsync(IFormTarget target=null)
     {
@@ -74,10 +77,7 @@ public class SampleTestViewModel : EntityViewModel<SampleTest>, IMvvmContextProv
             FormHelper.Form.Mode = FormMode.ReadOnly;
     }
 
-
-
     // Audit Trail
-    readonly Func<int, SampleTestAuditTrailViewModel> _getAudit;
     public SampleTestAuditTrailViewModel AuditTrail => _auditTrail.Get();
 
     readonly IProperty<SampleTestAuditTrailViewModel> _auditTrail = H.Property<SampleTestAuditTrailViewModel>(c => c
@@ -108,8 +108,8 @@ public class SampleTestViewModel : EntityViewModel<SampleTest>, IMvvmContextProv
 
             e.AuditTrail.List.Update();
         }));
-    public SampleTestWorkflow Workflow => _workflow.Get();
 
+    public SampleTestWorkflow Workflow => _workflow.Get();
     readonly IProperty<SampleTestWorkflow> _workflow = H.Property<SampleTestWorkflow>(c => c
         .NotNull(e => e.Locker)
         .Set(vm => vm._getSampleTestWorkflow?.Invoke(vm.Model,vm.Locker))
@@ -118,16 +118,13 @@ public class SampleTestViewModel : EntityViewModel<SampleTest>, IMvvmContextProv
         .Update()
     );
 
-
     public bool IsReadOnly => _isReadOnly.Get();
-
     readonly IProperty<bool> _isReadOnly = H.Property<bool>(c => c
         .Set(e => !e.EditMode)
         .On(e => e.EditMode).Update()
     );
 
     public bool EditMode => _editMode.Get();
-
     readonly IProperty<bool> _editMode = H.Property<bool>(c => c
         .NotNull(e => e.Locker)
         .NotNull(e => e.Workflow)
@@ -143,8 +140,8 @@ public class SampleTestViewModel : EntityViewModel<SampleTest>, IMvvmContextProv
         .On(e => e.FormHelper.Form)
         .Update()
     );
-    public bool ScheduleEditMode => _scheduleEditMode.Get();
 
+    public bool ScheduleEditMode => _scheduleEditMode.Get();
     readonly IProperty<bool> _scheduleEditMode = H.Property<bool>(c => c
         .NotNull(e => e.Locker)
         .NotNull(e => e.Workflow)
@@ -158,7 +155,6 @@ public class SampleTestViewModel : EntityViewModel<SampleTest>, IMvvmContextProv
     );
 
     public bool ResultMode => _resultMode.Get();
-
     readonly IProperty<bool> _resultMode = H.Property<bool>(c => c
         .NotNull(e => e.Locker)
         .NotNull(e => e.Workflow)
@@ -171,8 +167,8 @@ public class SampleTestViewModel : EntityViewModel<SampleTest>, IMvvmContextProv
         .Update()
          
     );
-    public bool FormHelperIsActive => _formHelperIsActive.Get();
 
+    public bool FormHelperIsActive => _formHelperIsActive.Get();
     readonly IProperty<bool> _formHelperIsActive = H.Property<bool>(c => c
         .Set(e => e.EditMode || e.ResultMode)
         .On(e => e.EditMode)
@@ -182,7 +178,6 @@ public class SampleTestViewModel : EntityViewModel<SampleTest>, IMvvmContextProv
 
     // RESULTS
     public TestResultsListViewModel Results => _results.Get();
-
     readonly IProperty<TestResultsListViewModel> _results = H.Property<TestResultsListViewModel>(c => c
         .NotNull(e => e.Model)
         .NotNull(e => e._getResults)
@@ -193,21 +188,29 @@ public class SampleTestViewModel : EntityViewModel<SampleTest>, IMvvmContextProv
 
     TestResultsListViewModel SetResults()
     {
-        var vm =  _getResults(Model);
-        vm.SetSelectAction(async r =>
-        {
-            await LoadResultAsync(r as SampleTestResult).ConfigureAwait(false);
-            if (SelectResultCommand is CommandPropertyHolder nc) nc.CheckCanExecute();
-        });
+        var results =  _getResults(Model);
 
-        SampleTestResult selected = null;
-        foreach(var result in vm.List)
+        if (results != null)
         {
-            if(selected==null) selected = result;
-            if(result == Model.Result) selected = result;
+            results.SetOpenAction(t => Docs.OpenDocumentAsync(t,DocumentPresenter));
+            Docs.OpenDocumentAsync(results, DocumentPresenter);
+
+            results.SetSelectAction(async r =>
+            {
+                await LoadResultAsync(r as SampleTestResult).ConfigureAwait(false);
+                if (SelectResultCommand is CommandPropertyHolder nc) nc.CheckCanExecute();
+            });
+
+            SampleTestResult selected = null;
+            foreach(var result in results.List)
+            {
+                if(selected==null) selected = result;
+                if(result == Model.Result) selected = result;
+            }
+            results.Selected = selected;
         }
-        vm.Selected = selected;
-        return vm;
+
+        return results;
     }
 
     readonly ITrigger _trigger = H.Trigger(c => c
@@ -357,20 +360,23 @@ public class SampleTestViewModel : EntityViewModel<SampleTest>, IMvvmContextProv
         .Update()
     );
 
-        
-    public override string Header => _header.Get();
+    public override string IconPath => _iconPath.Get();
+    readonly IProperty<string> _iconPath = H.Property<string>(c => c
+        .Set(e => e.Model.IconPath)
+        .On(e => e.Model.IconPath)
+        .Update()
+    );
 
+    public override string Header => _header.Get();
     readonly IProperty<string> _header = H.Property<string>(c => c
-        .Set(e => e.Model.Sample?.Reference)
-        .On(e => e.Model.Sample.Reference)
+        .Set(e => e.Model.TestName)
+        .On(e => e.Model.TestName)
         .Update()
     );
 
     public string SubTitle => _subTitle.Get();
-
     readonly IProperty<string> _subTitle = H.Property<string>(c => c
-        .Set(e => e.Model.TestName + "\n" + e.Model.Description.TrimEnd('\r','\n',' '))
-        .On(e => e.Model.TestName)
+        .Set(e => e.Model.Description.TrimEnd('\r','\n',' '))
         .On(e => e.Model.Description)
         .Update()
     );

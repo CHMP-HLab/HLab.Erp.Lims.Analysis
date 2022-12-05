@@ -1,3 +1,5 @@
+using System;
+using HLab.Base.Extensions;
 using HLab.Erp.Data;
 using HLab.Notify.PropertyChanged;
 using NPoco;
@@ -57,11 +59,12 @@ public class SampleMovement : Entity
     /// <summary>
     /// Quantity
     /// </summary>
-    public int Quantity
+    public double Quantity
     {
         get => _quantity.Get();
         set => _quantity.Set(value);
     }
+    readonly IProperty<double> _quantity = H.Property<double>();
 
     public static SampleMovement DesignModel => new()
     {
@@ -69,6 +72,11 @@ public class SampleMovement : Entity
         Quantity = 20,
     };
 
-    readonly IProperty<int> _quantity = H.Property<int>();
+    public DateTime Date
+    {
+        get => _date.Get().ToUniversalTime();
+        set => _date.Set(value.ToUniversalTime());
+    }
+    readonly IProperty<DateTime> _date = H.Property<DateTime>();
 
 }

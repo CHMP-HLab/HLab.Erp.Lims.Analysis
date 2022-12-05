@@ -202,6 +202,13 @@ namespace HLab.Erp.Lims.Analysis.Data.Entities
 
         readonly IProperty<double?> _receivedQuantity = H.Property<double?>();
 
+        public double? RemainingQuantity
+        {
+            get => _remainingQuantity.Get();
+            set => _remainingQuantity.Set(value);
+        }
+
+        readonly IProperty<double?> _remainingQuantity = H.Property<double?>();
 
         public string Aspect
         {

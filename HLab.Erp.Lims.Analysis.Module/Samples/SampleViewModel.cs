@@ -16,9 +16,12 @@ using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Erp.Lims.Analysis.Module.SampleMovements;
+using HLab.Erp.Lims.Analysis.Module.Samples.SampleMovements;
+using HLab.Erp.Lims.Analysis.Module.Samples.SampleTests;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using HLab.Erp.Workflows;
 using HLab.Mvvm.Annotations;
+using HLab.Mvvm.Application;
 using HLab.Notify.Annotations;
 using HLab.Notify.PropertyChanged;
 
@@ -35,7 +38,9 @@ public class SampleViewModelDesign : SampleViewModel.Design
 
 public class SampleViewModel : ListableEntityViewModel<Sample>
 {
-    SampleViewModel(){}
+    SampleViewModel():base(null)
+    {
+    }
     public class Design : SampleViewModel, IViewModelDesign
     {
         public new Sample Model { get; } = Sample.DesignModel;
@@ -44,6 +49,12 @@ public class SampleViewModel : ListableEntityViewModel<Sample>
     public Type ListProductType => typeof(ProductsListPopupViewModel);
 
     readonly Func<Sample, IDataLocker<Sample>, SampleWorkflow> _getSampleWorkflow;
+    public IDocumentPresenter DocumentPresenter { get; }
+    readonly IDocumentService _docs; 
+    readonly Func<Sample, SampleSampleTestListViewModel> _getTests;
+    readonly Func<Sample, SampleMovementsListViewModel> _getMovements;
+    readonly Func<Sample, SampleFormsListViewModel> _getForms;
+    readonly Func<int, SampleAuditTrailViewModel> _getAudit;
 
 
     public SampleViewModel(
@@ -52,26 +63,31 @@ public class SampleViewModel : ListableEntityViewModel<Sample>
         Func<Sample, SampleMovementsListViewModel> getMovements,
         Func<Sample, SampleFormsListViewModel> getForms,
         Func<int, SampleAuditTrailViewModel> getAudit,
-        Func<Sample, IDataLocker<Sample>, SampleWorkflow> getSampleWorkflow
-    ):base(i)
+        Func<Sample, IDataLocker<Sample>, SampleWorkflow> getSampleWorkflow, 
+        IDocumentPresenter documentPresenter,
+        IDocumentService docs
+        ):base(i)
     {
+        _docs = docs;
         _getAudit = getAudit;
         _getSampleWorkflow = getSampleWorkflow;
+        DocumentPresenter = documentPresenter;
         _getTests = getTests;
         _getMovements = getMovements;
         H.Initialize(this);
         _getForms = getForms;
     }
 
-    public string SubTitle => _subTitle.Get();
-
-    readonly IProperty<string> _subTitle = H.Property<string>(c => c
-        .Set(e => e.Model?.Customer?.Name ?? "{Customer}" + "\n" + e.Model?.Product?.Caption ?? "{Product}")
-        .On(e => e.Model.Customer.Name)
-        .On(e => e.Model.Product.Caption)
-        .NotNull(e => e.Model)
-        .Update()
-    );
+    #region Document
+        public string SubTitle => _subTitle.Get();
+        readonly IProperty<string> _subTitle = H.Property<string>(c => c
+            .Set(e => e.Model?.Customer?.Name ?? "{Customer}" + "\n" + e.Model?.Product?.Caption ?? "{Product}")
+            .On(e => e.Model.Customer.Name)
+            .On(e => e.Model.Product.Caption)
+            .NotNull(e => e.Model)
+            .Update()
+        );
+    #endregion
  
     public bool IsReadOnly => _isReadOnly.Get();
 
@@ -83,7 +99,6 @@ public class SampleViewModel : ListableEntityViewModel<Sample>
 
     // Audit Trail
     public SampleAuditTrailViewModel AuditTrail => _auditTrail.Get();
-
     readonly IProperty<SampleAuditTrailViewModel> _auditTrail = H.Property<SampleAuditTrailViewModel>(c => c
         .NotNull(e => e.Model)
         .Set(e => e._getAudit?.Invoke(e.Model.Id))
@@ -96,7 +111,6 @@ public class SampleViewModel : ListableEntityViewModel<Sample>
         get => _auditDetail.Get();
         set => _auditDetail.Set(value);
     }
-
     readonly IProperty<bool> _auditDetail = H.Property<bool>();
 
     ITrigger _onAuditDetail = H.Trigger(c => c
@@ -114,7 +128,6 @@ public class SampleViewModel : ListableEntityViewModel<Sample>
         }));
 
     public bool EditMode => _editMode.Get();
-
     readonly IProperty<bool> _editMode = H.Property<bool>(c => c
         .NotNull(e => e.Locker)
         .NotNull(e => e.Workflow)
@@ -144,7 +157,6 @@ public class SampleViewModel : ListableEntityViewModel<Sample>
     );
 
     public bool IsReadOnlyMonograph => _isReadOnlyMonograph.Get();
-
     readonly IProperty<bool> _isReadOnlyMonograph = H.Property<bool>(c => c
         .Set(e => !e.MonographMode)
         .On(e => e.MonographMode)
@@ -193,10 +205,6 @@ public class SampleViewModel : ListableEntityViewModel<Sample>
         .Update()
     );
 
-    readonly Func<Sample, SampleSampleTestListViewModel> _getTests;
-    readonly Func<Sample, SampleMovementsListViewModel> _getMovements;
-    readonly Func<Sample, SampleFormsListViewModel> _getForms;
-    readonly Func<int, SampleAuditTrailViewModel> _getAudit;
 
     public SampleSampleTestListViewModel Tests => _tests.Get();
     readonly IProperty<SampleSampleTestListViewModel> _tests = H.Property<SampleSampleTestListViewModel>(c => c
@@ -204,12 +212,20 @@ public class SampleViewModel : ListableEntityViewModel<Sample>
         .Set(e =>
         {
             var tests = e._getTests?.Invoke(e.Model);
-            if (tests != null) tests.List.CollectionChanged += e.List_CollectionChanged;
+
+            if (tests != null)
+            {
+                tests.SetOpenAction(t => e._docs.OpenDocumentAsync(t,e.DocumentPresenter));
+                e._docs.OpenDocumentAsync(tests, e.DocumentPresenter);
+            }
+
             return tests;
         })
         .On(e => e.Model)
         .Update()
     );
+
+
     public SampleMovementsListViewModel Movements => _movements.Get();
     readonly IProperty<SampleMovementsListViewModel> _movements = H.Property<SampleMovementsListViewModel>(c => c
         .NotNull(e => e.Model)
@@ -222,122 +238,13 @@ public class SampleViewModel : ListableEntityViewModel<Sample>
         .Update()
     );
 
-    void List_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-        if (sender is IEnumerable<SampleTest> tests)
-            UpdateConformity(tests);
-
-    }
-
-    ITrigger _ = H.Trigger(c => c
-        .NotNull(e => e.Tests)
-        .Do(e => e.UpdateConformity(e.Tests.List))
-        .On(e => e.Tests.List.Item().Result.ConformityId)
-        .Update()
-    );
-
     protected override void BeforeSaving(Sample entity)
     {
         base.BeforeSaving(entity);
-        UpdateConformity();
-    }
-
-    void UpdateConformity()
-    {
-        var conformity = ConformityState.NotChecked;
-
-        foreach (var sampleTest in Tests.List)
-        {
-            conformity = UpdateConformity(conformity, sampleTest.Result?.ConformityId ?? ConformityState.NotChecked);
-        }
-
-        if (Model.ConformityId == conformity) return;
-
-        Model.ConformityId = conformity;
-    }
-
-    public void UpdateConformity(IEnumerable<SampleTest> tests)
-    {
-        var conformity = ConformityState.None;
-
-        foreach (var sampleTest in tests)
-        {
-            conformity = UpdateConformity(conformity, sampleTest.Result?.ConformityId ?? ConformityState.NotChecked);
-        }
-
-        if (Model.ConformityId == conformity) return;
-
-        Model.ConformityId = conformity;
-        Injected.Data.UpdateAsync(Model, "ConformityId");
-    }
-
-    static ConformityState UpdateConformity(ConformityState currentState, ConformityState testState)
-    {
-        switch (testState)
-        {
-            case ConformityState.NotChecked:
-                return currentState switch
-                {
-                    ConformityState.None => ConformityState.NotChecked,
-                    ConformityState.NotChecked => ConformityState.NotChecked,
-                    ConformityState.Running => ConformityState.Running,
-                    ConformityState.NotConform => ConformityState.NotConform,
-                    ConformityState.Conform => ConformityState.Running,
-                    ConformityState.Invalid => ConformityState.Invalid,
-                    _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
-                };
-            case ConformityState.Running:
-                return currentState switch
-                {
-                    ConformityState.None => ConformityState.Running,
-                    ConformityState.NotChecked => ConformityState.Running,
-                    ConformityState.Running => ConformityState.Running,
-                    ConformityState.Conform => ConformityState.Running,
-                    ConformityState.NotConform => ConformityState.NotConform,
-                    ConformityState.Invalid => ConformityState.Invalid,
-                    _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
-                };
-            case ConformityState.NotConform:
-                return currentState switch
-                {
-                    ConformityState.None => ConformityState.NotConform,
-                    ConformityState.NotChecked => ConformityState.NotConform,
-                    ConformityState.Running => ConformityState.NotConform,
-                    ConformityState.Conform => ConformityState.NotConform,
-                    ConformityState.NotConform => ConformityState.NotConform,
-                    ConformityState.Invalid => ConformityState.NotConform,
-                    _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
-                };
-            case ConformityState.Conform:
-                return currentState switch
-                {
-                    ConformityState.None => ConformityState.Conform,
-                    ConformityState.NotChecked => ConformityState.Running,
-                    ConformityState.Running => ConformityState.Running,
-                    ConformityState.Conform => ConformityState.Conform,
-                    ConformityState.NotConform => ConformityState.NotConform,
-                    ConformityState.Invalid => ConformityState.Invalid,
-                    _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
-                };
-            case ConformityState.Invalid:
-                return currentState switch
-                {
-                    ConformityState.None => ConformityState.Invalid,
-                    ConformityState.NotChecked => ConformityState.Invalid,
-                    ConformityState.Running => ConformityState.Invalid,
-                    ConformityState.Conform => ConformityState.Invalid,
-                    ConformityState.Invalid => ConformityState.Invalid,
-                    ConformityState.NotConform => ConformityState.NotConform,
-                    _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
-                };
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-
+        Tests.UpdateConformity();
     }
 
     public SampleFormsListViewModel Forms => _forms.Get();
-
     readonly IProperty<SampleFormsListViewModel> _forms = H.Property<SampleFormsListViewModel>(c => c
         .NotNull(e => e.Model)
         .Set(e => e._getForms?.Invoke(e.Model))

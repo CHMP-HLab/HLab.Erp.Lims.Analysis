@@ -1,12 +1,9 @@
 ﻿using HLab.Erp.Acl;
-using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Module.SampleTests;
+using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
-using System;
-using HLab.Erp.Lims.Analysis.Data.Entities;
 
-namespace HLab.Erp.Lims.Analysis.Module.SampleMovements;
+namespace HLab.Erp.Lims.Analysis.Module.Samples.SampleMovements;
 
 using H = H<SampleMovementViewModel>;
 
@@ -31,9 +28,5 @@ internal class SampleMovementViewModel: EntityViewModel<SampleMovement>
 
     string GetIconPath => Model?.Motivation?.IconPath??base.IconPath;
 
-    public SampleMovementViewModel(Injector i):base(i)
-    {
-        H.Initialize(this);
-    }
-
+    public SampleMovementViewModel(Injector i):base(i) => H.Initialize(this);
 }

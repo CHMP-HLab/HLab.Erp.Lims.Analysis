@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using HLab.Erp.Lims.Analysis.Module.Samples.SampleTests;
 using HLab.Mvvm.Annotations;
 using HLab.Mvvm.Application;
 

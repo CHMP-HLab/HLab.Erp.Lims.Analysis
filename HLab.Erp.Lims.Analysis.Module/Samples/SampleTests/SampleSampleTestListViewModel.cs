@@ -1,33 +1,47 @@
 ﻿#nullable enable
-using HLab.Erp.Conformity.Annotations;
-using HLab.Erp.Core.Wpf.EntityLists;
-using HLab.Erp.Core.ListFilterConfigurators;
-using HLab.Erp.Lims.Analysis.Data;
-using HLab.Erp.Lims.Analysis.Data.Workflows;
-using HLab.Mvvm.Annotations;
 using System;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Windows.Input;
-using HLab.Notify.PropertyChanged;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using HLab.Base;
 using HLab.Erp.Acl;
+using HLab.Erp.Conformity.Annotations;
+using HLab.Erp.Core.ListFilterConfigurators;
+using HLab.Erp.Core.Wpf.EntityLists;
 using HLab.Erp.Data;
 using HLab.Erp.Lims.Analysis.Data.Entities;
+using HLab.Erp.Lims.Analysis.Data.Workflows;
+using HLab.Erp.Lims.Analysis.Module.SampleTests;
+using HLab.Mvvm.Annotations;
+using HLab.Mvvm.Application;
+using HLab.Mvvm.Wpf;
+using HLab.Notify.PropertyChanged;
 
-namespace HLab.Erp.Lims.Analysis.Module.SampleTests;
+namespace HLab.Erp.Lims.Analysis.Module.Samples.SampleTests;
 
 using H = H<SampleSampleTestListViewModel>;
 public class SampleSampleTestListViewModel : Core.EntityLists.EntityListViewModel<SampleTest>, IMvvmContextProvider
 {
     readonly IAclService _acl;
-    readonly IDataService _data;
 
     public Sample Sample { get; }
 
-    public SampleSampleTestListViewModel(IAclService acl, IDataService data, Injector i, Sample sample) : base(i, c => c
+    public SampleSampleTestListViewModel(IAclService acl, Injector i, Sample sample) : base(i, c => c
         //.DeleteAllowed()
         .StaticFilter(e => e.SampleId == sample.Id)
+
+        //.Column("Expander").ContentTemplate(@$"
+        //    <GroupBox xmlns:wpf=""clr-namespace:HLab.Mvvm.Wpf;assembly=HLab.Mvvm.Wpf"">
+        //    <{XamlTool.Type<ViewLocator>(out var ns1)}
+        //            {XamlTool.Namespace<IViewClassDocument>(out var ns2)}
+        //            {XamlTool.Namespace<ViewModeDefault>(out var ns3)}
+        //            ViewClass=""{{x:Type {XamlTool.Type<IViewClassDocument>(ns2)}}}""
+        //            ViewMode=""{{x:Type {XamlTool.Type<ViewModeDefault>(ns3)}}}""
+        //            Model=""{{Binding Model}}""/>
+        //    </GroupBox>"
+        //)
+
+    //<{XamlTool.Type<ViewLocator>(ns1)}.Model>{XamlTool.ContentPlaceHolder}</{XamlTool.Type<ViewLocator>(ns1)}.Model>
+    //</{XamlTool.Type<ViewLocator>(ns1)}>""
 
         .Column("Order").Header("{Order").Width(35).IconPath("Icons/Sort/Sort")
         .Content(s => s.Order)
@@ -73,7 +87,6 @@ public class SampleSampleTestListViewModel : Core.EntityLists.EntityListViewMode
         var n = SampleTestWorkflow.Specifications; // HACK : this is a hack to force top level static constructor
 
         _acl = acl;
-        _data = data;
         Sample = sample;
 
         H.Initialize(this);
@@ -102,6 +115,11 @@ public class SampleSampleTestListViewModel : Core.EntityLists.EntityListViewMode
         .On(e => e.Sample.PharmacopoeiaVersion)
         .On(e => e.EditMode)
         .Do(e => (e.AddCommand as CommandPropertyHolder)?.CheckCanExecute())
+    );
+
+    readonly ITrigger _2 = H.Trigger(c => c
+        .On(e => e.List.Item().Result.ConformityId)
+        .Do(e => e.UpdateConformity())
     );
 
     //private readonly ITrigger _triggerConformity = H.Trigger(c => c
@@ -152,6 +170,87 @@ public class SampleSampleTestListViewModel : Core.EntityLists.EntityListViewMode
         return Task.CompletedTask;
     }
 
+    public void UpdateConformity()
+    {
+        if(Sample==null) return;
+        if (Filters.Count != 1) return;
+
+        var conformity = ConformityState.None;
+
+        foreach (var sampleTest in List)
+        {
+            conformity = UpdateConformity(conformity, sampleTest.Result?.ConformityId ?? ConformityState.NotChecked);
+        }
+
+        if (Sample.ConformityId == conformity) return;
+
+        Injected.Data.UpdateAsync(Sample, s => s.ConformityId = conformity);
+    }
+
+    static ConformityState UpdateConformity(ConformityState currentState, ConformityState testState)
+    {
+        switch (testState)
+        {
+            case ConformityState.NotChecked:
+                return currentState switch
+                {
+                    ConformityState.None => ConformityState.NotChecked,
+                    ConformityState.NotChecked => ConformityState.NotChecked,
+                    ConformityState.Running => ConformityState.Running,
+                    ConformityState.NotConform => ConformityState.NotConform,
+                    ConformityState.Conform => ConformityState.Running,
+                    ConformityState.Invalid => ConformityState.Invalid,
+                    _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
+                };
+            case ConformityState.Running:
+                return currentState switch
+                {
+                    ConformityState.None => ConformityState.Running,
+                    ConformityState.NotChecked => ConformityState.Running,
+                    ConformityState.Running => ConformityState.Running,
+                    ConformityState.Conform => ConformityState.Running,
+                    ConformityState.NotConform => ConformityState.NotConform,
+                    ConformityState.Invalid => ConformityState.Invalid,
+                    _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
+                };
+            case ConformityState.NotConform:
+                return currentState switch
+                {
+                    ConformityState.None => ConformityState.NotConform,
+                    ConformityState.NotChecked => ConformityState.NotConform,
+                    ConformityState.Running => ConformityState.NotConform,
+                    ConformityState.Conform => ConformityState.NotConform,
+                    ConformityState.NotConform => ConformityState.NotConform,
+                    ConformityState.Invalid => ConformityState.NotConform,
+                    _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
+                };
+            case ConformityState.Conform:
+                return currentState switch
+                {
+                    ConformityState.None => ConformityState.Conform,
+                    ConformityState.NotChecked => ConformityState.Running,
+                    ConformityState.Running => ConformityState.Running,
+                    ConformityState.Conform => ConformityState.Conform,
+                    ConformityState.NotConform => ConformityState.NotConform,
+                    ConformityState.Invalid => ConformityState.Invalid,
+                    _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
+                };
+            case ConformityState.Invalid:
+                return currentState switch
+                {
+                    ConformityState.None => ConformityState.Invalid,
+                    ConformityState.NotChecked => ConformityState.Invalid,
+                    ConformityState.Running => ConformityState.Invalid,
+                    ConformityState.Conform => ConformityState.Invalid,
+                    ConformityState.Invalid => ConformityState.Invalid,
+                    ConformityState.NotConform => ConformityState.NotConform,
+                    _ => throw new ArgumentOutOfRangeException(nameof(currentState), currentState, null)
+                };
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+    }
 
 
     public void ConfigureMvvmContext(IMvvmContext ctx)

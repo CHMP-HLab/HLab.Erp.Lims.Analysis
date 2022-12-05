@@ -13,8 +13,9 @@
              xmlns:icons="clr-namespace:HLab.Icons.Wpf.Icons;assembly=HLab.Icons.Wpf"
              xmlns:wpf="clr-namespace:HLab.Base.Wpf;assembly=HLab.Base.Wpf" xmlns:audittrails="clr-namespace:HLab.Erp.Acl.AuditTrails;assembly=HLab.Erp.Acl.Wpf" xmlns:module="clr-namespace:HLab.Erp.Lims.Analysis.Module"
              xmlns:wpf1="clr-namespace:HLab.Mvvm.Wpf;assembly=HLab.Mvvm.Wpf"
+             xmlns:sampleTestResults1="clr-namespace:HLab.Erp.Lims.Analysis.Module.Samples.SampleTests.SampleTestResults"
              Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
-             d:DataContext="{d:DesignInstance {x:Type sampleTestResults:SampleTestResultViewModel+Design}, IsDesignTimeCreatable=True}"             
+             d:DataContext="{d:DesignInstance {x:Type sampleTestResults1:SampleTestResultViewModel+Design}, IsDesignTimeCreatable=True}"             
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800">
     <Grid Background="{DynamicResource MahApps.Brushes.Accent3}">
@@ -133,45 +134,16 @@
                     <Label/>
                 </views:DetailView>
 
+                <!-- MOVEMENTS -->
                 <views:DetailView Text="{}{Movements}" IconPath="Icons/Entities/SampleMovement" EditMode="{Binding EditMode}">
                     <Label />
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Button Command="{Binding AddMovementCommand}" HorizontalAlignment="Left">
-                                <lang:Localize>{Add movement}</lang:Localize>
-                            </Button>
-                            <Button Command="{Binding DeleteMovementCommand}" HorizontalAlignment="Left">
-                                <lang:Localize>{Remove movement}</lang:Localize>
-                            </Button>
-                            <Button Command="{Binding OpenMovementCommand}" HorizontalAlignment="Left">
-                                <lang:Localize>{Open movement}</lang:Localize>
-                            </Button>
-                        </StackPanel>
-                        <Grid VerticalAlignment="Top" wpf1:ViewLocator.ViewClass="{x:Type annotations:IViewClassContent}">
-                            <wpf1:ViewLocator Model="{Binding Movements}"/>
-                        </Grid>
-                    </StackPanel>
+                    <wpf1:ViewLocator Model="{Binding Movements}" ViewClass="{x:Type annotations:IViewClassContent}"/>
                 </views:DetailView>
 
                 <!-- DOCUMENTS -->
                 <views:DetailView Text="{}{Documents}" IconPath="Icons/Sample/Folder" EditMode="{Binding EditMode}">
                     <Label />
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Button Command="{Binding AddDocumentCommand}" HorizontalAlignment="Left">
-                                <lang:Localize Id="{}{Add document}"/>
-                            </Button>
-                            <Button Command="{Binding RemoveDocumentCommand}" HorizontalAlignment="Left">
-                                <lang:Localize Id="{}{Remove document}"/>
-                            </Button>
-                            <Button Command="{Binding OpenDocumentCommand}" HorizontalAlignment="Left">
-                                <lang:Localize Id="{}{Open document}"/>
-                            </Button>
-                        </StackPanel>
-                        <Grid VerticalAlignment="Top" wpf1:ViewLocator.ViewClass="{x:Type annotations:IViewClassContent}">
-                            <wpf1:ViewLocator Model="{Binding LinkedDocuments}"/>
-                        </Grid>
-                    </StackPanel>
+                    <wpf1:ViewLocator Model="{Binding LinkedDocuments}" ViewClass="{x:Type annotations:IViewClassContent}"/>
                 </views:DetailView>
 
             </StackPanel>

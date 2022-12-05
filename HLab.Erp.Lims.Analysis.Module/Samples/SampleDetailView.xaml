@@ -187,6 +187,20 @@
                         />
                     </StackPanel>
 
+
+                    <lang:LocalizedLabel Text="{}{Movements} : "/>
+
+                    <wpf1:ViewLocator 
+                        ViewClass="{x:Type annotations:IViewClassContent}"
+                        Model="{Binding Movements}"
+                    />
+                    <lang:LocalizedLabel Text="{}{Remaining quantity} : "/>
+                    <TextBlock 
+                        VerticalAlignment="Center"
+                        Text="{Binding  Model.RemainingQuantity, UpdateSourceTrigger=PropertyChanged}"
+                        Visibility="{Binding IsReadOnly,Converter={StaticResource BooleanToVisibility}}"
+                    />
+
                     <!--<TextBox
                         HorizontalAlignment="Stretch" 
                         Text="{Binding Model.SamplingOrigin, UpdateSourceTrigger=PropertyChanged}"/>-->

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,13 +10,13 @@ using HLab.Erp.Lims.Analysis.Data;
 using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
-using HLab.Erp.Lims.Analysis.Module.SampleMovements;
-using HLab.Erp.Lims.Analysis.Module.Samples.SampleTests;
+using HLab.Erp.Lims.Analysis.Module.Samples.SampleMovements;
+using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
 using HLab.Mvvm.Annotations;
 using HLab.Notify.PropertyChanged;
 
-namespace HLab.Erp.Lims.Analysis.Module.SampleTestResults;
+namespace HLab.Erp.Lims.Analysis.Module.Samples.SampleTests.SampleTestResults;
 
 using H = H<SampleTestResultViewModel>;
 
@@ -215,9 +213,6 @@ public class SampleTestResultViewModel : EntityViewModel<SampleTestResult>
 
         visual.Resources.MergedDictionaries.Remove(dic);
     }
-
-
-
 
     /// <summary>
     /// ///////////////////////////////////////////////////////////////////////////

@@ -495,7 +495,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Samples\SampleMovements\ProductView.xaml">
+    <Page Update="Samples\SampleMovements\SampleMovementView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Samples\SampleTests\ColumnDescriptionBlock.xaml">
