@@ -6,6 +6,7 @@ using HLab.Erp.Lims.Analysis.Data.Entities;
 using HLab.Erp.Lims.Analysis.Data.Workflows;
 using HLab.Erp.Lims.Analysis.Module.FormClasses;
 using HLab.Erp.Lims.Analysis.Module.Samples;
+using HLab.Erp.Lims.Analysis.Module.Samples.SampleTests;
 using HLab.Erp.Lims.Analysis.Module.Samples.SampleTests.SampleTestResults;
 using HLab.Erp.Lims.Analysis.Module.SampleTestResults;
 using HLab.Erp.Lims.Analysis.Module.SampleTests;
@@ -120,7 +121,7 @@ namespace HLab.Erp.Analysis.UTests
                 where T : class, IEntity<int>
                 => new DataLocker<T>(l, null, acl, null, null, null);
 
-            var vm = new SampleTestViewModel(null, null, null, null, GetFormHelper, GetSampleTestWorkflow, GetDataLocker)
+            var vm = new SampleTestViewModel(null, null, null, null,null, GetFormHelper, GetSampleTestWorkflow, GetDataLocker)
                 {
                     //    );
                     //    acl, null
@@ -129,6 +130,7 @@ namespace HLab.Erp.Analysis.UTests
                     //vm.Inject(
                     Model = new SampleTest()
                 };
+
 
             await vm.FormHelper.LoadDefaultFormAsync().ConfigureAwait(true);
             vm.Workflow.CurrentStage = SampleTestWorkflow.Specifications;
@@ -146,7 +148,7 @@ namespace HLab.Erp.Analysis.UTests
 
             SampleWorkflow GetSampleWorkflow(Sample s, IDataLocker<Sample> d) => new SampleWorkflow(s, d, null);
 
-            var vm = new SampleViewModel(null, null, null,null, null, GetSampleWorkflow)
+            var vm = new SampleViewModel(null, null,null, null, null, GetSampleWorkflow, null, null)
             {
                 //    );
                 //    acl, null

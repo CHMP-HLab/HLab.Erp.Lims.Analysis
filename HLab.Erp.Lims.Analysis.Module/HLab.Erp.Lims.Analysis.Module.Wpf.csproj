@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFrameworks>net6.0-windows;net7.0-windows</TargetFrameworks>
+	  <TargetFrameworks>net6.0-windows;net8.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
-    <RootNamespace>HLab.Erp.Lims.Analysis.Module</RootNamespace>
-    <Platforms>AnyCPU;x64;x86</Platforms>
+    <RootNamespace>HLab.Erp.Lims.Analysis.Module.Wpf</RootNamespace>
+    <Platforms>x64</Platforms>
     <Configurations>Debug;Release;DebugRelease</Configurations>
     <LangVersion>default</LangVersion>
   </PropertyGroup>
@@ -152,10 +152,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dirkster.NumericUpDownLib" Version="3.3.0" />
+    <PackageReference Include="Dirkster.NumericUpDownLib" Version="3.4.0" />
     <PackageReference Include="Mages" Version="2.0.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
-    <PackageReference Include="WpfMath" Version="0.11.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.7.0" />
+    <PackageReference Include="WpfMath" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -171,6 +171,7 @@
     <ProjectReference Include="..\..\HLab\HLab.Application.Wpf\HLab.Mvvm.Application.Wpf.csproj" />
     <ProjectReference Include="..\..\HLab\HLab.Mvvm.Wpf\HLab.Mvvm.Wpf.csproj" />
     <ProjectReference Include="..\..\HLab\HLab.Notify.Wpf\HLab.Notify.Wpf.csproj" />
+    <ProjectReference Include="..\HLab.Erp.Lims.Analysis.Base\HLab.Erp.Lims.Analysis.Module.Base.csproj" />
     <ProjectReference Include="..\Lib\PDFsharp\PDFSharp.csproj" />
     <ProjectReference Include="..\Hlab.Erp.Lims.Analysis.Data\HLab.Erp.Lims.Analysis.Data.csproj" />
   </ItemGroup>

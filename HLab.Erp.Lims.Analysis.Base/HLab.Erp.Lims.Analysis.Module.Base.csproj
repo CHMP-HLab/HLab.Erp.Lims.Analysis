@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\HLab.Erp\HLab.Erp.Core\HLab.Erp.Core.csproj" />
+    <ProjectReference Include="..\..\HLab.Erp\HLab.Erp.Forms.Annotations\HLab.Erp.Conformity.Annotations.csproj" />
+    <ProjectReference Include="..\..\HLab.Erp\HLab.Erp.Workflows\HLab.Erp.Workflows.csproj" />
+    <ProjectReference Include="..\..\HLab\HLab.Notify.PropertyChanged\HLab.Notify.PropertyChanged.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="FormClasses\" />
+  </ItemGroup>
+
+</Project>

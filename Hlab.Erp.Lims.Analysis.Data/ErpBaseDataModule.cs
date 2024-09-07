@@ -128,6 +128,7 @@ namespace HLab.Erp.Lims.Analysis.Data
                         .Table<ProductComponent>()
                             .Create()
                         .Table<Inn>()
+                            .Create()
                             .AddColumn(t => t.CasNumber)
                             .AddColumn(t => t.Density)
                             .AddColumn(t => t.Caption)

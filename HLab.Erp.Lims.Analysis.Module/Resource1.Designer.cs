@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HLab.Erp.Lims.Analysis.Module {
+namespace HLab.Erp.Lims.Analysis.Module.Wpf {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace HLab.Erp.Lims.Analysis.Module {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HLab.Erp.Lims.Analysis.Module.Resource1", typeof(Resource1).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HLab.Erp.Lims.Analysis.Module.Wpf.Resource1", typeof(Resource1).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

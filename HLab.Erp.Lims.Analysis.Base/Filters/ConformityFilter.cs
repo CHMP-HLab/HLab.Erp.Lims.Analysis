@@ -9,7 +9,6 @@ using System.Xml.Linq;
 
 using HLab.Erp.Conformity.Annotations;
 using HLab.Erp.Core.ListFilters;
-using HLab.Erp.Core.Wpf.ListFilters;
 using HLab.Erp.Workflows;
 using HLab.Notify.PropertyChanged;
 
