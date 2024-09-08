@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFrameworks>net6.0-windows;net8.0-windows</TargetFrameworks>
+	  <TargetFramework>net8.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <RootNamespace>HLab.Erp.Lims.Analysis.Module.Wpf</RootNamespace>
     <Platforms>x64</Platforms>
